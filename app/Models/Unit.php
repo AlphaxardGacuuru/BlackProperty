@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Property extends Model
+class Unit extends Model
 {
     use HasFactory;
 
@@ -35,8 +35,13 @@ class Property extends Model
      * Relationships
      */
 
-    public function units()
+    public function property()
     {
-        return $this->hasMany(Unit::class);
+        return $this->belongsTo(Property::class);
+    }
+
+    public function tenants()
+    {
+        return $this->belongsToMany(User::class, 'user_units');
     }
 }

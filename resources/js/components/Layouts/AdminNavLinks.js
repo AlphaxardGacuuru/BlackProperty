@@ -4,17 +4,12 @@ import { Link, useLocation } from "react-router-dom"
 import PersonSVG from "@/svgs/PersonSVG"
 import HomeSVG from "@/svgs/HomeSVG"
 import PropertySVG from "@/svgs/PropertySVG"
-import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
-import StudentSVG from "@/svgs/StudentSVG"
-import SessionSVG from "@/svgs/SessionSVG"
 import MoneySVG from "@/svgs/MoneySVG"
 import TransactionSVG from "@/svgs/TransactionSVG"
 import WalletSVG from "@/svgs/WalletSVG"
-import ChatSVG from "@/svgs/ChatSVG"
-import LinkSVG from "@/svgs/LinkSVG"
-import ResourceSVG from "@/svgs/ResourceSVG"
 import PersonGearSVG from "@/svgs/PersonGearSVG"
+import UnitSVG from "@/svgs/UnitSVG"
 
 const AdminNavLinks = () => {
 	const location = useLocation()
@@ -30,8 +25,7 @@ const AdminNavLinks = () => {
 	// Function for showing active color
 	const activeStrict = (check) => {
 		return (
-			location.pathname == check &&
-			"rounded-0 text-primary bg-primary-subtle"
+			location.pathname == check && "rounded-0 text-primary bg-primary-subtle"
 		)
 	}
 
@@ -61,6 +55,30 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Properties Link End */}
+			{/* Units Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/units`}
+					className={`nav-link ${active("/admin/units")}`}>
+					<div className="nav-link-icon">
+						<UnitSVG />
+					</div>
+					<div className="nav-link-text">Units</div>
+				</Link>
+			</li>
+			{/* Units Link End */}
+			{/* Tenants Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/tenants`}
+					className={`nav-link ${active("/admin/tenants")}`}>
+					<div className="nav-link-icon">
+						<PersonSVG />
+					</div>
+					<div className="nav-link-text">Tenants</div>
+				</Link>
+			</li>
+			{/* Tenants Link End */}
 			{/* Finance Links */}
 			<li className="nav-item">
 				<a
@@ -112,72 +130,6 @@ const AdminNavLinks = () => {
 				{/* Collapse End */}
 			</li>
 			{/* Finance Links End */}
-			{/* Customers Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/instructors`}
-					className={`nav-link ${active("/admin/instructors")}`}>
-					<div className="nav-link-icon">
-						<PersonSVG />
-					</div>
-					<div className="nav-link-text">Instructors</div>
-				</Link>
-			</li>
-			{/* Customers Link End */}
-			{/* Students Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/students`}
-					className={`nav-link ${
-						active("/admin/students") || active("/admin/students")
-					}`}>
-					<div className="nav-link-icon">
-						<StudentSVG />
-					</div>
-					<div className="nav-link-text">Students</div>
-				</Link>
-			</li>
-			{/* Students Link End */}
-			{/* Courses Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/courses`}
-					className={`nav-link ${
-						active("/admin/courses") ||
-						active("/admin/units") ||
-						active("/admin/materials")
-					}`}>
-					<div className="nav-link-icon">
-						<CourseSVG />
-					</div>
-					<div className="nav-link-text">Courses</div>
-				</Link>
-			</li>
-			{/* Courses Link End */}
-			{/* Sessions Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/sessions`}
-					className={`nav-link ${active("/admin/sessions")}`}>
-					<div className="nav-link-icon">
-						<SessionSVG />
-					</div>
-					<div className="nav-link-text">Sessions</div>
-				</Link>
-			</li>
-			{/* Sessions Link End */}
-			{/* Chat Links */}
-			{/* <li className="nav-item">
-									<Link
-										to={`/admin/chats`}
-										className={`nav-link ${active("/admin/chats")}`}>
-										<div className="nav-link-icon">
-											<ChatSVG />
-										</div>
-										<div className="nav-link-text">Chat</div>
-									</Link>
-								</li> */}
-			{/* Chat Link End */}
 			{/* Staff Links */}
 			<li className="nav-item">
 				<Link

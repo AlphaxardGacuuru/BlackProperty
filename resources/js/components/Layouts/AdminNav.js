@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
 
 import AdminNavLinks from "@/components/Layouts/AdminNavLinks"
-import InstructorNavLinks from "@/components/Layouts/InstructorNavLinks"
-import StudentNavLinks from "@/components/Layouts/StudentNavLinks"
 
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
@@ -336,18 +334,6 @@ const AdminMenu = (props) => {
 								{location.pathname.match("/admin/") && (
 									<AdminNavLinks {...props} />
 								)}
-
-								{/* Instructor Routes */}
-								{location.pathname.match("/instructor/") && (
-									<InstructorNavLinks {...props} />
-								)}
-								{/* Instructor Routes End */}
-
-								{/* Student Routes */}
-								{location.pathname.match("/student/") && (
-									<StudentNavLinks {...props} />
-								)}
-								{/* Student Routes End */}
 							</ul>
 						</nav>
 					</div>

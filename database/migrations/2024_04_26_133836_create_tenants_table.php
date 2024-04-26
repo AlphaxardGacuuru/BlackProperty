@@ -13,16 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
-                ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->string("name");
-            $table->string("location");
-            $table->string("deposit_factor");
-            $table->int("units")->default(0);
             $table->timestamps();
         });
     }
@@ -34,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('tenants');
     }
 };

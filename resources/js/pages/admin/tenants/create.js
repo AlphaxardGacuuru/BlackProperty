@@ -3,19 +3,25 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+
 import BackSVG from "@/svgs/BackSVG"
 
 const create = (props) => {
 	var history = useHistory()
 
 	const [name, setName] = useState()
-	const [location, setLocation] = useState()
+	const [email, setEmail] = useState()
+	const [phone, setPhone] = useState()
+	const [gender, setGender] = useState()
 	const [loading, setLoading] = useState()
 
-	// Get Units
+	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Add Unit", path: ["units", "create"] })
+		props.setPage({
+			name: "Add Tenant",
+			path: ["tenants", "create"],
+		})
 	}, [])
 
 	/*
@@ -25,16 +31,18 @@ const create = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/units", {
+		Axios.post("/api/tenants", {
 			name: name,
-			location: location,
+			email: email,
+			phone: phone,
+			gender: gender,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Redirect to Units
-				setTimeout(() => history.push("/admin/units"), 500)
+				// Redirect to Tenants
+				setTimeout(() => history.push("/admin/tenants"), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -45,8 +53,8 @@ const create = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
 					<input
 						type="text"
@@ -56,33 +64,51 @@ const create = (props) => {
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
-
 					<input
 						type="text"
-						name="location"
-						placeholder="Location"
+						name="email"
+						placeholder="Email"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setLocation(e.target.value)}
+						onChange={(e) => setEmail(e.target.value)}
+						required={true}
+					/>
+					<input
+						type="tel"
+						name="phone"
+						placeholder="Phone"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setPhone(e.target.value)}
 						required={true}
 					/>
 
-					<div className="d-flex justify-content-end mb-2">
+					<select
+						name="gender"
+						className="form-control mb-3 me-2"
+						onChange={(e) => setGender(e.target.value)}
+						required={true}>
+						<option value="">Select Gender</option>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
+
+					<center className="mt-4 mb-5">
 						<Btn
-							btnText="add unit"
+							btnText="add tenant"
 							loading={loading}
 						/>
-					</div>
 
-					<div className="d-flex justify-content-center">
+						<br />
+						<br />
+
 						<MyLink
-							linkTo="/units"
+							linkTo="/tenants"
 							icon={<BackSVG />}
-							text="back to units"
+							text="back to tenants"
 						/>
-					</div>
-					<div className="col-sm-4"></div>
+					</center>
 				</form>
 			</div>
+			<div className="col-sm-2"></div>
 		</div>
 	)
 }

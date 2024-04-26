@@ -2551,6 +2551,7 @@ ol {
 	/* backdrop-filter: sepia(90%); */
 }
 
-.form-control {
+.form-control,
+.card {
 	border-radius: 0;
 }

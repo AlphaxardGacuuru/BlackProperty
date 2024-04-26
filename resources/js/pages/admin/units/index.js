@@ -4,8 +4,7 @@ import MyLink from "@/components/Core/MyLink"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
-import PersonSVG from "@/svgs/PersonSVG"
-import PropertySVG from "@/svgs/PropertySVG"
+import UnitSVG from "@/svgs/UnitSVG"
 import HeroIcon from "@/components/Core/HeroIcon"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
@@ -13,31 +12,31 @@ import DeleteSVG from "@/svgs/DeleteSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 
 const index = (props) => {
-	// Get Properties
-	const [properties, setProperties] = useState([])
+	// Get Units
+	const [units, setUnits] = useState([])
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Properties", path: ["properties"] })
-		props.get("properties", setProperties)
+		props.setPage({ name: "Units", path: ["units"] })
+		props.get("units", setUnits)
 	}, [])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (propertyId) => {
+	const onDelete = (unitId) => {
 		// Toggle loader
 		setLoading(true)
 
-		Axios.delete(`/api/properties/${propertyId}`)
+		Axios.delete(`/api/units/${unitId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setProperties(
-					properties.filter((property) => property.id != propertyId)
+				setUnits(
+					units.filter((unit) => unit.id != unitId)
 				)
 			})
 			.catch((err) => {
@@ -56,11 +55,11 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<h4>Total Properties</h4>
-								<span className="fs-4">{properties.length}</span>
+								<h4>Total Units</h4>
+								<span className="fs-4">{units.length}</span>
 							</div>
 							<HeroIcon>
-								<PropertySVG />
+								<UnitSVG />
 							</HeroIcon>
 						</div>
 						{/* Total End */}
@@ -70,45 +69,45 @@ const index = (props) => {
 
 				<br />
 
-				<div className="table-responsive mb-5">
+				<div className="table-responsive">
 					<table className="table table-hover">
 						<thead>
 							<tr>
 								<th colSpan="4"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/properties/create"
+										linkTo="/units/create"
 										icon={<PlusSVG />}
-										text="add property"
+										text="add unit"
 									/>
 								</th>
 							</tr>
 							<tr>
 								<th>#</th>
-								<th>Name</th>
-								<th>Location</th>
-								<th>Units</th>
+								<td>Name</td>
+								<td className="text-success">Rent (KES)</td>
+								<td className="text-success">Deposit (KES)</td>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{properties.map((property, key) => (
+							{units.map((unit, key) => (
 								<tr key={key}>
 									<td>{key + 1}</td>
-									<td>{property.name}</td>
-									<td>{property.location}</td>
-									<td>{property.units}</td>
+									<td>{unit.name}</td>
+									<td className="text-success">{unit.rent}</td>
+									<td className="text-success">{unit.deposit}</td>
 									<td className="text-end">
 										<div className="d-flex">
 											<MyLink
-												linkTo={`/properties/${property.id}/show`}
+												linkTo={`/units/${unit.id}/show`}
 												icon={<ViewSVG />}
 												text="view"
 												className="btn-sm me-1"
 											/>
 
 											<MyLink
-												linkTo={`/properties/${property.id}/edit`}
+												linkTo={`/units/${unit.id}/edit`}
 												icon={<EditSVG />}
 												text="edit"
 												className="btn-sm"
@@ -128,7 +127,7 @@ const index = (props) => {
 																<h1
 																	id="deleteModalLabel"
 																	className="modal-title fs-5 text-danger">
-																	Delete Property
+																	Delete Unit
 																</h1>
 																<button
 																	type="button"
@@ -137,7 +136,7 @@ const index = (props) => {
 																	aria-label="Close"></button>
 															</div>
 															<div className="modal-body text-start text-wrap">
-																Are you sure you want to delete {property.name}.
+																Are you sure you want to delete {unit.name}.
 															</div>
 															<div className="modal-footer justify-content-between">
 																<button
@@ -150,8 +149,7 @@ const index = (props) => {
 																	type="button"
 																	className="btn btn-danger rounded-0"
 																	data-bs-dismiss="modal"
-																	onClick={() => onDelete(property.id)}>
-																	<span className="me-1">{<DeleteSVG />}</span>
+																	onClick={() => onDelete(unit.id)}>
 																	Delete
 																</button>
 															</div>
@@ -177,9 +175,9 @@ const index = (props) => {
 					</table>
 					{/* Pagination Links */}
 					<PaginationLinks
-						list={properties}
+						list={units}
 						getPaginated={props.getPaginated}
-						setState={setProperties}
+						setState={setUnits}
 					/>
 					{/* Pagination Links End */}
 				</div>

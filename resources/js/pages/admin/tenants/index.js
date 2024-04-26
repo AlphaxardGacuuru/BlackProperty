@@ -3,38 +3,45 @@ import React, { useEffect, useState } from "react"
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
+import PaginationLinks from "@/components/Core/PaginationLinks"
 
-import StaffSVG from "@/svgs/StaffSVG"
+import PersonSVG from "@/svgs/PersonSVG"
 import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
-	// Get Staff
-	const [staff, setStaff] = useState([])
-	const [roles, setRoles] = useState([])
+	// Get Tenants
+	const [tenants, setTenants] = useState([])
+	const [faculties, setFaculties] = useState([])
+	const [departments, setDepartments] = useState([])
 	const [loading, setLoading] = useState()
+
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
+	const [facultyQuery, setFacultyQuery] = useState("")
+	const [departmentQuery, setDepartmentQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Staff", path: ["staff"] })
-		props.get("staff", setStaff)
+		props.setPage({ name: "Tenants", path: ["tenants"] })
+		props.getPaginated("tenants", setTenants)
+		props.get("faculties", setFaculties)
+		props.get("departments", setDepartments)
 	}, [])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (staffId) => {
+	const onDelete = (tenantId) => {
 		// Toggle loader
 		setLoading(true)
 
-		Axios.delete(`/api/staff/${staffId}`)
+		Axios.delete(`/api/tenants/${tenantId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Toggle loader
 				setLoading(true)
 				// Delete rows
-				setStaff(staff.filter((staff) => staff.id != staffId))
+				props.getPaginated("tenants", setTenants)
 			})
 			.catch((err) => {
 				// Toggle loader
@@ -42,6 +49,7 @@ const index = (props) => {
 				props.getErrors(err)
 			})
 	}
+
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -51,11 +59,11 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{staff.length}</span>
-								<h4>Total Staff</h4>
+								<span className="fs-4">{tenants.meta?.total}</span>
+								<h4>Total Tenants</h4>
 							</div>
 							<HeroIcon>
-								<StaffSVG />
+								<PersonSVG />
 							</HeroIcon>
 						</div>
 						{/* Total End */}
@@ -95,41 +103,61 @@ const index = (props) => {
 							</select>
 						</div>
 						{/* Gender End */}
-						{/* Role */}
+						{/* Faculty */}
 						<div className="flex-grow-1 me-2 mb-2">
 							<select
 								id=""
 								type="text"
 								name="name"
-								placeholder="Search by Role"
+								placeholder="Search by Faculty"
 								className="form-control me-2"
-								onChange={(e) => setRoleQuery(e.target.value)}>
-								<option value="">Search by Role</option>
-								{roles.map((role, key) => (
+								onChange={(e) => setFacultyQuery(e.target.value)}>
+								<option value="">Search by Faculty</option>
+								{faculties.map((faculty, key) => (
 									<option
 										key={key}
-										value="male">
-										{role.name}
+										value={faculty.id}>
+										{faculty.name}
 									</option>
 								))}
 							</select>
 						</div>
-						{/* Role End */}
+						{/* Faculty End */}
+						{/* Department */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<select
+								id=""
+								type="text"
+								name="name"
+								placeholder="Search by Gender"
+								className="form-control me-2"
+								onChange={(e) => setDepartmentQuery(e.target.value)}>
+								<option value="">Search by Department</option>
+								{departments.map((department, key) => (
+									<option
+										key={key}
+										value={department.id}>
+										{department.name}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Department End */}
 					</div>
 				</div>
 				{/* Filters End */}
 
 				<br />
 
-				<div className="table-responsive">
+				<div className="table-responsive mb-5 pb-2">
 					<table className="table table-hover">
 						<thead>
 							<tr>
-								<th colSpan="8"></th>
+								<th colSpan="9"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/staff/create"
-										text="add staff"
+										linkTo="/tenants/create"
+										text="add tenant"
 									/>
 								</th>
 							</tr>
@@ -140,52 +168,69 @@ const index = (props) => {
 								<th>Email</th>
 								<th>Phone</th>
 								<th>Gender</th>
-								<th>Role</th>
+								<th>Faculty</th>
+								<th>Department</th>
 								<th>Date Joined</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{staff
-								.filter((staff) => {
-									var name = staff.name.toLowerCase()
+							{tenants.data
+								?.filter((tenant) => {
+									var name = tenant.name.toLowerCase()
 									var query = nameQuery.toLowerCase()
 
 									return name.match(query)
 								})
-								.filter((staff) => {
+								.filter((tenant) => {
 									if (genderQuery) {
-										return staff.gender == genderQuery
+										return tenant.gender == genderQuery
 									} else {
 										return true
 									}
 								})
-								.map((staff, key) => (
+								.filter((tenant) => {
+									if (facultyQuery) {
+										return tenant.facultyId == facultyQuery
+									} else {
+										return true
+									}
+								})
+								.filter((tenant) => {
+									if (departmentQuery) {
+										return tenant.departmentId == departmentQuery
+									} else {
+										return true
+									}
+								})
+								.map((tenant, key) => (
 									<tr key={key}>
-										<td>{key + 1}</td>
+										<td>{props.iterator(key, tenants)}</td>
 										<td>
 											<Img
-												src={staff.avatar}
+												src={tenant.avatar}
 												className="rounded-circle"
-												width="25px"
-												height="25px"
+												style={{ width: "7em" }}
 												alt="Avatar"
 											/>
 										</td>
-										<td>{staff.name}</td>
-										<td>{staff.email}</td>
-										<td>{staff.phone}</td>
-										<td className="text-capitalize">{staff.gender}</td>
-										<td>
-											{staff.roleNames.map((role, key) => (
-												<span key={key}>| {role}</span>
-											))}
-										</td>
-										<td>{staff.createdAt}</td>
+										<td>{tenant.name}</td>
+										<td>{tenant.email}</td>
+										<td>{tenant.phone}</td>
+										<td className="text-capitalize">{tenant.gender}</td>
+										<td>{tenant.facultyName}</td>
+										<td>{tenant.departmentName}</td>
+										<td>{tenant.createdAt}</td>
 										<td className="text-end">
 											<div className="d-flex">
 												<MyLink
-													linkTo={`/staff/${staff.id}/edit`}
+													linkTo={`/tenants/${tenant.id}/show`}
+													text="view"
+													className="btn-sm me-1"
+												/>
+
+												<MyLink
+													linkTo={`/tenants/${tenant.id}/edit`}
 													text="edit"
 													className="btn-sm"
 												/>
@@ -204,7 +249,7 @@ const index = (props) => {
 																	<h1
 																		id="deleteModalLabel"
 																		className="modal-title fs-5 text-danger">
-																		Delete Staff
+																		Delete Tenant
 																	</h1>
 																	<button
 																		type="button"
@@ -212,8 +257,9 @@ const index = (props) => {
 																		data-bs-dismiss="modal"
 																		aria-label="Close"></button>
 																</div>
-																<div className="modal-body text-start text-start text-wrap">
-																	Are you sure you want to delete {staff.name}.
+																<div className="modal-body text-start text-wrap">
+																	Are you sure you want to delete{" "}
+																	{tenant.name}.
 																</div>
 																<div className="modal-footer justify-content-between">
 																	<button
@@ -226,7 +272,7 @@ const index = (props) => {
 																		type="button"
 																		className="btn btn-danger rounded-pill"
 																		data-bs-dismiss="modal"
-																		onClick={() => onDelete(staff.id)}>
+																		onClick={() => onDelete(tenant.id)}>
 																		Delete
 																	</button>
 																</div>
@@ -250,6 +296,13 @@ const index = (props) => {
 								))}
 						</tbody>
 					</table>
+					{/* Pagination Links */}
+					<PaginationLinks
+						list={tenants}
+						getPaginated={props.getPaginated}
+						setState={setTenants}
+					/>
+					{/* Pagination Links End */}
 				</div>
 			</div>
 		</div>

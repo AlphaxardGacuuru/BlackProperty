@@ -4,8 +4,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
-import Countries from "@/components/Core/Countries"
-
 const create = (props) => {
 	var history = useHistory()
 
@@ -13,8 +11,6 @@ const create = (props) => {
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
-	const [originLocation, setOriginLocation] = useState()
-	const [currentLocation, setCurrentLocation] = useState()
 	const [roles, setRoles] = useState([])
 	const [userRoles, setUserRoles] = useState([])
 	const [loading, setLoading] = useState()
@@ -49,8 +45,6 @@ const create = (props) => {
 			email: email,
 			phone: phone,
 			gender: gender,
-			originLocation: originLocation,
-			currentLocation: currentLocation,
 			userRoles: userRoles,
 		})
 			.then((res) => {
@@ -105,38 +99,6 @@ const create = (props) => {
 						<option value="">Select Gender</option>
 						<option value="male">Male</option>
 						<option value="female">Female</option>
-					</select>
-
-					<select
-						type="text"
-						name="nationality"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setOriginLocation(e.target.value)}
-						required={true}>
-						<option value="">Nationality</option>
-						{Countries().map((country, key) => (
-							<option
-								key={key}
-								value={country}>
-								{country}
-							</option>
-						))}
-					</select>
-
-					<select
-						type="text"
-						name="currentLocation"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setCurrentLocation(e.target.value)}
-						required={true}>
-						<option value="">Current Country</option>
-						{Countries().map((country, key) => (
-							<option
-								key={key}
-								value={country}>
-								{country}
-							</option>
-						))}
 					</select>
 
 					{/* Roles */}

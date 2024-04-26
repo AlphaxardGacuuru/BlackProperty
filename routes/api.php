@@ -11,6 +11,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +36,7 @@ Route::get('auth', [UserController::class, 'auth']);
 
 Route::apiResources([
 	"properties" => PropertyController::class,
+	"units" => UnitController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
@@ -49,6 +52,21 @@ Route::apiResources([
  * Admin Dashboard
  */
 Route::get("admin", [AdminController::class, "index"]);
+
+/*
+* Units
+*/ 
+Route::get("units/by-property-id/{id}", [UnitController::class, "byPropertyId"]);
+
+/*
+* Tenants
+*/ 
+Route::get("tenants/by-property-id/{id}", [TenantController::class, "byPropertyId"]);
+
+/*
+* Staff
+*/ 
+Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

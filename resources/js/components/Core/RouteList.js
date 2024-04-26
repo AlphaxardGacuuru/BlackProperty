@@ -12,33 +12,19 @@ import AdminPropertyCreate from "@/pages/admin/properties/create"
 import AdminPropertyShow from "@/pages/admin/properties/[id]"
 import AdminPropertyEdit from "@/pages/admin/properties/edit/[id]"
 
-import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
-import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
-import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
-
-import AdminInstructors from "@/pages/admin/instructors/index"
-import AdminInstructorCreate from "@/pages/admin/instructors/create"
-import AdminInstructorShow from "@/pages/admin/instructors/[id]"
-import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
-
-import AdminStudents from "@/pages/admin/students/index"
-import AdminStudentCreate from "@/pages/admin/students/create"
-import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
-
-import AdminDepartmentCreate from "@/pages/admin/departments/create"
-import AdminDepartmentEdit from "@/pages/admin/departments/edit/[id]"
-
-import AdminCourses from "@/pages/admin/courses/index"
-import AdminCourseCreate from "@/pages/admin/courses/create"
-import AdminCourseShow from "@/pages/admin/courses/[id]"
-import AdminCourseEdit from "@/pages/admin/courses/edit/[id]"
-
+import AdminUnits from "@/pages/admin/units/index"
 import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
-import AdminMaterialCreate from "@/pages/admin/materials/create"
-import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
+import AdminTenants from "@/pages/admin/tenants/index"
+import AdminTenantCreate from "@/pages/admin/tenants/create"
+import AdminTenantShow from "@/pages/admin/tenants/[id]"
+import AdminTenantEdit from "@/pages/admin/tenants/edit/[id]"
+
+import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
+import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
+import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
 
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
@@ -63,38 +49,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminDashboard {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/instructors",
-			component: <AdminInstructors {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/instructors/create",
-			component: <AdminInstructorCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/instructors/:id/show",
-			component: <AdminInstructorShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/instructors/:id/edit",
-			component: <AdminInstructorEdit {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/students",
-			component: <AdminStudents {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/students/create",
-			component: <AdminStudentCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/students/:id/show",
-			component: <AdminInstructorShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/students/:id/edit",
-			component: <AdminStudentEdit {...GLOBAL_STATE} />,
-		},
-		{
 			path: "/admin/properties",
 			component: <AdminProperties {...GLOBAL_STATE} />,
 		},
@@ -111,40 +65,8 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminPropertyEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/transactions",
-			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/finance/wallet",
-			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/finance/wallet/create",
-			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/departments/:id/create",
-			component: <AdminDepartmentCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/departments/:id/edit",
-			component: <AdminDepartmentEdit {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/courses",
-			component: <AdminCourses {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/courses/create",
-			component: <AdminCourseCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/courses/:id/show",
-			component: <AdminCourseShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/courses/:id/edit",
-			component: <AdminCourseEdit {...GLOBAL_STATE} />,
+			path: "/admin/units",
+			component: <AdminUnits {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/units/:id/create",
@@ -159,12 +81,32 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminUnitEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/materials/:id/create",
-			component: <AdminMaterialCreate {...GLOBAL_STATE} />,
+			path: "/admin/tenants",
+			component: <AdminTenants {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/materials/:id/edit",
-			component: <AdminMaterialEdit {...GLOBAL_STATE} />,
+			path: "/admin/tenants/:id/create",
+			component: <AdminTenantCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/tenants/:id/show",
+			component: <AdminTenantShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/tenants/:id/edit",
+			component: <AdminTenantEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/transactions",
+			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet",
+			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet/create",
+			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/staff",

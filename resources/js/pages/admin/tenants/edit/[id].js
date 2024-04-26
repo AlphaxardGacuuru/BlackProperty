@@ -4,13 +4,12 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+import BackSVG from "@/svgs/BackSVG"
+
 const edit = (props) => {
 	var { id } = useParams()
 
-	const [staff, setStaff] = useState({})
-	const [roles, setRoles] = useState([])
-	const [userRoles, setUserRoles] = useState([])
-
+	const [tenant, setTenant] = useState({})
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
@@ -20,26 +19,15 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Staff", path: ["staff", "edit"] })
-		// Fetch Staff
-		Axios.get(`api/staff/${id}`).then((res) => {
-			setStaff(res.data.data)
-			setUserRoles(res.data.data.roles.map((role) => role.id))
+		props.setPage({ name: "Edit Tenant", path: ["tenants", "edit"] })
+
+		Axios.get(`/api/tenants/${id}`).then((res) => {
+			setTenant(res.data.data)
+			setFacultyId(res.data.data.facultyId.toString())
+			setDepartmentId(res.data.data.departmentId.toString())
+			setCourseIds(res.data.data.courseIds)
 		})
-		// Fetch Roles
-		props.get("roles", setRoles)
 	}, [])
-
-	// Handle Permission checkboxes
-	const handleUserRoles = (roleId) => {
-		var exists = userRoles.includes(roleId)
-
-		var newRoles = exists
-			? userRoles.filter((item) => item != roleId)
-			: [...userRoles, roleId]
-
-		setUserRoles(newRoles)
-	}
 
 	/*
 	 * Submit Form
@@ -48,17 +36,18 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/staff/${id}`, {
+		Axios.put(`/api/tenants/${id}`, {
 			name: name,
 			email: email,
 			phone: phone,
 			gender: gender,
-			userRoles: userRoles,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
+				// Reload page
+				window.location.reload()
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -69,27 +58,27 @@ const edit = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
 					<input
 						type="text"
 						name="name"
-						placeholder={staff.name}
+						defaultValue={tenant.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="text"
 						name="email"
-						placeholder={staff.email}
+						defaultValue={tenant.email}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="tel"
 						name="phone"
-						placeholder={staff.phone}
+						defaultValue={tenant.phone}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
@@ -101,55 +90,31 @@ const edit = (props) => {
 						<option value="">Select Gender</option>
 						<option
 							value="male"
-							selected={staff.gender == "male"}>
+							selected={tenant.gender == "male"}>
 							Male
 						</option>
 						<option
 							value="female"
-							selected={staff.gender == "female"}>
+							selected={tenant.gender == "female"}>
 							Female
 						</option>
 					</select>
 
-					{/* Roles */}
-					<div className="form-group">
-						<label htmlFor="">Roles</label>
-						<div className="d-flex justify-content-center flex-wrap">
-							{roles.map((role, key) => (
-								<div
-									key={key}
-									className="border-bottom m-1 p-2">
-									<label key={key}>
-										<input
-											type="checkbox"
-											id=""
-											name="entities"
-											defaultChecked={staff.roleNames.includes(role.name)}
-											onClick={(e) => handleUserRoles(role.id)}
-										/>
-										<span className="text-capitalize me-2"> {role.name}</span>
-									</label>
-								</div>
-							))}
-						</div>
-					</div>
-					{/* Roles End */}
-
-					<div className="d-flex justify-content-end mb-2">
+					<center className="mt-4 mb-5">
 						<Btn
 							btnText="update"
 							loading={loading}
 						/>
-					</div>
 
-					<center className="mb-5">
+						<br />
+						<br />
+
 						<MyLink
-							linkTo="/staff"
-							text="back to staff"
+							linkTo="/tenants"
+							icon={<BackSVG />}
+							text="back to tenants"
 						/>
 					</center>
-
-					<div className="col-sm-4"></div>
 				</form>
 			</div>
 		</div>

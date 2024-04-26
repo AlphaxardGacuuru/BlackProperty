@@ -102,4 +102,12 @@ class StaffController extends Controller
             "data" => $staff,
         ], 200);
     }
+
+	/*
+	* Get Units by Property ID
+	*/ 
+	public function byPropertyId($id)
+	{
+		return $this->service->byPropertyId($id);
+	}
 }
