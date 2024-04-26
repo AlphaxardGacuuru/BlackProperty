@@ -7,6 +7,11 @@ import AdminNav from "@/components/Layouts/AdminNav"
 
 import AdminDashboard from "@/pages/admin/index"
 
+import AdminProperties from "@/pages/admin/properties/index"
+import AdminPropertyCreate from "@/pages/admin/properties/create"
+import AdminPropertyShow from "@/pages/admin/properties/[id]"
+import AdminPropertyEdit from "@/pages/admin/properties/edit/[id]"
+
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
 import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
 import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
@@ -19,11 +24,6 @@ import AdminInstructorEdit from "@/pages/admin/instructors/edit/[id]"
 import AdminStudents from "@/pages/admin/students/index"
 import AdminStudentCreate from "@/pages/admin/students/create"
 import AdminStudentEdit from "@/pages/admin/students/edit/[id]"
-
-import AdminFaculties from "@/pages/admin/faculties/index"
-import AdminFacultyCreate from "@/pages/admin/faculties/create"
-import AdminFacultyShow from "@/pages/admin/faculties/[id]"
-import AdminFacultyEdit from "@/pages/admin/faculties/edit/[id]"
 
 import AdminDepartmentCreate from "@/pages/admin/departments/create"
 import AdminDepartmentEdit from "@/pages/admin/departments/edit/[id]"
@@ -40,14 +40,6 @@ import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 import AdminMaterialCreate from "@/pages/admin/materials/create"
 import AdminMaterialEdit from "@/pages/admin/materials/edit/[id]"
 
-import AdminSessions from "@/pages/admin/sessions/index"
-import AdminSessionCreate from "@/pages/admin/sessions/create"
-import AdminSessionEdit from "@/pages/admin/sessions/edit/[id]"
-
-import AdminChat from "@/pages/admin/chats/index"
-import AdminChatNew from "@/pages/admin/chats/new"
-import AdminChatView from "@/pages/admin/chats/[id]"
-
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
 import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
@@ -55,8 +47,6 @@ import AdminStaffEdit from "@/pages/admin/staff/edit/[id]"
 import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
-
-import AdminResources from "@/pages/admin/resources/index"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const routes = [
@@ -71,18 +61,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/dashboard",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/finance/transactions",
-			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/finance/wallet",
-			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/finance/wallet/create",
-			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/instructors",
@@ -117,20 +95,32 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminStudentEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/faculties",
-			component: <AdminFaculties {...GLOBAL_STATE} />,
+			path: "/admin/properties",
+			component: <AdminProperties {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/faculties/create",
-			component: <AdminFacultyCreate {...GLOBAL_STATE} />,
+			path: "/admin/properties/create",
+			component: <AdminPropertyCreate {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/faculties/:id/show",
-			component: <AdminFacultyShow {...GLOBAL_STATE} />,
+			path: "/admin/properties/:id/show",
+			component: <AdminPropertyShow {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/faculties/:id/edit",
-			component: <AdminFacultyEdit {...GLOBAL_STATE} />,
+			path: "/admin/properties/:id/edit",
+			component: <AdminPropertyEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/transactions",
+			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet",
+			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/wallet/create",
+			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/departments/:id/create",
@@ -177,30 +167,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminMaterialEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/sessions",
-			component: <AdminSessions {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/sessions/create",
-			component: <AdminSessionCreate {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/sessions/:id/edit",
-			component: <AdminSessionEdit {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/chats",
-			component: <AdminChat {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/chats/new",
-			component: <AdminChatNew {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/chats/view/:id",
-			component: <AdminChatView {...GLOBAL_STATE} />,
-		},
-		{
 			path: "/admin/staff",
 			component: <AdminStaff {...GLOBAL_STATE} />,
 		},
@@ -220,72 +186,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/roles/:id/edit",
 			component: <AdminRoleEdit {...GLOBAL_STATE} />,
-		},
-	]
-
-	const instructorRoutes = [
-		{
-			path: "/instructor/:id/show",
-			component: <AdminInstructorShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/courses/:id/show",
-			component: <AdminCourseShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/units/:id/show",
-			component: <AdminUnitShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/resources",
-			component: <AdminResources {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/chats",
-			component: <AdminChat {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/chats/new",
-			component: <AdminChatNew {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/instructor/chats/view/:id",
-			component: <AdminChatView {...GLOBAL_STATE} />,
-		},
-	]
-
-	const studentRoutes = [
-		{
-			path: "/student/:id/show",
-			component: <AdminInstructorShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/courses",
-			component: <AdminCourses {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/courses/:id/show",
-			component: <AdminCourseShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/units/:id/show",
-			component: <AdminUnitShow {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/resources",
-			component: <AdminResources {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/chats",
-			component: <AdminChat {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/chats/new",
-			component: <AdminChatNew {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/student/chats/view/:id",
-			component: <AdminChatView {...GLOBAL_STATE} />,
 		},
 	]
 
@@ -313,28 +213,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 					/>
 				))}
 				{/* Admin Routes End */}
-
-				{/* Instructor Routes */}
-				{instructorRoutes.map((route, key) => (
-					<Route
-						key={key}
-						path={route.path}
-						exact
-						render={() => route.component}
-					/>
-				))}
-				{/* Instructor Routes End */}
-
-				{/* Student Routes */}
-				{studentRoutes.map((route, key) => (
-					<Route
-						key={key}
-						path={route.path}
-						exact
-						render={() => route.component}
-					/>
-				))}
-				{/* Student Routes End */}
 			</AdminNav>
 		</React.Fragment>
 	)

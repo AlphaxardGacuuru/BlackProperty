@@ -21,7 +21,7 @@ class AdminService extends Service
             "instructors" => $this->instructors(),
             "students" => $this->students(),
             "staff" => $this->staff(),
-            "faculties" => $this->faculties(),
+            "Properties" => $this->Properties(),
             "departments" => $this->departments(),
             "courses" => $this->courses(),
             "fees" => $this->fees(),
@@ -154,7 +154,7 @@ class AdminService extends Service
     /*
      * Get Instructors Data
      */
-    public function faculties()
+    public function Properties()
     {
         $total = Faculty::count();
 
@@ -170,16 +170,16 @@ class AdminService extends Service
         $startDate = Carbon::now()->subWeek()->startOfWeek();
         $endDate = Carbon::now()->subWeek()->endOfWeek();
 
-        $getFacultiesLastWeek = Faculty::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+        $getPropertiesLastWeek = Faculty::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(faculties.created_at)'))
+            ->groupBy(DB::raw('DATE(Properties.created_at)'))
             ->get()
             ->map(fn($item) => $item->count);
 
         return [
             "total" => $total,
             "growth" => $this->growth($yesterday, $today),
-            "lastWeek" => $getFacultiesLastWeek,
+            "lastWeek" => $getPropertiesLastWeek,
         ];
     }
 

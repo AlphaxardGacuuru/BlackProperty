@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import HomeSVG from "@/svgs/HomeSVG"
-import FacultySVG from "@/svgs/FacultySVG"
+import PropertySVG from "@/svgs/FacultySVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
@@ -49,6 +49,18 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Dashboard Link End */}
+			{/* Properties Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/properties`}
+					className={`nav-link ${active("/admin/properties")}`}>
+					<div className="nav-link-icon">
+						<PropertySVG />
+					</div>
+					<div className="nav-link-text">Properties</div>
+				</Link>
+			</li>
+			{/* Properties Link End */}
 			{/* Finance Links */}
 			<li className="nav-item">
 				<a
@@ -126,18 +138,6 @@ const AdminNavLinks = () => {
 				</Link>
 			</li>
 			{/* Students Link End */}
-			{/* Faculties Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/faculties`}
-					className={`nav-link ${active("/admin/faculties")}`}>
-					<div className="nav-link-icon">
-						<FacultySVG />
-					</div>
-					<div className="nav-link-text">Faculties</div>
-				</Link>
-			</li>
-			{/* Faculties Link End */}
 			{/* Courses Link */}
 			<li className="nav-item">
 				<Link

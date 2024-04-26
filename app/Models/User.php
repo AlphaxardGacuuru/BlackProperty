@@ -88,9 +88,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Unit::class, 'user_units');
     }
 
-    public function userFaculties()
+    public function userProperties()
     {
-        return $this->hasMany(UserFaculty::class);
+        return $this->hasMany(UserProperty::class);
     }
 
     public function userDepartments()
@@ -117,12 +117,12 @@ class User extends Authenticatable
      * Custom functions
      */
 
-    public function faculty()
+    public function Property()
     {
-        return $this->userFaculties()
+        return $this->userProperties()
             ->orderBy("id", "DESC")
             ->get()
-            ->map(fn($userFaculty) => $userFaculty->faculty)
+            ->map(fn($userProperty) => $userProperty->Property)
             ->first();
     }
 
@@ -178,9 +178,9 @@ class User extends Authenticatable
     {
         return $this->userCourses()
             ->first()
-            ?->approved_by;
+        ?->approved_by;
     }
-	
+
     public function roleNames()
     {
         $roles = [];
