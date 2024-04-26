@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 
 import PersonSVG from "@/svgs/PersonSVG"
 import HomeSVG from "@/svgs/HomeSVG"
-import PropertySVG from "@/svgs/FacultySVG"
+import PropertySVG from "@/svgs/PropertySVG"
 import CourseSVG from "@/svgs/CourseSVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import StudentSVG from "@/svgs/StudentSVG"
@@ -23,7 +23,7 @@ const AdminNavLinks = () => {
 	const active = (check) => {
 		return (
 			location.pathname.match(check) &&
-			"rounded-end-pill text-primary bg-primary-subtle"
+			"rounded-0 text-primary bg-primary-subtle mx-1"
 		)
 	}
 
@@ -31,7 +31,7 @@ const AdminNavLinks = () => {
 	const activeStrict = (check) => {
 		return (
 			location.pathname == check &&
-			"rounded-end-pill text-primary bg-primary-subtle"
+			"rounded-0 text-primary bg-primary-subtle"
 		)
 	}
 

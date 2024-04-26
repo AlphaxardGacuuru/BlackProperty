@@ -1,7 +1,15 @@
 import React from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => {
+const Btn = ({
+	btnStyle,
+	btnClass,
+	icon,
+	btnText,
+	onClick,
+	loading,
+	disabled,
+}) => {
 	const location = useLocation()
 
 	return (
@@ -16,6 +24,7 @@ const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => {
 			} btn rounded-0 text-capitalize ${btnClass}`}
 			onClick={onClick}
 			disabled={disabled}>
+			<span>{icon}</span>
 			{btnText}
 			{loading && (
 				<div

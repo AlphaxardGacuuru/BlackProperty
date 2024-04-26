@@ -5,8 +5,12 @@ import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
 import PersonSVG from "@/svgs/PersonSVG"
-import PropertySVG from "@/svgs/FacultySVG"
+import PropertySVG from "@/svgs/PropertySVG"
 import HeroIcon from "@/components/Core/HeroIcon"
+import ViewSVG from "@/svgs/ViewSVG"
+import EditSVG from "@/svgs/EditSVG"
+import DeleteSVG from "@/svgs/DeleteSVG"
+import PlusSVG from "@/svgs/PlusSVG"
 
 const index = (props) => {
 	// Get Properties
@@ -52,8 +56,8 @@ const index = (props) => {
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 							<div>
-								<span className="fs-4">{properties.length}</span>
 								<h4>Total Properties</h4>
+								<span className="fs-4">{properties.length}</span>
 							</div>
 							<HeroIcon>
 								<PropertySVG />
@@ -74,6 +78,7 @@ const index = (props) => {
 								<th className="text-end">
 									<MyLink
 										linkTo="/properties/create"
+										icon={<PlusSVG />}
 										text="add property"
 									/>
 								</th>
@@ -81,7 +86,7 @@ const index = (props) => {
 							<tr>
 								<th>#</th>
 								<th>Name</th>
-								<th>Date Founded</th>
+								<th>Location</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -90,17 +95,19 @@ const index = (props) => {
 								<tr key={key}>
 									<td>{key + 1}</td>
 									<td>{property.name}</td>
-									<td>{property.createdAt}</td>
+									<td>{property.location}</td>
 									<td className="text-end">
 										<div className="d-flex">
 											<MyLink
 												linkTo={`/properties/${property.id}/show`}
+												icon={<ViewSVG />}
 												text="view"
-												className="btn-sm me-2"
+												className="btn-sm me-1"
 											/>
 
 											<MyLink
 												linkTo={`/properties/${property.id}/edit`}
+												icon={<EditSVG />}
 												text="edit"
 												className="btn-sm"
 											/>
@@ -133,13 +140,13 @@ const index = (props) => {
 															<div className="modal-footer justify-content-between">
 																<button
 																	type="button"
-																	className="btn btn-light rounded-pill"
+																	className="btn btn-light rounded-0"
 																	data-bs-dismiss="modal">
 																	Close
 																</button>
 																<button
 																	type="button"
-																	className="btn btn-danger rounded-pill"
+																	className="btn btn-danger rounded-0"
 																	data-bs-dismiss="modal"
 																	onClick={() => onDelete(property.id)}>
 																	Delete
@@ -153,9 +160,12 @@ const index = (props) => {
 												{/* Button trigger modal */}
 												<button
 													type="button"
-													className="btn btn-sm btn-outline-danger rounded-pill"
+													className="btn btn-sm btn-outline-danger rounded-0"
 													data-bs-toggle="modal"
 													data-bs-target={`#deleteModal${key}`}>
+													<span>
+														<DeleteSVG />
+													</span>{" "}
 													Delete
 												</button>
 											</div>

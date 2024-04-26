@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const MyLink = ({ text, linkTo, className }) => {
+const MyLink = ({ linkTo, text, icon, className }) => {
 	const location = useLocation()
 
 	return (
@@ -20,6 +20,7 @@ const MyLink = ({ text, linkTo, className }) => {
 					? "btn-outline-danger"
 					: "btn-outline-success"
 			} btn rounded-0 text-capitalize ${className}`}>
+			<span className="me-1">{icon}</span>
 			{text}
 		</Link>
 	)

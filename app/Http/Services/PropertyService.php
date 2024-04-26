@@ -35,6 +35,7 @@ class PropertyService extends Service
     {
         $property = new Property;
         $property->name = $request->input("name");
+        $property->location = $request->input("location");
 
         $saved = $property->save();
 
@@ -54,9 +55,13 @@ class PropertyService extends Service
             $property->name = $request->input("name");
         }
 
+        if ($request->filled("location")) {
+            $property->location = $request->input("location");
+        }
+
         $saved = $property->save();
 
-        $message = $property->name . " created successfully";
+        $message = $property->name . " updated successfully";
 
         return [$saved, $message, $property];
     }

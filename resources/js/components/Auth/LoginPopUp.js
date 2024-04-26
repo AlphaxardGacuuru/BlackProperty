@@ -64,8 +64,7 @@ const LoginPopUp = (props) => {
 		// props.login ||
 		props.auth.name == "Guest" &&
 		!location.pathname.match("/socialite") &&
-		!location.pathname.match("/register") &&
-		!location.pathname.match("/admin/")
+		!location.pathname.match("/register")
 
 	return (
 		<div className={blur ? "menu-open" : ""}>
@@ -101,7 +100,7 @@ const LoginPopUp = (props) => {
 									<input
 										id="email"
 										type="text"
-										className="my-form"
+										className="form-control"
 										name="email"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}

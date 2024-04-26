@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+import BackSVG from "@/svgs/BackSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
 
 	const [property, setProperty] = useState({})
 	const [name, setName] = useState()
+	const [location, setLocation] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -34,6 +36,7 @@ const edit = (props) => {
 		setLoading(true)
 		Axios.put(`/api/properties/${id}`, {
 			name: name,
+			location: location,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -60,6 +63,16 @@ const edit = (props) => {
 						onChange={(e) => setName(e.target.value)}
 					/>
 
+					<input
+						type="text"
+						name="location"
+						placeholder="Location"
+						defaultValue={property.location}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setLocation(e.target.value)}
+						required={true}
+					/>
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							btnText="update"
@@ -70,6 +83,7 @@ const edit = (props) => {
 					<center>
 						<MyLink
 							linkTo="/properties"
+							icon={<BackSVG />}
 							text="back to properties"
 						/>
 					</center>

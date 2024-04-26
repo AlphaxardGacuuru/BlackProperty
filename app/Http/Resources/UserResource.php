@@ -22,17 +22,6 @@ class UserResource extends JsonResource
             "gender" => $this->gender,
             "avatar" => $this->avatar,
             "accountType" => $this->account_type,
-            "PropertyId" => $this->Property()?->id,
-            "PropertyName" => $this->Property()?->name,
-            "departmentId" => $this->department()?->id,
-            "departmentName" => $this->department()?->name,
-            "courseId" => $this->course()?->id,
-            "courseName" => $this->course()?->name,
-            "courseApprovedBy" => $this->courseApprovedBy(),
-            "unitId" => $this->unit()?->id,
-            "unitName" => $this->unit()?->name,
-            "unitIds" => $this->units->map((fn($unit) => $unit->id)),
-            "unitSessions" => $this->unitSessions(),
             "createdAt" => $this->created_at,
         ];
     }

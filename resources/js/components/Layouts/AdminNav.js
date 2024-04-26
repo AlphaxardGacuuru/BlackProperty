@@ -129,7 +129,7 @@ const AdminMenu = (props) => {
 										<div className="logo-area mb-2">
 											<Link
 												to="/admin"
-												className="text-white fs-1">
+												className="text-dark fs-1">
 												<LogoSVG />
 											</Link>
 										</div>
@@ -252,7 +252,7 @@ const AdminMenu = (props) => {
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
 														<Link
 															to={`/admin/staff/edit/${props.auth.id}`}
-															className="p-2 px-3 pt-3 dropdown-item">
+															className="p-1 px-2 pt-3 dropdown-item">
 															<div className="d-flex">
 																<div className="align-items-center">
 																	<Img
@@ -275,7 +275,7 @@ const AdminMenu = (props) => {
 																				  "instructor"
 																				? "text-danger"
 																				: "text-success"
-																		} text-wrap text-capitalize`}>
+																		} text-wrap text-capitalize mb-0`}>
 																		{props.auth?.accountType}
 																	</p>
 																</div>
@@ -283,7 +283,7 @@ const AdminMenu = (props) => {
 														</Link>
 														<Link
 															to="/download"
-															className="p-2 px-3 dropdown-item"
+															className="p-1 px-2 dropdown-item"
 															style={{
 																display: props.downloadLink ? "block" : "none",
 															}}>

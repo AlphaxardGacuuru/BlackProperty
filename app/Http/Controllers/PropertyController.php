@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\PropertyService;
 use App\Models\Property;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,8 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"name" => "required|string|unique:properties"
+			"name" => "required|string",
+			"location" => "required|string"
 		]);
 
 		[$saved, $message, $property] = $this->service->store($request);
@@ -64,7 +66,8 @@ class PropertyController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "nullable|string|unique:properties"
+			"name" => "required|string",
+			"location" => "required|string"
 		]);
 
 		[$saved, $message, $property] = $this->service->update($request, $id);
