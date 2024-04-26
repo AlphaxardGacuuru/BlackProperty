@@ -9,8 +9,6 @@ import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
-import KenyanClock from "@/functions/KenyanClock"
-
 import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
@@ -39,7 +37,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Admin
 		if (isInAdminPage) {
 			if (props.auth.name == "Guest") {
-				setTimeout(() => router.push("/login"), 2000)
+				// setTimeout(() => router.push("/login"), 2000)
 			}
 		}
 	}, [props.location])
@@ -128,21 +126,11 @@ const AdminMenu = (props) => {
 										{/* <!-- Left Menu Icon End --> */}
 
 										{/* <!-- Logo Area  --> */}
-										<div className="logo-area mb-1">
+										<div className="logo-area mb-2">
 											<Link
 												to="/admin"
 												className="text-white fs-1">
-												<Img
-													src="/storage/img/android-chrome-512x512.png"
-													className="me-2"
-													style={{
-														width: "50px",
-														height: "auto",
-													}}
-												/>
-												<span className="hidden">
-													<LogoSVG />
-												</span>
+												<LogoSVG />
 											</Link>
 										</div>
 									</div>
@@ -153,13 +141,10 @@ const AdminMenu = (props) => {
 											{/* Main Site Link */}
 											<Link
 												to="/"
-												className="btn btn-outline-light rounded-pill mx-2 hidden">
+												className="btn btn-outline-light rounded-0 mx-2 hidden">
 												Visit Website
 											</Link>
 											{/* Main Site Link End */}
-											{/* Kenyan Clock */}
-											<KenyanClock className="btn btn-outline-light" />
-											{/* Kenyan Clock End */}
 										</div>
 										<div className="header-social-area d-flex align-items-center">
 											<>

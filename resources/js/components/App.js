@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import { HashRouter } from "react-router-dom"
 
 import ScrollToTop from "@/functions/ScrollToTop"
+import LoginPopUp from "@/components/Auth/LoginPopUp"
 import TopNav from "@/components/Layouts/TopNav"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
@@ -104,6 +105,52 @@ function App() {
 		get("auth", setAuth, "auth", false)
 	}, [])
 
+	/*
+	 *
+	 * Register service worker */
+	if (window.location.href.match(/https/)) {
+		if ("serviceWorker" in navigator) {
+			window.addEventListener("load", () => {
+				navigator.serviceWorker.register("/sw.js")
+				// .then((reg) => console.log('Service worker registered', reg))
+				// .catch((err) => console.log('Service worker not registered', err));
+			})
+		}
+	}
+
+	/*
+	 *
+	 * PWA Install button */
+	let deferredPrompt
+	var btnAdd = useRef()
+	const [downloadLink, setDownloadLink] = useState()
+	const [downloadLinkText, setDownloadLinkText] = useState("")
+
+	// Listen to the install prompt
+	window.addEventListener("beforeinstallprompt", (e) => {
+		deferredPrompt = e
+
+		// Show the button
+		setDownloadLink(true)
+
+		// Action when button is clicked
+		btnAdd.current.addEventListener("click", (e) => {
+			// Show install banner
+			deferredPrompt.prompt()
+			// Check if the user accepted
+			deferredPrompt.userChoice.then((choiceResult) => {
+				if (choiceResult.outcome === "accepted") {
+					setDownloadLinkText("User accepted")
+				}
+				deferredPrompt = null
+			})
+
+			window.addEventListener("appinstalled", (evt) => {
+				setDownloadLinkText("Installed")
+			})
+		})
+	})
+
 	const GLOBAL_STATE = {
 		getLocalStorage,
 		setLocalStorage,
@@ -141,11 +188,19 @@ function App() {
 	return (
 		<HashRouter>
 			<ScrollToTop />
-			<TopNav {...GLOBAL_STATE} />
+			<LoginPopUp {...GLOBAL_STATE} />
+			{/* <TopNav {...GLOBAL_STATE} /> */}
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
+
+			{/* Install button */}
+			<button
+				ref={btnAdd}
+				style={{ display: "none" }}>
+				test
+			</button>
 		</HashRouter>
 	)
 }

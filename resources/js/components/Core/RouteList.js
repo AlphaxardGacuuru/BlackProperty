@@ -2,14 +2,9 @@ import React from "react"
 import { Route } from "react-router-dom"
 
 import Index from "@/pages/index"
-import Blog from "@/pages/blog"
-import Contact from "@/pages/contact"
-import Courses from "@/pages/courses"
-import Elements from "@/pages/elements"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 
-import Login from "@/pages/login"
 import AdminDashboard from "@/pages/admin/index"
 
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
@@ -68,26 +63,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/",
 			component: <Index {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/blog",
-			component: <Blog {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/contact",
-			component: <Contact {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/courses",
-			component: <Courses {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/elements",
-			component: <Elements {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/login",
-			component: <Login {...GLOBAL_STATE} />,
 		},
 	]
 

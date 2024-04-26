@@ -1,23 +1,36 @@
-import React, { useEffect, useState } from "react"
-import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { Link, useLocation, useHistory } from "react-router-dom"
 
-import Btn from "@/components/Core/Btn"
+// import TopNavLinks from "./TopNavLinks"
 import Img from "@/components/Core/Img"
-import MyLink from "@/components/Core/MyLink"
 
 import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import DownloadSVG from "@/svgs/DownloadSVG"
+import PrivacySVG from "@/svgs/PrivacySVG"
+import SettingsSVG from "@/svgs/SettingsSVG"
+import StudioSVG from "@/svgs/StudioSVG"
 import MenuSVG from "@/svgs/MenuSVG"
+import PersonSVG from "@/svgs/PersonSVG"
+import DiscoverSVG from "@/svgs/DiscoverSVG"
+import HomeSVG from "@/svgs/HomeSVG"
 import LogoSVG from "@/svgs/LogoSVG"
 
 const TopNav = (props) => {
 	const location = useLocation()
 	const router = useHistory()
 
+	// const { logout } = useAuth({ setLogin: props.setLogin })
 	const [menu, setMenu] = useState("")
-	const [bottomMenu, setBottomMenu] = useState()
-	const [avatarVisibility, setAvatarVisibility] = useState("")
+	const [bottomMenu, setBottomMenu] = useState("")
+	const [notificationMenu, setNotificationMenu] = useState("")
+	const [avatarVisibility, setAvatarVisibility] = useState("none")
+	const [notifications, setNotifications] = useState([])
+
+	useEffect(() => {
+		// Fetch Notifications
+		props.get("notifications", setNotifications)
+	}, [])
 
 	const logout = () => {
 		Axios.post(`/logout`)
@@ -37,6 +50,40 @@ const TopNav = (props) => {
 			})
 	}
 
+	const onNotification = () => {
+		Axios.put(`/api/notifications/update`).then((res) => {
+			// Update notifications
+			props.get("notifications", setNotifications)
+		})
+	}
+
+	const onDeleteNotifications = (id) => {
+		// Clear the notifications array
+		setNotifications([])
+
+		Axios.delete(`/api/notifications/${id}`).then((res) => {
+			// Update Notifications
+			props.get("notifications", setNotifications)
+		})
+	}
+
+	// Hide TopNav from various pages
+	const display =
+		location.pathname.match("/404") ||
+		location.pathname.match("/socialite") ||
+		location.pathname.match("/login") ||
+		location.pathname.match("/register")
+			? "d-none"
+			: ""
+
+	// Function for showing active color
+	const active = (check) => {
+		return (
+			location.pathname.match(check) &&
+			"rounded-end-pill text-primary bg-primary-subtle"
+		)
+	}
+
 	// Show Admin Nav based on Location
 	const showTopNav =
 		!location.pathname.match("/student/") &&
@@ -45,255 +92,74 @@ const TopNav = (props) => {
 			? "d-block"
 			: "d-none"
 
-	// Function for showing active color
-	const active = (check) => {
-		return location.pathname.match(check) && "shadow rounded-pill py-2 px-5"
-	}
-
-	const activeStrict = (check) => {
-		return location.pathname == check && "shadow rounded-pill py-2 px-5"
-	}
-
-	// Function for showing active color
-	const active2 = (check) => {
-		return {
-			color: location.pathname.match(check) ? "#0077B6" : "#232323",
-		}
-	}
-
-	// Function for showing active color
-	const activeStrict2 = (check) => {
-		return {
-			color: location.pathname == check ? "#0077B6" : "#232323",
-		}
-	}
-
 	return (
-		<React.Fragment>
+		<>
 			<div
 				id="MyElement"
 				className={`${menu} ${showTopNav}`}>
 				{/* <!-- ***** Header Area Start ***** --> */}
 				<header
-					className="header-area shadow py-1"
-					style={{ backgroundColor: "#d82a4e" }}>
+					style={{
+						backgroundColor: "#232323",
+						// boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 1)",
+					}}
+					className="header-area">
 					<div className="container-fluid p-0">
 						<div className="row">
-							<div className="col-12">
+							<div
+								className="col-12"
+								style={{ padding: "0" }}>
 								<div className="menu-area d-flex justify-content-between">
-									<div className="d-flex align-items-center">
-										{/* <!-- Logo Area  --> */}
-										<div className="logo-area">
-											<Link
-												to="/"
-												className="text-white fs-1">
-												<Img
-													src="/storage/img/android-chrome-512x512.png"
-													style={{
-														width: "2em",
-														height: "auto",
-													}}
-												/>
-											</Link>
-										</div>
+									{/* <!-- Logo Area  --> */}
+									<div className="logo-area">
+										<Link
+											to="/"
+											style={{ color: "#007BFF" }}>
+											<LogoSVG />
+										</Link>
 									</div>
 
-									{/* Nav Links */}
-									<div className="d-flex align-items-center justify-content-between">
-										<div className="hidden">
-											<Link
-												to="/"
-												className={`nav-link text-light mx-4 ${activeStrict(
-													"/"
-												)}`}
-												onClick={() => setMenu("")}>
-												Home
-											</Link>
-										</div>
-										<div className="hidden">
-											<Link
-												to="/about"
-												className={`nav-link text-light mx-4 ${activeStrict(
-													"/about"
-												)}`}
-												onClick={() => setMenu("")}>
-												About
-											</Link>
-										</div>
-										<div className="hidden">
-											<Link
-												to="/courses"
-												className={`nav-link text-light mx-4 ${active(
-													"/courses"
-												)}`}
-												onClick={() => setMenu("")}>
-												Courses
-											</Link>
-										</div>
-										<div className="hidden">
-											<Link
-												to="/blog"
-												className={`nav-link text-light mx-4 ${active(
-													"/blog"
-												)}`}
-												onClick={() => setMenu("")}>
-												Blog
-											</Link>
-										</div>
-										<div className="hidden">
-											<Link
-												to="/contact"
-												className={`nav-link text-light mx-4 ${active(
-													"/contact"
-												)}`}
-												onClick={() => setMenu("")}>
-												Contact
-											</Link>
-										</div>
-									</div>
-									{/* Nav Links End */}
-
-									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
-										<div className="d-flex align-items-center justify-content-between">
-											{/* Admin */}
-											{props.auth.accountType == "staff" && (
+										{/* <!-- Header Social Area --> */}
+										<div className="header-social-area d-flex align-items-center">
+											{props.auth.name == "Guest" ? (
 												<Link
-													to="/admin/dashboard"
-													className="site-btn btn-dark dropdown-item">
-													ADMIN
+													to="#"
+													className="display-4"
+													onClick={() => props.setLogin(true)}>
+													Login
 												</Link>
+											) : (
+												<div></div>
+												// <TopNavLinks
+												// 	{...props}
+												// 	bottomMenu={bottomMenu}
+												// 	setBottomMenu={setBottomMenu}
+												// 	setNotificationMenu={setNotificationMenu}
+												// 	avatarVisibility={avatarVisibility}
+												// 	setAvatarVisibility={setAvatarVisibility}
+												// 	notifications={notifications}
+												// 	setNotifications={setNotifications}
+												// 	vidCartItems={vidCartItems}
+												// 	audCartItems={audCartItems}
+												// 	cartItems={cartItems}
+												// 	logout={logout}
+												// 	onNotification={onNotification}
+												// 	onDeleteNotifications={onDeleteNotifications}
+												// />
 											)}
-											{/* Admin End */}
-											{/* Instructor */}
-											{props.auth.accountType == "instructor" && (
-												<Link
-													to={`/instructor/${props.auth.id}/show`}
-													className="site-btn btn-dark dropdown-item">
-													INSTRUCTOR
-												</Link>
-											)}
-											{/* Instructor End */}
-											{/* Student */}
-											{props.auth.accountType == "student" && (
-												<Link
-													to={`/student/${props.auth.id}/show`}
-													className="site-btn btn-dark dropdown-item">
-													STUDENT
-												</Link>
-											)}
-											{/* Student End */}
 										</div>
-
-										{props.auth.name == "Guest" ? (
-											<Link
-												to="/login"
-												className="site-btn btn-dark dropdown-item">
-												LOGIN
-											</Link>
-										) : (
-											<div className="header-social-area d-flex align-items-center">
-												{/* Avatar Dropdown */}
-												<div className="dropdown-center">
-													{/* Avatar */}
-													<a
-														href="#"
-														role="button"
-														className="hidden"
-														data-bs-toggle="dropdown"
-														aria-expanded="false">
-														<Img
-															src={props.auth?.avatar}
-															className="rounded-circle bg-light p-1"
-															width="40px"
-															height="40px"
-															alt="Avatar"
-														/>
-													</a>
-													{/* For small screens */}
-													<span
-														className="anti-hidden me-2"
-														onClick={() => {
-															setBottomMenu(bottomMenu ? "" : "menu-open")
-															setAvatarVisibility("block")
-														}}>
-														<Img
-															src={props.auth?.avatar}
-															className="rounded-circle bg-light p-1"
-															width="40px"
-															height="40px"
-															alt="Avatar"
-														/>
-													</span>
-													{/* Avatar End */}
-													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
-														<Link
-															to={`/admin/staff/edit/${props.auth.id}`}
-															className="p-2 px-3 pt-3 dropdown-item">
-															<div className="d-flex">
-																<div className="align-items-center">
-																	<Img
-																		src={props.auth?.avatar}
-																		className="rounded-circle"
-																		width="25px"
-																		height="25px"
-																		alt="Avatar"
-																	/>
-																</div>
-																<div className="ps-2">
-																	<h6 className="text-wrap fs-6">
-																		{props.auth?.name}
-																	</h6>
-																	<p
-																		className="text-wrap text-capitalize"
-																		style={{ margin: "0px" }}>
-																		{props.auth?.accountType}
-																	</p>
-																</div>
-															</div>
-														</Link>
-														<Link
-															to="/download"
-															className="p-2 px-3 dropdown-item"
-															style={{
-																display: props.downloadLink ? "block" : "none",
-															}}>
-															<h6>
-																<span className="me-2">
-																	<DownloadSVG />
-																</span>
-																Get App
-															</h6>
-														</Link>
-														<Link
-															to="#"
-															className="p-2 px-3 dropdown-item"
-															onClick={(e) => logout(e)}>
-															<h6 className="fs-6">
-																<span className="me-2">
-																	<LogoutSVG />
-																</span>
-																Logout
-															</h6>
-														</Link>
-													</div>
-												</div>
-												{/* Avatar Dropdown End */}
-											</div>
-										)}
-										{/* Top Nav Links Area End */}
 										{/* <!-- Menu Icon --> */}
 										<a
 											href="#"
 											id="menuIcon"
-											className="anti-hidden"
+											className="hidden"
 											onClick={(e) => {
 												e.preventDefault()
 												setMenu("menu-open")
 											}}>
 											<MenuSVG />
 										</a>
-										{/* <!-- Menu Icon End --> */}
 									</div>
 								</div>
 							</div>
@@ -301,28 +167,28 @@ const TopNav = (props) => {
 					</div>
 				</header>
 				<br />
+				<br />
 				{/* Remove for profile page for better background image */}
-				<span>
-					<br />
+				{location.pathname.match(/profile/) ? (
 					<br className="hidden" />
-				</span>
+				) : (
+					<span>
+						<br />
+						<br className="hidden" />
+					</span>
+				)}
 
 				{/* <!-- ***** Side Menu Area Start ***** --> */}
 				<div className="mainMenu d-flex align-items-center justify-content-between">
 					{/* <!-- Close Icon --> */}
 					<div
-						className="closeIcon text-white"
+						className="closeIcon"
 						onClick={() => setMenu("")}>
 						<CloseSVG />
 					</div>
 					{/* <!-- Logo Area --> */}
 					<div className="logo-area">
-						<Link to="/">
-							<Img
-								src="storage/img/logo.png"
-								style={{ width: "4em", height: "auto" }}
-							/>
-						</Link>
+						<Link to="/">Black Property</Link>
 					</div>
 					{/* <!-- Nav --> */}
 					<div
@@ -333,46 +199,45 @@ const TopNav = (props) => {
 								<li className="nav-item active">
 									<Link
 										to="/"
-										style={activeStrict2("/")}
-										className="nav-link text-white"
+										style={{
+											color: location.pathname == "/" ? "#007BFF" : "white",
+											opacity: location.pathname == "/" ? 1 : 0.4,
+										}}
+										className="nav-link"
 										onClick={() => setMenu("")}>
+										<span
+											style={{
+												float: "left",
+												paddingRight: "20px",
+												color: location.pathname == "/" ? "#007BFF" : "white",
+												opacity: location.pathname == "/" ? 1 : 0.4,
+											}}>
+											<HomeSVG />
+										</span>
 										Home
 									</Link>
 								</li>
 								<li className="nav-item active">
 									<Link
-										to="/about"
-										style={activeStrict2("/about")}
-										className="nav-link text-white"
+										to="/library"
+										style={{
+											color:
+												location.pathname == "/library" ? "#007BFF" : "white",
+											opacity: location.pathname == "/library" ? 1 : 0.4,
+										}}
+										className="nav-link"
 										onClick={() => setMenu("")}>
-										About Us
-									</Link>
-								</li>
-								<li className="nav-item active">
-									<Link
-										to="/courses"
-										style={activeStrict2("/courses")}
-										className="nav-link text-white"
-										onClick={() => setMenu("")}>
-										Courses
-									</Link>
-								</li>
-								<li className="nav-item active">
-									<Link
-										to="/news"
-										style={activeStrict2("/news")}
-										className="nav-link text-white"
-										onClick={() => setMenu("")}>
-										News
-									</Link>
-								</li>
-								<li className="nav-item active">
-									<Link
-										to="/contact"
-										style={activeStrict2("/contact")}
-										className="nav-link text-white"
-										onClick={() => setMenu("")}>
-										Contact
+										<span
+											style={{
+												float: "left",
+												paddingRight: "20px",
+												color:
+													location.pathname == "/library" ? "#007BFF" : "white",
+												opacity: location.pathname == "/library" ? 1 : 0.4,
+											}}>
+											<PersonSVG />
+										</span>
+										Library
 									</Link>
 								</li>
 							</ul>
@@ -385,14 +250,12 @@ const TopNav = (props) => {
 
 			{/* Sliding Bottom Nav */}
 			<div className={bottomMenu}>
-				<div
-					className="bottomMenu"
-					style={{ backgroundColor: "#d82a4e" }}>
-					<div className="d-flex align-items-center justify-content-between">
+				<div className="bottomMenu">
+					<div className="d-flex align-items-center justify-content-between border-bottom border-dark">
 						<div></div>
 						{/* <!-- Close Icon --> */}
 						<div
-							className="closeIcon mt-2 me-2 text-white"
+							className="closeIcon float-end mr-3"
 							style={{ fontSize: "0.8em" }}
 							onClick={() => setBottomMenu("")}>
 							<CloseSVG />
@@ -404,11 +267,11 @@ const TopNav = (props) => {
 						className="m-0 p-0"
 						style={{ display: avatarVisibility }}>
 						<Link
-							to={`/admin/staff/edit/${props.auth.id}`}
+							to={`/profile/show/${props.auth?.username}`}
 							style={{ padding: "0px", margin: "0px" }}
 							className="border-bottom text-start"
 							onClick={() => setBottomMenu("")}>
-							<div className="d-flex text-white">
+							<div className="d-flex">
 								<div className="ms-3 me-3">
 									<Img
 										src={props.auth?.avatar}
@@ -419,19 +282,21 @@ const TopNav = (props) => {
 									/>
 								</div>
 								<div>
-									<h5>{props.auth?.name}</h5>
+									<h5>
+										{props.auth?.name} <small>{props.auth?.username}</small>
+									</h5>
 								</div>
 							</div>
 						</Link>
 						<Link
 							to="/download"
-							className="p-2 text-start"
+							className="p-3 text-start"
 							style={{
 								display: props.downloadLink ? "inline" : "none",
 								textAlign: "left",
 							}}
 							onClick={() => setBottomMenu("")}>
-							<h6 className="text-white">
+							<h6>
 								<span className="ms-3 me-4">
 									<DownloadSVG />
 								</span>
@@ -439,8 +304,42 @@ const TopNav = (props) => {
 							</h6>
 						</Link>
 						<Link
+							to="/video"
+							className="p-3 text-start"
+							onClick={() => setBottomMenu("")}>
+							<h6>
+								<span className="ms-3 me-4">
+									<StudioSVG />
+								</span>
+								Studio
+							</h6>
+						</Link>
+						<Link
+							to="/settings"
+							className="p-3 text-start"
+							onClick={() => setBottomMenu("")}>
+							<h6>
+								<span className="ms-3 me-4">
+									<SettingsSVG />
+								</span>
+								Settings
+							</h6>
+						</Link>
+						<Link
+							to="/privacy"
+							className="p-3 text-start"
+							onClick={() => setBottomMenu("")}
+							title="Privacy Policy">
+							<h6>
+								<span className="ms-3 me-4">
+									<PrivacySVG />
+								</span>
+								Privacy Policy
+							</h6>
+						</Link>
+						<Link
 							to="#"
-							className="p-2 text-start text-white"
+							className="p-3 text-start"
 							onClick={(e) => {
 								e.preventDefault()
 								setBottomMenu("")
@@ -458,8 +357,59 @@ const TopNav = (props) => {
 				</div>
 			</div>
 			{/* Sliding Bottom Nav End */}
-		</React.Fragment>
+
+			{/* Sliding Notifications Nav */}
+			<div className={notificationMenu}>
+				<div className="commentMenu">
+					<div className="d-flex align-items-center justify-content-between border-bottom border-dark">
+						<div
+							className="text-white ms-2 fw-lighter"
+							onClick={() => {
+								setNotificationMenu("")
+								onDeleteNotifications(0)
+							}}>
+							Clear
+						</div>
+						<div className="dropdown-header text-white pt-2">
+							<h5>Notifications</h5>
+						</div>
+						{/* <!-- Close Icon --> */}
+						<div
+							className="closeIcon float-end me-2"
+							style={{ fontSize: "0.8em" }}
+							onClick={() => setNotificationMenu("")}>
+							<CloseSVG />
+						</div>
+					</div>
+
+					{/* Bottom Notifications */}
+					<div className="m-0 p-0">
+						<div style={{ maxHeight: "500px", overflowY: "scroll" }}>
+							{/* Get Notifications */}
+							{notifications.map((notification, key) => (
+								<Link
+									key={key}
+									to={notification.url}
+									className="p-2"
+									style={{
+										display: "block",
+										textAlign: "left",
+									}}
+									onClick={() => {
+										setNotificationMenu("")
+										onDeleteNotifications(notification.id)
+									}}>
+									<small>{notification.message}</small>
+								</Link>
+							))}
+						</div>
+					</div>
+					{/* Bottom Notifications End */}
+				</div>
+			</div>
+			{/* Sliding Notifications Nav End */}
+		</>
 	)
 }
 
-export default withRouter(TopNav)
+export default TopNav

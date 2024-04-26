@@ -13,7 +13,7 @@ const Btn = ({ btnStyle, btnClass, btnText, onClick, loading, disabled }) => {
 					: location.pathname.match("/instructor/")
 					? "btn-danger"
 					: "btn-success"
-			} btn rounded-pill text-capitalize ${btnClass}`}
+			} btn rounded-0 text-capitalize ${btnClass}`}
 			onClick={onClick}
 			disabled={disabled}>
 			{btnText}

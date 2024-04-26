@@ -19,7 +19,7 @@ const MyLink = ({ text, linkTo, className }) => {
 					: location.pathname.match("/instructor/")
 					? "btn-outline-danger"
 					: "btn-outline-success"
-			} btn rounded-pill text-capitalize ${className}`}>
+			} btn rounded-0 text-capitalize ${className}`}>
 			{text}
 		</Link>
 	)

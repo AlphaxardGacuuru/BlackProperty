@@ -2372,7 +2372,7 @@ ol {
 
 /* the draggable scrolling handle */
 ::-webkit-scrollbar-thumb {
-	background: #d82a4e;
+	background: #232323;
 	border-radius: 20px;
 	/* border: 1px solid #000; */
 }
@@ -2380,7 +2380,7 @@ ol {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 	/* background: #fff; */
-	border: 1px solid #d82a4e;
+	border: 1px solid #232323;
 }
 
 /*the track (progress bar) NOT covered by the handle*/

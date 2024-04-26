@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\DiscussionForumChatCreatedEvent;
-use App\Events\NewChatEvent;
-use App\Listeners\DiscussionForumChatCreatedListener;
-use App\Listeners\NewChatListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,8 +18,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        DiscussionForumChatCreatedEvent::class => [DiscussionForumChatCreatedListener::class],
-        NewChatEvent::class => [NewChatListener::class],
     ];
 
     /**

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import ReactQuill from "react-quill"
-import "react-quill/dist/quill.snow.css"
+// import ReactQuill from "react-quill"
+// import "react-quill/dist/quill.snow.css"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"

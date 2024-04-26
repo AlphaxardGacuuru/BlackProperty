@@ -12,13 +12,13 @@
 	<meta name="apple-mobile-web-app-status-bar-style"
 		  content="#232323">
 	<meta name="description"
-		  content="The best Online University" />
+		  content="The best Property Management App" />
 
 	<!-- CSRF Token -->
 	<meta name="csrf-token"
 		  content="{{ csrf_token() }}">
 
-	<title>{{ config('app.name', 'Online University') }}</title>
+	<title>{{ config('app.name', 'Black Property') }}</title>
 
 	<!-- Favicon  -->
 	<link rel="icon"
@@ -32,19 +32,28 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
 		  rel="stylesheet">
 
-	<!-- Styles -->
-	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	{{-- <link href="{{ asset('css/light.css') }}" rel="stylesheet"> --}}
-
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800,800i" rel="stylesheet">
+	<!-- Manifest -->
+	<link rel="manifest"
+		  type="application/manifest+json"
+		  href="manifest.webmanifest">
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
-	<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
-	<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}"/>
-	<link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
-	
+
+	<link href="{{ asset('css/app.css') }}"
+		  rel="stylesheet">
+	<link rel="stylesheet"
+		  href="{{ asset('css/bootstrap.min.css') }}" />
+	<link rel="stylesheet"
+		  href="{{ asset('css/font-awesome.min.css') }}" />
+	<link rel="stylesheet"
+		  href="{{ asset('css/owl.carousel.css') }}" />
+	<link rel="stylesheet"
+		  href="{{ asset('css/style.css') }}" />
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800,800i"
+		  rel="stylesheet">
+
 	{{-- IOS support --}}
 	<link rel="apple-touch-icon"
 		  href="storage/img/musical-note.png">
@@ -57,6 +66,7 @@
 		overflow-x: hidden;
 	}
 </style>
+
 <body>
 	<noscript>
 		<center>
@@ -71,7 +81,8 @@
 	<div id="app"></div>
 
 	<!-- Scripts -->
-	<script src="{{ asset('js/app.js') }}" defer></script>
+	<script src="{{ asset('js/app.js') }}"
+			defer></script>
 
 	{{-- Chart.js --}}
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
