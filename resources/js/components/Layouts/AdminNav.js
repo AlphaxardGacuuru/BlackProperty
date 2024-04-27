@@ -97,9 +97,9 @@ const AdminMenu = (props) => {
 				className={props.adminMenu + " " + showAdminNav}>
 				{/* <!-- ***** Header Area Start ***** --> */}
 				<header
-					className={`header-area shadow ${
+					className={`header-area shadow-lg ${
 						location.pathname.match("/admin/")
-							? " bg-primary"
+							? "bg-primary"
 							: location.pathname.match("/instructor/")
 							? "bg-danger"
 							: "bg-success"
@@ -319,7 +319,7 @@ const AdminMenu = (props) => {
 
 				{/* <!-- ***** Side Menu Area Start ***** --> */}
 				<div
-					className={`leftMenu d-flex align-items-center justify-content-start  ${
+					className={`leftMenu d-flex align-items-center justify-content-start shadow-lg ${
 						location.pathname.match("/admin/")
 							? " bg-primary"
 							: location.pathname.match("/instructor/")

@@ -10,6 +10,8 @@ const create = (props) => {
 
 	const [name, setName] = useState()
 	const [location, setLocation] = useState()
+	const [rentMultiple, setRentMultiple] = useState(0)
+	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -28,6 +30,7 @@ const create = (props) => {
 		Axios.post("/api/properties", {
 			name: name,
 			location: location,
+			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -50,7 +53,6 @@ const create = (props) => {
 				<form onSubmit={onSubmit}>
 					<input
 						type="text"
-						name="name"
 						placeholder="Name"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
@@ -59,10 +61,32 @@ const create = (props) => {
 
 					<input
 						type="text"
-						name="location"
 						placeholder="Location"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setLocation(e.target.value)}
+						required={true}
+					/>
+
+					<label
+						htmlFor=""
+						className="ms-1">
+						Deposit Calculation
+					</label>
+					<input
+						type="number"
+						placeholder="Rent Multiple"
+						min="0"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setRentMultiple(e.target.value)}
+						required={true}
+					/>
+
+					<input
+						type="number"
+						placeholder="Additional Charges to Deposit"
+						min="0"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setAdditionalCharges(e.target.value)}
 						required={true}
 					/>
 

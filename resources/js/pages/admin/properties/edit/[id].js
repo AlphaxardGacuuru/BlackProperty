@@ -11,7 +11,19 @@ const edit = (props) => {
 	const [property, setProperty] = useState({})
 	const [name, setName] = useState()
 	const [location, setLocation] = useState()
+	const [rentMultiple, setRentMultiple] = useState(0)
+	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [loading, setLoading] = useState()
+
+	// Extract Rent Multiple and Additional Charges
+	var formula = []
+
+	if (property.depositFormula) {
+		// Remove "r*"
+		formula = property.depositFormula.replace("r*", "")
+		// Split the formula by the "+" sign
+		formula = formula?.split("+")
+	}
 
 	// Get Properties
 	useEffect(() => {
@@ -21,10 +33,7 @@ const edit = (props) => {
 			path: ["properties", `properties/${id}/show`, "edit"],
 		})
 
-		Axios.get(`/api/properties/${id}`).then((res) => {
-			setProperty(res.data.data)
-			setPropertyId(res.data.data.propertyId.toString())
-		})
+		props.get(`properties/${id}`, setProperty)
 	}, [])
 
 	/*
@@ -37,6 +46,7 @@ const edit = (props) => {
 		Axios.put(`/api/properties/${id}`, {
 			name: name,
 			location: location,
+			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -71,6 +81,27 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setLocation(e.target.value)}
 						required={true}
+					/>
+
+					<label
+						htmlFor=""
+						className="ms-1">
+						Deposit Calculation
+					</label>
+					<input
+						type="number"
+						placeholder="Rent Multiple"
+						defaultValue={formula[0]}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setRentMultiple(e.target.value)}
+					/>
+
+					<input
+						type="number"
+						placeholder="Additional Charges to Deposit"
+						defaultValue={formula[1]}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setAdditionalCharges(e.target.value)}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">

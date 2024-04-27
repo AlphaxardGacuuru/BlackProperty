@@ -20,7 +20,9 @@ return new class extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
             $table->string("name");
-            $table->string("rent");
+            $table->integer("rent");
+            $table->integer("deposit");
+            $table->string("type")->default("apartment");
             $table->timestamps();
         });
     }

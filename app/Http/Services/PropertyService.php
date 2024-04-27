@@ -34,8 +34,10 @@ class PropertyService extends Service
     public function store($request)
     {
         $property = new Property;
+        $property->user_id = $this->id;
         $property->name = $request->input("name");
         $property->location = $request->input("location");
+        $property->deposit_formula = $request->input("depositFormula");
 
         $saved = $property->save();
 
@@ -57,6 +59,10 @@ class PropertyService extends Service
 
         if ($request->filled("location")) {
             $property->location = $request->input("location");
+        }
+
+        if ($request->filled("depositFormula")) {
+            $property->deposit_formula = $request->input("depositFormula");
         }
 
         $saved = $property->save();

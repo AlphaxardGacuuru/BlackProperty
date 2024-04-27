@@ -1,33 +1,8 @@
 import React, { useEffect, useState } from "react"
-// import Axios from "axios"
 import { Link, useHistory, useParams } from "react-router-dom"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
-
-// Import React FilePond
-import { FilePond, registerPlugin } from "react-filepond"
-
-// Import FilePond styles
-import "filepond/dist/filepond.min.css"
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation"
-import FilePondPluginImagePreview from "filepond-plugin-image-preview"
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
-import FilePondPluginImageCrop from "filepond-plugin-image-crop"
-import FilePondPluginImageTransform from "filepond-plugin-image-transform"
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-
-// Register the plugins
-registerPlugin(
-	FilePondPluginImageExifOrientation,
-	FilePondPluginImagePreview,
-	FilePondPluginFileValidateType,
-	FilePondPluginImageCrop,
-	FilePondPluginImageTransform
-)
 
 const edit = (props) => {
 	const router = useHistory()
@@ -69,7 +44,7 @@ const edit = (props) => {
 		"roles",
 	]
 
-	var CRUD = ["create", "read", "update", "delete"]
+	var CRUD = ["read", "create", "update", "delete"]
 
 	// Handle Permission checkboxes
 	const handleSetPermissions = (permission) => {
@@ -145,8 +120,8 @@ const edit = (props) => {
 								<thead>
 									<tr>
 										<th>Entity</th>
-										<th>Create</th>
 										<th>Read</th>
+										<th>Create</th>
 										<th>Update</th>
 										<th>Delete</th>
 									</tr>

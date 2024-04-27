@@ -10,9 +10,19 @@ class RoleService extends Service
     /*
      * Get All Roles
      */
-    public function index()
+    public function index($request)
     {
-        $getRoles = Role::orderby("id", "DESC")->get();
+        if ($request->filled("idAndName")) {
+            $roles = Role::select("id", "name")
+                ->orderBy("id", "DESC")
+                ->get();
+
+            return response([
+                "data" => $roles,
+            ], 200);
+        }
+
+        $getRoles = Role::orderby("id", "DESC")->paginate(20);
 
         return RoleResource::collection($getRoles);
     }

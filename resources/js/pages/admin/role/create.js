@@ -25,7 +25,7 @@ const create = (props) => {
 		"roles",
 	]
 
-	var CRUD = ["create", "read", "update", "delete"]
+	var CRUD = ["read", "create", "update", "delete"]
 
 	useEffect(() => {
 		// Set page
@@ -104,8 +104,8 @@ const create = (props) => {
 								<thead>
 									<tr>
 										<th>Entity</th>
-										<th>Create</th>
 										<th>Read</th>
+										<th>Create</th>
 										<th>Update</th>
 										<th>Delete</th>
 									</tr>

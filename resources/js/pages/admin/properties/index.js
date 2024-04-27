@@ -4,9 +4,11 @@ import MyLink from "@/components/Core/MyLink"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
+import HeroHeading from "@/components/Core/HeroHeading"
+import HeroIcon from "@/components/Core/HeroIcon"
+
 import PersonSVG from "@/svgs/PersonSVG"
 import PropertySVG from "@/svgs/PropertySVG"
-import HeroIcon from "@/components/Core/HeroIcon"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
@@ -55,10 +57,10 @@ const index = (props) => {
 					<div className="d-flex justify-content-between">
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-							<div>
-								<h4>Total Properties</h4>
-								<span className="fs-4">{properties.length}</span>
-							</div>
+							<HeroHeading
+								heading="Total Properties"
+								data={properties.length}
+							/>
 							<HeroIcon>
 								<PropertySVG />
 							</HeroIcon>
@@ -88,7 +90,7 @@ const index = (props) => {
 								<th>Name</th>
 								<th>Location</th>
 								<th>Units</th>
-								<th>Action</th>
+								<th className="text-center">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -99,7 +101,7 @@ const index = (props) => {
 									<td>{property.location}</td>
 									<td>{property.units}</td>
 									<td className="text-end">
-										<div className="d-flex">
+										<div className="d-flex justify-content-end">
 											<MyLink
 												linkTo={`/properties/${property.id}/show`}
 												icon={<ViewSVG />}

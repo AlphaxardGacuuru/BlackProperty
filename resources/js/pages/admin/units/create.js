@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -7,16 +10,32 @@ import BackSVG from "@/svgs/BackSVG"
 
 const create = (props) => {
 	var history = useHistory()
+	var { id } = useParams()
+
+	const [property, setProperty] = useState({})
 
 	const [name, setName] = useState()
-	const [location, setLocation] = useState()
+	const [rent, setRent] = useState()
+	const [deposit, setDeposit] = useState()
+	const [type, setType] = useState("apartment")
 	const [loading, setLoading] = useState()
 
 	// Get Units
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Add Unit", path: ["units", "create"] })
+		// Fetch Property
+		props.get(`properties/${id}`, setProperty)
 	}, [])
+
+	const apartments = ["apartment", "shop", "office"]
+
+	const getDeposit = (e) => {
+		var rent = e.target.value
+		var formula = property.depositFormula
+		// Evaluate the formula
+		return eval(formula?.replace("r", rent))
+	}
 
 	/*
 	 * Submit Form
@@ -26,15 +45,18 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/units", {
+			propertyId: id,
 			name: name,
-			location: location,
+			rent: rent,
+			deposit: deposit.toString(),
+			type: type,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Units
-				setTimeout(() => history.push("/admin/units"), 500)
+				setTimeout(() => history.push(`/admin/properties/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -58,13 +80,42 @@ const create = (props) => {
 					/>
 
 					<input
-						type="text"
-						name="location"
-						placeholder="Location"
+						type="number"
+						name="rent"
+						placeholder="Rent"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setLocation(e.target.value)}
+						onChange={(e) => {
+							setRent(e.target.value)
+							setDeposit(getDeposit(e))
+						}}
 						required={true}
 					/>
+
+					<input
+						type="number"
+						name="deposit"
+						placeholder="Deposit"
+						defaultValue={deposit}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setDeposit(e.target.value)}
+						required={true}
+					/>
+
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						{apartments.map((apartment, key) => (
+							<option
+								key={key}
+								value={apartment}>
+								{apartment}
+							</option>
+						))}
+					</select>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

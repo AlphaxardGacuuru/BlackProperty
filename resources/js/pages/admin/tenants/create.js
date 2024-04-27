@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
@@ -7,6 +10,7 @@ import MyLink from "@/components/Core/MyLink"
 import BackSVG from "@/svgs/BackSVG"
 
 const create = (props) => {
+	var { id } = useParams()
 	var history = useHistory()
 
 	const [name, setName] = useState()
@@ -20,7 +24,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Tenant",
-			path: ["tenants", "create"],
+			path: ["properties", `properties/${id}/show`, "create"],
 		})
 	}, [])
 
@@ -32,6 +36,7 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/tenants", {
+			propertyId: propertyId,
 			name: name,
 			email: email,
 			phone: phone,
@@ -64,6 +69,7 @@ const create = (props) => {
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
+
 					<input
 						type="text"
 						name="email"
@@ -72,6 +78,7 @@ const create = (props) => {
 						onChange={(e) => setEmail(e.target.value)}
 						required={true}
 					/>
+
 					<input
 						type="tel"
 						name="phone"
@@ -101,9 +108,9 @@ const create = (props) => {
 						<br />
 
 						<MyLink
-							linkTo="/tenants"
+							linkTo={`/properties/${id}/show`}
 							icon={<BackSVG />}
-							text="back to tenants"
+							text="back to property"
 						/>
 					</center>
 				</form>

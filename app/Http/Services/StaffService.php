@@ -19,7 +19,7 @@ class StaffService extends Service
     {
         $staff = User::where("account_type", "staff")
             ->orderBy("id", "DESC")
-            ->get();
+            ->paginate(20);
 
         return StaffResource::collection($staff);
     }

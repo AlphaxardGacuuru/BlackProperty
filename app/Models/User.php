@@ -78,6 +78,11 @@ class User extends Authenticatable
      * Relationships
      */
 
+    public function userRoles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
     /*
      * Custom functions
      */

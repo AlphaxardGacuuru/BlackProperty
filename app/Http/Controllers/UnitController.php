@@ -32,8 +32,11 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+			"propertyId" => "required|string",
 			"name" => "required|string",
-			"location" => "required|string"
+			"rent" => "required|string",
+			"deposit" => "required|string",
+			"type" => "required|string"
 		]);
 
 		[$saved, $message, $unit] = $this->service->store($request);
@@ -66,8 +69,10 @@ class UnitController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "required|string",
-			"location" => "required|string"
+			"name" => "nullable|string",
+			"rent" => "nullable|string",
+			"deposit" => "nullable|string",
+			"type" => "nullable|string"
 		]);
 
 		[$saved, $message, $unit] = $this->service->update($request, $id);

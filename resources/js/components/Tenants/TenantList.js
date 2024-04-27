@@ -2,10 +2,16 @@ import React, { useState } from "react"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
+import DeleteModal from "@/components/Core/DeleteModal"
 
+import PaginationLinks from "@/components/Core/PaginationLinks"
+
+import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
 
 import PersonSVG from "@/svgs/PersonSVG"
+import ViewSVG from "@/svgs/ViewSVG"
+import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 
 const TenantList = (props) => {
@@ -33,10 +39,10 @@ const TenantList = (props) => {
 				<div className="d-flex justify-content-between">
 					{/* Total */}
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-						<div>
-							<span className="fs-4">{props.tenants?.length}</span>
-							<h4>Total Tenants</h4>
-						</div>
+						<HeroHeading
+							heading="Total Tenants"
+							data={props.tenants.data?.length}
+						/>
 						<HeroIcon>
 							<PersonSVG />
 						</HeroIcon>
@@ -159,63 +165,12 @@ const TenantList = (props) => {
 													/>
 
 													<div className="mx-1">
-														{/* Confirm Delete Modal End */}
-														<div
-															className="modal fade"
-															id={`deleteTenantModal${key}`}
-															tabIndex="-1"
-															aria-labelledby="deleteModalLabel"
-															aria-hidden="true">
-															<div className="modal-dialog">
-																<div className="modal-content">
-																	<div className="modal-header">
-																		<h1
-																			id="deleteModalLabel"
-																			className="modal-title fs-5 text-danger">
-																			Delete Tenant
-																		</h1>
-																		<button
-																			type="button"
-																			className="btn-close"
-																			data-bs-dismiss="modal"
-																			aria-label="Close"></button>
-																	</div>
-																	<div className="modal-body text-start text-wrap text-start">
-																		Are you sure you want to delete{" "}
-																		{tenant.name}.
-																	</div>
-																	<div className="modal-footer justify-content-between">
-																		<button
-																			type="button"
-																			className="btn btn-light rounded-pill"
-																			data-bs-dismiss="modal">
-																			Close
-																		</button>
-																		<button
-																			type="button"
-																			className="btn btn-danger rounded-pill"
-																			data-bs-dismiss="modal"
-																			onClick={() => onDeleteTenant(tenant.id)}>
-																			<span className="me-1">
-																				{<DeleteSVG />}
-																			</span>
-																			Delete
-																		</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-														{/* Confirm Delete Modal End */}
-
-														{/* Button trigger modal */}
-														<button
-															type="button"
-															className="btn btn-sm btn-outline-danger rounded-pill"
-															data-bs-toggle="modal"
-															data-bs-target={`#deleteTenantModal${key}`}>
-															<span className="me-1">{<DeleteSVG />}</span>
-															Delete
-														</button>
+														<DeleteModal
+															index={key}
+															model={tenant}
+															modelName="Tenant"
+															onDelete={onDeleteTenant}
+														/>
 													</div>
 												</React.Fragment>
 											)}
@@ -225,6 +180,13 @@ const TenantList = (props) => {
 							))}
 					</tbody>
 				</table>
+				{/* Pagination Links */}
+				<PaginationLinks
+					list={props.tenants}
+					getPaginated={props.getPaginated}
+					setState={props.setTenants}
+				/>
+				{/* Pagination Links End */}
 			</div>
 		</div>
 	)

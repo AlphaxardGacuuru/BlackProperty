@@ -12,12 +12,13 @@
 html,
 body {
 	height: 100%;
-	font-family: 'Raleway', sans-serif;
+	font-family: "Roboto", sans-serif;
+	/* font-family: 'Raleway', sans-serif; */
 	-webkit-font-smoothing: antialiased;
-	/* font-smoothing: antialiased; */
 	overflow-x: hidden;
 	max-width: 100%;
 	background-color: #EFEFF6;
+	font-weight: 300;
 }
 
 h1,
@@ -27,8 +28,16 @@ h4,
 h5,
 h6 {
 	margin: 0;
-	font-weight: 600;
+	font-weight: 300;
 	color: #474747;
+}
+
+td,
+p,
+a,
+.btn,
+.form-control {
+	font-weight: 300;
 }
 
 h1 {
@@ -1896,7 +1905,7 @@ ol {
 }
 
 #snackbar div {
-	border-radius: 20px;
+	border-radius: 0px;
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */

@@ -19,8 +19,8 @@ class PropertyFactory extends Factory
         return [
             "name" => fake()->secondaryAddress(),
             "location" => fake()->city() . ", " . fake()->streetName(),
-            "deposit_factor" => "r * 2 + 1000",
-            "units" => rand(5, 20),
+            "deposit_formula" => "r*2+2000",
+            "unit_count" => rand(5, 20),
         ];
     }
 }

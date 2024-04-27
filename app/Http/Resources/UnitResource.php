@@ -30,7 +30,8 @@ class UnitResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "rent" => number_format($this->rent),
-            "deposit" => number_format($rent),
+            "deposit" => number_format($this->deposit),
+            "type" => $this->type,
         ];
     }
 }

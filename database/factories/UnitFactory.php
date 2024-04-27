@@ -16,11 +16,13 @@ class UnitFactory extends Factory
      */
     public function definition()
     {
-		$block = ["A", "B", "C", "D", "E", "F", "G"];
+        $block = ["A", "B", "C", "D", "E", "F", "G"];
 
         return [
-			"name" => $block[rand(0, 6)] . rand(0, 20),
-			"rent" => rand(8, 100) * 1000,
+            "name" => $block[rand(0, 6)] . rand(0, 20),
+            "rent" => rand(8, 100) * 1000,
+            "deposit" => ((rand(8, 100) * 1000) * 2) + 2000,
+            "type" => "apartment",
         ];
     }
 }

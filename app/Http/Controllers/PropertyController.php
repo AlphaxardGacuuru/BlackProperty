@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
-	public function __construct(protected PropertyService $service)
-	{
-		// 
-	}
+    public function __construct(protected PropertyService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,17 +32,18 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"name" => "required|string",
-			"location" => "required|string"
-		]);
+            "name" => "required|string",
+            "location" => "required|string",
+            "depositFormula" => "required|string",
+        ]);
 
-		[$saved, $message, $property] = $this->service->store($request);
+        [$saved, $message, $property] = $this->service->store($request);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $property
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $property,
+        ], 200);
     }
 
     /**
@@ -66,17 +67,18 @@ class PropertyController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			"name" => "required|string",
-			"location" => "required|string"
-		]);
+            "name" => "nullable|string",
+            "location" => "nullable|string",
+            "depositFormula" => "nullable|string",
+        ]);
 
-		[$saved, $message, $property] = $this->service->update($request, $id);
+        [$saved, $message, $property] = $this->service->update($request, $id);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $property
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $property,
+        ], 200);
     }
 
     /**
@@ -89,10 +91,10 @@ class PropertyController extends Controller
     {
         [$deleted, $message, $property] = $this->service->destroy($id);
 
-		return response([
-			"status" => $deleted,
-			"message" => $message,
-			"data" => $property
-		], 200);
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $property,
+        ], 200);
     }
 }

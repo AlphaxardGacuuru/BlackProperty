@@ -34,8 +34,11 @@ class UnitService extends Service
     public function store($request)
     {
         $unit = new Unit;
+        $unit->property_id = $request->input("propertyId");
         $unit->name = $request->input("name");
-        $unit->location = $request->input("location");
+        $unit->rent = $request->input("rent");
+        $unit->deposit = $request->input("deposit");
+        $unit->type = $request->input("type");
 
         $saved = $unit->save();
 
@@ -55,8 +58,16 @@ class UnitService extends Service
             $unit->name = $request->input("name");
         }
 
-        if ($request->filled("location")) {
-            $unit->location = $request->input("location");
+        if ($request->filled("rent")) {
+            $unit->rent = $request->input("rent");
+        }
+
+        if ($request->filled("deposit")) {
+            $unit->deposit = $request->input("deposit");
+        }
+
+        if ($request->filled("type")) {
+            $unit->type = $request->input("type");
         }
 
         $saved = $unit->save();

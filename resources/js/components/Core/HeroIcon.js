@@ -12,7 +12,7 @@ const HeroIcon = ({ children }) => {
 					: location.pathname.match("/instructor/")
 					? " bg-danger-subtle text-danger"
 					: " bg-success-subtle text-success"
-			} fs-1 py-3 px-4 rounded-circle`}>
+			} fs-1 py-3 px-4 rounded-circle shadow`}>
 			{children}
 		</div>
 	)

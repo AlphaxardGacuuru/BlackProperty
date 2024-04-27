@@ -1,43 +1,39 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
-import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
+import DeleteModal from "@/components/Core/DeleteModal"
+
+import HeroHeading from "@/components/Core/HeroHeading"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 import PersonGearSVG from "@/svgs/PersonGearSVG"
-import HeroIcon from "@/components/Core/HeroIcon"
+import PlusSVG from "@/svgs/PlusSVG"
+import ViewSVG from "@/svgs/ViewSVG"
+import EditSVG from "@/svgs/EditSVG"
 
 const index = (props) => {
 	// Get Role
 	const [roles, setRoles] = useState([])
-	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Roles", path: ["role"] })
-		props.get("roles", setRoles)
+		props.getPaginated("roles", setRoles)
 	}, [])
 
 	/*
 	 * Delete
 	 */
-	const onDelete = (roleId) => {
-		// Toggle loader
-		setLoading(true)
-
-		Axios.delete(`/api/roles/${roleId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Toggle loader
-				setLoading(true)
-				// Delete rows
-				setRoles(roles.filter((role) => role.id != roleId))
+	const onDeleteRole = (roleId) => {
+		Axios.delete(`/api/roles/${roleId}`).then((res) => {
+			props.setMessages([res.data.message])
+			// Remove row
+			setRoles({
+				meta: roles.meta,
+				links: roles.links,
+				data: roles.data.filter((role) => role.id != roleId),
 			})
-			.catch((err) => {
-				// Toggle loader
-				setLoading(true)
-				props.getErrors(err)
-			})
+		})
 	}
 	return (
 		<div className="row">
@@ -47,10 +43,10 @@ const index = (props) => {
 					<div className="d-flex justify-content-between">
 						{/* Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-							<div>
-								<span className="fs-4">{roles.length}</span>
-								<h4>Total Roles</h4>
-							</div>
+							<HeroHeading
+								heading="Total Roles"
+								data={roles.data?.length}
+							/>
 							<HeroIcon>
 								<PersonGearSVG />
 							</HeroIcon>
@@ -69,7 +65,8 @@ const index = (props) => {
 								<th colSpan="4"></th>
 								<th className="text-end">
 									<MyLink
-										linkTo="/roles/create"
+										linkTo={`/roles/create`}
+										icon={<PlusSVG />}
 										text="add role"
 									/>
 								</th>
@@ -83,7 +80,7 @@ const index = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{roles.map((role, key) => (
+							{roles.data?.map((role, key) => (
 								<tr key={key}>
 									<td>{key + 1}</td>
 									<td>{role.name}</td>
@@ -99,68 +96,32 @@ const index = (props) => {
 											))}
 										</div>
 									</td>
-									<td className="text-end">
-										<div className="d-flex">
-											<MyLink
-												linkTo={`/roles/${role.id}/edit`}
-												text="edit"
-												className="btn-sm"
-											/>
+									<td>
+										<div className="d-flex justify-content-end">
+											<React.Fragment>
+												<MyLink
+													linkTo={`/roles/${role.id}/show`}
+													icon={<ViewSVG />}
+													text="view"
+													className="btn-sm me-1"
+												/>
 
-											<div className="mx-1">
-												{/* Confirm Delete Modal End */}
-												<div
-													className="modal fade"
-													id={`deleteModal${key}`}
-													tabIndex="-1"
-													aria-labelledby="deleteModalLabel"
-													aria-hidden="true">
-													<div className="modal-dialog">
-														<div className="modal-content">
-															<div className="modal-header">
-																<h1
-																	id="deleteModalLabel"
-																	className="modal-title fs-5 text-danger">
-																	Delete Role
-																</h1>
-																<button
-																	type="button"
-																	className="btn-close"
-																	data-bs-dismiss="modal"
-																	aria-label="Close"></button>
-															</div>
-															<div className="modal-body text-start text-wrap">
-																Are you sure you want to delete {role.name}.
-															</div>
-															<div className="modal-footer justify-content-between">
-																<button
-																	type="button"
-																	className="btn btn-light rounded-pill"
-																	data-bs-dismiss="modal">
-																	Close
-																</button>
-																<button
-																	type="button"
-																	className="btn btn-danger rounded-pill"
-																	data-bs-dismiss="modal"
-																	onClick={() => onDelete(role.id)}>
-																	Delete
-																</button>
-															</div>
-														</div>
-													</div>
+												<MyLink
+													linkTo={`/roles/${role.id}/edit`}
+													icon={<EditSVG />}
+													text="edit"
+													className="btn-sm"
+												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={key}
+														model={role}
+														modelName="Role"
+														onDelete={onDeleteRole}
+													/>
 												</div>
-												{/* Confirm Delete Modal End */}
-
-												{/* Button trigger modal */}
-												<button
-													type="button"
-													className="btn btn-sm btn-outline-danger rounded-pill"
-													data-bs-toggle="modal"
-													data-bs-target={`#deleteModal${key}`}>
-													Delete
-												</button>
-											</div>
+											</React.Fragment>
 										</div>
 									</td>
 								</tr>

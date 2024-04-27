@@ -18,12 +18,17 @@ const edit = (props) => {
 		// Set page
 		props.setPage({
 			name: "Edit Property",
-			path: ["properties", `properties/${id}/show`, "edit"],
+			path: ["properties", "edit"],
 		})
 
-		Axios.get(`/api/properties/${id}`).then((res) => {
+		Axios.get(`/api/units/${id}`).then((res) => {
 			setProperty(res.data.data)
 			setPropertyId(res.data.data.propertyId.toString())
+			// Set page
+			props.setPage({
+				name: "Edit Property",
+				path: ["properties", `properties/${id}/show`, "edit"],
+			})
 		})
 	}, [])
 

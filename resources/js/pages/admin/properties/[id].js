@@ -13,6 +13,7 @@ const show = (props) => {
 	const [units, setUnits] = useState([])
 	const [tenants, setTenants] = useState([])
 	const [staff, setStaff] = useState([])
+	const [roles, setRoles] = useState([])
 	const [tab, setTab] = useState("units")
 
 	useEffect(() => {
@@ -22,10 +23,11 @@ const show = (props) => {
 		props.getPaginated(`units/by-property-id/${id}`, setUnits)
 		props.getPaginated(`tenants/by-property-id/${id}`, setTenants)
 		props.getPaginated(`staff/by-property-id/${id}`, setStaff)
+		props.get(`roles?idAndName=true`, setRoles)
 	}, [])
 
 	const active = (activeTab) => {
-		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
+		return activeTab == tab ? "bg-light shadow-sm" : "bg-secondary-subtle"
 	}
 
 	const activeTab = (activeTab) => {
@@ -35,7 +37,7 @@ const show = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card mb-2 p-4 text-center shadow">
+				<div className="card mb-2 p-4 text-center shadow-sm">
 					<h4>{property.name}</h4>
 					<h6>{property.location}</h6>
 				</div>
@@ -73,9 +75,8 @@ const show = (props) => {
 				{/* Units Tab */}
 				<UnitList
 					{...props}
-					units={units}
 					activeTab={activeTab("units")}
-					setProperty={setProperty}
+					units={units}
 					setUnits={setUnits}
 					propertyId={id}
 				/>
@@ -84,9 +85,9 @@ const show = (props) => {
 				{/* Tenants Tab */}
 				<TenantList
 					{...props}
-					tenants={tenants}
 					activeTab={activeTab("tenants")}
-					setProperty={setProperty}
+					tenants={tenants}
+					setTenants={setTenants}
 					propertyId={id}
 				/>
 				{/* Tenants Tab End */}
@@ -95,8 +96,9 @@ const show = (props) => {
 				<StaffList
 					{...props}
 					staff={staff}
+					setStaff={setStaff}
+					roles={roles}
 					activeTab={activeTab("staff")}
-					setProperty={setProperty}
 					propertyId={id}
 				/>
 				{/* Staff Tab End */}

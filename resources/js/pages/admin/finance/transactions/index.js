@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react"
 
-import Btn from "@/components/Core/Btn"
-import Img from "@/components/Core/Img"
-import MyLink from "@/components/Core/MyLink"
 import PaginationLinks from "@/components/Core/PaginationLinks"
+
+import HeroHeading from "@/components/Core/HeroHeading"
+import HeroIcon from "@/components/Core/HeroIcon"
 
 import MoneySVG from "@/svgs/MoneySVG"
 import TransactionSVG from "@/svgs/TransactionSVG"
-import HeroIcon from "@/components/Core/HeroIcon"
 
 const index = (props) => {
 	// Get Card Transactions
@@ -33,23 +32,19 @@ const index = (props) => {
 				{/* Data */}
 				<div className="card shadow-sm p-2">
 					<div className="d-flex justify-content-between">
-						{/* Card Total */}
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-							<div>
-								<span className="fs-4">KES {cardTotal}</span>
-								<h4>Total Card Transactions</h4>
-							</div>
-							{/* Card Total End */}
-							{/* Mpesa Total */}
-							<div>
-								<span className="fs-4">KES {mpesaTotal}</span>
-								<h4>Total Mpesa Transactions</h4>
-							</div>
+							<HeroHeading
+								heading="Total Card Transactions"
+								data={cardTotal}
+							/>
+							<HeroHeading
+								heading="Total Mpesa Transactions"
+								data={mpesaTotal}
+							/>
 							<HeroIcon>
 								<TransactionSVG />
 							</HeroIcon>
 						</div>
-						{/* Mpesa Total End */}
 					</div>
 				</div>
 				{/* Data End */}

@@ -18,8 +18,9 @@ class PropertyResource extends JsonResource
 			"id" => $this->id,
 			"name" => $this->name,
 			"location" => $this->location,
-			"units" => $this->units()->count(),
-			"createdAt" => $this->createdAt,
+			"depositFormula" => $this->deposit_formula,
+			"units" => $this->unit_count,
+			"createdAt" => $this->created_at,
 		];
     }
 }

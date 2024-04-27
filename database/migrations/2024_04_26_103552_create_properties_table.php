@@ -21,8 +21,8 @@ return new class extends Migration
                 ->onDelete("cascade");
             $table->string("name");
             $table->string("location");
-            $table->string("deposit_factor");
-            $table->int("units")->default(0);
+            $table->string("deposit_formula");
+            $table->integer("unit_count")->default(0);
             $table->timestamps();
         });
     }

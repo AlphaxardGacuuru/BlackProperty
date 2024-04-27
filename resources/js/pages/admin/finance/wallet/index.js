@@ -5,9 +5,11 @@ import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
+import HeroHeading from "@/components/Core/HeroHeading"
+import HeroIcon from "@/components/Core/HeroIcon"
+
 import PersonSVG from "@/svgs/PersonSVG"
 import WalletSVG from "@/svgs/WalletSVG"
-import HeroIcon from "@/components/Core/HeroIcon"
 
 const wallet = (props) => {
 	// Get Wallet Transactions
@@ -74,18 +76,14 @@ const wallet = (props) => {
 				<div className="card shadow-sm p-2">
 					<div className="d-flex justify-content-between">
 						<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-							<div>
-								<span className="fs-4">
-									KES {totalTransfers?.toLocaleString()}
-								</span>
-								<h4>Total Wallet Transactions</h4>
-							</div>
-							<div className="border-start border-end border-2 text-warning px-5">
-								<span className="fs-4 text-warning px-5">
-									KES {balance?.toLocaleString()}
-								</span>
-								<h4 className="px-5">Balance</h4>
-							</div>
+							<HeroHeading
+								heading="Wallet Transactions"
+								data={totalTransfers}
+							/>
+							<HeroHeading
+								heading="Balance"
+								data={balance}
+							/>
 							<HeroIcon>
 								<WalletSVG />
 							</HeroIcon>
