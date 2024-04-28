@@ -24,7 +24,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Tenant",
-			path: ["properties", `properties/${id}/show`, "create"],
+			path: ["units", `units/${id}/show`, "create"],
 		})
 	}, [])
 
@@ -36,7 +36,7 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/tenants", {
-			propertyId: propertyId,
+			unitId: id,
 			name: name,
 			email: email,
 			phone: phone,
@@ -46,8 +46,8 @@ const create = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Redirect to Tenants
-				setTimeout(() => history.push("/admin/tenants"), 500)
+				// Redirect to Property
+				setTimeout(() => history.push(`/admin/units/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -58,8 +58,8 @@ const create = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-2"></div>
-			<div className="col-sm-8">
+			<div className="col-sm-4"></div>
+			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
 					<input
 						type="text"
@@ -98,24 +98,23 @@ const create = (props) => {
 						<option value="female">Female</option>
 					</select>
 
-					<center className="mt-4 mb-5">
+					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add tenant"
+							text="add tenant"
 							loading={loading}
 						/>
+					</div>
 
-						<br />
-						<br />
-
+					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/properties/${id}/show`}
+							linkTo={`/units/${id}/show`}
 							icon={<BackSVG />}
-							text="back to property"
+							text="back to unit"
 						/>
-					</center>
+					</div>
 				</form>
 			</div>
-			<div className="col-sm-2"></div>
+			<div className="col-sm-4"></div>
 		</div>
 	)
 }

@@ -10,6 +10,7 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [property, setProperty] = useState({})
+	const [properties, setProperties] = useState([])
 	const [units, setUnits] = useState([])
 	const [tenants, setTenants] = useState([])
 	const [staff, setStaff] = useState([])
@@ -20,6 +21,7 @@ const show = (props) => {
 		// Set page
 		props.setPage({ name: "View Property", path: ["properties", "view"] })
 		props.get(`properties/${id}`, setProperty)
+		props.get(`properties/by-user-id/${props.auth.id}`, setProperties)
 		props.getPaginated(`units/by-property-id/${id}`, setUnits)
 		props.getPaginated(`tenants/by-property-id/${id}`, setTenants)
 		props.getPaginated(`staff/by-property-id/${id}`, setStaff)
@@ -37,10 +39,16 @@ const show = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card mb-2 p-4 text-center shadow-sm">
-					<h4>{property.name}</h4>
-					<h6>{property.location}</h6>
-				</div>
+				{properties.map((property, key) => (
+					<div
+						key={key}
+						className={`card mb-2 p-4 text-center shadow-sm ${
+							property.id == id && "bg-primary"
+						}`}>
+						<h4>{property.name}</h4>
+						<h6>{property.location}</h6>
+					</div>
+				))}
 			</div>
 			<div className="col-sm-8">
 				{/* Tabs */}
@@ -88,7 +96,6 @@ const show = (props) => {
 					activeTab={activeTab("tenants")}
 					tenants={tenants}
 					setTenants={setTenants}
-					propertyId={id}
 				/>
 				{/* Tenants Tab End */}
 

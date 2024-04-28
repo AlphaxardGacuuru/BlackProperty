@@ -24,7 +24,7 @@ const KopokopoBtn = (props) => {
 	}
 	return (
 		<Btn
-			btnText={
+			text={
 				<div>
 					<Img
 						src="/storage/img/mpesa-logo.jpg"

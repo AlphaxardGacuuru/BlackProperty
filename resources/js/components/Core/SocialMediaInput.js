@@ -160,8 +160,8 @@ const SocialMediaInput = (props) => {
 					<div className="p-1">
 						<Button
 							type="submit"
-							btnclassName="btn-outline-dark"
-							btnText={props.btnText}
+							classNameName="btn-outline-dark"
+							text={props.text}
 							loading={loading}
 						/>
 					</div>
@@ -220,7 +220,7 @@ const SocialMediaInput = (props) => {
 
 SocialMediaInput.defaultProps = {
 	required: true,
-	btnText: "send",
+	text: "send",
 }
 
 export default SocialMediaInput

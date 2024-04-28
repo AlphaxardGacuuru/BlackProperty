@@ -99,11 +99,12 @@ const AdminMenu = (props) => {
 				<header
 					className={`header-area shadow-lg ${
 						location.pathname.match("/admin/")
-							? "bg-primary"
+							? "bg-secondary"
 							: location.pathname.match("/instructor/")
 							? "bg-danger"
 							: "bg-success"
-					}`}>
+					}`}
+					style={{ backgroundColor: "rgb(37, 37, 37)" }}>
 					<div className="container-fluid p-0">
 						<div className="row">
 							<div className="col-12">
@@ -355,8 +356,8 @@ const AdminMenu = (props) => {
 									/>
 								) : (
 									<Btn
-										btnClass="btn-sm my-2"
-										btnText={path}
+										className="btn-sm my-2"
+										text={path}
 									/>
 								)}
 
@@ -413,13 +414,13 @@ const AdminMenu = (props) => {
 									/>
 								</div>
 								<div>
-									<h5>{props.auth?.name}</h5>
+									<h5 className="text-white">{props.auth?.name}</h5>
 								</div>
 							</div>
 						</Link>
 						<Link
 							to="/download"
-							className="p-2 text-start"
+							className="p-2 text-start text-white"
 							style={{
 								display: props.downloadLink ? "inline" : "none",
 								textAlign: "left",
@@ -434,7 +435,7 @@ const AdminMenu = (props) => {
 						</Link>
 						<Link
 							to="#"
-							className="p-2 text-start"
+							className="p-2 text-start text-white"
 							onClick={(e) => {
 								e.preventDefault()
 								setBottomMenu("")

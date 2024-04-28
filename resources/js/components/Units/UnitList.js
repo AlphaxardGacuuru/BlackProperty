@@ -53,12 +53,14 @@ const UnitList = (props) => {
 			</div>
 			{/* Data End */}
 
+			<br />
+
 			{/* Table */}
 			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="4"></th>
+							<th colSpan="5"></th>
 							<th className="text-end">
 								<MyLink
 									linkTo={`/units/${props.propertyId}/create`}
@@ -72,6 +74,7 @@ const UnitList = (props) => {
 							<th>Name</th>
 							<th>Rent (KES)</th>
 							<th>Deposit (KES)</th>
+							<th>Type</th>
 							<th className="text-center">Action</th>
 						</tr>
 						{props.units.data?.map((unit, key) => (
@@ -80,6 +83,7 @@ const UnitList = (props) => {
 								<td>{unit.name}</td>
 								<td className="text-success">{unit.rent}</td>
 								<td className="text-success">{unit.deposit}</td>
+								<td className="text-capitalize">{unit.type}</td>
 								<td>
 									<div className="d-flex justify-content-end">
 										<div className="d-flex justify-content-end">

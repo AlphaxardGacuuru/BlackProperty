@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 
 import MyLink from "@/components/Core/MyLink"
+import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import DeleteModal from "@/components/Core/DeleteModal"
 
@@ -17,6 +18,26 @@ import PlusSVG from "@/svgs/PlusSVG"
 const TenantList = (props) => {
 	const [nameQuery, setNameQuery] = useState("")
 	const [genderQuery, setGenderQuery] = useState("")
+	const [loading, setLoading] = useState()
+
+	/*
+	 * Vacate Tenant
+	 */
+	const onVacate = (tenantId) => {
+		setLoading(true)
+		Axios.put(`/api/tenants/${tenantId}`, {
+			unit: props.unitId,
+			vacate: true,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
 
 	/*
 	 * Delete Tenant
@@ -25,9 +46,6 @@ const TenantList = (props) => {
 		Axios.delete(`/api/tenants/${tenantId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
-				// Remove row
-				props.setProperty && props.get(`faculties/${id}`, props.setProperty)
-				props.setUnit && props.get(`courses/${id}`, props.setUnit)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -90,16 +108,16 @@ const TenantList = (props) => {
 
 			<br />
 
-			<div className="table-responsive">
+			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
 						<tr>
 							<th colSpan="7"></th>
 							<th className="text-end">
 								<MyLink
-									linkTo={`/tenants/${props.propertyId}/create`}
+									linkTo={`/tenants/${props.unitId}/create`}
 									icon={<PlusSVG />}
-									text="add unit"
+									text="add tenant"
 								/>
 							</th>
 						</tr>
@@ -136,8 +154,7 @@ const TenantList = (props) => {
 										<Img
 											src={tenant.avatar}
 											className="rounded-circle"
-											width="25px"
-											height="25px"
+											style={{ minWidth: "3em", height: "3em" }}
 											alt="Avatar"
 										/>
 									</td>
@@ -148,32 +165,38 @@ const TenantList = (props) => {
 									<td>{tenant.createdAt}</td>
 									<td>
 										<div className="d-flex justify-content-end">
-											{location.pathname.match("/admin/") && (
-												<React.Fragment>
-													<MyLink
-														linkTo={`/tenants/${tenant.id}/show`}
-														icon={<ViewSVG />}
-														text="view"
-														className="btn-sm me-1"
-													/>
+											<React.Fragment>
+												<MyLink
+													linkTo={`/tenants/${tenant.id}/show`}
+													icon={<ViewSVG />}
+													text="view"
+													className="btn-sm me-1"
+												/>
 
-													<MyLink
-														linkTo={`/tenants/${tenant.id}/edit`}
-														icon={<EditSVG />}
-														text="edit"
-														className="btn-sm"
-													/>
+												<MyLink
+													linkTo={`/tenants/${tenant.id}/edit`}
+													icon={<EditSVG />}
+													text="edit"
+													className="btn-sm me-1"
+												/>
 
-													<div className="mx-1">
-														<DeleteModal
-															index={key}
-															model={tenant}
-															modelName="Tenant"
-															onDelete={onDeleteTenant}
-														/>
-													</div>
-												</React.Fragment>
-											)}
+												<Btn
+													icon={<EditSVG />}
+													text="vacate"
+													className="btn-sm"
+													onClick={() => onVacate(tenant.id)}
+													loading={loading}
+												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={key}
+														model={tenant}
+														modelName="Tenant"
+														onDelete={onDeleteTenant}
+													/>
+												</div>
+											</React.Fragment>
 										</div>
 									</td>
 								</tr>

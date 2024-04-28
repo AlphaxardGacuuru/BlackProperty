@@ -97,4 +97,12 @@ class PropertyController extends Controller
             "data" => $property,
         ], 200);
     }
+
+	/*
+	* By User ID
+	*/ 
+	public function byUserId($id)
+	{
+		return $this->service->byUserId($id);
+	}
 }

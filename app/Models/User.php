@@ -78,6 +78,21 @@ class User extends Authenticatable
      * Relationships
      */
 
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'user_units');
+    }
+
+    public function userUnits()
+    {
+        return $this->hasMany(UserUnit::class);
+    }
+
     public function userRoles()
     {
         return $this->hasMany(UserRole::class);
@@ -87,13 +102,11 @@ class User extends Authenticatable
      * Custom functions
      */
 
-    public function property()
+    public function status()
     {
-        return $this->userProperties()
-            ->orderBy("id", "DESC")
-            ->get()
-            ->map(fn($userProperty) => $userProperty->Property)
-            ->first();
+        return $this->userUnits()
+            ->whereNull("vacated_by")
+            ->exists() ? "vacated" : "occupied";
     }
 
     public function roleNames()

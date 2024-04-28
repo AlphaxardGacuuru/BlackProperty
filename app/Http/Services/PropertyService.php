@@ -85,4 +85,16 @@ class PropertyService extends Service
 
         return [$deleted, $message, $property];
     }
+
+    /*
+     * By User ID
+     */
+    public function byUserId($id)
+    {
+        $properties = Property::where("user_id", $id)
+            ->orderBy("id", "DESC")
+            ->get();
+
+        return PropertyResource::collection($properties);
+    }
 }

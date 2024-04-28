@@ -3,12 +3,11 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 const Btn = ({
 	btnStyle,
-	btnClass,
+	className,
 	icon,
-	btnText,
+	text,
 	onClick,
 	loading,
-	disabled,
 }) => {
 	const location = useLocation()
 
@@ -21,11 +20,11 @@ const Btn = ({
 					: location.pathname.match("/instructor/")
 					? "btn-danger"
 					: "btn-success"
-			} btn rounded-0 text-capitalize ${btnClass}`}
+			} btn rounded-0 text-capitalize ${className}`}
 			onClick={onClick}
-			disabled={disabled}>
-			<span>{icon}</span>
-			{btnText}
+			disabled={loading}>
+			<span className="me-1">{icon}</span>
+			{text}
 			{loading && (
 				<div
 					className="text-white spinner-border spinner-border-sm border-2 my-auto mx-2"

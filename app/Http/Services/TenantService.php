@@ -4,11 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\TenantResource;
 use App\Http\Services\Service;
-use App\Models\Unit;
 use App\Models\User;
-use App\Models\UserCourse;
-use App\Models\UserDepartment;
-use App\Models\UserFaculty;
 use App\Models\UserUnit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -58,45 +54,34 @@ class TenantService extends Service
      */
     public function store($request)
     {
-        $tenant = new User;
-        $tenant->name = $request->input("name");
-        $tenant->email = $request->input("email");
-        $tenant->phone = $request->input("phone");
-        $tenant->gender = $request->input("gender");
-        $tenant->current_location = $request->input("currentLocation");
-        $tenant->origin_location = $request->input("originLocation");
-        $tenant->education = $request->input("education");
-        $tenant->password = Hash::make($request->input("email"));
-        $tenant->account_type = "tenant";
+        $tenantQuery = User::where("email", $request->email);
+
+        // Check if User exists
+        $doesntExist = User::where("email", $request->email)->doesntExist();
+
+        if ($doesntExist) {
+            $tenant = new User;
+            $tenant->name = $request->input("name");
+            $tenant->email = $request->input("email");
+            $tenant->phone = $request->input("phone");
+            $tenant->gender = $request->input("gender");
+            $tenant->password = Hash::make($request->input("email"));
+            $tenant->account_type = "tenant";
+        } else {
+            $tenant = $tenantQuery->first();
+
+            // Check if user is occupying elsewhere
+            $alreadyATenantElsewhere = UserUnit::where("user_id", $tenant->id)
+                ->whereNull("vacated_at")
+                ->exists();
+
+            if ($alreadyATenantElsewhere) {
+                return ["error", "User already a tenant elsewhere", "", 422];
+            }
+        }
 
         $saved = DB::transaction(function () use ($tenant, $request) {
             $saved = $tenant->save();
-
-            // Add UserFaculty
-            if ($request->filled("facultyId")) {
-                $userFaculty = new UserFaculty;
-                $userFaculty->user_id = $tenant->id;
-                $userFaculty->faculty_id = $request->input("facultyId");
-                $userFaculty->save();
-            }
-
-            // Add UserDepartment
-            if ($request->filled("departmentId")) {
-                $userDepartment = new UserDepartment;
-                $userDepartment->user_id = $tenant->id;
-                $userDepartment->department_id = $request->input("departmentId");
-                $userDepartment->save();
-            }
-
-            // Add UserCourse
-            if ($request->filled("courseIds")) {
-                foreach ($request->courseIds as $courseId) {
-                    $userUnit = new UserCourse;
-                    $userUnit->user_id = $tenant->id;
-                    $userUnit->course_id = $courseId;
-                    $userUnit->save();
-                }
-            }
 
             // Add UserUnit
             if ($request->filled("unitId")) {
@@ -111,7 +96,7 @@ class TenantService extends Service
 
         $message = $tenant->name . " created successfully";
 
-        return [$saved, $message, $tenant];
+        return [$saved, $message, $tenant, 200];
     }
 
     /*
@@ -137,86 +122,8 @@ class TenantService extends Service
             $tenant->gender = $request->input("gender");
         }
 
-        if ($request->filled("originLocation")) {
-            $tenant->origin_location = $request->input("originLocation");
-        }
-
-        if ($request->filled("currentLocation")) {
-            $tenant->current_location = $request->input("currentLocation");
-        }
-
-        if ($request->filled("education")) {
-            $tenant->education = $request->input("education");
-        }
-
         if ($request->filled("password")) {
             $tenant->password = Hash::make($request->input("email"));
-        }
-
-        if ($request->filled("facultyId")) {
-            // If user has opted to remove
-            if ($request->input("facultyId") == "remove") {
-                UserFaculty::where("user_id", $id)->delete();
-            }
-
-            // Delete UserFaculty
-            $doesntExist = UserFaculty::where("user_id", $id)
-                ->where("faculty_id", $request->input("facultyId"))
-                ->doesntExist();
-
-            // Add UserFaculty
-            if ($doesntExist) {
-                $userFaculty = new UserFaculty;
-                $userFaculty->user_id = $tenant->id;
-                $userFaculty->faculty_id = $request->input("facultyId");
-                $userFaculty->save();
-            }
-        }
-
-        if ($request->filled("departmentId")) {
-            // If user has opted to remove
-            if ($request->input("departmentId") == "remove") {
-                UserDepartment::where("user_id", $id)->delete();
-            }
-
-            // Delete UserDepartment
-            $doesntExist = UserDepartment::where("user_id", $id)
-                ->where("department_id", $request->input("departmentId"))
-                ->doesntExist();
-
-            // Add UserDepartment
-            if ($doesntExist) {
-                $userDepartment = new UserDepartment;
-                $userDepartment->user_id = $tenant->id;
-                $userDepartment->department_id = $request->input("departmentId");
-                $userDepartment->save();
-            }
-        }
-
-        // Add UserCourse
-        if (count($request->courseIds) > 0) {
-            foreach ($request->courseIds as $courseId) {
-                // Check if course already exists
-                $userCourseDoesntExist = UserCourse::where("course_id", $courseId)
-                    ->where("user_id", $id)
-                    ->doesntExist();
-
-                if ($userCourseDoesntExist) {
-                    $userCourse = new UserCourse;
-                    $userCourse->user_id = $id;
-                    $userCourse->course_id = $courseId;
-                    $userCourse->save();
-                } else {
-                    // Remove courses not included
-                    UserCourse::where("user_id", $id)
-                        ->whereNotIn("course_id", $request->courseIds)
-                        ->delete();
-                }
-            }
-        } else {
-            // Remove courses not included
-            UserCourse::where("user_id", $id)
-                ->delete();
         }
 
         // Update Unit
@@ -277,14 +184,13 @@ class TenantService extends Service
     }
 
     /*
-     * Get Tenants by Property ID
+     * Get Tenants by Unit ID
      */
-    public function byPropertyId($id)
+    public function byUnitId($id)
     {
-        $tenants = Unit::with("tenants")
-            ->where("property_id", $id)
-            // ->select("users.*")
-            ->orderBy("id", "DESC")
+        return $tenants = User::whereHas('units', function ($query) use ($id) {
+            $query->where('unit_id', $id);
+        })
             ->paginate(20);
 
         return TenantResource::collection($tenants);

@@ -3,8 +3,8 @@ import React from "react"
 const Messages = ({ messages, setMessages, errors, setErrors }) => {
 	// Reset Messages and Errors to null after 3 seconds
 	if (errors.length > 0 || messages.length > 0) {
-		setTimeout(() => setErrors([]), 2900)
-		setTimeout(() => setMessages([]), 2900)
+		setTimeout(() => setErrors([]), 4900)
+		setTimeout(() => setMessages([]), 4900)
 	}
 
 	return (

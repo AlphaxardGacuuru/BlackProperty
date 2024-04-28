@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
 import PersonSVG from "@/svgs/PersonSVG"
@@ -11,8 +11,14 @@ import WalletSVG from "@/svgs/WalletSVG"
 import PersonGearSVG from "@/svgs/PersonGearSVG"
 import UnitSVG from "@/svgs/UnitSVG"
 
-const AdminNavLinks = () => {
+const AdminNavLinks = (props) => {
 	const location = useLocation()
+
+	const [properties, setProperties] = useState([])
+
+	useEffect(() => {
+		props.get(`properties/by-user-id/${props.auth.id}`, setProperties)
+	}, [])
 
 	// Function for showing active color
 	const active = (check) => {
@@ -44,16 +50,18 @@ const AdminNavLinks = () => {
 			</li>
 			{/* Dashboard Link End */}
 			{/* Properties Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/properties`}
-					className={`nav-link ${active("/admin/properties")}`}>
-					<div className="nav-link-icon">
-						<PropertySVG />
-					</div>
-					<div className="nav-link-text">Properties</div>
-				</Link>
-			</li>
+			{properties.length > 1 && (
+				<li className="nav-item">
+					<Link
+						to={`/admin/properties/${properties[0].id}/show`}
+						className={`nav-link ${active("/admin/properties")}`}>
+						<div className="nav-link-icon">
+							<PropertySVG />
+						</div>
+						<div className="nav-link-text">Properties</div>
+					</Link>
+				</li>
+			)}
 			{/* Properties Link End */}
 			{/* Units Link */}
 			<li className="nav-item">

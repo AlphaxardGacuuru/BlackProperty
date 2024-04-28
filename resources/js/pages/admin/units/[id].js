@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import MyLink from "@/components/Core/MyLink"
-
-import HeroIcon from "@/components/Core/HeroIcon"
 import TenantList from "@/components/Tenants/TenantList"
-import StudentList from "@/components/Staff/StaffList"
-
-import UnitSVG from "@/svgs/UnitSVG"
-import PlusSVG from "@/svgs/PlusSVG"
-import EditSVG from "@/svgs/EditSVG"
-import DeleteSVG from "@/svgs/DeleteSVG"
-import UnitList from "@/components/Units/UnitList"
 
 const show = (props) => {
 	var { id } = useParams()
 
 	const [unit, setUnit] = useState({})
+	const [tenants, setTenants] = useState([])
 	const [tab, setTab] = useState("tenants")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Unit", path: ["units", "view"] })
 		props.get(`units/${id}`, setUnit)
+		props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
 	}, [])
 
 	const active = (activeTab) => {
@@ -67,20 +59,12 @@ const show = (props) => {
 				{/* Tenants Tab */}
 				<TenantList
 					{...props}
-					tenants={unit.tenants}
+					tenants={tenants}
 					activeTab={activeTab("tenants")}
 					setUnit={setUnit}
+					unitId={id}
 				/>
 				{/* Tenants Tab End */}
-
-				{/* Students Tab */}
-				<StudentList
-					{...props}
-					students={unit.students}
-					activeTab={activeTab("students")}
-					setUnit={setUnit}
-				/>
-				{/* Students Tab End */}
 			</div>
 		</div>
 	)

@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('user_units', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
+            $table->foreignId('user_id')
                 ->constained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->foreignId("unit_id")
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('unit_id')
                 ->constained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->timestamp("vacated_at")->nullable();
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->timestamp('vacated_at')->nullable();
             $table->timestamps();
         });
     }

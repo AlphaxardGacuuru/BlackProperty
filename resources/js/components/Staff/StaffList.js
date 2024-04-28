@@ -108,7 +108,7 @@ const StaffList = (props) => {
 
 			<br />
 
-			<div className="table-responsive">
+			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
 						<tr>

@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
-	public function __construct(protected TenantService $service)
-	{
-			// 
-	}
+    public function __construct(protected TenantService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -31,7 +31,23 @@ class TenantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|string",
+            "email" => "required|string",
+            "phone" => "required|string",
+            "gender" => "required|string",
+        ]);
+
+        [$saved, $message, $tenant, $code] = $this->service->store($request);
+
+        $title = $saved == "error" ? "errors" : "message";
+        $message = $saved == "error" ? [$message] : $message;
+
+        return response([
+            "status" => $saved,
+            $title => $message,
+            "data" => $tenant,
+        ], $code);
     }
 
     /**
@@ -68,11 +84,11 @@ class TenantController extends Controller
         //
     }
 
-	/*
-	* Get Units by Property ID
-	*/ 
-	public function byPropertyId($id)
-	{
-		return $this->service->byPropertyId($id);
-	}
+    /*
+     * Get Units by Unit ID
+     */
+    public function byUnitId($id)
+    {
+        return $this->service->byUnitId($id);
+    }
 }

@@ -161,7 +161,7 @@ const edit = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update role"
+							text="update role"
 							loading={loading}
 						/>
 					</div>

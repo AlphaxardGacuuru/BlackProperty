@@ -8,29 +8,48 @@ import BackSVG from "@/svgs/BackSVG"
 const edit = (props) => {
 	var { id } = useParams()
 
+	const [unit, setUnit] = useState({})
 	const [property, setProperty] = useState({})
+
 	const [name, setName] = useState()
-	const [location, setLocation] = useState()
+	const [rent, setRent] = useState()
+	const [deposit, setDeposit] = useState()
+	const [type, setType] = useState()
 	const [loading, setLoading] = useState()
 
-	// Get Properties
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Edit Property",
+			name: "Edit Unit",
 			path: ["properties", "edit"],
 		})
 
-		Axios.get(`/api/units/${id}`).then((res) => {
-			setProperty(res.data.data)
-			setPropertyId(res.data.data.propertyId.toString())
+		// Fetch Unit
+		Axios.get(`api/units/${id}`).then((res) => {
 			// Set page
 			props.setPage({
-				name: "Edit Property",
-				path: ["properties", `properties/${id}/show`, "edit"],
+				name: "Edit Unit",
+				path: [
+					"properties",
+					`properties/${res.data.data.propertyId}/show`,
+					"edit",
+				],
 			})
+
+			setUnit(res.data.data)
+			// Fetch Property
+			props.get(`properties/${res.data.data.propertyId}`, setProperty)
 		})
 	}, [])
+
+	const apartments = ["apartment", "shop", "office"]
+
+	const getDeposit = (e) => {
+		var rent = e.target.value
+		var formula = property.depositFormula
+		// Evaluate the formula
+		return eval(formula?.replace("r", rent))
+	}
 
 	/*
 	 * Submit Form
@@ -39,9 +58,11 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/properties/${id}`, {
+		Axios.put(`/api/units/${id}`, {
 			name: name,
-			location: location,
+			rent: rent,
+			deposit: deposit?.toString(),
+			type: type,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -63,33 +84,61 @@ const edit = (props) => {
 					<input
 						type="text"
 						name="name"
-						defaultValue={property.name}
+						placeholder="Name"
+						defaultValue={unit.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 
 					<input
-						type="text"
-						name="location"
-						placeholder="Location"
-						defaultValue={property.location}
+						type="number"
+						name="rent"
+						placeholder="Rent"
+						defaultValue={unit.rent?.replace(/,/g, "")}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setLocation(e.target.value)}
-						required={true}
+						onChange={(e) => {
+							setRent(e.target.value)
+							setDeposit(getDeposit(e))
+						}}
 					/>
+
+					<input
+						type="number"
+						name="deposit"
+						placeholder="Deposit"
+						defaultValue={deposit}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setDeposit(e.target.value)}
+					/>
+
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}>
+						{apartments.map((apartment, key) => (
+							<option
+								key={key}
+								value={apartment}
+								selected={unit.type == apartment}>
+								{apartment}
+							</option>
+						))}
+					</select>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="update"
+							text="update"
 							loading={loading}
 						/>
 					</div>
 
 					<center>
 						<MyLink
-							linkTo="/properties"
+							linkTo={`/properties/${unit.propertyId}/show`}
 							icon={<BackSVG />}
-							text="back to properties"
+							text="back to units"
 						/>
 					</center>
 

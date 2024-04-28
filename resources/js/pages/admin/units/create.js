@@ -16,14 +16,17 @@ const create = (props) => {
 
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
-	const [deposit, setDeposit] = useState()
+	const [deposit, setDeposit] = useState("")
 	const [type, setType] = useState("apartment")
 	const [loading, setLoading] = useState()
 
 	// Get Units
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Add Unit", path: ["units", "create"] })
+		props.setPage({
+			name: "Add Unit",
+			path: ["units", `properties/${id}/show`, "create"],
+		})
 		// Fetch Property
 		props.get(`properties/${id}`, setProperty)
 	}, [])
@@ -119,14 +122,14 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							btnText="add unit"
+							text="add unit"
 							loading={loading}
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo="/units"
+							linkTo={`/properties/${id}/show`}
 							icon={<BackSVG />}
 							text="back to units"
 						/>

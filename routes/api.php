@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\FilePondController;
-use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MPESATransactionController;
@@ -35,13 +34,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('auth', [UserController::class, 'auth']);
 
 Route::apiResources([
-	"properties" => PropertyController::class,
-	"units" => UnitController::class,
+    "properties" => PropertyController::class,
+    "units" => UnitController::class,
+    "tenants" => TenantController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
-    "instructors" => InstructorController::class,
     "users" => UserController::class,
     "staff" => StaffController::class,
     "roles" => RoleController::class,
@@ -54,18 +53,23 @@ Route::apiResources([
 Route::get("admin", [AdminController::class, "index"]);
 
 /*
-* Units
-*/ 
+ * Properties
+ */
+Route::get("properties/by-user-id/{id}", [PropertyController::class, "byUserId"]);
+
+/*
+ * Units
+ */
 Route::get("units/by-property-id/{id}", [UnitController::class, "byPropertyId"]);
 
 /*
-* Tenants
-*/ 
-Route::get("tenants/by-property-id/{id}", [TenantController::class, "byPropertyId"]);
+ * Tenants
+ */
+Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
 
 /*
-* Staff
-*/ 
+ * Staff
+ */
 Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
 // Kopokopo STK Push

@@ -43,7 +43,7 @@ const FlutterWaveHookBtn = (props) => {
 
 	return (
 		<Btn
-			btnText={
+			text={
 				<div>
 					<Img
 						src="/storage/img/mastercard-logo.jpg"

@@ -28,6 +28,7 @@ class UnitResource extends JsonResource
 
         return [
             "id" => $this->id,
+            "propertyId" => $this->property_id,
             "name" => $this->name,
             "rent" => number_format($this->rent),
             "deposit" => number_format($this->deposit),
