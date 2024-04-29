@@ -127,7 +127,7 @@ const SocialMediaInput = (props) => {
 					{/* Emoji icon */}
 					<div className="pt-2 px-2">
 						<div
-							className={`fs-5 ${showEmojiPicker && "text-primary"}`}
+							className={`fs-5 ${showEmojiPicker && "text-secondary"}`}
 							style={{ cursor: "pointer" }}
 							onClick={() => {
 								if (!attachment) {
@@ -143,7 +143,7 @@ const SocialMediaInput = (props) => {
 					{props.showAttachment && (
 						<div className="pt-2 px-2">
 							<div
-								className={`fs-5 ${showAttachmentPicker && "text-primary"}`}
+								className={`fs-5 ${showAttachmentPicker && "text-secondary"}`}
 								style={{ cursor: "pointer" }}
 								onClick={() => {
 									if (!attachment) {

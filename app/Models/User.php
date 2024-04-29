@@ -83,9 +83,19 @@ class User extends Authenticatable
         return $this->hasMany(Property::class);
     }
 
+    public function property()
+    {
+        return $this->belongsToMany(Property::class, "user_properties");
+    }
+
     public function units()
     {
         return $this->belongsToMany(Unit::class, 'user_units');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
     public function userUnits()
@@ -105,31 +115,8 @@ class User extends Authenticatable
     public function status()
     {
         return $this->userUnits()
-            ->whereNull("vacated_by")
+            ->whereNull("vacated_at")
             ->exists() ? "vacated" : "occupied";
-    }
-
-    public function roleNames()
-    {
-        $roles = [];
-
-        foreach ($this->userRoles as $userRole) {
-            array_push($roles, $userRole->role->name);
-        }
-
-        return $roles;
-    }
-
-    // Returns all roles
-    public function roles()
-    {
-        $roles = [];
-
-        foreach ($this->userRoles as $userRole) {
-            array_push($roles, $userRole->role);
-        }
-
-        return collect($roles);
     }
 
     // Returns an array of permissions

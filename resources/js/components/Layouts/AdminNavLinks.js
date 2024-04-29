@@ -24,14 +24,15 @@ const AdminNavLinks = (props) => {
 	const active = (check) => {
 		return (
 			location.pathname.match(check) &&
-			"rounded-0 text-primary bg-primary-subtle mx-1"
+			"rounded-0 text-secondary bg-secondary-subtle mx-1"
 		)
 	}
 
 	// Function for showing active color
 	const activeStrict = (check) => {
 		return (
-			location.pathname == check && "rounded-0 text-primary bg-primary-subtle"
+			location.pathname == check &&
+			"rounded-0 text-secondary bg-secondary-subtle"
 		)
 	}
 
@@ -50,18 +51,16 @@ const AdminNavLinks = (props) => {
 			</li>
 			{/* Dashboard Link End */}
 			{/* Properties Link */}
-			{properties.length > 1 && (
-				<li className="nav-item">
-					<Link
-						to={`/admin/properties/${properties[0].id}/show`}
-						className={`nav-link ${active("/admin/properties")}`}>
-						<div className="nav-link-icon">
-							<PropertySVG />
-						</div>
-						<div className="nav-link-text">Properties</div>
-					</Link>
-				</li>
-			)}
+			<li className="nav-item">
+				<Link
+					to={`/admin/properties`}
+					className={`nav-link ${active("/admin/properties")}`}>
+					<div className="nav-link-icon">
+						<PropertySVG />
+					</div>
+					<div className="nav-link-text">Properties</div>
+				</Link>
+			</li>
 			{/* Properties Link End */}
 			{/* Units Link */}
 			<li className="nav-item">

@@ -30,8 +30,12 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{unit.name}</h4>
-					<h6>Rent: KES {unit.rent}</h6>
-					<h6>Deposit: KES {unit.deposit}</h6>
+					<h6 className="text-success">
+						Rent: <small>KES</small> {unit.rent}
+					</h6>
+					<h6 className="text-success">
+						Deposit: <small>KES</small> {unit.deposit}
+					</h6>
 				</div>
 			</div>
 			<div className="col-sm-8">

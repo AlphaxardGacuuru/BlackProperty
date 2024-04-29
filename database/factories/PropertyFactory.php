@@ -17,8 +17,8 @@ class PropertyFactory extends Factory
     public function definition()
     {
         return [
-            "name" => fake()->secondaryAddress(),
-            "location" => fake()->city() . ", " . fake()->streetName(),
+            "name" => fake()->streetName(),
+            "location" => fake()->city(),
             "deposit_formula" => "r*2+2000",
             "unit_count" => rand(5, 20),
         ];

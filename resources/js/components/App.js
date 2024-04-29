@@ -4,7 +4,6 @@ import { HashRouter } from "react-router-dom"
 
 import ScrollToTop from "@/functions/ScrollToTop"
 import LoginPopUp from "@/components/Auth/LoginPopUp"
-import TopNav from "@/components/Layouts/TopNav"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
 import PaymentMenu from "@/components/Payments/PaymentMenu"
@@ -52,8 +51,7 @@ function App() {
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [adminMenu, setAdminMenu] = useState("left-open")
-	const [instructorMenu, setInstructorMenu] = useState("left-open")
-	const [studentMenu, setStudentMenu] = useState("left-open")
+	const [properties, setProperties] = useState([])
 	const [page, setPage] = useState({ name: "/", path: [] })
 
 	const [showPayMenu, setShowPayMenu] = useState("")
@@ -103,6 +101,7 @@ function App() {
 	// Fetch data on page load
 	useEffect(() => {
 		get("auth", setAuth, "auth", false)
+		get(`properties/by-user-id/${auth.id}`, setProperties)
 	}, [])
 
 	/*
@@ -169,10 +168,8 @@ function App() {
 		setAuth,
 		adminMenu,
 		setAdminMenu,
-		instructorMenu,
-		setInstructorMenu,
-		studentMenu,
-		setStudentMenu,
+		properties,
+		setProperties,
 		page,
 		setPage,
 		showPayMenu,
@@ -189,7 +186,6 @@ function App() {
 		<HashRouter>
 			<ScrollToTop />
 			<LoginPopUp {...GLOBAL_STATE} />
-			{/* <TopNav {...GLOBAL_STATE} /> */}
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />

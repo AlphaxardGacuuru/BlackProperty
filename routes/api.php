@@ -65,6 +65,7 @@ Route::get("units/by-property-id/{id}", [UnitController::class, "byPropertyId"])
 /*
  * Tenants
  */
+Route::get("tenants/by-property-id/{id}", [TenantController::class, "byPropertyId"]);
 Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
 
 /*

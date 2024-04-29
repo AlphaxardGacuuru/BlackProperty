@@ -90,7 +90,7 @@ const index = (props) => {
 											{role.permissions.map((permission, key) => (
 												<div
 													key={key}
-													className="text-primary p-1">
+													className="text-secondary p-1">
 													| {permission}
 												</div>
 											))}

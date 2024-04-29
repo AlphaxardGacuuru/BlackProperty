@@ -16,7 +16,6 @@ import PlusSVG from "@/svgs/PlusSVG"
 
 const StaffList = (props) => {
 	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
 	const [roleQuery, setRoleQuery] = useState("")
 
 	/*
@@ -67,21 +66,6 @@ const StaffList = (props) => {
 						/>
 					</div>
 					{/* Name End */}
-					{/* Gender */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Gender"
-							className="form-control me-2"
-							onChange={(e) => setGenderQuery(e.target.value)}>
-							<option value="">Search by Gender</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</select>
-					</div>
-					{/* Gender End */}
 					{/* Role */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<select
@@ -138,13 +122,6 @@ const StaffList = (props) => {
 								var query = nameQuery.toLowerCase()
 
 								return name.match(query)
-							})
-							.filter((staff) => {
-								if (genderQuery) {
-									return staff.gender == genderQuery
-								} else {
-									return true
-								}
 							})
 							.filter((staff) => {
 								if (roleQuery) {

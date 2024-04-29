@@ -8,7 +8,7 @@ const HeroIcon = ({ children }) => {
 		<div
 			className={`${
 				location.pathname.match("/admin/")
-					? "bg-primary-subtle text-primary"
+					? "bg-secondary-subtle text-secondary"
 					: location.pathname.match("/instructor/")
 					? " bg-danger-subtle text-danger"
 					: " bg-success-subtle text-success"

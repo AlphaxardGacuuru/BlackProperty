@@ -130,7 +130,7 @@ const wallet = (props) => {
 										<h6>{wallet.paybillAccountNumber}</h6>
 										{/* Paybill End */}
 									</div>
-									<div className="py-3 px-4 bg-primary-subtle border border-primary-subtle rounded-pill text-primary">
+									<div className="py-3 px-4 bg-secondary-subtle border border-secondary-subtle rounded-pill text-secondary">
 										{wallet.type.split("_").map((word, key) => (
 											<span
 												key={key}

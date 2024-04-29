@@ -4,7 +4,6 @@ namespace App\Http\Services;
 
 use App\Http\Resources\StaffResource;
 use App\Http\Services\Service;
-use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\DB;
@@ -163,17 +162,16 @@ class StaffService extends Service
 
         return [$deleted, $staff->name . " deleted"];
     }
-	
+
     /*
      * Get Staff by Property ID
      */
     public function byPropertyId($id)
     {
-        $staff = Unit::with("tenants")
-            ->where("property_id", $id)
-            // ->select("tenants")
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+        $staff = User::with("roles")
+            ->whereHas('property', function ($query) use ($id) {
+                $query->where('property_id', $id);
+            })->paginate(20);
 
         return StaffResource::collection($staff);
     }

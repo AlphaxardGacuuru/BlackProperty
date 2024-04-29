@@ -72,8 +72,8 @@ const UnitList = (props) => {
 						<tr>
 							<th>#</th>
 							<th>Name</th>
-							<th>Rent (KES)</th>
-							<th>Deposit (KES)</th>
+							<th>Rent</th>
+							<th>Deposit</th>
 							<th>Type</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -81,8 +81,12 @@ const UnitList = (props) => {
 							<tr key={key}>
 								<td>{key + 1}</td>
 								<td>{unit.name}</td>
-								<td className="text-success">{unit.rent}</td>
-								<td className="text-success">{unit.deposit}</td>
+								<td className="text-success">
+									<small>KES</small> {unit.rent}
+								</td>
+								<td className="text-success">
+									<small>KES</small> {unit.deposit}
+								</td>
 								<td className="text-capitalize">{unit.type}</td>
 								<td>
 									<div className="d-flex justify-content-end">
@@ -90,16 +94,15 @@ const UnitList = (props) => {
 											<MyLink
 												linkTo={`/units/${unit.id}/show`}
 												icon={<ViewSVG />}
-												text="view"
-												className="btn-sm me-1"
+												// text="view"
+												className="me-1"
 											/>
 										</div>
 
 										<MyLink
 											linkTo={`/units/${unit.id}/edit`}
 											icon={<EditSVG />}
-											text="edit"
-											className="btn-sm"
+											// text="edit"
 										/>
 
 										<div className="mx-1">

@@ -21,6 +21,13 @@ body {
 	font-weight: 300;
 }
 
+a {
+	-webkit-transition-duration: 500ms;
+	transition-duration: 500ms;
+	text-decoration: none;
+	outline: none;
+}
+
 h1,
 h2,
 h3,
@@ -1978,11 +1985,11 @@ ol {
 	-webkit-transition-duration: 500ms;
 	transition-duration: 500ms;
 	padding: 0px 20px;
-	/* background-color: #FFF; */
+	background-color: #232323;
 }
 
 .header-area .logo-area a {
-	color: #232323;
+	/* color: #232323; */
 	font-size: 28px;
 	font-weight: 100;
 }
@@ -2564,3 +2571,194 @@ ol {
 	/* background-color: #232323 !important; */
 	background-color: rgba(37, 37, 37, 1) !important;
 }
+
+.bg-outline-secondary {
+	border-color: rgba(37, 37, 37, 1) !important;
+}
+
+.border-secondary {
+	border-color: #232323 !important;
+}
+
+.mysonar-btn {
+	position: relative;
+	z-index: 1;
+	/* min-width: 90px; */
+	height: 33px;
+	border: 1px solid;
+	border-color: #232323;
+	text-transform: uppercase;
+	color: #232323;
+	font-size: 12px;
+	font-weight: 300;
+	letter-spacing: 1px;
+	line-height: 32px;
+	padding: 0 10px;
+	/* background-color: #ffffff; */
+	/* border-radius: 20px; */
+	border-radius: 0px;
+}
+
+.mysonar-btn:hover,
+.mysonar-btn:focus {
+	background-color: #2f2f2f;
+	font-size: 12px;
+	color: #ffffff;
+}
+
+.mysonar-btn.btn-2 {
+	background-color: #232323;
+	font-size: 12px;
+	color: #fff;
+}
+
+.mysonar-sm {
+	font-size: 9px !important;
+	height: 25px;
+	line-height: 24px;
+}
+
+.mysonar-sm:hover,
+.mysonar-sm:focus {
+	background-color: #2f2f2f;
+	font-size: 9px;
+	color: #ffffff;
+}
+
+#sonar-load {
+	position: relative;
+	bottom: 0;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 1px;
+	border-style: solid;
+	border-color: transparent;
+	border-top-color: #f8f5f5;
+	/* border-top-color: #232323; */
+	-webkit-animation: sonar 1000ms linear infinite;
+	animation: sonar 1000ms linear infinite;
+	/* z-index: 999; */
+	display: inline-block;
+}
+
+#sonar-load:before {
+	content: "";
+	position: absolute;
+	top: 2.5px;
+	left: 2.5px;
+	right: 2.5px;
+	bottom: 2.5px;
+	border-radius: 50%;
+	border: 1px;
+	border-style: solid;
+	border-color: transparent;
+	border-top-color: #f8f5f5;
+	/* border-top-color: #232323; */
+	-webkit-animation: sonar 900ms linear infinite;
+	animation: sonar 900ms linear infinite;
+}
+
+#sonar-load:after {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	right: 1px;
+	bottom: 1px;
+	border-radius: 50%;
+	border: 1px;
+	border-style: solid;
+	border-color: transparent;
+	border-top-color: #f8f5f5;
+	/* border-top-color: #232323; */
+	-webkit-animation: sonar 1800ms linear infinite;
+	animation: sonar 1800ms linear infinite;
+}
+
+@-webkit-keyframes sonar {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes sonar {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+/* Loading Elements */
+/* Element loading information */
+.gradient {
+	animation-duration: 1.8s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: infinite;
+	animation-name: placeHolderShimmer;
+	animation-timing-function: linear;
+	background: #f6f7f8;
+	background: linear-gradient(to right, #FFFFFF 8%, #DDD 38%, #FFFFFF 54%);
+	background-size: 1000px 640px;
+	position: relative;
+}
+
+@keyframes placeHolderShimmer {
+	0% {
+		background-position: -468px 0
+	}
+
+	100% {
+		background-position: 468px 0
+	}
+}
+
+/* Element loading information End */
+.loading-text {
+	margin: 3px;
+	color: #232323;
+}
+
+.property-name {
+	width: 12em;
+	height: 1.5em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: clip;
+	text-align: left;
+	margin: auto;
+}
+
+.property-location {
+	width: 12em;
+	min-height: 1.3em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: clip;
+	margin: auto;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.property-name {
+		width: 5em;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.property-name {
+		width: 5em;
+	}
+}
+
+/* Loading Elements */

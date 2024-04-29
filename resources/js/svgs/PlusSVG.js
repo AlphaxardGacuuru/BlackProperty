@@ -4,8 +4,8 @@ const PlusSVG = () => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width="1em"
-			height="1em"
+			width="1.4em"
+			height="1.4em"
 			fill="currentColor"
 			className="mb-1 bi bi-plus"
 			viewBox="0 0 16 16">

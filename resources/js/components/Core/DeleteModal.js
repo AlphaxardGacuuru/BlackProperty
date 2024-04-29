@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-import DeleteSVG from "@/svgs/DeleteSVG";
+import DeleteSVG from "@/svgs/DeleteSVG"
 
 const DeleteModal = ({ index, model, modelName, onDelete }) => {
 	return (
@@ -17,7 +17,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 						<div className="modal-header">
 							<h1
 								id="deleteModalLabel"
-								className="modal-title fs-5 text-danger">
+								className="modal-title fs-5">
 								Delete {modelName}
 							</h1>
 							<button
@@ -32,7 +32,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 						<div className="modal-footer justify-content-between">
 							<button
 								type="button"
-								className="btn btn-light rounded-0"
+								className="mysonar-btn btn-2"
 								data-bs-dismiss="modal">
 								Close
 							</button>
@@ -53,13 +53,13 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 			{/* Button trigger modal */}
 			<button
 				type="button"
-				className="btn btn-sm btn-danger rounded-0"
+				className="mysonar-btn btn-2"
 				data-bs-toggle="modal"
 				data-bs-target={`#deleteUnitModal${index}`}>
-				<span className="me-1">{<DeleteSVG />}</span>Delete
+				<DeleteSVG />
 			</button>
 		</React.Fragment>
 	)
 }
 
-export default DeleteModal;
+export default DeleteModal

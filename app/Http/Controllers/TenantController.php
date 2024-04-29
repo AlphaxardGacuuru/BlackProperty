@@ -40,8 +40,8 @@ class TenantController extends Controller
 
         [$saved, $message, $tenant, $code] = $this->service->store($request);
 
-        $title = $saved == "error" ? "errors" : "message";
-        $message = $saved == "error" ? [$message] : $message;
+        $title = $saved ? "message" : "errors";
+        $message = $saved ? $message : [$message];
 
         return response([
             "status" => $saved,
@@ -85,7 +85,15 @@ class TenantController extends Controller
     }
 
     /*
-     * Get Units by Unit ID
+     * Get Tenants by Property ID
+     */
+    public function byPropertyId($id)
+    {
+        return $this->service->byPropertyId($id);
+    }
+
+    /*
+     * Get Tenants by Unit ID
      */
     public function byUnitId($id)
     {

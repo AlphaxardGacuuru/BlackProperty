@@ -28,7 +28,7 @@ const KopokopoBtn = (props) => {
 				<div>
 					<Img
 						src="/storage/img/mpesa-logo.jpg"
-						className="btn-primary me-1"
+						className="btn-secondary me-1"
 						style={{ width: "44px", height: "auto" }}
 					/>
 					pay with mpesa

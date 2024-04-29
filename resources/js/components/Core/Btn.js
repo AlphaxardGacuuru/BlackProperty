@@ -1,35 +1,18 @@
 import React from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const Btn = ({
-	btnStyle,
-	className,
-	icon,
-	text,
-	onClick,
-	loading,
-}) => {
+const Btn = ({ btnStyle, className, icon, text, onClick, loading }) => {
 	const location = useLocation()
 
 	return (
 		<button
 			style={btnStyle}
-			className={`${
-				location.pathname.match("/admin/")
-					? "btn-primary"
-					: location.pathname.match("/instructor/")
-					? "btn-danger"
-					: "btn-success"
-			} btn rounded-0 text-capitalize ${className}`}
+			className={`mysonar-btn btn-2 ${className}`}
 			onClick={onClick}
 			disabled={loading}>
-			<span className="me-1">{icon}</span>
-			{text}
-			{loading && (
-				<div
-					className="text-white spinner-border spinner-border-sm border-2 my-auto mx-2"
-					style={{ color: "inherit" }}></div>
-			)}
+			<span>{icon}</span>
+			{text && <span className="mx-1">{text}</span>}
+			{loading && <div id="sonar-load" style={{ bottom: "0"}}></div>}
 		</button>
 	)
 }

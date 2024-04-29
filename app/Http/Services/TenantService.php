@@ -57,7 +57,7 @@ class TenantService extends Service
         $tenantQuery = User::where("email", $request->email);
 
         // Check if User exists
-        $doesntExist = User::where("email", $request->email)->doesntExist();
+        $doesntExist = $tenantQuery->doesntExist();
 
         if ($doesntExist) {
             $tenant = new User;
@@ -76,7 +76,7 @@ class TenantService extends Service
                 ->exists();
 
             if ($alreadyATenantElsewhere) {
-                return ["error", "User already a tenant elsewhere", "", 422];
+                return [false, "User already a tenant elsewhere", "", 422];
             }
         }
 
@@ -184,14 +184,25 @@ class TenantService extends Service
     }
 
     /*
+     * Get Tenants by Property ID
+     */
+    public function byPropertyId($id)
+    {
+        $tenants = User::whereHas('units.property', function ($query) use ($id) {
+            $query->where('id', $id);
+        })->paginate(20);
+
+        return TenantResource::collection($tenants);
+    }
+
+    /*
      * Get Tenants by Unit ID
      */
     public function byUnitId($id)
     {
-        return $tenants = User::whereHas('units', function ($query) use ($id) {
+        $tenants = User::whereHas('units', function ($query) use ($id) {
             $query->where('unit_id', $id);
-        })
-            ->paginate(20);
+        })->paginate(20);
 
         return TenantResource::collection($tenants);
     }

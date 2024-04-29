@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Btn from "@/components/Core/Btn"
@@ -16,28 +17,8 @@ import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 
 const TenantList = (props) => {
+	const location = useLocation()
 	const [nameQuery, setNameQuery] = useState("")
-	const [genderQuery, setGenderQuery] = useState("")
-	const [loading, setLoading] = useState()
-
-	/*
-	 * Vacate Tenant
-	 */
-	const onVacate = (tenantId) => {
-		setLoading(true)
-		Axios.put(`/api/tenants/${tenantId}`, {
-			unit: props.unitId,
-			vacate: true,
-		})
-			.then((res) => {
-				setLoading(false)
-				props.setMessages([res.data.message])
-			})
-			.catch((err) => {
-				setLoading(false)
-				props.getErrors(err)
-			})
-	}
 
 	/*
 	 * Delete Tenant
@@ -87,21 +68,6 @@ const TenantList = (props) => {
 						/>
 					</div>
 					{/* Name End */}
-					{/* Gender */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Gender"
-							className="form-control me-2"
-							onChange={(e) => setGenderQuery(e.target.value)}>
-							<option value="">Search by Gender</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</select>
-					</div>
-					{/* Gender End */}
 				</div>
 			</div>
 			{/* Filters End */}
@@ -111,16 +77,18 @@ const TenantList = (props) => {
 			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
-						<tr>
-							<th colSpan="7"></th>
-							<th className="text-end">
-								<MyLink
-									linkTo={`/tenants/${props.unitId}/create`}
-									icon={<PlusSVG />}
-									text="add tenant"
-								/>
-							</th>
-						</tr>
+						{location.pathname.match("/units/") && (
+							<tr>
+								<th colSpan="7"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo={`/tenants/${props.unitId}/create`}
+										icon={<PlusSVG />}
+										text="add tenant"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th></th>
@@ -139,13 +107,6 @@ const TenantList = (props) => {
 								var query = nameQuery.toLowerCase()
 
 								return name.match(query)
-							})
-							.filter((tenant) => {
-								if (genderQuery) {
-									return tenant.gender == genderQuery
-								} else {
-									return true
-								}
 							})
 							.map((tenant, key) => (
 								<tr key={key}>
@@ -169,23 +130,13 @@ const TenantList = (props) => {
 												<MyLink
 													linkTo={`/tenants/${tenant.id}/show`}
 													icon={<ViewSVG />}
-													text="view"
 													className="btn-sm me-1"
 												/>
 
 												<MyLink
 													linkTo={`/tenants/${tenant.id}/edit`}
 													icon={<EditSVG />}
-													text="edit"
-													className="btn-sm me-1"
-												/>
-
-												<Btn
-													icon={<EditSVG />}
-													text="vacate"
 													className="btn-sm"
-													onClick={() => onVacate(tenant.id)}
-													loading={loading}
 												/>
 
 												<div className="mx-1">

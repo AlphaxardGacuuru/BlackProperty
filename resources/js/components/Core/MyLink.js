@@ -13,15 +13,9 @@ const MyLink = ({ linkTo, text, icon, className }) => {
 					? "/instructor"
 					: "/student"
 			}${linkTo}`}
-			className={`${
-				location.pathname.match("/admin/")
-					? "btn-outline-primary"
-					: location.pathname.match("/instructor/")
-					? "btn-outline-danger"
-					: "btn-outline-success"
-			} btn rounded-0 text-capitalize ${className}`}>
-			<span className="me-1">{icon}</span>
-			{text}
+			className={`btn mysonar-btn ${className}`}>
+			<span>{icon}</span>
+			{text && <span className="mx-1">{text}</span>}
 		</Link>
 	)
 }

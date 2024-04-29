@@ -96,15 +96,7 @@ const AdminMenu = (props) => {
 				id="MyElement"
 				className={props.adminMenu + " " + showAdminNav}>
 				{/* <!-- ***** Header Area Start ***** --> */}
-				<header
-					className={`header-area shadow-lg ${
-						location.pathname.match("/admin/")
-							? "bg-secondary"
-							: location.pathname.match("/instructor/")
-							? "bg-danger"
-							: "bg-success"
-					}`}
-					style={{ backgroundColor: "rgb(37, 37, 37)" }}>
+				<header className={`header-area shadow-lg`}>
 					<div className="container-fluid p-0">
 						<div className="row">
 							<div className="col-12">
@@ -128,7 +120,7 @@ const AdminMenu = (props) => {
 										<div className="logo-area mb-2">
 											<Link
 												to="/admin"
-												className="text-dark fs-1">
+												className="fs-1 text-white">
 												<LogoSVG />
 											</Link>
 										</div>
@@ -136,15 +128,6 @@ const AdminMenu = (props) => {
 
 									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
-										<div className="d-flex align-items-center justify-content-between">
-											{/* Main Site Link */}
-											<Link
-												to="/"
-												className="btn btn-outline-light rounded-0 mx-2 hidden">
-												Visit Website
-											</Link>
-											{/* Main Site Link End */}
-										</div>
 										<div className="header-social-area d-flex align-items-center">
 											<>
 												{/* Notification Dropdown */}
@@ -269,7 +252,7 @@ const AdminMenu = (props) => {
 																	<p
 																		className={`${
 																			props.auth?.accountType == "staff"
-																				? "text-primary"
+																				? "text-secondary"
 																				: props.auth?.accountType ==
 																				  "instructor"
 																				? "text-danger"
@@ -322,7 +305,7 @@ const AdminMenu = (props) => {
 				<div
 					className={`leftMenu d-flex align-items-center justify-content-start shadow-lg ${
 						location.pathname.match("/admin/")
-							? " bg-primary"
+							? " bg-secondary"
 							: location.pathname.match("/instructor/")
 							? "bg-danger"
 							: "bg-success"
@@ -351,12 +334,12 @@ const AdminMenu = (props) => {
 								{key < props.page.path.length - 1 ? (
 									<MyLink
 										linkTo={`/${path}`}
-										className="btn-sm my-2"
+										className="mysonar-sm my-2"
 										text={path}
 									/>
 								) : (
 									<Btn
-										className="btn-sm my-2"
+										className="mysonar-sm my-2"
 										text={path}
 									/>
 								)}
@@ -365,7 +348,7 @@ const AdminMenu = (props) => {
 									<span
 										className={`${
 											location.pathname.match("/admin/")
-												? "text-primary"
+												? "text-secondary"
 												: location.pathname.match("/instructor/")
 												? "text-danger"
 												: "text-success"

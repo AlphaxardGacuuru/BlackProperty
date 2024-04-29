@@ -80,7 +80,7 @@ const TopNav = (props) => {
 	const active = (check) => {
 		return (
 			location.pathname.match(check) &&
-			"rounded-end-pill text-primary bg-primary-subtle"
+			"rounded-end-pill text-secondary bg-secondary-subtle"
 		)
 	}
 
