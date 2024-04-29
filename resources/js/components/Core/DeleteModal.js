@@ -8,7 +8,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 			{/* Confirm Delete Modal End */}
 			<div
 				className="modal fade"
-				id={`deleteUnitModal${index}`}
+				id={`deleteModal${index}`}
 				tabIndex="-1"
 				aria-labelledby="deleteModalLabel"
 				aria-hidden="true">
@@ -55,7 +55,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 				type="button"
 				className="mysonar-btn btn-2"
 				data-bs-toggle="modal"
-				data-bs-target={`#deleteUnitModal${index}`}>
+				data-bs-target={`#deleteModal${index}`}>
 				<DeleteSVG />
 			</button>
 		</React.Fragment>

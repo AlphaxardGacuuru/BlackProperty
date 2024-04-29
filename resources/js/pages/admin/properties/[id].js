@@ -94,6 +94,8 @@ const show = (props) => {
 					</div>
 				</div>
 
+				<br />
+
 				{/* Loader */}
 				{props.properties.length == 0 && (
 					<div className={`card mb-2 p-4 text-center shadow-sm`}>
@@ -134,7 +136,7 @@ const show = (props) => {
 									{/* Confirm Delete Modal End */}
 									<div
 										className="modal fade"
-										id={`deleteModal${key}`}
+										id={`deleteModal${`property${key}`}`}
 										tabIndex="-1"
 										aria-labelledby="deleteModalLabel"
 										aria-hidden="true">

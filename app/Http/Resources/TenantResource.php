@@ -22,6 +22,7 @@ class TenantResource extends JsonResource
             "gender" => $this->gender,
             "avatar" => $this->avatar,
             "status" => $this->status(),
+			"unit" => new UnitResource($this->units->first()),
             "createdAt" => $this->created_at,
         ];
     }

@@ -2,7 +2,9 @@ import React from "react"
 
 const PaginationLinks = ({ getPaginated, setState, list }) => {
 	return (
-		<nav aria-label="Page navigation example">
+		<nav
+			aria-label="Page navigation example"
+			className="mb-2">
 			<ul className="pagination justify-content-start">
 				{list.meta?.links.map((link, key) => (
 					<li

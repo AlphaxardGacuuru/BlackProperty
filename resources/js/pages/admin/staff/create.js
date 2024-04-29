@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 const create = (props) => {
+	var { id } = useParams()
 	var history = useHistory()
 
 	const [name, setName] = useState()
@@ -46,13 +50,14 @@ const create = (props) => {
 			phone: phone,
 			gender: gender,
 			userRoles: userRoles,
+			propertyId: id,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Staff
-				setTimeout(() => history.push("/admin/staff"), 500)
+				setTimeout(() => history.push(`/admin/properties/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -114,7 +119,7 @@ const create = (props) => {
 											type="checkbox"
 											id=""
 											name="entities"
-											onChange={(e) => handleUserRoles(role.id)}
+											onClick={(e) => handleUserRoles(role.id)}
 										/>
 										<span className="text-capitalize me-2"> {role.name}</span>
 									</label>
@@ -133,7 +138,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo="/staff"
+							linkTo={`/properties/${id}/show`}
 							text="back to staff"
 						/>
 					</div>

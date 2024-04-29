@@ -96,6 +96,7 @@ const TenantList = (props) => {
 							<th>Email</th>
 							<th>Phone</th>
 							<th>Gender</th>
+							<th>Status</th>
 							<th>Date Joined</th>
 							<th>Action</th>
 						</tr>
@@ -123,6 +124,16 @@ const TenantList = (props) => {
 									<td>{tenant.email}</td>
 									<td>{tenant.phone}</td>
 									<td className="text-capitalize">{tenant.gender}</td>
+									<td>
+										<span
+											className={`${
+												tenant.status == "vacated"
+													? "bg-warning-subtle"
+													: "bg-success-subtle"
+											} text-capitalize p-2`}>
+											{tenant.status}
+										</span>
+									</td>
 									<td>{tenant.createdAt}</td>
 									<td>
 										<div className="d-flex justify-content-end">
@@ -141,7 +152,7 @@ const TenantList = (props) => {
 
 												<div className="mx-1">
 													<DeleteModal
-														index={key}
+														index={`tenant${key}`}
 														model={tenant}
 														modelName="Tenant"
 														onDelete={onDeleteTenant}

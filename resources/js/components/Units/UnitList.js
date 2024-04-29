@@ -107,7 +107,7 @@ const UnitList = (props) => {
 
 										<div className="mx-1">
 											<DeleteModal
-												index={key}
+												index={`unit${key}`}
 												model={unit}
 												modelName="Unit"
 												onDelete={onDeleteUnit}

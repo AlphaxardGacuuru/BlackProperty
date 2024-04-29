@@ -21,9 +21,12 @@ class StaffResource extends JsonResource
             "email" => $this->email,
             "phone" => $this->phone,
             "gender" => $this->gender,
-			"roles" => $this->roles,
-			"roleNames" => $this->roles,
-			"permissions" => $this->roles,
+            "roles" => $this->roles,
+            "roleNames" => $this->roles
+                ->map(fn($role) => $role->name),
+            "permissions" => $this->roles
+                ->map(fn($role) => $role->permissions)
+                ->flatten(),
             "createdAt" => $this->created_at,
         ];
     }

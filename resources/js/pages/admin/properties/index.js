@@ -62,6 +62,8 @@ const index = (props) => {
 					</div>
 				</div>
 
+				<br />
+
 				{/* Loader */}
 				{props.properties.length == 0 && (
 					<div className={`card mb-2 p-4 text-center shadow-sm`}>

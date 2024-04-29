@@ -6,6 +6,7 @@ use App\Http\Resources\TenantResource;
 use App\Http\Services\Service;
 use App\Models\User;
 use App\Models\UserUnit;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,7 +45,9 @@ class TenantService extends Service
      */
     public function show($id)
     {
-        $tenant = User::findOrFail($id);
+        $tenant = User::with([
+            "units" => fn($query) => $query->latest(),
+        ])->findOrFail($id);
 
         return new TenantResource($tenant);
     }
@@ -126,25 +129,13 @@ class TenantService extends Service
             $tenant->password = Hash::make($request->input("email"));
         }
 
-        // Update Unit
-        if ($request->filled("unitId")) {
-            // If user has opted to remove
-            if ($request->input("unitId") == "remove") {
-                UserUnit::where("user_id", $id)->delete();
-            }
-
-            // Delete UserUnit
-            $doesntExist = UserUnit::where("user_id", $id)
+        // Mark User Unit as vacated
+        if ($request->filled("vacate")) {
+            $userUnit = UserUnit::where("user_id", $id)
                 ->where("unit_id", $request->input("unitId"))
-                ->doesntExist();
-
-            // Add UserUnit
-            if ($doesntExist) {
-                $userUnit = new UserUnit;
-                $userUnit->user_id = $tenant->id;
-                $userUnit->unit_id = $request->input("unitId");
-                $userUnit->save();
-            }
+                ->first();
+            $userUnit->vacated_at = Carbon::now();
+            $userUnit->save();
         }
 
         $saved = $tenant->save();

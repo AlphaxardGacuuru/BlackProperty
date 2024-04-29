@@ -56,9 +56,9 @@ class TenantController extends Controller
      * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function show(Tenant $tenant)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -68,9 +68,22 @@ class TenantController extends Controller
      * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tenant $tenant)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "nullable|string",
+            "email" => "nullable|string",
+            "phone" => "nullable|string",
+            "gender" => "nullable|string",
+        ]);
+
+        [$saved, $message, $tenant] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $tenant,
+        ], 200);
     }
 
     /**

@@ -116,7 +116,8 @@ class User extends Authenticatable
     {
         return $this->userUnits()
             ->whereNull("vacated_at")
-            ->exists() ? "vacated" : "occupied";
+            ->orderBy("id", "DESC")
+            ->exists() ? "occupied" : "vacated";
     }
 
     // Returns an array of permissions

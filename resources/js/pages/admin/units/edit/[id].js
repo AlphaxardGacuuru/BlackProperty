@@ -138,7 +138,7 @@ const edit = (props) => {
 						<MyLink
 							linkTo={`/properties/${unit.propertyId}/show`}
 							icon={<BackSVG />}
-							text="back to units"
+							text="back to property"
 						/>
 					</center>
 

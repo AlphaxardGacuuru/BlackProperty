@@ -81517,7 +81517,7 @@ var DeleteModal = function DeleteModal(_ref) {
     onDelete = _ref.onDelete;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal fade",
-    id: "deleteUnitModal".concat(index),
+    id: "deleteModal".concat(index),
     tabIndex: "-1",
     "aria-labelledby": "deleteModalLabel",
     "aria-hidden": "true"
@@ -81556,7 +81556,7 @@ var DeleteModal = function DeleteModal(_ref) {
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-toggle": "modal",
-    "data-bs-target": "#deleteUnitModal".concat(index)
+    "data-bs-target": "#deleteModal".concat(index)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
 };
 /* harmony default export */ __webpack_exports__["default"] = (DeleteModal);
@@ -81753,7 +81753,8 @@ var PaginationLinks = function PaginationLinks(_ref) {
     setState = _ref.setState,
     list = _ref.list;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    "aria-label": "Page navigation example"
+    "aria-label": "Page navigation example",
+    className: "mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "pagination justify-content-start"
   }, (_list$meta = list.meta) === null || _list$meta === void 0 ? void 0 : _list$meta.links.map(function (link, key) {
@@ -82928,7 +82929,7 @@ var StaffList = function StaffList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
     linkTo: "/staff/".concat(props.propertyId, "/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
-    text: "add unit"
+    text: "add staff"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Role"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$staff$data2 = props.staff.data) === null || _props$staff$data2 === void 0 ? void 0 : _props$staff$data2.filter(function (staff) {
@@ -82937,7 +82938,7 @@ var StaffList = function StaffList(props) {
     return name.match(query);
   }).filter(function (staff) {
     if (roleQuery) {
-      return staff.roleName == roleQuery;
+      return staff.roleNames.includes(roleQuery);
     } else {
       return true;
     }
@@ -82960,17 +82961,15 @@ var StaffList = function StaffList(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
       linkTo: "/staff/".concat(staff.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
-      text: "view",
       className: "btn-sm me-1"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
       linkTo: "/staff/".concat(staff.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
-      text: "edit",
       className: "btn-sm"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      index: key,
+      index: "staff".concat(key),
       model: staff,
       modelName: "Staff",
       onDelete: onDeleteStaff
@@ -83084,7 +83083,7 @@ var TenantList = function TenantList(props) {
     linkTo: "/tenants/".concat(props.unitId, "/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     text: "add tenant"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data2 = props.tenants.data) === null || _props$tenants$data2 === void 0 ? void 0 : _props$tenants$data2.filter(function (tenant) {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data2 = props.tenants.data) === null || _props$tenants$data2 === void 0 ? void 0 : _props$tenants$data2.filter(function (tenant) {
     var name = tenant.name.toLowerCase();
     var query = nameQuery.toLowerCase();
     return name.match(query);
@@ -83101,7 +83100,9 @@ var TenantList = function TenantList(props) {
       alt: "Avatar"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
-    }, tenant.gender), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, tenant.gender), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "".concat(tenant.status == "vacated" ? "bg-warning-subtle" : "bg-success-subtle", " text-capitalize p-2")
+    }, tenant.status)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/tenants/".concat(tenant.id, "/show"),
@@ -83114,7 +83115,7 @@ var TenantList = function TenantList(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      index: key,
+      index: "tenant".concat(key),
       model: tenant,
       modelName: "Tenant",
       onDelete: onDeleteTenant
@@ -83235,7 +83236,7 @@ var UnitList = function UnitList(props) {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      index: key,
+      index: "unit".concat(key),
       model: unit,
       modelName: "Unit",
       onDelete: onDeleteUnit
@@ -84300,7 +84301,7 @@ var show = function show(props) {
     linkTo: "/properties/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
     text: "add property"
-  })))), props.properties.length == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), props.properties.length == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card mb-2 p-4 text-center shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "gradient loading-text property-name"
@@ -84328,7 +84329,7 @@ var show = function show(props) {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "modal fade",
-      id: "deleteModal".concat(key),
+      id: "deleteModal".concat("property".concat(key)),
       tabIndex: "-1",
       "aria-labelledby": "deleteModalLabel",
       "aria-hidden": "true"
@@ -84803,7 +84804,7 @@ var index = function index(props) {
     linkTo: "/properties/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
     text: "add property"
-  })))), props.properties.length == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), props.properties.length == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card mb-2 p-4 text-center shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "gradient loading-text property-name"
@@ -85381,6 +85382,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var create = function create(props) {
+  var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+    id = _useParams.id;
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState2 = _slicedToArray(_useState, 2),
@@ -85441,14 +85444,15 @@ var create = function create(props) {
       email: email,
       phone: phone,
       gender: gender,
-      userRoles: userRoles
+      userRoles: userRoles,
+      propertyId: id
     }).then(function (res) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
       // Redirect to Staff
       setTimeout(function () {
-        return history.push("/admin/staff");
+        return history.push("/admin/properties/".concat(id, "/show"));
       }, 500);
     })["catch"](function (err) {
       setLoading(false);
@@ -85520,7 +85524,7 @@ var create = function create(props) {
       type: "checkbox",
       id: "",
       name: "entities",
-      onChange: function onChange(e) {
+      onClick: function onClick(e) {
         return handleUserRoles(role.id);
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -85534,7 +85538,7 @@ var create = function create(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/staff",
+    linkTo: "/properties/".concat(id, "/show"),
     text: "back to staff"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
@@ -86094,6 +86098,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
 /* harmony import */ var _svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/svgs/BackSVG */ "./resources/js/svgs/BackSVG.js");
+/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -86105,9 +86111,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var edit = function edit(props) {
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
+  var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState2 = _slicedToArray(_useState, 2),
     tenant = _useState2[0],
@@ -86138,15 +86147,32 @@ var edit = function edit(props) {
     // Set page
     props.setPage({
       name: "Edit Tenant",
-      path: ["tenants", "edit"]
+      path: ["properties", "edit"]
     });
     Axios.get("/api/tenants/".concat(id)).then(function (res) {
       setTenant(res.data.data);
-      setFacultyId(res.data.data.facultyId.toString());
-      setDepartmentId(res.data.data.departmentId.toString());
-      setCourseIds(res.data.data.courseIds);
+      // Set page
+      props.setPage({
+        name: "Edit Tenant",
+        path: ["properties", "properties/".concat(res.data.data.unit.propertyId, "/show"), "properties/unit/".concat(res.data.data.unit.id, "/show"), "edit"]
+      });
     });
   }, []);
+
+  /*
+   * Vacate Tenant
+   */
+  var onVacate = function onVacate() {
+    Axios.put("/api/tenants/".concat(id), {
+      unitId: tenant.unit.id,
+      vacate: true
+    }).then(function (res) {
+      props.setMessages([res.data.message]);
+      history.push("/admin/units/".concat(tenant.unit.id, "/show"));
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
 
   /*
    * Submit Form
@@ -86163,8 +86189,8 @@ var edit = function edit(props) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
-      // Reload page
-      window.location.reload();
+      // Refresh page
+      props.get("tenants/".concat(id), setTenant);
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
@@ -86183,7 +86209,7 @@ var edit = function edit(props) {
     type: "text",
     name: "name",
     defaultValue: tenant.name,
-    className: "form-control mb-2 me-2",
+    className: "form-control mb-2",
     onChange: function onChange(e) {
       return setName(e.target.value);
     }
@@ -86191,7 +86217,7 @@ var edit = function edit(props) {
     type: "text",
     name: "email",
     defaultValue: tenant.email,
-    className: "form-control mb-2 me-2",
+    className: "form-control mb-2",
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     }
@@ -86199,13 +86225,13 @@ var edit = function edit(props) {
     type: "tel",
     name: "phone",
     defaultValue: tenant.phone,
-    className: "form-control mb-2 me-2",
+    className: "form-control mb-2",
     onChange: function onChange(e) {
       return setPhone(e.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     name: "gender",
-    className: "form-control mb-3 me-2",
+    className: "form-control mb-3 mb-2",
     onChange: function onChange(e) {
       return setGender(e.target.value);
     }
@@ -86217,16 +86243,55 @@ var edit = function edit(props) {
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female",
     selected: tenant.gender == "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
-    className: "mt-4 mb-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update",
+    className: "mb-2",
     loading: loading
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal fade",
+    id: "deleteModal",
+    tabIndex: "-1",
+    "aria-labelledby": "deleteModalLabel",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-dialog"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-content rounded-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    id: "deleteModalLabel",
+    className: "modal-title fs-5"
+  }, "Vacate Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body text-start text-wrap"
+  }, "Are you sure you want to vacate ", tenant.name, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "mysonar-btn btn-2",
+    "data-bs-dismiss": "modal"
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "mysonar-btn btn-2",
+    "data-bs-dismiss": "modal",
+    onClick: onVacate
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "me-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null)), "Vacate ", tenant.name))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "mysonar-btn btn-2 mb-2",
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#deleteModal"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null), " Vacate tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/tenants",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
     text: "back to tenants"
-  })))));
+  }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (edit);
 
@@ -86323,9 +86388,15 @@ var show = function show(props) {
     // Set page
     props.setPage({
       name: "View Unit",
-      path: ["units", "view"]
+      path: ["properties", "view"]
     });
-    props.get("units/".concat(id), setUnit);
+    Axios.get("api/units/".concat(id)).then(function (res) {
+      setUnit(res.data.data);
+      props.setPage({
+        name: "View Unit",
+        path: ["properties", "properties/".concat(res.data.data.propertyId, "/show"), "view"]
+      });
+    });
     props.getPaginated("tenants/by-unit-id/".concat(id), setTenants);
   }, []);
   var active = function active(activeTab) {
@@ -86340,11 +86411,11 @@ var show = function show(props) {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card mb-2 p-4 text-center shadow"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
-    className: "text-success"
-  }, "Rent: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.rent), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
-    className: "text-success"
-  }, "Deposit: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Rent:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "mx-1 text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.rent)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Deposit:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "mx-1 text-success"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap mb-2"
@@ -86710,7 +86781,7 @@ var edit = function edit(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/properties/".concat(unit.propertyId, "/show"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
-    text: "back to units"
+    text: "back to property"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }))));
@@ -87318,10 +87389,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var PersonSVG = function PersonSVG() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    className: "mb-2 bi bi-person",
     width: "1em",
     height: "1em",
     viewBox: "0 0 16 16",
+    className: "mb-1 bi bi-person",
     fill: "currentColor",
     xmlns: "http://www.w3.org/2000/svg"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {

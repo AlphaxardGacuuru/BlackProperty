@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
+import DeleteSVG from "@/svgs/DeleteSVG"
+import LogoutSVG from "@/svgs/LogoutSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
+	var history = useHistory()
 
 	const [tenant, setTenant] = useState({})
 	const [name, setName] = useState()
@@ -19,15 +25,37 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Tenant", path: ["tenants", "edit"] })
+		props.setPage({ name: "Edit Tenant", path: ["properties", "edit"] })
 
 		Axios.get(`/api/tenants/${id}`).then((res) => {
 			setTenant(res.data.data)
-			setFacultyId(res.data.data.facultyId.toString())
-			setDepartmentId(res.data.data.departmentId.toString())
-			setCourseIds(res.data.data.courseIds)
+			// Set page
+			props.setPage({
+				name: "Edit Tenant",
+				path: [
+					"properties",
+					`properties/${res.data.data.unit.propertyId}/show`,
+					`properties/unit/${res.data.data.unit.id}/show`,
+					"edit",
+				],
+			})
 		})
 	}, [])
+
+	/*
+	 * Vacate Tenant
+	 */
+	const onVacate = () => {
+		Axios.put(`/api/tenants/${id}`, {
+			unitId: tenant.unit.id,
+			vacate: true,
+		})
+			.then((res) => {
+				props.setMessages([res.data.message])
+				history.push(`/admin/units/${tenant.unit.id}/show`)
+			})
+			.catch((err) => props.getErrors(err))
+	}
 
 	/*
 	 * Submit Form
@@ -46,8 +74,8 @@ const edit = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Reload page
-				window.location.reload()
+				// Refresh page
+				props.get(`tenants/${id}`, setTenant)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -65,27 +93,27 @@ const edit = (props) => {
 						type="text"
 						name="name"
 						defaultValue={tenant.name}
-						className="form-control mb-2 me-2"
+						className="form-control mb-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="text"
 						name="email"
 						defaultValue={tenant.email}
-						className="form-control mb-2 me-2"
+						className="form-control mb-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="tel"
 						name="phone"
 						defaultValue={tenant.phone}
-						className="form-control mb-2 me-2"
+						className="form-control mb-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
 
 					<select
 						name="gender"
-						className="form-control mb-3 me-2"
+						className="form-control mb-3 mb-2"
 						onChange={(e) => setGender(e.target.value)}>
 						<option value="">Select Gender</option>
 						<option
@@ -100,22 +128,78 @@ const edit = (props) => {
 						</option>
 					</select>
 
-					<center className="mt-4 mb-5">
+					<center>
 						<Btn
 							text="update"
+							className="mb-2"
 							loading={loading}
-						/>
-
-						<br />
-						<br />
-
-						<MyLink
-							linkTo="/tenants"
-							icon={<BackSVG />}
-							text="back to tenants"
 						/>
 					</center>
 				</form>
+
+				<center>
+					{/* Confirm Delete Modal End */}
+					<div
+						className="modal fade"
+						id={`deleteModal`}
+						tabIndex="-1"
+						aria-labelledby="deleteModalLabel"
+						aria-hidden="true">
+						<div className="modal-dialog">
+							<div className="modal-content rounded-0">
+								<div className="modal-header">
+									<h1
+										id="deleteModalLabel"
+										className="modal-title fs-5">
+										Vacate Tenant
+									</h1>
+									<button
+										type="button"
+										className="btn-close"
+										data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div className="modal-body text-start text-wrap">
+									Are you sure you want to vacate {tenant.name}.
+								</div>
+								<div className="modal-footer justify-content-between">
+									<button
+										type="button"
+										className="mysonar-btn btn-2"
+										data-bs-dismiss="modal">
+										Close
+									</button>
+									<button
+										type="button"
+										className="mysonar-btn btn-2"
+										data-bs-dismiss="modal"
+										onClick={onVacate}>
+										<span className="me-1">{<LogoutSVG />}</span>
+										Vacate {tenant.name}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					{/* Confirm Delete Modal End */}
+
+					{/* Button trigger modal */}
+					<button
+						type="button"
+						className="mysonar-btn btn-2 mb-2"
+						data-bs-toggle="modal"
+						data-bs-target={`#deleteModal`}>
+						<LogoutSVG /> Vacate tenant
+					</button>
+
+					<br />
+
+					<MyLink
+						linkTo="/tenants"
+						icon={<BackSVG />}
+						text="back to tenants"
+					/>
+				</center>
 			</div>
 		</div>
 	)

@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Resources\StaffResource;
 use App\Http\Services\Service;
 use App\Models\User;
+use App\Models\UserProperty;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -38,18 +39,28 @@ class StaffService extends Service
      */
     public function store($request)
     {
-        $staff = new User;
-        $staff->name = $request->input("name");
-        $staff->email = $request->input("email");
-        $staff->phone = $request->input("phone");
-        $staff->gender = $request->input("gender");
-        $staff->current_location = $request->input("currentLocation");
-        $staff->origin_location = $request->input("originLocation");
-        $staff->password = Hash::make($request->input("email"));
-        $staff->account_type = "staff";
+        $staffQuery = User::where("email", $request->email);
 
-        DB::transaction(function () use ($staff, $request) {
-            $staff->save();
+        // Check if User exists
+        $doesntExist = $staffQuery->doesntExist();
+
+        if ($doesntExist) {
+            $staff = new User;
+            $staff->name = $request->input("name");
+            $staff->email = $request->input("email");
+            $staff->phone = $request->input("phone");
+            $staff->gender = $request->input("gender");
+            $staff->password = Hash::make($request->input("email"));
+            $saved = $staff->save();
+        } else {
+            $staff = $staffQuery->first();
+        }
+
+        DB::transaction(function () use ($request, $staff) {
+            $userProperty = new UserProperty;
+            $userProperty->user_id = $staff->id;
+            $userProperty->property_id = $request->propertyId;
+            $userProperty->save();
 
             foreach ($request->userRoles as $roleId) {
                 $userRole = new UserRole();
@@ -57,12 +68,9 @@ class StaffService extends Service
                 $userRole->role_id = $roleId;
                 $userRole->save();
             }
-
         });
 
-        $saved = $staff->save();
-
-        $message = $staff->name . " created successfully";
+        $message = $staff->name . " added successfully";
 
         return [$saved, $message, $staff];
     }
@@ -88,14 +96,6 @@ class StaffService extends Service
 
         if ($request->filled("gender")) {
             $staff->gender = $request->input("gender");
-        }
-
-        if ($request->filled("originLocation")) {
-            $staff->origin_location = $request->input("originLocation");
-        }
-
-        if ($request->filled("currentLocation")) {
-            $staff->current_location = $request->input("currentLocation");
         }
 
         if ($request->filled("password")) {

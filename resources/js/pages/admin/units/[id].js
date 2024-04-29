@@ -12,8 +12,18 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Unit", path: ["units", "view"] })
-		props.get(`units/${id}`, setUnit)
+		props.setPage({ name: "View Unit", path: ["properties", "view"] })
+		Axios.get(`api/units/${id}`).then((res) => {
+			setUnit(res.data.data)
+			props.setPage({
+				name: "View Unit",
+				path: [
+					"properties",
+					`properties/${res.data.data.propertyId}/show`,
+					"view",
+				],
+			})
+		})
 		props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
 	}, [])
 
@@ -30,11 +40,17 @@ const show = (props) => {
 			<div className="col-sm-4">
 				<div className="card mb-2 p-4 text-center shadow">
 					<h4>{unit.name}</h4>
-					<h6 className="text-success">
-						Rent: <small>KES</small> {unit.rent}
+					<h6>
+						Rent:
+						<span className="mx-1 text-success">
+							<small>KES</small> {unit.rent}
+						</span>
 					</h6>
-					<h6 className="text-success">
-						Deposit: <small>KES</small> {unit.deposit}
+					<h6>
+						Deposit:
+						<span className="mx-1 text-success">
+							<small>KES</small> {unit.deposit}
+						</span>
 					</h6>
 				</div>
 			</div>

@@ -101,7 +101,7 @@ const StaffList = (props) => {
 								<MyLink
 									linkTo={`/staff/${props.propertyId}/create`}
 									icon={<PlusSVG />}
-									text="add unit"
+									text="add staff"
 								/>
 							</th>
 						</tr>
@@ -125,7 +125,7 @@ const StaffList = (props) => {
 							})
 							.filter((staff) => {
 								if (roleQuery) {
-									return staff.roleName == roleQuery
+									return staff.roleNames.includes(roleQuery)
 								} else {
 									return true
 								}
@@ -156,20 +156,18 @@ const StaffList = (props) => {
 												<MyLink
 													linkTo={`/staff/${staff.id}/show`}
 													icon={<ViewSVG />}
-													text="view"
 													className="btn-sm me-1"
 												/>
 
 												<MyLink
 													linkTo={`/staff/${staff.id}/edit`}
 													icon={<EditSVG />}
-													text="edit"
 													className="btn-sm"
 												/>
 
 												<div className="mx-1">
 													<DeleteModal
-														index={key}
+														index={`staff${key}`}
 														model={staff}
 														modelName="Staff"
 														onDelete={onDeleteStaff}

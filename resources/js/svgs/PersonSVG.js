@@ -3,10 +3,10 @@ import React from "react"
 const PersonSVG = () => {
 	return (
 		<svg
-			className="mb-2 bi bi-person"
 			width="1em"
 			height="1em"
 			viewBox="0 0 16 16"
+			className="mb-1 bi bi-person"
 			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg">
 			<path
