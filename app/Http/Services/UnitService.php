@@ -4,7 +4,9 @@ namespace App\Http\Services;
 
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
+use App\Models\Property;
 use App\Models\Unit;
+use Illuminate\Support\Facades\DB;
 
 class UnitService extends Service
 {
@@ -40,7 +42,14 @@ class UnitService extends Service
         $unit->deposit = $request->input("deposit");
         $unit->type = $request->input("type");
 
-        $saved = $unit->save();
+        $saved = DB::transaction(function () use ($unit, $request) {
+            $saved = $unit->save();
+
+            Property::find($request->propertyId)
+                ->increment("unit_count");
+
+            return $saved;
+        });
 
         $message = $unit->name . " created successfully";
 
@@ -84,7 +93,12 @@ class UnitService extends Service
     {
         $unit = Unit::findOrFail($id);
 
-        $deleted = $unit->delete();
+        $deleted = DB::transaction(function () use ($unit) {
+            Property::find($unit->property_id)
+                ->decrement("unit_count");
+
+            return $unit->delete();
+        });
 
         $message = $unit->name . " deleted successfully";
 
@@ -94,8 +108,19 @@ class UnitService extends Service
     /*
      * Get Units by Property ID
      */
-    public function byPropertyId($id)
+    public function byPropertyId($request, $id)
     {
+        if ($request->filled("idAndName")) {
+            $units = Unit::select("id", "name")
+                ->where("property_id", $id)
+                ->orderBy("id", "DESC")
+                ->get();
+
+            return response([
+                "data" => $units,
+            ], 200);
+        }
+
         $units = Unit::where("property_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);

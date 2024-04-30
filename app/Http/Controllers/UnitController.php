@@ -104,9 +104,9 @@ class UnitController extends Controller
 	/*
 	* Get Units by Property ID
 	*/ 
-	public function byPropertyId($id)
+	public function byPropertyId(Request $request, $id)
 	{
-		return $this->service->byPropertyId($id);
+		return $this->service->byPropertyId($request, $id);
 	}
 }
 

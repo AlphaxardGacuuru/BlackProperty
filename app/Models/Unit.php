@@ -44,4 +44,22 @@ class Unit extends Model
     {
         return $this->belongsToMany(User::class, 'user_units');
     }
+
+    public function userUnits()
+    {
+        return $this->hasMany(UserUnit::class);
+    }
+
+    /*
+     * Custom Functions
+     */
+
+    public function currentTenant()
+    {
+        return $this->userUnits()
+            ->whereNull("vacated_at")
+            ->orderBy("id", "DESC")
+            ->first()
+        ?->user;
+    }
 }

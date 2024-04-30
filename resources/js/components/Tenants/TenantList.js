@@ -79,7 +79,7 @@ const TenantList = (props) => {
 					<thead>
 						{location.pathname.match("/units/") && (
 							<tr>
-								<th colSpan="7"></th>
+								<th colSpan="8"></th>
 								<th className="text-end">
 									<MyLink
 										linkTo={`/tenants/${props.unitId}/create`}
@@ -127,9 +127,9 @@ const TenantList = (props) => {
 									<td>
 										<span
 											className={`${
-												tenant.status == "vacated"
-													? "bg-warning-subtle"
-													: "bg-success-subtle"
+												tenant.status == "occupied"
+													? "bg-success-subtle"
+													: "bg-warning-subtle"
 											} text-capitalize p-2`}>
 											{tenant.status}
 										</span>

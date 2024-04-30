@@ -17,14 +17,8 @@ class TenantService extends Service
      */
     public function index($request)
     {
-        $courseId = $request->input("courseId");
-
         if ($request->filled("idAndName")) {
-            $tenants = User::with("courses")
-                ->where("account_type", "tenant")
-                ->whereHas("courses", function ($query) use ($courseId) {
-                    $query->where("course_id", $courseId);
-                })
+            $tenants = User::select("id", "name")
                 ->orderBy("id", "DESC")
                 ->get();
 

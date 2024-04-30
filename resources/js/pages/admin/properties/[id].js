@@ -15,6 +15,7 @@ import PlusSVG from "@/svgs/PlusSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
+import Btn from "@/components/Core/Btn"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -196,7 +197,7 @@ const show = (props) => {
 				{/* Tabs */}
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
-						className={`card shadow-lg flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"units"
 						)}`}
 						style={{ cursor: "pointer" }}
@@ -228,6 +229,7 @@ const show = (props) => {
 					activeTab={activeTab("units")}
 					units={units}
 					setUnits={setUnits}
+					totalUnits={property.unitCount}
 					propertyId={id}
 				/>
 				{/* Units Tab End */}

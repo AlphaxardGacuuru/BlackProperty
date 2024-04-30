@@ -32,18 +32,21 @@ class StaffController extends Controller
     {
         $this->validate($request, [
             "name" => "required|string",
-            "email" => "required|email|unique:users",
-            "phone" => "string|unique:users",
+            "email" => "required|email",
+            "phone" => "string",
             "gender" => "required|string",
         ]);
 
-        [$saved, $message, $staff] = $this->service->store($request);
+        [$saved, $message, $staff, $code] = $this->service->store($request);
+
+        $title = $saved ? "message" : "errors";
+        $message = $saved ? $message : [$message];
 
         return response([
             "status" => $saved,
-            "message" => $message,
+            $title => $message,
             "data" => $staff,
-        ], 200);
+        ], $code);
     }
 
     /**
@@ -99,11 +102,11 @@ class StaffController extends Controller
         ], 200);
     }
 
-	/*
-	* Get Units by Property ID
-	*/ 
-	public function byPropertyId($id)
-	{
-		return $this->service->byPropertyId($id);
-	}
+    /*
+     * Get Units by Property ID
+     */
+    public function byPropertyId($id)
+    {
+        return $this->service->byPropertyId($id);
+    }
 }

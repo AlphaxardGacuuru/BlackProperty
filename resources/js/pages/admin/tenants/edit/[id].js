@@ -35,7 +35,7 @@ const edit = (props) => {
 				path: [
 					"properties",
 					`properties/${res.data.data.unit.propertyId}/show`,
-					`properties/unit/${res.data.data.unit.id}/show`,
+					`properties/unit/${res.data.data.unitId}/show`,
 					"edit",
 				],
 			})
@@ -47,12 +47,12 @@ const edit = (props) => {
 	 */
 	const onVacate = () => {
 		Axios.put(`/api/tenants/${id}`, {
-			unitId: tenant.unit.id,
+			unitId: tenant.unitId,
 			vacate: true,
 		})
 			.then((res) => {
 				props.setMessages([res.data.message])
-				history.push(`/admin/units/${tenant.unit.id}/show`)
+				history.push(`/admin/units/${tenant.unitId}/show`)
 			})
 			.catch((err) => props.getErrors(err))
 	}

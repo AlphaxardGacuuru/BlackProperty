@@ -25,6 +25,15 @@ const edit = (props) => {
 		Axios.get(`api/staff/${id}`).then((res) => {
 			setStaff(res.data.data)
 			setUserRoles(res.data.data.roles.map((role) => role.id))
+			// Set page
+			props.setPage({
+				name: "Edit Staff",
+				path: [
+					"properties",
+					`properties/${res.data.data.propertyId}/show`,
+					"edit",
+				],
+			})
 		})
 		// Fetch Roles
 		props.get("roles", setRoles)
@@ -144,8 +153,8 @@ const edit = (props) => {
 
 					<center className="mb-5">
 						<MyLink
-							linkTo="/staff"
-							text="back to staff"
+							linkTo={`/properties/${staff.propertyId}/show`}
+							text="back to property"
 						/>
 					</center>
 

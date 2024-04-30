@@ -29,7 +29,7 @@ class StaffService extends Service
      */
     public function show($id)
     {
-        $staff = User::findOrFail($id);
+        $staff = User::with("property")->findOrFail($id);
 
         return new StaffResource($staff);
     }
@@ -51,12 +51,22 @@ class StaffService extends Service
             $staff->phone = $request->input("phone");
             $staff->gender = $request->input("gender");
             $staff->password = Hash::make($request->input("email"));
-            $saved = $staff->save();
         } else {
             $staff = $staffQuery->first();
+
+            // Check if staff already exists
+            $staffExists = UserProperty::where("user_id", $staff->id)
+                ->where("property_id", $request->propertyId)
+                ->exists();
+
+            if ($staffExists) {
+                return [false, "Staff already exists", "", 422];
+            }
         }
 
-        DB::transaction(function () use ($request, $staff) {
+        $saved = DB::transaction(function () use ($request, $staff) {
+            $saved = $staff->save();
+
             $userProperty = new UserProperty;
             $userProperty->user_id = $staff->id;
             $userProperty->property_id = $request->propertyId;
@@ -68,11 +78,13 @@ class StaffService extends Service
                 $userRole->role_id = $roleId;
                 $userRole->save();
             }
+
+            return $saved;
         });
 
         $message = $staff->name . " added successfully";
 
-        return [$saved, $message, $staff];
+        return [$saved, $message, $staff, 200];
     }
 
     /*
@@ -102,28 +114,36 @@ class StaffService extends Service
             $staff->password = Hash::make($request->input("email"));
         }
 
-        if (count($request->input("userRoles")) > 0) {
-            foreach ($request->input("userRoles") as $roleId) {
-                // Check if role already exists
-                $userRoleDoesntExist = UserRole::where("user_id", $staff->id)
-                    ->where("role_id", $roleId)
-                    ->doesntExist();
+        if ($request->filled("userRoles")) {
+            if (count($request->input("userRoles")) > 0) {
+                foreach ($request->input("userRoles") as $roleId) {
+                    // Check if role already exists
+                    $userRoleDoesntExist = UserRole::where("user_id", $staff->id)
+                        ->where("role_id", $roleId)
+                        ->doesntExist();
 
-                if ($userRoleDoesntExist) {
-                    $userRole = new UserRole();
-                    $userRole->user_id = $staff->id;
-                    $userRole->role_id = $roleId;
-                    $userRole->save();
-                } else {
-                    // Remove roles not included
-                    UserRole::where("user_id", $staff->id)
-                        ->whereNotIn("role_id", $request->userRoles)
-                        ->delete();
+                    if ($userRoleDoesntExist) {
+                        $userRole = new UserRole();
+                        $userRole->user_id = $staff->id;
+                        $userRole->role_id = $roleId;
+                        $userRole->save();
+                    } else {
+                        // Remove roles not included
+                        UserRole::where("user_id", $staff->id)
+                            ->whereNotIn("role_id", $request->userRoles)
+                            ->delete();
+                    }
                 }
+            } else {
+                // Remove roles not included
+                UserRole::where("user_id", $staff->id)
+                    ->delete();
             }
-        } else {
-            // Remove roles not included
-            UserRole::where("user_id", $staff->id)
+        }
+
+        if ($request->filled("delete")) {
+            UserProperty::where("user_id", $id)
+                ->where("property_id", $request->input("propertyId"))
                 ->delete();
         }
 

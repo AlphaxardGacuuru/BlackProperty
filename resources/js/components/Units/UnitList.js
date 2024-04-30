@@ -42,7 +42,7 @@ const UnitList = (props) => {
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<HeroHeading
 							heading="Total Units"
-							data={props.units.data?.length}
+							data={props.totalUnits}
 						/>
 						<HeroIcon>
 							<UnitSVG />
