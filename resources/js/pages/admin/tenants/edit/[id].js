@@ -34,28 +34,13 @@ const edit = (props) => {
 				name: "Edit Tenant",
 				path: [
 					"properties",
-					`properties/${res.data.data.unit.propertyId}/show`,
-					`properties/unit/${res.data.data.unitId}/show`,
+					`properties/${res.data.data.propertyId}/show`,
+					`units/${res.data.data.unitId}/show`,
 					"edit",
 				],
 			})
 		})
 	}, [])
-
-	/*
-	 * Vacate Tenant
-	 */
-	const onVacate = () => {
-		Axios.put(`/api/tenants/${id}`, {
-			unitId: tenant.unitId,
-			vacate: true,
-		})
-			.then((res) => {
-				props.setMessages([res.data.message])
-				history.push(`/admin/units/${tenant.unitId}/show`)
-			})
-			.catch((err) => props.getErrors(err))
-	}
 
 	/*
 	 * Submit Form
@@ -138,66 +123,10 @@ const edit = (props) => {
 				</form>
 
 				<center>
-					{/* Confirm Delete Modal End */}
-					<div
-						className="modal fade"
-						id={`deleteModal`}
-						tabIndex="-1"
-						aria-labelledby="deleteModalLabel"
-						aria-hidden="true">
-						<div className="modal-dialog">
-							<div className="modal-content rounded-0">
-								<div className="modal-header">
-									<h1
-										id="deleteModalLabel"
-										className="modal-title fs-5">
-										Vacate Tenant
-									</h1>
-									<button
-										type="button"
-										className="btn-close"
-										data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div className="modal-body text-start text-wrap">
-									Are you sure you want to vacate {tenant.name}.
-								</div>
-								<div className="modal-footer justify-content-between">
-									<button
-										type="button"
-										className="mysonar-btn btn-2"
-										data-bs-dismiss="modal">
-										Close
-									</button>
-									<button
-										type="button"
-										className="mysonar-btn btn-2"
-										data-bs-dismiss="modal"
-										onClick={onVacate}>
-										<span className="me-1">{<LogoutSVG />}</span>
-										Vacate {tenant.name}
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					{/* Confirm Delete Modal End */}
-
-					{/* Button trigger modal */}
-					<button
-						type="button"
-						className="mysonar-btn btn-2 mb-2"
-						data-bs-toggle="modal"
-						data-bs-target={`#deleteModal`}>
-						<LogoutSVG /> Vacate tenant
-					</button>
-
-					<br />
-
 					<MyLink
-						linkTo="/tenants"
+						linkTo={`/units/${tenant.unitId}/show`}
 						icon={<BackSVG />}
-						text="back to tenants"
+						text="back to unit"
 					/>
 				</center>
 			</div>

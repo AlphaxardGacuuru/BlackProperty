@@ -29,6 +29,8 @@ const UnitList = (props) => {
 					links: props.units.links,
 					data: props.units.data.filter((unit) => unit.id != unitId),
 				})
+				// Update Property
+				props.get(`properties/${props.propertyId}`, props.setProperty)
 			})
 			.catch((err) => props.getErrors(err))
 	}

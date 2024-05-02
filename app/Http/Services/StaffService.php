@@ -141,12 +141,6 @@ class StaffService extends Service
             }
         }
 
-        if ($request->filled("delete")) {
-            UserProperty::where("user_id", $id)
-                ->where("property_id", $request->input("propertyId"))
-                ->delete();
-        }
-
         $saved = $staff->save();
 
         $message = $staff->name . " updated successfully";
@@ -157,30 +151,15 @@ class StaffService extends Service
     /*
      * Soft Delete Service
      */
-    public function destroy($id)
+    public function destroy($request, $id)
     {
-        $staff = User::findOrFail($id);
+        $staff = UserProperty::where("user_id", $id)
+            ->where("property_id", $request->input("propertyId"))
+            ->firstOrFail();
 
         $deleted = $staff->delete();
 
-        return [$deleted, $staff->name . " deleted", $staff];
-    }
-
-    /*
-     * Force Delete Service
-     */
-    public function forceDestory($id)
-    {
-        $staff = User::findOrFail($id);
-
-        // Get old thumbnail and delete it
-        $oldThumbnail = substr($staff->thumbnail, 9);
-
-        Storage::disk("public")->delete($oldThumbnail);
-
-        $deleted = $staff->delete();
-
-        return [$deleted, $staff->name . " deleted"];
+        return [$deleted, $staff->user->name . " deleted successfully", $staff];
     }
 
     /*
@@ -188,10 +167,13 @@ class StaffService extends Service
      */
     public function byPropertyId($id)
     {
-        $staff = User::with("roles")
-            ->whereHas('property', function ($query) use ($id) {
-                $query->where('property_id', $id);
-            })->paginate(20);
+        // $staff = User::with("roles")
+        // ->whereHas('property', function ($query) use ($id) {
+        // $query->where('property_id', $id);
+        // })->paginate(20);
+
+        $staff = UserProperty::where("property_id", $id)
+            ->paginate(20);
 
         return StaffResource::collection($staff);
     }

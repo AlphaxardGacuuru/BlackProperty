@@ -91,9 +91,9 @@ class StaffController extends Controller
      * @param  \App\Models\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        [$deleted, $message, $staff] = $this->service->destroy($id);
+        [$deleted, $message, $staff] = $this->service->destroy($request, $id);
 
         return response([
             "status" => $deleted,

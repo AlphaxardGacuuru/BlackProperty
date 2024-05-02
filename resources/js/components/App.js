@@ -51,7 +51,7 @@ function App() {
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [adminMenu, setAdminMenu] = useState("left-open")
-	const [properties, setProperties] = useState([])
+	const [properties, setProperties] = useState(getLocalStorage("properties"))
 	const [page, setPage] = useState({ name: "/", path: [] })
 
 	const [showPayMenu, setShowPayMenu] = useState("")
@@ -101,7 +101,7 @@ function App() {
 	// Fetch data on page load
 	useEffect(() => {
 		get("auth", setAuth, "auth", false)
-		get(`properties/by-user-id/${auth.id}`, setProperties)
+		get(`properties/by-user-id/${auth.id}`, setProperties, "properties")
 	}, [])
 
 	/*

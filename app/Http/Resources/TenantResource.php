@@ -15,14 +15,15 @@ class TenantResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "email" => $this->email,
-            "phone" => $this->phone,
-            "gender" => $this->gender,
-            "avatar" => $this->avatar,
-            "status" => $this->status(),
-			"unitId" => $this->currentUnit()?->id,
+            "id" => $this->user->id,
+            "unitId" => $this->unit_id,
+            "propertyId" => $this->unit->property->id,
+            "name" => $this->user->name,
+            "email" => $this->user->email,
+            "phone" => $this->user->phone,
+            "gender" => $this->user->gender,
+            "avatar" => $this->user->avatar,
+            "vacatedAt" => $this->vacated_at ?? "occupied",
             "createdAt" => $this->created_at,
         ];
     }

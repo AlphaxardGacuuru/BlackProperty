@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\FilePondController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MPESATransactionController;
@@ -37,6 +38,7 @@ Route::apiResources([
     "properties" => PropertyController::class,
     "units" => UnitController::class,
     "tenants" => TenantController::class,
+	"invoices" => InvoiceController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,

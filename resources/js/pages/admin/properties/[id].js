@@ -231,6 +231,7 @@ const show = (props) => {
 					setUnits={setUnits}
 					totalUnits={property.unitCount}
 					propertyId={id}
+					setProperty={setProperty}
 				/>
 				{/* Units Tab End */}
 

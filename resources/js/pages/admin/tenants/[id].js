@@ -51,7 +51,7 @@ const show = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-4">
-				<div className="card shadow mb-2 p-4 text-center">
+				<div className="card shadow-sm mb-2 p-4 text-center">
 					<div className="m-3">
 						<Img
 							src={user.avatar ?? "/storage/avatars/male-avatar.png"}

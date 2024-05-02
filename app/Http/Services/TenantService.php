@@ -39,9 +39,8 @@ class TenantService extends Service
      */
     public function show($id)
     {
-        $tenant = User::with([
-            "units" => fn($query) => $query->latest(),
-        ])->findOrFail($id);
+        $tenant = UserUnit::where("user_id", $id)
+            ->firstOrFail();
 
         return new TenantResource($tenant);
     }
@@ -73,8 +72,17 @@ class TenantService extends Service
                 ->exists();
 
             if ($alreadyATenantElsewhere) {
-                return [false, "User already a tenant elsewhere", "", 422];
+                return [false, $tenant->name . " already a tenant elsewhere", "", 422];
             }
+        }
+
+        // Check if Unit already occupied
+        $unitAlreadyOccupied = UserUnit::where("unit_id", $request->unitId)
+            ->whereNull("vacated_at")
+            ->exists();
+
+        if ($unitAlreadyOccupied) {
+            return [false, "Unit already occupied", "", 422];
         }
 
         $saved = DB::transaction(function () use ($tenant, $request) {
@@ -91,7 +99,7 @@ class TenantService extends Service
             return $saved;
         });
 
-        $message = $tenant->name . " created successfully";
+        $message = $tenant->name . " added successfully";
 
         return [$saved, $message, $tenant, 200];
     }
@@ -142,30 +150,15 @@ class TenantService extends Service
     /*
      * Soft Delete Service
      */
-    public function destroy($id)
+    public function destroy($request, $id)
     {
-        $tenant = User::findOrFail($id);
+        $tenant = UserUnit::where("user_id", $id)
+            ->where("unit_id", $request->input("unitId"))
+            ->firstOrFail();
 
         $deleted = $tenant->delete();
 
-        return [$deleted, $tenant->name . " deleted", $tenant];
-    }
-
-    /*
-     * Force Delete Service
-     */
-    public function forceDestory($id)
-    {
-        $tenant = User::findOrFail($id);
-
-        // Get old thumbnail and delete it
-        $oldThumbnail = substr($tenant->thumbnail, 9);
-
-        Storage::disk("public")->delete($oldThumbnail);
-
-        $deleted = $tenant->delete();
-
-        return [$deleted, $tenant->name . " deleted"];
+        return [$deleted, $tenant->user->name . " deleted successfully", $tenant];
     }
 
     /*
@@ -173,9 +166,10 @@ class TenantService extends Service
      */
     public function byPropertyId($id)
     {
-        $tenants = User::whereHas('units.property', function ($query) use ($id) {
+        $tenants = UserUnit::whereHas('unit.property', function ($query) use ($id) {
             $query->where('id', $id);
-        })->paginate(20);
+        })->whereNull("vacated_at")
+            ->paginate(20);
 
         return TenantResource::collection($tenants);
     }
@@ -185,9 +179,13 @@ class TenantService extends Service
      */
     public function byUnitId($id)
     {
-        $tenants = User::whereHas('units', function ($query) use ($id) {
-            $query->where('unit_id', $id);
-        })->paginate(20);
+        // $tenants = User::whereHas('units', function ($query) use ($id) {
+        // $query->where('unit_id', $id);
+        // })->paginate(20);
+
+        $tenants = UserUnit::where("unit_id", $id)
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return TenantResource::collection($tenants);
     }

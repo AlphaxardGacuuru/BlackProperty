@@ -22,6 +22,11 @@ import AdminTenantCreate from "@/pages/admin/tenants/create"
 import AdminTenantShow from "@/pages/admin/tenants/[id]"
 import AdminTenantEdit from "@/pages/admin/tenants/edit/[id]"
 
+import AdminInvoices from "@/pages/admin/invoices/index"
+import AdminInvoiceCreate from "@/pages/admin/invoices/create"
+import AdminInvoiceShow from "@/pages/admin/invoices/[id]"
+import AdminInvoiceEdit from "@/pages/admin/invoices/edit/[id]"
+
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
 import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
 import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
@@ -95,6 +100,22 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/tenants/:id/edit",
 			component: <AdminTenantEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/invoices",
+			component: <AdminInvoices {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/invoices/create",
+			component: <AdminInvoiceCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/invoices/:id/show",
+			component: <AdminInvoiceShow {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/invoices/:id/edit",
+			component: <AdminInvoiceEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/finance/transactions",

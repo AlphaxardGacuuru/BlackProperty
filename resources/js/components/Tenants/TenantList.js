@@ -79,7 +79,7 @@ const TenantList = (props) => {
 					<thead>
 						{location.pathname.match("/units/") && (
 							<tr>
-								<th colSpan="8"></th>
+								<th colSpan="6"></th>
 								<th className="text-end">
 									<MyLink
 										linkTo={`/tenants/${props.unitId}/create`}
@@ -93,11 +93,8 @@ const TenantList = (props) => {
 							<th>#</th>
 							<th></th>
 							<th>Name</th>
-							<th>Email</th>
 							<th>Phone</th>
-							<th>Gender</th>
-							<th>Status</th>
-							<th>Date Joined</th>
+							<th>Moved in on</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -121,19 +118,7 @@ const TenantList = (props) => {
 										/>
 									</td>
 									<td>{tenant.name}</td>
-									<td>{tenant.email}</td>
 									<td>{tenant.phone}</td>
-									<td className="text-capitalize">{tenant.gender}</td>
-									<td>
-										<span
-											className={`${
-												tenant.status == "occupied"
-													? "bg-success-subtle"
-													: "bg-warning-subtle"
-											} text-capitalize p-2`}>
-											{tenant.status}
-										</span>
-									</td>
 									<td>{tenant.createdAt}</td>
 									<td>
 										<div className="d-flex justify-content-end">

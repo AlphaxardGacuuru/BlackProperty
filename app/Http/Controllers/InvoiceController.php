@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\InvoiceService;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+	public function __construct(protected InvoiceService $service)
+	{
+		// 
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->index();
     }
 
     /**
@@ -25,7 +31,18 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			"tenantIds" => "required|array",
+			"type" => "required|string"
+		]);
+
+		[$saved, $message, $invoices] = $this->service->store($request);
+
+		return response([
+			"status" => $saved,
+			"message" => $message,
+			"data" => $invoices
+		], 200);
     }
 
     /**

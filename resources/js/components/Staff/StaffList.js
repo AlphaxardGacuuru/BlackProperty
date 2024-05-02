@@ -20,13 +20,10 @@ const StaffList = (props) => {
 	const [roleQuery, setRoleQuery] = useState("")
 
 	/*
-	 * Vacate Tenant
+	 * Delete Staff
 	 */
 	const onDeleteStaff = (staff) => {
-		Axios.put(`/api/staff/${staff.id}`, {
-			propertyId: staff.propertyId,
-			delete: true,
-		})
+		Axios.delete(`/api/staff/${staff.id}?propertyId=${props.propertyId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row

@@ -112,14 +112,6 @@ class User extends Authenticatable
      * Custom functions
      */
 
-    public function status()
-    {
-        return $this->userUnits()
-            ->whereNull("vacated_at")
-            ->orderBy("id", "DESC")
-            ->first() ? "occupied" : "vacated";
-    }
-
     public function currentUnit()
     {
         return $this->userUnits()
