@@ -11,6 +11,13 @@ class UserUnit extends Model
 {
     use HasFactory;
 
+    protected function occupiedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? Carbon::parse($value)->format('d M Y') : "",
+        );
+    }
+
     protected function vacatedAt(): Attribute
     {
         return Attribute::make(

@@ -62,7 +62,6 @@ class TenantService extends Service
             $tenant->phone = $request->input("phone");
             $tenant->gender = $request->input("gender");
             $tenant->password = Hash::make($request->input("email"));
-            $tenant->account_type = "tenant";
         } else {
             $tenant = $tenantQuery->first();
 
@@ -93,7 +92,10 @@ class TenantService extends Service
                 $userUnit = new UserUnit;
                 $userUnit->user_id = $tenant->id;
                 $userUnit->unit_id = $request->input("unitId");
+                $userUnit->occupied_at = $request->input("occupiedAt");
+                $userUnit->created_by = $this->id;
                 $userUnit->save();
+
             }
 
             return $saved;
@@ -131,6 +133,10 @@ class TenantService extends Service
             $tenant->password = Hash::make($request->input("email"));
         }
 
+        if ($request->filled("occupiedAt")) {
+            $tenant->occupied_at = Hash::make($request->input("occupiedAt"));
+        }
+
         // Mark User Unit as vacated
         if ($request->filled("vacate")) {
             $userUnit = UserUnit::where("user_id", $id)
@@ -164,10 +170,24 @@ class TenantService extends Service
     /*
      * Get Tenants by Property ID
      */
-    public function byPropertyId($id)
+    public function byPropertyId($request, $id)
     {
-        $tenants = UserUnit::whereHas('unit.property', function ($query) use ($id) {
-            $query->where('id', $id);
+		$ids = explode(", ", $id);
+
+        if ($request->filled("idAndName")) {
+            $tenants = UserUnit::select("id", "name", "userUnitId")
+                ->whereHas("unit.property", function ($query) use ($ids) {
+                    $query->whereIn("id", $ids);
+                })->whereNull("vacated_at")
+                ->get();
+
+            return response([
+                "data" => $tenants,
+            ], 200);
+        }
+
+        $tenants = UserUnit::whereHas("unit.property", function ($query) use ($id) {
+            $query->where("id", $id);
         })->whereNull("vacated_at")
             ->paginate(20);
 

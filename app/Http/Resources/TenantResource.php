@@ -16,6 +16,7 @@ class TenantResource extends JsonResource
     {
         return [
             "id" => $this->user->id,
+            "userUnitId" => $this->id,
             "unitId" => $this->unit_id,
             "propertyId" => $this->unit->property->id,
             "name" => $this->user->name,
@@ -23,6 +24,7 @@ class TenantResource extends JsonResource
             "phone" => $this->user->phone,
             "gender" => $this->user->gender,
             "avatar" => $this->user->avatar,
+            "occupiedAt" => $this->occupied_at,
             "vacatedAt" => $this->vacated_at ?? "occupied",
             "createdAt" => $this->created_at,
         ];

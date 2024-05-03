@@ -110,14 +110,14 @@ const LoginPopUp = (props) => {
 
 									<Btn
 										type="submit"
-										className="mt-2 w-75"
+										className="border-light mt-2 w-75"
 										text="Login"
 										loading={loading}
 									/>
 								</form>
 
 								<Btn
-									className="mt-1 w-50"
+									className="border-light mt-1 w-50"
 									text="back"
 									onClick={() => setPhoneLogin(false)}
 								/>
@@ -132,7 +132,7 @@ const LoginPopUp = (props) => {
 
 							{!window.location.href.match(/https/) && (
 								<Btn
-									className="mt-1 w-75"
+									className="border-light mt-1 w-75"
 									text="login with email"
 									onClick={() => setPhoneLogin(true)}
 								/>

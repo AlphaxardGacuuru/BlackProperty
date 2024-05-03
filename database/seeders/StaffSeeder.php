@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Property;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserProperty;
 use Illuminate\Database\Seeder;
 
 class StaffSeeder extends Seeder
@@ -15,8 +16,14 @@ class StaffSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
-            ->count(20)
-            ->create(["account_type" => "staff"]);
+        $properties = Property::all();
+
+        foreach ($properties as $key => $property) {
+            UserProperty::factory()
+                ->create([
+                    "user_id" => User::all()->random()->id,
+                    "property_id" => $property->id,
+                ]);
+        }
     }
 }

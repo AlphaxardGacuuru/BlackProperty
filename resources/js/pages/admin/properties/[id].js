@@ -29,6 +29,10 @@ const show = (props) => {
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
+		// Clear State on page change
+		setUnits([])
+		setTenants([])
+		setStaff([])
 		// Set page
 		props.setPage({ name: "View Property", path: ["properties", "view"] })
 		props.get(`properties/${id}`, setProperty)

@@ -75,6 +75,11 @@ Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
  */
 Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
+/*
+* Invoices
+*/ 
+Route::get("invoices/by-property-id/{id}", [InvoiceController::class, "byPropertyId"]);
+
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
 Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);

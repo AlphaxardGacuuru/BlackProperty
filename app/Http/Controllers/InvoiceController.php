@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-	public function __construct(protected InvoiceService $service)
-	{
-		// 
-	}
+    public function __construct(protected InvoiceService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,17 +32,18 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"tenantIds" => "required|array",
-			"type" => "required|string"
-		]);
+            "userUnitIds" => "required|array",
+            "type" => "required|string",
+            "month" => "required|date",
+        ]);
 
-		[$saved, $message, $invoices] = $this->service->store($request);
+        [$saved, $message, $invoices] = $this->service->store($request);
 
-		return response([
-			"status" => $saved,
-			"message" => $message,
-			"data" => $invoices
-		], 200);
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $invoices,
+        ], 200);
     }
 
     /**
@@ -63,9 +64,21 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "userUnitIds" => "nullable|array",
+            "type" => "nullable|string",
+            "month" => "nullable|date",
+        ]);
+
+        [$saved, $message, $invoices] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $invoices,
+        ], 200);
     }
 
     /**
@@ -74,8 +87,22 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $invoice] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $invoice,
+        ], 200);
+    }
+
+    /*
+     * Get Tenants by Property ID
+     */
+    public function byPropertyId($id)
+    {
+        return $this->service->byPropertyId($id);
     }
 }

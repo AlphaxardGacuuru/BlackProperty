@@ -62,7 +62,7 @@ const UnitList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="5"></th>
+							<th colSpan="6"></th>
 							<th className="text-end">
 								<MyLink
 									linkTo={`/units/${props.propertyId}/create`}
@@ -77,6 +77,7 @@ const UnitList = (props) => {
 							<th>Rent</th>
 							<th>Deposit</th>
 							<th>Type</th>
+							<th>Current Tenant</th>
 							<th className="text-center">Action</th>
 						</tr>
 						{props.units.data?.map((unit, key) => (
@@ -90,6 +91,13 @@ const UnitList = (props) => {
 									<small>KES</small> {unit.deposit}
 								</td>
 								<td className="text-capitalize">{unit.type}</td>
+								<td>
+									{unit.tenantId ? (
+										<span className="bg-success-subtle p-1">{unit.tenantName}</span>
+									) : (
+										<span className="bg-warning-subtle p-1">Vacant</span>
+									)}
+								</td>
 								<td>
 									<div className="d-flex justify-content-end">
 										<div className="d-flex justify-content-end">

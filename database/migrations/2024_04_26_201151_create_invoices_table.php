@@ -15,18 +15,26 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
+            $table->foreignId('user_id')
                 ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->foreignId("unit_id")
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('unit_id')
                 ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->string("type");
-            $table->string("amount");
-            $table->string("status");
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('type');
+            $table->string('amount');
+            $table->string('status')->default('pending');
+            $table->string('month');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

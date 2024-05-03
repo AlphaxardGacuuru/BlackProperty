@@ -16,7 +16,7 @@ const create = (props) => {
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
-	const [gender, setGender] = useState()
+	const [occupiedAt, setOccupiedAt] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -40,7 +40,7 @@ const create = (props) => {
 			name: name,
 			email: email,
 			phone: phone,
-			gender: gender,
+			occupiedAt: occupiedAt,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -88,15 +88,13 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<select
-						name="gender"
+					<input
+						name="occupiedAt"
+						type="date"
 						className="form-control mb-3 me-2"
-						onChange={(e) => setGender(e.target.value)}
-						required={true}>
-						<option value="">Select Gender</option>
-						<option value="male">Male</option>
-						<option value="female">Female</option>
-					</select>
+						onChange={(e) => setOccupiedAt(e.target.value)}
+						required={true}
+					/>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

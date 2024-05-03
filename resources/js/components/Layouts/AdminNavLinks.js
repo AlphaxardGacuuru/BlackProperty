@@ -92,30 +92,6 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Properties Link End */}
-			{/* Units Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/units`}
-					className={`nav-link ${active("/admin/units")}`}>
-					<div className="nav-link-icon">
-						<UnitSVG />
-					</div>
-					<div className="nav-link-text">Units</div>
-				</Link>
-			</li>
-			{/* Units Link End */}
-			{/* Tenants Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/tenants`}
-					className={`nav-link ${active("/admin/tenants")}`}>
-					<div className="nav-link-icon">
-						<PersonSVG />
-					</div>
-					<div className="nav-link-text">Tenants</div>
-				</Link>
-			</li>
-			{/* Tenants Link End */}
 			{/* Invoices Link */}
 			<li className="nav-item">
 				<Link
@@ -128,18 +104,6 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Invoices Link End */}
-			{/* Payments Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/payments`}
-					className={`nav-link ${active("/admin/payments")}`}>
-					<div className="nav-link-icon">
-						<PaymentSVG />
-					</div>
-					<div className="nav-link-text">Payments</div>
-				</Link>
-			</li>
-			{/* Payments Link End */}
 			{/* Finance Links */}
 			<li className="nav-item">
 				<a
@@ -160,25 +124,23 @@ const AdminNavLinks = (props) => {
 					className={!location.pathname.match("finance") ? "collapse" : ""}
 					id="collapseFinance">
 					<ol className="ms-4">
-						{/* Transactions */}
+						{/* Payments Link */}
 						<li className="nav-item">
 							<Link
-								to={`/admin/finance/transactions`}
-								className={`nav-link ${activeStrict(
-									"/admin/finance/transactions"
-								)}`}>
+								to={`/admin/finance/payments`}
+								className={`nav-link ${active("/admin/finance/payments")}`}>
 								<div className="nav-link-icon">
-									<TransactionSVG />
+									<PaymentSVG />
 								</div>
-								<div className="nav-link-text">Trasactions</div>
+								<div className="nav-link-text">Payments</div>
 							</Link>
 						</li>
-						{/* Transactions End */}
+						{/* Payments Link End */}
 						{/* Wallet */}
 						<li className="nav-item">
 							<Link
 								to={`/admin/finance/wallet`}
-								className={`nav-link ${activeStrict("/admin/finance/wallet")}`}>
+								className={`nav-link ${active("/admin/finance/wallet")}`}>
 								<div className="nav-link-icon">
 									<WalletSVG />
 								</div>
@@ -191,18 +153,6 @@ const AdminNavLinks = (props) => {
 				{/* Collapse End */}
 			</li>
 			{/* Finance Links End */}
-			{/* Staff Links */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/staff`}
-					className={`nav-link ${active("/admin/staff")}`}>
-					<div className="nav-link-icon">
-						<StaffSVG />
-					</div>
-					<div className="nav-link-text">Staff</div>
-				</Link>
-			</li>
-			{/* Staff Link End */}
 			{/* Roles Links */}
 			<li className="nav-item">
 				<Link

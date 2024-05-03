@@ -249,17 +249,6 @@ const AdminMenu = (props) => {
 																	<h6 className="text-wrap fs-6">
 																		{props.auth?.name}
 																	</h6>
-																	<p
-																		className={`${
-																			props.auth?.accountType == "staff"
-																				? "text-secondary"
-																				: props.auth?.accountType ==
-																				  "instructor"
-																				? "text-danger"
-																				: "text-success"
-																		} text-wrap text-capitalize mb-0`}>
-																		{props.auth?.accountType}
-																	</p>
 																</div>
 															</div>
 														</Link>

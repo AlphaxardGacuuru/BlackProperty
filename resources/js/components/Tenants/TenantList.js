@@ -11,7 +11,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
 
-import PersonSVG from "@/svgs/PersonSVG"
+import TenantSVG from "@/svgs/TenantSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
@@ -43,7 +43,7 @@ const TenantList = (props) => {
 							data={props.tenants.data?.length}
 						/>
 						<HeroIcon>
-							<PersonSVG />
+							<TenantSVG />
 						</HeroIcon>
 					</div>
 					{/* Total End */}
@@ -94,7 +94,7 @@ const TenantList = (props) => {
 							<th></th>
 							<th>Name</th>
 							<th>Phone</th>
-							<th>Moved in on</th>
+							<th>Move In Date</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -119,7 +119,7 @@ const TenantList = (props) => {
 									</td>
 									<td>{tenant.name}</td>
 									<td>{tenant.phone}</td>
-									<td>{tenant.createdAt}</td>
+									<td>{tenant.occupiedAt}</td>
 									<td>
 										<div className="d-flex justify-content-end">
 											<React.Fragment>

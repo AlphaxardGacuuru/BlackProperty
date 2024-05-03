@@ -22,6 +22,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Properties", path: ["properties"] })
+		props.get(`properties/by-user-id/${props.auth.id}`, props.setProperties, "properties")
 	}, [id])
 
 	/*

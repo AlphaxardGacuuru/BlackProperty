@@ -10,13 +10,65 @@ import CloseSVG from "@/svgs/CloseSVG"
 const create = (props) => {
 	var history = useHistory()
 
+	/*
+	 * Get Previous Month
+	 */
+	const previousMonth = () => {
+		var currentDate = new Date()
+
+		// Calculate the date of the previous month
+		var previousMonthDate = new Date(
+			currentDate.getFullYear(),
+			currentDate.getMonth() - 1,
+			1
+		)
+
+		// Format the date as "YYYY-MM-DD"
+		var previousMonthDateString = previousMonthDate.toISOString().slice(0, 10)
+
+		return previousMonthDateString
+	}
+
 	const [tenants, setTenants] = useState([])
-
 	const types = ["rent", "water", "service"]
+	const months = [
+		{ id: "01", name: "January" },
+		{ id: "02", name: "February" },
+		{ id: "03", name: "March" },
+		{ id: "04", name: "April" },
+		{ id: "05", name: "May" },
+		{ id: "06", name: "June" },
+		{ id: "07", name: "July" },
+		{ id: "08", name: "August" },
+		{ id: "09", name: "September" },
+		{ id: "10", name: "October" },
+		{ id: "11", name: "November" },
+		{ id: "12", name: "December" },
+	]
 
-	const [tenantIds, setTenantIds] = useState([])
+	const [userUnitIds, setUserUnitIds] = useState([])
 	const [type, setType] = useState()
+	const [month, setMonth] = useState({
+		year: previousMonth().substring(0, 4),
+		month: previousMonth().substring(5, 7),
+	})
 	const [loading, setLoading] = useState()
+
+	// Fetch Tenants
+	const fetchTenants = async () => {
+		try {
+			const promises = props.auth.propertyIds.map((id) => {
+				return Axios.get(`api/tenants/by-property-id/${id}`).then(
+					(res) => res.data.data
+				)
+			})
+			const results = await Promise.all(promises)
+			const allTenants = results.flat() // Flatten the array of arrays
+			setTenants(allTenants)
+		} catch (error) {
+			console.error("Error fetching tenants:", error)
+		}
+	}
 
 	// Get Invoices
 	useEffect(() => {
@@ -27,25 +79,21 @@ const create = (props) => {
 		})
 
 		// Fetch Tenants
-		props.auth.propertyIds.forEach((id) => {
-			Axios.get(`api/tenants/by-property-id/${id}`).then((res) => {
-				setTenants([...tenants, ...res.data.data])
-			})
-		})
+		fetchTenants()
 	}, [])
 
 	/*
-	 * Handle Instructor selects
+	 * Handle UserUnit selects
 	 */
-	const handleTenantIds = (id) => {
+	const handleUserUnitIds = (id) => {
 		if (id) {
-			var exists = tenantIds.includes(id)
+			var exists = userUnitIds.includes(id)
 
-			var newTenantIds = exists
-				? tenantIds.filter((item) => item != id)
-				: [...tenantIds, id]
+			var newUserUnitIds = exists
+				? userUnitIds.filter((item) => item != id)
+				: [...userUnitIds, id]
 
-			setTenantIds(newTenantIds)
+			setUserUnitIds(newUserUnitIds)
 		}
 	}
 
@@ -57,8 +105,9 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/invoices", {
-			tenantIds: tenantIds,
+			userUnitIds: userUnitIds,
 			type: type,
+			month: `${month.year}-${month.month}-01`,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -79,46 +128,46 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
-					<div className="d-flex">
-						{/* Type */}
-						<select
-							type="text"
-							name="type"
-							className="form-control text-capitalize mb-2 me-2"
-							onChange={(e) => setType(e.target.value)}
-							required={true}>
-							<option value="">Select Invoice Type</option>
-							{types.map((type, key) => (
-								<option
-									key={key}
-									value={type}>
-									{type}
-								</option>
-							))}
-						</select>
-						{/* Type End */}
+					{/* Type */}
+					<select
+						type="text"
+						name="type"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						<option value="">Select Invoice Type</option>
+						{types.map((type, key) => (
+							<option
+								key={key}
+								value={type}>
+								{type}
+							</option>
+						))}
+					</select>
+					{/* Type End */}
 
+					<div className="d-flex">
 						{/* Tenants */}
 						<select
-							name="tenantId"
+							name="userUnitId"
 							className="form-control mb-2 me-2"
 							onChange={(e) => {
 								if (e.target.value == "all") {
-									setTenantIds(["all"])
+									setUserUnitIds(tenants.map((tenant) => tenant.userUnitId))
 								} else {
-									handleTenantIds(Number.parseInt(e.target.value))
+									handleUserUnitIds(Number.parseInt(e.target.value))
 								}
 							}}
-							disabled={tenantIds.length > 0}
+							disabled={userUnitIds.length > 0}
 							required={true}>
 							<option value="">Select Tenant</option>
 							<option value="all">All</option>
 							{tenants.map((tenant, key) => (
 								<option
 									key={key}
-									value={tenant.id}
+									value={tenant.userUnitId}
 									className="text-primary"
-									selected={tenant.id == tenantIds[0]}>
+									selected={tenant.userUnitId == userUnitIds[0]}>
 									{tenant.name}
 								</option>
 							))}
@@ -127,34 +176,37 @@ const create = (props) => {
 						<span
 							className="text-primary"
 							style={{ cursor: "pointer" }}
-							onClick={() => setTenantIds(tenantIds.slice(0, 0))}>
+							onClick={() => setUserUnitIds(userUnitIds.slice(0, 0))}>
 							<CloseSVG />
 						</span>
 						{/* Close Icon End */}
 					</div>
 
-					{tenantIds.map((input, key1) => (
+					{userUnitIds.map((input, key1) => (
 						<div
 							className="d-flex"
 							key={key1}>
 							<select
-								name="tenantId"
+								name="userUnitId"
 								className="form-control mb-2 me-2"
 								onChange={(e) =>
-									handleTenantIds(Number.parseInt(e.target.value))
+									handleUserUnitIds(Number.parseInt(e.target.value))
 								}
-								disabled={tenantIds.length > key1 + 1}>
+								disabled={userUnitIds.length > key1 + 1}>
 								<option value="">Select Tenant</option>
 								{tenants.map((tenant, key2) => (
 									<option
 										key={key2}
-										value={!tenantIds.includes(tenant.id) && tenant.id}
+										value={
+											!userUnitIds.includes(tenant.userUnitId) &&
+											tenant.userUnitId
+										}
 										className={
-											tenantIds.includes(tenant.id)
+											userUnitIds.includes(tenant.userUnitId)
 												? "text-secondary"
 												: "text-primary"
 										}
-										selected={tenant.id == tenantIds[key1 + 1]}>
+										selected={tenant.userUnitId == userUnitIds[key1 + 1]}>
 										{tenant.name}
 									</option>
 								))}
@@ -162,14 +214,14 @@ const create = (props) => {
 							{/* Close Icon */}
 							<span
 								className={
-									key1 == tenantIds.length - 1
+									key1 == userUnitIds.length - 1
 										? "invisible text-primary"
 										: "text-primary"
 								}
 								style={{ cursor: "pointer" }}
 								onClick={() =>
-									setTenantIds(
-										tenantIds.filter((tenantId, index) => index != key1 + 1)
+									setUserUnitIds(
+										userUnitIds.filter((userUnitId, index) => index != key1 + 1)
 									)
 								}>
 								<CloseSVG />
@@ -179,9 +231,39 @@ const create = (props) => {
 					))}
 					{/* Tenants End */}
 
+					{/* Month */}
+					<div className="d-flex justify-content-start mb-2">
+						<input
+							type="number"
+							defaultValue={previousMonth().substring(0, 4)}
+							min="2000"
+							max={previousMonth().substring(0, 4)}
+							className="form-control me-2"
+							onChange={(e) =>
+								setMonth({ year: e.target.value, month: month.month })
+							}
+						/>
+
+						<select
+							className="form-control"
+							onChange={(e) =>
+								setMonth({ year: month.year, month: e.target.value })
+							}>
+							{months.map((month, key) => (
+								<option
+									key={key}
+									value={month.id}
+									selected={month.id == previousMonth().substring(5, 7)}>
+									{month.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Month End */}
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="add invoice"
+							text="create invoice"
 							loading={loading}
 						/>
 					</div>

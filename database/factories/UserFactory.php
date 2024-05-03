@@ -64,7 +64,6 @@ class UserFactory extends Factory
             'password' => Hash::make('alphaxardgacuuru47@gmail.com'),
             'remember_token' => Str::random(10),
             'gender' => 'male',
-            'account_type' => 'staff',
         ]);
     }
 
@@ -84,7 +83,6 @@ class UserFactory extends Factory
             'password' => Hash::make('gacuuruwakarenge@gmail.com'),
             'remember_token' => Str::random(10),
             'gender' => 'male',
-            'account_type' => 'instructor',
         ]);
     }
 
@@ -104,7 +102,6 @@ class UserFactory extends Factory
             'password' => Hash::make('cikumuhandi@gmail.com'),
             'remember_token' => Str::random(10),
             'gender' => 'female',
-            'account_type' => 'student',
         ]);
     }
 }

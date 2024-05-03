@@ -20,14 +20,17 @@ const index = (props) => {
 	const location = useLocation()
 
 	const [invoices, setInvoices] = useState([])
-	const [roles, setRoles] = useState([])
 
 	const [nameQuery, setNameQuery] = useState("")
-	const [roleQuery, setRoleQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Invoices", path: ["invoices"] })
+		// Fetch Invoices
+		props.getPaginated(
+			`invoices/by-property-id/${props.auth.propertyIds}`,
+			setInvoices
+		)
 	}, [])
 
 	/*
@@ -38,15 +41,11 @@ const index = (props) => {
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row
-				props.setInvoices({
-					meta: props.invoices.meta,
-					links: props.invoices.links,
-					data: props.invoices.data.filter(
-						(invoice) => invoice.id != invoiceId
-					),
+				setInvoices({
+					meta: invoices.meta,
+					links: invoices.links,
+					data: invoices.data.filter((invoice) => invoice.id != invoiceId),
 				})
-				// Update Property
-				props.get(`properties/${props.propertyId}`, props.setProperty)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -108,26 +107,6 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Tenant End */}
-					{/* Role */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							id=""
-							type="text"
-							name="name"
-							placeholder="Search by Role"
-							className="form-control me-2"
-							onChange={(e) => setRoleQuery(e.target.value)}>
-							<option value="">All</option>
-							{roles.map((role, key) => (
-								<option
-									key={key}
-									value={role.name}>
-									{role.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Role End */}
 				</div>
 			</div>
 			{/* Filters End */}
@@ -157,26 +136,19 @@ const index = (props) => {
 							<th className="text-center">Action</th>
 						</tr>
 						{invoices.data
-							?.filter((staff) => {
-								var name = staff.name.toLowerCase()
+							?.filter((invoice) => {
+								var name = invoice.tenant.toLowerCase()
 								var query = nameQuery.toLowerCase()
 
 								return name.match(query)
-							})
-							.filter((staff) => {
-								if (roleQuery) {
-									return staff.roleNames.includes(roleQuery)
-								} else {
-									return true
-								}
 							})
 							.map((invoice, key) => (
 								<tr key={key}>
 									<td>{key + 1}</td>
 									<td>{invoice.tenant}</td>
-									<td>{invoice.type}</td>
+									<td className="text-capitalize">{invoice.type}</td>
 									<td className="text-success">
-										<small>KES</small> {invoice.amouht}
+										<small>KES</small> {invoice.amount}
 									</td>
 									<td className="text-capitalize">{invoice.status}</td>
 									<td>
@@ -214,7 +186,7 @@ const index = (props) => {
 				<PaginationLinks
 					list={invoices}
 					getPaginated={props.getPaginated}
-					setState={props.setInvoices}
+					setState={setInvoices}
 				/>
 				{/* Pagination Links End */}
 			</div>

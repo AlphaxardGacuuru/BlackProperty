@@ -1,54 +1,64 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import {
+	useHistory,
+	useParams,
+} from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+
 import BackSVG from "@/svgs/BackSVG"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
+	var history = useHistory()
 
 	const [invoice, setInvoice] = useState({})
-	const [property, setProperty] = useState({})
+	const [tenants, setTenants] = useState([])
 
-	const [name, setName] = useState()
-	const [rent, setRent] = useState()
-	const [deposit, setDeposit] = useState()
+	const types = ["rent", "water", "service"]
+
+	const [userUnitIds, setUserUnitIds] = useState([])
 	const [type, setType] = useState()
 	const [loading, setLoading] = useState()
 
+	// Get Invoices
 	useEffect(() => {
 		// Set page
 		props.setPage({
 			name: "Edit Invoice",
-			path: ["properties", "edit"],
+			path: ["invoices", "edit"],
 		})
 
 		// Fetch Invoice
-		Axios.get(`api/invoices/${id}`).then((res) => {
-			// Set page
-			props.setPage({
-				name: "Edit Invoice",
-				path: [
-					"properties",
-					`properties/${res.data.data.propertyId}/show`,
-					"edit",
-				],
+		Axios.get(`api/invoices/${id}`)
+			.then((res) => {
+				setInvoice(res.data.data)
 			})
+			.catch(() => props.getErrors([`Failed to fetch Unit ${id}`]))
 
-			setInvoice(res.data.data)
-			// Fetch Property
-			props.get(`properties/${res.data.data.propertyId}`, setProperty)
+		// Fetch Tenants
+		props.auth.propertyIds.forEach((id) => {
+			Axios.get(`api/tenants/by-property-id/${id}`).then((res) => {
+				setTenants([...tenants, ...res.data.data])
+			})
 		})
 	}, [])
 
-	const apartments = ["apartment", "shop", "office"]
+	/*
+	 * Handle Instructor selects
+	 */
+	const handleUserUnitIds = (id) => {
+		if (id) {
+			var exists = userUnitIds.includes(id)
 
-	const getDeposit = (e) => {
-		var rent = e.target.value
-		var formula = property.depositFormula
-		// Evaluate the formula
-		return eval(formula?.replace("r", rent))
+			var newUserUnitIds = exists
+				? userUnitIds.filter((item) => item != id)
+				: [...userUnitIds, id]
+
+			setUserUnitIds(newUserUnitIds)
+		}
 	}
 
 	/*
@@ -58,10 +68,8 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/invoices/${id}`, {
-			name: name,
-			rent: rent,
-			deposit: deposit?.toString(),
+		Axios.post("/api/invoices", {
+			userUnitIds: userUnitIds,
 			type: type,
 		})
 			.then((res) => {
@@ -81,67 +89,124 @@ const edit = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
-					<input
-						type="text"
-						name="name"
-						placeholder="Name"
-						defaultValue={invoice.name}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
-					/>
-
-					<input
-						type="number"
-						name="rent"
-						placeholder="Rent"
-						defaultValue={invoice.rent?.replace(/,/g, "")}
-						className="form-control mb-2 me-2"
-						onChange={(e) => {
-							setRent(e.target.value)
-							setDeposit(getDeposit(e))
-						}}
-					/>
-
-					<input
-						type="number"
-						name="deposit"
-						placeholder="Deposit"
-						defaultValue={deposit}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setDeposit(e.target.value)}
-					/>
-
+					{/* Type */}
 					<select
 						type="text"
 						name="type"
-						placeholder="Location"
 						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setType(e.target.value)}>
-						{apartments.map((apartment, key) => (
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						<option value="">Select Invoice Type</option>
+						{types.map((type, key) => (
 							<option
 								key={key}
-								value={apartment}
-								selected={invoice.type == apartment}>
-								{apartment}
+								value={type}
+								selected={type == invoice.type}>
+								{type}
 							</option>
 						))}
 					</select>
+					{/* Type End */}
+
+					<div className="d-flex">
+						{/* Tenants */}
+						<select
+							name="userUnitId"
+							className="form-control mb-2 me-2"
+							onChange={(e) => {
+								if (e.target.value == "all") {
+									setUserUnitIds(tenants.map((tenant) => tenant.userUnitId))
+								} else {
+									handleUserUnitIds(Number.parseInt(e.target.value))
+								}
+							}}
+							disabled={userUnitIds.length > 0}
+							required={true}>
+							<option value="">Select Tenant</option>
+							<option value="all">All</option>
+							{tenants.map((tenant, key) => (
+								<option
+									key={key}
+									value={tenant.userUnitId}
+									className="text-primary"
+									selected={tenant.userUnitId == userUnitIds[0]}>
+									{tenant.name}
+								</option>
+							))}
+						</select>
+						{/* Close Icon */}
+						<span
+							className="text-primary"
+							style={{ cursor: "pointer" }}
+							onClick={() => setUserUnitIds(userUnitIds.slice(0, 0))}>
+							<CloseSVG />
+						</span>
+						{/* Close Icon End */}
+					</div>
+
+					{userUnitIds.map((input, key1) => (
+						<div
+							className="d-flex"
+							key={key1}>
+							<select
+								name="userUnitId"
+								className="form-control mb-2 me-2"
+								onChange={(e) =>
+									handleUserUnitIds(Number.parseInt(e.target.value))
+								}
+								disabled={userUnitIds.length > key1 + 1}>
+								<option value="">Select Tenant</option>
+								{tenants.map((tenant, key2) => (
+									<option
+										key={key2}
+										value={
+											!userUnitIds.includes(tenant.userUnitId) &&
+											tenant.userUnitId
+										}
+										className={
+											userUnitIds.includes(tenant.userUnitId)
+												? "text-secondary"
+												: "text-primary"
+										}
+										selected={tenant.userUnitId == userUnitIds[key1 + 1]}>
+										{tenant.name}
+									</option>
+								))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className={
+									key1 == userUnitIds.length - 1
+										? "invisible text-primary"
+										: "text-primary"
+								}
+								style={{ cursor: "pointer" }}
+								onClick={() =>
+									setUserUnitIds(
+										userUnitIds.filter((userUnitId, index) => index != key1 + 1)
+									)
+								}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
+					))}
+					{/* Tenants End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="update"
+							text="update invoice"
 							loading={loading}
 						/>
 					</div>
 
-					<center>
+					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/properties/${invoice.propertyId}/show`}
+							linkTo={`/invoices`}
 							icon={<BackSVG />}
-							text="back to property"
+							text="back to invoices"
 						/>
-					</center>
-
+					</div>
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

@@ -35,7 +35,7 @@ class TenantController extends Controller
             "name" => "required|string",
             "email" => "required|string",
             "phone" => "required|string",
-            "gender" => "required|string",
+            "occupiedAt" => "required|date",
         ]);
 
         [$saved, $message, $tenant, $code] = $this->service->store($request);
@@ -74,7 +74,7 @@ class TenantController extends Controller
             "name" => "nullable|string",
             "email" => "nullable|string",
             "phone" => "nullable|string",
-            "gender" => "nullable|string",
+            "occupiedAt" => "nullable|date",
         ]);
 
         [$saved, $message, $tenant] = $this->service->update($request, $id);
@@ -106,9 +106,9 @@ class TenantController extends Controller
     /*
      * Get Tenants by Property ID
      */
-    public function byPropertyId($id)
+    public function byPropertyId(Request $request, $id)
     {
-        return $this->service->byPropertyId($id);
+        return $this->service->byPropertyId($request, $id);
     }
 
     /*

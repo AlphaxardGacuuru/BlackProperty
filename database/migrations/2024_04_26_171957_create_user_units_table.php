@@ -23,8 +23,16 @@ return new class extends Migration
                 ->constained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->timestamp('occupied_at')->nullable();
             $table->timestamp('vacated_at')->nullable();
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 
