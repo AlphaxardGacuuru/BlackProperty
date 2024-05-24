@@ -15,7 +15,6 @@ import PlusSVG from "@/svgs/PlusSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
-import Btn from "@/components/Core/Btn"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -25,7 +24,11 @@ const show = (props) => {
 	const [tenants, setTenants] = useState([])
 	const [staff, setStaff] = useState([])
 	const [roles, setRoles] = useState([])
+
+	const [nameQuery, setNameQuery] = useState("")
+
 	const [tab, setTab] = useState("units")
+
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -37,10 +40,17 @@ const show = (props) => {
 		props.setPage({ name: "View Property", path: ["properties", "view"] })
 		props.get(`properties/${id}`, setProperty)
 		props.getPaginated(`units/by-property-id/${id}`, setUnits)
-		props.getPaginated(`tenants/by-property-id/${id}`, setTenants)
 		props.getPaginated(`staff/by-property-id/${id}`, setStaff)
 		props.get(`roles?idAndName=true`, setRoles)
 	}, [id])
+
+	useEffect(() => {
+		props.getPaginated(
+			`tenants/by-property-id/${id}?
+				name=${nameQuery}`,
+			setTenants
+		)
+	}, [nameQuery])
 
 	/*
 	 * Delete
@@ -245,6 +255,7 @@ const show = (props) => {
 					activeTab={activeTab("tenants")}
 					tenants={tenants}
 					setTenants={setTenants}
+					setNameQuery={setNameQuery}
 				/>
 				{/* Tenants Tab End */}
 

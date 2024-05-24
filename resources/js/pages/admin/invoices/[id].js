@@ -7,21 +7,24 @@ import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
 import PlusSVG from "@/svgs/PlusSVG"
+import PrintSVG from "@/svgs/PrintSVG"
 
 const show = (props) => {
 	var { id } = useParams()
 
 	const [invoice, setInvoice] = useState({})
 	const [tenants, setTenants] = useState([])
-	const channels = ["Card", "Mpesa"]
 
-	const [rentStatements, setRentStatements] = useState([])
-	const [tab, setTab] = useState("rent")
+	const channels = ["Card", "Mpesa"]
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Invoice", path: ["properties", "view"] })
-		props.getPaginated(`tenants/by-invoice-id/${id}`, setTenants)
+		props.get(`invoices/${id}`, setInvoice)
+		props.get(
+			`tenants/by-property-id/${props.auth.propertyIds}?idAndName=true`,
+			setTenants
+		)
 	}, [])
 
 	return (
@@ -57,19 +60,19 @@ const show = (props) => {
 									value="{invoice.id}"
 								/>
 
-								{/*Customer Channel*/}
+								{/*Tenant Channel*/}
 								<div className="form-group">
 									<label
 										htmlFor="userInput"
 										className="col-form-label">
-										Customer
+										Tenant
 									</label>
 									<select
 										id="userInput"
 										name="user_id"
 										className="form-control"
 										required={true}>
-										<option value="">Choose a Customer</option>
+										<option value="">Choose a Tenant</option>
 										{tenants.map((tenant, key) => (
 											<option
 												key={key}
@@ -152,13 +155,13 @@ const show = (props) => {
 								<div className="d-flex justify-content-between">
 									<button
 										type="button"
-										className="btn btn-light"
+										className="mysonar-btn btn-2"
 										data-bs-dismiss="modal">
 										Close
 									</button>
 									<button
 										type="submit"
-										className="btn btn-primary">
+										className="mysonar-btn btn-2">
 										Create Payment
 									</button>
 								</div>
@@ -174,15 +177,18 @@ const show = (props) => {
 				{/*Button trigger modal*/}
 				<button
 					type="button"
-					className="btn btn-primary text-white me-2"
+					className="mysonar-btn btn-2 me-2"
 					data-bs-toggle="modal"
 					data-bs-target="#paymentModal">
 					<i className="fa fa-pen-square"></i> Add Payment
 				</button>
 				<button
-					className="btn btn-secondary me-5"
+					className="mysonar-btn btn-2 me-5"
 					onClick="printInvoice()">
-					<i className="fa fa-print"></i> Print
+					<span className="me-1">
+						<PrintSVG />
+					</span>
+					Print
 				</button>
 			</div>
 			{/*Create Link End*/}
@@ -192,43 +198,97 @@ const show = (props) => {
 				className="row mb-5">
 				<div className="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div className="card p-5">
-						<div className="card-header p-4 border-0">
-							<div className="mt-2 pt-2 d-inline-block">Silver Silicon ltd</div>
+						<div className="card-header bg-white border-0 d-flex justify-content-between">
+							<h2 className="text-dark mb-1">Black Property</h2>
 
-							<div className="float-right">
-								<div className="mb-0">INVOICE</div>
+							<div>
+								<h2 className="mb-0">INVOICE</h2>
 								<div className="p-2 text-center text-capitalize">
-									{invoice.status}
+									<span
+										className={`
+											${
+												invoice.status == "pending"
+													? "bg-danger-subtle"
+													: invoice.status == "partial"
+													? "bg-warning-subtle"
+													: invoice.status == "paid"
+													? "bg-success-subtle"
+													: "bg-dark-subtle"
+											}
+										 py-2 px-4`}>
+										{invoice.status}
+									</span>
 								</div>
 							</div>
 						</div>
 						<div className="card-body">
 							<div className="d-flex justify-content-between mb-4">
 								<div className="">
-									<h5 className="mb-1">Billed To:</h5>
-									<div className="text-muted">{invoice.tenant}</div>
-									<div className="text-muted">Phone: {invoice.tenant}</div>
-									<div className="text-muted">{invoice.tenant}</div>
+									<h5 className="mb-1">Billed To</h5>
+									<div className="text-muted">Tenant: {invoice.tenantName}</div>
+									<div className="text-muted">Unit: {invoice.unitName}</div>
+									<div className="text-muted">Phone: {invoice.tenantPhone}</div>
+									<div className="text-muted">Email: {invoice.tenantEmail}</div>
 								</div>
 								<div className="text-end">
-									<p className="text-muted">Invoice No: {invoice.id}</p>
-									<p className="text-muted">Date: {invoice.created_at}</p>
+									<div className="text-muted">Invoice No: {invoice.id}</div>
+									<div className="text-muted">Date: {invoice.createdAt}</div>
 								</div>
 							</div>
-							<div className="table-responsive-sm"></div>
+							<div className="table-responsive-sm">
+								<table className="table table-borderless bg-white">
+									<thead className="border-bottom">
+										<tr>
+											<th>Type</th>
+											<th>Month</th>
+											<th className="text-end">Amount</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td className="text-capitalize">{invoice.type}</td>
+											<td>{invoice.month}</td>
+											<td className="fw-normal text-end">
+												<small className="fw-normal me-1">KES</small>
+												{invoice.amount}
+											</td>
+										</tr>
+										<tr className="border-bottom border-top">
+											<td></td>
+											<td className="fw-normal text-end">Total</td>
+											<td className="fw-normal text-end">
+												<small className="fw-normal me-1">KES</small>
+												{invoice.amount}
+											</td>
+										</tr>
+										<tr className="border-bottom border-top">
+											<td></td>
+											<td className="fw-normal text-end">Amount Paid</td>
+											<td className="fw-normal text-end">
+												<small className="fw-normal me-1">KES</small>
+												{invoice.paid}
+											</td>
+										</tr>
+										<tr className="border-bottom border-top">
+											<td></td>
+											<td className="fw-normal text-end">Balance</td>
+											<td className="fw-normal text-end">
+												<small className="fw-normal me-1">KES</small>
+												{invoice.balance}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 
-						<div className="card-footer bg-white border-0">
-							<h1 className="my-5">Thank you!</h1>
+						<h4 className="text-center mb-2">Thank you for your tenancy!</h4>
 
-							<div className="d-flex justify-content-between">
-								<div>Payment Information</div>
-								<div className="text-end">
-									<h3 className="text-dark mb-1">Silver Silicon Limited</h3>
-									<div>370-00207 Township Street, Namanga, Kenya</div>
-									{/*<div>Email: info@bulkagencies.co.ke</div>*/}
-									{/*<div>Phone: +254 722 427 629</div>*/}
-								</div>
+						<div className="card-footer d-flex justify-content-end bg-white border-0">
+							<div className="text-end">
+								<h3 className="text-dark mb-1">Black Property</h3>
+								<div>Email: al@black.co.ke</div>
+								<div>Phone: +254 700 364446</div>
 							</div>
 						</div>
 					</div>

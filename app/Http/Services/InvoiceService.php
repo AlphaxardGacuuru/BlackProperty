@@ -11,12 +11,28 @@ class InvoiceService extends Service
     /*
      * Fetch All Invoices
      */
-    public function index()
+    public function index($request)
     {
-        $invoices = Invoice::orderBy("id", "DESC")->paginate(20);
+        $invoicesQuery = new Invoice;
+
+        $invoicesQuery = $this->search($invoicesQuery, $request);
+
+        $invoices = $invoicesQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
+
+	/*
+	* Fetch Invoice
+	*/ 
+	public function show($id)
+	{
+		$invoice = Invoice::find($id);
+
+		return new InvoiceResource($invoice);
+	}
 
     /*
      * Save Invoice
@@ -58,14 +74,37 @@ class InvoiceService extends Service
     /*
      * Get Invoices by Property ID
      */
-    public function byPropertyId($id)
+    public function byPropertyId($request, $id)
     {
         $ids = explode(",", $id);
 
-        $invoices = Invoice::whereHas("unit.property", function ($query) use ($ids) {
+        $invoicesQuery = Invoice::whereHas("unit.property", function ($query) use ($ids) {
             $query->whereIn("id", $ids);
-        })->paginate(20);
+        });
+
+        $invoicesQuery = $this->search($invoicesQuery, $request);
+
+        $invoices = $invoicesQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return InvoiceResource::collection($invoices);
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        $name = $request->input("name");
+
+        if ($request->filled("name")) {
+            $query = $query
+                ->whereHas("user", function ($query) use ($name) {
+                    $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
+        return $query;
     }
 }

@@ -1384,42 +1384,6 @@ ol {
 	padding: 0 5px;
 }
 
-/* tab */
-
-.tab-element .nav-tabs {
-	border-bottom: none;
-}
-
-.tab-element .nav-tabs .nav-link {
-	border-radius: 0;
-	font-size: 16px;
-	font-weight: 600;
-	color: #1f1f1f;
-	border: none;
-	padding: 17px 23px;
-	margin-right: 8px;
-	background: #e4edef;
-	margin-bottom: 10px;
-}
-
-.tab-element .nav-tabs .nav-item:last-child .nav-link {
-	margin-right: 0;
-}
-
-.tab-element .nav-tabs .nav-link.active {
-	background: #d82a4e;
-	color: #fff;
-}
-
-.tab-element .nav-tabs .nav-link:focus,
-.tab-element .nav-tabs .nav-link:hover {
-	border: none;
-}
-
-.tab-element .tab-pane p {
-	padding-top: 35px;
-}
-
 /* Circle progress */
 
 .circle-progress {
@@ -2158,8 +2122,29 @@ ol {
 @media only screen and (max-width: 767px) {
 	.leftMenu .nav-link {
 		font-size: 14px;
-		/* padding: 10px; */
+		padding: 10px;
 	}
+}
+
+.leftMenu .nav-link::after {
+	content: "";
+	bottom: 0;
+	width: 30px;
+	height: 1px;
+	background-color: rgba(255, 255, 255, 0.5);
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	position: absolute;
+	z-index: 5;
+	-webkit-transition-duration: 500ms;
+	transition-duration: 500ms;
+}
+
+.leftMenu .nav-link:hover::after,
+.leftMenu .nav-link:focus::after {
+	width: 70px;
+	background-color: white;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -2783,3 +2768,9 @@ ol {
 }
 
 /* Loading Elements */
+
+/* Modal */
+.modal-content {
+	border-radius: 0;
+}
+/* Modal End */

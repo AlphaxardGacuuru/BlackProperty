@@ -18,7 +18,6 @@ import PlusSVG from "@/svgs/PlusSVG"
 
 const TenantList = (props) => {
 	const location = useLocation()
-	const [nameQuery, setNameQuery] = useState("")
 
 	/*
 	 * Delete Tenant
@@ -64,7 +63,7 @@ const TenantList = (props) => {
 							name="name"
 							placeholder="Search by Name"
 							className="form-control"
-							onChange={(e) => setNameQuery(e.target.value)}
+							onChange={(e) => props.setNameQuery(e.target.value)}
 						/>
 					</div>
 					{/* Name End */}
@@ -99,55 +98,48 @@ const TenantList = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{props.tenants.data
-							?.filter((tenant) => {
-								var name = tenant.name.toLowerCase()
-								var query = nameQuery.toLowerCase()
+						{props.tenants.data?.map((tenant, key) => (
+							<tr key={key}>
+								<td>{key + 1}</td>
+								<td>
+									<Img
+										src={tenant.avatar}
+										className="rounded-circle"
+										style={{ minWidth: "3em", height: "3em" }}
+										alt="Avatar"
+									/>
+								</td>
+								<td>{tenant.name}</td>
+								<td>{tenant.phone}</td>
+								<td>{tenant.occupiedAt}</td>
+								<td>
+									<div className="d-flex justify-content-end">
+										<React.Fragment>
+											<MyLink
+												linkTo={`/tenants/${tenant.id}/show`}
+												icon={<ViewSVG />}
+												className="btn-sm me-1"
+											/>
 
-								return name.match(query)
-							})
-							.map((tenant, key) => (
-								<tr key={key}>
-									<td>{key + 1}</td>
-									<td>
-										<Img
-											src={tenant.avatar}
-											className="rounded-circle"
-											style={{ minWidth: "3em", height: "3em" }}
-											alt="Avatar"
-										/>
-									</td>
-									<td>{tenant.name}</td>
-									<td>{tenant.phone}</td>
-									<td>{tenant.occupiedAt}</td>
-									<td>
-										<div className="d-flex justify-content-end">
-											<React.Fragment>
-												<MyLink
-													linkTo={`/tenants/${tenant.id}/show`}
-													icon={<ViewSVG />}
-													className="btn-sm me-1"
+											<MyLink
+												linkTo={`/tenants/${tenant.id}/edit`}
+												icon={<EditSVG />}
+												className="btn-sm"
+											/>
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`tenant${key}`}
+													model={tenant}
+													modelName="Tenant"
+													onDelete={onDeleteTenant}
 												/>
-
-												<MyLink
-													linkTo={`/tenants/${tenant.id}/edit`}
-													icon={<EditSVG />}
-													className="btn-sm"
-												/>
-
-												<div className="mx-1">
-													<DeleteModal
-														index={`tenant${key}`}
-														model={tenant}
-														modelName="Tenant"
-														onDelete={onDeleteTenant}
-													/>
-												</div>
-											</React.Fragment>
-										</div>
-									</td>
-								</tr>
-							))}
+											</div>
+										</React.Fragment>
+									</div>
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 				{/* Pagination Links */}

@@ -27,7 +27,11 @@ class TenantService extends Service
             ], 200);
         }
 
-        $tenants = User::where("account_type", "tenant")
+        $tenantsQuery = new User;
+
+        $tenantsQuery = $this->search($tenantsQuery, $request);
+
+        $tenants = $tenantsQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
@@ -95,7 +99,6 @@ class TenantService extends Service
                 $userUnit->occupied_at = $request->input("occupiedAt");
                 $userUnit->created_by = $this->id;
                 $userUnit->save();
-
             }
 
             return $saved;
@@ -172,7 +175,7 @@ class TenantService extends Service
      */
     public function byPropertyId($request, $id)
     {
-		$ids = explode(", ", $id);
+        $ids = explode(", ", $id);
 
         if ($request->filled("idAndName")) {
             $tenants = UserUnit::select("id", "name", "userUnitId")
@@ -186,9 +189,14 @@ class TenantService extends Service
             ], 200);
         }
 
-        $tenants = UserUnit::whereHas("unit.property", function ($query) use ($id) {
-            $query->where("id", $id);
-        })->whereNull("vacated_at")
+        $tenantsQuery = UserUnit::whereHas("unit.property", function ($query) use ($ids) {
+            $query->whereIn("id", $ids);
+        })->whereNull("vacated_at");
+
+        $tenantsQuery = $this->search($tenantsQuery, $request);
+
+        $tenants = $tenantsQuery
+            ->orderBy("id", "DESC")
             ->paginate(20);
 
         return TenantResource::collection($tenants);
@@ -199,14 +207,45 @@ class TenantService extends Service
      */
     public function byUnitId($id)
     {
-        // $tenants = User::whereHas('units', function ($query) use ($id) {
-        // $query->where('unit_id', $id);
-        // })->paginate(20);
-
         $tenants = UserUnit::where("unit_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
 
         return TenantResource::collection($tenants);
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        $name = $request->input("name");
+
+        if ($request->filled("name")) {
+            $query = $query
+                ->whereHas("user", function ($query) use ($name) {
+                    $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
+        $gender = $request->input("gender");
+
+        if ($request->filled("gender")) {
+            $query = $query
+                ->whereHas("user", function ($query) use ($gender) {
+                    $query->where("gender", "LIKE", "%" . $gender . "%");
+                });
+        }
+
+        $unitId = $request->input("unitId");
+
+        if ($request->filled("unitId")) {
+            $query = $query
+                ->whereHas("unit", function ($query) use ($unitId) {
+                    $query->where("id", $unitId);
+                });
+        }
+
+        return $query;
     }
 }

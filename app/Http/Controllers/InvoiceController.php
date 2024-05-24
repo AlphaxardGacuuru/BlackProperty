@@ -18,9 +18,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->service->index();
+        return $this->service->index($request);
     }
 
     /**
@@ -52,9 +52,9 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -101,8 +101,8 @@ class InvoiceController extends Controller
     /*
      * Get Tenants by Property ID
      */
-    public function byPropertyId($id)
+    public function byPropertyId(Request $request, $id)
     {
-        return $this->service->byPropertyId($id);
+        return $this->service->byPropertyId($request, $id);
     }
 }

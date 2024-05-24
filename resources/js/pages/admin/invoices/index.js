@@ -33,6 +33,14 @@ const index = (props) => {
 		)
 	}, [])
 
+	useEffect(() => {
+		// Fetch Invoices
+		props.getPaginated(
+			`invoices/by-property-id/${props.auth.propertyIds}?name=${nameQuery}`,
+			setInvoices
+		)
+	}, [nameQuery])
+
 	/*
 	 * Delete Invoice
 	 */
@@ -135,51 +143,44 @@ const index = (props) => {
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{invoices.data
-							?.filter((invoice) => {
-								var name = invoice.tenant.toLowerCase()
-								var query = nameQuery.toLowerCase()
-
-								return name.match(query)
-							})
-							.map((invoice, key) => (
-								<tr key={key}>
-									<td>{key + 1}</td>
-									<td>{invoice.tenant}</td>
-									<td className="text-capitalize">{invoice.type}</td>
-									<td className="text-success">
-										<small>KES</small> {invoice.amount}
-									</td>
-									<td className="text-capitalize">{invoice.status}</td>
-									<td>
+						{invoices.data?.map((invoice, key) => (
+							<tr key={key}>
+								<td>{key + 1}</td>
+								<td>{invoice.tenant}</td>
+								<td className="text-capitalize">{invoice.type}</td>
+								<td className="text-success">
+									<small>KES</small> {invoice.amount}
+								</td>
+								<td className="text-capitalize">{invoice.status}</td>
+								<td>
+									<div className="d-flex justify-content-end">
 										<div className="d-flex justify-content-end">
-											<div className="d-flex justify-content-end">
-												<MyLink
-													linkTo={`/invoices/${invoice.id}/show`}
-													icon={<ViewSVG />}
-													// text="view"
-													className="me-1"
-												/>
-											</div>
-
 											<MyLink
-												linkTo={`/invoices/${invoice.id}/edit`}
-												icon={<EditSVG />}
-												// text="edit"
+												linkTo={`/invoices/${invoice.id}/show`}
+												icon={<ViewSVG />}
+												// text="view"
+												className="me-1"
 											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`invoice${key}`}
-													model={invoice}
-													modelName="Invoice"
-													onDelete={onDeleteInvoice}
-												/>
-											</div>
 										</div>
-									</td>
-								</tr>
-							))}
+
+										<MyLink
+											linkTo={`/invoices/${invoice.id}/edit`}
+											icon={<EditSVG />}
+											// text="edit"
+										/>
+
+										<div className="mx-1">
+											<DeleteModal
+												index={`invoice${key}`}
+												model={invoice}
+												modelName="Invoice"
+												onDelete={onDeleteInvoice}
+											/>
+										</div>
+									</div>
+								</td>
+							</tr>
+						))}
 					</thead>
 				</table>
 				{/* Pagination Links */}

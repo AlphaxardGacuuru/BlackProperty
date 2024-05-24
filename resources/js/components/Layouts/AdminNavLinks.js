@@ -21,11 +21,7 @@ const AdminNavLinks = (props) => {
 	const location = useLocation()
 	const history = useHistory()
 
-	const [properties, setProperties] = useState([])
-
 	useEffect(() => {
-		props.get(`properties/by-user-id/${props.auth.id}`, setProperties)
-
 		if (props.auth.name == "Guest") {
 			history.push("/admin")
 		}
@@ -33,11 +29,7 @@ const AdminNavLinks = (props) => {
 
 	// Function for showing active color
 	const active = (check) => {
-		return (
-			location.pathname.match(check) &&
-			"text-primary border-bottom border-primary mx-2"
-			// "rounded-0 text-primary bg-primary-subtle mx-1"
-		)
+		return location.pathname.match(check) && "text-primary"
 	}
 
 	// Function for showing active color
@@ -49,25 +41,6 @@ const AdminNavLinks = (props) => {
 
 	return (
 		<React.Fragment>
-			<li>
-				<Link
-					to="/"
-					style={{
-						color: location.pathname == "/" ? "gold" : "white",
-					}}
-					className="nav-link"
-					onClick={() => setMenu("")}>
-					<span
-						style={{
-							float: "left",
-							paddingRight: "20px",
-							color: location.pathname == "/" ? "gold" : "white",
-						}}>
-						<HomeSVG />
-					</span>
-					Home
-				</Link>
-			</li>
 			{/* Dashboard Link */}
 			<li className="nav-item">
 				<Link
@@ -84,7 +57,9 @@ const AdminNavLinks = (props) => {
 			<li className="nav-item">
 				<Link
 					to={`/admin/properties`}
-					className={`nav-link ${active("/admin/properties")}`}>
+					className={`nav-link ${
+						active("/admin/properties") || active("/admin/units")
+					}`}>
 					<div className="nav-link-icon">
 						<PropertySVG />
 					</div>
