@@ -71,33 +71,36 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
 						name="name"
-						placeholder="Name"
+						placeholder="John Doe"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
+
+					<label htmlFor="">Email</label>
 					<input
 						type="text"
-						name="email"
-						placeholder="Email"
+						placeholder="johndoe@gmail.com"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 						required={true}
 					/>
+
+					<label htmlFor="">Phone</label>
 					<input
 						type="tel"
-						name="phone"
-						placeholder="Phone"
+						placeholder="0722123456"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 						required={true}
 					/>
 
+					<label htmlFor="">Gender</label>
 					<select
-						name="gender"
 						className="form-control mb-3 me-2"
 						onChange={(e) => setGender(e.target.value)}
 						required={true}>

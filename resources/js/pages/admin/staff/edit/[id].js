@@ -22,19 +22,22 @@ const edit = (props) => {
 		// Set page
 		props.setPage({ name: "Edit Staff", path: ["staff", "edit"] })
 		// Fetch Staff
-		Axios.get(`api/staff/${id}`).then((res) => {
-			setStaff(res.data.data)
-			setUserRoles(res.data.data.roles.map((role) => role.id))
-			// Set page
-			props.setPage({
-				name: "Edit Staff",
-				path: [
-					"properties",
-					`properties/${res.data.data.propertyId}/show`,
-					"edit",
-				],
+		Axios.get(`api/staff/${id}`)
+			.then((res) => {
+				setStaff(res.data.data)
+				setUserRoles(res.data.data.roles.map((role) => role.id))
+				// Set page
+				props.setPage({
+					name: "Edit Staff",
+					path: [
+						"properties",
+						`properties/${res.data.data.propertyId}/show`,
+						"edit",
+					],
+				})
 			})
-		})
+			.catch((err) => props.getErrors(err))
+			
 		// Fetch Roles
 		props.get("roles", setRoles)
 	}, [])
@@ -81,28 +84,35 @@ const edit = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
 						name="name"
-						placeholder={staff.name}
+						placeholder="John Doe"
+						defaultValue={staff.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
+
+					<label htmlFor="">Email</label>
 					<input
 						type="text"
-						name="email"
-						placeholder={staff.email}
+						placeholder="johndoe@gmail.com"
+						defaultValue={staff.email}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
+
+					<label htmlFor="">Phone</label>
 					<input
 						type="tel"
-						name="phone"
-						placeholder={staff.phone}
+						placeholder="0722123456"
+						defaultValue={staff.phone}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
 
+					<label htmlFor="">Gender</label>
 					<select
 						name="gender"
 						className="form-control mb-3 me-2"

@@ -50,6 +50,8 @@ const show = (props) => {
 				props.setMessages([res.data.message])
 				// Fetch Unit
 				props.get(`units/${id}`, setUnit)
+				// Fetch Tenants
+				props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -120,6 +122,7 @@ const show = (props) => {
 						<h4>{unit.tenantName}</h4>
 						<h6>{unit.tenantEmail}</h6>
 						<h6>{unit.tenantPhone}</h6>
+						<h6>{unit.tenantOccupiedAt}</h6>
 						<hr />
 						<div className="d-flex justify-content-between">
 							<MyLink

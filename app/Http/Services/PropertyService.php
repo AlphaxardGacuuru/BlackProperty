@@ -38,6 +38,7 @@ class PropertyService extends Service
         $property->name = $request->input("name");
         $property->location = $request->input("location");
         $property->deposit_formula = $request->input("depositFormula");
+        $property->service_charge = $request->input("serviceCharge");
 
         $saved = $property->save();
 
@@ -65,6 +66,10 @@ class PropertyService extends Service
             $property->deposit_formula = $request->input("depositFormula");
         }
 
+        if ($request->filled("serviceCharge")) {
+            $property->service_charge = $request->input("serviceCharge");
+        }
+
         $saved = $property->save();
 
         $message = $property->name . " updated successfully";
@@ -89,8 +94,19 @@ class PropertyService extends Service
     /*
      * By User ID
      */
-    public function byUserId($id)
+    public function byUserId($request, $id)
     {
+        if ($request->filled("idAndName")) {
+            $properties = Property::select("id", "name")
+                ->where("user_id", $id)
+                ->orderBy("id", "DESC")
+                ->get();
+
+            return response([
+                "data" => $properties,
+            ], 200);
+        }
+
         $properties = Property::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->get();

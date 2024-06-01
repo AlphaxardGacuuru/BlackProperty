@@ -29,8 +29,19 @@ const create = (props) => {
 		return previousMonthDateString
 	}
 
+	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])
-	const types = ["rent", "water", "service"]
+
+	const [type, setType] = useState()
+	const [propertyId, setPropertyId] = useState()
+	const [userUnitIds, setUserUnitIds] = useState([])
+	const [month, setMonth] = useState({
+		year: previousMonth().substring(0, 4),
+		month: previousMonth().substring(5, 7),
+	})
+	const [loading, setLoading] = useState()
+
+	const types = ["rent", "water", "service_charge"]
 	const months = [
 		{ id: "01", name: "January" },
 		{ id: "02", name: "February" },
@@ -46,30 +57,6 @@ const create = (props) => {
 		{ id: "12", name: "December" },
 	]
 
-	const [userUnitIds, setUserUnitIds] = useState([])
-	const [type, setType] = useState()
-	const [month, setMonth] = useState({
-		year: previousMonth().substring(0, 4),
-		month: previousMonth().substring(5, 7),
-	})
-	const [loading, setLoading] = useState()
-
-	// Fetch Tenants
-	const fetchTenants = async () => {
-		try {
-			const promises = props.auth.propertyIds.map((id) => {
-				return Axios.get(`api/tenants/by-property-id/${id}`).then(
-					(res) => res.data.data
-				)
-			})
-			const results = await Promise.all(promises)
-			const allTenants = results.flat() // Flatten the array of arrays
-			setTenants(allTenants)
-		} catch (error) {
-			console.error("Error fetching tenants:", error)
-		}
-	}
-
 	// Get Invoices
 	useEffect(() => {
 		// Set page
@@ -78,8 +65,16 @@ const create = (props) => {
 			path: ["invoices", "create"],
 		})
 
+		// Fetch Properties
+		props.get(
+			`properties/by-user-id/${props.auth.id}?idAndName=true`,
+			setProperties
+		)
 		// Fetch Tenants
-		fetchTenants()
+		props.get(
+			`tenants/by-property-id/${props.auth.propertyIds}?idAndName=true`,
+			setTenants
+		)
 	}, [])
 
 	/*
@@ -140,20 +135,48 @@ const create = (props) => {
 							<option
 								key={key}
 								value={type}>
-								{type}
+								{type
+									.split("_")
+									.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+									.join(" ")}
 							</option>
 						))}
 					</select>
 					{/* Type End */}
 
+					{/* Properties */}
+					<select
+						name="property"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						<option value="">Select Property</option>
+						{properties.map((property, key) => (
+							<option
+								key={key}
+								value={property.id}>
+								{property.name}
+							</option>
+						))}
+					</select>
+					{/* Properties End */}
+
+					<h6 className="text-center mb-2">
+						{userUnitIds.length} tenants selected
+					</h6>
+
+					{/* Tenants */}
 					<div className="d-flex">
-						{/* Tenants */}
 						<select
 							name="userUnitId"
 							className="form-control mb-2 me-2"
 							onChange={(e) => {
 								if (e.target.value == "all") {
-									setUserUnitIds(tenants.map((tenant) => tenant.userUnitId))
+									setUserUnitIds(
+										tenants
+											.filter((tenant) => tenant.propertyId == propertyId)
+											.map((tenant) => tenant.userUnitId)
+									)
 								} else {
 									handleUserUnitIds(Number.parseInt(e.target.value))
 								}
@@ -161,16 +184,20 @@ const create = (props) => {
 							disabled={userUnitIds.length > 0}
 							required={true}>
 							<option value="">Select Tenant</option>
-							<option value="all">All</option>
-							{tenants.map((tenant, key) => (
-								<option
-									key={key}
-									value={tenant.userUnitId}
-									className="text-primary"
-									selected={tenant.userUnitId == userUnitIds[0]}>
-									{tenant.name}
-								</option>
-							))}
+							{/* Show option "All" if propertyId is selected */}
+							{propertyId && <option value="all">All</option>}
+
+							{tenants
+								.filter((tenant) => tenant.propertyId == propertyId)
+								.map((tenant, key) => (
+									<option
+										key={key}
+										value={tenant.userUnitId}
+										className="text-primary"
+										selected={tenant.userUnitId == userUnitIds[0]}>
+										{tenant.name}
+									</option>
+								))}
 						</select>
 						{/* Close Icon */}
 						<span
@@ -194,22 +221,24 @@ const create = (props) => {
 								}
 								disabled={userUnitIds.length > key1 + 1}>
 								<option value="">Select Tenant</option>
-								{tenants.map((tenant, key2) => (
-									<option
-										key={key2}
-										value={
-											!userUnitIds.includes(tenant.userUnitId) &&
-											tenant.userUnitId
-										}
-										className={
-											userUnitIds.includes(tenant.userUnitId)
-												? "text-secondary"
-												: "text-primary"
-										}
-										selected={tenant.userUnitId == userUnitIds[key1 + 1]}>
-										{tenant.name}
-									</option>
-								))}
+								{tenants
+									.filter((tenant) => tenant.propertyId == propertyId)
+									.map((tenant, key2) => (
+										<option
+											key={key2}
+											value={
+												!userUnitIds.includes(tenant.userUnitId) &&
+												tenant.userUnitId
+											}
+											className={
+												userUnitIds.includes(tenant.userUnitId)
+													? "text-secondary"
+													: "text-primary"
+											}
+											selected={tenant.userUnitId == userUnitIds[key1 + 1]}>
+											{tenant.name}
+										</option>
+									))}
 							</select>
 							{/* Close Icon */}
 							<span
@@ -268,7 +297,7 @@ const create = (props) => {
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center">
+					<div className="d-flex justify-content-center mb-5">
 						<MyLink
 							linkTo={`/invoices`}
 							icon={<BackSVG />}

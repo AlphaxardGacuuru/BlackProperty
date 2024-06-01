@@ -29,7 +29,8 @@ class StaffService extends Service
      */
     public function show($id)
     {
-        $staff = User::with("property")->findOrFail($id);
+        $staff = UserProperty::where("user_id", $id)
+            ->firstOrFail();
 
         return new StaffResource($staff);
     }
@@ -167,11 +168,6 @@ class StaffService extends Service
      */
     public function byPropertyId($id)
     {
-        // $staff = User::with("roles")
-        // ->whereHas('property', function ($query) use ($id) {
-        // $query->where('property_id', $id);
-        // })->paginate(20);
-
         $staff = UserProperty::where("property_id", $id)
             ->paginate(20);
 

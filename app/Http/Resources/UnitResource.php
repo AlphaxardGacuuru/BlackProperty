@@ -33,12 +33,13 @@ class UnitResource extends JsonResource
             "rent" => number_format($this->rent),
             "deposit" => number_format($this->deposit),
             "type" => $this->type,
-			"tenantId" => $this->currentTenant()?->id,
-			"tenantAvatar" => $this->currentTenant()?->avatar,
-			"tenantName" => $this->currentTenant()?->name,
-			"tenantEmail" => $this->currentTenant()?->email,
-			"tenantPhone" => $this->currentTenant()?->phone,
-			"tenantGender" => $this->currentTenant()?->gender
+            "tenantId" => $this->currentTenant()?->id,
+            "tenantAvatar" => $this->currentTenant()?->avatar,
+            "tenantName" => $this->currentTenant()?->name,
+            "tenantEmail" => $this->currentTenant()?->email,
+            "tenantPhone" => $this->currentTenant()?->phone,
+            "tenantGender" => $this->currentTenant()?->gender,
+            "tenantOccupiedAt" => $this->currentUserUnit()?->occupied_at,
         ];
     }
 }

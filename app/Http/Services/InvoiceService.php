@@ -24,15 +24,15 @@ class InvoiceService extends Service
         return InvoiceResource::collection($invoices);
     }
 
-	/*
-	* Fetch Invoice
-	*/ 
-	public function show($id)
-	{
-		$invoice = Invoice::find($id);
+    /*
+     * Fetch Invoice
+     */
+    public function show($id)
+    {
+        $invoice = Invoice::find($id);
 
-		return new InvoiceResource($invoice);
-	}
+        return new InvoiceResource($invoice);
+    }
 
     /*
      * Save Invoice
@@ -42,21 +42,51 @@ class InvoiceService extends Service
         foreach ($request->userUnitIds as $userUnitId) {
             $userUnit = UserUnit::find($userUnitId);
 
-            $invoice = new Invoice;
-            $invoice->user_id = $userUnit->user_id;
-            $invoice->unit_id = $userUnit->unit_id;
-            $invoice->type = $request->type;
-            $invoice->amount = $userUnit->unit->rent;
-            $invoice->month = $request->month;
-            $invoice->created_by = $this->id;
-            $saved = $invoice->save();
+            // Check if invoice exists for User, Unit and Month
+            $invoiceDoesntExist = Invoice::where("user_id", $userUnit->user_id)
+                ->where("unit_id", $userUnit->unit_id)
+                ->where("month", $request->month)
+                ->where("type", $request->type)
+                ->doesntExist();
+
+            $saved = 0;
+
+            // Get amount depending on the type of invoice
+            switch ($request->type) {
+                case "rent":
+                    $amount = $userUnit->unit->rent;
+                    break;
+
+                case "water":
+                    $amount = $userUnit->unit->property->service_charge;
+                    break;
+
+                default:
+                    $amount = $userUnit->unit->property->service_charge;
+                    break;
+            }
+
+            if ($invoiceDoesntExist) {
+                $invoice = new Invoice;
+                $invoice->user_id = $userUnit->user_id;
+                $invoice->unit_id = $userUnit->unit_id;
+                $invoice->type = $request->type;
+                $invoice->amount = $amount;
+                $invoice->month = $request->month;
+                $invoice->created_by = $this->id;
+                $saved = $invoice->save();
+            }
         }
 
-        $message = count($request->userUnitIds) > 1 ?
-        "Invoices created successfully" :
-        "Invoice created successfully";
+        if ($saved) {
+            $message = count($request->userUnitIds) > 1 ?
+            "Invoices created successfully" :
+            "Invoice created successfully";
+        } else {
+            $message = "Invoice already exists";
+        }
 
-        return [$saved, $message, $invoice];
+        return [$saved, $message, ""];
     }
 
     /*

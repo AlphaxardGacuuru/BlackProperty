@@ -35,6 +35,7 @@ class PropertyController extends Controller
             "name" => "required|string",
             "location" => "required|string",
             "depositFormula" => "required|string",
+            "serviceCharge" => "required|string",
         ]);
 
         [$saved, $message, $property] = $this->service->store($request);
@@ -70,6 +71,7 @@ class PropertyController extends Controller
             "name" => "nullable|string",
             "location" => "nullable|string",
             "depositFormula" => "nullable|string",
+            "serviceCharge" => "nullable|string",
         ]);
 
         [$saved, $message, $property] = $this->service->update($request, $id);
@@ -98,11 +100,11 @@ class PropertyController extends Controller
         ], 200);
     }
 
-	/*
-	* By User ID
-	*/ 
-	public function byUserId($id)
-	{
-		return $this->service->byUserId($id);
-	}
+    /*
+     * By User ID
+     */
+    public function byUserId(Request $request, $id)
+    {
+        return $this->service->byUserId($request, $id);
+    }
 }

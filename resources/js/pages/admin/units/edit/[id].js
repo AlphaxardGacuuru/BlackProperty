@@ -81,19 +81,19 @@ const edit = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
-						name="name"
-						placeholder="Name"
+						placeholder="A1"
 						defaultValue={unit.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
 
+					<label htmlFor="">Rent</label>
 					<input
 						type="number"
-						name="rent"
-						placeholder="Rent"
+						placeholder="20000"
 						defaultValue={unit.rent?.replace(/,/g, "")}
 						className="form-control mb-2 me-2"
 						onChange={(e) => {
@@ -102,15 +102,16 @@ const edit = (props) => {
 						}}
 					/>
 
+					<label htmlFor="">Deposit</label>
 					<input
 						type="number"
-						name="deposit"
-						placeholder="Deposit"
+						placeholder="5000"
 						defaultValue={deposit}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDeposit(e.target.value)}
 					/>
 
+					<label htmlFor="">Type</label>
 					<select
 						type="text"
 						name="type"

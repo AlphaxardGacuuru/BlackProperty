@@ -21,6 +21,7 @@ class PropertyFactory extends Factory
             "location" => fake()->city(),
             "deposit_formula" => "r*2+2000",
             "unit_count" => rand(5, 20),
+            "service_charge" => rand(2000, 20000),
         ];
     }
 }

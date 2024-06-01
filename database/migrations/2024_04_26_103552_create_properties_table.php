@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("location");
             $table->string("deposit_formula");
+            $table->string("service_charge");
             $table->integer("unit_count")->default(0);
             $table->timestamps();
         });

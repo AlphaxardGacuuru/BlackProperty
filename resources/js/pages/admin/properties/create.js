@@ -12,6 +12,7 @@ const create = (props) => {
 	const [location, setLocation] = useState()
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
+	const [serviceCharge, setServiceCharge] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -31,6 +32,7 @@ const create = (props) => {
 			name: name,
 			location: location,
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
+			serviceCharge: serviceCharge,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -51,42 +53,55 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
-						placeholder="Name"
+						placeholder="Zuko Apartments"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
 
+					<label htmlFor="">Location</label>
 					<input
 						type="text"
-						placeholder="Location"
+						placeholder="Roysambu"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setLocation(e.target.value)}
 						required={true}
 					/>
 
-					<label
-						htmlFor=""
-						className="ms-1">
-						Deposit Calculation
-					</label>
+					<label htmlFor="" className="text-primary mt-2">Deposit Calculation</label>
+
+					<br />
+
+					<label htmlFor="">Rent Multiple</label>
 					<input
 						type="number"
-						placeholder="Rent Multiple"
+						placeholder="2"
 						min="0"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
 						required={true}
 					/>
 
+					<label htmlFor="">Additional Charges to Deposit</label>
 					<input
 						type="number"
-						placeholder="Additional Charges to Deposit"
+						placeholder="2000"
 						min="0"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setAdditionalCharges(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Service Charge</label>
+					<input
+						type="number"
+						placeholder="5000"
+						min="0"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setServiceCharge(e.target.value)}
 						required={true}
 					/>
 

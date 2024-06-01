@@ -175,14 +175,21 @@ class TenantService extends Service
      */
     public function byPropertyId($request, $id)
     {
-        $ids = explode(", ", $id);
+		// Split the id into an array of strings
+        $ids = explode(",", $id);		
 
         if ($request->filled("idAndName")) {
-            $tenants = UserUnit::select("id", "name", "userUnitId")
-                ->whereHas("unit.property", function ($query) use ($ids) {
-                    $query->whereIn("id", $ids);
-                })->whereNull("vacated_at")
-                ->get();
+            $tenants = UserUnit::whereHas("unit.property", function ($query) use ($ids) {
+                $query->whereIn("id", $ids);
+            })->whereNull("vacated_at")
+                ->get()
+                ->map(fn($userUnit) => [
+                    "id" => $userUnit->user->id,
+                    "userUnitId" => $userUnit->id,
+                    "unitId" => $userUnit->unit_id,
+                    "propertyId" => $userUnit->unit->property->id,
+                    "name" => $userUnit->user->name,
+                ]);
 
             return response([
                 "data" => $tenants,

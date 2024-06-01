@@ -13,6 +13,7 @@ const edit = (props) => {
 	const [location, setLocation] = useState()
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
+	const [serviceCharge, setServiceCharge] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Extract Rent Multiple and Additional Charges
@@ -47,6 +48,7 @@ const edit = (props) => {
 			name: name,
 			location: location,
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
+			serviceCharge: serviceCharge,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -65,18 +67,20 @@ const edit = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
-						name="name"
+						placeholder="Zuko Apartments"
 						defaultValue={property.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
+						required={true}
 					/>
 
+					<label htmlFor="">Location</label>
 					<input
 						type="text"
-						name="location"
-						placeholder="Location"
+						placeholder="Roysambu"
 						defaultValue={property.location}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setLocation(e.target.value)}
@@ -85,23 +89,43 @@ const edit = (props) => {
 
 					<label
 						htmlFor=""
-						className="ms-1">
+						className="text-primary mt-2">
 						Deposit Calculation
 					</label>
+
+					<br />
+
+					<label htmlFor="">Rent Multiple</label>
 					<input
 						type="number"
-						placeholder="Rent Multiple"
+						placeholder="2"
+						min="0"
 						defaultValue={formula[0]}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
+						required={true}
 					/>
 
+					<label htmlFor="">Additional Charges to Deposit</label>
 					<input
 						type="number"
-						placeholder="Additional Charges to Deposit"
+						placeholder="2000"
+						min="0"
 						defaultValue={formula[1]}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setAdditionalCharges(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Service Charge</label>
+					<input
+						type="number"
+						placeholder="5000"
+						min="0"
+						defaultValue={property.serviceCharge}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setServiceCharge(e.target.value)}
+						required={true}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">

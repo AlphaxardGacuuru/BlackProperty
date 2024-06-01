@@ -100,7 +100,7 @@ const TenantList = (props) => {
 					<tbody>
 						{props.tenants.data?.map((tenant, key) => (
 							<tr key={key}>
-								<td>{key + 1}</td>
+								<td>{props.iterator(key, props.tenants)}</td>
 								<td>
 									<Img
 										src={tenant.avatar}

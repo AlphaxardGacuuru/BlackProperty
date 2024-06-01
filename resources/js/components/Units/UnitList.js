@@ -82,7 +82,7 @@ const UnitList = (props) => {
 						</tr>
 						{props.units.data?.map((unit, key) => (
 							<tr key={key}>
-								<td>{key + 1}</td>
+								<td>{props.iterator(key, props.units)}</td>
 								<td>{unit.name}</td>
 								<td className="text-success">
 									<small>KES</small> {unit.rent}
@@ -93,7 +93,9 @@ const UnitList = (props) => {
 								<td className="text-capitalize">{unit.type}</td>
 								<td>
 									{unit.tenantId ? (
-										<span className="bg-success-subtle p-1">{unit.tenantName}</span>
+										<span className="bg-success-subtle p-1">
+											{unit.tenantName}
+										</span>
 									) : (
 										<span className="bg-warning-subtle p-1">Vacant</span>
 									)}

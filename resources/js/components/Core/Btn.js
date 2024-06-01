@@ -1,7 +1,16 @@
 import React from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
-const Btn = ({ btnStyle, className, icon, text, onClick, loading }) => {
+const Btn = ({
+	btnStyle,
+	className,
+	icon,
+	text,
+	onClick,
+	loading,
+	dataBsToggle,
+	dataBsTarget,
+}) => {
 	const location = useLocation()
 
 	return (
@@ -9,10 +18,16 @@ const Btn = ({ btnStyle, className, icon, text, onClick, loading }) => {
 			style={btnStyle}
 			className={`mysonar-btn btn-2 ${className}`}
 			onClick={onClick}
-			disabled={loading}>
+			disabled={loading}
+			data-bs-toggle={dataBsToggle}
+			data-bs-target={dataBsTarget}>
 			<span>{icon}</span>
 			{text && <span className="mx-1">{text}</span>}
-			{loading && <div id="sonar-load" style={{ bottom: "0"}}></div>}
+			{loading && (
+				<div
+					id="sonar-load"
+					style={{ bottom: "0" }}></div>
+			)}
 		</button>
 	)
 }

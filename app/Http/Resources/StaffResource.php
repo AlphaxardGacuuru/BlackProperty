@@ -22,7 +22,6 @@ class StaffResource extends JsonResource
             "phone" => $this->user->phone,
             "gender" => $this->user->gender,
             "propertyId" => $this->property_id,
-            "roles" => $this->user->roles,
             "roleNames" => $this->user->roles
                 ->map(fn($role) => $role->name),
             "permissions" => $this->user->roles

@@ -54,12 +54,16 @@ class Unit extends Model
      * Custom Functions
      */
 
-    public function currentTenant()
+    public function currentUserUnit()
     {
         return $this->userUnits()
             ->whereNull("vacated_at")
             ->orderBy("id", "DESC")
-            ->first()
-        ?->user;
+            ->first();
+    }
+
+    public function currentTenant()
+    {
+        return $this->currentUserUnit()?->user;
     }
 }

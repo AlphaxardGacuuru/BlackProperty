@@ -71,7 +71,7 @@ const BillableList = (props) => {
 					<tbody>
 						{props.billables?.map((billable, key) => (
 							<tr key={key}>
-								<td>{key + 1}</td>
+								<td>{props.iterator(key, props.billables)}</td>
 								<td>{billable.name}</td>
 								<td>{billable.description}</td>
 								<td>{billable.price}</td>

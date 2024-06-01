@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class UserUnitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "user_id" => User::all()->random()->id,
+			"occupied_at" => Carbon::now()->subMonth(2)->startOfMonth(),
+			"created_by" => User::all()->random()->id,
         ];
     }
 }

@@ -1,5 +1,7 @@
 import React from "react"
 
+import Btn from "@/components/Core/Btn"
+
 import DeleteSVG from "@/svgs/DeleteSVG"
 
 const DeleteModal = ({ index, model, modelName, onDelete }) => {
@@ -27,7 +29,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 								aria-label="Close"></button>
 						</div>
 						<div className="modal-body text-start text-wrap">
-							Are you sure you want to delete {model.name}.
+							Are you sure you want to delete {model.name ?? modelName}.
 						</div>
 						<div className="modal-footer justify-content-between">
 							<button
@@ -51,13 +53,13 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 			{/* Confirm Delete Modal End */}
 
 			{/* Button trigger modal */}
-			<button
-				type="button"
-				className="mysonar-btn btn-2"
-				data-bs-toggle="modal"
-				data-bs-target={`#deleteModal${index}`}>
-				<DeleteSVG />
-			</button>
+			<Btn
+				icon={<DeleteSVG />}
+				text="delete"
+				dataBsToggle="modal"
+				dataBsTarget={`#deleteModal${index}`}
+			/>
+			{/* Button trigger modal End */}
 		</React.Fragment>
 	)
 }

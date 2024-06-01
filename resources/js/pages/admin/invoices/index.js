@@ -126,7 +126,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="5"></th>
+							<th colSpan="6"></th>
 							<th className="text-end">
 								<MyLink
 									linkTo={`/invoices/create`}
@@ -139,19 +139,41 @@ const index = (props) => {
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Type</th>
+							<th>Month</th>
 							<th>Amount</th>
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
 						{invoices.data?.map((invoice, key) => (
 							<tr key={key}>
-								<td>{key + 1}</td>
-								<td>{invoice.tenant}</td>
-								<td className="text-capitalize">{invoice.type}</td>
+								<td>{props.iterator(key, invoices)}</td>
+								<td>{invoice.tenantName}</td>
+								<td className="text-capitalize">
+									{invoice.type
+										.split("_")
+										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.join(" ")}
+								</td>
+								<td className="text-capitalize">{invoice.month}</td>
 								<td className="text-success">
 									<small>KES</small> {invoice.amount}
 								</td>
-								<td className="text-capitalize">{invoice.status}</td>
+								<td className="text-capitalize">
+									<span
+										className={`
+											${
+												invoice.status == "pending"
+													? "bg-danger-subtle"
+													: invoice.status == "partial"
+													? "bg-warning-subtle"
+													: invoice.status == "paid"
+													? "bg-success-subtle"
+													: "bg-dark-subtle"
+											}
+										 py-1 px-3`}>
+										{invoice.status}
+									</span>
+								</td>
 								<td>
 									<div className="d-flex justify-content-end">
 										<div className="d-flex justify-content-end">

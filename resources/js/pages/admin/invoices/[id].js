@@ -19,7 +19,7 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Invoice", path: ["properties", "view"] })
+		props.setPage({ name: "View Invoice", path: ["invoices", "view"] })
 		props.get(`invoices/${id}`, setInvoice)
 		props.get(
 			`tenants/by-property-id/${props.auth.propertyIds}?idAndName=true`,
@@ -246,7 +246,15 @@ const show = (props) => {
 									</thead>
 									<tbody>
 										<tr>
-											<td className="text-capitalize">{invoice.type}</td>
+											<td className="text-capitalize">
+												{invoice.type
+													?.split("_")
+													.map(
+														(word) =>
+															word.charAt(0).toUpperCase() + word.slice(1)
+													)
+													.join(" ")}
+											</td>
 											<td>{invoice.month}</td>
 											<td className="fw-normal text-end">
 												<small className="fw-normal me-1">KES</small>

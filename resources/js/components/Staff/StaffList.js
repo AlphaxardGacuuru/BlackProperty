@@ -125,7 +125,7 @@ const StaffList = (props) => {
 					<tbody>
 						{props.staff.data?.map((staff, key) => (
 							<tr key={key}>
-								<td>{key + 1}</td>
+								<td>{props.iterator(key, props.staff)}</td>
 								<td>
 									<Img
 										src={staff.avatar}
