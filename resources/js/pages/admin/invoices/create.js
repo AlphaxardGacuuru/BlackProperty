@@ -10,24 +10,25 @@ import CloseSVG from "@/svgs/CloseSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	/*
-	 * Get Previous Month
-	 */
-	const previousMonth = () => {
-		var currentDate = new Date()
+	var currentDate = new Date()
+	var currentYear = currentDate.getFullYear()
+	var previousMonth = currentDate.getMonth() - 1
 
-		// Calculate the date of the previous month
-		var previousMonthDate = new Date(
-			currentDate.getFullYear(),
-			currentDate.getMonth() - 1,
-			1
-		)
-
-		// Format the date as "YYYY-MM-DD"
-		var previousMonthDateString = previousMonthDate.toISOString().slice(0, 10)
-
-		return previousMonthDateString
-	}
+	const types = ["rent", "water", "service_charge"]
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	]
 
 	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])
@@ -35,27 +36,9 @@ const create = (props) => {
 	const [type, setType] = useState()
 	const [propertyId, setPropertyId] = useState()
 	const [userUnitIds, setUserUnitIds] = useState([])
-	const [month, setMonth] = useState({
-		year: previousMonth().substring(0, 4),
-		month: previousMonth().substring(5, 7),
-	})
+	const [month, setMonth] = useState(months[previousMonth])
+	const [year, setYear] = useState(currentYear)
 	const [loading, setLoading] = useState()
-
-	const types = ["rent", "water", "service_charge"]
-	const months = [
-		{ id: "01", name: "January" },
-		{ id: "02", name: "February" },
-		{ id: "03", name: "March" },
-		{ id: "04", name: "April" },
-		{ id: "05", name: "May" },
-		{ id: "06", name: "June" },
-		{ id: "07", name: "July" },
-		{ id: "08", name: "August" },
-		{ id: "09", name: "September" },
-		{ id: "10", name: "October" },
-		{ id: "11", name: "November" },
-		{ id: "12", name: "December" },
-	]
 
 	// Get Invoices
 	useEffect(() => {
@@ -102,7 +85,8 @@ const create = (props) => {
 		Axios.post("/api/invoices", {
 			userUnitIds: userUnitIds,
 			type: type,
-			month: `${month.year}-${month.month}-01`,
+			month: month,
+			year: year,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -260,35 +244,32 @@ const create = (props) => {
 					))}
 					{/* Tenants End */}
 
-					{/* Month */}
 					<div className="d-flex justify-content-start mb-2">
-						<input
-							type="number"
-							defaultValue={previousMonth().substring(0, 4)}
-							min="2000"
-							max={previousMonth().substring(0, 4)}
-							className="form-control me-2"
-							onChange={(e) =>
-								setMonth({ year: e.target.value, month: month.month })
-							}
-						/>
-
+						{/* Month */}
 						<select
-							className="form-control"
-							onChange={(e) =>
-								setMonth({ year: month.year, month: e.target.value })
-							}>
+							className="form-control me-2"
+							onChange={(e) => setMonth(e.target.value)}>
 							{months.map((month, key) => (
 								<option
 									key={key}
-									value={month.id}
-									selected={month.id == previousMonth().substring(5, 7)}>
-									{month.name}
+									value={month}
+									selected={key == previousMonth}>
+									{month}
 								</option>
 							))}
 						</select>
+						{/* Month End */}
+
+						{/* Year */}
+						<input
+							type="number"
+							defaultValue={currentYear}
+							max={currentYear}
+							className="form-control"
+							onChange={(e) => setYear(e.target.value)}
+						/>
+						{/* Year End */}
 					</div>
-					{/* Month End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

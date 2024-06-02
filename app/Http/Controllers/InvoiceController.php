@@ -34,7 +34,8 @@ class InvoiceController extends Controller
         $this->validate($request, [
             "userUnitIds" => "required|array",
             "type" => "required|string",
-            "month" => "required|date",
+            "month" => "required|string",
+            "year" => "required|integer",
         ]);
 
         [$saved, $message, $invoices] = $this->service->store($request);
@@ -69,7 +70,8 @@ class InvoiceController extends Controller
         $this->validate($request, [
             "userUnitIds" => "nullable|array",
             "type" => "nullable|string",
-            "month" => "nullable|date",
+            "month" => "nullable|string",
+            "year" => "nullable|integer",
         ]);
 
         [$saved, $message, $invoices] = $this->service->update($request, $id);

@@ -18,7 +18,8 @@ class InvoiceService extends Service
         $invoicesQuery = $this->search($invoicesQuery, $request);
 
         $invoices = $invoicesQuery
-            ->orderBy("id", "DESC")
+        // ->orderBy("month", "ASC")
+            ->orderBy("year", "DESC")
             ->paginate(20);
 
         return InvoiceResource::collection($invoices);
@@ -45,8 +46,9 @@ class InvoiceService extends Service
             // Check if invoice exists for User, Unit and Month
             $invoiceDoesntExist = Invoice::where("user_id", $userUnit->user_id)
                 ->where("unit_id", $userUnit->unit_id)
-                ->where("month", $request->month)
                 ->where("type", $request->type)
+                ->where("month", $request->month)
+                ->where("year", $request->year)
                 ->doesntExist();
 
             $saved = 0;
@@ -73,6 +75,7 @@ class InvoiceService extends Service
                 $invoice->type = $request->type;
                 $invoice->amount = $amount;
                 $invoice->month = $request->month;
+                $invoice->year = $request->year;
                 $invoice->created_by = $this->id;
                 $saved = $invoice->save();
             }
@@ -121,7 +124,8 @@ class InvoiceService extends Service
         $invoicesQuery = $this->search($invoicesQuery, $request);
 
         $invoices = $invoicesQuery
-            ->orderBy("id", "DESC")
+            ->orderBy("month", "DESC")
+            ->orderBy("year", "DESC")
             ->paginate(20);
 
         return InvoiceResource::collection($invoices);
@@ -139,6 +143,36 @@ class InvoiceService extends Service
                 ->whereHas("user", function ($query) use ($name) {
                     $query->where("name", "LIKE", "%" . $name . "%");
                 });
+        }
+
+        $type = $request->input("type");
+
+        if ($request->filled("type")) {
+            $query = $query->where("type", $type);
+        }
+
+        $status = $request->input("status");
+
+        if ($request->filled("status")) {
+            $query = $query->where("status", $status);
+        }
+
+        $propertyId = $request->input("propertyId");
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
+                $query->where("id", $propertyId);
+            });
+        }
+
+        $startMonth = $request->input("startMonth");
+        $endMonth = $request->input("endMonth");
+        $startYear = $request->input("startYear");
+        $endYear = $request->input("endYear");
+
+        if ($request->filled("startMonth") || $request->filled("startYear")) {
+            $query = $query->whereBetween("month", [$startMonth, $endMonth])
+                ->orWhereBetween("year", [$startYear, $endYear]);
         }
 
         return $query;

@@ -20,29 +20,77 @@ import Btn from "@/components/Core/Btn"
 const index = (props) => {
 	const location = useLocation()
 
+	var currentDate = new Date()
+	var currentYear = currentDate.getFullYear()
+	var previousMonth = currentDate.getMonth() - 1
+
 	const [invoices, setInvoices] = useState([])
 
 	const [nameQuery, setNameQuery] = useState("")
+	const [type, setType] = useState("")
+	const [status, setStatus] = useState("")
+	const [propertyId, setPropertyId] = useState("")
+	const [startMonth, setStartMonth] = useState("")
+	const [startYear, setStartYear] = useState("")
+	const [endMonth, setEndMonth] = useState("")
+	const [endYear, setEndYear] = useState("")
+
+	const [properties, setProperties] = useState([])
+	const statuses = ["pending", "partially_paid", "paid", "overpaid"]
+	const types = ["rent", "water", "service_charge"]
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	]
+
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Invoices", path: ["invoices"] })
-		// Fetch Invoices
-		props.getPaginated(
-			`invoices/by-property-id/${props.auth.propertyIds}`,
-			setInvoices
+		// Fetch Properties
+		props.get(
+			`properties/by-user-id/${props.auth.id}?idAndName=true`,
+			setProperties
 		)
 	}, [])
 
 	useEffect(() => {
 		// Fetch Invoices
 		props.getPaginated(
-			`invoices/by-property-id/${props.auth.propertyIds}?name=${nameQuery}`,
+			`invoices/by-property-id/${props.auth.propertyIds}?
+			name=${nameQuery}&
+			type=${type}&
+			status=${status}&
+			propertyId=${propertyId}&
+			startMonth=${startMonth}&
+			startYear=${startYear}&
+			endMonth=${endMonth}&
+			endYear=${endYear}`,
 			setInvoices
 		)
-	}, [nameQuery])
+	}, [
+		nameQuery,
+		type,
+		status,
+		propertyId,
+		startMonth,
+		startMonth,
+		startYear,
+		endMonth,
+		endYear,
+	])
 
 	/*
 	 * Handle DeleteId checkboxes
@@ -134,20 +182,159 @@ const index = (props) => {
 			<br />
 
 			{/* Filters */}
-			<div className="card shadow-sm p-4">
+			<div className="card shadow-sm px-4 pt-4 pb-3 mb-2">
 				<div className="d-flex flex-wrap">
 					{/* Tenant */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<input
-							id=""
 							type="text"
-							name="name"
 							placeholder="Search by Tenant"
 							className="form-control"
 							onChange={(e) => setNameQuery(e.target.value)}
 						/>
 					</div>
 					{/* Tenant End */}
+					{/* Type */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							type="text"
+							name="type"
+							className="form-control text-capitalize"
+							onChange={(e) => setType(e.target.value)}
+							required={true}>
+							<option value="">Filter by Type</option>
+							{types.map((type, key) => (
+								<option
+									key={key}
+									value={type}>
+									{type
+										.split("_")
+										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.join(" ")}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Type End */}
+					{/* Status */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							type="text"
+							name="status"
+							className="form-control text-capitalize"
+							onChange={(e) => setStatus(e.target.value)}
+							required={true}>
+							<option value="">Filter by Status</option>
+							{statuses.map((status, key) => (
+								<option
+									key={key}
+									value={status}>
+									{status
+										.split("_")
+										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.join(" ")}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Status End */}
+					{/* Properties */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							name="property"
+							className="form-control text-capitalize"
+							onChange={(e) => setPropertyId(e.target.value)}
+							required={true}>
+							<option value="">Filter by Property</option>
+							{properties.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}>
+									{property.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Properties End */}
+				</div>
+			</div>
+
+			<div className="card shadow-sm py-2 px-4">
+				<div className="d-flex justify-content-end flex-wrap">
+					<div className="d-flex flex-grow-1">
+						{/* Start Date */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label htmlFor="">Start At</label>
+							{/* Start Month */}
+							<select
+								className="form-control"
+								onChange={(e) => setStartMonth(e.target.value)}>
+								<option value="">Select Month</option>
+								{months.map((month, key) => (
+									<option
+										key={key}
+										value={month}>
+										{month}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Start Month End */}
+						{/* Start Year */}
+						<div className="me-2 mb-2">
+							<label
+								htmlFor=""
+								className="invisible">
+								Start At
+							</label>
+							<input
+								type="number"
+								placeholder={currentYear}
+								className="form-control me-2"
+								onChange={(e) => setStartMonth(e.target.value)}
+							/>
+						</div>
+						{/* Start Year End */}
+					</div>
+					{/* Start Date End */}
+					{/* End Date */}
+					<div className="d-flex flex-grow-1">
+						{/* End Month */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label htmlFor="">End At</label>
+							<select
+								className="form-control"
+								onChange={(e) =>
+									setEndMonth({ year: month.year, month: e.target.value })
+								}>
+								<option value="">Select Month</option>
+								{months.map((month, key) => (
+									<option
+										key={key}
+										value={month}>
+										{month}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* End Month End */}
+						{/* End Year */}
+						<div className="me-2 mb-2">
+							<label
+								htmlFor=""
+								className="invisible">
+								End At
+							</label>
+							<input
+								type="number"
+								placeholder={currentYear}
+								className="form-control me-2"
+								onChange={(e) => setEndMonth(e.target.value)}
+							/>
+						</div>
+						{/* End Year End */}
+					</div>
+					{/* End Date End */}
 				</div>
 			</div>
 			{/* Filters End */}
@@ -159,7 +346,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="7"></th>
+							<th colSpan="8"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
@@ -174,7 +361,7 @@ const index = (props) => {
 									<MyLink
 										linkTo={`/invoices/create`}
 										icon={<PlusSVG />}
-										text="add invoice"
+										text="create invoice"
 									/>
 								</div>
 							</th>
@@ -197,6 +384,7 @@ const index = (props) => {
 							<th>Tenant</th>
 							<th>Type</th>
 							<th>Month</th>
+							<th>Year</th>
 							<th>Amount</th>
 							<th>Status</th>
 							<th className="text-center">Action</th>
@@ -219,6 +407,7 @@ const index = (props) => {
 										.join(" ")}
 								</td>
 								<td className="text-capitalize">{invoice.month}</td>
+								<td className="text-capitalize">{invoice.year}</td>
 								<td className="text-success">
 									<small>KES</small> {invoice.amount}
 								</td>
@@ -244,7 +433,6 @@ const index = (props) => {
 											<MyLink
 												linkTo={`/invoices/${invoice.id}/show`}
 												icon={<ViewSVG />}
-												// text="view"
 												className="me-1"
 											/>
 										</div>
@@ -252,7 +440,6 @@ const index = (props) => {
 										<MyLink
 											linkTo={`/invoices/${invoice.id}/edit`}
 											icon={<EditSVG />}
-											// text="edit"
 										/>
 
 										<div className="mx-1">

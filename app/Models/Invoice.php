@@ -11,13 +11,6 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected function month(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('M Y'),
-        );
-    }
-
     protected function updatedAt(): Attribute
     {
         return Attribute::make(

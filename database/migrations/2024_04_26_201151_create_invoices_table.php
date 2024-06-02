@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('amount');
             $table->string('status')->default('pending');
             $table->string('month');
+            $table->string('year');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 

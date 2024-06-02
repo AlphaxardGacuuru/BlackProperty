@@ -26,6 +26,7 @@ class InvoiceResource extends JsonResource
 			"amount" => number_format($this->amount),
 			"status" => $this->status,
 			"month" => $this->month,
+			"year" => $this->year,
 			"updatedAt" => $this->updatedAt,
 			"createdAt" => $this->createdAt,
 		];
