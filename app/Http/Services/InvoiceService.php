@@ -83,7 +83,9 @@ class InvoiceService extends Service
             "Invoices created successfully" :
             "Invoice created successfully";
         } else {
-            $message = "Invoice already exists";
+            $message = count($request->userUnitIds) > 1 ?
+            "Invoices already exist" :
+            "Invoice already exists";
         }
 
         return [$saved, $message, ""];
@@ -94,11 +96,15 @@ class InvoiceService extends Service
      */
     public function destroy($id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $ids = explode(",", $id);
 
-        $deleted = $invoice->delete();
+        $deleted = Invoice::whereIn("id", $ids)->delete();
 
-        return [$deleted, "Invoice deleted successfully", $invoice];
+        $message = count($ids) > 1 ?
+        "Invoices deleted successfully" :
+        "Invoice deleted successfully";
+
+        return [$deleted, $message, ""];
     }
 
     /*

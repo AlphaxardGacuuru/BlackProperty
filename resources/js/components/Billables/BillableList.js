@@ -108,7 +108,7 @@ const BillableList = (props) => {
 																	data-bs-dismiss="modal"
 																	aria-label="Close"></button>
 															</div>
-															<div className="modal-body text-start text-wrap text-start">
+															<div className="modal-body text-start text-wrap">
 																Are you sure you want to delete {billable.name}.
 															</div>
 															<div className="modal-footer justify-content-between">

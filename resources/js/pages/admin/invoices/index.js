@@ -15,6 +15,7 @@ import PlusSVG from "@/svgs/PlusSVG"
 import InvoiceSVG from "@/svgs/InvoiceSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
+import Btn from "@/components/Core/Btn"
 
 const index = (props) => {
 	const location = useLocation()
@@ -22,6 +23,8 @@ const index = (props) => {
 	const [invoices, setInvoices] = useState([])
 
 	const [nameQuery, setNameQuery] = useState("")
+	const [deleteIds, setDeleteIds] = useState([])
+	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
@@ -42,20 +45,50 @@ const index = (props) => {
 	}, [nameQuery])
 
 	/*
+	 * Handle DeleteId checkboxes
+	 */
+	const handleSetDeleteIds = (invoiceId) => {
+		var exists = deleteIds.includes(invoiceId)
+
+		var newDeleteIds = exists
+			? deleteIds.filter((item) => item != invoiceId)
+			: [...deleteIds, invoiceId]
+
+		setDeleteIds(newDeleteIds)
+	}
+
+	/*
 	 * Delete Invoice
 	 */
 	const onDeleteInvoice = (invoiceId) => {
-		Axios.delete(`/api/invoices/${invoiceId}`)
+		setLoading(true)
+		var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId
+
+		Axios.delete(`/api/invoices/${invoiceIds}`)
 			.then((res) => {
+				setLoading(false)
 				props.setMessages([res.data.message])
 				// Remove row
 				setInvoices({
 					meta: invoices.meta,
 					links: invoices.links,
-					data: invoices.data.filter((invoice) => invoice.id != invoiceId),
+					data: invoices.data.filter((invoice) => {
+						if (Array.isArray(invoiceId)) {
+							return !invoiceIds.includes(invoice.id)
+						} else {
+							return invoice.id != invoiceId
+						}
+					}),
 				})
+				// Clear DeleteIds
+				setDeleteIds([])
 			})
-			.catch((err) => props.getErrors(err))
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
 	}
 
 	return (
@@ -126,16 +159,40 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="6"></th>
+							<th colSpan="7"></th>
 							<th className="text-end">
-								<MyLink
-									linkTo={`/invoices/create`}
-									icon={<PlusSVG />}
-									text="add invoice"
-								/>
+								<div className="d-flex justify-content-end">
+									{deleteIds.length > 0 && (
+										<Btn
+											text={`delete ${deleteIds.length}`}
+											className="me-2"
+											onClick={() => onDeleteInvoice(deleteIds)}
+											loading={loading}
+										/>
+									)}
+
+									<MyLink
+										linkTo={`/invoices/create`}
+										icon={<PlusSVG />}
+										text="add invoice"
+									/>
+								</div>
 							</th>
 						</tr>
 						<tr>
+							<th>
+								<input
+									type="checkbox"
+									checked={deleteIds.length == invoices.data?.length}
+									onClick={() =>
+										setDeleteIds(
+											deleteIds.length == invoices.data.length
+												? []
+												: invoices.data.map((invoice) => invoice.id)
+										)
+									}
+								/>
+							</th>
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Type</th>
@@ -146,6 +203,13 @@ const index = (props) => {
 						</tr>
 						{invoices.data?.map((invoice, key) => (
 							<tr key={key}>
+								<td>
+									<input
+										type="checkbox"
+										checked={deleteIds.includes(invoice.id)}
+										onClick={() => handleSetDeleteIds(invoice.id)}
+									/>
+								</td>
 								<td>{props.iterator(key, invoices)}</td>
 								<td>{invoice.tenantName}</td>
 								<td className="text-capitalize">

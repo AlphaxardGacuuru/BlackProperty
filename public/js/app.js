@@ -85281,6 +85281,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/InvoiceSVG */ "./resources/js/svgs/InvoiceSVG.js");
 /* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
 /* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -85300,8 +85305,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var index = function index(props) {
-  var _props$rentStatement, _props$rentStatement2, _props$rentStatement3, _invoices$data;
+  var _props$rentStatement, _props$rentStatement2, _props$rentStatement3, _invoices$data, _invoices$data2;
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -85311,6 +85317,14 @@ var index = function index(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     nameQuery = _useState4[0],
     setNameQuery = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    deleteIds = _useState6[0],
+    setDeleteIds = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState8 = _slicedToArray(_useState7, 2),
+    loading = _useState8[0],
+    setLoading = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -85326,21 +85340,44 @@ var index = function index(props) {
   }, [nameQuery]);
 
   /*
+   * Handle DeleteId checkboxes
+   */
+  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
+    var exists = deleteIds.includes(invoiceId);
+    var newDeleteIds = exists ? deleteIds.filter(function (item) {
+      return item != invoiceId;
+    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
+    setDeleteIds(newDeleteIds);
+  };
+
+  /*
    * Delete Invoice
    */
   var onDeleteInvoice = function onDeleteInvoice(invoiceId) {
-    Axios["delete"]("/api/invoices/".concat(invoiceId)).then(function (res) {
+    setLoading(true);
+    var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId;
+    Axios["delete"]("/api/invoices/".concat(invoiceIds)).then(function (res) {
+      setLoading(false);
       props.setMessages([res.data.message]);
       // Remove row
       setInvoices({
         meta: invoices.meta,
         links: invoices.links,
         data: invoices.data.filter(function (invoice) {
-          return invoice.id != invoiceId;
+          if (Array.isArray(invoiceId)) {
+            return !invoiceIds.includes(invoice.id);
+          } else {
+            return invoice.id != invoiceId;
+          }
         })
       });
+      // Clear DeleteIds
+      setDeleteIds([]);
     })["catch"](function (err) {
-      return props.getErrors(err);
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
     });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -85380,19 +85417,42 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "6"
+    colSpan: "7"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end"
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    text: "delete ".concat(deleteIds.length),
+    className: "me-2",
+    onClick: function onClick() {
+      return onDeleteInvoice(deleteIds);
+    },
+    loading: loading
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
     linkTo: "/invoices/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
     text: "add invoice"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: deleteIds.length == ((_invoices$data = invoices.data) === null || _invoices$data === void 0 ? void 0 : _invoices$data.length),
+    onClick: function onClick() {
+      return setDeleteIds(deleteIds.length == invoices.data.length ? [] : invoices.data.map(function (invoice) {
+        return invoice.id;
+      }));
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
-  }, "Action")), (_invoices$data = invoices.data) === null || _invoices$data === void 0 ? void 0 : _invoices$data.map(function (invoice, key) {
+  }, "Action")), (_invoices$data2 = invoices.data) === null || _invoices$data2 === void 0 ? void 0 : _invoices$data2.map(function (invoice, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, invoices)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      checked: deleteIds.includes(invoice.id),
+      onClick: function onClick() {
+        return handleSetDeleteIds(invoice.id);
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, invoices)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, invoice.type.split("_").map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -86139,7 +86199,6 @@ var create = function create(props) {
         className: "px-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "checkbox",
-        id: "",
         name: "entities",
         onClick: function onClick(e) {
           return handleSetPermissions("".concat(entity, ".").concat(item));

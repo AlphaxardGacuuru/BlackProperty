@@ -123,7 +123,6 @@ const create = (props) => {
 													<label className="px-3">
 														<input
 															type="checkbox"
-															id=""
 															name="entities"
 															onClick={(e) =>
 																handleSetPermissions(`${entity}.${item}`)
