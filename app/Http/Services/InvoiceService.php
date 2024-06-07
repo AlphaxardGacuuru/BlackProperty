@@ -40,6 +40,8 @@ class InvoiceService extends Service
      */
     public function store($request)
     {
+        $saved = 0;
+
         foreach ($request->userUnitIds as $userUnitId) {
             $userUnit = UserUnit::find($userUnitId);
 
@@ -50,8 +52,6 @@ class InvoiceService extends Service
                 ->where("month", $request->month)
                 ->where("year", $request->year)
                 ->doesntExist();
-
-            $saved = 0;
 
             // Get amount depending on the type of invoice
             switch ($request->type) {
@@ -170,9 +170,20 @@ class InvoiceService extends Service
         $startYear = $request->input("startYear");
         $endYear = $request->input("endYear");
 
-        if ($request->filled("startMonth") || $request->filled("startYear")) {
-            $query = $query->whereBetween("month", [$startMonth, $endMonth])
-                ->orWhereBetween("year", [$startYear, $endYear]);
+        if ($request->filled("startMonth")) {
+            $query = $query->where("month", ">=", $startMonth);
+        }
+
+        if ($request->filled("endMonth")) {
+            $query = $query->where("month", "<=", $endMonth);
+        }
+
+        if ($request->filled("startYear")) {
+            $query = $query->where("year", ">=", $startYear);
+        }
+
+        if ($request->filled("endYear")) {
+            $query = $query->where("year", "<=", $endYear);
         }
 
         return $query;

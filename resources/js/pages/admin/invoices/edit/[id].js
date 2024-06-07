@@ -68,7 +68,7 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/invoices", {
+		Axios.put(`/api/invoices/${id}`, {
 			userUnitIds: userUnitIds,
 			type: type,
 		})

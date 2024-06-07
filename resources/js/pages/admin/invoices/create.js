@@ -36,7 +36,7 @@ const create = (props) => {
 	const [type, setType] = useState()
 	const [propertyId, setPropertyId] = useState()
 	const [userUnitIds, setUserUnitIds] = useState([])
-	const [month, setMonth] = useState(months[previousMonth])
+	const [month, setMonth] = useState(previousMonth)
 	const [year, setYear] = useState(currentYear)
 	const [loading, setLoading] = useState()
 
@@ -252,7 +252,7 @@ const create = (props) => {
 							{months.map((month, key) => (
 								<option
 									key={key}
-									value={month}
+									value={key}
 									selected={key == previousMonth}>
 									{month}
 								</option>
@@ -273,7 +273,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="create invoice"
+							text="create invoices"
 							loading={loading}
 						/>
 					</div>

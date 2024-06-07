@@ -14,6 +14,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WaterReadingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::apiResources([
     "units" => UnitController::class,
     "tenants" => TenantController::class,
 	"invoices" => InvoiceController::class,
+	"water-readings" => WaterReadingController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
@@ -74,6 +76,11 @@ Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
  * Staff
  */
 Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
+
+/*
+* WaterReadings
+*/ 
+Route::get("water-readings/by-property-id/{id}", [WaterReadingController::class, "byPropertyId"]);
 
 /*
 * Invoices

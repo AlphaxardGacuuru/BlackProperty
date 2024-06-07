@@ -16,6 +16,7 @@ import PersonGearSVG from "@/svgs/PersonGearSVG"
 import UnitSVG from "@/svgs/UnitSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import InvoiceSVG from "@/svgs/InvoiceSVG"
+import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -79,6 +80,18 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Invoices Link End */}
+			{/* Water Readings Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/water-readings`}
+					className={`nav-link ${active("/admin/water-readings")}`}>
+					<div className="nav-link-icon">
+						<WaterReadingSVG />
+					</div>
+					<div className="nav-link-text">Water Reading</div>
+				</Link>
+			</li>
+			{/* Water Readings Link End */}
 			{/* Finance Links */}
 			<li className="nav-item">
 				<a

@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('water_readings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
+            $table->foreignId('user_unit_id')
                 ->constrained()
-                ->onUpdate("cascade")
-                ->onDelete("cascade");
-            $table->string("name");
-            $table->string("location");
-            $table->string("deposit_formula");
-            $table->integer("service_charge");
-            $table->integer("unit_count")->default(0);
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->integer('reading');
+            $table->integer('month');
+            $table->integer('year');
             $table->timestamps();
         });
     }
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('water_readings');
     }
 };

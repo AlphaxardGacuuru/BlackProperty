@@ -27,6 +27,10 @@ import AdminInvoiceCreate from "@/pages/admin/invoices/create"
 import AdminInvoiceShow from "@/pages/admin/invoices/[id]"
 import AdminInvoiceEdit from "@/pages/admin/invoices/edit/[id]"
 
+import AdminWaterReadings from "@/pages/admin/water-readings/index"
+import AdminWaterReadingCreate from "@/pages/admin/water-readings/create"
+import AdminWaterReadingEdit from "@/pages/admin/water-readings/edit/[id]"
+
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
 import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
 import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
@@ -116,6 +120,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/invoices/:id/edit",
 			component: <AdminInvoiceEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/water-readings",
+			component: <AdminWaterReadings {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/water-readings/create",
+			component: <AdminWaterReadingCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/water-readings/:id/edit",
+			component: <AdminWaterReadingEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/finance/transactions",

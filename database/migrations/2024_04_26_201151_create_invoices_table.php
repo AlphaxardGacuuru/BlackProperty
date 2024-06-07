@@ -24,10 +24,10 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('type');
-            $table->string('amount');
+            $table->integer('amount');
             $table->string('status')->default('pending');
-            $table->string('month');
-            $table->string('year');
+            $table->integer('month');
+            $table->integer('year');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 

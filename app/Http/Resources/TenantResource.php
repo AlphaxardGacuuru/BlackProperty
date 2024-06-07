@@ -18,6 +18,7 @@ class TenantResource extends JsonResource
             "id" => $this->user->id,
             "userUnitId" => $this->id,
             "unitId" => $this->unit_id,
+            "unitName" => $this->unit->name,
             "propertyId" => $this->unit->property->id,
             "name" => $this->user->name,
             "email" => $this->user->email,

@@ -187,6 +187,7 @@ class TenantService extends Service
                     "id" => $userUnit->user->id,
                     "userUnitId" => $userUnit->id,
                     "unitId" => $userUnit->unit_id,
+                    "unitName" => $userUnit->unit->name,
                     "propertyId" => $userUnit->unit->property->id,
                     "name" => $userUnit->user->name,
                 ]);

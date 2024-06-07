@@ -12,7 +12,7 @@ import HeroIcon from "@/components/Core/HeroIcon"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
-import InvoiceSVG from "@/svgs/InvoiceSVG"
+import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
@@ -22,20 +22,14 @@ const index = (props) => {
 	var currentYear = currentDate.getFullYear()
 	var previousMonth = currentDate.getMonth() - 1
 
-	const [invoices, setInvoices] = useState([])
+	const [waterReadings, setWaterReadings] = useState([])
 
-	const [name, setName] = useState("")
-	const [type, setType] = useState("")
-	const [status, setStatus] = useState("")
-	const [propertyId, setPropertyId] = useState("")
+	const [unit, setUnit] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [properties, setProperties] = useState([])
-	const statuses = ["pending", "partially_paid", "paid", "overpaid"]
-	const types = ["rent", "water", "service_charge"]
 	const months = [
 		"January",
 		"February",
@@ -56,63 +50,57 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Invoices", path: ["invoices"] })
-		// Fetch Properties
-		props.get(
-			`properties/by-user-id/${props.auth.id}?idAndName=true`,
-			setProperties
-		)
+		props.setPage({ name: "Water Readings", path: ["water-readings"] })
 	}, [])
 
 	useEffect(() => {
-		// Fetch Invoices
+		// Fetch Water Readings
 		props.getPaginated(
-			`invoices/by-property-id/${props.auth.propertyIds}?
-			name=${name}&
-			type=${type}&
-			status=${status}&
-			propertyId=${propertyId}&
+			`water-readings/by-property-id/${props.auth.propertyIds}?
+			unit=${unit}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
 			endYear=${endYear}`,
-			setInvoices
+			setWaterReadings
 		)
-	}, [name, type, status, propertyId, startMonth, endMonth, startYear, endYear])
+	}, [unit, startMonth, endMonth, startYear, endYear])
 
 	/*
 	 * Handle DeleteId checkboxes
 	 */
-	const handleSetDeleteIds = (invoiceId) => {
-		var exists = deleteIds.includes(invoiceId)
+	const handleSetDeleteIds = (waterReadingId) => {
+		var exists = deleteIds.includes(waterReadingId)
 
 		var newDeleteIds = exists
-			? deleteIds.filter((item) => item != invoiceId)
-			: [...deleteIds, invoiceId]
+			? deleteIds.filter((item) => item != waterReadingId)
+			: [...deleteIds, waterReadingId]
 
 		setDeleteIds(newDeleteIds)
 	}
 
 	/*
-	 * Delete Invoice
+	 * Delete WaterReading
 	 */
-	const onDeleteInvoice = (invoiceId) => {
+	const onDeleteWaterReading = (waterReadingId) => {
 		setLoading(true)
-		var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId
+		var waterReadingIds = Array.isArray(waterReadingId)
+			? waterReadingId.join(",")
+			: waterReadingId
 
-		Axios.delete(`/api/invoices/${invoiceIds}`)
+		Axios.delete(`/api/water-readings/${waterReadingIds}`)
 			.then((res) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
 				// Remove row
-				setInvoices({
-					meta: invoices.meta,
-					links: invoices.links,
-					data: invoices.data.filter((invoice) => {
-						if (Array.isArray(invoiceId)) {
-							return !invoiceIds.includes(invoice.id)
+				setWaterReadings({
+					meta: waterReadings.meta,
+					links: waterReadings.links,
+					data: waterReadings.data.filter((waterReading) => {
+						if (Array.isArray(waterReadingId)) {
+							return !waterReadingIds.includes(waterReading.id)
 						} else {
-							return invoice.id != invoiceId
+							return waterReading.id != waterReadingId
 						}
 					}),
 				})
@@ -140,7 +128,7 @@ const index = (props) => {
 							data={props.rentStatement?.length}
 						/>
 						<HeroIcon>
-							<InvoiceSVG />
+							<WaterReadingSVG />
 						</HeroIcon>
 						{/* Due End */}
 						{/* Paid */}
@@ -170,85 +158,19 @@ const index = (props) => {
 			<br />
 
 			{/* Filters */}
-			<div className="card shadow-sm px-4 pt-4 pb-3 mb-2">
-				<div className="d-flex flex-wrap">
-					{/* Tenant */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<input
-							type="text"
-							placeholder="Search by Tenant"
-							className="form-control"
-							onChange={(e) => setName(e.target.value)}
-						/>
-					</div>
-					{/* Tenant End */}
-					{/* Type */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							type="text"
-							name="type"
-							className="form-control text-capitalize"
-							onChange={(e) => setType(e.target.value)}
-							required={true}>
-							<option value="">Filter by Type</option>
-							{types.map((type, key) => (
-								<option
-									key={key}
-									value={type}>
-									{type
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Type End */}
-					{/* Status */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							type="text"
-							name="status"
-							className="form-control text-capitalize"
-							onChange={(e) => setStatus(e.target.value)}
-							required={true}>
-							<option value="">Filter by Status</option>
-							{statuses.map((status, key) => (
-								<option
-									key={key}
-									value={status}>
-									{status
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Status End */}
-					{/* Properties */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							name="property"
-							className="form-control text-capitalize"
-							onChange={(e) => setPropertyId(e.target.value)}
-							required={true}>
-							<option value="">Filter by Property</option>
-							{properties.map((property, key) => (
-								<option
-									key={key}
-									value={property.id}>
-									{property.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Properties End */}
-				</div>
-			</div>
-
 			<div className="card shadow-sm py-2 px-4">
 				<div className="d-flex justify-content-end flex-wrap">
+					{/* Unit */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="">Unit</label>
+						<input
+							type="text"
+							placeholder="Search by Unit"
+							className="form-control"
+							onChange={(e) => setUnit(e.target.value)}
+						/>
+					</div>
+					{/* Unit End */}
 					<div className="d-flex flex-grow-1">
 						{/* Start Date */}
 						<div className="flex-grow-1 me-2 mb-2">
@@ -332,22 +254,22 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="8"></th>
+							<th colSpan="5"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
 										<Btn
 											text={`delete ${deleteIds.length}`}
 											className="me-2"
-											onClick={() => onDeleteInvoice(deleteIds)}
+											onClick={() => onDeleteWaterReading(deleteIds)}
 											loading={loading}
 										/>
 									)}
 
 									<MyLink
-										linkTo={`/invoices/create`}
+										linkTo={`/water-readings/create`}
 										icon={<PlusSVG />}
-										text="create invoice"
+										text="add water readings"
 									/>
 								</div>
 							</th>
@@ -357,86 +279,52 @@ const index = (props) => {
 								<input
 									type="checkbox"
 									checked={
-										deleteIds.length == invoices.data?.length &&
+										deleteIds.length == waterReadings.data?.length &&
 										deleteIds.length != 0
 									}
 									onClick={() =>
 										setDeleteIds(
-											deleteIds.length == invoices.data.length
+											deleteIds.length == waterReadings.data.length
 												? []
-												: invoices.data.map((invoice) => invoice.id)
+												: waterReadings.data.map(
+														(waterReading) => waterReading.id
+												  )
 										)
 									}
 								/>
 							</th>
-							<th>#</th>
-							<th>Tenant</th>
-							<th>Type</th>
+							<th>Unit</th>
+							<th>Reading</th>
 							<th>Month</th>
 							<th>Year</th>
-							<th>Amount</th>
-							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{invoices.data?.map((invoice, key) => (
+						{waterReadings.data?.map((waterReading, key) => (
 							<tr key={key}>
 								<td>
 									<input
 										type="checkbox"
-										checked={deleteIds.includes(invoice.id)}
-										onClick={() => handleSetDeleteIds(invoice.id)}
+										checked={deleteIds.includes(waterReading.id)}
+										onClick={() => handleSetDeleteIds(waterReading.id)}
 									/>
 								</td>
-								<td>{props.iterator(key, invoices)}</td>
-								<td>{invoice.tenantName}</td>
-								<td className="text-capitalize">
-									{invoice.type
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</td>
-								<td className="text-capitalize">{months[invoice.month]}</td>
-								<td>{invoice.year}</td>
-								<td className="text-success">
-									<small>KES</small> {invoice.amount}
-								</td>
-								<td className="text-capitalize">
-									<span
-										className={`
-											${
-												invoice.status == "pending"
-													? "bg-danger-subtle"
-													: invoice.status == "partial"
-													? "bg-warning-subtle"
-													: invoice.status == "paid"
-													? "bg-success-subtle"
-													: "bg-dark-subtle"
-											}
-										 py-1 px-3`}>
-										{invoice.status}
-									</span>
-								</td>
+								<td>{waterReading.unitName}</td>
+								<td>{waterReading.reading}</td>
+								<td className="text-capitalize">{months[waterReading.month]}</td>
+								<td>{waterReading.year}</td>
 								<td>
 									<div className="d-flex justify-content-end">
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/invoices/${invoice.id}/show`}
-												icon={<ViewSVG />}
-												className="me-1"
-											/>
-										</div>
-
 										<MyLink
-											linkTo={`/invoices/${invoice.id}/edit`}
+											linkTo={`/water-readings/${waterReading.id}/edit`}
 											icon={<EditSVG />}
 										/>
 
 										<div className="mx-1">
 											<DeleteModal
-												index={`invoice${key}`}
-												model={invoice}
-												modelName="Invoice"
-												onDelete={onDeleteInvoice}
+												index={`waterReading${key}`}
+												model={waterReading}
+												modelName="WaterReading"
+												onDelete={onDeleteWaterReading}
 											/>
 										</div>
 									</div>
@@ -447,9 +335,9 @@ const index = (props) => {
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks
-					list={invoices}
+					list={waterReadings}
 					getPaginated={props.getPaginated}
-					setState={setInvoices}
+					setState={setWaterReadings}
 				/>
 				{/* Pagination Links End */}
 			</div>
