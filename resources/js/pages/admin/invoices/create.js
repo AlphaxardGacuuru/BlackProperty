@@ -36,8 +36,8 @@ const create = (props) => {
 	const [type, setType] = useState()
 	const [propertyId, setPropertyId] = useState()
 	const [userUnitIds, setUserUnitIds] = useState([])
-	const [month, setMonth] = useState(previousMonth)
-	const [year, setYear] = useState(currentYear)
+	const [month, setMonth] = useState(props.previousMonth)
+	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	// Get Invoices
@@ -92,8 +92,12 @@ const create = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-				// Redirect to Invoices
-				setTimeout(() => history.push(`/admin/invoices`), 500)
+
+				// Check if readings saved
+				if (res.data.message.match("successfully")) {
+					// Redirect to Invoices
+					setTimeout(() => history.push(`/admin/invoices`), 500)
+				}
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -249,11 +253,11 @@ const create = (props) => {
 						<select
 							className="form-control me-2"
 							onChange={(e) => setMonth(e.target.value)}>
-							{months.map((month, key) => (
+							{props.months.map((month, key) => (
 								<option
 									key={key}
 									value={key}
-									selected={key == previousMonth}>
+									selected={key == props.previousMonth}>
 									{month}
 								</option>
 							))}
@@ -261,13 +265,18 @@ const create = (props) => {
 						{/* Month End */}
 
 						{/* Year */}
-						<input
-							type="number"
-							defaultValue={currentYear}
-							max={currentYear}
+						<select
 							className="form-control"
-							onChange={(e) => setYear(e.target.value)}
-						/>
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == props.currentYear}>
+									{year}
+								</option>
+							))}
+						</select>
 						{/* Year End */}
 					</div>
 

@@ -18,10 +18,6 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 
 const index = (props) => {
-	var currentDate = new Date()
-	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth() - 1
-
 	const [invoices, setInvoices] = useState([])
 
 	const [name, setName] = useState("")
@@ -36,20 +32,6 @@ const index = (props) => {
 	const [properties, setProperties] = useState([])
 	const statuses = ["pending", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
 
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
@@ -133,7 +115,7 @@ const index = (props) => {
 			<div className="card shadow-sm mb-2 p-2">
 				<div className="d-flex justify-content-between">
 					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+					<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-4">
 						{/* Due */}
 						<HeroHeading
 							heading="Due"
@@ -162,8 +144,8 @@ const index = (props) => {
 						</HeroIcon>
 						{/* Balance End */}
 					</div>
-					{/* Total End */}
 				</div>
+				{/* Total End */}
 			</div>
 			{/* Data End */}
 
@@ -258,7 +240,7 @@ const index = (props) => {
 								className="form-control"
 								onChange={(e) => setStartMonth(e.target.value)}>
 								<option value="">Select Month</option>
-								{months.map((month, key) => (
+								{props.months.map((month, key) => (
 									<option
 										key={key}
 										value={key}>
@@ -269,18 +251,24 @@ const index = (props) => {
 						</div>
 						{/* Start Month End */}
 						{/* Start Year */}
-						<div className="me-2 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label
 								htmlFor=""
 								className="invisible">
 								Start At
 							</label>
-							<input
-								type="number"
-								placeholder={currentYear}
-								className="form-control me-2"
-								onChange={(e) => setStartYear(e.target.value)}
-							/>
+							<select
+								className="form-control"
+								onChange={(e) => setStartYear(e.target.value)}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={key}>
+										{year}
+									</option>
+								))}
+							</select>
 						</div>
 						{/* Start Year End */}
 					</div>
@@ -294,7 +282,7 @@ const index = (props) => {
 								className="form-control"
 								onChange={(e) => setEndMonth(e.target.value)}>
 								<option value="">Select Month</option>
-								{months.map((month, key) => (
+								{props.months.map((month, key) => (
 									<option
 										key={key}
 										value={key}>
@@ -305,18 +293,24 @@ const index = (props) => {
 						</div>
 						{/* End Month End */}
 						{/* End Year */}
-						<div className="me-2 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label
 								htmlFor=""
 								className="invisible">
 								End At
 							</label>
-							<input
-								type="number"
-								placeholder={currentYear}
-								className="form-control me-2"
-								onChange={(e) => setEndYear(e.target.value)}
-							/>
+							<select
+								className="form-control"
+								onChange={(e) => setStartYear(e.target.value)}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={key}>
+										{year}
+									</option>
+								))}
+							</select>
 						</div>
 						{/* End Year End */}
 					</div>
@@ -395,7 +389,9 @@ const index = (props) => {
 										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 										.join(" ")}
 								</td>
-								<td className="text-capitalize">{months[invoice.month]}</td>
+								<td className="text-capitalize">
+									{props.months[invoice.month]}
+								</td>
 								<td>{invoice.year}</td>
 								<td className="text-success">
 									<small>KES</small> {invoice.amount}
@@ -425,11 +421,6 @@ const index = (props) => {
 												className="me-1"
 											/>
 										</div>
-
-										<MyLink
-											linkTo={`/invoices/${invoice.id}/edit`}
-											icon={<EditSVG />}
-										/>
 
 										<div className="mx-1">
 											<DeleteModal

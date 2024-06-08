@@ -61,6 +61,16 @@ class WaterReadingService extends Service
     {
         $waterReading = WaterReading::find($id);
 
+        // Check if water reading exists for UserUnit, Month and Year
+        $readingExists = WaterReading::where("user_unit_id", $waterReading->user_unit_id)
+            ->where("month", $request->month)
+            ->where("year", $request->year)
+            ->exists();
+
+        if ($readingExists) {
+            return [0, "Water Reading already exists", $waterReading];
+        }
+
         if ($request->filled("reading")) {
             $waterReading->reading = $request->reading;
         }

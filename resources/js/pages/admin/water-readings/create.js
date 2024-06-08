@@ -10,32 +10,13 @@ import CloseSVG from "@/svgs/CloseSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	var currentDate = new Date()
-	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth() - 1
-
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
-
 	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])
 
 	const [propertyId, setPropertyId] = useState()
 	const [waterReadings, setWaterReadings] = useState([])
-	const [month, setMonth] = useState(previousMonth)
-	const [year, setYear] = useState(currentYear)
+	const [month, setMonth] = useState(props.previousMonth)
+	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	// Get Water Readings
@@ -96,7 +77,6 @@ const create = (props) => {
 
 		setWaterReadings(newWaterReadings)
 	}
-	console.log(waterReadings)
 
 	/*
 	 * Submit Form
@@ -180,11 +160,11 @@ const create = (props) => {
 						<select
 							className="form-control me-2"
 							onChange={(e) => setMonth(e.target.value)}>
-							{months.map((month, key) => (
+							{props.months.map((month, key) => (
 								<option
 									key={key}
 									value={key}
-									selected={key == previousMonth}>
+									selected={key == props.previousMonth}>
 									{month}
 								</option>
 							))}
@@ -192,13 +172,18 @@ const create = (props) => {
 						{/* Month End */}
 
 						{/* Year */}
-						<input
-							type="number"
-							defaultValue={currentYear}
-							max={currentYear}
+						<select
 							className="form-control"
-							onChange={(e) => setYear(e.target.value)}
-						/>
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == props.currentYear}>
+									{year}
+								</option>
+							))}
+						</select>
 						{/* Year End */}
 					</div>
 

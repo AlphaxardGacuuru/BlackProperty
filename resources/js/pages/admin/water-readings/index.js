@@ -18,10 +18,6 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 
 const index = (props) => {
-	var currentDate = new Date()
-	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth() - 1
-
 	const [waterReadings, setWaterReadings] = useState([])
 
 	const [unit, setUnit] = useState("")
@@ -29,21 +25,6 @@ const index = (props) => {
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
-
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
 
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
@@ -117,46 +98,6 @@ const index = (props) => {
 
 	return (
 		<div className={props.activeTab}>
-			{/* Data */}
-			<div className="card shadow-sm mb-2 p-2">
-				<div className="d-flex justify-content-between">
-					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-						{/* Due */}
-						<HeroHeading
-							heading="Due"
-							data={props.rentStatement?.length}
-						/>
-						<HeroIcon>
-							<WaterReadingSVG />
-						</HeroIcon>
-						{/* Due End */}
-						{/* Paid */}
-						<HeroHeading
-							heading="Paid"
-							data={props.rentStatement?.length}
-						/>
-						<HeroIcon>
-							<PaymentSVG />
-						</HeroIcon>
-						{/* Paid End */}
-						{/* Balance */}
-						<HeroHeading
-							heading="Balance"
-							data={props.rentStatement?.length}
-						/>
-						<HeroIcon>
-							<BalanceSVG />
-						</HeroIcon>
-						{/* Balance End */}
-					</div>
-					{/* Total End */}
-				</div>
-			</div>
-			{/* Data End */}
-
-			<br />
-
 			{/* Filters */}
 			<div className="card shadow-sm py-2 px-4">
 				<div className="d-flex justify-content-end flex-wrap">
@@ -180,10 +121,11 @@ const index = (props) => {
 								className="form-control"
 								onChange={(e) => setStartMonth(e.target.value)}>
 								<option value="">Select Month</option>
-								{months.map((month, key) => (
+								{props.months.map((month, key) => (
 									<option
 										key={key}
-										value={key}>
+										value={key}
+										selected={key == props.previousMonth}>
 										{month}
 									</option>
 								))}
@@ -197,12 +139,19 @@ const index = (props) => {
 								className="invisible">
 								Start At
 							</label>
-							<input
-								type="number"
-								placeholder={currentYear}
-								className="form-control me-2"
-								onChange={(e) => setStartYear(e.target.value)}
-							/>
+							<select
+								className="form-control"
+								onChange={(e) => setStartYear(e.target.value)}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={key}
+										selected={key == props.currentYear}>
+										{year}
+									</option>
+								))}
+							</select>
 						</div>
 						{/* Start Year End */}
 					</div>
@@ -216,10 +165,11 @@ const index = (props) => {
 								className="form-control"
 								onChange={(e) => setEndMonth(e.target.value)}>
 								<option value="">Select Month</option>
-								{months.map((month, key) => (
+								{props.months.map((month, key) => (
 									<option
 										key={key}
-										value={key}>
+										value={key}
+										selected={key == props.previousMonth}>
 										{month}
 									</option>
 								))}
@@ -233,12 +183,19 @@ const index = (props) => {
 								className="invisible">
 								End At
 							</label>
-							<input
-								type="number"
-								placeholder={currentYear}
-								className="form-control me-2"
-								onChange={(e) => setEndYear(e.target.value)}
-							/>
+							<select
+								className="form-control"
+								onChange={(e) => setEndYear(e.target.value)}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={key}
+										selected={key == props.currentYear}>
+										{year}
+									</option>
+								))}
+							</select>
 						</div>
 						{/* End Year End */}
 					</div>
@@ -310,7 +267,9 @@ const index = (props) => {
 								</td>
 								<td>{waterReading.unitName}</td>
 								<td>{waterReading.reading}</td>
-								<td className="text-capitalize">{months[waterReading.month]}</td>
+								<td className="text-capitalize">
+									{props.months[waterReading.month]}
+								</td>
 								<td>{waterReading.year}</td>
 								<td>
 									<div className="d-flex justify-content-end">

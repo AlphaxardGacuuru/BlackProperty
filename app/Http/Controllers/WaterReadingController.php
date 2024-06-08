@@ -67,7 +67,7 @@ class WaterReadingController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "waterReadings" => "nullable|string",
+            "reading" => "nullable|string",
             "month" => "nullable|string",
             "year" => "nullable|integer",
         ]);

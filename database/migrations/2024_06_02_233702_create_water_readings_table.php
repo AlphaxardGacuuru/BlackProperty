@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('month');
             $table->integer('year');
             $table->timestamps();
+
+			$table->unique(["user_unit_id", "month", "year"]);
         });
     }
 

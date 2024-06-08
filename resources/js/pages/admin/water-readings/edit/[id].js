@@ -13,28 +13,10 @@ import CloseSVG from "@/svgs/CloseSVG"
 const edit = (props) => {
 	var { id } = useParams()
 
-	var currentDate = new Date()
-	var currentYear = currentDate.getFullYear()
-
 	const [waterReading, setWaterReading] = useState({})
-	const [reading, setReading] = useState([])
+	const [reading, setReading] = useState()
 	const [month, setMonth] = useState()
 	const [year, setYear] = useState()
-
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
 
 	const [loading, setLoading] = useState()
 
@@ -79,6 +61,8 @@ const edit = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					<h5 className="ms-1 mb-2">{waterReading.unitName}</h5>
+
 					{/* Reading */}
 					<input
 						type="number"
@@ -93,7 +77,7 @@ const edit = (props) => {
 						<select
 							className="form-control me-2"
 							onChange={(e) => setMonth(e.target.value)}>
-							{months.map((month, key) => (
+							{props.months.map((month, key) => (
 								<option
 									key={key}
 									value={key}
@@ -105,13 +89,18 @@ const edit = (props) => {
 						{/* Month End */}
 
 						{/* Year */}
-						<input
-							type="number"
-							defaultValue={waterReading.year}
-							max={currentYear}
+						<select
 							className="form-control"
-							onChange={(e) => setYear(e.target.value)}
-						/>
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == waterReading.currentYear}>
+									{year}
+								</option>
+							))}
+						</select>
 						{/* Year End */}
 					</div>
 

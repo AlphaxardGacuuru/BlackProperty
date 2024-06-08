@@ -99,10 +99,39 @@ function App() {
 	}
 
 	// Fetch data on page load
+	useEffect(() => get("auth", setAuth, "auth", false), [])
+
 	useEffect(() => {
-		get("auth", setAuth, "auth", false)
 		get(`properties/by-user-id/${auth.id}`, setProperties, "properties")
-	}, [])
+	}, [auth])
+
+	/*
+	 * Genereate Month and Year Arrays
+	 */
+	var currentDate = new Date()
+	var currentYear = currentDate.getFullYear()
+	var previousMonth = currentDate.getMonth() - 1
+
+	const months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	]
+
+	const years = []
+
+	for (let i = currentYear; i > 2009; i--) {
+		years.push(i)
+	}
 
 	/*
 	 *
@@ -180,6 +209,13 @@ function App() {
 		setPaymentDescription,
 		paymentAmount,
 		setPaymentAmount,
+
+		// Date
+		currentDate,
+		currentYear,
+		previousMonth,
+		months,
+		years,
 	}
 
 	return (

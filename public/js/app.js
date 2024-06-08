@@ -80971,9 +80971,23 @@ function App() {
 
   // Fetch data on page load
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    get("auth", setAuth, "auth", false);
-    get("properties/by-user-id/".concat(auth.id), setProperties, "properties");
+    return get("auth", setAuth, "auth", false);
   }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    get("properties/by-user-id/".concat(auth.id), setProperties, "properties");
+  }, [auth]);
+
+  /*
+   * Genereate Month and Year Arrays
+   */
+  var currentDate = new Date();
+  var currentYear = currentDate.getFullYear();
+  var previousMonth = currentDate.getMonth() - 1;
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var years = [];
+  for (var i = currentYear; i > 2009; i--) {
+    years.push(i);
+  }
 
   /*
    *
@@ -81054,7 +81068,13 @@ function App() {
     paymentDescription: paymentDescription,
     setPaymentDescription: setPaymentDescription,
     paymentAmount: paymentAmount,
-    setPaymentAmount: setPaymentAmount
+    setPaymentAmount: setPaymentAmount,
+    // Date
+    currentDate: currentDate,
+    currentYear: currentYear,
+    previousMonth: previousMonth,
+    months: months,
+    years: years
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_functions_ScrollToTop__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_LoginPopUp__WEBPACK_IMPORTED_MODULE_4__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Core_RouteList__WEBPACK_IMPORTED_MODULE_8__["default"], {
     GLOBAL_STATE: GLOBAL_STATE
@@ -84790,11 +84810,11 @@ var create = function create(props) {
     _useState10 = _slicedToArray(_useState9, 2),
     userUnitIds = _useState10[0],
     setUserUnitIds = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(previousMonth),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.previousMonth),
     _useState12 = _slicedToArray(_useState11, 2),
     month = _useState12[0],
     setMonth = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(currentYear),
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentYear),
     _useState14 = _slicedToArray(_useState13, 2),
     year = _useState14[0],
     setYear = _useState14[1];
@@ -84845,10 +84865,14 @@ var create = function create(props) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
-      // Redirect to Invoices
-      setTimeout(function () {
-        return history.push("/admin/invoices");
-      }, 500);
+
+      // Check if readings saved
+      if (res.data.message.match("successfully")) {
+        // Redirect to Invoices
+        setTimeout(function () {
+          return history.push("/admin/invoices");
+        }, 500);
+      }
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
@@ -84975,21 +84999,24 @@ var create = function create(props) {
     onChange: function onChange(e) {
       return setMonth(e.target.value);
     }
-  }, months.map(function (month, key) {
+  }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key,
-      selected: key == previousMonth
+      selected: key == props.previousMonth
     }, month);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    defaultValue: currentYear,
-    max: currentYear,
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
       return setYear(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: year,
+      selected: key == props.currentYear
+    }, year);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "create invoices",
@@ -85282,9 +85309,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var index = function index(props) {
   var _props$rentStatement, _props$rentStatement2, _props$rentStatement3, _invoices$data, _invoices$data2;
-  var currentDate = new Date();
-  var currentYear = currentDate.getFullYear();
-  var previousMonth = currentDate.getMonth() - 1;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     invoices = _useState2[0],
@@ -85327,7 +85351,6 @@ var index = function index(props) {
     setProperties = _useState20[1];
   var statuses = ["pending", "partially_paid", "paid", "overpaid"];
   var types = ["rent", "water", "service_charge"];
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState22 = _slicedToArray(_useState21, 2),
     deleteIds = _useState22[0],
@@ -85398,7 +85421,7 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Due",
     data: (_props$rentStatement = props.rentStatement) === null || _props$rentStatement === void 0 ? void 0 : _props$rentStatement.length
@@ -85492,24 +85515,29 @@ var index = function index(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Month"), months.map(function (month, key) {
+  }, "Select Month"), props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key
     }, month);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "me-2 mb-2"
+    className: "flex-grow-1 me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
     className: "invisible"
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    placeholder: currentYear,
-    className: "form-control me-2",
+  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
     onChange: function onChange(e) {
       return setStartYear(e.target.value);
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key
+    }, year);
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex flex-grow-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-grow-1 me-2 mb-2"
@@ -85522,24 +85550,29 @@ var index = function index(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Month"), months.map(function (month, key) {
+  }, "Select Month"), props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key
     }, month);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "me-2 mb-2"
+    className: "flex-grow-1 me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
     className: "invisible"
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    placeholder: currentYear,
-    className: "form-control me-2",
+  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
     onChange: function onChange(e) {
-      return setEndYear(e.target.value);
+      return setStartYear(e.target.value);
     }
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key
+    }, year);
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
@@ -85585,7 +85618,7 @@ var index = function index(props) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
-    }, months[invoice.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, props.months[invoice.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoice.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
@@ -85599,10 +85632,7 @@ var index = function index(props) {
       linkTo: "/invoices/".concat(invoice.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/invoices/".concat(invoice.id, "/edit"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
       index: "invoice".concat(key),
@@ -88344,10 +88374,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var create = function create(props) {
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
-  var currentDate = new Date();
-  var currentYear = currentDate.getFullYear();
-  var previousMonth = currentDate.getMonth() - 1;
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     properties = _useState2[0],
@@ -88364,11 +88390,11 @@ var create = function create(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     waterReadings = _useState8[0],
     setWaterReadings = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(previousMonth),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.previousMonth),
     _useState10 = _slicedToArray(_useState9, 2),
     month = _useState10[0],
     setMonth = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(currentYear),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentYear),
     _useState12 = _slicedToArray(_useState11, 2),
     year = _useState12[0],
     setYear = _useState12[1];
@@ -88420,7 +88446,6 @@ var create = function create(props) {
     }
     setWaterReadings(newWaterReadings);
   };
-  console.log(waterReadings);
 
   /*
    * Submit Form
@@ -88497,21 +88522,24 @@ var create = function create(props) {
     onChange: function onChange(e) {
       return setMonth(e.target.value);
     }
-  }, months.map(function (month, key) {
+  }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key,
-      selected: key == previousMonth
+      selected: key == props.previousMonth
     }, month);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    defaultValue: currentYear,
-    max: currentYear,
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
       return setYear(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: year,
+      selected: key == props.currentYear
+    }, year);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add water readings",
@@ -88562,13 +88590,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var edit = function edit(props) {
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
-  var currentDate = new Date();
-  var currentYear = currentDate.getFullYear();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState2 = _slicedToArray(_useState, 2),
     waterReading = _useState2[0],
     setWaterReading = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState4 = _slicedToArray(_useState3, 2),
     reading = _useState4[0],
     setReading = _useState4[1];
@@ -88580,7 +88606,6 @@ var edit = function edit(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     year = _useState8[0],
     setYear = _useState8[1];
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState10 = _slicedToArray(_useState9, 2),
     loading = _useState10[0],
@@ -88626,7 +88651,9 @@ var edit = function edit(props) {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "ms-1 mb-2"
+  }, waterReading.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     defaultValue: waterReading.reading,
     className: "form-control mb-2",
@@ -88640,21 +88667,24 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setMonth(e.target.value);
     }
-  }, months.map(function (month, key) {
+  }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key,
       selected: key == waterReading.month
     }, month);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    defaultValue: waterReading.year,
-    max: currentYear,
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
       return setYear(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: year,
+      selected: key == waterReading.currentYear
+    }, year);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update water reading",
@@ -88723,10 +88753,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var index = function index(props) {
-  var _props$rentStatement, _props$rentStatement2, _props$rentStatement3, _waterReadings$data, _waterReadings$data2;
-  var currentDate = new Date();
-  var currentYear = currentDate.getFullYear();
-  var previousMonth = currentDate.getMonth() - 1;
+  var _waterReadings$data, _waterReadings$data2;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     waterReadings = _useState2[0],
@@ -88751,7 +88778,6 @@ var index = function index(props) {
     _useState12 = _slicedToArray(_useState11, 2),
     endYear = _useState12[0],
     setEndYear = _useState12[1];
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState14 = _slicedToArray(_useState13, 2),
     deleteIds = _useState14[0],
@@ -88816,21 +88842,6 @@ var index = function index(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm mb-2 p-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    heading: "Due",
-    data: (_props$rentStatement = props.rentStatement) === null || _props$rentStatement === void 0 ? void 0 : _props$rentStatement.length
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    heading: "Paid",
-    data: (_props$rentStatement2 = props.rentStatement) === null || _props$rentStatement2 === void 0 ? void 0 : _props$rentStatement2.length
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    heading: "Balance",
-    data: (_props$rentStatement3 = props.rentStatement) === null || _props$rentStatement3 === void 0 ? void 0 : _props$rentStatement3.length
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end flex-wrap"
@@ -88858,24 +88869,31 @@ var index = function index(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Month"), months.map(function (month, key) {
+  }, "Select Month"), props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: key
+      value: key,
+      selected: key == props.previousMonth
     }, month);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
     className: "invisible"
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    placeholder: currentYear,
-    className: "form-control me-2",
+  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
     onChange: function onChange(e) {
       return setStartYear(e.target.value);
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key,
+      selected: key == props.currentYear
+    }, year);
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex flex-grow-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-grow-1 me-2 mb-2"
@@ -88888,24 +88906,31 @@ var index = function index(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Month"), months.map(function (month, key) {
+  }, "Select Month"), props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: key
+      value: key,
+      selected: key == props.previousMonth
     }, month);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
     className: "invisible"
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
-    placeholder: currentYear,
-    className: "form-control me-2",
+  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
     onChange: function onChange(e) {
       return setEndYear(e.target.value);
     }
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key,
+      selected: key == props.currentYear
+    }, year);
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
@@ -88947,7 +88972,7 @@ var index = function index(props) {
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.reading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
-    }, months[waterReading.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, props.months[waterReading.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/water-readings/".concat(waterReading.id, "/edit"),
