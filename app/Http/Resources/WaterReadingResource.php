@@ -15,13 +15,16 @@ class WaterReadingResource extends JsonResource
     public function toArray($request)
     {
         return [
-			"id" => $this->id,
-			"unitName" => $this->userUnit->unit->name,
-			"reading" => $this->reading,
-			"month" => $this->month,
-			"year" => $this->year,
-			"updated_at" => $this->updated_at,
-			"created_at" => $this->created_at,
-		];
+            "id" => $this->id,
+            "tenantName" => $this->userUnit->user->name,
+            "unitName" => $this->userUnit->unit->name,
+            "reading" => $this->reading,
+            "usage" => $this->usage,
+            "bill" => number_format($this->bill),
+            "month" => $this->month,
+            "year" => $this->year,
+            "updated_at" => $this->updated_at,
+            "created_at" => $this->created_at,
+        ];
     }
 }

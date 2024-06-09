@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\WaterReadingResource;
+use App\Models\UserUnit;
 use App\Models\WaterReading;
 
 class WaterReadingService extends Service
@@ -26,17 +27,38 @@ class WaterReadingService extends Service
 
         foreach ($request->waterReadings as $reading) {
             // Check if water reading exists for UserUnit, Month and Year
-            $readingDoesntExist = WaterReading::where("user_unit_id", $reading["userUnitId"])
+            $readingQuery = WaterReading::where("user_unit_id", $reading["userUnitId"])
                 ->where("month", $request->month)
-                ->where("year", $request->year)
-                ->doesntExist();
+                ->where("year", $request->year);
 
-            if ($readingDoesntExist) {
+            $lastMonth = $request->month - 1;
+
+            // Get Last Water Reading
+            $previousReadingQuery = WaterReading::where("user_unit_id", $reading["userUnitId"])
+                ->where("month", $lastMonth)
+                ->where("year", $request->year)
+                ->first();
+
+            $previouReading = $previousReadingQuery ? $previousReadingQuery->reading : 0;
+
+            $usage = $reading["reading"] - $previouReading;
+
+            $waterBillRate = UserUnit::find($reading["userUnitId"])
+                ->unit
+                ->property
+                ->water_bill_rate;
+
+            $bill = $usage * $waterBillRate;
+
+            if ($readingQuery->doesntExist()) {
                 $waterReading = new WaterReading;
                 $waterReading->user_unit_id = $reading["userUnitId"];
                 $waterReading->reading = $reading["reading"];
                 $waterReading->month = $request->month;
                 $waterReading->year = $request->year;
+                $waterReading->usage = $usage;
+                $waterReading->bill = $bill;
+
                 $saved = $waterReading->save();
             }
         }
@@ -117,12 +139,19 @@ class WaterReadingService extends Service
 
         $waterReadingsQuery = $this->search($waterReadingsQuery, $request);
 
+        $totalUsage = $waterReadingsQuery->sum("usage") * 1000;
+        $totalBill = $waterReadingsQuery->sum("bill");
+
         $waterReadings = $waterReadingsQuery
             ->orderBy("month", "DESC")
             ->orderBy("year", "DESC")
             ->paginate(20);
 
-        return WaterReadingResource::collection($waterReadings);
+        return WaterReadingResource::collection($waterReadings)
+            ->additional([
+                "totalUsage" => number_format($totalUsage),
+                "totalBill" => number_format($totalBill),
+            ]);
     }
 
     /*

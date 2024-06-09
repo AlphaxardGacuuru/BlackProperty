@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("name");
             $table->integer("rent");
             $table->integer("deposit");
+            $table->integer("bedrooms")->nullable();
             $table->string("type")->default("apartment");
             $table->timestamps();
         });

@@ -29,13 +29,8 @@ class Invoice extends Model
      * Relationships
      */
 
-    public function user()
+    public function userUnit()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(UserUnit::class);
     }
 }

@@ -15,11 +15,7 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('unit_id')
+            $table->foreignId('user_unit_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -37,7 +33,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-			$table->unique(["user_id", "unit_id", "type", "month", "year"]);
+            $table->unique(["user_unit_id", "type", "month", "year"]);
         });
     }
 

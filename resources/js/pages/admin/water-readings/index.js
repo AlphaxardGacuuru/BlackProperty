@@ -13,8 +13,7 @@ import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 import WaterReadingSVG from "@/svgs/WaterReadingSVG"
-import PaymentSVG from "@/svgs/PaymentSVG"
-import BalanceSVG from "@/svgs/BalanceSVG"
+import MoneySVG from "@/svgs/MoneySVG"
 import Btn from "@/components/Core/Btn"
 
 const index = (props) => {
@@ -98,6 +97,37 @@ const index = (props) => {
 
 	return (
 		<div className={props.activeTab}>
+			{/* Data */}
+			<div className="card shadow-sm mb-2 p-2">
+				<div className="d-flex justify-content-between">
+					{/* Total */}
+					<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-4">
+						{/* Usage */}
+						<HeroHeading
+							heading="Usage"
+							data={`${waterReadings.totalUsage}L`}
+						/>
+						<HeroIcon>
+							<WaterReadingSVG />
+						</HeroIcon>
+						{/* Usage End */}
+						{/* Bill */}
+						<HeroHeading
+							heading="Bill"
+							data={`KES ${waterReadings.totalBill}`}
+						/>
+						<HeroIcon>
+							<MoneySVG />
+						</HeroIcon>
+						{/* Bill End */}
+					</div>
+				</div>
+				{/* Total End */}
+			</div>
+			{/* Data End */}
+
+			<br />
+
 			{/* Filters */}
 			<div className="card shadow-sm py-2 px-4">
 				<div className="d-flex justify-content-end flex-wrap">
@@ -211,7 +241,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="5"></th>
+							<th colSpan="8"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
@@ -250,8 +280,11 @@ const index = (props) => {
 									}
 								/>
 							</th>
+							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Reading</th>
+							<th>Usage</th>
+							<th>Bill</th>
 							<th>Month</th>
 							<th>Year</th>
 							<th className="text-center">Action</th>
@@ -265,8 +298,14 @@ const index = (props) => {
 										onClick={() => handleSetDeleteIds(waterReading.id)}
 									/>
 								</td>
+								<td>{waterReading.tenantName}</td>
 								<td>{waterReading.unitName}</td>
 								<td>{waterReading.reading}</td>
+								<td>{waterReading.usage}</td>
+								<td className="text-success">
+									<small className="me-1">KES</small>
+									{waterReading.bill}
+								</td>
 								<td className="text-capitalize">
 									{props.months[waterReading.month]}
 								</td>
@@ -282,7 +321,7 @@ const index = (props) => {
 											<DeleteModal
 												index={`waterReading${key}`}
 												model={waterReading}
-												modelName="WaterReading"
+												modelName="Water Reading"
 												onDelete={onDeleteWaterReading}
 											/>
 										</div>

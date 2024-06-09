@@ -326,7 +326,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="8"></th>
+							<th colSpan="9"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
@@ -365,6 +365,7 @@ const index = (props) => {
 							</th>
 							<th>#</th>
 							<th>Tenant</th>
+							<th>Unit</th>
 							<th>Type</th>
 							<th>Month</th>
 							<th>Year</th>
@@ -383,6 +384,7 @@ const index = (props) => {
 								</td>
 								<td>{props.iterator(key, invoices)}</td>
 								<td>{invoice.tenantName}</td>
+								<td>{invoice.unitName}</td>
 								<td className="text-capitalize">
 									{invoice.type
 										.split("_")

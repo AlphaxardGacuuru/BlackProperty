@@ -80,7 +80,9 @@ const edit = (props) => {
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<label htmlFor="">Name</label>
 					<input
 						type="text"
@@ -127,6 +129,17 @@ const edit = (props) => {
 							</option>
 						))}
 					</select>
+
+					<label htmlFor="">Bedrooms</label>
+					<input
+						type="number"
+						placeholder="2"
+						min="0"
+						defaultValue={unit.bedrooms}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setBedrooms(e.target.value)}
+						required={true}
+					/>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

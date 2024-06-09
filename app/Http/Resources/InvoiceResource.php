@@ -16,12 +16,12 @@ class InvoiceResource extends JsonResource
     {
         return [
 			"id" => $this->id,
-			"tenantId" => $this->user_id,
-			"tenantName" => $this->user->name,
-			"tenantPhone" => $this->user->phone,
-			"tenantEmail" => $this->user->email,
-			"unitId" => $this->unit_id,
-			"unitName" => $this->unit->name,
+			"tenantId" => $this->userUnit->user_id,
+			"tenantName" => $this->userUnit->user->name,
+			"tenantPhone" => $this->userUnit->user->phone,
+			"tenantEmail" => $this->userUnit->user->email,
+			"unitId" => $this->userUnit->unit_id,
+			"unitName" => $this->userUnit->unit->name,
 			"type" => $this->type,
 			"amount" => number_format($this->amount),
 			"status" => $this->status,

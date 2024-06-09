@@ -18,6 +18,7 @@ const create = (props) => {
 	const [rent, setRent] = useState()
 	const [deposit, setDeposit] = useState("")
 	const [type, setType] = useState("apartment")
+	const [bedrooms, setBedrooms] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Units
@@ -53,6 +54,7 @@ const create = (props) => {
 			rent: rent,
 			deposit: deposit.toString(),
 			type: type,
+			bedrooms: bedrooms,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -72,7 +74,9 @@ const create = (props) => {
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<label htmlFor="">Name</label>
 					<input
 						type="text"
@@ -120,6 +124,16 @@ const create = (props) => {
 							</option>
 						))}
 					</select>
+
+					<label htmlFor="">Bedrooms</label>
+					<input
+						type="number"
+						placeholder="2"
+						min="0"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setBedrooms(e.target.value)}
+						required={true}
+					/>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

@@ -22,9 +22,11 @@ return new class extends Migration
             $table->integer('reading');
             $table->integer('month');
             $table->integer('year');
+            $table->integer('usage');
+            $table->integer('bill');
             $table->timestamps();
 
-			$table->unique(["user_unit_id", "month", "year"]);
+            $table->unique(["user_unit_id", "month", "year"]);
         });
     }
 

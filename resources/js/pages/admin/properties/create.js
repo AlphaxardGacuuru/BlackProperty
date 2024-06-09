@@ -13,6 +13,7 @@ const create = (props) => {
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [serviceCharge, setServiceCharge] = useState(0)
+	const [waterBillRate, setWaterBillRate] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -33,6 +34,7 @@ const create = (props) => {
 			location: location,
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 			serviceCharge: serviceCharge,
+			waterBillRate: waterBillRate,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -52,7 +54,9 @@ const create = (props) => {
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<label htmlFor="">Name</label>
 					<input
 						type="text"
@@ -71,7 +75,11 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<label htmlFor="" className="text-primary mt-2">Deposit Calculation</label>
+					<label
+						htmlFor=""
+						className="text-primary mt-2">
+						Deposit Calculation
+					</label>
 
 					<br />
 
@@ -102,6 +110,16 @@ const create = (props) => {
 						min="0"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Water Bill Rate</label>
+					<input
+						type="number"
+						placeholder="1.5"
+						min="0"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setWaterBillRate(e.target.value)}
 						required={true}
 					/>
 

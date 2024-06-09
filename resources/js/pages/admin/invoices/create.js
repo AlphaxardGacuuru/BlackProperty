@@ -183,7 +183,7 @@ const create = (props) => {
 										value={tenant.userUnitId}
 										className="text-primary"
 										selected={tenant.userUnitId == userUnitIds[0]}>
-										{tenant.name}
+										{tenant.name} - {tenant.unitName}
 									</option>
 								))}
 						</select>

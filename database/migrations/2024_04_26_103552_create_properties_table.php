@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string("location");
             $table->string("deposit_formula");
             $table->integer("service_charge");
+            $table->integer("water_bill_rate");
             $table->integer("unit_count")->default(0);
             $table->timestamps();
         });

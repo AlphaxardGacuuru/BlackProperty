@@ -14,6 +14,7 @@ const edit = (props) => {
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [serviceCharge, setServiceCharge] = useState(0)
+	const [waterBillRate, setWaterBillRate] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Extract Rent Multiple and Additional Charges
@@ -49,6 +50,7 @@ const edit = (props) => {
 			location: location,
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 			serviceCharge: serviceCharge,
+			waterBillRate: waterBillRate,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -66,7 +68,9 @@ const edit = (props) => {
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
-				<form onSubmit={onSubmit}>
+				<form
+					onSubmit={onSubmit}
+					className="mb-5">
 					<label htmlFor="">Name</label>
 					<input
 						type="text"
@@ -125,6 +129,17 @@ const edit = (props) => {
 						defaultValue={property.serviceCharge}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Water Bill Rate</label>
+					<input
+						type="number"
+						placeholder="1.5"
+						min="0"
+						defaultValue={property.waterBillRate}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setWaterBillRate(e.target.value)}
 						required={true}
 					/>
 

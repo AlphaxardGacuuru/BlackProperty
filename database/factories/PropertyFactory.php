@@ -22,6 +22,7 @@ class PropertyFactory extends Factory
             "deposit_formula" => "r*2+2000",
             "unit_count" => rand(5, 20),
             "service_charge" => rand(2000, 20000),
+			"water_bill_rate" => rand(200, 500)
         ];
     }
 }

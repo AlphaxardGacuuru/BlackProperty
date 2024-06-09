@@ -84950,7 +84950,7 @@ var create = function create(props) {
       value: tenant.userUnitId,
       className: "text-primary",
       selected: tenant.userUnitId == userUnitIds[0]
-    }, tenant.name);
+    }, tenant.name, " - ", tenant.unitName);
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-primary",
     style: {
@@ -85577,7 +85577,7 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "8"
+    colSpan: "9"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -85601,7 +85601,7 @@ var index = function index(props) {
         return invoice.id;
       }));
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_invoices$data2 = invoices.data) === null || _invoices$data2 === void 0 ? void 0 : _invoices$data2.map(function (invoice, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -85612,7 +85612,7 @@ var index = function index(props) {
       onClick: function onClick() {
         return handleSetDeleteIds(invoice.id);
       }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, invoices)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, invoices)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, invoice.type.split("_").map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -85866,10 +85866,14 @@ var create = function create(props) {
     _useState10 = _slicedToArray(_useState9, 2),
     serviceCharge = _useState10[0],
     setServiceCharge = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
     _useState12 = _slicedToArray(_useState11, 2),
-    loading = _useState12[0],
-    setLoading = _useState12[1];
+    waterBillRate = _useState12[0],
+    setWaterBillRate = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState14 = _slicedToArray(_useState13, 2),
+    loading = _useState14[0],
+    setLoading = _useState14[1];
 
   // Get Properties
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -85890,7 +85894,8 @@ var create = function create(props) {
       name: name,
       location: location,
       depositFormula: "r*".concat(rentMultiple, "+").concat(additionalCharges),
-      serviceCharge: serviceCharge
+      serviceCharge: serviceCharge,
+      waterBillRate: waterBillRate
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -85912,7 +85917,8 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -85967,6 +85973,17 @@ var create = function create(props) {
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "1.5",
+    min: "0",
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setWaterBillRate(e.target.value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86042,10 +86059,14 @@ var edit = function edit(props) {
     _useState12 = _slicedToArray(_useState11, 2),
     serviceCharge = _useState12[0],
     setServiceCharge = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
     _useState14 = _slicedToArray(_useState13, 2),
-    loading = _useState14[0],
-    setLoading = _useState14[1];
+    waterBillRate = _useState14[0],
+    setWaterBillRate = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
 
   // Extract Rent Multiple and Additional Charges
   var formula = [];
@@ -86077,7 +86098,8 @@ var edit = function edit(props) {
       name: name,
       location: location,
       depositFormula: "r*".concat(rentMultiple, "+").concat(additionalCharges),
-      serviceCharge: serviceCharge
+      serviceCharge: serviceCharge,
+      waterBillRate: waterBillRate
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -86095,7 +86117,8 @@ var edit = function edit(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -86155,6 +86178,18 @@ var edit = function edit(props) {
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "1.5",
+    min: "0",
+    defaultValue: property.waterBillRate,
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setWaterBillRate(e.target.value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87990,8 +88025,12 @@ var create = function create(props) {
     setType = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState12 = _slicedToArray(_useState11, 2),
-    loading = _useState12[0],
-    setLoading = _useState12[1];
+    bedrooms = _useState12[0],
+    setBedrooms = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState14 = _slicedToArray(_useState13, 2),
+    loading = _useState14[0],
+    setLoading = _useState14[1];
 
   // Get Units
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -88022,7 +88061,8 @@ var create = function create(props) {
       name: name,
       rent: rent,
       deposit: deposit.toString(),
-      type: type
+      type: type,
+      bedrooms: bedrooms
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -88044,7 +88084,8 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -88093,7 +88134,18 @@ var create = function create(props) {
       key: key,
       value: apartment
     }, apartment);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "2",
+    min: "0",
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setBedrooms(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add unit",
@@ -88226,7 +88278,8 @@ var edit = function edit(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -88274,7 +88327,19 @@ var edit = function edit(props) {
       value: apartment,
       selected: unit.type == apartment
     }, apartment);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "2",
+    min: "0",
+    defaultValue: unit.bedrooms,
+    className: "form-control mb-2 me-2",
+    onChange: function onChange(e) {
+      return setBedrooms(e.target.value);
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update",
@@ -88725,9 +88790,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
 /* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
 /* harmony import */ var _svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/WaterReadingSVG */ "./resources/js/svgs/WaterReadingSVG.js");
-/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
-/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/MoneySVG */ "./resources/js/svgs/MoneySVG.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -88738,7 +88802,6 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -88842,6 +88905,18 @@ var index = function index(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    heading: "Usage",
+    data: "".concat(waterReadings.totalUsage, "L")
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    heading: "Bill",
+    data: "KES ".concat(waterReadings.totalBill)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end flex-wrap"
@@ -88935,12 +89010,12 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "5"
+    colSpan: "8"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
-  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
     text: "delete ".concat(deleteIds.length),
     className: "me-2",
     onClick: function onClick() {
@@ -88959,7 +89034,7 @@ var index = function index(props) {
         return waterReading.id;
       }));
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Reading"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Reading"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Usage"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Bill"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_waterReadings$data2 = waterReadings.data) === null || _waterReadings$data2 === void 0 ? void 0 : _waterReadings$data2.map(function (waterReading, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -88970,7 +89045,11 @@ var index = function index(props) {
       onClick: function onClick() {
         return handleSetDeleteIds(waterReading.id);
       }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.reading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.reading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.usage), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+      className: "me-1"
+    }, "KES"), waterReading.bill), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, props.months[waterReading.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
@@ -88982,7 +89061,7 @@ var index = function index(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
       index: "waterReading".concat(key),
       model: waterReading,
-      modelName: "WaterReading",
+      modelName: "Water Reading",
       onDelete: onDeleteWaterReading
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {

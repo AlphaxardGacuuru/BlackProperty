@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Models\UserUnit;
+use App\Models\WaterReading;
 
 class InvoiceService extends Service
 {
@@ -18,7 +19,7 @@ class InvoiceService extends Service
         $invoicesQuery = $this->search($invoicesQuery, $request);
 
         $invoices = $invoicesQuery
-        // ->orderBy("month", "ASC")
+            ->orderBy("month", "ASC")
             ->orderBy("year", "DESC")
             ->paginate(20);
 
@@ -43,35 +44,18 @@ class InvoiceService extends Service
         $saved = 0;
 
         foreach ($request->userUnitIds as $userUnitId) {
-            $userUnit = UserUnit::find($userUnitId);
-
             // Check if invoice exists for User, Unit and Month
-            $invoiceDoesntExist = Invoice::where("user_id", $userUnit->user_id)
-                ->where("unit_id", $userUnit->unit_id)
+            $invoiceDoesntExist = Invoice::where("user_unit_id", $userUnitId)
                 ->where("type", $request->type)
                 ->where("month", $request->month)
                 ->where("year", $request->year)
                 ->doesntExist();
 
-            // Get amount depending on the type of invoice
-            switch ($request->type) {
-                case "rent":
-                    $amount = $userUnit->unit->rent;
-                    break;
-
-                case "water":
-                    $amount = $userUnit->unit->property->service_charge;
-                    break;
-
-                default:
-                    $amount = $userUnit->unit->property->service_charge;
-                    break;
-            }
+            $amount = $this->getAmount($request, $userUnitId);
 
             if ($invoiceDoesntExist) {
                 $invoice = new Invoice;
-                $invoice->user_id = $userUnit->user_id;
-                $invoice->unit_id = $userUnit->unit_id;
+                $invoice->user_unit_id = $userUnitId;
                 $invoice->type = $request->type;
                 $invoice->amount = $amount;
                 $invoice->month = $request->month;
@@ -117,7 +101,7 @@ class InvoiceService extends Service
     {
         $ids = explode(",", $id);
 
-        $invoicesQuery = Invoice::whereHas("unit.property", function ($query) use ($ids) {
+        $invoicesQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($ids) {
             $query->whereIn("id", $ids);
         });
 
@@ -140,7 +124,7 @@ class InvoiceService extends Service
 
         if ($request->filled("name")) {
             $query = $query
-                ->whereHas("user", function ($query) use ($name) {
+                ->whereHas("userUnit.user", function ($query) use ($name) {
                     $query->where("name", "LIKE", "%" . $name . "%");
                 });
         }
@@ -160,7 +144,7 @@ class InvoiceService extends Service
         $propertyId = $request->input("propertyId");
 
         if ($request->filled("propertyId")) {
-            $query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
                 $query->where("id", $propertyId);
             });
         }
@@ -187,5 +171,46 @@ class InvoiceService extends Service
         }
 
         return $query;
+    }
+
+    /*
+     * Get Amount
+     */
+    public function getAmount($request, $userUnitId)
+    {
+        $userUnit = UserUnit::find($userUnitId);
+
+        // Get amount depending on the type of invoice
+        switch ($request->type) {
+            case "rent":
+                return $userUnit->unit->rent;
+                break;
+
+            case "service_charge":
+                return $userUnit->unit->property->service_charge;
+                break;
+
+            default:
+                return $this->getWaterBill($request, $userUnitId);
+                break;
+        }
+    }
+
+    /*
+     * Get Water Bill
+     */
+    public function getWaterBill($request, $userUnitId)
+    {
+        // Get Water Bill
+        $waterReadingQuery = WaterReading::where("user_unit_id", $userUnitId)
+            ->where("month", $request->month)
+            ->where("year", $request->year);
+
+        if ($waterReadingQuery->doesntExist()) {
+            return [0, "Water Reading doesn't exist", ""];
+        } else {
+            return $waterReadingQuery->first()->bill;
+        }
+
     }
 }
