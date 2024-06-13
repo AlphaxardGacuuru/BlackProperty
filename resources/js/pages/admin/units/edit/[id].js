@@ -14,7 +14,9 @@ const edit = (props) => {
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
 	const [deposit, setDeposit] = useState()
-	const [type, setType] = useState()
+	const [type, setType] = useState(unit.type)
+	const [bedrooms, setBedrooms] = useState()
+	const [size, setSize] = useState({})
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -63,11 +65,15 @@ const edit = (props) => {
 			rent: rent,
 			deposit: deposit?.toString(),
 			type: type,
+			bedrooms: bedrooms,
+			size: size,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
+				// Fetch unit
+				props.get(`units/${id}`, setUnit)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -108,7 +114,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						placeholder="5000"
-						defaultValue={deposit}
+						defaultValue={unit.deposit}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDeposit(e.target.value)}
 					/>
@@ -130,16 +136,59 @@ const edit = (props) => {
 						))}
 					</select>
 
-					<label htmlFor="">Bedrooms</label>
-					<input
-						type="number"
-						placeholder="2"
-						min="0"
-						defaultValue={unit.bedrooms}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setBedrooms(e.target.value)}
-						required={true}
-					/>
+					{type == "apartment" ? (
+						<React.Fragment>
+							{/* Bedrooms */}
+							<label htmlFor="">Bedrooms</label>
+							<input
+								type="number"
+								placeholder="2"
+								min="0"
+								className="form-control mb-2 me-2"
+								onChange={(e) => setBedrooms(e.target.value)}
+								required={true}
+							/>
+							{/* Bedrooms End */}
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							{/* Size */}
+							<label htmlFor="">Size</label>
+							<div className="d-flex justify-content-between mb-2">
+								<input
+									type="number"
+									placeholder="243"
+									className="form-control me-2"
+									defaultValue={unit.size?.value}
+									onChange={(e) =>
+										setSize({ value: e.target.value, unit: size.unit })
+									}
+									required={true}
+								/>
+
+								<select
+									type="number"
+									className="form-control"
+									onChange={(e) =>
+										setSize({ value: size.value, unit: e.target.value })
+									}
+									required={true}>
+									<option value="">Select Unit</option>
+									<option
+										value="meters_squared"
+										selected={unit.size?.unit == "meters_squared"}>
+										m&sup2;
+									</option>
+									<option
+										value="square_feet"
+										selected={unit.size?.unit == "square_feet"}>
+										ft&sup2;
+									</option>
+								</select>
+							</div>
+							{/* Size End */}
+						</React.Fragment>
+					)}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

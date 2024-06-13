@@ -102,14 +102,12 @@ const index = (props) => {
 												<MyLink
 													linkTo={`/roles/${role.id}/show`}
 													icon={<ViewSVG />}
-													text="view"
 													className="btn-sm me-1"
 												/>
 
 												<MyLink
 													linkTo={`/roles/${role.id}/edit`}
 													icon={<EditSVG />}
-													text="edit"
 													className="btn-sm"
 												/>
 

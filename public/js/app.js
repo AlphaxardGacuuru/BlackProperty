@@ -87265,12 +87265,10 @@ var index = function index(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
       linkTo: "/roles/".concat(role.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      text: "view",
       className: "btn-sm me-1"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
       linkTo: "/roles/".concat(role.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
-      text: "edit",
       className: "btn-sm"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
@@ -88593,10 +88591,14 @@ var create = function create(props) {
     _useState12 = _slicedToArray(_useState11, 2),
     bedrooms = _useState12[0],
     setBedrooms = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState14 = _slicedToArray(_useState13, 2),
-    loading = _useState14[0],
-    setLoading = _useState14[1];
+    size = _useState14[0],
+    setSize = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
 
   // Get Units
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -88628,7 +88630,8 @@ var create = function create(props) {
       rent: rent,
       deposit: deposit.toString(),
       type: type,
-      bedrooms: bedrooms
+      bedrooms: bedrooms,
+      size: size
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -88700,7 +88703,7 @@ var create = function create(props) {
       key: key,
       value: apartment
     }, apartment);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), type == "apartment" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -88711,7 +88714,38 @@ var create = function create(props) {
       return setBedrooms(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Size"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "243",
+    className: "form-control me-2",
+    onChange: function onChange(e) {
+      return setSize({
+        value: e.target.value,
+        unit: size.unit
+      });
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "number",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setSize({
+        value: size.value,
+        unit: e.target.value
+      });
+    },
+    required: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "meters_squared"
+  }, "m\xB2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "square_feet"
+  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add unit",
@@ -88758,7 +88792,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _unit$rent;
+  var _unit$rent, _unit$size, _unit$size2, _unit$size3;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -88781,14 +88815,22 @@ var edit = function edit(props) {
     _useState10 = _slicedToArray(_useState9, 2),
     deposit = _useState10[0],
     setDeposit = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(unit.type),
     _useState12 = _slicedToArray(_useState11, 2),
     type = _useState12[0],
     setType = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState14 = _slicedToArray(_useState13, 2),
-    loading = _useState14[0],
-    setLoading = _useState14[1];
+    bedrooms = _useState14[0],
+    setBedrooms = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    _useState16 = _slicedToArray(_useState15, 2),
+    size = _useState16[0],
+    setSize = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState18 = _slicedToArray(_useState17, 2),
+    loading = _useState18[0],
+    setLoading = _useState18[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -88826,11 +88868,15 @@ var edit = function edit(props) {
       name: name,
       rent: rent,
       deposit: deposit === null || deposit === void 0 ? void 0 : deposit.toString(),
-      type: type
+      type: type,
+      bedrooms: bedrooms,
+      size: size
     }).then(function (res) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
+      // Fetch unit
+      props.get("units/".concat(id), setUnit);
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
@@ -88872,7 +88918,7 @@ var edit = function edit(props) {
   }, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     placeholder: "5000",
-    defaultValue: deposit,
+    defaultValue: unit.deposit,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setDeposit(e.target.value);
@@ -88893,19 +88939,52 @@ var edit = function edit(props) {
       value: apartment,
       selected: unit.type == apartment
     }, apartment);
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), type == "apartment" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     placeholder: "2",
     min: "0",
-    defaultValue: unit.bedrooms,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setBedrooms(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Size"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "243",
+    className: "form-control me-2",
+    defaultValue: (_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value,
+    onChange: function onChange(e) {
+      return setSize({
+        value: e.target.value,
+        unit: size.unit
+      });
+    },
+    required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "number",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setSize({
+        value: size.value,
+        unit: e.target.value
+      });
+    },
+    required: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "meters_squared",
+    selected: ((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit) == "meters_squared"
+  }, "m\xB2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "square_feet",
+    selected: ((_unit$size3 = unit.size) === null || _unit$size3 === void 0 ? void 0 : _unit$size3.unit) == "square_feet"
+  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update",

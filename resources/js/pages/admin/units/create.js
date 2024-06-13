@@ -19,6 +19,7 @@ const create = (props) => {
 	const [deposit, setDeposit] = useState("")
 	const [type, setType] = useState("apartment")
 	const [bedrooms, setBedrooms] = useState()
+	const [size, setSize] = useState({})
 	const [loading, setLoading] = useState()
 
 	// Get Units
@@ -55,6 +56,7 @@ const create = (props) => {
 			deposit: deposit.toString(),
 			type: type,
 			bedrooms: bedrooms,
+			size: size
 		})
 			.then((res) => {
 				setLoading(false)
@@ -125,15 +127,50 @@ const create = (props) => {
 						))}
 					</select>
 
-					<label htmlFor="">Bedrooms</label>
-					<input
-						type="number"
-						placeholder="2"
-						min="0"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setBedrooms(e.target.value)}
-						required={true}
-					/>
+					{type == "apartment" ? (
+						<React.Fragment>
+							{/* Bedrooms */}
+							<label htmlFor="">Bedrooms</label>
+							<input
+								type="number"
+								placeholder="2"
+								min="0"
+								className="form-control mb-2 me-2"
+								onChange={(e) => setBedrooms(e.target.value)}
+								required={true}
+							/>
+							{/* Bedrooms End */}
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							{/* Size */}
+							<label htmlFor="">Size</label>
+							<div className="d-flex justify-content-between mb-2">
+								<input
+									type="number"
+									placeholder="243"
+									className="form-control me-2"
+									onChange={(e) =>
+										setSize({ value: e.target.value, unit: size.unit })
+									}
+									required={true}
+								/>
+
+								<select
+									type="number"
+									className="form-control"
+									onChange={(e) =>
+										setSize({ value: size.value, unit: e.target.value })
+									}
+									required={true}>
+									<option value="">Select Unit</option>
+									<option value="meters_squared">m&sup2;</option>
+									<option value="square_feet">ft&sup2;</option>
+								</select>
+							</div>
+							{/* Size End */}
+						</React.Fragment>
+					)}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

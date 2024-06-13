@@ -41,6 +41,8 @@ class UnitService extends Service
         $unit->rent = $request->input("rent");
         $unit->deposit = $request->input("deposit");
         $unit->type = $request->input("type");
+        $unit->bedrooms = $request->input("bedrooms");
+        $unit->size = $request->input("size");
 
         $saved = DB::transaction(function () use ($unit, $request) {
             $saved = $unit->save();
@@ -77,6 +79,14 @@ class UnitService extends Service
 
         if ($request->filled("type")) {
             $unit->type = $request->input("type");
+        }
+
+        if ($request->filled("bedrooms")) {
+            $unit->bedrooms = $request->input("bedrooms");
+        }
+
+        if ($request->filled("size")) {
+            $unit->size = $request->input("size");
         }
 
         $saved = $unit->save();

@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
 			PropertySeeder::class,
 			UnitSeeder::class,
             StaffSeeder::class,
-			TenantSeeder::class
+			TenantSeeder::class,
+			RoleSeeder::class
         ]);
     }
 }
