@@ -6,6 +6,7 @@ use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
+use Illuminate\Validation\ValidationException;
 
 class InvoiceService extends Service
 {
@@ -58,6 +59,7 @@ class InvoiceService extends Service
                 $invoice->user_unit_id = $userUnitId;
                 $invoice->type = $request->type;
                 $invoice->amount = $amount;
+                $invoice->balance = $amount;
                 $invoice->month = $request->month;
                 $invoice->year = $request->year;
                 $invoice->created_by = $this->id;
@@ -107,12 +109,21 @@ class InvoiceService extends Service
 
         $invoicesQuery = $this->search($invoicesQuery, $request);
 
+        $due = $invoicesQuery->sum("amount");
+        $paid = $invoicesQuery->sum("paid");
+        $balance = $invoicesQuery->sum("balance");
+
         $invoices = $invoicesQuery
             ->orderBy("month", "DESC")
             ->orderBy("year", "DESC")
             ->paginate(20);
 
-        return InvoiceResource::collection($invoices);
+        return InvoiceResource::collection($invoices)
+            ->additional([
+                "due" => number_format($due),
+                "paid" => number_format($paid),
+                "balance" => number_format($balance),
+            ]);
     }
 
     /*
@@ -120,12 +131,21 @@ class InvoiceService extends Service
      */
     public function search($query, $request)
     {
-        $name = $request->input("name");
+        $tenant = $request->input("tenant");
 
-        if ($request->filled("name")) {
+        if ($request->filled("tenant")) {
             $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($name) {
-                    $query->where("name", "LIKE", "%" . $name . "%");
+                ->whereHas("userUnit.user", function ($query) use ($tenant) {
+                    $query->where("name", "LIKE", "%" . $tenant . "%");
+                });
+        }
+
+        $unit = $request->input("unit");
+
+        if ($request->filled("unit")) {
+            $query = $query
+                ->whereHas("userUnit.unit", function ($query) use ($unit) {
+                    $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
 
@@ -207,7 +227,9 @@ class InvoiceService extends Service
             ->where("year", $request->year);
 
         if ($waterReadingQuery->doesntExist()) {
-            return [0, "Water Reading doesn't exist", ""];
+            return throw ValidationException::withMessages([
+                "Water Reading" => ["Water Reading doesn't exist"],
+            ]);
         } else {
             return $waterReadingQuery->first()->bill;
         }

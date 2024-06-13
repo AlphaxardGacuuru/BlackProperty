@@ -50,7 +50,7 @@ const LoginPopUp = (props) => {
 					// Update Logged in user
 					props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
-					setTimeout(() => window.location.reload(), 1000)
+					// setTimeout(() => window.location.reload(), 1000)
 				})
 				.catch((err) => {
 					// Remove loader
@@ -84,7 +84,7 @@ const LoginPopUp = (props) => {
 						onClick={() => {
 							props.setLogin(false)
 							// Check location to index
-							history.push("/")
+							history.push("/admin/dashboard")
 						}}>
 						<CloseSVG />
 					</div>

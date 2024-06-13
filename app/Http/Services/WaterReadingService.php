@@ -159,6 +159,15 @@ class WaterReadingService extends Service
      */
     public function search($query, $request)
     {
+        $tenant = $request->input("tenant");
+
+        if ($request->filled("tenant")) {
+            $query = $query
+                ->whereHas("userUnit.user", function ($query) use ($tenant) {
+                    $query->where("name", "LIKE", "%" . $tenant . "%");
+                });
+        }
+
         $unit = $request->input("unit");
 
         if ($request->filled("unit")) {

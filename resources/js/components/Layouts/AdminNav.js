@@ -38,7 +38,7 @@ const AdminMenu = (props) => {
 				// setTimeout(() => router.push("/login"), 2000)
 			}
 		}
-	}, [props.location])
+	}, [props.location, props.auth])
 
 	useEffect(() => {
 		props.get("notifications", setNotifications, null, false)
@@ -69,14 +69,32 @@ const AdminMenu = (props) => {
 				localStorage.clear()
 				// Redirect
 				// window.location.href = `/#/admin/login`
-				window.location.reload()
+				// window.location.reload()
+				// Set Auth to Guest
+				props.setAuth({
+					name: "Guest",
+					avatar: "/storage/avatars/male-avatar.png",
+					accountType: "normal",
+					decos: 0,
+					posts: 0,
+					fans: 0,
+				})
 			})
 			.catch((err) => {
 				props.getErrors(err)
 				// Remove phone from localStorage
 				localStorage.clear()
 				// Reload
-				window.location.reload()
+				// window.location.reload()
+				// Set Auth to Guest
+				props.setAuth({
+					name: "Guest",
+					avatar: "/storage/avatars/male-avatar.png",
+					accountType: "normal",
+					decos: 0,
+					posts: 0,
+					fans: 0,
+				})
 			})
 	}
 

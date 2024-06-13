@@ -10,25 +10,7 @@ import CloseSVG from "@/svgs/CloseSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	var currentDate = new Date()
-	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth() - 1
-
 	const types = ["rent", "water", "service_charge"]
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	]
 
 	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])

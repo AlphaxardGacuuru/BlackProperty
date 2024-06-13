@@ -31,6 +31,10 @@ import AdminWaterReadings from "@/pages/admin/water-readings/index"
 import AdminWaterReadingCreate from "@/pages/admin/water-readings/create"
 import AdminWaterReadingEdit from "@/pages/admin/water-readings/edit/[id]"
 
+import AdminPayments from "@/pages/admin/finance/payments/index"
+import AdminPaymentCreate from "@/pages/admin/finance/payments/create"
+import AdminPaymentEdit from "@/pages/admin/finance/payments/edit/[id]"
+
 import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
 import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
 import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
@@ -132,6 +136,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/water-readings/:id/edit",
 			component: <AdminWaterReadingEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/payments",
+			component: <AdminPayments {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/payments/:id/create",
+			component: <AdminPaymentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/finance/payments/:id/edit",
+			component: <AdminPaymentEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/finance/transactions",

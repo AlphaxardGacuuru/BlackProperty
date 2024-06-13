@@ -26,7 +26,7 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Dashboard", path: ["/"] })
+		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
 
 		Axios.get("/api/admin").then((res) => setDashboard(res.data))
 		props.get("instructors", setInstructors)
@@ -169,7 +169,7 @@ const index = (props) => {
 				<div className="col-sm-12">
 					<div className="d-flex flex-wrap justify-content-start">
 						{/* Chart Box */}
-						{instructors.map(<ChartBox />)}
+						{instructors.map(() => <ChartBox />)}
 						{/* Chart Box End */}
 					</div>
 				</div>

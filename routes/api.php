@@ -8,6 +8,7 @@ use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MPESATransactionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StaffController;
@@ -43,6 +44,7 @@ Route::apiResources([
 	"water-readings" => WaterReadingController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
+    "payments" => PaymentController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
     "users" => UserController::class,
@@ -78,14 +80,19 @@ Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
 Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
 /*
+* Invoices
+*/ 
+Route::get("invoices/by-property-id/{id}", [InvoiceController::class, "byPropertyId"]);
+
+/*
 * WaterReadings
 */ 
 Route::get("water-readings/by-property-id/{id}", [WaterReadingController::class, "byPropertyId"]);
 
 /*
-* Invoices
+* Payments
 */ 
-Route::get("invoices/by-property-id/{id}", [InvoiceController::class, "byPropertyId"]);
+Route::get("payments/by-property-id/{id}", [PaymentController::class, "byPropertyId"]);
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

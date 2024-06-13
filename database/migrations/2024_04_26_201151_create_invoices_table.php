@@ -21,7 +21,9 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('type');
             $table->integer('amount');
-            $table->string('status')->default('pending');
+            $table->integer('paid')->default(0);
+            $table->integer('balance');
+            $table->string('status')->default('not_paid');
             $table->integer('month');
             $table->integer('year');
             $table->unsignedBigInteger('created_by');

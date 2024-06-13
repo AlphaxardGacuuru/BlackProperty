@@ -46,7 +46,7 @@ const AdminNavLinks = (props) => {
 			<li className="nav-item">
 				<Link
 					to={`/admin/dashboard`}
-					className={`nav-link ${activeStrict("/admin/dashboard")}`}>
+					className={`nav-link ${active("/admin/dashboard")}`}>
 					<div className="nav-link-icon">
 						<HomeSVG />
 					</div>
@@ -88,7 +88,7 @@ const AdminNavLinks = (props) => {
 					<div className="nav-link-icon">
 						<WaterReadingSVG />
 					</div>
-					<div className="nav-link-text">Water Reading</div>
+					<div className="nav-link-text">Water Readings</div>
 				</Link>
 			</li>
 			{/* Water Readings Link End */}

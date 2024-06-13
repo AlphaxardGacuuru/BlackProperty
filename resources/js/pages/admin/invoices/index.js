@@ -20,7 +20,8 @@ import Btn from "@/components/Core/Btn"
 const index = (props) => {
 	const [invoices, setInvoices] = useState([])
 
-	const [name, setName] = useState("")
+	const [tenant, setTenant] = useState("")
+	const [unit, setUnit] = useState("")
 	const [type, setType] = useState("")
 	const [status, setStatus] = useState("")
 	const [propertyId, setPropertyId] = useState("")
@@ -50,7 +51,8 @@ const index = (props) => {
 		// Fetch Invoices
 		props.getPaginated(
 			`invoices/by-property-id/${props.auth.propertyIds}?
-			name=${name}&
+			tenant=${tenant}&
+			unit=${unit}&
 			type=${type}&
 			status=${status}&
 			propertyId=${propertyId}&
@@ -60,7 +62,17 @@ const index = (props) => {
 			endYear=${endYear}`,
 			setInvoices
 		)
-	}, [name, type, status, propertyId, startMonth, endMonth, startYear, endYear])
+	}, [
+		tenant,
+		unit,
+		type,
+		status,
+		propertyId,
+		startMonth,
+		endMonth,
+		startYear,
+		endYear,
+	])
 
 	/*
 	 * Handle DeleteId checkboxes
@@ -119,7 +131,11 @@ const index = (props) => {
 						{/* Due */}
 						<HeroHeading
 							heading="Due"
-							data={props.rentStatement?.length}
+							data={
+								<span>
+									<small>KES</small> {invoices.due}
+								</span>
+							}
 						/>
 						<HeroIcon>
 							<InvoiceSVG />
@@ -128,7 +144,11 @@ const index = (props) => {
 						{/* Paid */}
 						<HeroHeading
 							heading="Paid"
-							data={props.rentStatement?.length}
+							data={
+								<span>
+									<small>KES</small> {invoices.paid}
+								</span>
+							}
 						/>
 						<HeroIcon>
 							<PaymentSVG />
@@ -137,7 +157,11 @@ const index = (props) => {
 						{/* Balance */}
 						<HeroHeading
 							heading="Balance"
-							data={props.rentStatement?.length}
+							data={
+								<span>
+									<small>KES</small> {invoices.balance}
+								</span>
+							}
 						/>
 						<HeroIcon>
 							<BalanceSVG />
@@ -160,10 +184,20 @@ const index = (props) => {
 							type="text"
 							placeholder="Search by Tenant"
 							className="form-control"
-							onChange={(e) => setName(e.target.value)}
+							onChange={(e) => setTenant(e.target.value)}
 						/>
 					</div>
 					{/* Tenant End */}
+					{/* Unit */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="text"
+							placeholder="Search by Unit"
+							className="form-control"
+							onChange={(e) => setUnit(e.target.value)}
+						/>
+					</div>
+					{/* Unit End */}
 					{/* Type */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<select
@@ -326,7 +360,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="9"></th>
+							<th colSpan="11"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
@@ -363,13 +397,15 @@ const index = (props) => {
 									}
 								/>
 							</th>
-							<th>#</th>
+							<th>Invoice No</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Type</th>
 							<th>Month</th>
 							<th>Year</th>
 							<th>Amount</th>
+							<th>Paid</th>
+							<th>Balance</th>
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -382,7 +418,8 @@ const index = (props) => {
 										onClick={() => handleSetDeleteIds(invoice.id)}
 									/>
 								</td>
-								<td>{props.iterator(key, invoices)}</td>
+								{/* <td>{props.iterator(key, invoices)}</td> */}
+								<td>{invoice.id}</td>
 								<td>{invoice.tenantName}</td>
 								<td>{invoice.unitName}</td>
 								<td className="text-capitalize">
@@ -398,20 +435,31 @@ const index = (props) => {
 								<td className="text-success">
 									<small>KES</small> {invoice.amount}
 								</td>
+								<td className="text-success">
+									<small>KES</small> {invoice.paid}
+								</td>
+								<td className="text-success">
+									<small>KES</small> {invoice.balance}
+								</td>
 								<td className="text-capitalize">
 									<span
 										className={`
 											${
-												invoice.status == "pending"
+												invoice.status == "not_paid"
 													? "bg-danger-subtle"
-													: invoice.status == "partial"
+													: invoice.status == "partially_paid"
 													? "bg-warning-subtle"
 													: invoice.status == "paid"
 													? "bg-success-subtle"
 													: "bg-dark-subtle"
 											}
 										 py-1 px-3`}>
-										{invoice.status}
+										{invoice.status
+											.split("_")
+											.map(
+												(word) => word.charAt(0).toUpperCase() + word.slice(1)
+											)
+											.join(" ")}
 									</span>
 								</td>
 								<td>
