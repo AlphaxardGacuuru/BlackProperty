@@ -43,28 +43,6 @@ const show = (props) => {
 		)
 	}, [nameQuery])
 
-	/*
-	 * Delete
-	 */
-	const onDelete = (propertyId) => {
-		// Toggle loader
-		setLoading(true)
-
-		Axios.delete(`/api/properties/${propertyId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Toggle loader
-				setLoading(true)
-				// Delete rows
-				props.get(`properties`, props.setProperties)
-			})
-			.catch((err) => {
-				// Toggle loader
-				setLoading(true)
-				props.getErrors(err)
-			})
-	}
-
 	const active = (activeTab) => {
 		return activeTab == tab
 			? "bg-secondary text-white shadow-sm"

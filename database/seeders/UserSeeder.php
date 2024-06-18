@@ -36,6 +36,6 @@ class UserSeeder extends Seeder
             User::factory()->ciku()->create();
         }
 
-        User::factory()->count(100)->create();
+        User::factory()->count(50)->create();
     }
 }

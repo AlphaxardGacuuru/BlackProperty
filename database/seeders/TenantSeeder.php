@@ -19,7 +19,7 @@ class TenantSeeder extends Seeder
         $units = Unit::all();
 
         foreach ($units as $unit) {
-            for ($i = 0; $i < rand(2, 5); $i++) {
+            for ($i = 0; $i < rand(3, 5); $i++) {
                 if ($i == 0) {
                     UserUnit::factory()
                         ->create([

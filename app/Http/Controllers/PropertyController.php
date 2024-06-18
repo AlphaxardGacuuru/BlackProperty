@@ -36,6 +36,7 @@ class PropertyController extends Controller
             "location" => "required|string",
             "depositFormula" => "required|string",
             "serviceCharge" => "required|string",
+            "waterBillRate" => "required|string",
         ]);
 
         [$saved, $message, $property] = $this->service->store($request);
@@ -72,6 +73,7 @@ class PropertyController extends Controller
             "location" => "nullable|string",
             "depositFormula" => "nullable|string",
             "serviceCharge" => "nullable|string",
+            "waterBillRate" => "nullable|string",
         ]);
 
         [$saved, $message, $property] = $this->service->update($request, $id);

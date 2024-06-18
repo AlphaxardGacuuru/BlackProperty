@@ -39,6 +39,7 @@ class PropertyService extends Service
         $property->location = $request->input("location");
         $property->deposit_formula = $request->input("depositFormula");
         $property->service_charge = $request->input("serviceCharge");
+        $property->water_bill_rate = $request->input("waterBillRate");
 
         $saved = $property->save();
 

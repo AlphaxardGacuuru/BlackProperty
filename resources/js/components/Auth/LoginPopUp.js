@@ -28,6 +28,15 @@ const LoginPopUp = (props) => {
 		return CryptoJS.AES.encrypt(token, secretKey).toString()
 	}
 
+	/*
+	 * Fetch
+	 */
+	const fetchAuth = (token) => {
+		Axios.get("api/auth", { Authorization: `Bearer ${token}` })
+			.then((res) => props.setAuth(res.data.data))
+			.catch((err) => props.getErrors(err))
+	}
+
 	const onSubmit = (e) => {
 		setLoading(true)
 		e.preventDefault()
@@ -41,16 +50,16 @@ const LoginPopUp = (props) => {
 			})
 				.then((res) => {
 					props.setMessages([res.data.message])
+					// Update Logged in user
+					fetchAuth(res.data.data)
 					// Remove loader
 					setLoading(false)
-					// Hide Login Pop Up
-					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
 					// Update Logged in user
 					props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
-					// setTimeout(() => window.location.reload(), 1000)
+					setTimeout(() => window.location.reload(), 1000)
 				})
 				.catch((err) => {
 					// Remove loader

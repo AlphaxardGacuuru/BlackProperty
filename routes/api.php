@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CardTransactionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KopokopoRecipientController;
@@ -40,8 +40,8 @@ Route::apiResources([
     "properties" => PropertyController::class,
     "units" => UnitController::class,
     "tenants" => TenantController::class,
-	"invoices" => InvoiceController::class,
-	"water-readings" => WaterReadingController::class,
+    "invoices" => InvoiceController::class,
+    "water-readings" => WaterReadingController::class,
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "payments" => PaymentController::class,
@@ -54,9 +54,10 @@ Route::apiResources([
 ]);
 
 /*
- * Admin Dashboard
+ * Dashboard
  */
-Route::get("admin", [AdminController::class, "index"]);
+Route::get("dashboard/{id}", [DashboardController::class, "index"]);
+Route::get("dashboard/properties/{id}", [DashboardController::class, "properties"]);
 
 /*
  * Properties
@@ -80,18 +81,18 @@ Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
 Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
 /*
-* Invoices
-*/ 
+ * Invoices
+ */
 Route::get("invoices/by-property-id/{id}", [InvoiceController::class, "byPropertyId"]);
 
 /*
-* WaterReadings
-*/ 
+ * WaterReadings
+ */
 Route::get("water-readings/by-property-id/{id}", [WaterReadingController::class, "byPropertyId"]);
 
 /*
-* Payments
-*/ 
+ * Payments
+ */
 Route::get("payments/by-property-id/{id}", [PaymentController::class, "byPropertyId"]);
 
 // Kopokopo STK Push

@@ -22,12 +22,6 @@ const AdminNavLinks = (props) => {
 	const location = useLocation()
 	const history = useHistory()
 
-	useEffect(() => {
-		if (props.auth.name == "Guest") {
-			history.push("/admin")
-		}
-	}, [])
-
 	// Function for showing active color
 	const active = (check) => {
 		return location.pathname.match(check) && "text-primary"

@@ -15,15 +15,13 @@ class PropertySeeder extends Seeder
      */
     public function run()
     {
-        $users = User::limit(5)->get();
+        $users = User::limit(1)->get();
 
         foreach ($users as $user) {
             Property::factory()
                 ->count(5)
                 ->hasUnits(rand(5, 20))
-                ->create([
-                    "user_id" => $user->id,
-                ]);
+                ->create(["user_id" => $user->id]);
         }
     }
 }

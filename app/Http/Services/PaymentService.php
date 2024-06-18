@@ -32,6 +32,7 @@ class PaymentService
         $payment->transaction_reference = $request->transactionReference;
         $payment->channel = $request->channel;
         $payment->paid_on = $request->paidOn;
+        $payment->created_by = $this->id;
 
         $saved = DB::transaction(function () use ($payment, $request) {
 			$saved = $payment->save();

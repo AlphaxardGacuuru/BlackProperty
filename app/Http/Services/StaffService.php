@@ -168,7 +168,9 @@ class StaffService extends Service
      */
     public function byPropertyId($id)
     {
-        $staff = UserProperty::where("property_id", $id)
+        $ids = explode(",", $id);
+
+        $staff = UserProperty::whereIn("property_id", $ids)
             ->paginate(20);
 
         return StaffResource::collection($staff);

@@ -81152,6 +81152,19 @@ var LoginPopUp = function LoginPopUp(props) {
     // Encrypt
     return crypto_js__WEBPACK_IMPORTED_MODULE_2___default.a.AES.encrypt(token, secretKey).toString();
   };
+
+  /*
+   * Fetch
+   */
+  var fetchAuth = function fetchAuth(token) {
+    Axios.get("api/auth", {
+      Authorization: "Bearer ".concat(token)
+    }).then(function (res) {
+      return props.setAuth(res.data.data);
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
   var onSubmit = function onSubmit(e) {
     setLoading(true);
     e.preventDefault();
@@ -81163,16 +81176,18 @@ var LoginPopUp = function LoginPopUp(props) {
         remember: "checked"
       }).then(function (res) {
         props.setMessages([res.data.message]);
+        // Update Logged in user
+        fetchAuth(res.data.data);
         // Remove loader
         setLoading(false);
-        // Hide Login Pop Up
-        props.setLogin(false);
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
         // Update Logged in user
         props.get("auth", props.setAuth, "auth", false);
         // Reload page
-        // setTimeout(() => window.location.reload(), 1000)
+        setTimeout(function () {
+          return window.location.reload();
+        }, 1000);
       })["catch"](function (err) {
         // Remove loader
         setLoading(false);
@@ -81282,6 +81297,7 @@ var Bar = function Bar(props) {
   // "rgba(201, 203, 207, 1)", GREY
   // "rgba(24, 135, 84, 1)", GREEN
 
+  var delayed;
   var config = {
     type: "bar",
     data: {
@@ -81293,6 +81309,18 @@ var Bar = function Bar(props) {
       scales: {
         y: {
           beginAtZero: true
+        }
+      },
+      animation: {
+        onComplete: function onComplete() {
+          delayed = true;
+        },
+        delay: function delay(context) {
+          var delay = 0;
+          if (context.type === "data" && context.mode === "default" && !delayed) {
+            delay = context.dataIndex * 300 + context.datasetIndex * 100;
+          }
+          return delay;
         }
       }
     }
@@ -81328,77 +81356,28 @@ __webpack_require__.r(__webpack_exports__);
 
 var Doughnut = function Doughnut(props) {
   var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var delayed;
   var config = {
     type: "doughnut",
     options: {
-      cutout: "90%",
-      radius: "100%"
-    },
-    data: {
-      labels: props.labels,
-      datasets: props.datasets
-    }
-  };
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    new Chart(ctx.current, config);
-  }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "p-2",
-    style: {
-      width: "20em",
-      height: "20em"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-    ref: ctx
-  }));
-};
-/* harmony default export */ __webpack_exports__["default"] = (Doughnut);
-
-/***/ }),
-
-/***/ "./resources/js/components/Charts/Line.js":
-/*!************************************************!*\
-  !*** ./resources/js/components/Charts/Line.js ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var Line = function Line(props) {
-  var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
-
-  /*
-   * Colors
-   */
-  // "rgba(255, 99, 132, 1)", RED
-  // "rgba(255, 159, 64, 1)", ORANGE
-  // "rgba(255, 205, 86, 1)", YELLOW
-  // "rgba(75, 192, 192, 1)", TEAL
-  // "rgba(54, 162, 235, 1)", BLUE
-  // "rgba(153, 102, 255, 1)", PURPLE
-  // "rgba(201, 203, 207, 1)", GREY
-  // "rgba(24, 135, 84, 1)", GREEN
-
-  var config = {
-    type: "line",
-    data: {
-      labels: props.labels,
-      datasets: props.datasets
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: {
-          display: false
+      cutout: props.cutout,
+      radius: "100%",
+      animation: {
+        onComplete: function onComplete() {
+          delayed = true;
         },
-        y: {
-          display: false
+        delay: function delay(context) {
+          var delay = 0;
+          if (context.type === "data" && context.mode === "default" && !delayed) {
+            delay = context.dataIndex * 300 + context.datasetIndex * 100;
+          }
+          return delay;
         }
       }
+    },
+    data: {
+      labels: props.labels,
+      datasets: props.datasets
     }
   };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -81407,14 +81386,18 @@ var Line = function Line(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "p-2",
     style: {
-      width: "100%",
-      height: "auto"
+      width: props.size,
+      height: props.size
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
     ref: ctx
   }));
 };
-/* harmony default export */ __webpack_exports__["default"] = (Line);
+Doughnut.defaultProps = {
+  cutout: "60%",
+  size: "20em"
+};
+/* harmony default export */ __webpack_exports__["default"] = (Doughnut);
 
 /***/ }),
 
@@ -81464,58 +81447,6 @@ Btn.defaultProps = {
   disabled: false
 };
 /* harmony default export */ __webpack_exports__["default"] = (Btn);
-
-/***/ }),
-
-/***/ "./resources/js/components/Core/ChartBox.js":
-/*!**************************************************!*\
-  !*** ./resources/js/components/Core/ChartBox.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Charts_Line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Charts/Line */ "./resources/js/components/Charts/Line.js");
-/* harmony import */ var _svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/svgs/ArrowDownSVG */ "./resources/js/svgs/ArrowDownSVG.js");
-/* harmony import */ var _svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/svgs/ArrowUpSVG */ "./resources/js/svgs/ArrowUpSVG.js");
-
-
-
-
-var ChartBox = function ChartBox(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary rounded m-1 me-4 p-2 card",
-    style: {
-      width: "19.5em",
-      height: "auto"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between align-items-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "px-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, props.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, props.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "px-4 fs-2 bg-secondary-subtle text-secondary rounded"
-  }, props.svg)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end align-items-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: ""
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, props.growth > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-success"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_3__["default"], null), props.growth), props.growth == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-secondary"
-  }, props.growth), props.growth < 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "text-danger"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_2__["default"], null), props.growth)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end align-items-center"
-  }, props.data && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Line__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    labels: [1, 2, 3, 4, 5, 6, 7],
-    datasets: props.datasets
-  })));
-};
-/* harmony default export */ __webpack_exports__["default"] = (ChartBox);
 
 /***/ }),
 
@@ -82091,23 +82022,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _components_Layouts_AdminNavLinks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Layouts/AdminNavLinks */ "./resources/js/components/Layouts/AdminNavLinks.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
-/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
-/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
-/* harmony import */ var _svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/DownloadSVG */ "./resources/js/svgs/DownloadSVG.js");
-/* harmony import */ var _svgs_MenuSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/MenuSVG */ "./resources/js/svgs/MenuSVG.js");
-/* harmony import */ var _svgs_ChevronRightSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/ChevronRightSVG */ "./resources/js/svgs/ChevronRightSVG.js");
-/* harmony import */ var _svgs_BellSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BellSVG */ "./resources/js/svgs/BellSVG.js");
-/* harmony import */ var _svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/LogoSVG */ "./resources/js/svgs/LogoSVG.js");
+/* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
+/* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(crypto_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_Layouts_AdminNavLinks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Layouts/AdminNavLinks */ "./resources/js/components/Layouts/AdminNavLinks.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+/* harmony import */ var _svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/DownloadSVG */ "./resources/js/svgs/DownloadSVG.js");
+/* harmony import */ var _svgs_MenuSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/MenuSVG */ "./resources/js/svgs/MenuSVG.js");
+/* harmony import */ var _svgs_ChevronRightSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/ChevronRightSVG */ "./resources/js/svgs/ChevronRightSVG.js");
+/* harmony import */ var _svgs_BellSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/BellSVG */ "./resources/js/svgs/BellSVG.js");
+/* harmony import */ var _svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/LogoSVG */ "./resources/js/svgs/LogoSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -82169,9 +82103,6 @@ var AdminMenu = function AdminMenu(props) {
       props.setMessages([res.data.message]);
       // Remove phone from localStorage
       localStorage.clear();
-      // Redirect
-      // window.location.href = `/#/admin/login`
-      // window.location.reload()
       // Set Auth to Guest
       props.setAuth({
         name: "Guest",
@@ -82186,7 +82117,7 @@ var AdminMenu = function AdminMenu(props) {
       // Remove phone from localStorage
       localStorage.clear();
       // Reload
-      // window.location.reload()
+      window.location.reload();
       // Set Auth to Guest
       props.setAuth({
         name: "Guest",
@@ -82225,12 +82156,12 @@ var AdminMenu = function AdminMenu(props) {
       // Open Admin Menu
       props.setAdminMenu(props.adminMenu ? "" : "left-open");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MenuSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MenuSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "logo-area mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin",
     className: "fs-1 text-white"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "menu-content-area d-flex align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "header-social-area d-flex align-items-center"
@@ -82250,7 +82181,7 @@ var AdminMenu = function AdminMenu(props) {
       position: "relative"
     },
     onClick: onNotification
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BellSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BellSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "position-absolute start-200 translate-middle badge rounded-circle bg-danger fw-lighter py-1",
     style: {
       fontSize: "0.6em",
@@ -82300,7 +82231,7 @@ var AdminMenu = function AdminMenu(props) {
     className: "hidden",
     "data-bs-toggle": "dropdown",
     "aria-expanded": "false"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_5__["default"], {
     src: (_props$auth = props.auth) === null || _props$auth === void 0 ? void 0 : _props$auth.avatar,
     className: "rounded-circle bg-light p-1",
     width: "40px",
@@ -82312,7 +82243,7 @@ var AdminMenu = function AdminMenu(props) {
       setBottomMenu(bottomMenu ? "" : "menu-open");
       setAvatarVisibility("block");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_5__["default"], {
     src: (_props$auth2 = props.auth) === null || _props$auth2 === void 0 ? void 0 : _props$auth2.avatar,
     className: "rounded-circle bg-light p-1 anti-hidden",
     width: "30px",
@@ -82327,7 +82258,7 @@ var AdminMenu = function AdminMenu(props) {
     className: "d-flex"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "align-items-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_5__["default"], {
     src: (_props$auth3 = props.auth) === null || _props$auth3 === void 0 ? void 0 : _props$auth3.avatar,
     className: "rounded-circle",
     width: "25px",
@@ -82345,7 +82276,7 @@ var AdminMenu = function AdminMenu(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Get App")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)), "Get App")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "#",
     className: "p-2 px-3 dropdown-item",
     onClick: function onClick(e) {
@@ -82355,30 +82286,30 @@ var AdminMenu = function AdminMenu(props) {
     className: "fs-6"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null)), "Logout")))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Logout")))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "leftMenu d-flex align-items-center justify-content-start shadow-lg ".concat(location.pathname.match("/admin/") ? " bg-secondary" : location.pathname.match("/instructor/") ? "bg-danger" : "bg-success")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "sonarNav wow fadeInUp w-100 mt-4",
     "data-wow-delay": "1s"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "m-0 p-0"
-  }, location.pathname.match("/admin/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_AdminNavLinks__WEBPACK_IMPORTED_MODULE_2__["default"], props)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, location.pathname.match("/admin/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_AdminNavLinks__WEBPACK_IMPORTED_MODULE_3__["default"], props)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "left-main mt-5 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, props.page.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-start"
   }, props.page.path.map(function (path, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: key
-    }, key < props.page.path.length - 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, key < props.page.path.length - 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_6__["default"], {
       linkTo: "/".concat(path),
       className: "mysonar-sm my-2",
       text: path
-    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
       className: "mysonar-sm my-2",
       text: path
     }), key < props.page.path.length - 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "".concat(location.pathname.match("/admin/") ? "text-secondary" : location.pathname.match("/instructor/") ? "text-danger" : "text-success", " text-white")
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChevronRightSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChevronRightSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
   })), props.children)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: bottomMenu
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -82393,7 +82324,7 @@ var AdminMenu = function AdminMenu(props) {
     onClick: function onClick() {
       return setBottomMenu("");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-0 p-0",
     style: {
       display: avatarVisibility
@@ -82412,7 +82343,7 @@ var AdminMenu = function AdminMenu(props) {
     className: "d-flex"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ms-3 me-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_5__["default"], {
     src: (_props$auth5 = props.auth) === null || _props$auth5 === void 0 ? void 0 : _props$auth5.avatar,
     className: "rounded-circle",
     width: "25px",
@@ -82432,7 +82363,7 @@ var AdminMenu = function AdminMenu(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-3 me-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Get App")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DownloadSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)), "Get App")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "#",
     className: "p-2 text-start text-white",
     onClick: function onClick(e) {
@@ -82442,7 +82373,7 @@ var AdminMenu = function AdminMenu(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-3 me-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null)), "Logout"))))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Logout"))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(AdminMenu));
 
@@ -82490,11 +82421,6 @@ __webpack_require__.r(__webpack_exports__);
 var AdminNavLinks = function AdminNavLinks(props) {
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (props.auth.name == "Guest") {
-      history.push("/admin");
-    }
-  }, []);
 
   // Function for showing active color
   var active = function active(check) {
@@ -82921,6 +82847,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
 /* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
 /* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_11__);
+
 
 
 
@@ -82933,6 +82862,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var PropertyHeroArea = function PropertyHeroArea(props) {
+  var router = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_11__["useHistory"])();
+
   /*
    * Delete
    */
@@ -82941,6 +82872,8 @@ var PropertyHeroArea = function PropertyHeroArea(props) {
       props.setMessages([res.data.message]);
       // Delete rows
       props.get("properties", props.setProperties);
+      // Redirect to Properties
+      router.push("/admin/properties");
     })["catch"](function (err) {
       return props.getErrors(err);
     });
@@ -82972,9 +82905,7 @@ var PropertyHeroArea = function PropertyHeroArea(props) {
       className: "card p-2 mb-2 shadow-sm ".concat(item.id == props.id && "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary")
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-between"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Location: ", item.location), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
-      className: "text-success"
-    }, "Service Charge: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", item.serviceCharge)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Location: ", item.location), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Service Charge: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", item.serviceCharge)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex flex-column justify-content-end"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/properties/".concat(item.id, "/show"),
@@ -84897,19 +84828,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
-/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
-/* harmony import */ var _svgs_StudentSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/svgs/StudentSVG */ "./resources/js/svgs/StudentSVG.js");
-/* harmony import */ var _svgs_PeopleSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/PeopleSVG */ "./resources/js/svgs/PeopleSVG.js");
-/* harmony import */ var _components_Charts_Bar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Charts/Bar */ "./resources/js/components/Charts/Bar.js");
-/* harmony import */ var _components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Charts/Doughnut */ "./resources/js/components/Charts/Doughnut.js");
-/* harmony import */ var _components_Core_ChartBox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Core/ChartBox */ "./resources/js/components/Core/ChartBox.js");
-/* harmony import */ var _svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/StaffSVG */ "./resources/js/svgs/StaffSVG.js");
-/* harmony import */ var _svgs_ArrowUpSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/ArrowUpSVG */ "./resources/js/svgs/ArrowUpSVG.js");
-/* harmony import */ var _svgs_ArrowDownSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/ArrowDownSVG */ "./resources/js/svgs/ArrowDownSVG.js");
-/* harmony import */ var _components_Charts_Line__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Charts/Line */ "./resources/js/components/Charts/Line.js");
-/* harmony import */ var _svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/PropertySVG */ "./resources/js/svgs/PropertySVG.js");
-/* harmony import */ var _svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/MoneySVG */ "./resources/js/svgs/MoneySVG.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Charts/Bar */ "./resources/js/components/Charts/Bar.js");
+/* harmony import */ var _components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Charts/Doughnut */ "./resources/js/components/Charts/Doughnut.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -84921,217 +84842,328 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-
-
-
-
-
-
-
-
-
 var index = function index(props) {
-  var _dashboard$instructor, _dashboard$students, _dashboard$staff, _dashboard$instructor2, _dashboard$students2, _dashboard$staff2, _dashboard$staff3, _dashboard$staff4, _dashboard$staff5, _dashboard$fees, _dashboard$fees2, _dashboard$instructor3, _dashboard$students3, _dashboard$staff6, _dashboard$instructor4, _dashboard$instructor5, _dashboard$students4, _dashboard$staff7;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _dashboard$tenants, _dashboard$tenants2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units, _dashboard$units2, _dashboard$rent3, _dashboard$rent4, _dashboard$water3, _dashboard$water4, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboardProperties$, _dashboard$tenants3, _dashboard$units3, _dashboard$units4, _dashboard$rent5, _dashboard$water5, _dashboard$serviceCha5, _dashboard$rent6, _staff$data, _dashboard$units5, _payments$data;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.auth.propertyIds),
     _useState2 = _slicedToArray(_useState, 2),
-    dashboard = _useState2[0],
-    setDashboard = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    propertyId = _useState2[0],
+    setPropertyId = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboard")),
     _useState4 = _slicedToArray(_useState3, 2),
-    instructors = _useState4[0],
-    setInstructors = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    dashboard = _useState4[0],
+    setDashboard = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboardProperties")),
     _useState6 = _slicedToArray(_useState5, 2),
-    students = _useState6[0],
-    setStudents = _useState6[1];
+    dashboardProperties = _useState6[0],
+    setDashboardProperties = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState8 = _slicedToArray(_useState7, 2),
     staff = _useState8[0],
     setStaff = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState10 = _slicedToArray(_useState9, 2),
+    payments = _useState10[0],
+    setPayments = _useState10[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setDashboard([]);
+    setDashboardProperties([]);
     // Set page
     props.setPage({
       name: "Dashboard",
       path: ["/dashboard"]
     });
-    Axios.get("/api/admin").then(function (res) {
-      return setDashboard(res.data);
-    });
-    props.get("instructors", setInstructors);
-    props.get("students", setStudents);
-    props.get("staff", setStaff);
-  }, []);
-  var barGraphDatasets1 = [{
-    label: "Instructors this month",
-    data: (_dashboard$instructor = dashboard.instructors) === null || _dashboard$instructor === void 0 || (_dashboard$instructor = _dashboard$instructor.lastMonth) === null || _dashboard$instructor === void 0 ? void 0 : _dashboard$instructor.data,
-    backgroundColor: "rgba(220, 53, 69, 1)",
-    borderColor: "rgba(220, 53, 69, 1)",
-    borderWidth: 1,
-    borderRadius: "50",
-    barThickness: "20"
+    // Fetch Dashboard
+    props.get("dashboard/".concat(propertyId), setDashboard, "dashboard");
+    // Fetch Dashboard Properties
+    props.get("dashboard/properties/".concat(props.auth.propertyIds), setDashboardProperties, "dashboardProperties");
+    // Fetch Payments
+    props.getPaginated("payments/by-property-id/".concat(propertyId), setPayments);
+    // Fetch Staff
+    props.getPaginated("staff/by-property-id/".concat(propertyId), setStaff);
+  }, [propertyId]);
+
+  /*
+   * Graph Data
+   */
+
+  var doughnutProperties = [{
+    label: " Units",
+    data: dashboardProperties.units
+  }];
+  var barGraphTenants = [{
+    label: " Tenants this month",
+    data: (_dashboard$tenants = dashboard.tenants) === null || _dashboard$tenants === void 0 || (_dashboard$tenants = _dashboard$tenants.tenantsThisYear) === null || _dashboard$tenants === void 0 ? void 0 : _dashboard$tenants.data,
+    backgroundColor: "rgba(40, 167, 69, 0.8)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "50",
+    stack: "Stack 0"
   }, {
-    label: "Students this month",
-    data: (_dashboard$students = dashboard.students) === null || _dashboard$students === void 0 || (_dashboard$students = _dashboard$students.lastMonth) === null || _dashboard$students === void 0 ? void 0 : _dashboard$students.data,
-    backgroundColor: "rgba(40, 167, 69, 1)",
-    borderColor: "rgba(40, 167, 69, 1)",
-    borderWidth: 1,
-    borderRadius: "50",
-    barThickness: "20"
-  }, {
-    label: "Staff this month",
-    data: (_dashboard$staff = dashboard.staff) === null || _dashboard$staff === void 0 || (_dashboard$staff = _dashboard$staff.lastMonth) === null || _dashboard$staff === void 0 ? void 0 : _dashboard$staff.data,
-    backgroundColor: "rgba(54, 162, 235, 1)",
-    borderColor: "rgba(54, 162, 235, 1)",
-    borderWidth: 1,
-    borderRadius: "50",
-    barThickness: "20"
-  }];
-  var instructorLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$instructor2 = dashboard.instructors) === null || _dashboard$instructor2 === void 0 ? void 0 : _dashboard$instructor2.lastWeek,
-    backgroundColor: "rgba(220, 53, 69, 1)",
-    borderColor: "rgba(220, 53, 69, 1)"
-    // borderWidth: 1,
-  }];
-
-  var studentLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$students2 = dashboard.students) === null || _dashboard$students2 === void 0 ? void 0 : _dashboard$students2.lastWeek,
-    backgroundColor: "rgba(40, 167, 69, 1)",
-    borderColor: "rgb(40, 167, 69)"
-    // borderWidth: 1,
-  }];
-
-  var staffLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$staff2 = dashboard.staff) === null || _dashboard$staff2 === void 0 ? void 0 : _dashboard$staff2.lastWeek,
-    backgroundColor: "rgba(54, 162, 235, 1)",
-    borderColor: "rgba(54, 162, 235, 1)"
-    // borderWidth: 1,
-  }];
-
-  var propertyLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$staff3 = dashboard.staff) === null || _dashboard$staff3 === void 0 ? void 0 : _dashboard$staff3.lastWeek,
+    label: " Vacancies this month",
+    data: (_dashboard$tenants2 = dashboard.tenants) === null || _dashboard$tenants2 === void 0 || (_dashboard$tenants2 = _dashboard$tenants2.vacanciesThisYear) === null || _dashboard$tenants2 === void 0 ? void 0 : _dashboard$tenants2.data,
     backgroundColor: "rgba(255, 205, 86, 1)",
-    borderColor: "rgba(255, 205, 86, 1)"
-    // borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "50",
+    stack: "Stack 0"
   }];
-
-  var departmentLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$staff4 = dashboard.staff) === null || _dashboard$staff4 === void 0 ? void 0 : _dashboard$staff4.lastWeek,
-    backgroundColor: "rgba(75, 192, 192, 1)",
-    borderColor: "rgba(75, 192, 192, 1)"
-    // borderWidth: 1,
-  }];
-
-  var staffLineGraphDatasets = [{
-    label: "Last Week",
-    data: (_dashboard$staff5 = dashboard.staff) === null || _dashboard$staff5 === void 0 ? void 0 : _dashboard$staff5.lastWeek,
-    backgroundColor: "rgba(153, 102, 255, 1)",
-    borderColor: "rgba(153, 102, 255, 1)"
-    // borderWidth: 1,
-  }];
-
-  var feeLineGraphDatasets = [{
-    label: "Card Last Week",
-    data: (_dashboard$fees = dashboard.fees) === null || _dashboard$fees === void 0 ? void 0 : _dashboard$fees.cardsLastWeek,
-    backgroundColor: "rgba(54, 162, 235, 1)",
-    borderColor: "rgba(54, 162, 235, 1)"
-    // borderWidth: 1,
+  var barGraphRent = [{
+    label: " Paid Rent",
+    data: (_dashboard$rent = dashboard.rent) === null || _dashboard$rent === void 0 || (_dashboard$rent = _dashboard$rent.paidThisYear) === null || _dashboard$rent === void 0 ? void 0 : _dashboard$rent.data,
+    backgroundColor: "rgba(40, 167, 69, 0.8)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 1"
   }, {
-    label: "Mpesa Last Week",
-    data: (_dashboard$fees2 = dashboard.fees) === null || _dashboard$fees2 === void 0 ? void 0 : _dashboard$fees2.mpesaLastWeek,
-    backgroundColor: "rgba(40, 167, 69, 1)",
-    borderColor: "rgba(40, 167, 69, 1)"
-    // borderWidth: 1,
+    label: " Due Rent",
+    data: (_dashboard$rent2 = dashboard.rent) === null || _dashboard$rent2 === void 0 || (_dashboard$rent2 = _dashboard$rent2.unpaidThisYear) === null || _dashboard$rent2 === void 0 ? void 0 : _dashboard$rent2.data,
+    backgroundColor: "rgba(255, 205, 86, 1)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 1"
+  }, {
+    label: " Paid Water Bill",
+    data: (_dashboard$water = dashboard.water) === null || _dashboard$water === void 0 || (_dashboard$water = _dashboard$water.paidThisYear) === null || _dashboard$water === void 0 ? void 0 : _dashboard$water.data,
+    backgroundColor: "rgba(54, 162, 235, 1)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 2"
+  }, {
+    label: " Due Water Bill",
+    data: (_dashboard$water2 = dashboard.water) === null || _dashboard$water2 === void 0 || (_dashboard$water2 = _dashboard$water2.unpaidThisYear) === null || _dashboard$water2 === void 0 ? void 0 : _dashboard$water2.data,
+    backgroundColor: "rgba(255, 205, 86, 1)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 2"
+  }, {
+    label: " Paid Service Charge",
+    data: (_dashboard$serviceCha = dashboard.serviceCharge) === null || _dashboard$serviceCha === void 0 || (_dashboard$serviceCha = _dashboard$serviceCha.paidThisYear) === null || _dashboard$serviceCha === void 0 ? void 0 : _dashboard$serviceCha.data,
+    backgroundColor: "rgba(153, 102, 255, 1)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 3"
+  }, {
+    label: " Due Service Charge",
+    data: (_dashboard$serviceCha2 = dashboard.serviceCharge) === null || _dashboard$serviceCha2 === void 0 || (_dashboard$serviceCha2 = _dashboard$serviceCha2.unpaidThisYear) === null || _dashboard$serviceCha2 === void 0 ? void 0 : _dashboard$serviceCha2.data,
+    backgroundColor: "rgba(255, 205, 86, 1)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    borderWidth: 2,
+    borderRadius: "0",
+    barThickness: "30",
+    stack: "Stack 3"
   }];
-
-  var doughnutGraphDatasets1 = [{
-    label: "Last Week",
-    data: [(_dashboard$instructor3 = dashboard.instructors) === null || _dashboard$instructor3 === void 0 ? void 0 : _dashboard$instructor3.total, (_dashboard$students3 = dashboard.students) === null || _dashboard$students3 === void 0 ? void 0 : _dashboard$students3.total, (_dashboard$staff6 = dashboard.staff) === null || _dashboard$staff6 === void 0 ? void 0 : _dashboard$staff6.total],
-    backgroundColor: ["rgba(220, 53, 69, 1)", "rgba(40, 167, 69, 1)", "rgba(54, 162, 235, 1)"],
-    borderColor: ["rgba(220, 53, 69, 1)", "rgba(40, 167, 69, 1)", "rgba(54, 162, 235, 1)"]
-    // borderWidth: 1,
+  var doughnutUnits = [{
+    label: "",
+    data: [(_dashboard$units = dashboard.units) === null || _dashboard$units === void 0 ? void 0 : _dashboard$units.totalOccupied, (_dashboard$units2 = dashboard.units) === null || _dashboard$units2 === void 0 ? void 0 : _dashboard$units2.totalUnoccupied],
+    backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"]
   }];
-
+  var doughnutRent = [{
+    label: " KES",
+    data: [(_dashboard$rent3 = dashboard.rent) === null || _dashboard$rent3 === void 0 ? void 0 : _dashboard$rent3.paidThisMonth, (_dashboard$rent4 = dashboard.rent) === null || _dashboard$rent4 === void 0 ? void 0 : _dashboard$rent4.dueThisMonth],
+    backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"]
+  }];
+  var doughnutWater = [{
+    label: " KES",
+    data: [(_dashboard$water3 = dashboard.water) === null || _dashboard$water3 === void 0 ? void 0 : _dashboard$water3.paidThisMonth, (_dashboard$water4 = dashboard.water) === null || _dashboard$water4 === void 0 ? void 0 : _dashboard$water4.dueThisMonth],
+    backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(255, 205, 86, 1)"]
+  }];
+  var doughnutServiceCharge = [{
+    label: " KES",
+    data: [(_dashboard$serviceCha3 = dashboard.serviceCharge) === null || _dashboard$serviceCha3 === void 0 ? void 0 : _dashboard$serviceCha3.paidThisMonth, (_dashboard$serviceCha4 = dashboard.serviceCharge) === null || _dashboard$serviceCha4 === void 0 ? void 0 : _dashboard$serviceCha4.dueThisMonth],
+    backgroundColor: ["rgba(153, 102, 255, 1)", "rgba(255, 205, 86, 1)"]
+  }];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-12"
+    className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-wrap justify-content-start"
-  }, instructors.map(function () {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_ChartBox__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+    className: "card shadow-sm p-4 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
+    className: "my-5 py-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Total Properties"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "display-1"
+  }, dashboardProperties.total)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, dashboardProperties.names && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    labels: dashboardProperties.names,
+    datasets: doughnutProperties,
+    cutout: "50%",
+    size: "25em"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-2 mb-1 ".concat(propertyId == props.auth.propertyIds && "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setPropertyId(props.auth.propertyIds);
+    }
+  }, "All"), (_dashboardProperties$ = dashboardProperties.ids) === null || _dashboardProperties$ === void 0 ? void 0 : _dashboardProperties$.map(function (id, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: key,
+      className: "card shadow-sm p-2 mb-1 ".concat(id == propertyId && "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"),
+      style: {
+        cursor: "pointer"
+      },
+      onClick: function onClick() {
+        return setPropertyId(id);
+      }
+    }, dashboardProperties.names[key]);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "my-3"
-  }, "Users This Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-8"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card rounded hidden-scroll"
-  }, dashboard.instructors && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    labels: (_dashboard$instructor4 = dashboard.instructors) === null || _dashboard$instructor4 === void 0 ? void 0 : _dashboard$instructor4.lastMonth.labels,
-    datasets: barGraphDatasets1
+  }, "Tenancy This Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 rounded hidden-scroll"
+  }, dashboard.tenants && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    labels: (_dashboard$tenants3 = dashboard.tenants) === null || _dashboard$tenants3 === void 0 ? void 0 : _dashboard$tenants3.tenantsThisYear.labels,
+    datasets: barGraphTenants
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card p-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, ((_dashboard$instructor5 = dashboard.instructors) === null || _dashboard$instructor5 === void 0 ? void 0 : _dashboard$instructor5.total) + ((_dashboard$students4 = dashboard.students) === null || _dashboard$students4 === void 0 ? void 0 : _dashboard$students4.total) + ((_dashboard$staff7 = dashboard.staff) === null || _dashboard$staff7 === void 0 ? void 0 : _dashboard$staff7.total)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total Users"), dashboard.instructors && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    labels: ["Instructors", "Students", "Staff"],
-    datasets: doughnutGraphDatasets1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Current Occupancy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Total Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    className: "me-1"
+  }, "KES"), ((_dashboard$units3 = dashboard.units) === null || _dashboard$units3 === void 0 ? void 0 : _dashboard$units3.totalOccupied) + ((_dashboard$units4 = dashboard.units) === null || _dashboard$units4 === void 0 ? void 0 : _dashboard$units4.totalUnoccupied)), dashboard.units && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    labels: ["Occupied Units", "Unoccupied Units"],
+    datasets: doughnutUnits
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row"
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Income this month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    className: "me-1"
+  }, "KES"), (_dashboard$rent5 = dashboard.rent) === null || _dashboard$rent5 === void 0 ? void 0 : _dashboard$rent5.total), dashboard.rent && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    labels: ["Paid Rent", "Due Rent"],
+    datasets: doughnutRent,
+    cutout: "60%",
+    size: "25em"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Water Bill"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    className: "me-1"
+  }, "KES"), (_dashboard$water5 = dashboard.water) === null || _dashboard$water5 === void 0 ? void 0 : _dashboard$water5.total), dashboard.rent && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    labels: ["Paid Water Bill", "Due Water Bill"],
+    datasets: doughnutWater,
+    cutout: "60%",
+    size: "25em"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    className: "me-1"
+  }, "KES"), (_dashboard$serviceCha5 = dashboard.serviceCharge) === null || _dashboard$serviceCha5 === void 0 ? void 0 : _dashboard$serviceCha5.total), dashboard.rent && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    labels: ["Paid Service Charge", "Due Service Charge"],
+    datasets: doughnutServiceCharge,
+    cutout: "60%",
+    size: "25em"
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "my-3"
-  }, "Recent Students"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "table-responsive"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, students.map(function (student, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      src: student.avatar,
-      className: "rounded-circle",
-      width: "25px",
-      height: "25px",
-      alt: "Avatar"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, student.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-capitalize"
-    }, student.gender), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, student.createdAt));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    colSpan: "5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    linkTo: "/students",
-    text: "view more"
-  }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Income This Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm hidden-scroll"
+  }, dashboard.rent && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    labels: (_dashboard$rent6 = dashboard.rent) === null || _dashboard$rent6 === void 0 ? void 0 : _dashboard$rent6.paidThisYear.labels,
+    datasets: barGraphRent
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "my-3"
-  }, "Recent Intructors"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Staff"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, instructors.map(function (instructor, key) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Role"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_staff$data = staff.data) === null || _staff$data === void 0 ? void 0 : _staff$data.slice(0, 10).map(function (staffMember, key) {
+    var _staffMember$roleName;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      src: instructor.avatar,
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, staff)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      src: staffMember.avatar,
       className: "rounded-circle",
       width: "25px",
       height: "25px",
       alt: "Avatar"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, instructor.createdAt));
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, staffMember.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, staffMember.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, (_staffMember$roleName = staffMember.roleNames) === null || _staffMember$roleName === void 0 ? void 0 : _staffMember$roleName.map(function (role, key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        key: key
+      }, key != 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mx-1"
+      }, "|"), role);
+    })));
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant")), (_dashboard$units5 = dashboard.units) === null || _dashboard$units5 === void 0 ? void 0 : _dashboard$units5.list.slice(0, 10).map(function (unit, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.rent), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-capitalize"
+    }, unit.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.tenantId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "bg-success-subtle p-1"
+    }, unit.tenantName) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "bg-warning-subtle p-1"
+    }, "Vacant")));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colSpan: "5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    linkTo: "/properties",
+    text: "view more"
+  }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-3"
+  }, "Recent Payments"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_payments$data = payments.data) === null || _payments$data === void 0 ? void 0 : _payments$data.slice(0, 10).map(function (payment, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, payments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", payment.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.paidOn));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     colSpan: "4"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    linkTo: "/instructors",
+    linkTo: "/payments",
     text: "view more"
   }))))))))));
 };
@@ -86300,25 +86332,6 @@ var show = function show(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     props.getPaginated("tenants/by-property-id/".concat(id, "?\n\t\t\t\tname=").concat(nameQuery), setTenants);
   }, [nameQuery]);
-
-  /*
-   * Delete
-   */
-  var onDelete = function onDelete(propertyId) {
-    // Toggle loader
-    setLoading(true);
-    Axios["delete"]("/api/properties/".concat(propertyId)).then(function (res) {
-      props.setMessages([res.data.message]);
-      // Toggle loader
-      setLoading(true);
-      // Delete rows
-      props.get("properties", props.setProperties);
-    })["catch"](function (err) {
-      // Toggle loader
-      setLoading(true);
-      props.getErrors(err);
-    });
-  };
   var active = function active(activeTab) {
     return activeTab == tab ? "bg-secondary text-white shadow-sm" : "bg-secondary-subtle";
   };
@@ -86470,6 +86483,8 @@ var create = function create(props) {
       setTimeout(function () {
         return history.push("/admin/properties");
       }, 500);
+      // Fetch Auth
+      props.get("auth", props.setAuth, "auth");
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
@@ -89758,64 +89773,6 @@ var index = function index(props) {
 
 /***/ }),
 
-/***/ "./resources/js/svgs/ArrowDownSVG.js":
-/*!*******************************************!*\
-  !*** ./resources/js/svgs/ArrowDownSVG.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ArrowDownSVG = function ArrowDownSVG() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "1em",
-    height: "1em",
-    fill: "currentColor",
-    className: "bi bi-arrow-down",
-    viewBox: "0 0 16 16"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fillRule: "evenodd",
-    d: "M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"
-  }));
-};
-/* harmony default export */ __webpack_exports__["default"] = (ArrowDownSVG);
-
-/***/ }),
-
-/***/ "./resources/js/svgs/ArrowUpSVG.js":
-/*!*****************************************!*\
-  !*** ./resources/js/svgs/ArrowUpSVG.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var ArrowUpSVG = function ArrowUpSVG() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "1em",
-    height: "1em",
-    fill: "currentColor",
-    className: "bi bi-arrow-up",
-    viewBox: "0 0 16 16"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fillRule: "evenodd",
-    d: "M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"
-  }));
-};
-/* harmony default export */ __webpack_exports__["default"] = (ArrowUpSVG);
-
-/***/ }),
-
 /***/ "./resources/js/svgs/BackSVG.js":
 /*!**************************************!*\
   !*** ./resources/js/svgs/BackSVG.js ***!
@@ -90305,34 +90262,6 @@ var PaymentSVG = function PaymentSVG() {
 
 /***/ }),
 
-/***/ "./resources/js/svgs/PeopleSVG.js":
-/*!****************************************!*\
-  !*** ./resources/js/svgs/PeopleSVG.js ***!
-  \****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var PeopleSVG = function PeopleSVG() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "1em",
-    height: "1em",
-    fill: "currentColor",
-    className: "mb-2 bi bi-people",
-    viewBox: "0 0 16 16"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"
-  }));
-};
-/* harmony default export */ __webpack_exports__["default"] = (PeopleSVG);
-
-/***/ }),
-
 /***/ "./resources/js/svgs/PersonGearSVG.js":
 /*!********************************************!*\
   !*** ./resources/js/svgs/PersonGearSVG.js ***!
@@ -90505,36 +90434,6 @@ var StaffSVG = function StaffSVG() {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (StaffSVG);
-
-/***/ }),
-
-/***/ "./resources/js/svgs/StudentSVG.js":
-/*!*****************************************!*\
-  !*** ./resources/js/svgs/StudentSVG.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-var StudentSVG = function StudentSVG() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "1em",
-    height: "1em",
-    fill: "currentColor",
-    className: "bi bi-person-vcard",
-    viewBox: "0 0 16 16"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12z"
-  }));
-};
-/* harmony default export */ __webpack_exports__["default"] = (StudentSVG);
 
 /***/ }),
 

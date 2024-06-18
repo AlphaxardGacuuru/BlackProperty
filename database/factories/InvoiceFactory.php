@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\WaterReading>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Invoice>
  */
-class WaterReadingFactory extends Factory
+class InvoiceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,13 +16,16 @@ class WaterReadingFactory extends Factory
      */
     public function definition()
     {
+        $types = ["rent", "water", "service_charge"];
+
         return [
             "user_unit_id" => "userUnitId",
-            "reading" => "reading",
+            "type" => "rent",
+            "amount" => "amount",
+            "balance" => "amount",
             "month" => "month",
             "year" => "year",
-            "usage" => "usage",
-            "bill" => "bill",
+            "created_by" => "this->id",
         ];
     }
 }

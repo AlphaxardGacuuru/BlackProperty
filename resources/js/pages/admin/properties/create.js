@@ -42,6 +42,8 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 				// Redirect to Properties
 				setTimeout(() => history.push("/admin/properties"), 500)
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 			})
 			.catch((err) => {
 				setLoading(false)

@@ -12,8 +12,11 @@ import PlusSVG from "@/svgs/PlusSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 const PropertyHeroArea = (props) => {
+	const router = useHistory()
+
 	/*
 	 * Delete
 	 */
@@ -23,6 +26,8 @@ const PropertyHeroArea = (props) => {
 				props.setMessages([res.data.message])
 				// Delete rows
 				props.get(`properties`, props.setProperties)
+				// Redirect to Properties
+				router.push("/admin/properties")
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -73,7 +78,7 @@ const PropertyHeroArea = (props) => {
 						<div>
 							<h4>{item.name}</h4>
 							<h6>Location: {item.location}</h6>
-							<h6 className="text-success">Service Charge: <small>KES</small> {item.serviceCharge}</h6>
+							<h6>Service Charge: <small>KES</small> {item.serviceCharge}</h6>
 						</div>
 						<div className="d-flex flex-column justify-content-end">
 							<MyLink

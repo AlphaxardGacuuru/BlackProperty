@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
+import CryptoJS from "crypto-js"
 
 import AdminNavLinks from "@/components/Layouts/AdminNavLinks"
 
@@ -67,9 +68,6 @@ const AdminMenu = (props) => {
 				props.setMessages([res.data.message])
 				// Remove phone from localStorage
 				localStorage.clear()
-				// Redirect
-				// window.location.href = `/#/admin/login`
-				// window.location.reload()
 				// Set Auth to Guest
 				props.setAuth({
 					name: "Guest",
@@ -85,7 +83,7 @@ const AdminMenu = (props) => {
 				// Remove phone from localStorage
 				localStorage.clear()
 				// Reload
-				// window.location.reload()
+				window.location.reload()
 				// Set Auth to Guest
 				props.setAuth({
 					name: "Guest",

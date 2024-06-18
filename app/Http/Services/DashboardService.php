@@ -2,261 +2,223 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\TenantResource;
+use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
-use App\Models\CardTransaction;
-use App\Models\MPESATransaction;
+use App\Models\Invoice;
 use App\Models\Property;
 use App\Models\Unit;
-use App\Models\User;
+use App\Models\UserUnit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardService extends Service
 {
-    public function index()
+    public function index($propertyIds)
     {
         return [
-            "properties" => $this->properties(),
-            "tenants" => $this->tenants(),
-            "units" => $this->units(),
-            "staff" => $this->staff(),
-            "fees" => $this->fees(),
+            "tenants" => $this->tenants($propertyIds),
+            "units" => $this->units($propertyIds),
+            "rent" => $this->rent($propertyIds),
+            "water" => $this->water($propertyIds),
+            "serviceCharge" => $this->serviceCharge($propertyIds),
         ];
     }
 
     /*
-     * Get Tenants Data
+     * Properties
      */
-    public function tenants()
+
+    public function properties($propertyIds)
     {
-        $tenantQuery = User::where("account_type", "tenant");
+        $propertyQuery = Property::whereIn("id", $propertyIds);
+
+        $total = $propertyQuery->count();
+
+        $ids = [];
+        $names = [];
+        $units = [];
+
+        $properties = $propertyQuery
+            ->get()
+            ->each(function ($property) use (&$ids, &$names, &$units) {
+                $ids[] = $property->id;
+                $names[] = $property->name;
+                $units[] = $property
+                    ->units
+                    ->count();
+            });
+
+        return [
+            "total" => $total,
+            "ids" => $ids,
+            "names" => $names,
+            "units" => $units,
+        ];
+    }
+
+    /*
+     * Units
+     */
+
+    public function units($propertyIds)
+    {
+        $unitsQuery = Unit::whereIn("property_id", $propertyIds);
+
+        $totalOccupied = $unitsQuery
+            ->whereHas("userUnits", fn($query) => $query->whereNull("vacated_at"))
+            ->count();
+
+        $totalUnoccupied = $unitsQuery
+            ->whereHas("userUnits", fn($query) => $query->whereNotNull("vacated_at"))
+            ->count();
+
+        $units = Unit::whereIn("property_id", $propertyIds)
+            ->orderBy("id", "DESC")
+            ->paginate(20);
+
+        $units = UnitResource::collection($units);
+
+        return [
+            "totalOccupied" => $totalOccupied,
+            "totalUnoccupied" => $totalUnoccupied,
+            "list" => $units,
+        ];
+    }
+
+    /*
+     * Tenants
+     */
+
+    public function tenants($propertyIds)
+    {
+        $tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        });
 
         $total = $tenantQuery->count();
 
-        $carbonYesterday = now()->subDay();
-
-        $yesterday = $tenantQuery->whereDate("created_at", $carbonYesterday)->count();
-
-        $carbonToday = Carbon::today()->toDateString();
-
-        $today = $tenantQuery->whereDate("created_at", $carbonToday)->count();
-
-        // Get Users By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getTenantsLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "tenant")
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(users.created_at)'))
-            ->get()
-            ->map(fn($item) => $item->count);
-
-        $tenants = $tenantQuery->orderBy("id", "DESC")->paginate(20);
-
-        $tenants = tenantResource::collection($tenants);
-
         return [
             "total" => $total,
-            "growth" => $this->growth($yesterday, $today),
-            "lastWeek" => $getTenantsLastWeek,
-            "list" => $tenants,
-            "lastMonth" => $this->tenantsLastMonth(),
+            "tenantsThisYear" => $this->tenantsThisYear($propertyIds),
+            "vacanciesThisYear" => $this->vacanciesThisYear($propertyIds),
         ];
     }
 
-    /*
-     * Get Staff Data
-     */
-    public function staff()
+    public function tenantsThisYear($propertyIds)
     {
-        $staffQuery = User::where("account_type", "staff");
+        $tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        });
 
-        $total = $staffQuery->count();
+        // Get Tenants By Month
+        $startOfYear = Carbon::now()->startOfYear();
+        $endOfYear = Carbon::now()->endOfYear();
 
-        $carbonYesterday = now()->subDay();
-
-        $yesterday = $staffQuery->whereDate("created_at", $carbonYesterday)->count();
-
-        $carbonToday = Carbon::today()->toDateString();
-
-        $today = $staffQuery->whereDate("created_at", $carbonToday)->count();
-
-        // Get Users By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getUsersLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "student")
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(users.created_at)'))
+        $getTenantsThisYear = $tenantQuery
+            ->select(DB::raw("DATE(occupied_at) as date"), DB::raw("count(*) as count"))
+            ->whereBetween("occupied_at", [$startOfYear, $endOfYear])
+            ->groupBy(DB::raw("DATE(user_units.occupied_at)"))
             ->get()
-            ->map(fn($item) => $item->count);
+            ->map(fn($item) => [
+                "month" => Carbon::parse($item->date)->format("F"),
+                "count" => $item->count,
+            ]);
 
-        $staff = $staffQuery->orderBy("id", "DESC")->paginate(20);
+        // Extract the months from your collection
+        $existingMonths = $getTenantsThisYear->pluck("month")->toArray();
 
-        $staff = tenantResource::collection($staff);
-
-        return [
-            "total" => $total,
-            "growth" => $this->growth($yesterday, $today),
-            "lastWeek" => $getUsersLastWeek,
-            "list" => $staff,
-            "lastMonth" => $this->staffLastMonth(),
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
         ];
-    }
 
-    /*
-     * Get Tenants Data
-     */
-    public function properties()
-    {
-        $total = Property::count();
-
-        $carbonYesterday = now()->subDay();
-
-        $yesterday = Property::whereDate("created_at", $carbonYesterday)->count();
-
-        $carbonToday = Carbon::today()->toDateString();
-
-        $today = Property::whereDate("created_at", $carbonToday)->count();
-
-        // Get Users By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getPropertiesLastWeek = Property::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(properties.created_at)'))
-            ->get()
-            ->map(fn($item) => $item->count);
-
-        return [
-            "total" => $total,
-            "growth" => $this->growth($yesterday, $today),
-            "lastWeek" => $getPropertiesLastWeek,
-        ];
-    }
-
-    /*
-     * Get Tenants Data
-     */
-    public function units()
-    {
-        $total = Unit::count();
-
-        $carbonYesterday = now()->subDay();
-
-        $yesterday = Unit::whereDate("created_at", $carbonYesterday)->count();
-
-        $carbonToday = Carbon::today()->toDateString();
-
-        $today = Unit::whereDate("created_at", $carbonToday)->count();
-
-        // Get Users By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getUnitsLastWeek = Unit::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(units.created_at)'))
-            ->get()
-            ->map(fn($item) => $item->count);
-
-        return [
-            "total" => $total,
-            "growth" => $this->growth($yesterday, $today),
-            "lastWeek" => $getUnitsLastWeek,
-        ];
-    }
-
-    /*
-     * Get Fees Data
-     */
-    public function fees()
-    {
-        $total = CardTransaction::sum("amount") + MPESATransaction::sum("amount");
-
-        $carbonYesterday = now()->subDay();
-
-        $yesterday1 = CardTransaction::whereDate("created_at", $carbonYesterday)->sum("amount");
-        $yesterday2 = MPESATransaction::whereDate("created_at", $carbonYesterday)->sum("amount");
-
-        $carbonToday = Carbon::today()->toDateString();
-
-        $today1 = CardTransaction::whereDate("created_at", $carbonToday)->sum("amount");
-        $today2 = MPESATransaction::whereDate("created_at", $carbonToday)->sum("amount");
-
-        // Get Users By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
-
-        $getCardsLastWeek = CardTransaction::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(amount) as sum'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(card_transactions.created_at)'))
-            ->get()
-            ->map(fn($item) => $item->sum);
-
-        $getMpesaLastWeek = MpesaTransaction::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(amount) as sum'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(mpesa_transactions.created_at)'))
-            ->get()
-            ->map(fn($item) => $item->sum);
-
-        return [
-            "total" => number_format($total),
-            "growth" => $this->growth(($yesterday1 + $yesterday2), ($today1 + $today2)),
-            "cardsLastWeek" => $getCardsLastWeek,
-            "mpesaLastWeek" => $getMpesaLastWeek,
-        ];
-    }
-
-    /*
-     * Get Tenants Last Month
-     */
-    public function tenantsLastMonth()
-    {
-        // Get Ordes By Day
-        $startDate = Carbon::now()->startOfMonth();
-        $endDate = Carbon::now()->endOfMonth();
-
-        $getTenantsLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "tenant")
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(users.created_at)'))
-            ->get()
-            ->map(function ($item) {
-                return [
-                    "day" => Carbon::parse($item->date)->day,
-                    "count" => $item->count,
-                ];
-            });
-
-        // Extract the days from your collection
-        $existingDays = $getTenantsLastWeek->pluck('day')->toArray();
-
-        // Get the range of days in the current month (from 1 to the last day of the month)
-        $startDay = 1;
-        $endDay = now()->endOfMonth()->day;
-        $allDays = range($startDay, $endDay);
-
-        // Fill missing days with default count of zero
-        $missingDays = array_diff($allDays, $existingDays);
-        $missingDaysData = collect($missingDays)->map(function ($day) {
-            return [
-                "day" => $day,
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
                 "count" => 0,
-            ];
-        })->toArray();
+            ])->toArray();
 
-        // Merge existing data with the missing days filled with default count
-        $mergedData = $getTenantsLastWeek
-            ->concat($missingDaysData)
-            ->sortBy('day')
+        // Merge existing data with the missing months filled with default count
+        $mergedData = $getTenantsThisYear
+            ->concat($missingMonthsData)
             ->values();
 
-        $labels = $mergedData->map(fn($item) => $item["day"]);
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["count"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
+    }
+
+    public function vacanciesThisYear($propertyIds)
+    {
+        $tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        });
+
+        // Get Tenants By Month
+        $startOfYear = Carbon::now()->startOfYear();
+        $endOfYear = Carbon::now()->endOfYear();
+
+        $totalUnits = Unit::whereIn("property_id", $propertyIds)
+            ->count();
+
+        $getTenantsThisYear = $tenantQuery
+            ->select(DB::raw("DATE(occupied_at) as date"), DB::raw("count(*) as count"))
+            ->whereBetween("occupied_at", [$startOfYear, $endOfYear])
+            ->groupBy(DB::raw("DATE(user_units.occupied_at)"))
+            ->get()
+            ->map(fn($item) => [
+                "month" => Carbon::parse($item->date)->format("F"),
+                "count" => $totalUnits - $item->count,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getTenantsThisYear->pluck("month")->toArray();
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "count" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default count
+        $mergedData = $getTenantsThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
         $data = $mergedData->map(fn($item) => $item["count"]);
 
         return [
@@ -266,51 +228,141 @@ class DashboardService extends Service
     }
 
     /*
-     * Get Staff Last Month
+     * Rent
      */
-    public function staffLastMonth()
+
+    public function rent($propertyIds)
     {
-        // Get Ordes By Day
-        $startDate = Carbon::now()->startOfMonth();
-        $endDate = Carbon::now()->endOfMonth();
+        $rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "rent");
 
-        $getStaffLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
-            ->where("account_type", "staff")
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(users.created_at)'))
+        $paidThisMonth = $rentQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("amount");
+
+        $dueThisMonth = $rentQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("balance");
+
+        return [
+            "total" => number_format($paidThisMonth + $dueThisMonth),
+            "paidThisMonth" => $paidThisMonth,
+            "dueThisMonth" => $dueThisMonth,
+            "paidThisYear" => $this->rentPaidThisYear($propertyIds),
+            "unpaidThisYear" => $this->rentDueThisYear($propertyIds),
+        ];
+    }
+
+    public function rentPaidThisYear($propertyIds)
+    {
+        $rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "rent");
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $rentQuery
+            ->select("invoices.month", DB::raw("sum(amount) as rent"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
             ->get()
-            ->map(function ($item) {
-                return [
-                    "day" => Carbon::parse($item->date)->day,
-                    "count" => $item->count,
-                ];
-            });
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "rent" => $item->rent,
+            ]);
 
-        // Extract the days from your collection
-        $existingDays = $getStaffLastWeek->pluck('day')->toArray();
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
 
-        // Get the range of days in the current month (from 1 to the last day of the month)
-        $startDay = 1;
-        $endDay = now()->endOfMonth()->day;
-        $allDays = range($startDay, $endDay);
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "rent" => 0,
+            ])->toArray();
 
-        // Fill missing days with default count of zero
-        $missingDays = array_diff($allDays, $existingDays);
-        $missingDaysData = collect($missingDays)->map(function ($day) {
-            return [
-                "day" => $day,
-                "count" => 0,
-            ];
-        })->toArray();
-
-        // Merge existing data with the missing days filled with default count
-        $mergedData = $getStaffLastWeek
-            ->concat($missingDaysData)
-            ->sortBy('day')
+        // Merge existing data with the missing months filled with default rent
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
             ->values();
 
-        $labels = $mergedData->map(fn($item) => $item["day"]);
-        $data = $mergedData->map(fn($item) => $item["count"]);
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["rent"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
+    }
+
+    public function rentDueThisYear($propertyIds)
+    {
+        $rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "rent");
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $rentQuery
+            ->select("invoices.month", DB::raw("sum(balance) as rent"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
+            ->get()
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "rent" => $item->rent,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "rent" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default rent
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["rent"]);
 
         return [
             "labels" => $labels,
@@ -319,47 +371,288 @@ class DashboardService extends Service
     }
 
     /*
-     * Get Fees Last Week
+     * Water
      */
-    public function feesLastWeek()
+
+    public function water($propertyIds)
     {
+        $waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "water");
 
-        // Get Fees By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
+        $paidThisMonth = $waterQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("amount");
 
-        $getFeesLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy(DB::raw('DATE(orders.created_at)'))
-            ->get()
-            ->map(function ($item) {
-                return [
-                    "day" => Carbon::parse($item->date)->dayName,
-                    "sum" => $item->sum,
-                ];
-            });
-
-        $feesLastWeekLabels = $getFeesLastWeek->map(fn($item) => $item["day"]);
-        $feesLastWeekData = $getFeesLastWeek->map(fn($item) => $item["sum"]);
+        $dueThisMonth = $waterQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("balance");
 
         return [
-            "labels" => $feesLastWeekLabels,
-            "data" => $feesLastWeekData,
+            "total" => number_format($paidThisMonth + $dueThisMonth),
+            "paidThisMonth" => $paidThisMonth,
+            "dueThisMonth" => $dueThisMonth,
+            "paidThisYear" => $this->waterPaidThisYear($propertyIds),
+            "unpaidThisYear" => $this->waterDueThisYear($propertyIds),
         ];
     }
 
-    // Calculate Growth
-    public function growth($yesterday, $today)
+    public function waterPaidThisYear($propertyIds)
     {
-        // Resolve for Division by Zero
-        if ($yesterday == 0) {
-            $growth = $today == 0 ? 0 : $today * 100;
-        } else if ($today == 0) {
-            $growth = $yesterday == 0 ? 0 : $yesterday * -100;
-        } else {
-            $growth = $today / $yesterday * 100;
-        }
+        $waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "water");
 
-        return number_format($growth, 1);
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $waterQuery
+            ->select("invoices.month", DB::raw("sum(amount) as water"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
+            ->get()
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "water" => $item->water,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "water" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default water
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["water"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
+    }
+
+    public function waterDueThisYear($propertyIds)
+    {
+        $waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "water");
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $waterQuery
+            ->select("invoices.month", DB::raw("sum(balance) as water"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
+            ->get()
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "water" => $item->water,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "water" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default water
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["water"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
+    }
+
+    /*
+     * Service Charge
+     */
+
+    public function serviceCharge($propertyIds)
+    {
+        $serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "service_charge");
+
+        $paidThisMonth = $serviceChargeQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("amount");
+
+        $dueThisMonth = $serviceChargeQuery
+            ->where("month", Carbon::now()->month)
+            ->sum("balance");
+
+        return [
+            "total" => number_format($paidThisMonth + $dueThisMonth),
+            "paidThisMonth" => $paidThisMonth,
+            "dueThisMonth" => $dueThisMonth,
+            "paidThisYear" => $this->serviceChargePaidThisYear($propertyIds),
+            "unpaidThisYear" => $this->serviceChargeDueThisYear($propertyIds),
+        ];
+    }
+
+    public function serviceChargePaidThisYear($propertyIds)
+    {
+        $serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "serviceCharge");
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $serviceChargeQuery
+            ->select("invoices.month", DB::raw("sum(amount) as serviceCharge"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
+            ->get()
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "serviceCharge" => $item->serviceCharge,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "serviceCharge" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default service charge
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["serviceCharge"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
+    }
+
+    public function serviceChargeDueThisYear($propertyIds)
+    {
+        $serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("type", "service_charge");
+
+        $allMonths = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+
+        $getRentThisYear = $serviceChargeQuery
+            ->select("invoices.month", DB::raw("sum(balance) as serviceCharge"))
+            ->where("year", Carbon::now()->year)
+            ->groupBy("month")
+            ->get()
+            ->map(fn($item) => [
+                "month" => $allMonths[$item->month - 1],
+                "serviceCharge" => $item->serviceCharge,
+            ]);
+
+        // Extract the months from your collection
+        $existingMonths = $getRentThisYear
+            ->pluck("month")
+            ->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsData = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "serviceCharge" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default service charge
+        $mergedData = $getRentThisYear
+            ->concat($missingMonthsData)
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["serviceCharge"]);
+
+        return [
+            "labels" => $labels,
+            "data" => $data,
+        ];
     }
 }

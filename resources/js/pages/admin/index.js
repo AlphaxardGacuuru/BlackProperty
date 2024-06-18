@@ -1,292 +1,478 @@
 import React, { useEffect, useState } from "react"
 
 import MyLink from "@/components/Core/MyLink"
-import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
-
-import StudentSVG from "@/svgs/StudentSVG"
-import PeopleSVG from "@/svgs/PeopleSVG"
 
 import Bar from "@/components/Charts/Bar"
 import Doughnut from "@/components/Charts/Doughnut"
-import ChartBox from "@/components/Core/ChartBox"
-
-import StaffSVG from "@/svgs/StaffSVG"
-import ArrowUpSVG from "@/svgs/ArrowUpSVG"
-import ArrowDownSVG from "@/svgs/ArrowDownSVG"
-import Line from "@/components/Charts/Line"
-import PropertySVG from "@/svgs/PropertySVG"
-import MoneySVG from "@/svgs/MoneySVG"
 
 const index = (props) => {
-	const [dashboard, setDashboard] = useState({})
-	const [instructors, setInstructors] = useState([])
-	const [students, setStudents] = useState([])
+	const [propertyId, setPropertyId] = useState(props.auth.propertyIds)
+
+	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard"))
+	const [dashboardProperties, setDashboardProperties] = useState(
+		props.getLocalStorage("dashboardProperties")
+	)
 	const [staff, setStaff] = useState([])
+	const [payments, setPayments] = useState([])
 
 	useEffect(() => {
+		setDashboard([])
+		setDashboardProperties([])
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
+		// Fetch Dashboard
+		props.get(`dashboard/${propertyId}`, setDashboard, "dashboard")
+		// Fetch Dashboard Properties
+		props.get(
+			`dashboard/properties/${props.auth.propertyIds}`,
+			setDashboardProperties,
+			"dashboardProperties"
+		)
+		// Fetch Payments
+		props.getPaginated(`payments/by-property-id/${propertyId}`, setPayments)
+		// Fetch Staff
+		props.getPaginated(`staff/by-property-id/${propertyId}`, setStaff)
+	}, [propertyId])
 
-		Axios.get("/api/admin").then((res) => setDashboard(res.data))
-		props.get("instructors", setInstructors)
-		props.get("students", setStudents)
-		props.get("staff", setStaff)
-	}, [])
+	/*
+	 * Graph Data
+	 */
 
-	var barGraphDatasets1 = [
+	var doughnutProperties = [
 		{
-			label: "Instructors this month",
-			data: dashboard.instructors?.lastMonth?.data,
-			backgroundColor: "rgba(220, 53, 69, 1)",
-			borderColor: "rgba(220, 53, 69, 1)",
-			borderWidth: 1,
-			borderRadius: "50",
-			barThickness: "20",
-		},
-		{
-			label: "Students this month",
-			data: dashboard.students?.lastMonth?.data,
-			backgroundColor: "rgba(40, 167, 69, 1)",
-			borderColor: "rgba(40, 167, 69, 1)",
-			borderWidth: 1,
-			borderRadius: "50",
-			barThickness: "20",
-		},
-		{
-			label: "Staff this month",
-			data: dashboard.staff?.lastMonth?.data,
-			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgba(54, 162, 235, 1)",
-			borderWidth: 1,
-			borderRadius: "50",
-			barThickness: "20",
+			label: " Units",
+			data: dashboardProperties.units,
 		},
 	]
 
-	var instructorLineGraphDatasets = [
+	var barGraphTenants = [
 		{
-			label: "Last Week",
-			data: dashboard.instructors?.lastWeek,
-			backgroundColor: "rgba(220, 53, 69, 1)",
-			borderColor: "rgba(220, 53, 69, 1)",
-			// borderWidth: 1,
+			label: " Tenants this month",
+			data: dashboard.tenants?.tenantsThisYear?.data,
+			backgroundColor: "rgba(40, 167, 69, 0.8)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "50",
+			stack: "Stack 0",
 		},
-	]
-
-	var studentLineGraphDatasets = [
 		{
-			label: "Last Week",
-			data: dashboard.students?.lastWeek,
-			backgroundColor: "rgba(40, 167, 69, 1)",
-			borderColor: "rgb(40, 167, 69)",
-			// borderWidth: 1,
-		},
-	]
-
-	var staffLineGraphDatasets = [
-		{
-			label: "Last Week",
-			data: dashboard.staff?.lastWeek,
-			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgba(54, 162, 235, 1)",
-			// borderWidth: 1,
-		},
-	]
-
-	var propertyLineGraphDatasets = [
-		{
-			label: "Last Week",
-			data: dashboard.staff?.lastWeek,
+			label: " Vacancies this month",
+			data: dashboard.tenants?.vacanciesThisYear?.data,
 			backgroundColor: "rgba(255, 205, 86, 1)",
-			borderColor: "rgba(255, 205, 86, 1)",
-			// borderWidth: 1,
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "50",
+			stack: "Stack 0",
 		},
 	]
 
-	var departmentLineGraphDatasets = [
+	var barGraphRent = [
 		{
-			label: "Last Week",
-			data: dashboard.staff?.lastWeek,
-			backgroundColor: "rgba(75, 192, 192, 1)",
-			borderColor: "rgba(75, 192, 192, 1)",
-			// borderWidth: 1,
+			label: " Paid Rent",
+			data: dashboard.rent?.paidThisYear?.data,
+			backgroundColor: "rgba(40, 167, 69, 0.8)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 1",
 		},
-	]
-
-	var staffLineGraphDatasets = [
 		{
-			label: "Last Week",
-			data: dashboard.staff?.lastWeek,
-			backgroundColor: "rgba(153, 102, 255, 1)",
-			borderColor: "rgba(153, 102, 255, 1)",
-			// borderWidth: 1,
+			label: " Due Rent",
+			data: dashboard.rent?.unpaidThisYear?.data,
+			backgroundColor: "rgba(255, 205, 86, 1)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 1",
 		},
-	]
-
-	var feeLineGraphDatasets = [
 		{
-			label: "Card Last Week",
-			data: dashboard.fees?.cardsLastWeek,
+			label: " Paid Water Bill",
+			data: dashboard.water?.paidThisYear?.data,
 			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgba(54, 162, 235, 1)",
-			// borderWidth: 1,
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 2",
 		},
 		{
-			label: "Mpesa Last Week",
-			data: dashboard.fees?.mpesaLastWeek,
-			backgroundColor: "rgba(40, 167, 69, 1)",
-			borderColor: "rgba(40, 167, 69, 1)",
-			// borderWidth: 1,
+			label: " Due Water Bill",
+			data: dashboard.water?.unpaidThisYear?.data,
+			backgroundColor: "rgba(255, 205, 86, 1)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 2",
+		},
+		{
+			label: " Paid Service Charge",
+			data: dashboard.serviceCharge?.paidThisYear?.data,
+			backgroundColor: "rgba(153, 102, 255, 1)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 3",
+		},
+		{
+			label: " Due Service Charge",
+			data: dashboard.serviceCharge?.unpaidThisYear?.data,
+			backgroundColor: "rgba(255, 205, 86, 1)",
+			borderColor: "rgba(255, 255, 255, 1)",
+			borderWidth: 2,
+			borderRadius: "0",
+			barThickness: "30",
+			stack: "Stack 3",
 		},
 	]
 
-	var doughnutGraphDatasets1 = [
+	var doughnutUnits = [
 		{
-			label: "Last Week",
+			label: "",
+			data: [dashboard.units?.totalOccupied, dashboard.units?.totalUnoccupied],
+			backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"],
+		},
+	]
+
+	var doughnutRent = [
+		{
+			label: " KES",
+			data: [dashboard.rent?.paidThisMonth, dashboard.rent?.dueThisMonth],
+			backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"],
+		},
+	]
+
+	var doughnutWater = [
+		{
+			label: " KES",
+			data: [dashboard.water?.paidThisMonth, dashboard.water?.dueThisMonth],
+			backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(255, 205, 86, 1)"],
+		},
+	]
+
+	var doughnutServiceCharge = [
+		{
+			label: " KES",
 			data: [
-				dashboard.instructors?.total,
-				dashboard.students?.total,
-				dashboard.staff?.total,
+				dashboard.serviceCharge?.paidThisMonth,
+				dashboard.serviceCharge?.dueThisMonth,
 			],
-			backgroundColor: [
-				"rgba(220, 53, 69, 1)",
-				"rgba(40, 167, 69, 1)",
-				"rgba(54, 162, 235, 1)",
-			],
-			borderColor: [
-				"rgba(220, 53, 69, 1)",
-				"rgba(40, 167, 69, 1)",
-				"rgba(54, 162, 235, 1)",
-			],
-			// borderWidth: 1,
+			backgroundColor: ["rgba(153, 102, 255, 1)", "rgba(255, 205, 86, 1)"],
 		},
 	]
 
 	return (
-		<>
+		<React.Fragment>
 			<div className="row">
-				<div className="col-sm-12">
-					<div className="d-flex flex-wrap justify-content-start">
-						{/* Chart Box */}
-						{instructors.map(() => <ChartBox />)}
-						{/* Chart Box End */}
-					</div>
-				</div>
-			</div>
-
-			<div className="row">
-				<h4 className="my-3">Users This Month</h4>
-				<div className="col-sm-8">
-					{/* Users Bar Graph*/}
-					<div className="card rounded hidden-scroll">
-						{dashboard.instructors && (
-							<Bar
-								labels={dashboard.instructors?.lastMonth.labels}
-								datasets={barGraphDatasets1}
-							/>
-						)}
-					</div>
-					{/* Users Bar Graph End */}
-				</div>
+				{/* Property Count */}
 				<div className="col-sm-4">
-					<div className="card p-4">
+					<div className="card shadow-sm p-4 mb-2">
+						<center className="my-5 py-5">
+							<h4>Total Properties</h4>
+							<h1 className="display-1">{dashboardProperties.total}</h1>
+						</center>
+					</div>
+				</div>
+				{/* Property Count End */}
+				{/* Property Doughnut */}
+				<div className="col-sm-4">
+					<div className="card shadow-sm p-2 mb-2">
 						<center>
-							<h5>
-								{dashboard.instructors?.total +
-									dashboard.students?.total +
-									dashboard.staff?.total}
-							</h5>
-							<h5>Total Users</h5>
-							{dashboard.instructors && (
+							{dashboardProperties.names && (
 								<Doughnut
-									labels={["Instructors", "Students", "Staff"]}
-									datasets={doughnutGraphDatasets1}
+									labels={dashboardProperties.names}
+									datasets={doughnutProperties}
+									cutout="50%"
+									size="25em"
 								/>
 							)}
 						</center>
 					</div>
 				</div>
+				{/* Property Doughnut End */}
+				{/* Property List */}
+				<div className="col-sm-4">
+					{/* All */}
+					<div
+						className={`card shadow-sm p-2 mb-1 ${
+							propertyId == props.auth.propertyIds &&
+							"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
+						}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setPropertyId(props.auth.propertyIds)}>
+						All
+					</div>
+					{/* All End */}
+
+					{/* List */}
+					{dashboardProperties.ids?.map((id, key) => (
+						<div
+							key={key}
+							className={`card shadow-sm p-2 mb-1 ${
+								id == propertyId &&
+								"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
+							}`}
+							style={{ cursor: "pointer" }}
+							onClick={() => setPropertyId(id)}>
+							{dashboardProperties.names[key]}
+						</div>
+					))}
+					{/* List End */}
+				</div>
+				{/* Property List End */}
+			</div>
+
+			<div className="row">
+				{/* Tenancy This Year */}
+				<div className="col-sm-8">
+					<h4 className="my-3">Tenancy This Year</h4>
+					{/* Bar Graph*/}
+					<div className="card shadow-sm mb-2 rounded hidden-scroll">
+						{dashboard.tenants && (
+							<Bar
+								labels={dashboard.tenants?.tenantsThisYear.labels}
+								datasets={barGraphTenants}
+							/>
+						)}
+					</div>
+					{/* Bar Graph End */}
+				</div>
+
+				{/* Doughnut */}
+				<div className="col-sm-4">
+					<h4 className="my-3">Current Occupancy</h4>
+					<div className="card shadow-sm p-4 mb-2">
+						<center>
+							<h5>Total Units</h5>
+							<h6>
+								<small className="me-1">KES</small>
+								{dashboard.units?.totalOccupied +
+									dashboard.units?.totalUnoccupied}
+							</h6>
+							{dashboard.units && (
+								<Doughnut
+									labels={["Occupied Units", "Unoccupied Units"]}
+									datasets={doughnutUnits}
+								/>
+							)}
+						</center>
+					</div>
+				</div>
+				{/* Doughnut End */}
+				{/* Tenancy This Year End */}
+
+				{/* Income Month */}
+				<div className="col-sm-12">
+					<h4 className="my-3">Income this month</h4>
+					<div className="d-flex justify-content-between">
+						<div className="card shadow-sm p-4">
+							<center>
+								<h5>Rent</h5>
+								<h6>
+									<small className="me-1">KES</small>
+									{dashboard.rent?.total}
+								</h6>
+								{dashboard.rent && (
+									<Doughnut
+										labels={["Paid Rent", "Due Rent"]}
+										datasets={doughnutRent}
+										cutout="60%"
+										size="25em"
+									/>
+								)}
+							</center>
+						</div>
+						<div className="card shadow-sm p-4">
+							<center>
+								<h5>Water Bill</h5>
+								<h6>
+									<small className="me-1">KES</small>
+									{dashboard.water?.total}
+								</h6>
+								{dashboard.rent && (
+									<Doughnut
+										labels={["Paid Water Bill", "Due Water Bill"]}
+										datasets={doughnutWater}
+										cutout="60%"
+										size="25em"
+									/>
+								)}
+							</center>
+						</div>
+						<div className="card shadow-sm p-4">
+							<center>
+								<h5>Service Charge</h5>
+								<h6>
+									<small className="me-1">KES</small>
+									{dashboard.serviceCharge?.total}
+								</h6>
+								{dashboard.rent && (
+									<Doughnut
+										labels={["Paid Service Charge", "Due Service Charge"]}
+										datasets={doughnutServiceCharge}
+										cutout="60%"
+										size="25em"
+									/>
+								)}
+							</center>
+						</div>
+					</div>
+				</div>
+				{/* Income Month End */}
+
+				{/* Income This Year */}
+				{/* Bar Graph */}
+				<div className="col-sm-8">
+					<h4 className="my-3">Income This Year</h4>
+					<div className="card shadow-sm hidden-scroll">
+						{dashboard.rent && (
+							<Bar
+								labels={dashboard.rent?.paidThisYear.labels}
+								datasets={barGraphRent}
+							/>
+						)}
+					</div>
+				</div>
+				{/* Bar Graph End */}
+
+				{/* Staff Table */}
+				<div className="col-sm-4">
+					<h4 className="my-3">Staff</h4>
+
+					<div className="table-responsive">
+						<table className="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th></th>
+									<th>Name</th>
+									<th>Phone</th>
+									<th>Role</th>
+								</tr>
+							</thead>
+							<tbody>
+								{staff.data?.slice(0, 10).map((staffMember, key) => (
+									<tr key={key}>
+										<td>{props.iterator(key, staff)}</td>
+										<td>
+											<Img
+												src={staffMember.avatar}
+												className="rounded-circle"
+												width="25px"
+												height="25px"
+												alt="Avatar"
+											/>
+										</td>
+										<td>{staffMember.name}</td>
+										<td>{staffMember.phone}</td>
+										<td>
+											{staffMember.roleNames?.map((role, key) => (
+												<span key={key}>
+													{key != 0 && <span className="mx-1">|</span>}
+													{role}
+												</span>
+											))}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				{/* Staff Table End */}
+				{/* Income This Year End */}
 
 				<div className="row">
-					<div className="col-sm-8">
-						<h4 className="my-3">Recent Students</h4>
+					<div className="col-sm-6">
+						<h4 className="my-3">Units</h4>
 
-						{/* Recent Students Table */}
-						<div className="table-responsive">
+						{/* Table */}
+						<div className="table-responsive mb-5">
 							<table className="table table-hover">
 								<thead>
 									<tr>
-										<th></th>
+										<th>#</th>
 										<th>Name</th>
-										<th>Gender</th>
-										<th>Date Joined</th>
+										<th>Rent</th>
+										<th>Deposit</th>
+										<th>Type</th>
+										<th>Current Tenant</th>
 									</tr>
-								</thead>
-								<tbody>
-									{students.map((student, key) => (
+									{dashboard.units?.list.slice(0, 10).map((unit, key) => (
 										<tr key={key}>
-											<td>
-												<Img
-													src={student.avatar}
-													className="rounded-circle"
-													width="25px"
-													height="25px"
-													alt="Avatar"
-												/>
+											<td>{key + 1}</td>
+											<td>{unit.name}</td>
+											<td className="text-success">
+												<small>KES</small> {unit.rent}
 											</td>
-											<td>{student.name}</td>
-											<td className="text-capitalize">{student.gender}</td>
-											<td>{student.createdAt}</td>
+											<td className="text-success">
+												<small>KES</small> {unit.deposit}
+											</td>
+											<td className="text-capitalize">{unit.type}</td>
+											<td>
+												{unit.tenantId ? (
+													<span className="bg-success-subtle p-1">
+														{unit.tenantName}
+													</span>
+												) : (
+													<span className="bg-warning-subtle p-1">Vacant</span>
+												)}
+											</td>
 										</tr>
 									))}
 									<tr>
-										<td colSpan="5">
+										<td colSpan="5"></td>
+										<td className="text-end">
 											<MyLink
-												linkTo="/students"
+												linkTo="/properties"
 												text="view more"
 											/>
 										</td>
 									</tr>
-								</tbody>
+								</thead>
 							</table>
 						</div>
-						{/* Recent Students Table End */}
+						{/* Table End */}
 					</div>
 
-					<div className="col-sm-4">
-						<h4 className="my-3">Recent Intructors</h4>
+					<div className="col-sm-6">
+						<h4 className="my-3">Recent Payments</h4>
 
-						{/* Recent Instructors Table */}
+						{/* Recent Payments Table */}
 						<div className="table-responsive">
 							<table className="table table-hover">
 								<thead>
 									<tr>
-										<th></th>
-										<th>Name</th>
-										<th>Date Joined</th>
+										<th>#</th>
+										<th>Tenant</th>
+										<th>Unit</th>
+										<th>Amount</th>
+										<th>Paid On</th>
 									</tr>
 								</thead>
 								<tbody>
-									{instructors.map((instructor, key) => (
+									{payments.data?.slice(0, 10).map((payment, key) => (
 										<tr key={key}>
-											<td>
-												<Img
-													src={instructor.avatar}
-													className="rounded-circle"
-													width="25px"
-													height="25px"
-													alt="Avatar"
-												/>
+											<td>{props.iterator(key, payments)}</td>
+											<td>{payment.tenantName}</td>
+											<td>{payment.unitName}</td>
+											<td className="text-success">
+												<small>KES</small> {payment.amount}
 											</td>
-											<td>{instructor.name}</td>
-											<td>{instructor.createdAt}</td>
+											<td>{payment.paidOn}</td>
 										</tr>
 									))}
 									<tr>
-										<td colSpan="4">
+										<td colSpan="4"></td>
+										<td className="text-end">
 											<MyLink
-												linkTo="/instructors"
+												linkTo="/payments"
 												text="view more"
 											/>
 										</td>
@@ -294,11 +480,11 @@ const index = (props) => {
 								</tbody>
 							</table>
 						</div>
-						{/* Recent Instructors Table End */}
+						{/* Recent Payments Table End */}
 					</div>
 				</div>
 			</div>
-		</>
+		</React.Fragment>
 	)
 }
 
