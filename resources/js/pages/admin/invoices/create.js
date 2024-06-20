@@ -6,6 +6,7 @@ import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
 import CloseSVG from "@/svgs/CloseSVG"
+import EditSVG from "@/svgs/EditSVG"
 
 const create = (props) => {
 	var history = useHistory()
@@ -26,7 +27,7 @@ const create = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Add Invoice",
+			name: "Create Invoice",
 			path: ["invoices", "create"],
 		})
 
@@ -62,8 +63,13 @@ const create = (props) => {
 	 */
 	const onSubmit = (e) => {
 		e.preventDefault()
-
 		setLoading(true)
+
+		if (showServiceChargeError()) {
+			setLoading(false)
+			return props.setMessages(["Property has no Service Charge"])
+		}
+
 		Axios.post("/api/invoices", {
 			userUnitIds: userUnitIds,
 			type: type,
@@ -88,11 +94,43 @@ const create = (props) => {
 			})
 	}
 
+	const showServiceChargeError = () => {
+		var serviceCharge = properties.find(
+			(property) => property.id == propertyId
+		)?.serviceCharge
+
+		var noServiceCharge = serviceCharge < 1
+
+		if (type == "service_charge" && noServiceCharge) {
+			return true
+		} else {
+			return false
+		}
+	}
+
 	return (
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					{/* No Service Charge Error */}
+					{showServiceChargeError() && (
+						<React.Fragment>
+							<h4 className="bg-warning-subtle text-center mb-2 p-2">
+								{properties.find((property) => property.id == propertyId).name}{" "}
+								doesn't have Service Charge!
+							</h4>
+
+							<MyLink
+								linkTo={`/properties/${propertyId}/edit`}
+								icon={<EditSVG />}
+								text="add service charge"
+								className="btn-sm w-100 mb-2"
+							/>
+						</React.Fragment>
+					)}
+					{/* No Service Charge Error End */}
+
 					{/* Type */}
 					<select
 						type="text"
@@ -234,7 +272,8 @@ const create = (props) => {
 						{/* Month */}
 						<select
 							className="form-control me-2"
-							onChange={(e) => setMonth(e.target.value)}>
+							onChange={(e) => setMonth(e.target.value)}
+							required={true}>
 							{props.months.map((month, key) => (
 								<option
 									key={key}

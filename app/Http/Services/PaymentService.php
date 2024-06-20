@@ -7,7 +7,7 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 
-class PaymentService
+class PaymentService extends Service
 {
     /*
      * Display the specified resource.

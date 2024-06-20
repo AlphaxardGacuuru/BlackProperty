@@ -2773,4 +2773,36 @@ ol {
 .modal-content {
 	border-radius: 0;
 }
+
 /* Modal End */
+
+/* Overlay */
+.middle1 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 30%;
+	height: 30%;
+	/* z-index: 1; */
+	/* background-color: rgba(255, 255, 255, 0.5); */
+}
+
+.middle2 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 53%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 30%;
+	height: 30%;
+	/* z-index: 1; */
+	/* background-color: rgba(255, 255, 255, 0.5); */
+}
+
+/* Overlay End */

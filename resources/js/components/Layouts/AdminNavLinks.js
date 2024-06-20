@@ -10,13 +10,12 @@ import HomeSVG from "@/svgs/HomeSVG"
 import PropertySVG from "@/svgs/PropertySVG"
 import StaffSVG from "@/svgs/StaffSVG"
 import MoneySVG from "@/svgs/MoneySVG"
-import TransactionSVG from "@/svgs/TransactionSVG"
 import WalletSVG from "@/svgs/WalletSVG"
 import PersonGearSVG from "@/svgs/PersonGearSVG"
-import UnitSVG from "@/svgs/UnitSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import InvoiceSVG from "@/svgs/InvoiceSVG"
 import WaterReadingSVG from "@/svgs/WaterReadingSVG"
+import CreditNoteSVG from "@/svgs/CreditNoteSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -62,18 +61,6 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Properties Link End */}
-			{/* Invoices Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/invoices`}
-					className={`nav-link ${active("/admin/invoices")}`}>
-					<div className="nav-link-icon">
-						<InvoiceSVG />
-					</div>
-					<div className="nav-link-text">Invoices</div>
-				</Link>
-			</li>
-			{/* Invoices Link End */}
 			{/* Water Readings Link */}
 			<li className="nav-item">
 				<Link
@@ -86,55 +73,54 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Water Readings Link End */}
-			{/* Finance Links */}
+			{/* Invoices Link */}
 			<li className="nav-item">
-				<a
-					href="#"
-					className={`nav-link accordion-button ${active("/admin/finance/")}`}
-					data-bs-toggle="collapse"
-					data-bs-target="#collapseFinance"
-					aria-expanded="false"
-					aria-controls="collapseFinance">
+				<Link
+					to={`/admin/invoices`}
+					className={`nav-link ${active("/admin/invoices")}`}>
 					<div className="nav-link-icon">
-						<MoneySVG />
+						<InvoiceSVG />
 					</div>
-					<div className="nav-link-text">Finance</div>
-				</a>
-
-				{/* Collapse */}
-				<div
-					className={!location.pathname.match("finance") ? "collapse" : ""}
-					id="collapseFinance">
-					<ol className="ms-4">
-						{/* Payments Link */}
-						<li className="nav-item">
-							<Link
-								to={`/admin/finance/payments`}
-								className={`nav-link ${active("/admin/finance/payments")}`}>
-								<div className="nav-link-icon">
-									<PaymentSVG />
-								</div>
-								<div className="nav-link-text">Payments</div>
-							</Link>
-						</li>
-						{/* Payments Link End */}
-						{/* Wallet */}
-						<li className="nav-item">
-							<Link
-								to={`/admin/finance/wallet`}
-								className={`nav-link ${active("/admin/finance/wallet")}`}>
-								<div className="nav-link-icon">
-									<WalletSVG />
-								</div>
-								<div className="nav-link-text">Wallet</div>
-							</Link>
-						</li>
-						{/* Wallet End */}
-					</ol>
-				</div>
-				{/* Collapse End */}
+					<div className="nav-link-text">Invoices</div>
+				</Link>
 			</li>
-			{/* Finance Links End */}
+			{/* Invoices Link End */}
+			{/* Payments Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/payments`}
+					className={`nav-link ${active("/admin/payments")}`}>
+					<div className="nav-link-icon">
+						<PaymentSVG />
+					</div>
+					<div className="nav-link-text">Payments</div>
+				</Link>
+			</li>
+			{/* Payments Link End */}
+			{/* Credit Notes Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/credit-notes`}
+					className={`nav-link ${active("/admin/credit-notes")}`}>
+					<div className="nav-link-icon">
+						<CreditNoteSVG />
+					</div>
+					<div className="nav-link-text">Credit Notes</div>
+				</Link>
+			</li>
+			{/* Credit Notes Link End */}
+			{/* Wallet */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/wallet`}
+					className={`nav-link ${active("/admin/wallet")}`}>
+					<div className="nav-link-icon">
+						<WalletSVG />
+					</div>
+					<div className="nav-link-text">Wallet</div>
+				</Link>
+			</li>
+			{/* Wallet End */}
 			{/* Roles Links */}
 			<li className="nav-item">
 				<Link

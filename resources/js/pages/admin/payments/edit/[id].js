@@ -8,14 +8,11 @@ import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
-import CloseSVG from "@/svgs/CloseSVG"
 
-const create = (props) => {
+const edit = (props) => {
 	var { id } = useParams()
 
-	var history = useHistory()
-
-	const [invoice, setInvoice] = useState({})
+	const [payment, setPayment] = useState({})
 
 	const [amount, setAmount] = useState()
 	const [channel, setChannel] = useState()
@@ -28,11 +25,12 @@ const create = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Add Payment",
-			path: ["payments", "create"],
+			name: "Edit Payment",
+			path: ["payments", "edit"],
 		})
-		// Fetch Invoice
-		props.get(`invoices/${id}`, setInvoice)
+
+		// Fetch Payment
+		props.get(`/payments/${id}`, setPayment)
 	}, [])
 
 	/*
@@ -42,21 +40,18 @@ const create = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/payments", {
-			invoiceId: id,
-			userUnitId: invoice.userUnitId,
+		Axios.put(`/api/payments/${id}`, {
 			channel: channel,
-			transactionReference: transactionReference,
 			amount: amount,
+			transactionReference: transactionReference,
 			paidOn: paidOn,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
-
-				// Redirect to Payments
-				setTimeout(() => history.push(`/admin/finance/payments`), 500)
+				// Fetch Payment
+				props.get(`/payments/${id}`, setPayment)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -75,13 +70,13 @@ const create = (props) => {
 						type="text"
 						name="type"
 						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setChannel(e.target.value)}
-						required={true}>
+						onChange={(e) => setChannel(e.target.value)}>
 						<option value="">Select Payment Channel</option>
 						{channels.map((channel, key) => (
 							<option
 								key={key}
-								value={channel}>
+								value={channel}
+								selected={channel == payment.channel}>
 								{channel}
 							</option>
 						))}
@@ -94,6 +89,7 @@ const create = (props) => {
 						type="number"
 						placeholder="20000"
 						className="form-control mb-2"
+						defaultValue={payment.amount?.replace(/,/g, "")}
 						onChange={(e) => setAmount(e.target.value)}
 					/>
 					{/* Amount End */}
@@ -113,20 +109,21 @@ const create = (props) => {
 					<input
 						type="date"
 						className="form-control mb-2"
+						defaultValue={payment.paidOnFormatted}
 						onChange={(e) => setPaidOn(e.target.value)}
 					/>
 					{/* Paid On End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="add payment"
+							text="update payment"
 							loading={loading}
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/finance/payments`}
+							linkTo={`/payments`}
 							icon={<BackSVG />}
 							text="back to payments"
 						/>
@@ -138,4 +135,4 @@ const create = (props) => {
 	)
 }
 
-export default create
+export default edit

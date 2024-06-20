@@ -17,8 +17,11 @@ const index = (props) => {
 	const [payments, setPayments] = useState([])
 
 	useEffect(() => {
-		setDashboard([])
-		setDashboardProperties([])
+		if (!dashboard.units) {
+			setDashboard([])
+			setDashboardProperties([])
+		}
+
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
 		// Fetch Dashboard
@@ -49,8 +52,8 @@ const index = (props) => {
 	var barGraphTenants = [
 		{
 			label: " Tenants this month",
-			data: dashboard.tenants?.tenantsThisYear?.data,
-			backgroundColor: "rgba(40, 167, 69, 0.8)",
+			data: dashboard.units?.tenantsThisYear?.data,
+			backgroundColor: "rgba(54, 162, 235, 1)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -59,8 +62,8 @@ const index = (props) => {
 		},
 		{
 			label: " Vacancies this month",
-			data: dashboard.tenants?.vacanciesThisYear?.data,
-			backgroundColor: "rgba(255, 205, 86, 1)",
+			data: dashboard.units?.vacanciesThisYear?.data,
+			backgroundColor: "rgba(54, 162, 235, 0.5)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -73,7 +76,7 @@ const index = (props) => {
 		{
 			label: " Paid Rent",
 			data: dashboard.rent?.paidThisYear?.data,
-			backgroundColor: "rgba(40, 167, 69, 0.8)",
+			backgroundColor: "rgba(40, 167, 69, 1)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -83,7 +86,7 @@ const index = (props) => {
 		{
 			label: " Due Rent",
 			data: dashboard.rent?.unpaidThisYear?.data,
-			backgroundColor: "rgba(255, 205, 86, 1)",
+			backgroundColor: "rgba(40, 167, 69, 0.5)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -93,7 +96,7 @@ const index = (props) => {
 		{
 			label: " Paid Water Bill",
 			data: dashboard.water?.paidThisYear?.data,
-			backgroundColor: "rgba(54, 162, 235, 1)",
+			backgroundColor: "rgba(75, 192, 192, 1)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -103,7 +106,7 @@ const index = (props) => {
 		{
 			label: " Due Water Bill",
 			data: dashboard.water?.unpaidThisYear?.data,
-			backgroundColor: "rgba(255, 205, 86, 1)",
+			backgroundColor: "rgba(75, 192, 192, 0.5)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -113,7 +116,7 @@ const index = (props) => {
 		{
 			label: " Paid Service Charge",
 			data: dashboard.serviceCharge?.paidThisYear?.data,
-			backgroundColor: "rgba(153, 102, 255, 1)",
+			backgroundColor: "rgba(201, 203, 207, 1)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -123,7 +126,7 @@ const index = (props) => {
 		{
 			label: " Due Service Charge",
 			data: dashboard.serviceCharge?.unpaidThisYear?.data,
-			backgroundColor: "rgba(255, 205, 86, 1)",
+			backgroundColor: "rgba(201, 203, 207, 0.5)",
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
@@ -134,9 +137,9 @@ const index = (props) => {
 
 	var doughnutUnits = [
 		{
-			label: "",
+			label: " ",
 			data: [dashboard.units?.totalOccupied, dashboard.units?.totalUnoccupied],
-			backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"],
+			backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(54, 162, 235, 0.5)"],
 		},
 	]
 
@@ -144,7 +147,7 @@ const index = (props) => {
 		{
 			label: " KES",
 			data: [dashboard.rent?.paidThisMonth, dashboard.rent?.dueThisMonth],
-			backgroundColor: ["rgba(40, 167, 69, 0.8)", "rgba(255, 205, 86, 1)"],
+			backgroundColor: ["rgba(40, 167, 69, 1)", "rgba(40, 167, 69, 0.5)"],
 		},
 	]
 
@@ -152,7 +155,7 @@ const index = (props) => {
 		{
 			label: " KES",
 			data: [dashboard.water?.paidThisMonth, dashboard.water?.dueThisMonth],
-			backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(255, 205, 86, 1)"],
+			backgroundColor: ["rgba(75, 192, 192, 1)", "rgba(75, 192, 192, 0.5)"],
 		},
 	]
 
@@ -163,27 +166,40 @@ const index = (props) => {
 				dashboard.serviceCharge?.paidThisMonth,
 				dashboard.serviceCharge?.dueThisMonth,
 			],
-			backgroundColor: ["rgba(153, 102, 255, 1)", "rgba(255, 205, 86, 1)"],
+			backgroundColor: ["rgba(201, 203, 207, 1)", "rgba(201, 203, 207, 0.5)"],
 		},
 	]
+
+	const occupancyPercentage = Math.trunc(
+		(dashboard.units?.totalOccupied /
+			(dashboard.units?.totalOccupied + dashboard.units?.totalUnoccupied)) *
+			100
+	)
+
+	const rentPercentage = Math.trunc(
+		(dashboard.rent?.paidThisMonth / dashboard.rent?.dueThisMonth) * 100
+	)
+
+	const waterBillPercentage = Math.trunc(
+		(dashboard.water?.paidThisMonth / dashboard.water?.dueThisMonth) * 100
+	)
+
+	const serviceChargePercentage = Math.trunc(
+		(dashboard.serviceCharge?.paidThisMonth /
+			dashboard.serviceCharge?.dueThisMonth) *
+			100
+	)
 
 	return (
 		<React.Fragment>
 			<div className="row">
-				{/* Property Count */}
-				<div className="col-sm-4">
-					<div className="card shadow-sm p-4 mb-2">
-						<center className="my-5 py-5">
-							<h4>Total Properties</h4>
-							<h1 className="display-1">{dashboardProperties.total}</h1>
-						</center>
-					</div>
-				</div>
-				{/* Property Count End */}
 				{/* Property Doughnut */}
 				<div className="col-sm-4">
 					<div className="card shadow-sm p-2 mb-2">
 						<center>
+							<div className="middle1">
+								<h1>{dashboardProperties.total}</h1>
+							</div>
 							{dashboardProperties.names && (
 								<Doughnut
 									labels={dashboardProperties.names}
@@ -192,6 +208,12 @@ const index = (props) => {
 									size="25em"
 								/>
 							)}
+							<h6 className="mb-3">
+								Total Units:{" "}
+								{dashboardProperties.units?.reduce(
+									(unitCount, acc) => unitCount + acc
+								)}
+							</h6>
 						</center>
 					</div>
 				</div>
@@ -201,7 +223,7 @@ const index = (props) => {
 					{/* All */}
 					<div
 						className={`card shadow-sm p-2 mb-1 ${
-							propertyId == props.auth.propertyIds &&
+							propertyId.length == props.auth.propertyIds.length &&
 							"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
 						}`}
 						style={{ cursor: "pointer" }}
@@ -228,165 +250,148 @@ const index = (props) => {
 				{/* Property List End */}
 			</div>
 
+			{/*
+			 * Tenancy
+			 */}
+
 			<div className="row">
-				{/* Tenancy This Year */}
 				<div className="col-sm-8">
+					{/* Tenancy This Year */}
 					<h4 className="my-3">Tenancy This Year</h4>
-					{/* Bar Graph*/}
 					<div className="card shadow-sm mb-2 rounded hidden-scroll">
-						{dashboard.tenants && (
+						{dashboard.units && (
 							<Bar
-								labels={dashboard.tenants?.tenantsThisYear.labels}
+								labels={dashboard.units?.tenantsThisYear.labels}
 								datasets={barGraphTenants}
 							/>
 						)}
 					</div>
-					{/* Bar Graph End */}
+					{/* Tenancy This Year End */}
 				</div>
-
-				{/* Doughnut */}
 				<div className="col-sm-4">
+					{/* Tenancy This Month */}
 					<h4 className="my-3">Current Occupancy</h4>
-					<div className="card shadow-sm p-4 mb-2">
+					<div className="card shadow-sm text-center p-4 mb-2">
+						<div className="middle1">
+							<h1>
+								{occupancyPercentage}
+								<small className="fs-1">%</small>
+							</h1>
+						</div>
 						<center>
-							<h5>Total Units</h5>
-							<h6>
-								<small className="me-1">KES</small>
-								{dashboard.units?.totalOccupied +
-									dashboard.units?.totalUnoccupied}
-							</h6>
 							{dashboard.units && (
 								<Doughnut
 									labels={["Occupied Units", "Unoccupied Units"]}
 									datasets={doughnutUnits}
 								/>
 							)}
+							<div className="d-flex justify-content-center pb-3">
+								<h6>
+									Total:
+									{dashboard.units?.totalOccupied +
+										dashboard.units?.totalUnoccupied}
+								</h6>
+							</div>
 						</center>
 					</div>
+					{/* Tenancy This Month End */}
 				</div>
-				{/* Doughnut End */}
-				{/* Tenancy This Year End */}
 
-				{/* Income Month */}
-				<div className="col-sm-12">
-					<h4 className="my-3">Income this month</h4>
-					<div className="d-flex justify-content-between">
-						<div className="card shadow-sm p-4">
-							<center>
-								<h5>Rent</h5>
-								<h6>
-									<small className="me-1">KES</small>
-									{dashboard.rent?.total}
-								</h6>
+				{/*
+				 * Income
+				 */}
+
+				<div className="row">
+					<div className="col-sm-8">
+						<h4 className="my-3">Income This Year</h4>
+						<div className="card shadow-sm hidden-scroll">
+							{dashboard.rent && (
+								<Bar
+									labels={dashboard.rent?.paidThisYear.labels}
+									datasets={barGraphRent}
+								/>
+							)}
+						</div>
+					</div>
+					<div className="col-sm-4">
+						<h4 className="my-3">Income this month</h4>
+						<div className="d-flex justify-content-between flex-wrap">
+							<div className="card shadow-sm text-center mb-2">
+								<div className="middle2">
+									<h2>
+										{rentPercentage}
+										<small className="fs-6">%</small>
+									</h2>
+								</div>
 								{dashboard.rent && (
 									<Doughnut
 										labels={["Paid Rent", "Due Rent"]}
 										datasets={doughnutRent}
 										cutout="60%"
-										size="25em"
+										size="14.5em"
 									/>
 								)}
-							</center>
-						</div>
-						<div className="card shadow-sm p-4">
-							<center>
-								<h5>Water Bill</h5>
-								<h6>
-									<small className="me-1">KES</small>
-									{dashboard.water?.total}
-								</h6>
-								{dashboard.rent && (
+								<div className="d-flex justify-content-center pb-3">
+									<h6>
+										Total:
+										<small className="mx-1">KES</small>
+										{dashboard.rent?.total}
+									</h6>
+								</div>
+							</div>
+							<div className="card shadow-sm text-center mb-2">
+								<div className="middle2">
+									<h2>
+										{waterBillPercentage}
+										<small className="fs-6">%</small>
+									</h2>
+								</div>
+								{dashboard.water && (
 									<Doughnut
 										labels={["Paid Water Bill", "Due Water Bill"]}
 										datasets={doughnutWater}
 										cutout="60%"
-										size="25em"
+										size="14.5em"
 									/>
 								)}
-							</center>
-						</div>
-						<div className="card shadow-sm p-4">
-							<center>
-								<h5>Service Charge</h5>
-								<h6>
-									<small className="me-1">KES</small>
-									{dashboard.serviceCharge?.total}
-								</h6>
-								{dashboard.rent && (
+								<div className="d-flex justify-content-center pb-3">
+									<h6>
+										Total:
+										<small className="mx-1">KES</small>
+										{dashboard.water?.total}
+									</h6>
+								</div>
+							</div>
+							<div className="card shadow-sm text-center mb-2">
+								<div className="middle2">
+									<h2>
+										{serviceChargePercentage}
+										<small className="fs-6">%</small>
+									</h2>
+								</div>
+								{dashboard.serviceCharge && (
 									<Doughnut
 										labels={["Paid Service Charge", "Due Service Charge"]}
 										datasets={doughnutServiceCharge}
 										cutout="60%"
-										size="25em"
+										size="14.5em"
 									/>
 								)}
-							</center>
+								<div className="d-flex justify-content-center pb-3">
+									<h6>
+										Total:
+										<small className="mx-1">KES</small>
+										{dashboard.serviceCharge?.total}
+									</h6>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				{/* Income Month End */}
 
-				{/* Income This Year */}
-				{/* Bar Graph */}
-				<div className="col-sm-8">
-					<h4 className="my-3">Income This Year</h4>
-					<div className="card shadow-sm hidden-scroll">
-						{dashboard.rent && (
-							<Bar
-								labels={dashboard.rent?.paidThisYear.labels}
-								datasets={barGraphRent}
-							/>
-						)}
-					</div>
-				</div>
-				{/* Bar Graph End */}
-
-				{/* Staff Table */}
-				<div className="col-sm-4">
-					<h4 className="my-3">Staff</h4>
-
-					<div className="table-responsive">
-						<table className="table table-hover">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th></th>
-									<th>Name</th>
-									<th>Phone</th>
-									<th>Role</th>
-								</tr>
-							</thead>
-							<tbody>
-								{staff.data?.slice(0, 10).map((staffMember, key) => (
-									<tr key={key}>
-										<td>{props.iterator(key, staff)}</td>
-										<td>
-											<Img
-												src={staffMember.avatar}
-												className="rounded-circle"
-												width="25px"
-												height="25px"
-												alt="Avatar"
-											/>
-										</td>
-										<td>{staffMember.name}</td>
-										<td>{staffMember.phone}</td>
-										<td>
-											{staffMember.roleNames?.map((role, key) => (
-												<span key={key}>
-													{key != 0 && <span className="mx-1">|</span>}
-													{role}
-												</span>
-											))}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				</div>
-				{/* Staff Table End */}
-				{/* Income This Year End */}
+				{/*
+				 * Tables
+				 */}
 
 				<div className="row">
 					<div className="col-sm-6">
@@ -481,6 +486,63 @@ const index = (props) => {
 							</table>
 						</div>
 						{/* Recent Payments Table End */}
+					</div>
+				</div>
+
+				<div className="row">
+					<div className="col-sm-6">
+						<h4 className="my-3">Staff</h4>
+
+						{/* Staff Table */}
+						<div className="table-responsive">
+							<table className="table table-hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th></th>
+										<th>Name</th>
+										<th>Phone</th>
+										<th>Role</th>
+									</tr>
+								</thead>
+								<tbody>
+									{staff.data?.slice(0, 10).map((staffMember, key) => (
+										<tr key={key}>
+											<td>{props.iterator(key, staff)}</td>
+											<td>
+												<Img
+													src={staffMember.avatar}
+													className="rounded-circle"
+													width="25px"
+													height="25px"
+													alt="Avatar"
+												/>
+											</td>
+											<td>{staffMember.name}</td>
+											<td>{staffMember.phone}</td>
+											<td>
+												{staffMember.roleNames?.map((role, key) => (
+													<span key={key}>
+														{key != 0 && <span className="mx-1">|</span>}
+														{role}
+													</span>
+												))}
+											</td>
+										</tr>
+									))}
+									<tr>
+										<td colSpan="4"></td>
+										<td className="text-end">
+											<MyLink
+												linkTo="/properties"
+												text="view more"
+											/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						{/* Staff Table End */}
 					</div>
 				</div>
 			</div>

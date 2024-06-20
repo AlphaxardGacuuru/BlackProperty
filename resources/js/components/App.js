@@ -110,9 +110,10 @@ function App() {
 	 */
 	var currentDate = new Date()
 	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth() - 1
+	var previousMonth = currentDate.getMonth()
 
 	const months = [
+		"Select Month",
 		"January",
 		"February",
 		"March",

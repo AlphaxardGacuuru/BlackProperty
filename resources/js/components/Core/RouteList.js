@@ -31,13 +31,16 @@ import AdminWaterReadings from "@/pages/admin/water-readings/index"
 import AdminWaterReadingCreate from "@/pages/admin/water-readings/create"
 import AdminWaterReadingEdit from "@/pages/admin/water-readings/edit/[id]"
 
-import AdminPayments from "@/pages/admin/finance/payments/index"
-import AdminPaymentCreate from "@/pages/admin/finance/payments/create"
-import AdminPaymentEdit from "@/pages/admin/finance/payments/edit/[id]"
+import AdminPayments from "@/pages/admin/payments/index"
+import AdminPaymentCreate from "@/pages/admin/payments/create"
+import AdminPaymentEdit from "@/pages/admin/payments/edit/[id]"
 
-import AdminFinanceTransaction from "@/pages/admin/finance/transactions/index"
-import AdminFinanceWallet from "@/pages/admin/finance/wallet/index"
-import AdminFinanceWalletCreate from "@/pages/admin/finance/wallet/create"
+import AdminCreditNotes from "@/pages/admin/credit-notes/index"
+import AdminCreditNoteCreate from "@/pages/admin/credit-notes/create"
+import AdminCreditNoteEdit from "@/pages/admin/credit-notes/edit/[id]"
+
+import AdminWallet from "@/pages/admin/wallet/index"
+import AdminWalletCreate from "@/pages/admin/wallet/create"
 
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
@@ -138,28 +141,36 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminWaterReadingEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/payments",
+			path: "/admin/payments",
 			component: <AdminPayments {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/payments/:id/create",
+			path: "/admin/payments/:id/create",
 			component: <AdminPaymentCreate {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/payments/:id/edit",
+			path: "/admin/payments/:id/edit",
 			component: <AdminPaymentEdit {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/transactions",
-			component: <AdminFinanceTransaction {...GLOBAL_STATE} />,
+			path: "/admin/credit-notes",
+			component: <AdminCreditNotes {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/wallet",
-			component: <AdminFinanceWallet {...GLOBAL_STATE} />,
+			path: "/admin/credit-notes/:id/create",
+			component: <AdminCreditNoteCreate {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/finance/wallet/create",
-			component: <AdminFinanceWalletCreate {...GLOBAL_STATE} />,
+			path: "/admin/credit-notes/:id/edit",
+			component: <AdminCreditNoteEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/wallet",
+			component: <AdminWallet {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/wallet/create",
+			component: <AdminWalletCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/staff",

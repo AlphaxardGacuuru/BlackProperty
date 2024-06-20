@@ -34,7 +34,7 @@ class InvoiceController extends Controller
         $this->validate($request, [
             "userUnitIds" => "required|array",
             "type" => "required|string",
-            "month" => "required|integer",
+            "month" => "required|integer|min:1",
             "year" => "required|integer",
         ]);
 

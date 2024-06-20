@@ -183,7 +183,7 @@ const wallet = (props) => {
 				{/* Add Wallet Card */}
 				{/* <div className="card shadow-sm p-2 align-items-end">
 					<MyLink
-						linkTo="/finance/wallet/create"
+						linkTo="/wallet/create"
 						text="add wallet"
 						className="btn-sm w-25"
 					/>

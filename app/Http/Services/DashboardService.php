@@ -13,10 +13,24 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardService extends Service
 {
+    public $allMonths = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
     public function index($propertyIds)
     {
         return [
-            "tenants" => $this->tenants($propertyIds),
             "units" => $this->units($propertyIds),
             "rent" => $this->rent($propertyIds),
             "water" => $this->water($propertyIds),
@@ -64,6 +78,8 @@ class DashboardService extends Service
     {
         $unitsQuery = Unit::whereIn("property_id", $propertyIds);
 
+        $total = $unitsQuery->count();
+
         $totalOccupied = $unitsQuery
             ->whereHas("userUnits", fn($query) => $query->whereNull("vacated_at"))
             ->count();
@@ -71,6 +87,8 @@ class DashboardService extends Service
         $totalUnoccupied = $unitsQuery
             ->whereHas("userUnits", fn($query) => $query->whereNotNull("vacated_at"))
             ->count();
+
+        $totalUnoccupied = $total - $totalOccupied;
 
         $units = Unit::whereIn("property_id", $propertyIds)
             ->orderBy("id", "DESC")
@@ -82,23 +100,6 @@ class DashboardService extends Service
             "totalOccupied" => $totalOccupied,
             "totalUnoccupied" => $totalUnoccupied,
             "list" => $units,
-        ];
-    }
-
-    /*
-     * Tenants
-     */
-
-    public function tenants($propertyIds)
-    {
-        $tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
-            $query->whereIn("id", $propertyIds);
-        });
-
-        $total = $tenantQuery->count();
-
-        return [
-            "total" => $total,
             "tenantsThisYear" => $this->tenantsThisYear($propertyIds),
             "vacanciesThisYear" => $this->vacanciesThisYear($propertyIds),
         ];
@@ -115,48 +116,16 @@ class DashboardService extends Service
         $endOfYear = Carbon::now()->endOfYear();
 
         $getTenantsThisYear = $tenantQuery
-            ->select(DB::raw("DATE(occupied_at) as date"), DB::raw("count(*) as count"))
+            ->select(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m') as month"), DB::raw("count(*) as count"))
             ->whereBetween("occupied_at", [$startOfYear, $endOfYear])
-            ->groupBy(DB::raw("DATE(user_units.occupied_at)"))
+            ->groupBy(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m')"))
             ->get()
             ->map(fn($item) => [
-                "month" => Carbon::parse($item->date)->format("F"),
+                "month" => Carbon::parse($item->month . '-01')->format("F"),
                 "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getTenantsThisYear->pluck("month")->toArray();
-
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "count" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default count
-        $mergedData = $getTenantsThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["count"]);
+        [$labels, $data] = $this->getLabelsAndData($getTenantsThisYear);
 
         return [
             "labels" => $labels,
@@ -178,48 +147,16 @@ class DashboardService extends Service
             ->count();
 
         $getTenantsThisYear = $tenantQuery
-            ->select(DB::raw("DATE(occupied_at) as date"), DB::raw("count(*) as count"))
+            ->select(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m') as month"), DB::raw("count(*) as count"))
             ->whereBetween("occupied_at", [$startOfYear, $endOfYear])
-            ->groupBy(DB::raw("DATE(user_units.occupied_at)"))
+            ->groupBy(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m')"))
             ->get()
             ->map(fn($item) => [
-                "month" => Carbon::parse($item->date)->format("F"),
+                "month" => Carbon::parse($item->month . '-01')->format("F"),
                 "count" => $totalUnits - $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getTenantsThisYear->pluck("month")->toArray();
-
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "count" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default count
-        $mergedData = $getTenantsThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["count"]);
+        [$labels, $data] = $this->getLabelsAndData($getTenantsThisYear);
 
         return [
             "labels" => $labels,
@@ -238,11 +175,9 @@ class DashboardService extends Service
         })->where("type", "rent");
 
         $paidThisMonth = $rentQuery
-            ->where("month", Carbon::now()->month)
-            ->sum("amount");
+            ->sum("paid");
 
         $dueThisMonth = $rentQuery
-            ->where("month", Carbon::now()->month)
             ->sum("balance");
 
         return [
@@ -260,51 +195,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "rent");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $rentQuery
-            ->select("invoices.month", DB::raw("sum(amount) as rent"))
+            ->select("invoices.month", DB::raw("sum(paid) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "rent" => $item->rent,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "rent" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default rent
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["rent"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
@@ -318,51 +219,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "rent");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $rentQuery
-            ->select("invoices.month", DB::raw("sum(balance) as rent"))
+            ->select("invoices.month", DB::raw("sum(balance) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "rent" => $item->rent,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "rent" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default rent
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["rent"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
@@ -381,11 +248,9 @@ class DashboardService extends Service
         })->where("type", "water");
 
         $paidThisMonth = $waterQuery
-            ->where("month", Carbon::now()->month)
-            ->sum("amount");
+            ->sum("paid");
 
         $dueThisMonth = $waterQuery
-            ->where("month", Carbon::now()->month)
             ->sum("balance");
 
         return [
@@ -403,51 +268,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "water");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $waterQuery
-            ->select("invoices.month", DB::raw("sum(amount) as water"))
+            ->select("invoices.month", DB::raw("sum(paid) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "water" => $item->water,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "water" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default water
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["water"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
@@ -461,51 +292,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "water");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $waterQuery
-            ->select("invoices.month", DB::raw("sum(balance) as water"))
+            ->select("invoices.month", DB::raw("sum(balance) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "water" => $item->water,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "water" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default water
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["water"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
@@ -524,11 +321,9 @@ class DashboardService extends Service
         })->where("type", "service_charge");
 
         $paidThisMonth = $serviceChargeQuery
-            ->where("month", Carbon::now()->month)
-            ->sum("amount");
+            ->sum("paid");
 
         $dueThisMonth = $serviceChargeQuery
-            ->where("month", Carbon::now()->month)
             ->sum("balance");
 
         return [
@@ -546,51 +341,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "serviceCharge");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $serviceChargeQuery
-            ->select("invoices.month", DB::raw("sum(amount) as serviceCharge"))
+            ->select("invoices.month", DB::raw("sum(paid) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "serviceCharge" => $item->serviceCharge,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "serviceCharge" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default service charge
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["serviceCharge"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
@@ -604,55 +365,50 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "service_charge");
 
-        $allMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
         $getRentThisYear = $serviceChargeQuery
-            ->select("invoices.month", DB::raw("sum(balance) as serviceCharge"))
+            ->select("invoices.month", DB::raw("sum(balance) as count"))
             ->where("year", Carbon::now()->year)
             ->groupBy("month")
             ->get()
             ->map(fn($item) => [
-                "month" => $allMonths[$item->month - 1],
-                "serviceCharge" => $item->serviceCharge,
+                "month" => $this->allMonths[$item->month - 1],
+                "count" => $item->count,
             ]);
 
-        // Extract the months from your collection
-        $existingMonths = $getRentThisYear
-            ->pluck("month")
-            ->toArray();
-
-        // Fill missing months with default count of zero
-        $missingMonths = array_diff($allMonths, $existingMonths);
-        $missingMonthsData = collect($missingMonths)
-            ->map(fn($month) => [
-                "month" => $month,
-                "serviceCharge" => 0,
-            ])->toArray();
-
-        // Merge existing data with the missing months filled with default service charge
-        $mergedData = $getRentThisYear
-            ->concat($missingMonthsData)
-            ->values();
-
-        $labels = $mergedData->map(fn($item) => $item["month"]);
-        $data = $mergedData->map(fn($item) => $item["serviceCharge"]);
+        [$labels, $data] = $this->getLabelsAndData($getRentThisYear);
 
         return [
             "labels" => $labels,
             "data" => $data,
         ];
+    }
+
+    public function getLabelsAndData($queriedData)
+    {
+        $allMonths = $this->allMonths;
+
+        // Extract the months from your collection
+        $existingMonths = $queriedData->pluck("month")->toArray();
+
+        // Fill missing months with default count of zero
+        $missingMonths = array_diff($allMonths, $existingMonths);
+        $missingMonthsSetToZero = collect($missingMonths)
+            ->map(fn($month) => [
+                "month" => $month,
+                "count" => 0,
+            ])->toArray();
+
+        // Merge existing data with the missing months filled with default count
+        $mergedData = $queriedData
+            ->concat($missingMonthsSetToZero)
+            ->sortBy(function ($item) use ($allMonths) {
+                return array_search($item["month"], $allMonths);
+            })
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["month"]);
+        $data = $mergedData->map(fn($item) => $item["count"]);
+
+        return [$labels, $data];
     }
 }

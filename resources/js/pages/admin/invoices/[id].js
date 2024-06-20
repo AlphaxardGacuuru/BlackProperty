@@ -25,9 +25,9 @@ const show = (props) => {
 			<div className="d-flex justify-content-end mb-4">
 				<MyLink
 					className="me-2"
-					linkTo={`/finance/payments/${id}/create`}
+					linkTo={`/payments/${id}/create`}
 					icon={<PlusSVG />}
-					text="create payment"
+					text="add payment"
 				/>
 
 				<Btn

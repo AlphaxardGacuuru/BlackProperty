@@ -13,8 +13,8 @@ const edit = (props) => {
 	const [location, setLocation] = useState()
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
-	const [serviceCharge, setServiceCharge] = useState(0)
-	const [waterBillRate, setWaterBillRate] = useState(0)
+	const [serviceCharge, setServiceCharge] = useState()
+	const [waterBillRate, setWaterBillRate] = useState()
 	const [loading, setLoading] = useState()
 
 	// Extract Rent Multiple and Additional Charges
@@ -78,7 +78,6 @@ const edit = (props) => {
 						defaultValue={property.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
-						required={true}
 					/>
 
 					<label htmlFor="">Location</label>
@@ -88,7 +87,6 @@ const edit = (props) => {
 						defaultValue={property.location}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setLocation(e.target.value)}
-						required={true}
 					/>
 
 					<label
@@ -107,7 +105,6 @@ const edit = (props) => {
 						defaultValue={formula[0]}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
-						required={true}
 					/>
 
 					<label htmlFor="">Additional Charges to Deposit</label>
@@ -129,7 +126,6 @@ const edit = (props) => {
 						defaultValue={property.serviceCharge}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
-						required={true}
 					/>
 
 					<label htmlFor="">Water Bill Rate</label>
@@ -140,7 +136,6 @@ const edit = (props) => {
 						defaultValue={property.waterBillRate}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWaterBillRate(e.target.value)}
-						required={true}
 					/>
 
 					<div className="d-flex justify-content-end mb-2">

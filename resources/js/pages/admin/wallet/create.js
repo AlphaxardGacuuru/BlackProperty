@@ -70,7 +70,7 @@ const create = (props) => {
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Wallet
-				setTimeout(() => history.push("/admin/finance/wallet"), 500)
+				setTimeout(() => history.push("/admin/wallet"), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -244,7 +244,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo="/finance/wallet"
+							linkTo="/wallet"
 							text="back to wallet"
 						/>
 					</div>

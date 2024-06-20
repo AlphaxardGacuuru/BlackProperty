@@ -98,7 +98,7 @@ class PropertyService extends Service
     public function byUserId($request, $id)
     {
         if ($request->filled("idAndName")) {
-            $properties = Property::select("id", "name")
+            $properties = Property::select("id", "name", "service_charge as serviceCharge")
                 ->where("user_id", $id)
                 ->orderBy("id", "DESC")
                 ->get();
