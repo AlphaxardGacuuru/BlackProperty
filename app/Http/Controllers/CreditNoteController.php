@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CreditNote;
+use App\Http\Services\CreditNoteService;
 use Illuminate\Http\Request;
 
 class CreditNoteController extends Controller
 {
+    public function __construct(protected CreditNoteService $service)
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->service->index($request);
     }
 
     /**
@@ -25,7 +30,19 @@ class CreditNoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "invoiceId" => "required|integer",
+            "description" => "required|string",
+            "amount" => "required|integer",
+        ]);
+
+        [$saved, $message, $creditNotes] = $this->service->store($request);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $creditNotes,
+        ], 200);
     }
 
     /**
@@ -34,9 +51,9 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function show(CreditNote $creditNote)
+    public function show($id)
     {
-        //
+        return $this->service->show($id);
     }
 
     /**
@@ -46,9 +63,20 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CreditNote $creditNote)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "description" => "nullable|string",
+            "amount" => "nullable|integer",
+        ]);
+
+        [$saved, $message, $creditNotes] = $this->service->update($request, $id);
+
+        return response([
+            "status" => $saved,
+            "message" => $message,
+            "data" => $creditNotes,
+        ], 200);
     }
 
     /**
@@ -57,8 +85,22 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CreditNote $creditNote)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $creditNote] = $this->service->destroy($id);
+
+        return response([
+            "status" => $deleted,
+            "message" => $message,
+            "data" => $creditNote,
+        ], 200);
+    }
+
+    /*
+     * Get CreditNotes by Property ID
+     */
+    public function byPropertyId(Request $request, $id)
+    {
+        return $this->service->byPropertyId($request, $id);
     }
 }

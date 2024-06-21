@@ -15,19 +15,20 @@ return new class extends Migration
     {
         Schema::create('credit_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            $table->foreignId('invoice_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('serial')->nullable();
-            $table->string('discount_type')->nullable();
-            $table->timestamp('date')->nullable();
-            $table->string('reference')->nullable();
-            $table->string('admin_note')->nullable();
-            $table->string('quantity_as')->nullable();
-            $table->json('items')->nullable();
-            $table->json('amount')->nullable();
+            $table->longText('description')->nullable();
+            $table->integer('amount');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

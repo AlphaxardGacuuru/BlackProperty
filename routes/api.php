@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardTransactionController;
+use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
@@ -45,6 +46,7 @@ Route::apiResources([
     "card-transactions" => CardTransactionController::class,
     "mpesa-transactions" => MPESATransactionController::class,
     "payments" => PaymentController::class,
+    "credit-notes" => CreditNoteController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
     "users" => UserController::class,
@@ -94,6 +96,11 @@ Route::get("water-readings/by-property-id/{id}", [WaterReadingController::class,
  * Payments
  */
 Route::get("payments/by-property-id/{id}", [PaymentController::class, "byPropertyId"]);
+
+/*
+ * CreditNotes
+ */
+Route::get("credit-notes/by-property-id/{id}", [CreditNoteController::class, "byPropertyId"]);
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

@@ -30,6 +30,13 @@ const show = (props) => {
 					text="add payment"
 				/>
 
+				<MyLink
+					className="me-2"
+					linkTo={`/credit-notes/${id}/create`}
+					icon={<PlusSVG />}
+					text="add credit note"
+				/>
+
 				<Btn
 					className="me-5"
 					icon={<PrintSVG />}
