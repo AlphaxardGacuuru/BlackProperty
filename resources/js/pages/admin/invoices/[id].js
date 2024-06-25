@@ -34,7 +34,7 @@ const show = (props) => {
 					className="me-2"
 					linkTo={`/credit-notes/${id}/create`}
 					icon={<PlusSVG />}
-					text="add credit note"
+					text="create credit note"
 				/>
 
 				<Btn

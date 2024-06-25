@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\PaymentResource;
+use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
@@ -33,9 +34,9 @@ class PaymentService extends Service
         $payment->paid_on = $request->paidOn;
         $payment->created_by = $this->id;
 
-        $saved = DB::transaction(function () use ($payment, $request) {
-			$saved = $payment->save();
-			
+        $saved = DB::transaction(function () use ($payment) {
+            $saved = $payment->save();
+
             $this->updateInvoice($payment->invoice_id);
 
             return $saved;
@@ -194,6 +195,11 @@ class PaymentService extends Service
     {
         $paid = Payment::where("invoice_id", $invoiceId)
             ->sum("amount");
+
+        $credit = CreditNote::where("invoice_id", $invoiceId)
+            ->sum("amount");
+
+        $paid = $paid + $credit;
 
         $invoice = Invoice::find($invoiceId);
 

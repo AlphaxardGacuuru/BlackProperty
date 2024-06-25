@@ -20,7 +20,7 @@ const create = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Add Credit Note",
+			name: "Create Credit Note",
 			path: ["credit-notes", "create"],
 		})
 	}, [])
@@ -80,7 +80,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="add credit note"
+							text="create credit note"
 							loading={loading}
 						/>
 					</div>

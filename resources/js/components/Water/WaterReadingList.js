@@ -18,7 +18,7 @@ import Btn from "@/components/Core/Btn"
 
 const WaterReadingList = (props) => {
 	const location = useLocation()
-	
+
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 
@@ -78,15 +78,6 @@ const WaterReadingList = (props) => {
 				<div className="d-flex justify-content-between">
 					{/* Total */}
 					<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-4">
-						{/* Usage */}
-						<HeroHeading
-							heading="Usage"
-							data={`${props.waterReadings.totalUsage}L`}
-						/>
-						<HeroIcon>
-							<WaterReadingSVG />
-						</HeroIcon>
-						{/* Usage End */}
 						{/* Bill */}
 						<HeroHeading
 							heading="Bill"
@@ -96,6 +87,15 @@ const WaterReadingList = (props) => {
 							<MoneySVG />
 						</HeroIcon>
 						{/* Bill End */}
+						{/* Usage */}
+						<HeroHeading
+							heading="Usage"
+							data={`${props.waterReadings.totalUsage}L`}
+						/>
+						<HeroIcon>
+							<WaterReadingSVG />
+						</HeroIcon>
+						{/* Usage End */}
 					</div>
 				</div>
 				{/* Total End */}
