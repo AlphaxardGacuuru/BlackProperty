@@ -196,7 +196,7 @@ const index = (props) => {
 								{props.years.map((year, key) => (
 									<option
 										key={key}
-										value={key}>
+										value={year}>
 										{year}
 									</option>
 								))}
@@ -238,7 +238,7 @@ const index = (props) => {
 								{props.years.map((year, key) => (
 									<option
 										key={key}
-										value={key}>
+										value={year}>
 										{year}
 									</option>
 								))}

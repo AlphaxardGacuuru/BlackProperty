@@ -11,7 +11,7 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 
 const StatementList = (props) => {
 	return (
-		<div>
+		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm p-2">
 				<div className="d-flex justify-content-between">

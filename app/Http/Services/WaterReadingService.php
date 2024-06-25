@@ -168,6 +168,15 @@ class WaterReadingService extends Service
                 });
         }
 
+        $unitId = $request->input("unitId");
+
+        if ($request->filled("unitId")) {
+            $query = $query
+                ->whereHas("userUnit.unit", function ($query) use ($unitId) {
+                    $query->where("id", $unitId);
+                });
+        }
+
         $unit = $request->input("unit");
 
         if ($request->filled("unit")) {

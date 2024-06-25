@@ -12,6 +12,7 @@ import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import PaginationLinks from "@/components/Core/PaginationLinks"
+import WaterReadingList from "@/components/Water/WaterReadingList"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -21,6 +22,14 @@ const show = (props) => {
 	const [rentStatements, setRentStatements] = useState([])
 	const [waterStatements, setWaterStatements] = useState([])
 	const [serviceChargeStatements, setServiceChargeStatements] = useState([])
+	const [waterReadings, setWaterReadings] = useState([])
+
+	const [tenant, setTenant] = useState("")
+	const [startMonth, setStartMonth] = useState("")
+	const [startYear, setStartYear] = useState("")
+	const [endMonth, setEndMonth] = useState("")
+	const [endYear, setEndYear] = useState("")
+
 	const [tab, setTab] = useState("rent")
 
 	useEffect(() => {
@@ -48,6 +57,20 @@ const show = (props) => {
 			setServiceChargeStatements
 		)
 	}, [])
+
+	useEffect(() => {
+		// Fetch Water Readings
+		props.getPaginated(
+			`water-readings/by-property-id/${props.auth.propertyIds}?
+			tenant=${tenant}&
+			unitId=${id}&
+			startMonth=${startMonth}&
+			endMonth=${endMonth}&
+			startYear=${startYear}&
+			endYear=${endYear}`,
+			setWaterReadings
+		)
+	}, [tenant, unit, startMonth, endMonth, startYear, endYear])
 
 	/*
 	 * Vacate Tenant
@@ -86,6 +109,10 @@ const show = (props) => {
 
 	const active = (activeTab) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
+	}
+
+	const activeTab = (activeTab) => {
+		return activeTab == tab ? "d-block" : "d-none"
 	}
 
 	// Return Appropriate Statement
@@ -373,17 +400,38 @@ const show = (props) => {
 						onClick={() => setTab("service_charge")}>
 						Service Charge Statements
 					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"water_readings"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("water_readings")}>
+						Water Readings
+					</div>
 				</div>
 				{/* Tabs End */}
 
-				{/* Statements Tab */}
-				<StatementList
-					{...props}
-					statements={statements(tab)}
-					setStatements={setStatements(tab)}
-					tab={tab}
-				/>
-				{/* Statements Tab End */}
+				{tab == "rent" || tab == "water" || tab == "service_charge" ? (
+					<StatementList
+						{...props}
+						statements={statements(tab)}
+						setStatements={setStatements(tab)}
+						tab={tab}
+					/>
+				) : (
+					<WaterReadingList
+						{...props}
+						activeTab={activeTab("water_readings")}
+						waterReadings={waterReadings}
+						setWaterReadings={setWaterReadings}
+						setTenant={setTenant}
+						setUnit={setUnit}
+						setStartMonth={setStartMonth}
+						setEndMonth={setEndMonth}
+						setStartYear={setStartYear}
+						setEndYear={setEndYear}
+					/>
+				)}
 			</div>
 		</div>
 	)
