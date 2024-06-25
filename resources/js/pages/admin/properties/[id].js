@@ -19,8 +19,6 @@ const show = (props) => {
 
 	const [tab, setTab] = useState("units")
 
-	const [loading, setLoading] = useState()
-
 	useEffect(() => {
 		// Clear State on page change
 		setUnits([])

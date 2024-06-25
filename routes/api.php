@@ -70,6 +70,7 @@ Route::get("properties/by-user-id/{id}", [PropertyController::class, "byUserId"]
  * Units
  */
 Route::get("units/by-property-id/{id}", [UnitController::class, "byPropertyId"]);
+Route::get("units/statements/{id}", [UnitController::class, "statements"]);
 
 /*
  * Tenants

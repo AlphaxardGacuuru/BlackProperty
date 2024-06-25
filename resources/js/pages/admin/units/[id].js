@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import RentStatementList from "@/components/RentStatement/RentStatementList"
+import StatementList from "@/components/Statements/StatementList"
 
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
@@ -19,11 +19,14 @@ const show = (props) => {
 	const [unit, setUnit] = useState({})
 	const [tenants, setTenants] = useState([])
 	const [rentStatements, setRentStatements] = useState([])
+	const [waterStatements, setWaterStatements] = useState([])
+	const [serviceChargeStatements, setServiceChargeStatements] = useState([])
 	const [tab, setTab] = useState("rent")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Unit", path: ["properties", "view"] })
+		// Fetch Units
 		Axios.get(`api/units/${id}`).then((res) => {
 			setUnit(res.data.data)
 			props.setPage({
@@ -35,7 +38,15 @@ const show = (props) => {
 				],
 			})
 		})
+		// Fetch Tenants
 		props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
+		// Fetch Statements
+		props.getPaginated(`units/statements/${id}?type=rent`, setRentStatements)
+		props.getPaginated(`units/statements/${id}?type=water`, setWaterStatements)
+		props.getPaginated(
+			`units/statements/${id}?type=service_charge`,
+			setServiceChargeStatements
+		)
 	}, [])
 
 	/*
@@ -52,6 +63,8 @@ const show = (props) => {
 				props.get(`units/${id}`, setUnit)
 				// Fetch Tenants
 				props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -65,6 +78,8 @@ const show = (props) => {
 				props.setMessages([res.data.message])
 				// Fetch Unit
 				props.get(`units/${id}`, setUnit)
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -73,8 +88,38 @@ const show = (props) => {
 		return activeTab == tab ? "bg-light" : "bg-secondary-subtle"
 	}
 
-	const activeTab = (activeTab) => {
-		return activeTab == tab ? "d-block" : "d-none"
+	// Return Appropriate Statement
+	const statements = (type) => {
+		switch (type) {
+			case "rent":
+				return rentStatements
+				break
+
+			case "water":
+				return waterStatements
+				break
+
+			default:
+				return serviceChargeStatements
+				break
+		}
+	}
+
+	// Return Appropriate Statement Setter
+	const setStatements = (type) => {
+		switch (type) {
+			case "rent":
+				return rentStatements
+				break
+
+			case "water":
+				return waterStatements
+				break
+
+			default:
+				return serviceChargeStatements
+				break
+		}
 	}
 
 	return (
@@ -109,7 +154,7 @@ const show = (props) => {
 				{/* Tenant Info */}
 				{unit.tenantName ? (
 					<div className="card shadow-sm mb-2 p-2 text-center">
-						<h4>Current Tenant</h4>
+						<h4 className="mt-4">Current Tenant</h4>
 						<div className="m-3">
 							<Img
 								src={unit.tenantAvatar ?? "/storage/avatars/male-avatar.png"}
@@ -322,24 +367,23 @@ const show = (props) => {
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"service"
+							"service_charge"
 						)}`}
 						style={{ cursor: "pointer" }}
-						onClick={() => setTab("service")}>
+						onClick={() => setTab("service_charge")}>
 						Service Charge Statements
 					</div>
 				</div>
 				{/* Tabs End */}
 
-				{/* Rents Tab */}
-				<RentStatementList
+				{/* Statements Tab */}
+				<StatementList
 					{...props}
-					rentStatements={rentStatements}
-					activeTab={activeTab("rent")}
-					setUnit={setUnit}
-					unitId={id}
+					statements={statements(tab)}
+					setStatements={setStatements(tab)}
+					tab={tab}
 				/>
-				{/* Rents Tab End */}
+				{/* Statements Tab End */}
 			</div>
 		</div>
 	)

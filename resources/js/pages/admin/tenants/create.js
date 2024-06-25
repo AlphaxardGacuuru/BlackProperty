@@ -46,6 +46,8 @@ const create = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 				// Redirect to Property
 				setTimeout(() => history.push(`/admin/units/${id}/show`), 500)
 			})

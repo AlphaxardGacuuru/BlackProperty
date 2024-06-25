@@ -55,14 +55,12 @@ class InvoiceSeeder extends Seeder
         Invoice::factory()
             ->hasPayments(1, function (array $attributes, Invoice $invoice) use ($userUnit, $date, $staffId, $amount) {
                 return [
-                    "user_unit_id" => $userUnit->id,
                     "amount" => $amount,
                     "paid_on" => $date,
                     "created_by" => $staffId,
                 ];
             })
             ->create([
-                "user_unit_id" => $userUnit->id,
                 "type" => "rent",
                 "amount" => $amount,
                 "balance" => $key < 10 ? $amount : 0,
@@ -113,7 +111,6 @@ class InvoiceSeeder extends Seeder
         Invoice::factory()
             ->hasPayments(1, function (array $attributes, Invoice $invoice) use ($userUnit, $date, $staffId, $amount) {
                 return [
-                    "user_unit_id" => $userUnit->id,
                     "amount" => $amount,
                     "paid_on" => $date,
                     "created_by" => $staffId,

@@ -315,68 +315,6 @@ const index = (props) => {
 					setState={setPayments}
 				/>
 				{/* Pagination Links End */}
-
-				{/* Mpesa Transactions */}
-				<div className="table-responsive mb-5 pb-2">
-					<table className="table table-hover">
-						<thead>
-							<tr>
-								<th colSpan="16">
-									<h4>Mpesa Transactions</h4>
-								</th>
-							</tr>
-							<tr>
-								<th>#</th>
-								<th>Student</th>
-								<th>Currency</th>
-								<th>Amount</th>
-								<th>Sender Phone Number</th>
-								<th>Kopokopo Id</th>
-								<th>Type</th>
-								<th>Initiation Time</th>
-								<th>Status</th>
-								<th>Event Type</th>
-								<th>Resource Id</th>
-								<th>Reference</th>
-								<th>Origination Time</th>
-								<th>Till Number</th>
-								<th>System</th>
-								<th>Resource Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							{payments.data?.map((mpesaTransaction, key) => (
-								<tr key={key}>
-									<td>{props.iterator(key, payments)}</td>
-									<td>{mpesaTransaction.userName}</td>
-									<td>{mpesaTransaction.currency}</td>
-									<td>{mpesaTransaction.amount}</td>
-									<td>{mpesaTransaction.senderPhoneNumber}</td>
-									<td>{mpesaTransaction.kopokopoId}</td>
-									<td>{mpesaTransaction.type}</td>
-									<td>{mpesaTransaction.initiationTime}</td>
-									<td>{mpesaTransaction.status}</td>
-									<td>{mpesaTransaction.eventType}</td>
-									<td>{mpesaTransaction.resourceId}</td>
-									<td>{mpesaTransaction.reference}</td>
-									<td>{mpesaTransaction.originationTime}</td>
-									<td>{mpesaTransaction.tillNumber}</td>
-									<td>{mpesaTransaction.system}</td>
-									<td>{mpesaTransaction.resourceStatus}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-
-					{/* Pagination Links */}
-					<PaginationLinks
-						list={payments}
-						getPaginated={props.getPaginated}
-						setState={setPayments}
-					/>
-					{/* Pagination Links End */}
-				</div>
-				{/* Mpesa Transactions End */}
 			</div>
 			{/* Table End */}
 		</div>

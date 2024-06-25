@@ -99,6 +99,7 @@ class DashboardService extends Service
         return [
             "totalOccupied" => $totalOccupied,
             "totalUnoccupied" => $totalUnoccupied,
+            "percentage" => $this->percentage($totalUnoccupied, $totalOccupied),
             "list" => $units,
             "tenantsThisYear" => $this->tenantsThisYear($propertyIds),
             "vacanciesThisYear" => $this->vacanciesThisYear($propertyIds),
@@ -174,16 +175,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "rent");
 
-        $paidThisMonth = $rentQuery
+        $paid = $rentQuery
             ->sum("paid");
 
-        $dueThisMonth = $rentQuery
+        $due = $rentQuery
             ->sum("balance");
 
         return [
-            "total" => number_format($paidThisMonth + $dueThisMonth),
-            "paidThisMonth" => $paidThisMonth,
-            "dueThisMonth" => $dueThisMonth,
+            "paid" => $paid,
+            "due" => $due,
+            "total" => number_format($paid + $due),
+            "percentage" => $this->percentage($paid, $due),
             "paidThisYear" => $this->rentPaidThisYear($propertyIds),
             "unpaidThisYear" => $this->rentDueThisYear($propertyIds),
         ];
@@ -247,16 +249,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "water");
 
-        $paidThisMonth = $waterQuery
+        $paid = $waterQuery
             ->sum("paid");
 
-        $dueThisMonth = $waterQuery
+        $due = $waterQuery
             ->sum("balance");
 
         return [
-            "total" => number_format($paidThisMonth + $dueThisMonth),
-            "paidThisMonth" => $paidThisMonth,
-            "dueThisMonth" => $dueThisMonth,
+            "paid" => $paid,
+            "due" => $due,
+            "total" => number_format($paid + $due),
+            "percentage" => $this->percentage($paid, $due),
             "paidThisYear" => $this->waterPaidThisYear($propertyIds),
             "unpaidThisYear" => $this->waterDueThisYear($propertyIds),
         ];
@@ -320,16 +323,17 @@ class DashboardService extends Service
             $query->whereIn("id", $propertyIds);
         })->where("type", "service_charge");
 
-        $paidThisMonth = $serviceChargeQuery
+        $paid = $serviceChargeQuery
             ->sum("paid");
 
-        $dueThisMonth = $serviceChargeQuery
+        $due = $serviceChargeQuery
             ->sum("balance");
 
         return [
-            "total" => number_format($paidThisMonth + $dueThisMonth),
-            "paidThisMonth" => $paidThisMonth,
-            "dueThisMonth" => $dueThisMonth,
+            "paid" => $paid,
+            "due" => $due,
+            "total" => number_format($paid + $due),
+            "percentage" => $this->percentage($paid, $due),
             "paidThisYear" => $this->serviceChargePaidThisYear($propertyIds),
             "unpaidThisYear" => $this->serviceChargeDueThisYear($propertyIds),
         ];
@@ -339,7 +343,7 @@ class DashboardService extends Service
     {
         $serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
             $query->whereIn("id", $propertyIds);
-        })->where("type", "serviceCharge");
+        })->where("type", "service_charge");
 
         $getRentThisYear = $serviceChargeQuery
             ->select("invoices.month", DB::raw("sum(paid) as count"))
@@ -410,5 +414,23 @@ class DashboardService extends Service
         $data = $mergedData->map(fn($item) => $item["count"]);
 
         return [$labels, $data];
+    }
+
+    // Calculate Percentage
+    public function percentage($first, $second)
+    {
+        // Resolve for Division by Zero
+        if ($first == 0) {
+            return 0;
+        }
+
+        $denominator = $first + $second;
+
+        $percentage = $first / $denominator * 100;
+
+        // Determine if percentage has decimal places
+        $decimalPlaces = floor($percentage) == $percentage ? 0 : 1;
+
+        return number_format($percentage, $decimalPlaces);
     }
 }

@@ -102,7 +102,6 @@ const create = (props) => {
 						min="0"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setAdditionalCharges(e.target.value)}
-						required={true}
 					/>
 
 					<label htmlFor="">Service Charge</label>
@@ -112,7 +111,6 @@ const create = (props) => {
 						min="0"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
-						required={true}
 					/>
 
 					<label htmlFor="">Water Bill Rate</label>

@@ -112,5 +112,13 @@ class UnitController extends Controller
 	{
 		return $this->service->byPropertyId($request, $id);
 	}
+
+	/*
+	* Statements
+	*/ 
+	public function statements(Request $request, $unitId)
+	{
+		return $this->service->statements($request, $unitId);
+	}
 }
 

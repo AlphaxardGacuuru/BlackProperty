@@ -27,7 +27,6 @@ class PaymentService extends Service
         $payment = new Payment;
         $payment->invoice_id = $request->invoiceId;
         $payment->user_id = $request->userId;
-        $payment->user_unit_id = $request->userUnitId;
         $payment->amount = $request->amount;
         $payment->transaction_reference = $request->transactionReference;
         $payment->channel = $request->channel;
@@ -57,10 +56,6 @@ class PaymentService extends Service
     public function update($request, $id)
     {
         $payment = Payment::findOrFail($id);
-
-        if ($request->filled("userId")) {
-            $payment->user_id = Invoice::find($request->input("invoiceId"))->user->id;
-        }
 
         if ($request->filled("amount")) {
             $payment->amount = $request->input("amount");
@@ -121,7 +116,7 @@ class PaymentService extends Service
     {
         $ids = explode(",", $id);
 
-        $paymentsQuery = Payment::whereHas("userUnit.unit.property", function ($query) use ($ids) {
+        $paymentsQuery = Payment::whereHas("invoice.userUnit.unit.property", function ($query) use ($ids) {
             $query->whereIn("id", $ids);
         });
 
@@ -146,7 +141,7 @@ class PaymentService extends Service
 
         if ($request->filled("tenant")) {
             $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($tenant) {
+                ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
                 });
         }
@@ -155,7 +150,7 @@ class PaymentService extends Service
 
         if ($request->filled("unit")) {
             $query = $query
-                ->whereHas("userUnit.unit", function ($query) use ($unit) {
+                ->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
                     $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
@@ -163,7 +158,7 @@ class PaymentService extends Service
         $propertyId = $request->input("propertyId");
 
         if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
                 $query->where("id", $propertyId);
             });
         }

@@ -87,6 +87,7 @@ const edit = (props) => {
 					<label htmlFor="">Amount</label>
 					<input
 						type="number"
+						min="1"
 						placeholder="20000"
 						className="form-control mb-2"
 						defaultValue={payment.amount?.replace(/,/g, "")}

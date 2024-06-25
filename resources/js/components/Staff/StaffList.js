@@ -150,12 +150,6 @@ const StaffList = (props) => {
 									<div className="d-flex justify-content-end">
 										<React.Fragment>
 											<MyLink
-												linkTo={`/staff/${staff.id}/show`}
-												icon={<ViewSVG />}
-												className="btn-sm me-1"
-											/>
-
-											<MyLink
 												linkTo={`/staff/${staff.id}/edit`}
 												icon={<EditSVG />}
 												className="btn-sm"

@@ -21,7 +21,6 @@ class PaymentFactory extends Factory
         return [
             "invoice_id" => "invoiceId",
             // "user_id" => "userId",
-            "user_unit_id" => "userUnitId",
             "amount" => "amount",
             "transaction_reference" => fake()->regexify('[A-Z0-9]{10}'),
             "channel" => $channels[rand(0, 1)],

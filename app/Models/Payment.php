@@ -36,9 +36,9 @@ class Payment extends Model
      * Relationships
      */
 
-    public function userUnit()
+    public function invoice()
     {
-        return $this->belongsTo(UserUnit::class);
+        return $this->belongsTo(Invoice::class);
     }
 }
 

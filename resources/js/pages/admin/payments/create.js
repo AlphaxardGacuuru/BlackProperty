@@ -15,8 +15,6 @@ const create = (props) => {
 
 	var history = useHistory()
 
-	const [invoice, setInvoice] = useState({})
-
 	const [amount, setAmount] = useState()
 	const [channel, setChannel] = useState()
 	const [transactionReference, setTransactionReference] = useState()
@@ -31,8 +29,6 @@ const create = (props) => {
 			name: "Add Payment",
 			path: ["payments", "create"],
 		})
-		// Fetch Invoice
-		props.get(`invoices/${id}`, setInvoice)
 	}, [])
 
 	/*
@@ -44,7 +40,6 @@ const create = (props) => {
 		setLoading(true)
 		Axios.post("/api/payments", {
 			invoiceId: id,
-			userUnitId: invoice.userUnitId,
 			channel: channel,
 			transactionReference: transactionReference,
 			amount: amount,
@@ -92,6 +87,7 @@ const create = (props) => {
 					<label htmlFor="">Amount</label>
 					<input
 						type="number"
+						min="1"
 						placeholder="20000"
 						className="form-control mb-2"
 						onChange={(e) => setAmount(e.target.value)}

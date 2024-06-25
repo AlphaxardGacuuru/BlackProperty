@@ -7,7 +7,9 @@ import Bar from "@/components/Charts/Bar"
 import Doughnut from "@/components/Charts/Doughnut"
 
 const index = (props) => {
-	const [propertyId, setPropertyId] = useState(props.auth.propertyIds)
+	const [propertyId, setPropertyId] = useState(
+		props.auth.propertyIds.length ? props.auth.propertyIds : [0]
+	)
 
 	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard"))
 	const [dashboardProperties, setDashboardProperties] = useState(
@@ -17,21 +19,35 @@ const index = (props) => {
 	const [payments, setPayments] = useState([])
 
 	useEffect(() => {
-		if (!dashboard.units) {
-			setDashboard([])
-			setDashboardProperties([])
-		}
-
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
+
 		// Fetch Dashboard
-		props.get(`dashboard/${propertyId}`, setDashboard, "dashboard")
+		Axios.get(`api/dashboard/${propertyId}`)
+			.then((res) => {
+				// Reset Data
+				setDashboard([])
+
+				setDashboard(res.data.data)
+				props.setLocalStorage("dashboard", res.data.data)
+			})
+			.catch(() => props.setErrors(["Failed to fetch Dashboard"]))
+
 		// Fetch Dashboard Properties
-		props.get(
-			`dashboard/properties/${props.auth.propertyIds}`,
-			setDashboardProperties,
-			"dashboardProperties"
+		Axios.get(
+			`api/dashboard/properties/${
+				props.auth.propertyIds.length ? props.auth.propertyIds : [0]
+			}`
 		)
+			.then((res) => {
+				// Reset Data
+				setDashboardProperties([])
+
+				setDashboardProperties(res.data.data)
+				props.setLocalStorage("dashboardProperties", res.data.data)
+			})
+			.catch(() => props.getErrors(["Failed to fetch Dashboard Properties"]))
+
 		// Fetch Payments
 		props.getPaginated(`payments/by-property-id/${propertyId}`, setPayments)
 		// Fetch Staff
@@ -80,7 +96,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 1",
 		},
 		{
@@ -90,7 +106,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 1",
 		},
 		{
@@ -100,7 +116,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 2",
 		},
 		{
@@ -110,7 +126,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 2",
 		},
 		{
@@ -120,7 +136,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 3",
 		},
 		{
@@ -130,7 +146,7 @@ const index = (props) => {
 			borderColor: "rgba(255, 255, 255, 1)",
 			borderWidth: 2,
 			borderRadius: "0",
-			barThickness: "30",
+			barThickness: "25",
 			stack: "Stack 3",
 		},
 	]
@@ -146,7 +162,8 @@ const index = (props) => {
 	var doughnutRent = [
 		{
 			label: " KES",
-			data: [dashboard.rent?.paidThisMonth, dashboard.rent?.dueThisMonth],
+			data: [dashboard.rent?.paid,
+				dashboard.rent?.percentage > 100 ? 0 : dashboard.rent?.due],
 			backgroundColor: ["rgba(40, 167, 69, 1)", "rgba(40, 167, 69, 0.5)"],
 		},
 	]
@@ -154,7 +171,10 @@ const index = (props) => {
 	var doughnutWater = [
 		{
 			label: " KES",
-			data: [dashboard.water?.paidThisMonth, dashboard.water?.dueThisMonth],
+			data: [
+				dashboard.water?.paid,
+				dashboard.water?.percentage > 100 ? 0 : dashboard.water?.due,
+			],
 			backgroundColor: ["rgba(75, 192, 192, 1)", "rgba(75, 192, 192, 0.5)"],
 		},
 	]
@@ -163,32 +183,12 @@ const index = (props) => {
 		{
 			label: " KES",
 			data: [
-				dashboard.serviceCharge?.paidThisMonth,
-				dashboard.serviceCharge?.dueThisMonth,
+				dashboard.serviceCharge?.paid,
+				dashboard.serviceCharge?.percentage > 100 ? 0 : dashboard.serviceCharge?.due,
 			],
 			backgroundColor: ["rgba(201, 203, 207, 1)", "rgba(201, 203, 207, 0.5)"],
 		},
 	]
-
-	const occupancyPercentage = Math.trunc(
-		(dashboard.units?.totalOccupied /
-			(dashboard.units?.totalOccupied + dashboard.units?.totalUnoccupied)) *
-			100
-	)
-
-	const rentPercentage = Math.trunc(
-		(dashboard.rent?.paidThisMonth / dashboard.rent?.dueThisMonth) * 100
-	)
-
-	const waterBillPercentage = Math.trunc(
-		(dashboard.water?.paidThisMonth / dashboard.water?.dueThisMonth) * 100
-	)
-
-	const serviceChargePercentage = Math.trunc(
-		(dashboard.serviceCharge?.paidThisMonth /
-			dashboard.serviceCharge?.dueThisMonth) *
-			100
-	)
 
 	return (
 		<React.Fragment>
@@ -211,7 +211,8 @@ const index = (props) => {
 							<h6 className="mb-3">
 								Total Units:{" "}
 								{dashboardProperties.units?.reduce(
-									(unitCount, acc) => unitCount + acc
+									(unitCount, acc) => unitCount + acc,
+									0
 								)}
 							</h6>
 						</center>
@@ -274,7 +275,7 @@ const index = (props) => {
 					<div className="card shadow-sm text-center p-4 mb-2">
 						<div className="middle1">
 							<h1>
-								{occupancyPercentage}
+								{dashboard.units?.percentage}
 								<small className="fs-1">%</small>
 							</h1>
 						</div>
@@ -319,7 +320,7 @@ const index = (props) => {
 							<div className="card shadow-sm text-center mb-2">
 								<div className="middle2">
 									<h2>
-										{rentPercentage}
+										{dashboard.rent?.percentage}
 										<small className="fs-6">%</small>
 									</h2>
 								</div>
@@ -342,7 +343,7 @@ const index = (props) => {
 							<div className="card shadow-sm text-center mb-2">
 								<div className="middle2">
 									<h2>
-										{waterBillPercentage}
+										{dashboard.water?.percentage}
 										<small className="fs-6">%</small>
 									</h2>
 								</div>
@@ -365,7 +366,7 @@ const index = (props) => {
 							<div className="card shadow-sm text-center mb-2">
 								<div className="middle2">
 									<h2>
-										{serviceChargePercentage}
+										{dashboard.serviceCharge?.percentage}
 										<small className="fs-6">%</small>
 									</h2>
 								</div>
@@ -395,12 +396,15 @@ const index = (props) => {
 
 				<div className="row">
 					<div className="col-sm-6">
-						<h4 className="my-3">Units</h4>
-
-						{/* Table */}
+						{/* Units Table */}
 						<div className="table-responsive mb-5">
 							<table className="table table-hover">
 								<thead>
+									<tr>
+										<th colSpan="6">
+											<h4>Units</h4>
+										</th>
+									</tr>
 									<tr>
 										<th>#</th>
 										<th>Name</th>
@@ -442,17 +446,20 @@ const index = (props) => {
 									</tr>
 								</thead>
 							</table>
+							{/* Units Table End */}
 						</div>
-						{/* Table End */}
 					</div>
 
 					<div className="col-sm-6">
-						<h4 className="my-3">Recent Payments</h4>
-
 						{/* Recent Payments Table */}
 						<div className="table-responsive">
 							<table className="table table-hover">
 								<thead>
+									<tr>
+										<th colSpan="5">
+											<h4>Recent Payments</h4>
+										</th>
+									</tr>
 									<tr>
 										<th>#</th>
 										<th>Tenant</th>
@@ -491,12 +498,15 @@ const index = (props) => {
 
 				<div className="row">
 					<div className="col-sm-6">
-						<h4 className="my-3">Staff</h4>
-
 						{/* Staff Table */}
 						<div className="table-responsive">
 							<table className="table table-hover">
 								<thead>
+									<tr>
+										<th colSpan="5">
+											<h4>Staff</h4>
+										</th>
+									</tr>
 									<tr>
 										<th>#</th>
 										<th></th>

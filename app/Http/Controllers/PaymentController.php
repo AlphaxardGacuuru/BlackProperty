@@ -34,9 +34,8 @@ class PaymentController extends Controller
         $this->validate($request, [
             "invoiceId" => "required|string",
             "userId" => "nullable|integer",
-            "userUnitId" => "nullable|integer",
             "channel" => "nullable|string",
-            "amount" => "required|string",
+            "amount" => "required|string|min:1",
             "transactionReference" => "nullable|string",
             "paidOn" => "required|string",
         ]);
@@ -72,9 +71,8 @@ class PaymentController extends Controller
     {
         $this->validate($request, [
             "userId" => "nullable|integer",
-            "userUnitId" => "nullable|integer",
             "channel" => "nullable|string",
-            "amount" => "nullable|string",
+            "amount" => "nullable|string|min:1",
             "transactionReference" => "nullable|string",
             "paidOn" => "nullable|string",
         ]);
