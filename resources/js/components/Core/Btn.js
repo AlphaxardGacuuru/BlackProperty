@@ -21,8 +21,14 @@ const Btn = ({
 			disabled={loading}
 			data-bs-toggle={dataBsToggle}
 			data-bs-target={dataBsTarget}>
-			<span>{icon}</span>
-			{text && <span className="mx-1">{text}</span>}
+			<span style={{ color: "inherit" }}>{icon}</span>
+			{text && (
+				<span
+					className="mx-1"
+					style={{ color: "inherit" }}>
+					{text}
+				</span>
+			)}
 			{loading && (
 				<div
 					id="sonar-load"

@@ -1,6 +1,7 @@
 import React from "react"
 import { Route } from "react-router-dom"
 
+import Header from "@/components/Layouts/Header"
 import Index from "@/pages/index"
 
 import AdminNav from "@/components/Layouts/AdminNav"
@@ -192,16 +193,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	return (
 		<React.Fragment>
-			{/* Landing Page routes */}
-			{routes.map((route, key) => (
-				<Route
-					key={key}
-					path={route.path}
-					exact
-					render={() => route.component}
-				/>
-			))}
-			{/* Landing Page routes End */}
+			<Header {...GLOBAL_STATE}>
+				{/* Landing Page routes */}
+				{routes.map((route, key) => (
+					<Route
+						key={key}
+						path={route.path}
+						exact
+						render={() => route.component}
+					/>
+				))}
+				{/* Landing Page routes End */}
+			</Header>
 
 			<AdminNav {...GLOBAL_STATE}>
 				{/* Admin Routes */}

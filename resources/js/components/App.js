@@ -50,6 +50,7 @@ function App() {
 	const [errors, setErrors] = useState([])
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
+	const [headerMenu, setHeaderMenu] = useState()
 	const [adminMenu, setAdminMenu] = useState("left-open")
 	const [properties, setProperties] = useState(getLocalStorage("properties"))
 	const [page, setPage] = useState({ name: "/", path: [] })
@@ -196,6 +197,8 @@ function App() {
 		setLogin,
 		auth,
 		setAuth,
+		headerMenu,
+		setHeaderMenu,
 		adminMenu,
 		setAdminMenu,
 		properties,

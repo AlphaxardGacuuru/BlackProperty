@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Property;
 use App\Models\Unit;
 use App\Models\UserUnit;
+use App\Models\WaterReading;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -99,7 +100,7 @@ class DashboardService extends Service
         return [
             "totalOccupied" => $totalOccupied,
             "totalUnoccupied" => $totalUnoccupied,
-            "percentage" => $this->percentage($totalUnoccupied, $totalOccupied),
+            "percentage" => $this->percentage($totalOccupied, $totalUnoccupied),
             "list" => $units,
             "tenantsThisYear" => $this->tenantsThisYear($propertyIds),
             "vacanciesThisYear" => $this->vacanciesThisYear($propertyIds),
@@ -255,10 +256,24 @@ class DashboardService extends Service
         $due = $waterQuery
             ->sum("balance");
 
+        $usageTwoMonthsAgo = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("month", Carbon::now()->subMonths(2)->month)
+            ->where("year", Carbon::now()->year)
+            ->sum("usage");
+
+        $usageLastMonth = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+            $query->whereIn("id", $propertyIds);
+        })->where("month", Carbon::now()->subMonth()->month)
+            ->where("year", Carbon::now()->year)
+            ->sum("usage");
+
         return [
             "paid" => $paid,
             "due" => $due,
             "total" => number_format($paid + $due),
+            "usageTwoMonthsAgo" => $usageTwoMonthsAgo,
+            "usageLastMonth" => $usageLastMonth,
             "percentage" => $this->percentage($paid, $due),
             "paidThisYear" => $this->waterPaidThisYear($propertyIds),
             "unpaidThisYear" => $this->waterDueThisYear($propertyIds),

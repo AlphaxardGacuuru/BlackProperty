@@ -71,9 +71,7 @@ const LoginPopUp = (props) => {
 
 	const blur =
 		// props.login ||
-		props.auth.name == "Guest" &&
-		!location.pathname.match("/socialite") &&
-		!location.pathname.match("/register")
+		props.auth.name == "Guest" && location.pathname.match("/admin")
 
 	return (
 		<div className={blur ? "menu-open" : ""}>

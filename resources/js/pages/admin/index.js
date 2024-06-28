@@ -5,10 +5,11 @@ import Img from "@/components/Core/Img"
 
 import Bar from "@/components/Charts/Bar"
 import Doughnut from "@/components/Charts/Doughnut"
+import Pie from "@/components/Charts/Pie"
 
 const index = (props) => {
 	const [propertyId, setPropertyId] = useState(
-		props.auth.propertyIds.length ? props.auth.propertyIds : [0]
+		props.auth.propertyIds?.length ? props.auth.propertyIds : [0]
 	)
 
 	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard"))
@@ -36,7 +37,7 @@ const index = (props) => {
 		// Fetch Dashboard Properties
 		Axios.get(
 			`api/dashboard/properties/${
-				props.auth.propertyIds.length ? props.auth.propertyIds : [0]
+				props.auth.propertyIds?.length ? props.auth.propertyIds : [0]
 			}`
 		)
 			.then((res) => {
@@ -162,8 +163,10 @@ const index = (props) => {
 	var doughnutRent = [
 		{
 			label: " KES",
-			data: [dashboard.rent?.paid,
-				dashboard.rent?.percentage > 100 ? 0 : dashboard.rent?.due],
+			data: [
+				dashboard.rent?.paid,
+				dashboard.rent?.percentage > 100 ? 0 : dashboard.rent?.due,
+			],
 			backgroundColor: ["rgba(40, 167, 69, 1)", "rgba(40, 167, 69, 0.5)"],
 		},
 	]
@@ -184,9 +187,22 @@ const index = (props) => {
 			label: " KES",
 			data: [
 				dashboard.serviceCharge?.paid,
-				dashboard.serviceCharge?.percentage > 100 ? 0 : dashboard.serviceCharge?.due,
+				dashboard.serviceCharge?.percentage > 100
+					? 0
+					: dashboard.serviceCharge?.due,
 			],
 			backgroundColor: ["rgba(201, 203, 207, 1)", "rgba(201, 203, 207, 0.5)"],
+		},
+	]
+
+	var pieWaterUsage = [
+		{
+			label: " KES",
+			data: [
+				dashboard.water?.usageTwoMonthsAgo,
+				dashboard.water?.usageLastMonth,
+			],
+			backgroundColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
 		},
 	]
 
@@ -224,7 +240,7 @@ const index = (props) => {
 					{/* All */}
 					<div
 						className={`card shadow-sm p-2 mb-1 ${
-							propertyId.length == props.auth.propertyIds.length &&
+							propertyId.length == props.auth.propertyIds?.length &&
 							"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
 						}`}
 						style={{ cursor: "pointer" }}
@@ -273,7 +289,7 @@ const index = (props) => {
 					{/* Tenancy This Month */}
 					<h4 className="my-3">Current Occupancy</h4>
 					<div className="card shadow-sm text-center p-4 mb-2">
-						<div className="middle1">
+						<div className="middle2">
 							<h1>
 								{dashboard.units?.percentage}
 								<small className="fs-1">%</small>
@@ -317,8 +333,9 @@ const index = (props) => {
 					<div className="col-sm-4">
 						<h4 className="my-3">Income this month</h4>
 						<div className="d-flex justify-content-between flex-wrap">
-							<div className="card shadow-sm text-center mb-2">
-								<div className="middle2">
+							{/* Rent Doughnut */}
+							<div className="card shadow-sm text-center me-2 mb-2">
+								<div className="middle3">
 									<h2>
 										{dashboard.rent?.percentage}
 										<small className="fs-6">%</small>
@@ -329,7 +346,7 @@ const index = (props) => {
 										labels={["Paid Rent", "Due Rent"]}
 										datasets={doughnutRent}
 										cutout="60%"
-										size="14.5em"
+										size="12.5em"
 									/>
 								)}
 								<div className="d-flex justify-content-center pb-3">
@@ -340,8 +357,10 @@ const index = (props) => {
 									</h6>
 								</div>
 							</div>
-							<div className="card shadow-sm text-center mb-2">
-								<div className="middle2">
+							{/* Rent Doughnut End */}
+							{/* Water Doughnut */}
+							<div className="card shadow-sm text-center me-2 mb-2">
+								<div className="middle3">
 									<h2>
 										{dashboard.water?.percentage}
 										<small className="fs-6">%</small>
@@ -352,7 +371,7 @@ const index = (props) => {
 										labels={["Paid Water Bill", "Due Water Bill"]}
 										datasets={doughnutWater}
 										cutout="60%"
-										size="14.5em"
+										size="12.5em"
 									/>
 								)}
 								<div className="d-flex justify-content-center pb-3">
@@ -363,8 +382,10 @@ const index = (props) => {
 									</h6>
 								</div>
 							</div>
-							<div className="card shadow-sm text-center mb-2">
-								<div className="middle2">
+							{/* Water Doughnut End */}
+							{/* Service Charge Doughnut */}
+							<div className="card shadow-sm text-center me-2 mb-2">
+								<div className="middle3">
 									<h2>
 										{dashboard.serviceCharge?.percentage}
 										<small className="fs-6">%</small>
@@ -375,7 +396,7 @@ const index = (props) => {
 										labels={["Paid Service Charge", "Due Service Charge"]}
 										datasets={doughnutServiceCharge}
 										cutout="60%"
-										size="14.5em"
+										size="12.5em"
 									/>
 								)}
 								<div className="d-flex justify-content-center pb-3">
@@ -386,6 +407,26 @@ const index = (props) => {
 									</h6>
 								</div>
 							</div>
+							{/* Service Charge Doughnut End */}
+							{/* Water Usage Pie */}
+							<div className="card shadow-sm text-center me-2 mb-2">
+								{dashboard.water && (
+									<Pie
+										labels={["Previous Water Usage", "Current Water Usage"]}
+										datasets={pieWaterUsage}
+										size="12.5em"
+									/>
+								)}
+								<div className="d-flex justify-content-center pb-3">
+									<h6>
+										Current Usage:
+										<span className="mx-1">
+											{dashboard.water?.usageLastMonth}L
+										</span>
+									</h6>
+								</div>
+							</div>
+							{/* Water Usage Pie End */}
 						</div>
 					</div>
 				</div>
