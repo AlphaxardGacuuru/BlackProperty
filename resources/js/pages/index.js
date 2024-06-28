@@ -105,7 +105,9 @@ const index = (props) => {
 				<div
 					className="col-sm-12 p-5 text-center text-white"
 					style={{ backgroundColor: "#232323" }}>
-					<h2 className="mb-2">Everything Property Management. One Plaform</h2>
+					<h2 className="mb-2 text-white">
+						Everything Property Management. One Plaform
+					</h2>
 					<h5 className="mb-4">Built for the Modern Property Manager</h5>
 					<div className="d-flex justify-content-center flex-wrap">
 						{/* Property Tab Button */}
@@ -132,18 +134,6 @@ const index = (props) => {
 							</span>
 						</button>
 						{/* Occupancy Tab Button End */}
-						{/* Water Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("water")} px-4 m-2`}
-							onClick={() => setTab("water")}>
-							<WaterReadingSVG />
-							<span
-								className="ms-1"
-								style={{ color: "inherit" }}>
-								water management
-							</span>
-						</button>
-						{/* Water Tab Button End */}
 						{/* Billing Tab Button */}
 						<button
 							className={`btn sonar-btn ${activeTab("billing")} px-4 m-2`}
@@ -156,6 +146,18 @@ const index = (props) => {
 							</span>
 						</button>
 						{/* Billing Tab Button End */}
+						{/* Water Tab Button */}
+						<button
+							className={`btn sonar-btn ${activeTab("water")} px-4 m-2`}
+							onClick={() => setTab("water")}>
+							<WaterReadingSVG />
+							<span
+								className="ms-1"
+								style={{ color: "inherit" }}>
+								water management
+							</span>
+						</button>
+						{/* Water Tab Button End */}
 						{/* Tenant Tab Button */}
 						<button
 							className={`btn sonar-btn ${activeTab("tenant")} px-4 m-2`}
@@ -180,74 +182,122 @@ const index = (props) => {
 					<div className="mt-5 mb-5 hidden"></div>
 					{tab == "property" && <PropertyTabInfo />}
 					{tab == "occupancy" && <OccupancyTabInfo />}
-					{tab == "water" && <WaterTabInfo />}
 					{tab == "billing" && <BillingTabInfo />}
+					{tab == "water" && <WaterTabInfo />}
 					{tab == "tenant" && <TenantTabInfo />}
 				</div>
 				<div className="col-sm-6 p-5">
 					{tab == "property" && <PropertyTabChart />}
 					{tab == "occupancy" && <OccupancyTabChart />}
-					{tab == "water" && <WaterTabChart />}
 					{tab == "billing" && <BillingTabChart />}
+					{tab == "water" && <WaterTabChart />}
 					{tab == "tenant" && <TenantTabChart />}
 				</div>
 			</div>
 			{/* <!-- ***** Hero Area End ***** --> */}
 
-			{/* <!-- ***** Hero Area Start ***** --> */}
-			<div className="row">
-				<div className="col-sm-6 mt-5 p-5">
-					<div className="card shadow-sm my-5 p-2">
-						<center>
-							<div className="middle1">
-								<h1>4</h1>
+			{/* <!-- ***** Pricing Area Start ***** --> */}
+			<div className="sonar-services-area">
+				<div className="container">
+					<div className="row">
+						<div className="col-sm-12 mt-5 mb-3">
+							<center>
+								<h2>Pricing</h2>
+							</center>
+						</div>
+					</div>
+					<div className="row mb-5">
+						<div className="col-12 col-md-6 col-lg-4">
+							<div
+								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
+								style={{ backgroundColor: "#232323", color: "white" }}
+								data-wow-delay="300ms">
+								<h4 className="mb-2 text-white">Less than 20 units</h4>
+								<hr className="w-75 mx-auto border-light" />
+								<span>Property Management</span>
+								<span>Occupancy Management</span>
+								<span>Billing</span>
+								<span>Water Management</span>
+								<span>Tenant Acquisition</span>
+								<hr className="w-75 mx-auto border-light" />
+								<h3 className="text-success">
+									<small className="fw-lighter me-1">KES</small>2,000
+									<small className="fw-lighter">/mo</small>
+								</h3>
+								<h6 className="mt-2 mb-4 text-success">
+									<small className="fw-lighter me-1">KES</small>
+									5,000 onboarding fee.
+								</h6>
+								<Link
+									to="/admin/dashboard"
+									className="btn sonar-btn white-btn w-25 mx-auto">
+									<span className="me-1">start now</span>
+									<ForwardSVG />
+								</Link>
 							</div>
-							<Doughnut
-								labels={[
-									"Tevody Apartments",
-									"Rezona Heights",
-									"Western Heights",
-									"Alima Apartments",
-									"Joska Apartments",
-								]}
-								datasets={doughnutProperties}
-								cutout="50%"
-								size="25em"
-							/>
-							<h6 className="mb-3">Total Units: 60</h6>
-						</center>
+						</div>
+						<div className="col-12 col-md-6 col-lg-4">
+							<div
+								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
+								style={{ backgroundColor: "#232323", color: "white" }}
+								data-wow-delay="600ms">
+								<h4 className="mb-2 text-white">Between 21 - 50 units</h4>
+								<hr className="w-75 mx-auto border-light" />
+								<span>Property Management</span>
+								<span>Occupancy Management</span>
+								<span>Billing</span>
+								<span>Water Management</span>
+								<span>Tenant Acquisition</span>
+								<hr className="w-75 mx-auto border-light" />
+								<h3 className="text-success">
+									<small className="fw-lighter me-1">KES</small>5,000
+									<small className="fw-lighter">/mo</small>
+								</h3>
+								<h6 className="mt-2 mb-4 text-success">
+									<small className="fw-lighter me-1">KES</small>
+									10,000 onboarding fee.
+								</h6>
+								<Link
+									to="/admin/dashboard"
+									className="btn sonar-btn white-btn w-25 mx-auto">
+									<span className="me-1">start now</span>
+									<ForwardSVG />
+								</Link>
+							</div>
+						</div>
+						<div className="col-12 col-md-6 col-lg-4">
+							<div
+								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
+								style={{ backgroundColor: "#232323", color: "white" }}
+								data-wow-delay="300ms">
+								<h4 className="mb-2 text-white">Between 51 - 100 units</h4>
+								<hr className="w-75 mx-auto border-light" />
+								<span>Property Management</span>
+								<span>Occupancy Management</span>
+								<span>Billing</span>
+								<span>Water Management</span>
+								<span>Tenant Acquisition</span>
+								<hr className="w-75 mx-auto border-light" />
+								<h3 className="text-success">
+									<small className="fw-lighter me-1">KES</small>10,000
+									<small className="fw-lighter">/mo</small>
+								</h3>
+								<h6 className="mt-2 mb-4 text-success">
+									<small className="fw-lighter me-1">KES</small>
+									20,000 onboarding fee.
+								</h6>
+								<Link
+									to="/admin/dashboard"
+									className="btn sonar-btn white-btn w-25 mx-auto">
+									<span className="me-1">start now</span>
+									<ForwardSVG />
+								</Link>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div
-					className="col-sm-6"
-					style={{ backgroundColor: "#232323" }}>
-					<div className="mt-5 mb-5 hidden"></div>
-					<center>
-						<br />
-						<br />
-						<div className="d-flex justify-content-center flex-column m-5 p-5">
-							<div
-								className="m-3"
-								style={{ backgroundColor: "white", height: "1px" }}></div>
-							<h2 className="text-white mb-4">
-								Kenya's Leading Property Management Software
-							</h2>
-							<p className="text-white">
-								Manage your Properties efficiently with our modern Property
-								Management Software that leaves nothing out of the picture, from
-								tenant onboarding, billing to exit.
-							</p>
-							<Link
-								to="/admin/dashboard"
-								className="btn sonar-btn white-btn w-25 mx-auto">
-								<span className="me-1">start now</span>
-								<ForwardSVG />
-							</Link>
-						</div>
-					</center>
-				</div>
 			</div>
-			{/* <!-- ***** Hero Area End ***** --> */}
+			{/* <!-- ***** Pricing Area End ***** --> */}
 		</div>
 	)
 }
