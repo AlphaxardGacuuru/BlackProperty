@@ -330,7 +330,7 @@ const AdminMenu = (props) => {
 					<br />
 				</div>
 				{/* <!-- ***** Side Menu Area End ***** --> */}
-				<div className="left-main mt-5 px-4">
+				<div className="left-main">
 					<h2>{props.page.name}</h2>
 
 					<div className="d-flex justify-content-start">

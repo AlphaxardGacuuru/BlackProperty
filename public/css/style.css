@@ -2043,7 +2043,11 @@ ol {
 }
 
 .left-main {
+	margin-top: 50px;
+	margin-bottom: 50px;
 	margin-left: 50px;
+	padding-right: 10px;
+	padding-left: 10px;
 	-webkit-transition-duration: 800ms;
 	transition-duration: 800ms;
 }
@@ -2105,27 +2109,6 @@ ol {
 	padding-right: 15px;
 }
 
-@media only screen and (max-width: 767px) {
-	.leftMenu .closeIcon {
-		right: 20px;
-		top: 70px;
-		font-size: 15px;
-	}
-}
-
-@media only screen and (max-width: 767px) {
-	.leftMenu .logo-area a {
-		font-size: 30px;
-	}
-}
-
-@media only screen and (max-width: 767px) {
-	.leftMenu .nav-link {
-		font-size: 14px;
-		padding: 10px;
-	}
-}
-
 .leftMenu .nav-link::after {
 	content: "";
 	bottom: 0;
@@ -2147,25 +2130,7 @@ ol {
 	background-color: white;
 }
 
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-	.leftMenu {
-		padding: 50px 0px;
-	}
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-	.leftMenu {
-		padding: 50px 0px;
-	}
-}
-
-@media only screen and (max-width: 767px) {
-	.leftMenu {
-		padding: 50px 0px;
-	}
-}
-
-/* :: Menu Open CSS */
+/* Menu Open CSS */
 .left-open .leftMenu {
 	width: 200px;
 }
@@ -2183,6 +2148,90 @@ ol {
 	/* transition: margin-left 800ms; */
 	transition-duration: 800ms;
 	margin-left: 200px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.leftMenu {
+		padding: 50px 0px;
+		left: -50px;
+		z-index: 994;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	}
+
+	.left-open .leftMenu {
+		left: 0;
+	}
+
+	.left-open .left-main {
+		margin-left: 5px;
+	}
+
+	.left-main {
+		transition-duration: 800ms;
+		margin-left: 5px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.leftMenu {
+		padding: 50px 0px;
+		left: -50px;
+		z-index: 994;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	}
+
+	.left-open .leftMenu {
+		left: 0;
+	}
+
+	.left-open .left-main {
+		margin-left: 5px;
+	}
+
+	.left-main {
+		margin-left: 5px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.leftMenu {
+		padding: 50px 0px;
+		left: -50px;
+		z-index: 994;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	}
+
+	.left-open .leftMenu {
+		left: 0;
+	}
+
+	.left-open .left-main {
+		margin-left: 5px;
+	}
+
+	.left-main {
+		margin-left: 5px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.leftMenu .closeIcon {
+		right: 20px;
+		top: 70px;
+		font-size: 15px;
+	}
+
+	.leftMenu .logo-area a {
+		font-size: 30px;
+	}
+
+	.leftMenu .nav-link {
+		font-size: 14px;
+		padding: 10px;
+	}
 }
 
 /* Left Nav End */
