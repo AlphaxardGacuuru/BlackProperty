@@ -6,13 +6,6 @@ import Btn from "@/components/Core/Btn"
 import Doughnut from "@/components/Charts/Doughnut"
 import MyLink from "@/components/Core/MyLink"
 
-import ForwardSVG from "@/svgs/ForwardSVG"
-import PropertySVG from "@/svgs/PropertySVG"
-import UnitSVG from "@/svgs/UnitSVG"
-import MoneySVG from "@/svgs/MoneySVG"
-import WaterReadingSVG from "@/svgs/WaterReadingSVG"
-import TenantSVG from "@/svgs/TenantSVG"
-
 import PropertyTabChart from "@/components/LandingPage/PropertyTabChart"
 import OccupancyTabChart from "@/components/LandingPage/OccupancyTabChart"
 import WaterTabChart from "@/components/LandingPage/WaterTabChart"
@@ -23,6 +16,17 @@ import OccupancyTabInfo from "@/components/LandingPage/OccupancyTabInfo"
 import WaterTabInfo from "@/components/LandingPage/WaterTabInfo"
 import BillingTabInfo from "@/components/LandingPage/BillingTabInfo"
 import TenantTabInfo from "@/components/LandingPage/TenantTabInfo"
+
+import ForwardSVG from "@/svgs/ForwardSVG"
+import PropertySVG from "@/svgs/PropertySVG"
+import UnitSVG from "@/svgs/UnitSVG"
+import MoneySVG from "@/svgs/MoneySVG"
+import WaterReadingSVG from "@/svgs/WaterReadingSVG"
+import TenantSVG from "@/svgs/TenantSVG"
+import PhoneSVG from "@/svgs/PhoneSVG"
+import EmailSVG from "@/svgs/EmailSVG"
+import SMSSVG from "@/svgs/SMSSVG"
+import WhatsAppSVG from "@/svgs/WhatsAppSVG"
 
 const index = (props) => {
 	const [tab, setTab] = useState("property")
@@ -101,6 +105,7 @@ const index = (props) => {
 			</div>
 			{/* <!-- ***** Hero Area End ***** --> */}
 
+			{/* Product Area Start */}
 			<div className="row">
 				<div
 					className="col-sm-12 p-5 text-center text-white"
@@ -173,6 +178,7 @@ const index = (props) => {
 					</div>
 				</div>
 			</div>
+			{/* Product Area End */}
 
 			{/* <!-- ***** Hero Area Start ***** --> */}
 			<div className="row">
@@ -200,10 +206,8 @@ const index = (props) => {
 			<div className="sonar-services-area">
 				<div className="container">
 					<div className="row">
-						<div className="col-sm-12 mt-5 mb-3">
-							<center>
-								<h2>Pricing</h2>
-							</center>
+						<div className="col-sm-12 text-center my-5">
+							<h2>Pricing</h2>
 						</div>
 					</div>
 					<div className="row mb-5">
@@ -226,7 +230,7 @@ const index = (props) => {
 								</h3>
 								<h6 className="mt-2 mb-4 text-success">
 									<small className="fw-lighter me-1">KES</small>
-									5,000 onboarding fee.
+									5,000 onboarding fee
 								</h6>
 								<Link
 									to="/admin/dashboard"
@@ -255,7 +259,7 @@ const index = (props) => {
 								</h3>
 								<h6 className="mt-2 mb-4 text-success">
 									<small className="fw-lighter me-1">KES</small>
-									10,000 onboarding fee.
+									10,000 onboarding fee
 								</h6>
 								<Link
 									to="/admin/dashboard"
@@ -284,7 +288,7 @@ const index = (props) => {
 								</h3>
 								<h6 className="mt-2 mb-4 text-success">
 									<small className="fw-lighter me-1">KES</small>
-									20,000 onboarding fee.
+									20,000 onboarding fee
 								</h6>
 								<Link
 									to="/admin/dashboard"
@@ -298,6 +302,80 @@ const index = (props) => {
 				</div>
 			</div>
 			{/* <!-- ***** Pricing Area End ***** --> */}
+
+			{/* Contact Start */}
+			<section
+				className="sonar-contact-area section-padding-100 py-5"
+				style={{ backgroundColor: "#232323" }}>
+				{/* <!-- back end content --> */}
+				<div className="backEnd-content">
+					<img
+						className="dots"
+						src="img/core-img/dots.png"
+						alt=""
+					/>
+				</div>
+
+				<div className="container mb-5">
+					<div className="row">
+						{/* <!-- Contact Form Area --> */}
+						<div className="col-12">
+							<div className="text-center">
+								<h2 className="mb-2 text-white">Contact Us</h2>
+								<h4 className="text-white">Let’s talk</h4>
+								<div className="d-flex justify-content-center flex-wrap">
+									<div
+										className="border border-light rounded-circle p-2 m-4"
+										style={{ width: "80px", height: "80px" }}>
+										<a
+											href="tel:0700364446"
+											className="text-white my-auto fs-1"
+											data-toggle="tooltip"
+											data-placement="bottom"
+											title="Phone">
+											<PhoneSVG />
+										</a>
+									</div>
+									<div
+										className="border border-light rounded-circle p-2 m-4"
+										style={{ width: "80px", height: "80px" }}>
+										<a
+											href="sms:0700364446"
+											className="text-white my-auto fs-1">
+											<SMSSVG />
+										</a>
+									</div>
+									<div
+										className="border border-light rounded-circle p-2 m-4"
+										style={{ width: "80px", height: "80px" }}>
+										<a
+											href="https://wa.me/+2540700364446"
+											className="text-white my-auto fs-1"
+											data-toggle="tooltip"
+											data-placement="bottom"
+											title="WhatsApp">
+											<WhatsAppSVG />
+										</a>
+									</div>
+									<div
+										className="border border-light rounded-circle p-2 m-4"
+										style={{ width: "80px", height: "80px" }}>
+										<a
+											href="mailto:alphaxardgacuuru47@gmail.com?subject=Photography&body=Enquiry"
+											data-toggle="tooltip"
+											className="text-white my-auto fs-1"
+											data-placement="bottom"
+											title="Email">
+											<EmailSVG />
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			{/* Contact End */}
 		</div>
 	)
 }

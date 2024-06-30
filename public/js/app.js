@@ -90885,28 +90885,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 /* harmony import */ var _components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Charts/Doughnut */ "./resources/js/components/Charts/Doughnut.js");
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
-/* harmony import */ var _svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/PropertySVG */ "./resources/js/svgs/PropertySVG.js");
-/* harmony import */ var _svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/UnitSVG */ "./resources/js/svgs/UnitSVG.js");
-/* harmony import */ var _svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/MoneySVG */ "./resources/js/svgs/MoneySVG.js");
-/* harmony import */ var _svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/WaterReadingSVG */ "./resources/js/svgs/WaterReadingSVG.js");
-/* harmony import */ var _svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/TenantSVG */ "./resources/js/svgs/TenantSVG.js");
-/* harmony import */ var _components_LandingPage_PropertyTabChart__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/LandingPage/PropertyTabChart */ "./resources/js/components/LandingPage/PropertyTabChart.js");
-/* harmony import */ var _components_LandingPage_OccupancyTabChart__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/LandingPage/OccupancyTabChart */ "./resources/js/components/LandingPage/OccupancyTabChart.js");
-/* harmony import */ var _components_LandingPage_WaterTabChart__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/LandingPage/WaterTabChart */ "./resources/js/components/LandingPage/WaterTabChart.js");
-/* harmony import */ var _components_LandingPage_BillingTabChart__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/LandingPage/BillingTabChart */ "./resources/js/components/LandingPage/BillingTabChart.js");
-/* harmony import */ var _components_LandingPage_TenantTabChart__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/components/LandingPage/TenantTabChart */ "./resources/js/components/LandingPage/TenantTabChart.js");
-/* harmony import */ var _components_LandingPage_PropertyTabInfo__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/components/LandingPage/PropertyTabInfo */ "./resources/js/components/LandingPage/PropertyTabInfo.js");
-/* harmony import */ var _components_LandingPage_OccupancyTabInfo__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/components/LandingPage/OccupancyTabInfo */ "./resources/js/components/LandingPage/OccupancyTabInfo.js");
-/* harmony import */ var _components_LandingPage_WaterTabInfo__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @/components/LandingPage/WaterTabInfo */ "./resources/js/components/LandingPage/WaterTabInfo.js");
-/* harmony import */ var _components_LandingPage_BillingTabInfo__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @/components/LandingPage/BillingTabInfo */ "./resources/js/components/LandingPage/BillingTabInfo.js");
-/* harmony import */ var _components_LandingPage_TenantTabInfo__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @/components/LandingPage/TenantTabInfo */ "./resources/js/components/LandingPage/TenantTabInfo.js");
+/* harmony import */ var _components_LandingPage_PropertyTabChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/LandingPage/PropertyTabChart */ "./resources/js/components/LandingPage/PropertyTabChart.js");
+/* harmony import */ var _components_LandingPage_OccupancyTabChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/LandingPage/OccupancyTabChart */ "./resources/js/components/LandingPage/OccupancyTabChart.js");
+/* harmony import */ var _components_LandingPage_WaterTabChart__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/LandingPage/WaterTabChart */ "./resources/js/components/LandingPage/WaterTabChart.js");
+/* harmony import */ var _components_LandingPage_BillingTabChart__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/LandingPage/BillingTabChart */ "./resources/js/components/LandingPage/BillingTabChart.js");
+/* harmony import */ var _components_LandingPage_TenantTabChart__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/LandingPage/TenantTabChart */ "./resources/js/components/LandingPage/TenantTabChart.js");
+/* harmony import */ var _components_LandingPage_PropertyTabInfo__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/LandingPage/PropertyTabInfo */ "./resources/js/components/LandingPage/PropertyTabInfo.js");
+/* harmony import */ var _components_LandingPage_OccupancyTabInfo__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/LandingPage/OccupancyTabInfo */ "./resources/js/components/LandingPage/OccupancyTabInfo.js");
+/* harmony import */ var _components_LandingPage_WaterTabInfo__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/LandingPage/WaterTabInfo */ "./resources/js/components/LandingPage/WaterTabInfo.js");
+/* harmony import */ var _components_LandingPage_BillingTabInfo__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/LandingPage/BillingTabInfo */ "./resources/js/components/LandingPage/BillingTabInfo.js");
+/* harmony import */ var _components_LandingPage_TenantTabInfo__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/LandingPage/TenantTabInfo */ "./resources/js/components/LandingPage/TenantTabInfo.js");
+/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
+/* harmony import */ var _svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/PropertySVG */ "./resources/js/svgs/PropertySVG.js");
+/* harmony import */ var _svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/svgs/UnitSVG */ "./resources/js/svgs/UnitSVG.js");
+/* harmony import */ var _svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @/svgs/MoneySVG */ "./resources/js/svgs/MoneySVG.js");
+/* harmony import */ var _svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @/svgs/WaterReadingSVG */ "./resources/js/svgs/WaterReadingSVG.js");
+/* harmony import */ var _svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @/svgs/TenantSVG */ "./resources/js/svgs/TenantSVG.js");
+/* harmony import */ var _svgs_PhoneSVG__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @/svgs/PhoneSVG */ "./resources/js/svgs/PhoneSVG.js");
+/* harmony import */ var _svgs_EmailSVG__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @/svgs/EmailSVG */ "./resources/js/svgs/EmailSVG.js");
+/* harmony import */ var _svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @/svgs/SMSSVG */ "./resources/js/svgs/SMSSVG.js");
+/* harmony import */ var _svgs_WhatsAppSVG__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @/svgs/WhatsAppSVG */ "./resources/js/svgs/WhatsAppSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
 
 
 
@@ -90987,7 +90995,7 @@ var index = function index(props) {
     className: "btn sonar-btn white-btn w-25 mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-12 p-5 text-center text-white",
@@ -91005,7 +91013,7 @@ var index = function index(props) {
     onClick: function onClick() {
       return setTab("property");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_17__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-1",
     style: {
       color: "inherit"
@@ -91015,7 +91023,7 @@ var index = function index(props) {
     onClick: function onClick() {
       return setTab("occupancy");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-1",
     style: {
       color: "inherit"
@@ -91025,7 +91033,7 @@ var index = function index(props) {
     onClick: function onClick() {
       return setTab("billing");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_19__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-1",
     style: {
       color: "inherit"
@@ -91035,7 +91043,7 @@ var index = function index(props) {
     onClick: function onClick() {
       return setTab("water");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_20__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-1",
     style: {
       color: "inherit"
@@ -91045,7 +91053,7 @@ var index = function index(props) {
     onClick: function onClick() {
       return setTab("tenant");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_21__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "ms-1",
     style: {
       color: "inherit"
@@ -91059,17 +91067,17 @@ var index = function index(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mt-5 mb-5 hidden"
-  }), tab == "property" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_PropertyTabInfo__WEBPACK_IMPORTED_MODULE_17__["default"], null), tab == "occupancy" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_OccupancyTabInfo__WEBPACK_IMPORTED_MODULE_18__["default"], null), tab == "billing" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_BillingTabInfo__WEBPACK_IMPORTED_MODULE_20__["default"], null), tab == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_WaterTabInfo__WEBPACK_IMPORTED_MODULE_19__["default"], null), tab == "tenant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_TenantTabInfo__WEBPACK_IMPORTED_MODULE_21__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), tab == "property" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_PropertyTabInfo__WEBPACK_IMPORTED_MODULE_11__["default"], null), tab == "occupancy" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_OccupancyTabInfo__WEBPACK_IMPORTED_MODULE_12__["default"], null), tab == "billing" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_BillingTabInfo__WEBPACK_IMPORTED_MODULE_14__["default"], null), tab == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_WaterTabInfo__WEBPACK_IMPORTED_MODULE_13__["default"], null), tab == "tenant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_TenantTabInfo__WEBPACK_IMPORTED_MODULE_15__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-6 p-5"
-  }, tab == "property" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_PropertyTabChart__WEBPACK_IMPORTED_MODULE_12__["default"], null), tab == "occupancy" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_OccupancyTabChart__WEBPACK_IMPORTED_MODULE_13__["default"], null), tab == "billing" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_BillingTabChart__WEBPACK_IMPORTED_MODULE_15__["default"], null), tab == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_WaterTabChart__WEBPACK_IMPORTED_MODULE_14__["default"], null), tab == "tenant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_TenantTabChart__WEBPACK_IMPORTED_MODULE_16__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, tab == "property" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_PropertyTabChart__WEBPACK_IMPORTED_MODULE_6__["default"], null), tab == "occupancy" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_OccupancyTabChart__WEBPACK_IMPORTED_MODULE_7__["default"], null), tab == "billing" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_BillingTabChart__WEBPACK_IMPORTED_MODULE_9__["default"], null), tab == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_WaterTabChart__WEBPACK_IMPORTED_MODULE_8__["default"], null), tab == "tenant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_LandingPage_TenantTabChart__WEBPACK_IMPORTED_MODULE_10__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "sonar-services-area"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-12 mt-5 mb-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Pricing")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-12 text-center my-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Pricing"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-12 col-md-6 col-lg-4"
@@ -91096,12 +91104,12 @@ var index = function index(props) {
     className: "mt-2 mb-4 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fw-lighter me-1"
-  }, "KES"), "5,000 onboarding fee."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "KES"), "5,000 onboarding fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/dashboard",
     className: "btn sonar-btn white-btn w-25 mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-12 col-md-6 col-lg-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "single-services-area wow fadeInUp card text-center py-5 px-2 mb-4",
@@ -91126,12 +91134,12 @@ var index = function index(props) {
     className: "mt-2 mb-4 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fw-lighter me-1"
-  }, "KES"), "10,000 onboarding fee."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "KES"), "10,000 onboarding fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/dashboard",
     className: "btn sonar-btn white-btn w-25 mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-12 col-md-6 col-lg-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "single-services-area wow fadeInUp card text-center py-5 px-2 mb-4",
@@ -91156,12 +91164,82 @@ var index = function index(props) {
     className: "mt-2 mb-4 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fw-lighter me-1"
-  }, "KES"), "20,000 onboarding fee."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, "KES"), "20,000 onboarding fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/dashboard",
     className: "btn sonar-btn white-btn w-25 mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))))))));
+  }, "start now"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+    className: "sonar-contact-area section-padding-100 py-5",
+    style: {
+      backgroundColor: "#232323"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "backEnd-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "dots",
+    src: "img/core-img/dots.png",
+    alt: ""
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "mb-2 text-white"
+  }, "Contact Us"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "text-white"
+  }, "Let\u2019s talk"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-center flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border border-light rounded-circle p-2 m-4",
+    style: {
+      width: "80px",
+      height: "80px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "tel:0700364446",
+    className: "text-white my-auto fs-1",
+    "data-toggle": "tooltip",
+    "data-placement": "bottom",
+    title: "Phone"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PhoneSVG__WEBPACK_IMPORTED_MODULE_22__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border border-light rounded-circle p-2 m-4",
+    style: {
+      width: "80px",
+      height: "80px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "sms:0700364446",
+    className: "text-white my-auto fs-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_24__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border border-light rounded-circle p-2 m-4",
+    style: {
+      width: "80px",
+      height: "80px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://wa.me/+2540700364446",
+    className: "text-white my-auto fs-1",
+    "data-toggle": "tooltip",
+    "data-placement": "bottom",
+    title: "WhatsApp"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WhatsAppSVG__WEBPACK_IMPORTED_MODULE_25__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border border-light rounded-circle p-2 m-4",
+    style: {
+      width: "80px",
+      height: "80px"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "mailto:alphaxardgacuuru47@gmail.com?subject=Photography&body=Enquiry",
+    "data-toggle": "tooltip",
+    className: "text-white my-auto fs-1",
+    "data-placement": "bottom",
+    title: "Email"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EmailSVG__WEBPACK_IMPORTED_MODULE_23__["default"], null))))))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
 
@@ -91461,6 +91539,34 @@ var EditSVG = function EditSVG() {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (EditSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/EmailSVG.js":
+/*!***************************************!*\
+  !*** ./resources/js/svgs/EmailSVG.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var EmailSVG = function EmailSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "mb-1 bi bi-envelope",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (EmailSVG);
 
 /***/ }),
 
@@ -91772,6 +91878,34 @@ var PersonSVG = function PersonSVG() {
 
 /***/ }),
 
+/***/ "./resources/js/svgs/PhoneSVG.js":
+/*!***************************************!*\
+  !*** ./resources/js/svgs/PhoneSVG.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var PhoneSVG = function PhoneSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "bi bi-telephone",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (PhoneSVG);
+
+/***/ }),
+
 /***/ "./resources/js/svgs/PlusSVG.js":
 /*!**************************************!*\
   !*** ./resources/js/svgs/PlusSVG.js ***!
@@ -91857,6 +91991,36 @@ var FacultySVG = function FacultySVG() {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (FacultySVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/SMSSVG.js":
+/*!*************************************!*\
+  !*** ./resources/js/svgs/SMSSVG.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var SMSSVG = function SMSSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "bi bi-chat-left-text",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (SMSSVG);
 
 /***/ }),
 
@@ -92029,6 +92193,34 @@ var WaterReadingSVG = function WaterReadingSVG() {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (WaterReadingSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/WhatsAppSVG.js":
+/*!******************************************!*\
+  !*** ./resources/js/svgs/WhatsAppSVG.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var WhatsAppSVG = function WhatsAppSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "bi bi-whatsapp",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (WhatsAppSVG);
 
 /***/ }),
 
