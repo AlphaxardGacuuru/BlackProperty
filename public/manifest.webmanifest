@@ -4,7 +4,7 @@
 	"start_url": "/#/admin/dashboard",
 	"display": "standalone",
 	"theme_color": "#232323",
-	"background_color": "#FFF",
+	"background_color": "#007BFF",
 	"orientation": "portrait-primary",
 	"description": "A Property Management App",
 	"icons": [
