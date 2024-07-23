@@ -58,7 +58,7 @@ const Header = (props) => {
 						<div className="col-12">
 							<div className="menu-area d-flex justify-content-between my-1">
 								{/* <!-- Logo Area  --> */}
-								<div className="logo-area">
+								<div className="logo-area mb-2">
 									<Link
 										to="/"
 										className="text-white">
