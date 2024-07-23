@@ -81390,18 +81390,14 @@ var Doughnut = function Doughnut(props) {
     new Chart(ctx.current, config);
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "p-2",
-    style: {
-      width: props.size,
-      height: props.size
-    }
+    className: "p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
     ref: ctx
   }));
 };
 Doughnut.defaultProps = {
   cutout: "60%",
-  size: "20em"
+  size: "1em"
 };
 /* harmony default export */ __webpack_exports__["default"] = (Doughnut);
 
@@ -81448,18 +81444,14 @@ var Pie = function Pie(props) {
     new Chart(ctx.current, config);
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "p-2",
-    style: {
-      width: props.size,
-      height: props.size
-    }
+    className: "p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
     ref: ctx
   }));
 };
 Pie.defaultProps = {
   cutout: "60%",
-  size: "20em"
+  size: "1em"
 };
 /* harmony default export */ __webpack_exports__["default"] = (Pie);
 
@@ -82075,10 +82067,23 @@ var PropertyTabChart = function PropertyTabChart() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card border-0 shadow text-center me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "100", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fs-6"
-  }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+      transform: "translate(-50%, -50%)",
+      top: "50%",
+      left: "50%",
+      width: "30%",
+      height: "30%"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "hidden",
+    style: {
+      fontSize: "4em"
+    }
+  }, "100", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
     labels: ["Paid Rent", "Due Rent"],
     datasets: doughnutRent,
     cutout: "60%",
@@ -82090,10 +82095,13 @@ var PropertyTabChart = function PropertyTabChart() {
   }, "KES"), "220,000"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card border-0 shadow text-center me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "90", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fs-6"
-  }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "middle2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "hidden",
+    style: {
+      fontSize: "4em"
+    }
+  }, "90", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
     labels: ["Paid Water Bill", "Due Water Bill"],
     datasets: doughnutWater,
     cutout: "60%",
@@ -82105,11 +82113,14 @@ var PropertyTabChart = function PropertyTabChart() {
   }, "KES"), "90,000"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card border-0 shadow text-center me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "80", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fs-6"
-  }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    labels: ["Paid Service Charge", "Due Service Charge"],
+    className: "middle2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "hidden",
+    style: {
+      fontSize: "4em"
+    }
+  }, "80", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    labels: ["Paid Service", "Due Service"],
     datasets: doughnutServiceCharge,
     cutout: "60%",
     size: "12.5em"
@@ -82192,9 +82203,12 @@ var PropertyTabChart = function PropertyTabChart() {
     className: "card border-0 text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "70", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fs-1"
-  }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "hidden",
+    style: {
+      fontSize: "10em"
+    }
+  }, "70", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
     labels: ["Occupied Units", "Unoccupied Units"],
     datasets: doughnutUnits
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -82268,8 +82282,13 @@ var PropertyTabChart = function PropertyTabChart() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card border-0 shadow"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    className: "middle2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "hidden",
+    style: {
+      fontSize: "10em"
+    }
+  }, "4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
     labels: ["Tevody Apartments", "Rezona Heights", "Western Heights", "Alima Apartments", "Joska Apartments"],
     datasets: doughnutProperties,
     cutout: "50%",
@@ -82351,9 +82370,12 @@ var PropertyTabChart = function PropertyTabChart() {
     className: "card border-0 text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "70", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fs-1"
-  }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "hidden",
+    style: {
+      fontSize: "10em"
+    }
+  }, "70", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_1__["default"], {
     labels: ["Occupied Units", "Unoccupied Units"],
     datasets: doughnutUnits
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -82611,7 +82633,7 @@ var AdminMenu = function AdminMenu(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "menu-area d-flex justify-content-between"
+    className: "menu-area d-flex justify-content-between my-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -82627,7 +82649,7 @@ var AdminMenu = function AdminMenu(props) {
     className: "logo-area mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin",
-    className: "fs-1 text-white"
+    className: "text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "menu-content-area d-flex align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -85037,7 +85059,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var index = function index(props) {
-  var _props$auth$propertyI, _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _props$auth$propertyI3, _dashboardProperties$2, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units9, _payments$data, _staff$data;
+  var _props$auth$propertyI, _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _dashboardProperties$2, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units9, _payments$data, _staff$data;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((_props$auth$propertyI = props.auth.propertyIds) !== null && _props$auth$propertyI !== void 0 && _props$auth$propertyI.length ? props.auth.propertyIds : [0]),
     _useState2 = _slicedToArray(_useState, 2),
     propertyId = _useState2[0],
@@ -85202,8 +85224,29 @@ var index = function index(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
+    className: "col-sm-6"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control mb-2",
+    onChange: function onChange(e) {
+      return setPropertyId(e.target.value);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: props.auth.propertyIds,
+    selected: propertyId == props.auth.propertyIds
+  }, "All"), (_dashboardProperties$ = dashboardProperties.ids) === null || _dashboardProperties$ === void 0 ? void 0 : _dashboardProperties$.map(function (id, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: id,
+      selected: propertyId == id
+    }, dashboardProperties.names[key]);
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3 pe-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-2"
+  }, "Properties"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle1"
@@ -85211,77 +85254,53 @@ var index = function index(props) {
     labels: dashboardProperties.names,
     datasets: doughnutProperties,
     cutout: "50%",
-    size: "25em"
+    className: "doughnutSize1"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
     className: "mb-3"
-  }, "Total Units:", " ", (_dashboardProperties$ = dashboardProperties.units) === null || _dashboardProperties$ === void 0 ? void 0 : _dashboardProperties$.reduce(function (unitCount, acc) {
+  }, "Total Units:", " ", (_dashboardProperties$2 = dashboardProperties.units) === null || _dashboardProperties$2 === void 0 ? void 0 : _dashboardProperties$2.reduce(function (unitCount, acc) {
     return unitCount + acc;
   }, 0))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm p-2 mb-1 ".concat(propertyId.length == ((_props$auth$propertyI3 = props.auth.propertyIds) === null || _props$auth$propertyI3 === void 0 ? void 0 : _props$auth$propertyI3.length) && "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"),
-    style: {
-      cursor: "pointer"
-    },
-    onClick: function onClick() {
-      return setPropertyId(props.auth.propertyIds);
-    }
-  }, "All"), (_dashboardProperties$2 = dashboardProperties.ids) === null || _dashboardProperties$2 === void 0 ? void 0 : _dashboardProperties$2.map(function (id, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: key,
-      className: "card shadow-sm p-2 mb-1 ".concat(id == propertyId && "border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"),
-      style: {
-        cursor: "pointer"
-      },
-      onClick: function onClick() {
-        return setPropertyId(id);
-      }
-    }, dashboardProperties.names[key]);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-8"
+    className: "col-sm-3 pe-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "my-3"
-  }, "Tenancy This Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm mb-2 rounded hidden-scroll"
-  }, dashboard.units && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    labels: (_dashboard$units5 = dashboard.units) === null || _dashboard$units5 === void 0 ? void 0 : _dashboard$units5.tenantsThisYear.labels,
-    datasets: barGraphTenants
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "my-3"
+    className: "my-2"
   }, "Current Occupancy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm text-center p-4 mb-2"
+    className: "card shadow-sm p-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, (_dashboard$units6 = dashboard.units) === null || _dashboard$units6 === void 0 ? void 0 : _dashboard$units6.percentage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, (_dashboard$units5 = dashboard.units) === null || _dashboard$units5 === void 0 ? void 0 : _dashboard$units5.percentage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fs-1"
   }, "%"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, dashboard.units && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
     labels: ["Occupied Units", "Unoccupied Units"],
-    datasets: doughnutUnits
+    datasets: doughnutUnits,
+    className: "doughnutSize2"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", ((_dashboard$units7 = dashboard.units) === null || _dashboard$units7 === void 0 ? void 0 : _dashboard$units7.totalOccupied) + ((_dashboard$units8 = dashboard.units) === null || _dashboard$units8 === void 0 ? void 0 : _dashboard$units8.totalUnoccupied)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", ((_dashboard$units6 = dashboard.units) === null || _dashboard$units6 === void 0 ? void 0 : _dashboard$units6.totalOccupied) + ((_dashboard$units7 = dashboard.units) === null || _dashboard$units7 === void 0 ? void 0 : _dashboard$units7.totalUnoccupied)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "my-2"
+  }, "Tenancy This Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 rounded hidden-scroll"
+  }, dashboard.units && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    labels: (_dashboard$units8 = dashboard.units) === null || _dashboard$units8 === void 0 ? void 0 : _dashboard$units8.tenantsThisYear.labels,
+    datasets: barGraphTenants
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "my-3"
+    className: "my-2"
   }, "Income This Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm hidden-scroll"
   }, dashboard.rent && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
     labels: (_dashboard$rent6 = dashboard.rent) === null || _dashboard$rent6 === void 0 ? void 0 : _dashboard$rent6.paidThisYear.labels,
     datasets: barGraphRent
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
+    className: "col-sm-2 px-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "my-3"
+    className: "my-2"
   }, "Income this month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm text-center me-2 mb-2"
+    className: "card shadow-sm text-center mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, (_dashboard$rent7 = dashboard.rent) === null || _dashboard$rent7 === void 0 ? void 0 : _dashboard$rent7.percentage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -85290,13 +85309,13 @@ var index = function index(props) {
     labels: ["Paid Rent", "Due Rent"],
     datasets: doughnutRent,
     cutout: "60%",
-    size: "12.5em"
+    className: "doughnutSize3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "mx-1"
   }, "KES"), (_dashboard$rent8 = dashboard.rent) === null || _dashboard$rent8 === void 0 ? void 0 : _dashboard$rent8.total))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm text-center me-2 mb-2"
+    className: "card shadow-sm text-center mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, (_dashboard$water8 = dashboard.water) === null || _dashboard$water8 === void 0 ? void 0 : _dashboard$water8.percentage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -85305,13 +85324,17 @@ var index = function index(props) {
     labels: ["Paid Water Bill", "Due Water Bill"],
     datasets: doughnutWater,
     cutout: "60%",
-    size: "12.5em"
+    className: "doughnutSize3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "mx-1"
-  }, "KES"), (_dashboard$water9 = dashboard.water) === null || _dashboard$water9 === void 0 ? void 0 : _dashboard$water9.total))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm text-center me-2 mb-2"
+  }, "KES"), (_dashboard$water9 = dashboard.water) === null || _dashboard$water9 === void 0 ? void 0 : _dashboard$water9.total)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-2 px-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "invisible my-2 hidden"
+  }, "Income this month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm text-center mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "middle3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, (_dashboard$serviceCha6 = dashboard.serviceCharge) === null || _dashboard$serviceCha6 === void 0 ? void 0 : _dashboard$serviceCha6.percentage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
@@ -85320,22 +85343,22 @@ var index = function index(props) {
     labels: ["Paid Service Charge", "Due Service Charge"],
     datasets: doughnutServiceCharge,
     cutout: "60%",
-    size: "12.5em"
+    className: "doughnutSize3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "mx-1"
   }, "KES"), (_dashboard$serviceCha7 = dashboard.serviceCharge) === null || _dashboard$serviceCha7 === void 0 ? void 0 : _dashboard$serviceCha7.total))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm text-center me-2 mb-2"
+    className: "card shadow-sm text-center mb-2"
   }, dashboard.water && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Pie__WEBPACK_IMPORTED_MODULE_5__["default"], {
     labels: ["Previous Water Usage", "Current Water Usage"],
     datasets: pieWaterUsage,
-    size: "12.5em"
+    className: "doughnutSize3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Current Usage:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "mx-1"
-  }, (_dashboard$water10 = dashboard.water) === null || _dashboard$water10 === void 0 ? void 0 : _dashboard$water10.usageLastMonth, "L"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, (_dashboard$water10 = dashboard.water) === null || _dashboard$water10 === void 0 ? void 0 : _dashboard$water10.usageLastMonth, "L")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-6"
@@ -90963,8 +90986,13 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card border-0 shadow"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    className: "middle2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "hidden",
+    style: {
+      fontSize: "10em"
+    }
+  }, "4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
     labels: ["Tevody Apartments", "Rezona Heights", "Western Heights", "Alima Apartments", "Joska Apartments"],
     datasets: doughnutProperties,
     cutout: "50%",

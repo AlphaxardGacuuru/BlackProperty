@@ -38,9 +38,7 @@ const Doughnut = (props) => {
 	}, [])
 
 	return (
-		<div
-			className="p-2"
-			style={{ width: props.size, height: props.size }}>
+		<div className="p-2">
 			<canvas ref={ctx}></canvas>
 		</div>
 	)
@@ -48,7 +46,7 @@ const Doughnut = (props) => {
 
 Doughnut.defaultProps = {
 	cutout: "60%",
-	size: "20em",
+	size: "1em",
 }
 
 export default Doughnut

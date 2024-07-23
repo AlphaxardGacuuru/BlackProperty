@@ -1958,9 +1958,21 @@ ol {
 	font-weight: 100;
 }
 
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.header-area .logo-area a {
+		font-size: 20px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.header-area .logo-area a {
+		font-size: 20px;
+	}
+}
+
 @media only screen and (max-width: 767px) {
 	.header-area .logo-area a {
-		font-size: 18px;
+		font-size: 20px;
 	}
 }
 
@@ -3128,6 +3140,74 @@ ol {
 
 /* Modal End */
 
+/* Charts Start */
+.doughnutSize1 {
+	font-size: 25em;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.doughnutSize1 {
+		font-size: 15em;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.doughnutSize1 {
+		font-size: 15em;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.doughnutSize1 {
+		font-size: 15em;
+	}
+}
+
+.doughnutSize2 {
+	font-size: 10em;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.doughnutSize2 {
+		font-size: 10em;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.doughnutSize2 {
+		font-size: 10em;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.doughnutSize2 {
+		font-size: 10em;
+	}
+}
+
+.doughnutSize3 {
+	font-size: 10em;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.doughnutSize3 {
+		font-size: 5em;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.doughnutSize3 {
+		font-size: 5em;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.doughnutSize3 {
+		font-size: 5em;
+	}
+}
+/* Charts End */
+
 /* Overlay */
 .middle1,
 .middle2,
@@ -3156,7 +3236,7 @@ ol {
 }
 
 .middle3 {
-	top: 53%;
+	top: 54%;
 	left: 50%;
 	width: 30%;
 	height: 30%;

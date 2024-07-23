@@ -54,8 +54,12 @@ const index = (props) => {
 					<div className="card border-0 shadow mt-5 p-4">
 						<div className="card border-0 shadow">
 							<center>
-								<div className="middle1">
-									<h1>4</h1>
+								<div className="middle2">
+									<h1
+										className="hidden"
+										style={{ fontSize: "10em" }}>
+										4
+									</h1>
 								</div>
 								<Doughnut
 									labels={[

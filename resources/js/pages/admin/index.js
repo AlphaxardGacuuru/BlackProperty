@@ -209,8 +209,38 @@ const index = (props) => {
 	return (
 		<React.Fragment>
 			<div className="row">
-				{/* Property Doughnut */}
-				<div className="col-sm-4">
+				{/* Property List */}
+				<div className="col-sm-6"></div>
+				<div className="col-sm-6">
+					<select
+						className="form-control mb-2"
+						onChange={(e) => setPropertyId(e.target.value)}>
+						<option
+							value={props.auth.propertyIds}
+							selected={propertyId == props.auth.propertyIds}>
+							All
+						</option>
+						{dashboardProperties.ids?.map((id, key) => (
+							<option
+								value={id}
+								selected={propertyId == id}>
+								{dashboardProperties.names[key]}
+							</option>
+						))}
+					</select>
+					{/* List End */}
+				</div>
+				{/* Property List End */}
+			</div>
+
+			{/*
+			 * Tenancy
+			 */}
+
+			<div className="row">
+				<div className="col-sm-3 pe-1">
+					<h4 className="my-2">Properties</h4>
+					{/* Property Doughnut */}
 					<div className="card shadow-sm p-2 mb-2">
 						<center>
 							<div className="middle1">
@@ -221,7 +251,7 @@ const index = (props) => {
 									labels={dashboardProperties.names}
 									datasets={doughnutProperties}
 									cutout="50%"
-									size="25em"
+									className="doughnutSize1"
 								/>
 							)}
 							<h6 className="mb-3">
@@ -233,62 +263,12 @@ const index = (props) => {
 							</h6>
 						</center>
 					</div>
+					{/* Property Doughnut End */}
 				</div>
-				{/* Property Doughnut End */}
-				{/* Property List */}
-				<div className="col-sm-4">
-					{/* All */}
-					<div
-						className={`card shadow-sm p-2 mb-1 ${
-							propertyId.length == props.auth.propertyIds?.length &&
-							"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
-						}`}
-						style={{ cursor: "pointer" }}
-						onClick={() => setPropertyId(props.auth.propertyIds)}>
-						All
-					</div>
-					{/* All End */}
-
-					{/* List */}
-					{dashboardProperties.ids?.map((id, key) => (
-						<div
-							key={key}
-							className={`card shadow-sm p-2 mb-1 ${
-								id == propertyId &&
-								"border-top-0 border-end-0 border-bottom-0 border-5 border-secondary"
-							}`}
-							style={{ cursor: "pointer" }}
-							onClick={() => setPropertyId(id)}>
-							{dashboardProperties.names[key]}
-						</div>
-					))}
-					{/* List End */}
-				</div>
-				{/* Property List End */}
-			</div>
-
-			{/*
-			 * Tenancy
-			 */}
-
-			<div className="row">
-				<div className="col-sm-8">
-					{/* Tenancy This Year */}
-					<h4 className="my-3">Tenancy This Year</h4>
-					<div className="card shadow-sm mb-2 rounded hidden-scroll">
-						{dashboard.units && (
-							<Bar
-								labels={dashboard.units?.tenantsThisYear.labels}
-								datasets={barGraphTenants}
-							/>
-						)}
-					</div>
-					{/* Tenancy This Year End */}
-				</div>
-				<div className="col-sm-4">
+				<div className="col-sm-3 pe-1">
 					{/* Tenancy This Month */}
-					<h4 className="my-3">Current Occupancy</h4>
-					<div className="card shadow-sm text-center p-4 mb-2">
+					<h4 className="my-2">Current Occupancy</h4>
+					<div className="card shadow-sm p-2 mb-2">
 						<div className="middle2">
 							<h1>
 								{dashboard.units?.percentage}
@@ -300,6 +280,7 @@ const index = (props) => {
 								<Doughnut
 									labels={["Occupied Units", "Unoccupied Units"]}
 									datasets={doughnutUnits}
+									className="doughnutSize2"
 								/>
 							)}
 							<div className="d-flex justify-content-center pb-3">
@@ -313,6 +294,19 @@ const index = (props) => {
 					</div>
 					{/* Tenancy This Month End */}
 				</div>
+				<div className="col-sm-6">
+					{/* Tenancy This Year */}
+					<h4 className="my-2">Tenancy This Year</h4>
+					<div className="card shadow-sm mb-2 rounded hidden-scroll">
+						{dashboard.units && (
+							<Bar
+								labels={dashboard.units?.tenantsThisYear.labels}
+								datasets={barGraphTenants}
+							/>
+						)}
+					</div>
+					{/* Tenancy This Year End */}
+				</div>
 
 				{/*
 				 * Income
@@ -320,7 +314,7 @@ const index = (props) => {
 
 				<div className="row">
 					<div className="col-sm-8">
-						<h4 className="my-3">Income This Year</h4>
+						<h4 className="my-2">Income This Year</h4>
 						<div className="card shadow-sm hidden-scroll">
 							{dashboard.rent && (
 								<Bar
@@ -330,104 +324,105 @@ const index = (props) => {
 							)}
 						</div>
 					</div>
-					<div className="col-sm-4">
-						<h4 className="my-3">Income this month</h4>
-						<div className="d-flex justify-content-between flex-wrap">
-							{/* Rent Doughnut */}
-							<div className="card shadow-sm text-center me-2 mb-2">
-								<div className="middle3">
-									<h2>
-										{dashboard.rent?.percentage}
-										<small className="fs-6">%</small>
-									</h2>
-								</div>
-								{dashboard.rent && (
-									<Doughnut
-										labels={["Paid Rent", "Due Rent"]}
-										datasets={doughnutRent}
-										cutout="60%"
-										size="12.5em"
-									/>
-								)}
-								<div className="d-flex justify-content-center pb-3">
-									<h6>
-										Total:
-										<small className="mx-1">KES</small>
-										{dashboard.rent?.total}
-									</h6>
-								</div>
+					<div className="col-sm-2 px-1">
+						<h4 className="my-2">Income this month</h4>
+						{/* Rent Doughnut */}
+						<div className="card shadow-sm text-center mb-2">
+							<div className="middle3">
+								<h2>
+									{dashboard.rent?.percentage}
+									<small className="fs-6">%</small>
+								</h2>
 							</div>
-							{/* Rent Doughnut End */}
-							{/* Water Doughnut */}
-							<div className="card shadow-sm text-center me-2 mb-2">
-								<div className="middle3">
-									<h2>
-										{dashboard.water?.percentage}
-										<small className="fs-6">%</small>
-									</h2>
-								</div>
-								{dashboard.water && (
-									<Doughnut
-										labels={["Paid Water Bill", "Due Water Bill"]}
-										datasets={doughnutWater}
-										cutout="60%"
-										size="12.5em"
-									/>
-								)}
-								<div className="d-flex justify-content-center pb-3">
-									<h6>
-										Total:
-										<small className="mx-1">KES</small>
-										{dashboard.water?.total}
-									</h6>
-								</div>
+							{dashboard.rent && (
+								<Doughnut
+									labels={["Paid Rent", "Due Rent"]}
+									datasets={doughnutRent}
+									cutout="60%"
+									className="doughnutSize3"
+								/>
+							)}
+							<div className="d-flex justify-content-center pb-3">
+								<h6>
+									Total:
+									<small className="mx-1">KES</small>
+									{dashboard.rent?.total}
+								</h6>
 							</div>
-							{/* Water Doughnut End */}
-							{/* Service Charge Doughnut */}
-							<div className="card shadow-sm text-center me-2 mb-2">
-								<div className="middle3">
-									<h2>
-										{dashboard.serviceCharge?.percentage}
-										<small className="fs-6">%</small>
-									</h2>
-								</div>
-								{dashboard.serviceCharge && (
-									<Doughnut
-										labels={["Paid Service Charge", "Due Service Charge"]}
-										datasets={doughnutServiceCharge}
-										cutout="60%"
-										size="12.5em"
-									/>
-								)}
-								<div className="d-flex justify-content-center pb-3">
-									<h6>
-										Total:
-										<small className="mx-1">KES</small>
-										{dashboard.serviceCharge?.total}
-									</h6>
-								</div>
-							</div>
-							{/* Service Charge Doughnut End */}
-							{/* Water Usage Pie */}
-							<div className="card shadow-sm text-center me-2 mb-2">
-								{dashboard.water && (
-									<Pie
-										labels={["Previous Water Usage", "Current Water Usage"]}
-										datasets={pieWaterUsage}
-										size="12.5em"
-									/>
-								)}
-								<div className="d-flex justify-content-center pb-3">
-									<h6>
-										Current Usage:
-										<span className="mx-1">
-											{dashboard.water?.usageLastMonth}L
-										</span>
-									</h6>
-								</div>
-							</div>
-							{/* Water Usage Pie End */}
 						</div>
+						{/* Rent Doughnut End */}
+						{/* Water Doughnut */}
+						<div className="card shadow-sm text-center mb-2">
+							<div className="middle3">
+								<h2>
+									{dashboard.water?.percentage}
+									<small className="fs-6">%</small>
+								</h2>
+							</div>
+							{dashboard.water && (
+								<Doughnut
+									labels={["Paid Water Bill", "Due Water Bill"]}
+									datasets={doughnutWater}
+									cutout="60%"
+									className="doughnutSize3"
+								/>
+							)}
+							<div className="d-flex justify-content-center pb-3">
+								<h6>
+									Total:
+									<small className="mx-1">KES</small>
+									{dashboard.water?.total}
+								</h6>
+							</div>
+						</div>
+						{/* Water Doughnut End */}
+					</div>
+					<div className="col-sm-2 px-1">
+						<h4 className="invisible my-2 hidden">Income this month</h4>
+						{/* Service Charge Doughnut */}
+						<div className="card shadow-sm text-center mb-2">
+							<div className="middle3">
+								<h2>
+									{dashboard.serviceCharge?.percentage}
+									<small className="fs-6">%</small>
+								</h2>
+							</div>
+							{dashboard.serviceCharge && (
+								<Doughnut
+									labels={["Paid Service Charge", "Due Service Charge"]}
+									datasets={doughnutServiceCharge}
+									cutout="60%"
+									className="doughnutSize3"
+								/>
+							)}
+							<div className="d-flex justify-content-center pb-3">
+								<h6>
+									Total:
+									<small className="mx-1">KES</small>
+									{dashboard.serviceCharge?.total}
+								</h6>
+							</div>
+						</div>
+						{/* Service Charge Doughnut End */}
+						{/* Water Usage Pie */}
+						<div className="card shadow-sm text-center mb-2">
+							{dashboard.water && (
+								<Pie
+									labels={["Previous Water Usage", "Current Water Usage"]}
+									datasets={pieWaterUsage}
+									className="doughnutSize3"
+								/>
+							)}
+							<div className="d-flex justify-content-center pb-3">
+								<h6>
+									Current Usage:
+									<span className="mx-1">
+										{dashboard.water?.usageLastMonth}L
+									</span>
+								</h6>
+							</div>
+						</div>
+						{/* Water Usage Pie End */}
 					</div>
 				</div>
 

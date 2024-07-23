@@ -22,9 +22,11 @@ const PropertyTabChart = () => {
 				<h4 className="mt-2">Current Occupancy</h4>
 				<div className="card border-0 text-center">
 					<div className="middle2">
-						<h1>
+						<h1
+							className="hidden"
+							style={{ fontSize: "10em" }}>
 							70
-							<small className="fs-1">%</small>
+							<small>%</small>
 						</h1>
 					</div>
 					<center>

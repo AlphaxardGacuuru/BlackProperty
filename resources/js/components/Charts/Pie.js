@@ -37,9 +37,7 @@ const Pie = (props) => {
 	}, [])
 
 	return (
-		<div
-			className="p-2"
-			style={{ width: props.size, height: props.size }}>
+		<div className="p-2">
 			<canvas ref={ctx}></canvas>
 		</div>
 	)
@@ -47,7 +45,7 @@ const Pie = (props) => {
 
 Pie.defaultProps = {
 	cutout: "60%",
-	size: "20em",
+	size: "1em",
 }
 
 export default Pie

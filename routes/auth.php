@@ -54,3 +54,11 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 });
+
+/*
+ * Social logins */
+Route::get('login/{website}', [AuthenticatedSessionController::class, 'redirectToProvider'])
+    ->middleware('guest');
+
+Route::get('login/{website}/callback', [AuthenticatedSessionController::class, 'handleProviderCallback'])
+    ->middleware('guest');

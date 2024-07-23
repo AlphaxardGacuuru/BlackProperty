@@ -116,7 +116,7 @@ const AdminMenu = (props) => {
 					<div className="container-fluid p-0">
 						<div className="row">
 							<div className="col-12">
-								<div className="menu-area d-flex justify-content-between">
+								<div className="menu-area d-flex justify-content-between my-1">
 									<div className="d-flex align-items-center">
 										{/* <!-- Left Menu Icon --> */}
 										<a
@@ -136,7 +136,7 @@ const AdminMenu = (props) => {
 										<div className="logo-area mb-2">
 											<Link
 												to="/admin"
-												className="fs-1 text-white">
+												className="text-white">
 												<LogoSVG />
 											</Link>
 										</div>

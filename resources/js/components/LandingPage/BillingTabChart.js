@@ -36,10 +36,23 @@ const PropertyTabChart = () => {
 			<h4 className="my-3">Income this month</h4>
 			<div className="d-flex justify-content-between flex-wrap">
 				<div className="card border-0 shadow text-center me-2 mb-2">
-					<div className="middle3">
-						<h2>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							position: "absolute",
+							transform: "translate(-50%, -50%)",
+							top: "50%",
+							left: "50%",
+							width: "30%",
+							height: "30%",
+						}}>
+						<h2
+							className="hidden"
+							style={{ fontSize: "4em" }}>
 							100
-							<small className="fs-6">%</small>
+							<small>%</small>
 						</h2>
 					</div>
 					<Doughnut
@@ -57,10 +70,12 @@ const PropertyTabChart = () => {
 					</div>
 				</div>
 				<div className="card border-0 shadow text-center me-2 mb-2">
-					<div className="middle3">
-						<h2>
+					<div className="middle2">
+						<h2
+							className="hidden"
+							style={{ fontSize: "4em" }}>
 							90
-							<small className="fs-6">%</small>
+							<small>%</small>
 						</h2>
 					</div>
 					<Doughnut
@@ -78,14 +93,16 @@ const PropertyTabChart = () => {
 					</div>
 				</div>
 				<div className="card border-0 shadow text-center me-2 mb-2">
-					<div className="middle3">
-						<h2>
+					<div className="middle2">
+						<h2
+							className="hidden"
+							style={{ fontSize: "4em" }}>
 							80
-							<small className="fs-6">%</small>
+							<small>%</small>
 						</h2>
 					</div>
 					<Doughnut
-						labels={["Paid Service Charge", "Due Service Charge"]}
+						labels={["Paid Service", "Due Service"]}
 						datasets={doughnutServiceCharge}
 						cutout="60%"
 						size="12.5em"
