@@ -102,7 +102,8 @@ const AdminMenu = (props) => {
 		location.pathname.match("/instructor/") ||
 		(location.pathname.match("/student/") &&
 			!location.pathname.match("/admin/login") &&
-			!location.pathname.match("/admin/register"))
+			!location.pathname.match("/admin/register") &&
+			!location.pathname.match("/socialite"))
 			? "d-block"
 			: "d-none"
 

@@ -53,6 +53,13 @@ import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 import Socialite from "@/components/Auth/Socialite"
 
 const RouteList = ({ GLOBAL_STATE }) => {
+	const authRoutes = [
+		{
+			path: "/socialite/:message/:token",
+			component: <Socialite {...GLOBAL_STATE} />,
+		},
+	]
+	
 	const routes = [
 		{
 			path: "/",
@@ -199,6 +206,17 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	return (
 		<React.Fragment>
+				{/* Auth routes */}
+				{authRoutes.map((route, key) => (
+					<Route
+						key={key}
+						path={route.path}
+						exact
+						render={() => route.component}
+					/>
+				))}
+				{/* Landing Page routes End */}
+
 			<Header {...GLOBAL_STATE}>
 				{/* Landing Page routes */}
 				{routes.map((route, key) => (

@@ -81311,7 +81311,7 @@ var Socialite = function Socialite(props) {
     props.setLocalStorage("sanctumToken", encryptedToken(token));
 
     // Redirect to index page
-    // window.location.href = "/#/admin/dashboard"
+    window.location.href = "/#/admin/dashboard";
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "preloader",
@@ -81914,7 +81914,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_admin_role__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/role */ "./resources/js/pages/admin/role/index.js");
 /* harmony import */ var _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/role/create */ "./resources/js/pages/admin/role/create.js");
 /* harmony import */ var _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/role/edit/[id] */ "./resources/js/pages/admin/role/edit/[id].js");
-/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
+/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
 
 
 
@@ -81956,12 +81956,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var RouteList = function RouteList(_ref) {
   var GLOBAL_STATE = _ref.GLOBAL_STATE;
+  var authRoutes = [{
+    path: "/socialite/:message/:token",
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_38__["default"], GLOBAL_STATE)
+  }];
   var routes = [{
     path: "/",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_index__WEBPACK_IMPORTED_MODULE_3__["default"], GLOBAL_STATE)
   }, {
     path: "/socialite/:message/:token",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_39__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_38__["default"], GLOBAL_STATE)
   }];
 
   // Admin Routes
@@ -82065,7 +82069,16 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/roles/:id/edit",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_37__["default"], GLOBAL_STATE)
   }];
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_Header__WEBPACK_IMPORTED_MODULE_2__["default"], GLOBAL_STATE, routes.map(function (route, key) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, authRoutes.map(function (route, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      key: key,
+      path: route.path,
+      exact: true,
+      render: function render() {
+        return route.component;
+      }
+    });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_Header__WEBPACK_IMPORTED_MODULE_2__["default"], GLOBAL_STATE, routes.map(function (route, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
       key: key,
       path: route.path,
@@ -82685,7 +82698,7 @@ var AdminMenu = function AdminMenu(props) {
   };
 
   // Show Admin Nav based on Location
-  var showAdminNav = location.pathname.match("/admin/") || location.pathname.match("/instructor/") || location.pathname.match("/student/") && !location.pathname.match("/admin/login") && !location.pathname.match("/admin/register") ? "d-block" : "d-none";
+  var showAdminNav = location.pathname.match("/admin/") || location.pathname.match("/instructor/") || location.pathname.match("/student/") && !location.pathname.match("/admin/login") && !location.pathname.match("/admin/register") && !location.pathname.match("/socialite") ? "d-block" : "d-none";
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "MyElement",
     className: props.adminMenu + " " + showAdminNav
@@ -83156,7 +83169,7 @@ var Header = function Header(props) {
   var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
 
   // Show Admin Nav based on Location
-  var showHeader = !location.pathname.match("/admin/") && !location.pathname.match("/instructor/") && !location.pathname.match("/student/") ? "d-block" : "d-none";
+  var showHeader = !location.pathname.match("/admin/") && !location.pathname.match("/instructor/") && !location.pathname.match("/student/") && !location.pathname.match("/socialite") ? "d-block" : "d-none";
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "MyElement",
     className: props.headerMenu + " " + showHeader

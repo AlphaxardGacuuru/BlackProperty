@@ -20,7 +20,8 @@ const Header = (props) => {
 	const showHeader =
 		!location.pathname.match("/admin/") &&
 		(!location.pathname.match("/instructor/") &&
-			!location.pathname.match("/student/"))
+			!location.pathname.match("/student/") &&
+			!location.pathname.match("/socialite"))
 			? "d-block"
 			: "d-none"
 
