@@ -81182,10 +81182,10 @@ var LoginPopUp = function LoginPopUp(props) {
         remember: "checked"
       }).then(function (res) {
         props.setMessages([res.data.message]);
-        // Update Logged in user
-        fetchAuth(res.data.data);
         // Remove loader
         setLoading(false);
+        // Hide Login Pop Up
+        props.setLogin(false);
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
         // Update Logged in user
