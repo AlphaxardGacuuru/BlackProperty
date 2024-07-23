@@ -50,11 +50,17 @@ import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
+import Socialite from "@/components/Auth/Socialite"
+
 const RouteList = ({ GLOBAL_STATE }) => {
 	const routes = [
 		{
 			path: "/",
 			component: <Index {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/socialite/:message/:token",
+			component: <Socialite {...GLOBAL_STATE} />,
 		},
 	]
 
