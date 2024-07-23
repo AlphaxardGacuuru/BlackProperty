@@ -81308,7 +81308,7 @@ var Socialite = function Socialite(props) {
     };
 
     // Encrypt and Save Sanctum Token to Local Storage
-    // props.setLocalStorage("sanctumToken", encryptedToken(token))
+    props.setLocalStorage("sanctumToken", encryptedToken(token));
 
     // Redirect to index page
     // window.location.href = "/#/admin/dashboard"
