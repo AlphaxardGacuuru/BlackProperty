@@ -21,6 +21,15 @@ function App() {
 		}
 	}
 
+	// Function for checking non array local storage
+	const getNormalLocalStorage = (state) => {
+		if (typeof window !== "undefined" && localStorage.getItem(state)) {
+			return localStorage.getItem(state)
+		} else {
+			return ""
+		}
+	}
+
 	// Function for checking local storage
 	const getLocalStorageAuth = (state) => {
 		if (typeof window !== "undefined" && localStorage.getItem(state)) {
@@ -53,12 +62,20 @@ function App() {
 	const [headerMenu, setHeaderMenu] = useState()
 	const [adminMenu, setAdminMenu] = useState("left-open")
 	const [properties, setProperties] = useState(getLocalStorage("properties"))
+	const [selectedPropertyId, setSelectedPropertyId] = useState(
+		getNormalLocalStorage("selectedPropertyId")
+			? getNormalLocalStorage("selectedPropertyId")
+			: auth.propertyIds
+	)
 	const [page, setPage] = useState({ name: "/", path: [] })
 
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
 	const [paymentDescription, setPaymentDescription] = useState()
 	const [paymentAmount, setPaymentAmount] = useState()
+
+	const [downloadLink, setDownloadLink] = useState()
+	const [downloadLinkText, setDownloadLinkText] = useState("")
 
 	// Function for fetching data from API
 	const get = (endpoint, setState, storage = null, errors = true) => {
@@ -103,7 +120,11 @@ function App() {
 	useEffect(() => get("auth", setAuth, "auth", false), [])
 
 	useEffect(() => {
-		get(`properties/by-user-id/${auth.id}`, setProperties, "properties")
+		get(
+			`properties?idAndName=true&propertyId=${auth.propertyIds}`,
+			setProperties,
+			"properties"
+		)
 	}, [auth])
 
 	/*
@@ -135,51 +156,11 @@ function App() {
 		years.push(i)
 	}
 
-	/*
-	 *
-	 * Register service worker */
-	if (window.location.href.match(/https/)) {
-		if ("serviceWorker" in navigator) {
-			window.addEventListener("load", () => {
-				navigator.serviceWorker.register("/sw.js")
-				// .then((reg) => console.log('Service worker registered', reg))
-				// .catch((err) => console.log('Service worker not registered', err));
-			})
-		}
-	}
-
-	/*
-	 *
-	 * PWA Install button */
-	let deferredPrompt
-	var btnAdd = useRef()
-	const [downloadLink, setDownloadLink] = useState()
-	const [downloadLinkText, setDownloadLinkText] = useState("")
-
-	// Listen to the install prompt
-	window.addEventListener("beforeinstallprompt", (e) => {
-		deferredPrompt = e
-
-		// Show the button
-		setDownloadLink(true)
-
-		// Action when button is clicked
-		btnAdd.current.addEventListener("click", (e) => {
-			// Show install banner
-			deferredPrompt.prompt()
-			// Check if the user accepted
-			deferredPrompt.userChoice.then((choiceResult) => {
-				if (choiceResult.outcome === "accepted") {
-					setDownloadLinkText("User accepted")
-				}
-				deferredPrompt = null
-			})
-
-			window.addEventListener("appinstalled", (evt) => {
-				setDownloadLinkText("Installed")
-			})
-		})
-	})
+	const apartmentTypes = [
+		{ id: "apartment", name: "Apartment" },
+		{ id: "shop", name: "Shop" },
+		{ id: "office", name: "Office" },
+	]
 
 	const GLOBAL_STATE = {
 		getLocalStorage,
@@ -203,8 +184,18 @@ function App() {
 		setAdminMenu,
 		properties,
 		setProperties,
+		selectedPropertyId,
+		setSelectedPropertyId,
 		page,
 		setPage,
+
+		// PWA
+		downloadLink,
+		setDownloadLink,
+		downloadLinkText,
+		setDownloadLinkText,
+
+		// Payment
 		showPayMenu,
 		setShowPayMenu,
 		paymentTitle,
@@ -220,6 +211,7 @@ function App() {
 		previousMonth,
 		months,
 		years,
+		apartmentTypes,
 	}
 
 	return (
@@ -230,13 +222,6 @@ function App() {
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
-
-			{/* Install button */}
-			<button
-				ref={btnAdd}
-				style={{ display: "none" }}>
-				test
-			</button>
 		</HashRouter>
 	)
 }

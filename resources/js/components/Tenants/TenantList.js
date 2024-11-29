@@ -58,7 +58,6 @@ const TenantList = (props) => {
 					{/* Name */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<input
-							id=""
 							type="text"
 							name="name"
 							placeholder="Search by Name"
@@ -67,6 +66,17 @@ const TenantList = (props) => {
 						/>
 					</div>
 					{/* Name End */}
+					{/* Phone */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="text"
+							name="phone"
+							placeholder="Search by Phone"
+							className="form-control"
+							onChange={(e) => props.setPhoneQuery(e.target.value)}
+						/>
+					</div>
+					{/* Phone End */}
 				</div>
 			</div>
 			{/* Filters End */}

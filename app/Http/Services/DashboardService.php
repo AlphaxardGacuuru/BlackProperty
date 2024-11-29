@@ -53,7 +53,7 @@ class DashboardService extends Service
         $names = [];
         $units = [];
 
-        $properties = $propertyQuery
+        $propertyQuery
             ->get()
             ->each(function ($property) use (&$ids, &$names, &$units) {
                 $ids[] = $property->id;
@@ -447,5 +447,27 @@ class DashboardService extends Service
         $decimalPlaces = floor($percentage) == $percentage ? 0 : 1;
 
         return number_format($percentage, $decimalPlaces);
+    }
+
+    /*
+     * Search
+     */
+    public function search($query, $request)
+    {
+        $propertyId = explode(",", $request->propertyId,);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereIn("property_id", $propertyId);
+        }
+
+        if ($request->filled("name")) {
+            $query = $query->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        if ($request->filled("type")) {
+            $query = $query->where("type", $request->type);
+        }
+
+        return $query;
     }
 }

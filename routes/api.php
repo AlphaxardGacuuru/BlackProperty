@@ -64,44 +64,35 @@ Route::get("dashboard/properties/{id}", [DashboardController::class, "properties
 /*
  * Properties
  */
-Route::get("properties/by-user-id/{id}", [PropertyController::class, "byUserId"]);
 
 /*
  * Units
  */
-Route::get("units/by-property-id/{id}", [UnitController::class, "byPropertyId"]);
 Route::get("units/statements/{id}", [UnitController::class, "statements"]);
 
 /*
  * Tenants
  */
-Route::get("tenants/by-property-id/{id}", [TenantController::class, "byPropertyId"]);
-Route::get("tenants/by-unit-id/{id}", [TenantController::class, "byUnitId"]);
 
 /*
  * Staff
  */
-Route::get("staff/by-property-id/{id}", [StaffController::class, "byPropertyId"]);
 
 /*
  * Invoices
  */
-Route::get("invoices/by-property-id/{id}", [InvoiceController::class, "byPropertyId"]);
 
 /*
  * WaterReadings
  */
-Route::get("water-readings/by-property-id/{id}", [WaterReadingController::class, "byPropertyId"]);
 
 /*
  * Payments
  */
-Route::get("payments/by-property-id/{id}", [PaymentController::class, "byPropertyId"]);
 
 /*
  * CreditNotes
  */
-Route::get("credit-notes/by-property-id/{id}", [CreditNoteController::class, "byPropertyId"]);
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

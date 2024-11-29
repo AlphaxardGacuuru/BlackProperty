@@ -143,6 +143,32 @@ const AdminMenu = (props) => {
 										</div>
 									</div>
 
+									{/* Property List */}
+									<div className="w-25">
+										<select
+											className="form-control mt-2"
+											onChange={(e) => {
+												localStorage.setItem(
+													"selectedPropertyId",
+													e.target.value
+												)
+												props.setSelectedPropertyId(e.target.value)
+											}}>
+											{[{ id: props.auth.propertyIds, name: "All" }]
+												.concat(props.properties)
+												.map((property, key) => (
+													<option
+														key={key}
+														value={property.id}
+														selected={property.id == props.selectedPropertyId}>
+														{property.name}
+													</option>
+												))}
+										</select>
+										{/* List End */}
+									</div>
+									{/* Property List End */}
+
 									{/* Top Nav Links Area */}
 									<div className="menu-content-area d-flex align-items-center">
 										<div className="header-social-area d-flex align-items-center">

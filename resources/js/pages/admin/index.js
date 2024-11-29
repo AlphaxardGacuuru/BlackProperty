@@ -8,10 +8,6 @@ import Doughnut from "@/components/Charts/Doughnut"
 import Pie from "@/components/Charts/Pie"
 
 const index = (props) => {
-	const [propertyId, setPropertyId] = useState(
-		props.auth.propertyIds?.length ? props.auth.propertyIds : [0]
-	)
-
 	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard"))
 	const [dashboardProperties, setDashboardProperties] = useState(
 		props.getLocalStorage("dashboardProperties")
@@ -22,17 +18,6 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
-
-		// Fetch Dashboard
-		Axios.get(`api/dashboard/${propertyId}`)
-			.then((res) => {
-				// Reset Data
-				setDashboard([])
-
-				setDashboard(res.data.data)
-				props.setLocalStorage("dashboard", res.data.data)
-			})
-			.catch(() => props.setErrors(["Failed to fetch Dashboard"]))
 
 		// Fetch Dashboard Properties
 		Axios.get(
@@ -49,11 +34,31 @@ const index = (props) => {
 			})
 			.catch(() => props.getErrors(["Failed to fetch Dashboard Properties"]))
 
-		// Fetch Payments
-		props.getPaginated(`payments/by-property-id/${propertyId}`, setPayments)
-		// Fetch Staff
-		props.getPaginated(`staff/by-property-id/${propertyId}`, setStaff)
-	}, [propertyId])
+		// Fetch Dashboard
+		if (props.selectedPropertyId) {
+			Axios.get(`api/dashboard/${props.selectedPropertyId}`)
+				.then((res) => {
+					// Reset Data
+					setDashboard([])
+
+					setDashboard(res.data.data)
+					props.setLocalStorage("dashboard", res.data.data)
+				})
+				.catch(() => props.setErrors(["Failed to fetch Dashboard"]))
+
+			// Fetch Payments
+			props.getPaginated(
+				`payments?propertyId=${props.selectedPropertyId}`,
+				setPayments
+			)
+
+			// Fetch Staff
+			props.getPaginated(
+				`staff?propertyId=${props.selectedPropertyId}`,
+				setStaff
+			)
+		}
+	}, [props.selectedPropertyId])
 
 	/*
 	 * Graph Data
@@ -208,31 +213,6 @@ const index = (props) => {
 
 	return (
 		<React.Fragment>
-			<div className="row">
-				{/* Property List */}
-				<div className="col-sm-6"></div>
-				<div className="col-sm-6">
-					<select
-						className="form-control mb-2"
-						onChange={(e) => setPropertyId(e.target.value)}>
-						<option
-							value={props.auth.propertyIds}
-							selected={propertyId == props.auth.propertyIds}>
-							All
-						</option>
-						{dashboardProperties.ids?.map((id, key) => (
-							<option
-								value={id}
-								selected={propertyId == id}>
-								{dashboardProperties.names[key]}
-							</option>
-						))}
-					</select>
-					{/* List End */}
-				</div>
-				{/* Property List End */}
-			</div>
-
 			{/*
 			 * Tenancy
 			 */}

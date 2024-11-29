@@ -23,5 +23,10 @@ class PropertySeeder extends Seeder
                 ->hasUnits(rand(5, 20))
                 ->create(["user_id" => $user->id]);
         }
+		
+            Property::factory()
+                ->count(5)
+                ->hasUnits(rand(5, 20))
+                ->create();
     }
 }

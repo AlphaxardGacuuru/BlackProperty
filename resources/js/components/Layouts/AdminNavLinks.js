@@ -16,6 +16,8 @@ import PaymentSVG from "@/svgs/PaymentSVG"
 import InvoiceSVG from "@/svgs/InvoiceSVG"
 import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 import CreditNoteSVG from "@/svgs/CreditNoteSVG"
+import UnitSVG from "@/svgs/UnitSVG"
+import TenantSVG from "@/svgs/TenantSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -51,9 +53,7 @@ const AdminNavLinks = (props) => {
 			<li className="nav-item">
 				<Link
 					to={`/admin/properties`}
-					className={`nav-link ${
-						active("/admin/properties") || active("/admin/units")
-					}`}>
+					className={`nav-link ${active("/admin/properties")}`}>
 					<div className="nav-link-icon">
 						<PropertySVG />
 					</div>
@@ -61,6 +61,30 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Properties Link End */}
+			{/* Units Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/units`}
+					className={`nav-link ${active("/admin/units")}`}>
+					<div className="nav-link-icon">
+						<UnitSVG />
+					</div>
+					<div className="nav-link-text">Units</div>
+				</Link>
+			</li>
+			{/* Units Link End */}
+			{/* Tenants Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/tenants`}
+					className={`nav-link ${active("/admin/tenants")}`}>
+					<div className="nav-link-icon">
+						<TenantSVG />
+					</div>
+					<div className="nav-link-text">Tenants</div>
+				</Link>
+			</li>
+			{/* Tenants Link End */}
 			{/* Water Readings Link */}
 			<li className="nav-item">
 				<Link
@@ -121,6 +145,18 @@ const AdminNavLinks = (props) => {
 				</Link>
 			</li>
 			{/* Wallet End */}
+			{/* Staff Link */}
+			<li className="nav-item">
+				<Link
+					to={`/admin/staff`}
+					className={`nav-link ${active("/admin/staff")}`}>
+					<div className="nav-link-icon">
+						<StaffSVG />
+					</div>
+					<div className="nav-link-text">Staff</div>
+				</Link>
+			</li>
+			{/* Staff Link End */}
 			{/* Roles Links */}
 			<li className="nav-item">
 				<Link

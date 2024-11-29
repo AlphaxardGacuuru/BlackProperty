@@ -15,9 +15,13 @@ class StaffService extends Service
     /*
      * Get All Staff
      */
-    public function index()
+    public function index($request)
     {
-        $staff = User::where("account_type", "staff")
+        $staffQuery = new UserProperty;
+
+        $staffQuery = $this->search($staffQuery, $request);
+
+        $staff = $staffQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
@@ -164,15 +168,20 @@ class StaffService extends Service
     }
 
     /*
-     * Get Staff by Property ID
+     * Search
      */
-    public function byPropertyId($id)
+    public function search($query, $request)
     {
-        $ids = explode(",", $id);
+        $propertyId = explode(",", $request->propertyId, );
 
-        $staff = UserProperty::whereIn("property_id", $ids)
-            ->paginate(20);
+        if ($request->filled("propertyId")) {
+            $query = $query->whereIn("property_id", $propertyId);
+        }
 
-        return StaffResource::collection($staff);
+        if ($request->filled("userId")) {
+            $query = $query->where("user_id", $request->userId);
+        }
+
+        return $query;
     }
 }

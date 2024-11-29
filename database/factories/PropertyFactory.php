@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class PropertyFactory extends Factory
     {
         return [
             "name" => fake()->streetName(),
+			"user_id" => User::all()->random()->id,
             "location" => fake()->city(),
             "deposit_formula" => "r*2+2000",
             "unit_count" => rand(5, 20),

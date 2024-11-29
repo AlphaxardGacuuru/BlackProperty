@@ -18,9 +18,15 @@ class UnitService extends Service
     /*
      * Get All Units
      */
-    public function index()
+    public function index($request)
     {
-        $units = Unit::orderBy("id", "DESC")->paginate(20);
+        $unitQuery = new Unit;
+
+        $unitQuery = $this->search($unitQuery, $request);
+
+        $units = $unitQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         return UnitResource::collection($units);
     }
@@ -88,10 +94,12 @@ class UnitService extends Service
 
         if ($request->filled("bedrooms")) {
             $unit->bedrooms = $request->input("bedrooms");
+			$unit->size = NULL;
         }
 
         if ($request->filled("size")) {
             $unit->size = $request->input("size");
+            $unit->bedrooms = NULL;
         }
 
         $saved = $unit->save();
@@ -118,29 +126,6 @@ class UnitService extends Service
         $message = $unit->name . " deleted successfully";
 
         return [$deleted, $message, $unit];
-    }
-
-    /*
-     * Get Units by Property ID
-     */
-    public function byPropertyId($request, $id)
-    {
-        if ($request->filled("idAndName")) {
-            $units = Unit::select("id", "name")
-                ->where("property_id", $id)
-                ->orderBy("id", "DESC")
-                ->get();
-
-            return response([
-                "data" => $units,
-            ], 200);
-        }
-
-        $units = Unit::where("property_id", $id)
-            ->orderBy("id", "DESC")
-            ->paginate(20);
-
-        return UnitResource::collection($units);
     }
 
     /*
@@ -242,5 +227,27 @@ class UnitService extends Service
                 "paid" => number_format($totalPayments),
                 "balance" => number_format($totalInvoices - $totalCreditNotes - $totalPayments),
             ]);
+    }
+
+    /*
+     * Search
+     */
+    public function search($query, $request)
+    {
+        $propertyId = explode(",", $request->propertyId,);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereIn("property_id", $propertyId);
+        }
+
+        if ($request->filled("name")) {
+            $query = $query->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        if ($request->filled("type")) {
+            $query = $query->where("type", $request->type);
+        }
+
+        return $query;
     }
 }

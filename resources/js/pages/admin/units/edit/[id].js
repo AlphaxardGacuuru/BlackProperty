@@ -9,7 +9,6 @@ const edit = (props) => {
 	var { id } = useParams()
 
 	const [unit, setUnit] = useState({})
-	const [property, setProperty] = useState({})
 
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
@@ -23,32 +22,24 @@ const edit = (props) => {
 		// Set page
 		props.setPage({
 			name: "Edit Unit",
-			path: ["properties", "edit"],
+			path: ["units", "edit"],
 		})
 
 		// Fetch Unit
-		Axios.get(`api/units/${id}`).then((res) => {
-			// Set page
-			props.setPage({
-				name: "Edit Unit",
-				path: [
-					"properties",
-					`properties/${res.data.data.propertyId}/show`,
-					"edit",
-				],
+		Axios.get(`api/units/${id}`)
+			.then((res) => {
+				setUnit(res.data.data)
+				setType(res.data.data.type)
 			})
-
-			setUnit(res.data.data)
-			// Fetch Property
-			props.get(`properties/${res.data.data.propertyId}`, setProperty)
-		})
+			.catch((err) => props.getErrors(err))
 	}, [])
-
-	const apartments = ["apartment", "shop", "office"]
 
 	const getDeposit = (e) => {
 		var rent = e.target.value
-		var formula = property.depositFormula
+		var formula = props.properties.find(
+			(property) => property == unit.propertyId
+		).depositFormula
+
 		// Evaluate the formula
 		return eval(formula?.replace("r", rent))
 	}
@@ -125,15 +116,18 @@ const edit = (props) => {
 						name="type"
 						placeholder="Location"
 						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setType(e.target.value)}>
-						{apartments.map((apartment, key) => (
-							<option
-								key={key}
-								value={apartment}
-								selected={unit.type == apartment}>
-								{apartment}
-							</option>
-						))}
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						{[{ id: "", name: "Select Type" }]
+							.concat(props.apartmentTypes)
+							.map((type, key) => (
+								<option
+									key={key}
+									value={type.id}
+									selected={type.id == unit.type}>
+									{type.name}
+								</option>
+							))}
 					</select>
 
 					{type == "apartment" ? (
@@ -142,8 +136,10 @@ const edit = (props) => {
 							<label htmlFor="">Bedrooms</label>
 							<input
 								type="number"
+								name="bedroom"
 								placeholder="2"
 								min="0"
+								defaultValue={unit.bedrooms}
 								className="form-control mb-2 me-2"
 								onChange={(e) => setBedrooms(e.target.value)}
 								required={true}
@@ -157,6 +153,7 @@ const edit = (props) => {
 							<div className="d-flex justify-content-between mb-2">
 								<input
 									type="number"
+									name="size"
 									placeholder="243"
 									className="form-control me-2"
 									defaultValue={unit.size?.value}
@@ -168,6 +165,7 @@ const edit = (props) => {
 
 								<select
 									type="number"
+									name="size"
 									className="form-control"
 									onChange={(e) =>
 										setSize({ value: size.value, unit: e.target.value })
@@ -175,12 +173,14 @@ const edit = (props) => {
 									required={true}>
 									<option value="">Select Unit</option>
 									<option
-										value="meters_squared"
+										value="m&sup2;"
+										defaultValue={unit.size?.value}
 										selected={unit.size?.unit == "meters_squared"}>
 										m&sup2;
 									</option>
 									<option
-										value="square_feet"
+										value="ft&sup2;"
+										defaultValue={unit.size?.value}
 										selected={unit.size?.unit == "square_feet"}>
 										ft&sup2;
 									</option>
@@ -199,9 +199,9 @@ const edit = (props) => {
 
 					<center>
 						<MyLink
-							linkTo={`/properties/${unit.propertyId}/show`}
+							linkTo={`/units`}
 							icon={<BackSVG />}
-							text="back to property"
+							text="back to units"
 						/>
 					</center>
 

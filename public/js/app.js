@@ -80853,6 +80853,15 @@ function App() {
     }
   };
 
+  // Function for checking non array local storage
+  var getNormalLocalStorage = function getNormalLocalStorage(state) {
+    if (typeof window !== "undefined" && localStorage.getItem(state)) {
+      return localStorage.getItem(state);
+    } else {
+      return "";
+    }
+  };
+
   // Function for checking local storage
   var getLocalStorageAuth = function getLocalStorageAuth(state) {
     if (typeof window !== "undefined" && localStorage.getItem(state)) {
@@ -80905,29 +80914,41 @@ function App() {
     _useState14 = _slicedToArray(_useState13, 2),
     properties = _useState14[0],
     setProperties = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(getNormalLocalStorage("selectedPropertyId") ? getNormalLocalStorage("selectedPropertyId") : auth.propertyIds),
+    _useState16 = _slicedToArray(_useState15, 2),
+    selectedPropertyId = _useState16[0],
+    setSelectedPropertyId = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
       name: "/",
       path: []
     }),
-    _useState16 = _slicedToArray(_useState15, 2),
-    page = _useState16[0],
-    setPage = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    showPayMenu = _useState18[0],
-    setShowPayMenu = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    page = _useState18[0],
+    setPage = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState20 = _slicedToArray(_useState19, 2),
-    paymentTitle = _useState20[0],
-    setPaymentTitle = _useState20[1];
+    showPayMenu = _useState20[0],
+    setShowPayMenu = _useState20[1];
   var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState22 = _slicedToArray(_useState21, 2),
-    paymentDescription = _useState22[0],
-    setPaymentDescription = _useState22[1];
+    paymentTitle = _useState22[0],
+    setPaymentTitle = _useState22[1];
   var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState24 = _slicedToArray(_useState23, 2),
-    paymentAmount = _useState24[0],
-    setPaymentAmount = _useState24[1];
+    paymentDescription = _useState24[0],
+    setPaymentDescription = _useState24[1];
+  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState26 = _slicedToArray(_useState25, 2),
+    paymentAmount = _useState26[0],
+    setPaymentAmount = _useState26[1];
+  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState28 = _slicedToArray(_useState27, 2),
+    downloadLink = _useState28[0],
+    setDownloadLink = _useState28[1];
+  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState30 = _slicedToArray(_useState29, 2),
+    downloadLinkText = _useState30[0],
+    setDownloadLinkText = _useState30[1];
 
   // Function for fetching data from API
   var get = function get(endpoint, setState) {
@@ -80978,7 +80999,7 @@ function App() {
     return get("auth", setAuth, "auth", false);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    get("properties/by-user-id/".concat(auth.id), setProperties, "properties");
+    get("properties?idAndName=true&propertyId=".concat(auth.propertyIds), setProperties, "properties");
   }, [auth]);
 
   /*
@@ -80992,57 +81013,16 @@ function App() {
   for (var i = currentYear; i > 2009; i--) {
     years.push(i);
   }
-
-  /*
-   *
-   * Register service worker */
-  if (window.location.href.match(/https/)) {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/sw.js");
-        // .then((reg) => console.log('Service worker registered', reg))
-        // .catch((err) => console.log('Service worker not registered', err));
-      });
-    }
-  }
-
-  /*
-   *
-   * PWA Install button */
-  var deferredPrompt;
-  var btnAdd = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
-  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState26 = _slicedToArray(_useState25, 2),
-    downloadLink = _useState26[0],
-    setDownloadLink = _useState26[1];
-  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState28 = _slicedToArray(_useState27, 2),
-    downloadLinkText = _useState28[0],
-    setDownloadLinkText = _useState28[1];
-
-  // Listen to the install prompt
-  window.addEventListener("beforeinstallprompt", function (e) {
-    deferredPrompt = e;
-
-    // Show the button
-    setDownloadLink(true);
-
-    // Action when button is clicked
-    btnAdd.current.addEventListener("click", function (e) {
-      // Show install banner
-      deferredPrompt.prompt();
-      // Check if the user accepted
-      deferredPrompt.userChoice.then(function (choiceResult) {
-        if (choiceResult.outcome === "accepted") {
-          setDownloadLinkText("User accepted");
-        }
-        deferredPrompt = null;
-      });
-      window.addEventListener("appinstalled", function (evt) {
-        setDownloadLinkText("Installed");
-      });
-    });
-  });
+  var apartmentTypes = [{
+    id: "apartment",
+    name: "Apartment"
+  }, {
+    id: "shop",
+    name: "Shop"
+  }, {
+    id: "office",
+    name: "Office"
+  }];
   var GLOBAL_STATE = {
     getLocalStorage: getLocalStorage,
     setLocalStorage: setLocalStorage,
@@ -81065,8 +81045,16 @@ function App() {
     setAdminMenu: setAdminMenu,
     properties: properties,
     setProperties: setProperties,
+    selectedPropertyId: selectedPropertyId,
+    setSelectedPropertyId: setSelectedPropertyId,
     page: page,
     setPage: setPage,
+    // PWA
+    downloadLink: downloadLink,
+    setDownloadLink: setDownloadLink,
+    downloadLinkText: downloadLinkText,
+    setDownloadLinkText: setDownloadLinkText,
+    // Payment
     showPayMenu: showPayMenu,
     setShowPayMenu: setShowPayMenu,
     paymentTitle: paymentTitle,
@@ -81080,16 +81068,12 @@ function App() {
     currentYear: currentYear,
     previousMonth: previousMonth,
     months: months,
-    years: years
+    years: years,
+    apartmentTypes: apartmentTypes
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_functions_ScrollToTop__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_LoginPopUp__WEBPACK_IMPORTED_MODULE_4__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Core_RouteList__WEBPACK_IMPORTED_MODULE_8__["default"], {
     GLOBAL_STATE: GLOBAL_STATE
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_Footer__WEBPACK_IMPORTED_MODULE_5__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Messages__WEBPACK_IMPORTED_MODULE_6__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Payments_PaymentMenu__WEBPACK_IMPORTED_MODULE_7__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    ref: btnAdd,
-    style: {
-      display: "none"
-    }
-  }, "test"));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_Footer__WEBPACK_IMPORTED_MODULE_5__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Messages__WEBPACK_IMPORTED_MODULE_6__["default"], GLOBAL_STATE), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Payments_PaymentMenu__WEBPACK_IMPORTED_MODULE_7__["default"], GLOBAL_STATE));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
 if (document.getElementById("app")) {
@@ -81988,7 +81972,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/units",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_index__WEBPACK_IMPORTED_MODULE_10__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/units/:id/create",
+    path: "/admin/units/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_create__WEBPACK_IMPORTED_MODULE_11__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/units/:id/show",
@@ -82729,6 +82713,23 @@ var AdminMenu = function AdminMenu(props) {
     to: "/admin",
     className: "text-white"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-25"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control mt-2",
+    onChange: function onChange(e) {
+      localStorage.setItem("selectedPropertyId", e.target.value);
+      props.setSelectedPropertyId(e.target.value);
+    }
+  }, [{
+    id: props.auth.propertyIds,
+    name: "All"
+  }].concat(props.properties).map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: property.id,
+      selected: property.id == props.selectedPropertyId
+    }, property.name);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "menu-content-area d-flex align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "header-social-area d-flex align-items-center"
@@ -82970,6 +82971,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/InvoiceSVG */ "./resources/js/svgs/InvoiceSVG.js");
 /* harmony import */ var _svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/WaterReadingSVG */ "./resources/js/svgs/WaterReadingSVG.js");
 /* harmony import */ var _svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/CreditNoteSVG */ "./resources/js/svgs/CreditNoteSVG.js");
+/* harmony import */ var _svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/UnitSVG */ "./resources/js/svgs/UnitSVG.js");
+/* harmony import */ var _svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/TenantSVG */ "./resources/js/svgs/TenantSVG.js");
+
+
 
 
 
@@ -83009,12 +83014,30 @@ var AdminNavLinks = function AdminNavLinks(props) {
     className: "nav-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/properties",
-    className: "nav-link ".concat(active("/admin/properties") || active("/admin/units"))
+    className: "nav-link ".concat(active("/admin/properties"))
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-link-icon"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_4__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-link-text"
   }, "Properties"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "nav-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/admin/units",
+    className: "nav-link ".concat(active("/admin/units"))
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-text"
+  }, "Units"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "nav-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/admin/tenants",
+    className: "nav-link ".concat(active("/admin/tenants"))
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-text"
+  }, "Tenants"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "nav-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/water-readings",
@@ -83060,6 +83083,15 @@ var AdminNavLinks = function AdminNavLinks(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WalletSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-link-text"
   }, "Wallet"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "nav-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/admin/staff",
+    className: "nav-link ".concat(active("/admin/staff"))
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "nav-link-text"
+  }, "Staff"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "nav-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/admin/roles",
@@ -84066,13 +84098,22 @@ var TenantList = function TenantList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-grow-1 me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: "",
     type: "text",
     name: "name",
     placeholder: "Search by Name",
     className: "form-control",
     onChange: function onChange(e) {
       return props.setNameQuery(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "phone",
+    placeholder: "Search by Phone",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setPhoneQuery(e.target.value);
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
@@ -84155,29 +84196,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var UnitList = function UnitList(props) {
-  var _props$units$data;
-  var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
-
-  /*
-   * Delete Unit
-   */
-  var onDeleteUnit = function onDeleteUnit(unitId) {
-    Axios["delete"]("/api/units/".concat(unitId)).then(function (res) {
-      props.setMessages([res.data.message]);
-      // Remove row
-      props.setUnits({
-        meta: props.units.meta,
-        links: props.units.links,
-        data: props.units.data.filter(function (unit) {
-          return unit.id != unitId;
-        })
-      });
-      // Update Property
-      props.get("properties/".concat(props.propertyId), props.setProperty);
-    })["catch"](function (err) {
-      return props.getErrors(err);
-    });
-  };
+  var _props$units$meta, _props$units$data;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84188,22 +84207,78 @@ var UnitList = function UnitList(props) {
     className: "d-flex justify-content-between w-100 align-items-center mx-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Total Units",
-    data: props.totalUnits
+    data: (_props$units$meta = props.units.meta) === null || _props$units$meta === void 0 ? void 0 : _props$units$meta.total
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "",
+    type: "text",
+    name: "name",
+    placeholder: "Search by Name",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setNameQuery(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    placeholder: "Search by Type",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setTypeQuery(e.target.value);
+    }
+  }, [{
+    id: "",
+    name: "Select Type"
+  }].concat(props.apartmentTypes).map(function (type, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: type.id
+    }, type.name);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    placeholder: "Search by Type",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setStatusQuery(e.target.value);
+    }
+  }, [{
+    id: "",
+    name: "Select Status"
+  }, {
+    id: "vacant",
+    name: "Vacant"
+  }, {
+    id: "occupied",
+    name: "Occupied"
+  }].map(function (status, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: status.id
+    }, status.name);
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "6"
+    colSpan: "7"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    linkTo: "/units/".concat(props.propertyId, "/create"),
+    linkTo: "/units/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "add unit"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Size"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_props$units$data = props.units.data) === null || _props$units$data === void 0 ? void 0 : _props$units$data.map(function (unit, key) {
+    var _unit$bedrooms, _unit$size, _unit$size2;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.units)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -84212,21 +84287,21 @@ var UnitList = function UnitList(props) {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
-    }, unit.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.tenantId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, unit.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-capitalize"
+    }, (_unit$bedrooms = unit.bedrooms) !== null && _unit$bedrooms !== void 0 ? _unit$bedrooms : "".concat((_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value, " ").concat((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.tenantId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "bg-success-subtle p-1"
     }, unit.tenantName) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "bg-warning-subtle p-1"
     }, "Vacant")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
+      className: "d-flex justify-content-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/units/".concat(unit.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
       // text="view"
       ,
       className: "me-1"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/units/".concat(unit.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)
       // text="edit"
@@ -84236,7 +84311,7 @@ var UnitList = function UnitList(props) {
       index: "unit".concat(key),
       model: unit,
       modelName: "Unit",
-      onDelete: onDeleteUnit
+      onDelete: props.onDeleteUnit
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_6__["default"], {
     list: props.units,
@@ -85137,47 +85212,33 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var index = function index(props) {
-  var _props$auth$propertyI, _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _dashboardProperties$2, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units9, _payments$data, _staff$data;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((_props$auth$propertyI = props.auth.propertyIds) !== null && _props$auth$propertyI !== void 0 && _props$auth$propertyI.length ? props.auth.propertyIds : [0]),
+  var _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units9, _payments$data, _staff$data;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboard")),
     _useState2 = _slicedToArray(_useState, 2),
-    propertyId = _useState2[0],
-    setPropertyId = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboard")),
+    dashboard = _useState2[0],
+    setDashboard = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboardProperties")),
     _useState4 = _slicedToArray(_useState3, 2),
-    dashboard = _useState4[0],
-    setDashboard = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboardProperties")),
+    dashboardProperties = _useState4[0],
+    setDashboardProperties = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState6 = _slicedToArray(_useState5, 2),
-    dashboardProperties = _useState6[0],
-    setDashboardProperties = _useState6[1];
+    staff = _useState6[0],
+    setStaff = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState8 = _slicedToArray(_useState7, 2),
-    staff = _useState8[0],
-    setStaff = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState10 = _slicedToArray(_useState9, 2),
-    payments = _useState10[0],
-    setPayments = _useState10[1];
+    payments = _useState8[0],
+    setPayments = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var _props$auth$propertyI2;
+    var _props$auth$propertyI;
     // Set page
     props.setPage({
       name: "Dashboard",
       path: ["/dashboard"]
     });
 
-    // Fetch Dashboard
-    Axios.get("api/dashboard/".concat(propertyId)).then(function (res) {
-      // Reset Data
-      setDashboard([]);
-      setDashboard(res.data.data);
-      props.setLocalStorage("dashboard", res.data.data);
-    })["catch"](function () {
-      return props.setErrors(["Failed to fetch Dashboard"]);
-    });
-
     // Fetch Dashboard Properties
-    Axios.get("api/dashboard/properties/".concat((_props$auth$propertyI2 = props.auth.propertyIds) !== null && _props$auth$propertyI2 !== void 0 && _props$auth$propertyI2.length ? props.auth.propertyIds : [0])).then(function (res) {
+    Axios.get("api/dashboard/properties/".concat((_props$auth$propertyI = props.auth.propertyIds) !== null && _props$auth$propertyI !== void 0 && _props$auth$propertyI.length ? props.auth.propertyIds : [0])).then(function (res) {
       // Reset Data
       setDashboardProperties([]);
       setDashboardProperties(res.data.data);
@@ -85186,11 +85247,24 @@ var index = function index(props) {
       return props.getErrors(["Failed to fetch Dashboard Properties"]);
     });
 
-    // Fetch Payments
-    props.getPaginated("payments/by-property-id/".concat(propertyId), setPayments);
-    // Fetch Staff
-    props.getPaginated("staff/by-property-id/".concat(propertyId), setStaff);
-  }, [propertyId]);
+    // Fetch Dashboard
+    if (props.selectedPropertyId) {
+      Axios.get("api/dashboard/".concat(props.selectedPropertyId)).then(function (res) {
+        // Reset Data
+        setDashboard([]);
+        setDashboard(res.data.data);
+        props.setLocalStorage("dashboard", res.data.data);
+      })["catch"](function () {
+        return props.setErrors(["Failed to fetch Dashboard"]);
+      });
+
+      // Fetch Payments
+      props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId), setPayments);
+
+      // Fetch Staff
+      props.getPaginated("staff?propertyId=".concat(props.selectedPropertyId), setStaff);
+    }
+  }, [props.selectedPropertyId]);
 
   /*
    * Graph Data
@@ -85302,25 +85376,6 @@ var index = function index(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-6"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-6"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control mb-2",
-    onChange: function onChange(e) {
-      return setPropertyId(e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: props.auth.propertyIds,
-    selected: propertyId == props.auth.propertyIds
-  }, "All"), (_dashboardProperties$ = dashboardProperties.ids) === null || _dashboardProperties$ === void 0 ? void 0 : _dashboardProperties$.map(function (id, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: id,
-      selected: propertyId == id
-    }, dashboardProperties.names[key]);
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-3 pe-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "my-2"
@@ -85335,7 +85390,7 @@ var index = function index(props) {
     className: "doughnutSize1"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
     className: "mb-3"
-  }, "Total Units:", " ", (_dashboardProperties$2 = dashboardProperties.units) === null || _dashboardProperties$2 === void 0 ? void 0 : _dashboardProperties$2.reduce(function (unitCount, acc) {
+  }, "Total Units:", " ", (_dashboardProperties$ = dashboardProperties.units) === null || _dashboardProperties$ === void 0 ? void 0 : _dashboardProperties$.reduce(function (unitCount, acc) {
     return unitCount + acc;
   }, 0))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-3 pe-1"
@@ -89099,21 +89154,49 @@ var index = function index(props) {
     _useState2 = _slicedToArray(_useState, 2),
     tenants = _useState2[0],
     setTenants = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    nameQuery = _useState4[0],
+    setNameQuery = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    phoneQuery = _useState6[0],
+    setPhoneQuery = _useState6[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Tenants",
       path: ["tenants"]
     });
-    props.getPaginated("tenants", setTenants);
-  }, []);
+    props.getPaginated("tenants/by-property-id/".concat(props.selectedPropertyId, "?\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
+  }, [props.selectedPropertyId, nameQuery, phoneQuery]);
+
+  /*
+   * Delete Tenant
+   */
+  var onDeleteTenant = function onDeleteTenant(tenantId) {
+    Axios["delete"]("/api/tenants/".concat(tenantId)).then(function (res) {
+      props.setMessages([res.data.message]);
+      // Remove row
+      setUnits({
+        meta: tenants.meta,
+        links: tenants.links,
+        data: tenants.data.filter(function (tenant) {
+          return tenant.id != tenantId;
+        })
+      });
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Tenants_TenantList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     tenants: tenants,
-    setTenants: setTenants
+    setTenants: setTenants,
+    onDeleteTenant: onDeleteTenant
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -89218,15 +89301,11 @@ var show = function show(props) {
     // Set page
     props.setPage({
       name: "View Unit",
-      path: ["properties", "view"]
+      path: ["units", "view"]
     });
     // Fetch Units
     Axios.get("api/units/".concat(id)).then(function (res) {
       setUnit(res.data.data);
-      props.setPage({
-        name: "View Unit",
-        path: ["properties", "properties/".concat(res.data.data.propertyId, "/show"), "view"]
-      });
     });
     // Fetch Tenants
     props.getPaginated("tenants/by-unit-id/".concat(id), setTenants);
@@ -89543,36 +89622,34 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var create = function create(props) {
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
-  var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
-    id = _useParams.id;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState2 = _slicedToArray(_useState, 2),
-    property = _useState2[0],
-    setProperty = _useState2[1];
+    name = _useState2[0],
+    setName = _useState2[1];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState4 = _slicedToArray(_useState3, 2),
-    name = _useState4[0],
-    setName = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    rent = _useState4[0],
+    setRent = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
-    rent = _useState6[0],
-    setRent = _useState6[1];
+    deposit = _useState6[0],
+    setDeposit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    deposit = _useState8[0],
-    setDeposit = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("apartment"),
+    type = _useState8[0],
+    setType = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState10 = _slicedToArray(_useState9, 2),
-    type = _useState10[0],
-    setType = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    bedrooms = _useState10[0],
+    setBedrooms = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState12 = _slicedToArray(_useState11, 2),
-    bedrooms = _useState12[0],
-    setBedrooms = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    size = _useState12[0],
+    setSize = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState14 = _slicedToArray(_useState13, 2),
-    size = _useState14[0],
-    setSize = _useState14[1];
+    propertyId = _useState14[0],
+    setPropertyId = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
     loading = _useState16[0],
@@ -89583,15 +89660,15 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Add Unit",
-      path: ["units", "properties/".concat(id, "/show"), "create"]
+      path: ["units", "create"]
     });
-    // Fetch Property
-    props.get("properties/".concat(id), setProperty);
   }, []);
-  var apartments = ["apartment", "shop", "office"];
   var getDeposit = function getDeposit(e) {
     var rent = e.target.value;
-    var formula = property.depositFormula;
+    var formula = props.properties.find(function (property) {
+      return property == propertyId;
+    }).depositFormula;
+
     // Evaluate the formula
     return eval(formula === null || formula === void 0 ? void 0 : formula.replace("r", rent));
   };
@@ -89603,20 +89680,20 @@ var create = function create(props) {
     e.preventDefault();
     setLoading(true);
     Axios.post("/api/units", {
-      propertyId: id,
       name: name,
       rent: rent,
       deposit: deposit.toString(),
       type: type,
       bedrooms: bedrooms,
-      size: size
+      size: size,
+      propertyId: propertyId
     }).then(function (res) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
       // Redirect to Units
       setTimeout(function () {
-        return history.push("/admin/properties/".concat(id, "/show"));
+        return history.push("/admin/units");
       }, 500);
     })["catch"](function (err) {
       setLoading(false);
@@ -89676,11 +89753,14 @@ var create = function create(props) {
       return setType(e.target.value);
     },
     required: true
-  }, apartments.map(function (apartment, key) {
+  }, [{
+    id: "",
+    name: "Select Type"
+  }].concat(props.apartmentTypes).map(function (type, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: apartment
-    }, apartment);
+      value: type.id
+    }, type.name);
   })), type == "apartment" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -89720,10 +89800,29 @@ var create = function create(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
   }, "Select Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "meters_squared"
+    value: "m\xB2"
   }, "m\xB2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "square_feet"
-  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    value: "ft\xB2"
+  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    name: "type",
+    placeholder: "Location",
+    className: "form-control text-capitalize mb-2 me-2",
+    onChange: function onChange(e) {
+      return setPropertyId(e.target.value);
+    },
+    required: true
+  }, [{
+    id: "",
+    name: "Select Property"
+  }].concat(props.properties).map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: property.id
+    }, property.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add unit",
@@ -89731,7 +89830,7 @@ var create = function create(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/properties/".concat(id, "/show"),
+    linkTo: "/units",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
     text: "back to units"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -89770,68 +89869,62 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _unit$rent, _unit$size, _unit$size2, _unit$size3;
+  var _unit$rent, _unit$size, _unit$size2, _unit$size3, _unit$size4, _unit$size5;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState2 = _slicedToArray(_useState, 2),
     unit = _useState2[0],
     setUnit = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState4 = _slicedToArray(_useState3, 2),
-    property = _useState4[0],
-    setProperty = _useState4[1];
+    name = _useState4[0],
+    setName = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState6 = _slicedToArray(_useState5, 2),
-    name = _useState6[0],
-    setName = _useState6[1];
+    rent = _useState6[0],
+    setRent = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState8 = _slicedToArray(_useState7, 2),
-    rent = _useState8[0],
-    setRent = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    deposit = _useState8[0],
+    setDeposit = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(unit.type),
     _useState10 = _slicedToArray(_useState9, 2),
-    deposit = _useState10[0],
-    setDeposit = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(unit.type),
+    type = _useState10[0],
+    setType = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState12 = _slicedToArray(_useState11, 2),
-    type = _useState12[0],
-    setType = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    bedrooms = _useState12[0],
+    setBedrooms = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState14 = _slicedToArray(_useState13, 2),
-    bedrooms = _useState14[0],
-    setBedrooms = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    size = _useState14[0],
+    setSize = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    size = _useState16[0],
-    setSize = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
+    loading = _useState16[0],
+    setLoading = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Edit Unit",
-      path: ["properties", "edit"]
+      path: ["units", "edit"]
     });
 
     // Fetch Unit
     Axios.get("api/units/".concat(id)).then(function (res) {
-      // Set page
-      props.setPage({
-        name: "Edit Unit",
-        path: ["properties", "properties/".concat(res.data.data.propertyId, "/show"), "edit"]
-      });
       setUnit(res.data.data);
-      // Fetch Property
-      props.get("properties/".concat(res.data.data.propertyId), setProperty);
+      setType(res.data.data.type);
+    })["catch"](function (err) {
+      return props.getErrors(err);
     });
   }, []);
-  var apartments = ["apartment", "shop", "office"];
   var getDeposit = function getDeposit(e) {
     var rent = e.target.value;
-    var formula = property.depositFormula;
+    var formula = props.properties.find(function (property) {
+      return property == unit.propertyId;
+    }).depositFormula;
+
     // Evaluate the formula
     return eval(formula === null || formula === void 0 ? void 0 : formula.replace("r", rent));
   };
@@ -89910,19 +90003,25 @@ var edit = function edit(props) {
     className: "form-control text-capitalize mb-2 me-2",
     onChange: function onChange(e) {
       return setType(e.target.value);
-    }
-  }, apartments.map(function (apartment, key) {
+    },
+    required: true
+  }, [{
+    id: "",
+    name: "Select Type"
+  }].concat(props.apartmentTypes).map(function (type, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: apartment,
-      selected: unit.type == apartment
-    }, apartment);
+      value: type.id,
+      selected: type.id == unit.type
+    }, type.name);
   })), type == "apartment" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Bedrooms"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
+    name: "bedroom",
     placeholder: "2",
     min: "0",
+    defaultValue: unit.bedrooms,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setBedrooms(e.target.value);
@@ -89934,6 +90033,7 @@ var edit = function edit(props) {
     className: "d-flex justify-content-between mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
+    name: "size",
     placeholder: "243",
     className: "form-control me-2",
     defaultValue: (_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value,
@@ -89946,6 +90046,7 @@ var edit = function edit(props) {
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     type: "number",
+    name: "size",
     className: "form-control",
     onChange: function onChange(e) {
       return setSize({
@@ -89957,20 +90058,22 @@ var edit = function edit(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
   }, "Select Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "meters_squared",
-    selected: ((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit) == "meters_squared"
+    value: "m\xB2",
+    defaultValue: (_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.value,
+    selected: ((_unit$size3 = unit.size) === null || _unit$size3 === void 0 ? void 0 : _unit$size3.unit) == "meters_squared"
   }, "m\xB2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "square_feet",
-    selected: ((_unit$size3 = unit.size) === null || _unit$size3 === void 0 ? void 0 : _unit$size3.unit) == "square_feet"
+    value: "ft\xB2",
+    defaultValue: (_unit$size4 = unit.size) === null || _unit$size4 === void 0 ? void 0 : _unit$size4.value,
+    selected: ((_unit$size5 = unit.size) === null || _unit$size5 === void 0 ? void 0 : _unit$size5.unit) == "square_feet"
   }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update",
     loading: loading
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/properties/".concat(unit.propertyId, "/show"),
+    linkTo: "/units",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
-    text: "back to property"
+    text: "back to units"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }))));
@@ -90006,21 +90109,56 @@ var index = function index(props) {
     _useState2 = _slicedToArray(_useState, 2),
     units = _useState2[0],
     setUnits = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    nameQuery = _useState4[0],
+    setNameQuery = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    typeQuery = _useState6[0],
+    setTypeQuery = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    statusQuery = _useState8[0],
+    setStatusQuery = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Units",
       path: ["units"]
     });
-    props.getPaginated("units", setUnits);
-  }, []);
+    props.getPaginated("units?\n\t\t\tpropertyId=".concat(props.selectedPropertyId, "& \n\t\t\tname=").concat(nameQuery, "&\n\t\t\ttype=").concat(typeQuery, "& \n\t\t\tstatus=").concat(statusQuery), setUnits);
+  }, [props.selectedPropertyId, nameQuery, typeQuery, statusQuery]);
+
+  /*
+   * Delete Unit
+   */
+  var onDeleteUnit = function onDeleteUnit(unitId) {
+    Axios["delete"]("/api/units/".concat(unitId)).then(function (res) {
+      props.setMessages([res.data.message]);
+      // Remove row
+      setUnits({
+        meta: units.meta,
+        links: units.links,
+        data: units.data.filter(function (unit) {
+          return unit.id != unitId;
+        })
+      });
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     units: units,
-    setUnits: setUnits
+    setUnits: setUnits,
+    setNameQuery: setNameQuery,
+    setTypeQuery: setTypeQuery,
+    setStatusQuery: setStatusQuery,
+    onDeleteUnit: onDeleteUnit
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);

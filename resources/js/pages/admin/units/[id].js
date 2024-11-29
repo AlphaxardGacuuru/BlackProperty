@@ -34,18 +34,10 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Unit", path: ["properties", "view"] })
+		props.setPage({ name: "View Unit", path: ["units", "view"] })
 		// Fetch Units
 		Axios.get(`api/units/${id}`).then((res) => {
 			setUnit(res.data.data)
-			props.setPage({
-				name: "View Unit",
-				path: [
-					"properties",
-					`properties/${res.data.data.propertyId}/show`,
-					"view",
-				],
-			})
 		})
 		// Fetch Tenants
 		props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)

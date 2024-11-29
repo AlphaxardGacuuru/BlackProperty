@@ -59,7 +59,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <Socialite {...GLOBAL_STATE} />,
 		},
 	]
-	
+
 	const routes = [
 		{
 			path: "/",
@@ -98,7 +98,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminUnits {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/units/:id/create",
+			path: "/admin/units/create",
 			component: <AdminUnitCreate {...GLOBAL_STATE} />,
 		},
 		{
@@ -206,16 +206,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	return (
 		<React.Fragment>
-				{/* Auth routes */}
-				{authRoutes.map((route, key) => (
-					<Route
-						key={key}
-						path={route.path}
-						exact
-						render={() => route.component}
-					/>
-				))}
-				{/* Landing Page routes End */}
+			{/* Auth routes */}
+			{authRoutes.map((route, key) => (
+				<Route
+					key={key}
+					path={route.path}
+					exact
+					render={() => route.component}
+				/>
+			))}
+			{/* Landing Page routes End */}
 
 			<Header {...GLOBAL_STATE}>
 				{/* Landing Page routes */}

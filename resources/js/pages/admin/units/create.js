@@ -10,16 +10,14 @@ import BackSVG from "@/svgs/BackSVG"
 
 const create = (props) => {
 	var history = useHistory()
-	var { id } = useParams()
-
-	const [property, setProperty] = useState({})
 
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
 	const [deposit, setDeposit] = useState("")
-	const [type, setType] = useState("apartment")
+	const [type, setType] = useState("")
 	const [bedrooms, setBedrooms] = useState()
 	const [size, setSize] = useState({})
+	const [propertyId, setPropertyId] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Units
@@ -27,17 +25,16 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Unit",
-			path: ["units", `properties/${id}/show`, "create"],
+			path: ["units", "create"],
 		})
-		// Fetch Property
-		props.get(`properties/${id}`, setProperty)
 	}, [])
-
-	const apartments = ["apartment", "shop", "office"]
 
 	const getDeposit = (e) => {
 		var rent = e.target.value
-		var formula = property.depositFormula
+		var formula = props.properties.find(
+			(property) => property == propertyId
+		).depositFormula
+
 		// Evaluate the formula
 		return eval(formula?.replace("r", rent))
 	}
@@ -50,20 +47,20 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/units", {
-			propertyId: id,
 			name: name,
 			rent: rent,
 			deposit: deposit.toString(),
 			type: type,
 			bedrooms: bedrooms,
-			size: size
+			size: size,
+			propertyId: propertyId,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Units
-				setTimeout(() => history.push(`/admin/properties/${id}/show`), 500)
+				setTimeout(() => history.push(`/admin/units`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -118,13 +115,15 @@ const create = (props) => {
 						className="form-control text-capitalize mb-2 me-2"
 						onChange={(e) => setType(e.target.value)}
 						required={true}>
-						{apartments.map((apartment, key) => (
-							<option
-								key={key}
-								value={apartment}>
-								{apartment}
-							</option>
-						))}
+						{[{ id: "", name: "Select Type" }]
+							.concat(props.apartmentTypes)
+							.map((type, key) => (
+								<option
+									key={key}
+									value={type.id}>
+									{type.name}
+								</option>
+							))}
 					</select>
 
 					{type == "apartment" ? (
@@ -164,13 +163,32 @@ const create = (props) => {
 									}
 									required={true}>
 									<option value="">Select Unit</option>
-									<option value="meters_squared">m&sup2;</option>
-									<option value="square_feet">ft&sup2;</option>
+									<option value="m&sup2;">m&sup2;</option>
+									<option value="ft&sup2;">ft&sup2;</option>
 								</select>
 							</div>
 							{/* Size End */}
 						</React.Fragment>
 					)}
+
+					<label htmlFor="">Property</label>
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						{[{ id: "", name: "Select Property" }]
+							.concat(props.properties)
+							.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}>
+									{property.name}
+								</option>
+							))}
+					</select>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
@@ -181,7 +199,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center">
 						<MyLink
-							linkTo={`/properties/${id}/show`}
+							linkTo={`/units`}
 							icon={<BackSVG />}
 							text="back to units"
 						/>

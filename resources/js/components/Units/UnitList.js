@@ -14,27 +14,6 @@ import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 
 const UnitList = (props) => {
-	const location = useLocation()
-
-	/*
-	 * Delete Unit
-	 */
-	const onDeleteUnit = (unitId) => {
-		Axios.delete(`/api/units/${unitId}`)
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Remove row
-				props.setUnits({
-					meta: props.units.meta,
-					links: props.units.links,
-					data: props.units.data.filter((unit) => unit.id != unitId),
-				})
-				// Update Property
-				props.get(`properties/${props.propertyId}`, props.setProperty)
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
 	return (
 		<div className={props.activeTab}>
 			{/* Data */}
@@ -44,7 +23,7 @@ const UnitList = (props) => {
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<HeroHeading
 							heading="Total Units"
-							data={props.totalUnits}
+							data={props.units.meta?.total}
 						/>
 						<HeroIcon>
 							<UnitSVG />
@@ -57,15 +36,76 @@ const UnitList = (props) => {
 
 			<br />
 
+			{/* Filters */}
+			<div className="card shadow-sm p-4">
+				<div className="d-flex flex-wrap">
+					{/* Name */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							id=""
+							type="text"
+							name="name"
+							placeholder="Search by Name"
+							className="form-control"
+							onChange={(e) => props.setNameQuery(e.target.value)}
+						/>
+					</div>
+					{/* Name End */}
+					{/* Type */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							type="text"
+							placeholder="Search by Type"
+							className="form-control"
+							onChange={(e) => props.setTypeQuery(e.target.value)}>
+							{[{ id: "", name: "Select Type" }]
+								.concat(props.apartmentTypes)
+								.map((type, key) => (
+									<option
+										key={key}
+										value={type.id}>
+										{type.name}
+									</option>
+								))}
+						</select>
+					</div>
+					{/* Type End */}
+					{/* Status */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<select
+							type="text"
+							placeholder="Search by Type"
+							className="form-control"
+							onChange={(e) => props.setStatusQuery(e.target.value)}>
+							{[
+								{ id: "", name: "Select Status" },
+								{ id: "vacant", name: "Vacant" },
+								{ id: "occupied", name: "Occupied" },
+							].map((status, key) => (
+								<option
+									key={key}
+									value={status.id}>
+									{status.name}
+								</option>
+							))}
+						</select>
+					</div>
+					{/* Status End */}
+				</div>
+			</div>
+			{/* Filters End */}
+
+			<br />
+
 			{/* Table */}
 			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="6"></th>
+							<th colSpan="7"></th>
 							<th className="text-end">
 								<MyLink
-									linkTo={`/units/${props.propertyId}/create`}
+									linkTo={`/units/create`}
 									icon={<PlusSVG />}
 									text="add unit"
 								/>
@@ -77,6 +117,7 @@ const UnitList = (props) => {
 							<th>Rent</th>
 							<th>Deposit</th>
 							<th>Type</th>
+							<th>Size</th>
 							<th>Current Tenant</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -91,6 +132,9 @@ const UnitList = (props) => {
 									<small>KES</small> {unit.deposit}
 								</td>
 								<td className="text-capitalize">{unit.type}</td>
+								<td className="text-capitalize">
+									{unit.bedrooms ?? `${unit.size?.value} ${unit.size?.unit}`}
+								</td>
 								<td>
 									{unit.tenantId ? (
 										<span className="bg-success-subtle p-1">
@@ -101,15 +145,13 @@ const UnitList = (props) => {
 									)}
 								</td>
 								<td>
-									<div className="d-flex justify-content-end">
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/units/${unit.id}/show`}
-												icon={<ViewSVG />}
-												// text="view"
-												className="me-1"
-											/>
-										</div>
+									<div className="d-flex justify-content-center">
+										<MyLink
+											linkTo={`/units/${unit.id}/show`}
+											icon={<ViewSVG />}
+											// text="view"
+											className="me-1"
+										/>
 
 										<MyLink
 											linkTo={`/units/${unit.id}/edit`}
@@ -122,7 +164,7 @@ const UnitList = (props) => {
 												index={`unit${key}`}
 												model={unit}
 												modelName="Unit"
-												onDelete={onDeleteUnit}
+												onDelete={props.onDeleteUnit}
 											/>
 										</div>
 									</div>

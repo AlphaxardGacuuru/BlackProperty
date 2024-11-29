@@ -6,11 +6,36 @@ const index = (props) => {
 	// Get Tenants
 	const [tenants, setTenants] = useState([])
 
+	const [nameQuery, setNameQuery] = useState("")
+	const [phoneQuery, setPhoneQuery] = useState("")
+
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Tenants", path: ["tenants"] })
-		props.getPaginated("tenants", setTenants)
-	}, [])
+		props.getPaginated(
+			`tenants/by-property-id/${props.selectedPropertyId}?
+			name=${nameQuery}&
+			phone=${phoneQuery}`,
+			setTenants
+		)
+	}, [props.selectedPropertyId, nameQuery, phoneQuery])
+
+	/*
+	 * Delete Tenant
+	 */
+	const onDeleteTenant = (tenantId) => {
+		Axios.delete(`/api/tenants/${tenantId}`)
+			.then((res) => {
+				props.setMessages([res.data.message])
+				// Remove row
+				setUnits({
+					meta: tenants.meta,
+					links: tenants.links,
+					data: tenants.data.filter((tenant) => tenant.id != tenantId),
+				})
+			})
+			.catch((err) => props.getErrors(err))
+	}
 
 	return (
 		<div className="row">
@@ -20,6 +45,7 @@ const index = (props) => {
 					{...props}
 					tenants={tenants}
 					setTenants={setTenants}
+					onDeleteTenant={onDeleteTenant}
 				/>
 				{/* Tenants Tab End */}
 			</div>

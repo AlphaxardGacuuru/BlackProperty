@@ -11,9 +11,29 @@ class PropertyService extends Service
     /*
      * Get All Properties
      */
-    public function index()
+    public function index($request)
     {
-        $properties = Property::orderBy("id", "DESC")->get();
+        if ($request->filled("idAndName")) {
+            $propertyQuery = Property::select("id", "name");
+
+            $propertyQuery = $this->search($propertyQuery, $request);
+
+            $properties = $propertyQuery
+                ->orderBy("id", "DESC")
+                ->get();
+
+            return response([
+                "data" => $properties,
+            ], 200);
+        }
+
+        $propertyQuery = new Property;
+
+        $propertyQuery = $this->search($propertyQuery, $request);
+
+        $properties = $propertyQuery
+            ->orderBy("id", "DESC")
+            ->paginate();
 
         return PropertyResource::collection($properties);
     }
@@ -93,25 +113,20 @@ class PropertyService extends Service
     }
 
     /*
-     * By User ID
+     * Search
      */
-    public function byUserId($request, $id)
+    public function search($query, $request)
     {
-        if ($request->filled("idAndName")) {
-            $properties = Property::select("id", "name", "service_charge as serviceCharge")
-                ->where("user_id", $id)
-                ->orderBy("id", "DESC")
-                ->get();
+        $propertyId = explode(",", $request->propertyId, );
 
-            return response([
-                "data" => $properties,
-            ], 200);
+        if ($request->filled("propertyId")) {
+            $query = $query->whereIn("id", $propertyId);
         }
 
-        $properties = Property::where("user_id", $id)
-            ->orderBy("id", "DESC")
-            ->get();
+        if ($request->filled("userId")) {
+            $query = $query->where("user_id", $request->userId);
+        }
 
-        return PropertyResource::collection($properties);
+        return $query;
     }
 }
