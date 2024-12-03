@@ -90,6 +90,7 @@ const create = (props) => {
 						type="number"
 						placeholder="2"
 						min="0"
+						step="0.1"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
 						required={true}
@@ -109,6 +110,7 @@ const create = (props) => {
 						type="number"
 						placeholder="5000"
 						min="0"
+						step="0.1"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
 					/>
@@ -118,6 +120,7 @@ const create = (props) => {
 						type="number"
 						placeholder="1.5"
 						min="0"
+						step="0.1"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWaterBillRate(e.target.value)}
 						required={true}

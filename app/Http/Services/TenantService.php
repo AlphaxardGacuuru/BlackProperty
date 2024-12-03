@@ -18,20 +18,30 @@ class TenantService extends Service
     public function index($request)
     {
         if ($request->filled("idAndName")) {
-            $tenants = User::select("id", "name")
-                ->orderBy("id", "DESC")
-                ->get();
+            $tenantQuery = new UserUnit;
+
+            $tenantQuery = $this->search($tenantQuery, $request);
+
+            $tenants = $tenantQuery->whereNull("vacated_at")
+                ->get()
+                ->map(fn($userUnit) => [
+                    "id" => $userUnit->user->id,
+                    "userUnitId" => $userUnit->id,
+                    "unitId" => $userUnit->unit_id,
+                    "unitName" => $userUnit->unit->name,
+                    "propertyId" => $userUnit->unit->property->id,
+                    "name" => $userUnit->user->name,
+                ]);
 
             return response([
                 "data" => $tenants,
             ], 200);
         }
+        $tenantQuery = new UserUnit;
 
-        $tenantsQuery = new User;
+        $tenantQuery = $this->search($tenantQuery, $request);
 
-        $tenantsQuery = $this->search($tenantsQuery, $request);
-
-        $tenants = $tenantsQuery
+        $tenants = $tenantQuery->whereNull("vacated_at")
             ->orderBy("id", "DESC")
             ->paginate(20);
 
@@ -99,6 +109,11 @@ class TenantService extends Service
                 $userUnit->occupied_at = $request->input("occupiedAt");
                 $userUnit->created_by = $this->id;
                 $userUnit->save();
+
+                // Set Unit as unoccupied
+                $unit = $userUnit->unit;
+                $unit->status = "occupied";
+                $unit->save();
             }
 
             return $saved;
@@ -142,11 +157,18 @@ class TenantService extends Service
 
         // Mark User Unit as vacated
         if ($request->filled("vacate")) {
-            $userUnit = UserUnit::where("user_id", $id)
-                ->where("unit_id", $request->input("unitId"))
-                ->first();
-            $userUnit->vacated_at = Carbon::now();
-            $userUnit->save();
+            DB::transaction(function () use ($request, $id) {
+                $userUnit = UserUnit::where("user_id", $id)
+                    ->where("unit_id", $request->input("unitId"))
+                    ->first();
+                $userUnit->vacated_at = Carbon::now();
+                $userUnit->save();
+
+                // Set Unit as unoccupied
+                $unit = $userUnit->unit;
+                $unit->status = "vacant";
+                $unit->save();
+            });
         }
 
         $saved = $tenant->save();
@@ -171,68 +193,33 @@ class TenantService extends Service
     }
 
     /*
-     * Get Tenants by Property ID
-     */
-    public function byPropertyId($request, $id)
-    {
-		// Split the id into an array of strings
-        $ids = explode(",", $id);		
-
-        if ($request->filled("idAndName")) {
-            $tenants = UserUnit::whereHas("unit.property", function ($query) use ($ids) {
-                $query->whereIn("id", $ids);
-            })->whereNull("vacated_at")
-                ->get()
-                ->map(fn($userUnit) => [
-                    "id" => $userUnit->user->id,
-                    "userUnitId" => $userUnit->id,
-                    "unitId" => $userUnit->unit_id,
-                    "unitName" => $userUnit->unit->name,
-                    "propertyId" => $userUnit->unit->property->id,
-                    "name" => $userUnit->user->name,
-                ]);
-
-            return response([
-                "data" => $tenants,
-            ], 200);
-        }
-
-        $tenantsQuery = UserUnit::whereHas("unit.property", function ($query) use ($ids) {
-            $query->whereIn("id", $ids);
-        })->whereNull("vacated_at");
-
-        $tenantsQuery = $this->search($tenantsQuery, $request);
-
-        $tenants = $tenantsQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20);
-
-        return TenantResource::collection($tenants);
-    }
-
-    /*
-     * Get Tenants by Unit ID
-     */
-    public function byUnitId($id)
-    {
-        $tenants = UserUnit::where("unit_id", $id)
-            ->orderBy("id", "DESC")
-            ->paginate(20);
-
-        return TenantResource::collection($tenants);
-    }
-
-    /*
      * Handle Search
      */
     public function search($query, $request)
     {
+        $propertyId = explode(",", $request->propertyId, );
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
         $name = $request->input("name");
 
         if ($request->filled("name")) {
             $query = $query
                 ->whereHas("user", function ($query) use ($name) {
                     $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
+        $phone = $request->input("phone");
+
+        if ($request->filled("phone")) {
+            $query = $query
+                ->whereHas("user", function ($query) use ($phone) {
+                    $query->where("phone", "LIKE", "%" . $phone . "%");
                 });
         }
 
@@ -248,10 +235,7 @@ class TenantService extends Service
         $unitId = $request->input("unitId");
 
         if ($request->filled("unitId")) {
-            $query = $query
-                ->whereHas("unit", function ($query) use ($unitId) {
-                    $query->where("id", $unitId);
-                });
+            $query = $query->where("unit_id", $unitId);
         }
 
         return $query;

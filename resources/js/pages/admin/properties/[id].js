@@ -15,7 +15,14 @@ const show = (props) => {
 	const [staff, setStaff] = useState([])
 	const [roles, setRoles] = useState([])
 
-	const [nameQuery, setNameQuery] = useState("")
+	const [unitNameQuery, setUnitNameQuery] = useState("")
+	const [unitTypeQuery, setUnitTypeQuery] = useState("")
+	const [unitStatusQuery, setUnitStatusQuery] = useState("")
+
+	const [tenantNameQuery, setTenantNameQuery] = useState("")
+	const [tenantPhoneQuery, setTenantPhoneQuery] = useState("")
+
+	const [staffNameQuery, setStaffNameQuery] = useState("")
 
 	const [tab, setTab] = useState("units")
 
@@ -27,19 +34,37 @@ const show = (props) => {
 		// Set page
 		props.setPage({ name: "View Property", path: ["properties", "view"] })
 		props.get(`properties/${id}`, setProperty)
-		props.getPaginated(`units/by-property-id/${id}`, setUnits)
-		props.getPaginated(`tenants/by-property-id/${id}`, setTenants)
-		props.getPaginated(`staff/by-property-id/${id}`, setStaff)
+		props.getPaginated(`units?propertyId=${id}`, setUnits)
+		props.getPaginated(`tenants?propertyId=${id}`, setTenants)
+		props.getPaginated(`staff?propertyId=${id}`, setStaff)
 		props.get(`roles?idAndName=true`, setRoles)
 	}, [id])
 
 	useEffect(() => {
 		props.getPaginated(
-			`tenants/by-property-id/${id}?
-				name=${nameQuery}`,
+			`units?propertyId=${id}&
+			name=${unitNameQuery}&
+			type=${unitTypeQuery}&
+			status=${unitStatusQuery}`,
+			setUnits
+		)
+	}, [unitNameQuery, unitTypeQuery, unitStatusQuery])
+
+	useEffect(() => {
+		props.getPaginated(
+			`tenants?propertyId=${id}&
+			name=${tenantNameQuery}&
+			phone=${tenantPhoneQuery}`,
 			setTenants
 		)
-	}, [nameQuery])
+	}, [tenantNameQuery, tenantPhoneQuery])
+
+	useEffect(() => {
+		props.getPaginated(
+			`staff?propertyId=${id}&name=${staffNameQuery}`,
+			setStaff
+		)
+	}, [staffNameQuery])
 
 	const active = (activeTab) => {
 		return activeTab == tab
@@ -98,6 +123,9 @@ const show = (props) => {
 					totalUnits={property.unitCount}
 					propertyId={id}
 					setProperty={setProperty}
+					setNameQuery={setUnitNameQuery}
+					setTypeQuery={setUnitTypeQuery}
+					setStatusQuery={setUnitStatusQuery}
 				/>
 				{/* Units Tab End */}
 
@@ -107,7 +135,8 @@ const show = (props) => {
 					activeTab={activeTab("tenants")}
 					tenants={tenants}
 					setTenants={setTenants}
-					setNameQuery={setNameQuery}
+					setNameQuery={setTenantNameQuery}
+					setPhoneQuery={setTenantPhoneQuery}
 				/>
 				{/* Tenants Tab End */}
 
@@ -119,6 +148,7 @@ const show = (props) => {
 					roles={roles}
 					activeTab={activeTab("staff")}
 					propertyId={id}
+					setNameQuery={setStaffNameQuery}
 				/>
 				{/* Staff Tab End */}
 			</div>

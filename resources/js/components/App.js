@@ -120,11 +120,7 @@ function App() {
 	useEffect(() => get("auth", setAuth, "auth", false), [])
 
 	useEffect(() => {
-		get(
-			`properties?idAndName=true&propertyId=${auth.propertyIds}`,
-			setProperties,
-			"properties"
-		)
+		get(`properties?userId=${auth.id}`, setProperties, "properties")
 	}, [auth])
 
 	/*

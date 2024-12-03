@@ -82,11 +82,17 @@ class DashboardService extends Service
         $total = $unitsQuery->count();
 
         $totalOccupied = $unitsQuery
-            ->whereHas("userUnits", fn($query) => $query->whereNull("vacated_at"))
+            ->whereHas("userUnits", fn($query) => $query
+                    ->whereNotNull("occupied_at")
+                    ->whereNull("vacated_at"))
             ->count();
 
         $totalUnoccupied = $unitsQuery
-            ->whereHas("userUnits", fn($query) => $query->whereNotNull("vacated_at"))
+            ->whereHas("userUnits", fn($query) => $query
+                    ->whereNull("occupied_at")
+                    ->whereNull("vacated_at")
+                    ->orWhereNotNull("occupied_at")
+                    ->whereNotNull("vacated_at"))
             ->count();
 
         $totalUnoccupied = $total - $totalOccupied;
@@ -454,7 +460,7 @@ class DashboardService extends Service
      */
     public function search($query, $request)
     {
-        $propertyId = explode(",", $request->propertyId,);
+        $propertyId = explode(",", $request->propertyId, );
 
         if ($request->filled("propertyId")) {
             $query = $query->whereIn("property_id", $propertyId);

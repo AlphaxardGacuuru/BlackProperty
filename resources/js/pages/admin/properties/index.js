@@ -1,28 +1,162 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import PropertyHeroArea from "@/components/Properties/PropertyHeroArea"
+import MyLink from "@/components/Core/MyLink"
+import DeleteModal from "@/components/Core/DeleteModal"
+
+import HeroIcon from "@/components/Core/HeroIcon"
+import HeroHeading from "@/components/Core/HeroHeading"
+import PaginationLinks from "@/components/Core/PaginationLinks"
+
+import PropertySVG from "@/svgs/PropertySVG"
+import PlusSVG from "@/svgs/PlusSVG"
+import EditSVG from "@/svgs/EditSVG"
 
 const index = (props) => {
-	var { id } = useParams()
+	const [properties, setProperties] = useState([])
+
+	const [nameQuery, setNameQuery] = useState("")
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Properties", path: ["properties"] })
-		props.get(
-			`properties/by-user-id/${props.auth.id}`,
-			props.setProperties,
-			"properties"
+	}, [])
+
+	useEffect(() => {
+		props.getPaginated(
+			`properties?userId=${props.auth.id}&name=${nameQuery}`,
+			setProperties
 		)
-	}, [id])
+	}, [nameQuery])
+	/*
+	 * Delete Property
+	 */
+	const onDeleteProperty = (propertyId) => {
+		Axios.delete(`/api/properties/${propertyId}`)
+			.then((res) => {
+				props.setMessages([res.data.message])
+				// Remove row
+				setProperties({
+					meta: properties.meta,
+					links: properties.links,
+					data: properties.data.filter((property) => property.id != propertyId),
+				})
+			})
+			.catch((err) => props.getErrors(err))
+	}
 
 	return (
 		<div className="row">
-			<div className="col-sm-4">
-				<PropertyHeroArea
-					{...props}
-					id={id}
-				/>
+			<div className="col-sm-12">
+				<div>
+					{/* Data */}
+					<div className="card shadow-sm mb-2 p-2">
+						<div className="d-flex justify-content-between">
+							{/* Total */}
+							<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+								<HeroHeading
+									heading="Total Properties"
+									data={properties.meta?.total}
+								/>
+								<HeroIcon>
+									<PropertySVG />
+								</HeroIcon>
+							</div>
+							{/* Total End */}
+						</div>
+					</div>
+					{/* Data End */}
+
+					<br />
+
+					{/* Filters */}
+					<div className="card shadow-sm p-4">
+						<div className="d-flex flex-wrap">
+							{/* Name */}
+							<div className="flex-grow-1 me-2 mb-2">
+								<input
+									id=""
+									type="text"
+									name="name"
+									placeholder="Search by Name"
+									className="form-control"
+									onChange={(e) => setNameQuery(e.target.value)}
+								/>
+							</div>
+							{/* Name End */}
+						</div>
+					</div>
+					{/* Filters End */}
+
+					<br />
+
+					{/* Table */}
+					<div className="table-responsive mb-5">
+						<table className="table table-hover">
+							<thead>
+								<tr>
+									<th colSpan="7"></th>
+									<th className="text-end">
+										<MyLink
+											linkTo={`/properties/create`}
+											icon={<PlusSVG />}
+											text="add property"
+										/>
+									</th>
+								</tr>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Location</th>
+									<th>Service Charge</th>
+									<th>Deposit Formula</th>
+									<th>Water Bill Rate</th>
+									<th>Units</th>
+									<th className="text-center">Action</th>
+								</tr>
+								{properties.data?.map((property, key) => (
+									<tr key={key}>
+										<td>{props.iterator(key, properties)}</td>
+										<td>{property.name}</td>
+										<td>{property.location}</td>
+										<td className="text-success">
+											<small>KES</small> {property.serviceCharge}
+										</td>
+										<td>{property.depositFormula}</td>
+										<td>{property.waterBillRate}</td>
+										<td>{property.unitCount}</td>
+										<td>
+											<div className="d-flex justify-content-center">
+												<MyLink
+													linkTo={`/properties/${property.id}/edit`}
+													icon={<EditSVG />}
+													// text="edit"
+													className="me-1"
+												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`property${key}`}
+														model={property}
+														modelName="Property"
+														onDelete={onDeleteProperty}
+													/>
+												</div>
+											</div>
+										</td>
+									</tr>
+								))}
+							</thead>
+						</table>
+						{/* Pagination Links */}
+						<PaginationLinks
+							list={properties}
+							getPaginated={props.getPaginated}
+							setState={setProperties}
+						/>
+						{/* Pagination Links End */}
+					</div>
+					{/* Table End */}
+				</div>
 			</div>
 		</div>
 	)

@@ -16,7 +16,6 @@ import PlusSVG from "@/svgs/PlusSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 
 const StaffList = (props) => {
-	const [nameQuery, setNameQuery] = useState("")
 	const [roleQuery, setRoleQuery] = useState("")
 
 	/*
@@ -69,7 +68,7 @@ const StaffList = (props) => {
 							name="name"
 							placeholder="Search by Name"
 							className="form-control"
-							onChange={(e) => setNameQuery(e.target.value)}
+							onChange={(e) => props.setNameQuery(e.target.value)}
 						/>
 					</div>
 					{/* Name End */}

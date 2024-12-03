@@ -223,9 +223,9 @@ const index = (props) => {
 					{/* Property Doughnut */}
 					<div className="card shadow-sm p-2 mb-2">
 						<center>
-							<div className="middle1">
+							{/* <div className="middle1">
 								<h1>{dashboardProperties.total}</h1>
-							</div>
+							</div> */}
 							{dashboardProperties.names && (
 								<Doughnut
 									labels={dashboardProperties.names}

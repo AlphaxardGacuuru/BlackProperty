@@ -127,6 +127,10 @@ class PropertyService extends Service
             $query = $query->where("user_id", $request->userId);
         }
 
+        if ($request->filled("name")) {
+            $query = $query->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
         return $query;
     }
 }

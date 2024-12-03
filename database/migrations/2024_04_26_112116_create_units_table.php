@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer("bedrooms")->nullable();
             $table->jsonb("size")->nullable();
             $table->string("type")->default("apartment");
+            $table->string("status")->default("vacant");
             $table->timestamps();
         });
     }

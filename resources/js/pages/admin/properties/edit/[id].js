@@ -102,6 +102,7 @@ const edit = (props) => {
 						type="number"
 						placeholder="2"
 						min="0"
+						step="0.1"
 						defaultValue={formula[0]}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
@@ -123,6 +124,7 @@ const edit = (props) => {
 						type="number"
 						placeholder="5000"
 						min="0"
+						step="0.1"
 						defaultValue={property.serviceCharge}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
@@ -133,6 +135,7 @@ const edit = (props) => {
 						type="number"
 						placeholder="1.5"
 						min="0"
+						step="0.1"
 						defaultValue={property.waterBillRate}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWaterBillRate(e.target.value)}

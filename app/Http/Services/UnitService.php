@@ -94,12 +94,12 @@ class UnitService extends Service
 
         if ($request->filled("bedrooms")) {
             $unit->bedrooms = $request->input("bedrooms");
-			$unit->size = NULL;
+            $unit->size = null;
         }
 
         if ($request->filled("size")) {
             $unit->size = $request->input("size");
-            $unit->bedrooms = NULL;
+            $unit->bedrooms = null;
         }
 
         $saved = $unit->save();
@@ -234,18 +234,24 @@ class UnitService extends Service
      */
     public function search($query, $request)
     {
-        $propertyId = explode(",", $request->propertyId,);
+        $propertyId = explode(",", $request->propertyId, );
 
         if ($request->filled("propertyId")) {
             $query = $query->whereIn("property_id", $propertyId);
         }
 
         if ($request->filled("name")) {
-            $query = $query->where("name", "LIKE", "%" . $request->name . "%");
+            $query = $query->where("name", "LIKE", "%" . $request->input("name") . "%");
         }
 
         if ($request->filled("type")) {
             $query = $query->where("type", $request->type);
+        }
+
+        $status = $request->status;
+
+        if ($request->filled("status")) {
+            $query = $query->where("status", $request->status);
         }
 
         return $query;

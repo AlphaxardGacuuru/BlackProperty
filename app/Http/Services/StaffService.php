@@ -182,6 +182,15 @@ class StaffService extends Service
             $query = $query->where("user_id", $request->userId);
         }
 
+        $name = $request->input("name");
+
+        if ($request->filled("name")) {
+            $query = $query
+                ->whereHas("user", function ($query) use ($name) {
+                    $query->where("name", "LIKE", "%" . $name . "%");
+                });
+        }
+
         return $query;
     }
 }

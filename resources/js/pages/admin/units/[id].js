@@ -161,11 +161,13 @@ const show = (props) => {
 					</h6>
 					<hr />
 					<div className="d-flex justify-content-end">
-						<MyLink
-							linkTo={`/tenants/${id}/create`}
-							icon={<PlusSVG />}
-							text="add tenant"
-						/>
+						{unit.status == "vacant" && (
+							<MyLink
+								linkTo={`/tenants/${id}/create`}
+								icon={<PlusSVG />}
+								text="add tenant"
+							/>
+						)}
 					</div>
 				</div>
 				{/* Unit Info End */}

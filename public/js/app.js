@@ -80999,7 +80999,7 @@ function App() {
     return get("auth", setAuth, "auth", false);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    get("properties?idAndName=true&propertyId=".concat(auth.propertyIds), setProperties, "properties");
+    get("properties?userId=".concat(auth.id), setProperties, "properties");
   }, [auth]);
 
   /*
@@ -83798,12 +83798,8 @@ var StaffList = function StaffList(props) {
   var _props$staff$data, _props$staff$data2;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState2 = _slicedToArray(_useState, 2),
-    nameQuery = _useState2[0],
-    setNameQuery = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState4 = _slicedToArray(_useState3, 2),
-    roleQuery = _useState4[0],
-    setRoleQuery = _useState4[1];
+    roleQuery = _useState2[0],
+    setRoleQuery = _useState2[1];
 
   /*
    * Delete Staff
@@ -83847,7 +83843,7 @@ var StaffList = function StaffList(props) {
     placeholder: "Search by Name",
     className: "form-control",
     onChange: function onChange(e) {
-      return setNameQuery(e.target.value);
+      return props.setNameQuery(e.target.value);
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-grow-1 me-2 mb-2"
@@ -85381,9 +85377,7 @@ var index = function index(props) {
     className: "my-2"
   }, "Properties"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "middle1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, dashboardProperties.total)), dashboardProperties.names && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, dashboardProperties.names && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Doughnut__WEBPACK_IMPORTED_MODULE_4__["default"], {
     labels: dashboardProperties.names,
     datasets: doughnutProperties,
     cutout: "50%",
@@ -87358,12 +87352,32 @@ var show = function show(props) {
     setRoles = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    nameQuery = _useState12[0],
-    setNameQuery = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("units"),
+    unitNameQuery = _useState12[0],
+    setUnitNameQuery = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    tab = _useState14[0],
-    setTab = _useState14[1];
+    unitTypeQuery = _useState14[0],
+    setUnitTypeQuery = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState16 = _slicedToArray(_useState15, 2),
+    unitStatusQuery = _useState16[0],
+    setUnitStatusQuery = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState18 = _slicedToArray(_useState17, 2),
+    tenantNameQuery = _useState18[0],
+    setTenantNameQuery = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState20 = _slicedToArray(_useState19, 2),
+    tenantPhoneQuery = _useState20[0],
+    setTenantPhoneQuery = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    staffNameQuery = _useState22[0],
+    setStaffNameQuery = _useState22[1];
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("units"),
+    _useState24 = _slicedToArray(_useState23, 2),
+    tab = _useState24[0],
+    setTab = _useState24[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Clear State on page change
     setUnits([]);
@@ -87375,14 +87389,20 @@ var show = function show(props) {
       path: ["properties", "view"]
     });
     props.get("properties/".concat(id), setProperty);
-    props.getPaginated("units/by-property-id/".concat(id), setUnits);
-    props.getPaginated("tenants/by-property-id/".concat(id), setTenants);
-    props.getPaginated("staff/by-property-id/".concat(id), setStaff);
+    props.getPaginated("units?propertyId=".concat(id), setUnits);
+    props.getPaginated("tenants?propertyId=".concat(id), setTenants);
+    props.getPaginated("staff?propertyId=".concat(id), setStaff);
     props.get("roles?idAndName=true", setRoles);
   }, [id]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    props.getPaginated("tenants/by-property-id/".concat(id, "?\n\t\t\t\tname=").concat(nameQuery), setTenants);
-  }, [nameQuery]);
+    props.getPaginated("units?propertyId=".concat(id, "&\n\t\t\tname=").concat(unitNameQuery, "&\n\t\t\ttype=").concat(unitTypeQuery, "&\n\t\t\tstatus=").concat(unitStatusQuery), setUnits);
+  }, [unitNameQuery, unitTypeQuery, unitStatusQuery]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.getPaginated("tenants?propertyId=".concat(id, "&\n\t\t\tname=").concat(tenantNameQuery, "&\n\t\t\tphone=").concat(tenantPhoneQuery), setTenants);
+  }, [tenantNameQuery, tenantPhoneQuery]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.getPaginated("staff?propertyId=".concat(id, "&name=").concat(staffNameQuery), setStaff);
+  }, [staffNameQuery]);
   var active = function active(activeTab) {
     return activeTab == tab ? "bg-secondary text-white shadow-sm" : "bg-secondary-subtle";
   };
@@ -87429,18 +87449,23 @@ var show = function show(props) {
     setUnits: setUnits,
     totalUnits: property.unitCount,
     propertyId: id,
-    setProperty: setProperty
+    setProperty: setProperty,
+    setNameQuery: setUnitNameQuery,
+    setTypeQuery: setUnitTypeQuery,
+    setStatusQuery: setUnitStatusQuery
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Tenants_TenantList__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
     activeTab: activeTab("tenants"),
     tenants: tenants,
     setTenants: setTenants,
-    setNameQuery: setNameQuery
+    setNameQuery: setTenantNameQuery,
+    setPhoneQuery: setTenantPhoneQuery
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Staff_StaffList__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
     staff: staff,
     setStaff: setStaff,
     roles: roles,
     activeTab: activeTab("staff"),
-    propertyId: id
+    propertyId: id,
+    setNameQuery: setStaffNameQuery
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (show);
@@ -87580,6 +87605,7 @@ var create = function create(props) {
     type: "number",
     placeholder: "2",
     min: "0",
+    step: "0.1",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setRentMultiple(e.target.value);
@@ -87601,6 +87627,7 @@ var create = function create(props) {
     type: "number",
     placeholder: "5000",
     min: "0",
+    step: "0.1",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
@@ -87611,6 +87638,7 @@ var create = function create(props) {
     type: "number",
     placeholder: "1.5",
     min: "0",
+    step: "0.1",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setWaterBillRate(e.target.value);
@@ -87778,6 +87806,7 @@ var edit = function edit(props) {
     type: "number",
     placeholder: "2",
     min: "0",
+    step: "0.1",
     defaultValue: formula[0],
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
@@ -87801,6 +87830,7 @@ var edit = function edit(props) {
     type: "number",
     placeholder: "5000",
     min: "0",
+    step: "0.1",
     defaultValue: property.serviceCharge,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
@@ -87812,6 +87842,7 @@ var edit = function edit(props) {
     type: "number",
     placeholder: "1.5",
     min: "0",
+    step: "0.1",
     defaultValue: property.waterBillRate,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
@@ -87845,31 +87876,135 @@ var edit = function edit(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Properties_PropertyHeroArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Properties/PropertyHeroArea */ "./resources/js/components/Properties/PropertyHeroArea.js");
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/PropertySVG */ "./resources/js/svgs/PropertySVG.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
 
 
 
 var index = function index(props) {
-  var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
-    id = _useParams.id;
+  var _properties$meta, _properties$data;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    properties = _useState2[0],
+    setProperties = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    nameQuery = _useState4[0],
+    setNameQuery = _useState4[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Properties",
       path: ["properties"]
     });
-    props.get("properties/by-user-id/".concat(props.auth.id), props.setProperties, "properties");
-  }, [id]);
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.getPaginated("properties?userId=".concat(props.auth.id, "&name=").concat(nameQuery), setProperties);
+  }, [nameQuery]);
+  /*
+   * Delete Property
+   */
+  var onDeleteProperty = function onDeleteProperty(propertyId) {
+    Axios["delete"]("/api/properties/".concat(propertyId)).then(function (res) {
+      props.setMessages([res.data.message]);
+      // Remove row
+      setProperties({
+        meta: properties.meta,
+        links: properties.links,
+        data: properties.data.filter(function (property) {
+          return property.id != propertyId;
+        })
+      });
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-sm-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Properties_PropertyHeroArea__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-    id: id
-  }))));
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    heading: "Total Properties",
+    data: (_properties$meta = properties.meta) === null || _properties$meta === void 0 ? void 0 : _properties$meta.total
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "",
+    type: "text",
+    name: "name",
+    placeholder: "Search by Name",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setNameQuery(e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "7"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "text-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    linkTo: "/properties/create",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+    text: "add property"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Location"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit Formula"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "text-center"
+  }, "Action")), (_properties$data = properties.data) === null || _properties$data === void 0 ? void 0 : _properties$data.map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, properties)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.location), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", property.serviceCharge), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.depositFormula), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.unitCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex justify-content-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      linkTo: "/properties/".concat(property.id, "/edit"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
+      // text="edit"
+      ,
+      className: "me-1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mx-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      index: "property".concat(key),
+      model: property,
+      modelName: "Property",
+      onDelete: onDeleteProperty
+    })))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    list: properties,
+    getPaginated: props.getPaginated,
+    setState: setProperties
+  })))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
 
@@ -89401,7 +89536,7 @@ var show = function show(props) {
     className: "mx-1 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, unit.status == "vacant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
     linkTo: "/tenants/".concat(id, "/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null),
     text: "add tenant"
