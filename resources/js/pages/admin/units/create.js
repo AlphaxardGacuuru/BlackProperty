@@ -184,7 +184,8 @@ const create = (props) => {
 							.map((property, key) => (
 								<option
 									key={key}
-									value={property.id}>
+									value={property.id}
+									selected={property.id == props.selectedPropertyId}>
 									{property.name}
 								</option>
 							))}

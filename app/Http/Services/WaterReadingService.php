@@ -9,6 +9,31 @@ use App\Models\WaterReading;
 class WaterReadingService extends Service
 {
     /*
+     * Get All Water Readings
+     */
+    public function index($request)
+    {
+        $waterReadingsQuery = new WaterReading;
+
+        $waterReadingsQuery = $this->search($waterReadingsQuery, $request);
+
+        $waterReadings = $waterReadingsQuery
+            ->orderBy("month", "DESC")
+            ->orderBy("year", "DESC")
+            ->paginate(20);
+
+        $totalUsage = $waterReadingsQuery->sum("usage") * 1000;
+        $totalBill = $waterReadingsQuery->sum("bill");
+
+        return WaterReadingResource::collection($waterReadings)
+            ->additional([
+                "totalUsage" => number_format($totalUsage),
+                "totalBill" => number_format($totalBill),
+                "unitId" => $request->unitId,
+            ]);
+    }
+
+    /*
      * Get One Water Reading
      */
     public function show($id)
@@ -127,38 +152,18 @@ class WaterReadingService extends Service
     }
 
     /*
-     * Get Invoices by Property ID
-     */
-    public function byPropertyId($request, $id)
-    {
-        $ids = explode(",", $id);
-
-        $waterReadingsQuery = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($ids) {
-            $query->whereIn("id", $ids);
-        });
-
-        $waterReadingsQuery = $this->search($waterReadingsQuery, $request);
-
-        $totalUsage = $waterReadingsQuery->sum("usage") * 1000;
-        $totalBill = $waterReadingsQuery->sum("bill");
-
-        $waterReadings = $waterReadingsQuery
-            ->orderBy("month", "DESC")
-            ->orderBy("year", "DESC")
-            ->paginate(20);
-
-        return WaterReadingResource::collection($waterReadings)
-            ->additional([
-                "totalUsage" => number_format($totalUsage),
-                "totalBill" => number_format($totalBill),
-            ]);
-    }
-
-    /*
      * Handle Search
      */
     public function search($query, $request)
     {
+        $propertyId = explode(",", $request->propertyId, );
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {

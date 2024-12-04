@@ -21,16 +21,21 @@ class TenantSeeder extends Seeder
         foreach ($units as $unit) {
             for ($i = 0; $i < rand(3, 5); $i++) {
                 if ($i == 0) {
-                    UserUnit::factory()
+                    $userUnit = UserUnit::factory()
                         ->create([
                             "unit_id" => $unit->id,
                         ]);
+
+                    // Set Unit as occupied
+                    $unit = $userUnit->unit;
+                    $unit->status = "occupied";
+                    $unit->save();
                 } else {
                     UserUnit::factory()
                         ->create([
                             "unit_id" => $unit->id,
-                            "occupied_at" => Carbon::now()->subMonth($i+2)->startOfMonth(),
-                            "vacated_at" => Carbon::now()->subMonth($i+1)->endOfMonth(),
+                            "occupied_at" => Carbon::now()->subMonth($i + 2)->startOfMonth(),
+                            "vacated_at" => Carbon::now()->subMonth($i + 1)->endOfMonth(),
                         ]);
                 }
             }

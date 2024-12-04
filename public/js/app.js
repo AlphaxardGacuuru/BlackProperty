@@ -89443,7 +89443,7 @@ var show = function show(props) {
       setUnit(res.data.data);
     });
     // Fetch Tenants
-    props.getPaginated("tenants/by-unit-id/".concat(id), setTenants);
+    props.getPaginated("tenants?unitId=".concat(id), setTenants);
     // Fetch Statements
     props.getPaginated("units/statements/".concat(id, "?type=rent"), setRentStatements);
     props.getPaginated("units/statements/".concat(id, "?type=water"), setWaterStatements);
@@ -89451,8 +89451,8 @@ var show = function show(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Water Readings
-    props.getPaginated("water-readings/by-property-id/".concat(props.auth.propertyIds, "?\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(id, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
-  }, [tenant, unit, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("water-readings?\n\t\t\tpropertyId=".concat(props.auth.propertyIds, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(id, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
+  }, [tenant, unit, startMonth, startYear, endMonth, endYear]);
 
   /*
    * Vacate Tenant
@@ -89955,7 +89955,8 @@ var create = function create(props) {
   }].concat(props.properties).map(function (property, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: property.id
+      value: property.id,
+      selected: property.id == props.selectedPropertyId
     }, property.name);
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"

@@ -40,7 +40,7 @@ const show = (props) => {
 			setUnit(res.data.data)
 		})
 		// Fetch Tenants
-		props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
+		props.getPaginated(`tenants?unitId=${id}`, setTenants)
 		// Fetch Statements
 		props.getPaginated(`units/statements/${id}?type=rent`, setRentStatements)
 		props.getPaginated(`units/statements/${id}?type=water`, setWaterStatements)
@@ -53,7 +53,8 @@ const show = (props) => {
 	useEffect(() => {
 		// Fetch Water Readings
 		props.getPaginated(
-			`water-readings/by-property-id/${props.auth.propertyIds}?
+			`water-readings?
+			propertyId=${props.auth.propertyIds}&
 			tenant=${tenant}&
 			unitId=${id}&
 			startMonth=${startMonth}&
@@ -62,7 +63,7 @@ const show = (props) => {
 			endYear=${endYear}`,
 			setWaterReadings
 		)
-	}, [tenant, unit, startMonth, endMonth, startYear, endYear])
+	}, [tenant, unit, startMonth, startYear, endMonth, endYear])
 
 	/*
 	 * Vacate Tenant

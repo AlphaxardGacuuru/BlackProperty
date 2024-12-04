@@ -37,6 +37,7 @@ class TenantService extends Service
                 "data" => $tenants,
             ], 200);
         }
+
         $tenantQuery = new UserUnit;
 
         $tenantQuery = $this->search($tenantQuery, $request);
@@ -45,7 +46,8 @@ class TenantService extends Service
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        return TenantResource::collection($tenants);
+        return TenantResource::collection($tenants)
+            ->additional(["unitId" => $request->unitId]);
     }
 
     /*
@@ -110,7 +112,7 @@ class TenantService extends Service
                 $userUnit->created_by = $this->id;
                 $userUnit->save();
 
-                // Set Unit as unoccupied
+                // Set Unit as occupied
                 $unit = $userUnit->unit;
                 $unit->status = "occupied";
                 $unit->save();
@@ -164,7 +166,7 @@ class TenantService extends Service
                 $userUnit->vacated_at = Carbon::now();
                 $userUnit->save();
 
-                // Set Unit as unoccupied
+                // Set Unit as vacant
                 $unit = $userUnit->unit;
                 $unit->status = "vacant";
                 $unit->save();
