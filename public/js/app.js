@@ -84049,6 +84049,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
 /* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
 /* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+
 
 
 
@@ -84063,15 +84065,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TenantList = function TenantList(props) {
-  var _props$tenants$data, _props$tenants$data2;
+  var _props$tenants$meta, _props$tenants$data;
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
 
   /*
-   * Delete Tenant
+   * Vacate Tenant
    */
-  var onDeleteTenant = function onDeleteTenant(tenantId) {
-    Axios["delete"]("/api/tenants/".concat(tenantId)).then(function (res) {
+  var onVacate = function onVacate(tenantId, unitId) {
+    Axios.put("/api/tenants/".concat(tenantId), {
+      unitId: unitId,
+      vacate: true
+    }).then(function (res) {
       props.setMessages([res.data.message]);
+      // Fetch Tenants
+      props.getPaginated("tenants?unitId=".concat(id), props.setTenants);
+      // Fetch Auth
+      props.get("auth", props.setAuth, "auth");
     })["catch"](function (err) {
       return props.getErrors(err);
     });
@@ -84086,7 +84095,7 @@ var TenantList = function TenantList(props) {
     className: "d-flex justify-content-between w-100 align-items-center mx-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_7__["default"], {
     heading: "Total Tenants",
-    data: (_props$tenants$data = props.tenants.data) === null || _props$tenants$data === void 0 ? void 0 : _props$tenants$data.length
+    data: (_props$tenants$meta = props.tenants.meta) === null || _props$tenants$meta === void 0 ? void 0 : _props$tenants$meta.total
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_8__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84123,7 +84132,7 @@ var TenantList = function TenantList(props) {
     linkTo: "/tenants/".concat(props.unitId, "/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     text: "add tenant"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Move In Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data2 = props.tenants.data) === null || _props$tenants$data2 === void 0 ? void 0 : _props$tenants$data2.map(function (tenant, key) {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Move In Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data = props.tenants.data) === null || _props$tenants$data === void 0 ? void 0 : _props$tenants$data.map(function (tenant, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.tenants)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -84142,12 +84151,49 @@ var TenantList = function TenantList(props) {
       className: "btn-sm"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      index: "tenant".concat(key),
-      model: tenant,
-      modelName: "Tenant",
-      onDelete: onDeleteTenant
-    }))))));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal fade",
+      id: "vacateModal".concat(key),
+      tabIndex: "-1",
+      "aria-labelledby": "deleteModalLabel",
+      "aria-hidden": "true"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-dialog"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-content rounded-0"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-header"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      id: "deleteModalLabel",
+      className: "modal-title fs-5"
+    }, "Vacate Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "btn-close",
+      "data-bs-dismiss": "modal",
+      "aria-label": "Close"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-body text-start text-wrap"
+    }, "Are you sure you want to vacate ", tenant.name, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-footer justify-content-between"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "mysonar-btn btn-2",
+      "data-bs-dismiss": "modal"
+    }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "mysonar-btn btn-2",
+      "data-bs-dismiss": "modal",
+      onClick: function onClick() {
+        return onVacate(tenant.id, tenant.unitId);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "me-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)), "Vacate ", tenant.name))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      className: "mysonar-btn btn-2 mb-2",
+      "data-bs-toggle": "modal",
+      "data-bs-target": "#vacateModal".concat(key)
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null), " Vacate tenant"))))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_6__["default"], {
     list: props.tenants,
     getPaginated: props.getPaginated,
@@ -89303,7 +89349,7 @@ var index = function index(props) {
       name: "Tenants",
       path: ["tenants"]
     });
-    props.getPaginated("tenants/by-property-id/".concat(props.selectedPropertyId, "?\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
+    props.getPaginated("tenants?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
   }, [props.selectedPropertyId, nameQuery, phoneQuery]);
 
   /*
@@ -89331,7 +89377,9 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Tenants_TenantList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     tenants: tenants,
     setTenants: setTenants,
-    onDeleteTenant: onDeleteTenant
+    onDeleteTenant: onDeleteTenant,
+    setNameQuery: setNameQuery,
+    setPhoneQuery: setPhoneQuery
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);

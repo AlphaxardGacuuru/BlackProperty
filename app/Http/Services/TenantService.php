@@ -44,10 +44,13 @@ class TenantService extends Service
 
         $tenants = $tenantQuery->whereNull("vacated_at")
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
 
-        return TenantResource::collection($tenants)
-            ->additional(["unitId" => $request->unitId]);
+        return TenantResource::collection($tenants);
     }
 
     /*

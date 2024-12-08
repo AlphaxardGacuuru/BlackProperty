@@ -22,7 +22,11 @@ class RoleService extends Service
             ], 200);
         }
 
-        $getRoles = Role::orderby("id", "DESC")->paginate(20);
+        $getRoles = Role::orderby("id", "DESC")
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+            ]);
 
         return RoleResource::collection($getRoles);
     }

@@ -119,7 +119,11 @@ class CreditNoteService extends Service
 
         $creditNotes = $creditNotesQuery
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
 
         return CreditNoteResource::collection($creditNotes)
             ->additional([

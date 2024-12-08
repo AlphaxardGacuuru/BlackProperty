@@ -20,7 +20,11 @@ class WaterReadingService extends Service
         $waterReadings = $waterReadingsQuery
             ->orderBy("month", "DESC")
             ->orderBy("year", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
 
         $totalUsage = $waterReadingsQuery->sum("usage") * 1000;
         $totalBill = $waterReadingsQuery->sum("bill");

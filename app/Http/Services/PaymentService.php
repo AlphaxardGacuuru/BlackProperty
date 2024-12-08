@@ -127,7 +127,11 @@ class PaymentService extends Service
 
         $payments = $paymentsQuery
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
 
         return PaymentResource::collection($payments)
             ->additional(["sum" => number_format($sum)]);

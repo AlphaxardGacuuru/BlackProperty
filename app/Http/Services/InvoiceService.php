@@ -22,7 +22,11 @@ class InvoiceService extends Service
         $invoices = $invoicesQuery
             ->orderBy("month", "ASC")
             ->orderBy("year", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
 
         return InvoiceResource::collection($invoices);
     }

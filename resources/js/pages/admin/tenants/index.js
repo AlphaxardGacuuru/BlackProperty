@@ -13,7 +13,7 @@ const index = (props) => {
 		// Set page
 		props.setPage({ name: "Tenants", path: ["tenants"] })
 		props.getPaginated(
-			`tenants/by-property-id/${props.selectedPropertyId}?
+			`tenants?propertyId=${props.selectedPropertyId}&
 			name=${nameQuery}&
 			phone=${phoneQuery}`,
 			setTenants
@@ -46,6 +46,8 @@ const index = (props) => {
 					tenants={tenants}
 					setTenants={setTenants}
 					onDeleteTenant={onDeleteTenant}
+					setNameQuery={setNameQuery}
+					setPhoneQuery={setPhoneQuery}
 				/>
 				{/* Tenants Tab End */}
 			</div>

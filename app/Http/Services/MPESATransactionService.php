@@ -19,11 +19,10 @@ class MPESATransactionService extends Service
         $sum = MPESATransaction::sum("amount");
 
         // Check if total is request
-        if ($request->total) {
-            return ["data" => number_format($sum)];
-        } else {
-            return MPESATransactionResource::collection($mpesaTransactions);
-        }
+        return MPESATransactionResource::collection($mpesaTransactions)
+            ->additional([
+                "sum" => number_format($sum),
+            ]);
     }
 
     /*
@@ -127,12 +126,12 @@ class MPESATransactionService extends Service
         }
     }
 
-	/*
-	* Kopokopo Environment Variables
-	*/ 
-	public static function options()
-	{
-        return  [
+    /*
+     * Kopokopo Environment Variables
+     */
+    public static function options()
+    {
+        return [
             'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
             // 'clientId' => env('KOPOKOPO_CLIENT_ID'),
             'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
@@ -142,5 +141,5 @@ class MPESATransactionService extends Service
             'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
             // 'baseUrl' => env('KOPOKOPO_BASE_URL'),
         ];
-	}
+    }
 }

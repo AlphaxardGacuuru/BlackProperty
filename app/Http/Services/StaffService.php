@@ -23,7 +23,10 @@ class StaffService extends Service
 
         $staff = $staffQuery
             ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+            ]);
 
         return StaffResource::collection($staff);
     }

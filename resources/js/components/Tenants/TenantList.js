@@ -15,17 +15,25 @@ import TenantSVG from "@/svgs/TenantSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
+import LogoutSVG from "@/svgs/LogoutSVG"
 
 const TenantList = (props) => {
 	const location = useLocation()
 
 	/*
-	 * Delete Tenant
+	 * Vacate Tenant
 	 */
-	const onDeleteTenant = (tenantId) => {
-		Axios.delete(`/api/tenants/${tenantId}`)
+	const onVacate = (tenantId, unitId) => {
+		Axios.put(`/api/tenants/${tenantId}`, {
+			unitId: unitId,
+			vacate: true,
+		})
 			.then((res) => {
 				props.setMessages([res.data.message])
+				// Fetch Tenants
+				props.getPaginated(`tenants?unitId=${id}`, props.setTenants)
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -39,7 +47,7 @@ const TenantList = (props) => {
 					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
 						<HeroHeading
 							heading="Total Tenants"
-							data={props.tenants.data?.length}
+							data={props.tenants.meta?.total}
 						/>
 						<HeroIcon>
 							<TenantSVG />
@@ -132,12 +140,60 @@ const TenantList = (props) => {
 											/>
 
 											<div className="mx-1">
-												<DeleteModal
-													index={`tenant${key}`}
-													model={tenant}
-													modelName="Tenant"
-													onDelete={onDeleteTenant}
-												/>
+												{/* Confirm Vacate Modal End */}
+												<div
+													className="modal fade"
+													id={`vacateModal${key}`}
+													tabIndex="-1"
+													aria-labelledby="deleteModalLabel"
+													aria-hidden="true">
+													<div className="modal-dialog">
+														<div className="modal-content rounded-0">
+															<div className="modal-header">
+																<h1
+																	id="deleteModalLabel"
+																	className="modal-title fs-5">
+																	Vacate Tenant
+																</h1>
+																<button
+																	type="button"
+																	className="btn-close"
+																	data-bs-dismiss="modal"
+																	aria-label="Close"></button>
+															</div>
+															<div className="modal-body text-start text-wrap">
+																Are you sure you want to vacate {tenant.name}.
+															</div>
+															<div className="modal-footer justify-content-between">
+																<button
+																	type="button"
+																	className="mysonar-btn btn-2"
+																	data-bs-dismiss="modal">
+																	Close
+																</button>
+																<button
+																	type="button"
+																	className="mysonar-btn btn-2"
+																	data-bs-dismiss="modal"
+																	onClick={() => onVacate(tenant.id, tenant.unitId)}>
+																	<span className="me-1">{<LogoutSVG />}</span>
+																	Vacate {tenant.name}
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+												{/* Confirm Vacate Modal End */}
+
+												{/* Button trigger modal */}
+												<button
+													type="button"
+													className="mysonar-btn btn-2 mb-2"
+													data-bs-toggle="modal"
+													data-bs-target={`#vacateModal${key}`}>
+													<LogoutSVG /> Vacate tenant
+												</button>
+												{/* Button trigger modal End */}
 											</div>
 										</React.Fragment>
 									</div>
