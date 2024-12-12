@@ -75,10 +75,10 @@ const WaterReadingList = (props) => {
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
-				<div className="d-flex justify-content-between">
-					{/* Total */}
-					<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-4">
-						{/* Bill */}
+				{/* Total */}
+				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
+					{/* Bill */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Bill"
 							data={`KES ${props.waterReadings.totalBill}`}
@@ -86,8 +86,10 @@ const WaterReadingList = (props) => {
 						<HeroIcon>
 							<MoneySVG />
 						</HeroIcon>
-						{/* Bill End */}
-						{/* Usage */}
+					</div>
+					{/* Bill End */}
+					{/* Usage */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Usage"
 							data={`${props.waterReadings.totalUsage}L`}
@@ -95,11 +97,11 @@ const WaterReadingList = (props) => {
 						<HeroIcon>
 							<WaterReadingSVG />
 						</HeroIcon>
-						{/* Usage End */}
 					</div>
+					{/* Usage End */}
 				</div>
-				{/* Total End */}
 			</div>
+			{/* Total End */}
 			{/* Data End */}
 
 			<br />
@@ -298,7 +300,7 @@ const WaterReadingList = (props) => {
 								</td>
 								<td>{waterReading.year}</td>
 								<td>
-									<div className="d-flex justify-content-end">
+									<div className="d-flex justify-content-center">
 										<MyLink
 											linkTo={`/water-readings/${waterReading.id}/edit`}
 											icon={<EditSVG />}

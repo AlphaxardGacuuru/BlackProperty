@@ -35,6 +35,7 @@ class StaffController extends Controller
             "email" => "required|email",
             "phone" => "string",
             "gender" => "required|string",
+            "propertyId" => "required|string",
         ]);
 
         [$saved, $message, $staff, $code] = $this->service->store($request);
@@ -74,6 +75,7 @@ class StaffController extends Controller
             "email" => "nullable|email|unique:users",
             "phone" => "string|unique:users",
             "gender" => "nullable|string",
+            "propertyId" => "nullable|string",
         ]);
 
         [$saved, $message, $staff] = $this->service->update($request, $id);

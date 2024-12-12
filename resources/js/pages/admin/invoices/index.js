@@ -30,7 +30,6 @@ const index = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [properties, setProperties] = useState([])
 	const statuses = ["pending", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
 
@@ -40,22 +39,16 @@ const index = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Invoices", path: ["invoices"] })
-		// Fetch Properties
-		props.get(
-			`properties/by-user-id/${props.auth.id}?idAndName=true`,
-			setProperties
-		)
 	}, [])
 
 	useEffect(() => {
 		// Fetch Invoices
 		props.getPaginated(
-			`invoices/by-property-id/${props.auth.propertyIds}?
+			`invoices?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			type=${type}&
 			status=${status}&
-			propertyId=${propertyId}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
@@ -63,11 +56,11 @@ const index = (props) => {
 			setInvoices
 		)
 	}, [
+		props.selectedPropertyId,
 		tenant,
 		unit,
 		type,
 		status,
-		propertyId,
 		startMonth,
 		endMonth,
 		startYear,
@@ -100,6 +93,9 @@ const index = (props) => {
 				props.setMessages([res.data.message])
 				// Remove row
 				setInvoices({
+					due: invoices.due,
+					paid: invoices.paid,
+					balance: invoices.balance,
 					meta: invoices.meta,
 					links: invoices.links,
 					data: invoices.data.filter((invoice) => {
@@ -125,10 +121,10 @@ const index = (props) => {
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
-				<div className="d-flex justify-content-between">
-					{/* Total */}
-					<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-4">
-						{/* Due */}
+				{/* Total */}
+				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
+					{/* Due */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Due"
 							data={
@@ -140,8 +136,10 @@ const index = (props) => {
 						<HeroIcon>
 							<InvoiceSVG />
 						</HeroIcon>
-						{/* Due End */}
-						{/* Paid */}
+					</div>
+					{/* Due End */}
+					{/* Paid */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Paid"
 							data={
@@ -153,8 +151,10 @@ const index = (props) => {
 						<HeroIcon>
 							<PaymentSVG />
 						</HeroIcon>
-						{/* Paid End */}
-						{/* Balance */}
+					</div>
+					{/* Paid End */}
+					{/* Balance */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Balance"
 							data={
@@ -166,11 +166,11 @@ const index = (props) => {
 						<HeroIcon>
 							<BalanceSVG />
 						</HeroIcon>
-						{/* Balance End */}
 					</div>
+					{/* Balance End */}
 				</div>
-				{/* Total End */}
 			</div>
+			{/* Total End */}
 			{/* Data End */}
 
 			<br />
@@ -242,24 +242,6 @@ const index = (props) => {
 						</select>
 					</div>
 					{/* Status End */}
-					{/* Properties */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							name="property"
-							className="form-control text-capitalize"
-							onChange={(e) => setPropertyId(e.target.value)}
-							required={true}>
-							<option value="">Filter by Property</option>
-							{properties.map((property, key) => (
-								<option
-									key={key}
-									value={property.id}>
-									{property.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Properties End */}
 				</div>
 			</div>
 

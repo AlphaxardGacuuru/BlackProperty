@@ -20,7 +20,7 @@ const UnitList = (props) => {
 			<div className="card shadow-sm mb-2 p-2">
 				<div className="d-flex justify-content-between">
 					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+					<div className="d-flex justify-content-between w-100 align-items-center mx-2">
 						<HeroHeading
 							heading="Total Units"
 							data={props.units.meta?.total}

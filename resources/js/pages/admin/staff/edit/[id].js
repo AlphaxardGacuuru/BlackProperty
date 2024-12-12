@@ -15,6 +15,7 @@ const edit = (props) => {
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
+	const [propertyId, setPropertyId] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -66,6 +67,7 @@ const edit = (props) => {
 			phone: phone,
 			gender: gender,
 			userRoles: userRoles,
+			propertyId: propertyId,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -130,6 +132,28 @@ const edit = (props) => {
 						</option>
 					</select>
 
+					{/* Property Start */}
+					<label htmlFor="">Property</label>
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						{[{ id: "", name: "Select Property" }]
+							.concat(props.properties)
+							.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}
+									selected={property.id == staff.propertyId}>
+									{property.name}
+								</option>
+							))}
+					</select>
+					{/* Property End */}
+
 					{/* Roles */}
 					<div className="form-group">
 						<label htmlFor="">Roles</label>
@@ -163,8 +187,8 @@ const edit = (props) => {
 
 					<center className="mb-5">
 						<MyLink
-							linkTo={`/properties/${staff.propertyId}/show`}
-							text="back to property"
+							linkTo={`/staff`}
+							text="back to staff"
 						/>
 					</center>
 

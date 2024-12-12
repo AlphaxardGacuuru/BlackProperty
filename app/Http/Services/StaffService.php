@@ -122,6 +122,19 @@ class StaffService extends Service
             $staff->password = Hash::make($request->input("email"));
         }
 
+        if ($request->filled("propertyId")) {
+            DB::transaction(function () use ($staff, $request) {
+                // Remove propertys not included
+                UserProperty::where("user_id", $staff->id)
+                    ->delete();
+
+                $userRole = new UserProperty;
+                $userRole->user_id = $staff->id;
+                $userRole->property_id = $request->propertyId;
+                $userRole->save();
+            });
+        }
+
         if ($request->filled("userRoles")) {
             if (count($request->input("userRoles")) > 0) {
                 foreach ($request->input("userRoles") as $roleId) {
@@ -175,10 +188,18 @@ class StaffService extends Service
      */
     public function search($query, $request)
     {
-        $propertyId = explode(",", $request->propertyId, );
+        $propertyId = explode(",", $request->propertyId);
 
         if ($request->filled("propertyId")) {
             $query = $query->whereIn("property_id", $propertyId);
+        };
+
+        $roleId = $request->roleId;
+
+        if ($request->filled("roleId")) {
+            $query = $query->whereHas("user.userRoles", function ($query) use ($roleId) {
+                $query->where("role_id", $roleId);
+            });
         }
 
         if ($request->filled("userId")) {

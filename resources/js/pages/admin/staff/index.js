@@ -7,12 +7,26 @@ const index = (props) => {
 	const [staff, setStaff] = useState([])
 	const [roles, setRoles] = useState([])
 
+	const [nameQuery, setNameQuery] = useState("")
+	const [roleQuery, setRoleQuery] = useState("")
+
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Staff", path: ["staff"] })
-		props.getPaginated("staff", setStaff)
-		props.get("roles?idAndName=true", setRoles)
+		props.get(
+			`roles?propertyId=${props.selectedPropertyId}&idAndName=true`,
+			setRoles
+		)
 	}, [])
+
+	useEffect(() => {
+		props.getPaginated(
+			`staff?propertyId=${props.selectedPropertyId}&
+			name=${nameQuery}&
+			roleId=${roleQuery}`,
+			setStaff
+		)
+	}, [props.selectedPropertyId, nameQuery, roleQuery])
 
 	return (
 		<div className="row">
@@ -23,6 +37,8 @@ const index = (props) => {
 					staff={staff}
 					setStaff={setStaff}
 					roles={roles}
+					setNameQuery={setNameQuery}
+					setRoleQuery={setRoleQuery}
 				/>
 				{/* Staff Tab End */}
 			</div>

@@ -19,11 +19,14 @@ class CreditNoteService extends Service
 
         $creditNotesQuery = $this->search($creditNotesQuery, $request);
 
+		$sum = $creditNotesQuery->sum("amount");
+
         $creditNotes = $creditNotesQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        return CreditNoteResource::collection($creditNotes);
+        return CreditNoteResource::collection($creditNotes)
+		->additional(["sum" => $sum]);
     }
 
     /*
@@ -103,44 +106,23 @@ class CreditNoteService extends Service
     }
 
     /*
-     * Get Credit Notes by Property ID
-     */
-    public function byPropertyId($request, $id)
-    {
-        $ids = explode(",", $id);
-
-        $creditNotesQuery = CreditNote::whereHas("invoice.userUnit.unit.property", function ($query) use ($ids) {
-            $query->whereIn("id", $ids);
-        });
-
-        $creditNotesQuery = $this->search($creditNotesQuery, $request);
-
-        $sum = $creditNotesQuery->sum("amount");
-
-        $creditNotes = $creditNotesQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20)
-            ->appends([
-                "propertyId" => $request->propertyId,
-                "unitId" => $request->unitId,
-            ]);
-
-        return CreditNoteResource::collection($creditNotes)
-            ->additional([
-                "sum" => number_format($sum),
-            ]);
-    }
-
-    /*
      * Handle Search
      */
     public function search($query, $request)
     {
+        $propertyId = explode(",", $request->propertyId);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
             $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($tenant) {
+                ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
                 });
         }
@@ -149,7 +131,7 @@ class CreditNoteService extends Service
 
         if ($request->filled("unit")) {
             $query = $query
-                ->whereHas("userUnit.unit", function ($query) use ($unit) {
+                ->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
                     $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
@@ -158,14 +140,6 @@ class CreditNoteService extends Service
 
         if ($request->filled("type")) {
             $query = $query->where("type", $type);
-        }
-
-        $propertyId = $request->input("propertyId");
-
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->where("id", $propertyId);
-            });
         }
 
         $startMonth = $request->input("startMonth");

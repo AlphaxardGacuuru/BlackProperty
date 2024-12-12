@@ -35,7 +35,7 @@ const show = (props) => {
 		props.setPage({ name: "View Property", path: ["properties", "view"] })
 		props.get(`properties/${id}`, setProperty)
 		props.getPaginated(`units?propertyId=${id}`, setUnits)
-		props.getPaginated(`tenants?propertyId=${id}`, setTenants)
+		props.getPaginated(`tenants?propertyId=${id}&occupied=true`, setTenants)
 		props.getPaginated(`staff?propertyId=${id}`, setStaff)
 		props.get(`roles?idAndName=true`, setRoles)
 	}, [id])
@@ -53,6 +53,7 @@ const show = (props) => {
 	useEffect(() => {
 		props.getPaginated(
 			`tenants?propertyId=${id}&
+			occupied=true&
 			name=${tenantNameQuery}&
 			phone=${tenantPhoneQuery}`,
 			setTenants

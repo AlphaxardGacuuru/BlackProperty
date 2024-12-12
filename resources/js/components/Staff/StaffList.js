@@ -16,8 +16,6 @@ import PlusSVG from "@/svgs/PlusSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 
 const StaffList = (props) => {
-	const [roleQuery, setRoleQuery] = useState("")
-
 	/*
 	 * Delete Staff
 	 */
@@ -41,7 +39,7 @@ const StaffList = (props) => {
 			<div className="card shadow-sm p-2">
 				<div className="d-flex justify-content-between">
 					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+					<div className="d-flex justify-content-between w-100 align-items-center mx-2">
 						<HeroHeading
 							heading="Total Staff"
 							data={props.staff.data?.length}
@@ -80,12 +78,12 @@ const StaffList = (props) => {
 							name="name"
 							placeholder="Search by Role"
 							className="form-control me-2"
-							onChange={(e) => setRoleQuery(e.target.value)}>
+							onChange={(e) => props.setRoleQuery(e.target.value)}>
 							<option value="">All</option>
 							{props.roles.map((role, key) => (
 								<option
 									key={key}
-									value={role.name}>
+									value={role.id}>
 									{role.name}
 								</option>
 							))}
@@ -105,7 +103,7 @@ const StaffList = (props) => {
 							<th colSpan="6"></th>
 							<th className="text-end">
 								<MyLink
-									linkTo={`/staff/${props.propertyId}/create`}
+									linkTo={`/staff/create`}
 									icon={<PlusSVG />}
 									text="add staff"
 								/>

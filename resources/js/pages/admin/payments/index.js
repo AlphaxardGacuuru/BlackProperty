@@ -27,35 +27,35 @@ const index = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [properties, setProperties] = useState([])
-
-	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Payments", path: ["payments"] })
-		// Fetch Properties
-		props.get(
-			`properties/by-user-id/${props.auth.id}?idAndName=true`,
-			setProperties
-		)
 	}, [])
 
 	useEffect(() => {
 		// Fetch Payments
 		props.getPaginated(
-			`payments/by-property-id/${props.auth.propertyIds}?
+			`payments?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
-			propertyId=${propertyId}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
 			endYear=${endYear}`,
 			setPayments
 		)
-	}, [tenant, unit, propertyId, startMonth, endMonth, startYear, endYear])
+	}, [
+		props.selectedPropertyId,
+		tenant,
+		unit,
+		propertyId,
+		startMonth,
+		endMonth,
+		startYear,
+		endYear,
+	])
 
 	/*
 	 * Delete Payment
@@ -70,6 +70,7 @@ const index = (props) => {
 				props.setMessages([res.data.message])
 				// Remove row
 				setPayments({
+					sum: payments.sum,
 					meta: payments.meta,
 					links: payments.links,
 					data: payments.data.filter((payment) => {
@@ -140,24 +141,6 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Unit End */}
-					{/* Properties */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							name="property"
-							className="form-control text-capitalize"
-							onChange={(e) => setPropertyId(e.target.value)}
-							required={true}>
-							<option value="">Filter by Property</option>
-							{properties.map((property, key) => (
-								<option
-									key={key}
-									value={property.id}>
-									{property.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Properties End */}
 				</div>
 			</div>
 
@@ -171,7 +154,6 @@ const index = (props) => {
 							<select
 								className="form-control"
 								onChange={(e) => setStartMonth(e.target.value)}>
-								<option value="">Select Month</option>
 								{props.months.map((month, key) => (
 									<option
 										key={key}
@@ -213,7 +195,6 @@ const index = (props) => {
 							<select
 								className="form-control"
 								onChange={(e) => setEndMonth(e.target.value)}>
-								<option value="">Select Month</option>
 								{props.months.map((month, key) => (
 									<option
 										key={key}
@@ -233,7 +214,7 @@ const index = (props) => {
 							</label>
 							<select
 								className="form-control"
-								onChange={(e) => setStartYear(e.target.value)}>
+								onChange={(e) => setEndYear(e.target.value)}>
 								<option value="">Select Year</option>
 								{props.years.map((year, key) => (
 									<option

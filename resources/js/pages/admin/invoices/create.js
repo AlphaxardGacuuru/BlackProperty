@@ -38,7 +38,7 @@ const create = (props) => {
 		)
 		// Fetch Tenants
 		props.get(
-			`tenants/by-property-id/${props.auth.propertyIds}?idAndName=true`,
+			`tenants?propertyId=${props.auth.propertyIds}&idAndName=true`,
 			setTenants
 		)
 	}, [])

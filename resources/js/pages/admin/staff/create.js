@@ -17,6 +17,7 @@ const create = (props) => {
 	const [gender, setGender] = useState()
 	const [roles, setRoles] = useState([])
 	const [userRoles, setUserRoles] = useState([])
+	const [propertyId, setPropertyId] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Faculties and Departments
@@ -50,14 +51,14 @@ const create = (props) => {
 			phone: phone,
 			gender: gender,
 			userRoles: userRoles,
-			propertyId: id,
+			propertyId: propertyId,
 		})
 			.then((res) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
 				// Redirect to Staff
-				setTimeout(() => history.push(`/admin/properties/${id}/show`), 500)
+				setTimeout(() => history.push(`/admin/staff`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -109,6 +110,28 @@ const create = (props) => {
 						<option value="female">Female</option>
 					</select>
 
+					{/* Property Start */}
+					<label htmlFor="">Property</label>
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						{[{ id: "", name: "Select Property" }]
+							.concat(props.properties)
+							.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}
+									selected={property.id == props.selectedPropertyId}>
+									{property.name}
+								</option>
+							))}
+					</select>
+					{/* Property End */}
+
 					{/* Roles */}
 					<div className="form-group">
 						<label htmlFor="">Roles</label>
@@ -141,7 +164,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/properties/${id}/show`}
+							linkTo={`/staff`}
 							text="back to staff"
 						/>
 					</div>

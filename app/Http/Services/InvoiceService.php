@@ -3,7 +3,9 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\InvoiceResource;
+use App\Models\CreditNote;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 use Illuminate\Validation\ValidationException;
@@ -15,11 +17,19 @@ class InvoiceService extends Service
      */
     public function index($request)
     {
-        $invoicesQuery = new Invoice;
+        $invoiceQuery = new Invoice;
 
-        $invoicesQuery = $this->search($invoicesQuery, $request);
+        $invoiceQuery = $this->search($invoiceQuery, $request);
 
-        $invoices = $invoicesQuery
+        $creditNotes = CreditNote::sum("amount");
+
+        $due = $invoiceQuery->sum("amount") - $creditNotes;
+
+        $paid = Payment::sum("amount");
+
+        $balance = $due - $creditNotes - $paid;
+
+        $invoices = $invoiceQuery
             ->orderBy("month", "ASC")
             ->orderBy("year", "DESC")
             ->paginate(20)
@@ -28,7 +38,12 @@ class InvoiceService extends Service
                 "unitId" => $request->unitId,
             ]);
 
-        return InvoiceResource::collection($invoices);
+        return InvoiceResource::collection($invoices)
+            ->additional([
+                "due" => number_format($due),
+                "paid" => number_format($paid),
+                "balance" => number_format($balance),
+            ]);
     }
 
     /*
@@ -135,6 +150,14 @@ class InvoiceService extends Service
      */
     public function search($query, $request)
     {
+        $propertyId = explode(",", $request->propertyId);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
@@ -163,14 +186,6 @@ class InvoiceService extends Service
 
         if ($request->filled("status")) {
             $query = $query->where("status", $status);
-        }
-
-        $propertyId = $request->input("propertyId");
-
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->where("id", $propertyId);
-            });
         }
 
         $startMonth = $request->input("startMonth");

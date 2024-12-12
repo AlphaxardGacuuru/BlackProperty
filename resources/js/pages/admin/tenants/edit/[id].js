@@ -25,21 +25,9 @@ const edit = (props) => {
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Edit Tenant", path: ["properties", "edit"] })
+		props.setPage({ name: "Edit Tenant", path: ["tenants", "edit"] })
 
-		Axios.get(`/api/tenants/${id}`).then((res) => {
-			setTenant(res.data.data)
-			// Set page
-			props.setPage({
-				name: "Edit Tenant",
-				path: [
-					"properties",
-					`properties/${res.data.data.propertyId}/show`,
-					`units/${res.data.data.unitId}/show`,
-					"edit",
-				],
-			})
-		})
+		props.get(`/tenants/${id}`, setTenant)
 	}, [])
 
 	/*
@@ -124,9 +112,9 @@ const edit = (props) => {
 
 				<center>
 					<MyLink
-						linkTo={`/units/${tenant.unitId}/show`}
+						linkTo={`/tenants`}
 						icon={<BackSVG />}
-						text="back to unit"
+						text="back to tenants"
 					/>
 				</center>
 			</div>

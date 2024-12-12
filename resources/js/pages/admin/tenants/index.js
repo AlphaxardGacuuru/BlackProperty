@@ -14,6 +14,7 @@ const index = (props) => {
 		props.setPage({ name: "Tenants", path: ["tenants"] })
 		props.getPaginated(
 			`tenants?propertyId=${props.selectedPropertyId}&
+			occupied=true&
 			name=${nameQuery}&
 			phone=${phoneQuery}`,
 			setTenants

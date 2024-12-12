@@ -40,7 +40,7 @@ const edit = (props) => {
 
 		// Fetch Tenants
 		props.auth.propertyIds.forEach((id) => {
-			Axios.get(`api/tenants/by-property-id/${id}`).then((res) => {
+			Axios.get(`api/tenants?propertyId=${id}`).then((res) => {
 				setTenants([...tenants, ...res.data.data])
 			})
 		})

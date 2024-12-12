@@ -6,10 +6,34 @@ use App\Http\Resources\PaymentResource;
 use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PaymentService extends Service
 {
+    /*
+     * Fetch All Payments
+     */
+    public function index($request)
+    {
+        $paymentQuery = new Payment;
+
+        $paymentQuery = $this->search($paymentQuery, $request);
+
+        $sum = $paymentQuery->sum("amount");
+
+        $payments = $paymentQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20)
+            ->appends([
+                "propertyId" => $request->propertyId,
+                "unitId" => $request->unitId,
+            ]);
+
+        return PaymentResource::collection($payments)
+            ->additional(["sum" => number_format($sum)]);
+    }
+
     /*
      * Display the specified resource.
      */
@@ -111,37 +135,18 @@ class PaymentService extends Service
     }
 
     /*
-     * Get Invoices by Property ID
-     */
-    public function byPropertyId($request, $id)
-    {
-        $ids = explode(",", $id);
-
-        $paymentsQuery = Payment::whereHas("invoice.userUnit.unit.property", function ($query) use ($ids) {
-            $query->whereIn("id", $ids);
-        });
-
-        $paymentsQuery = $this->search($paymentsQuery, $request);
-
-        $sum = $paymentsQuery->sum("amount");
-
-        $payments = $paymentsQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20)
-            ->appends([
-                "propertyId" => $request->propertyId,
-                "unitId" => $request->unitId,
-            ]);
-
-        return PaymentResource::collection($payments)
-            ->additional(["sum" => number_format($sum)]);
-    }
-
-    /*
      * Handle Search
      */
     public function search($query, $request)
     {
+        $propertyId = explode(",", $request->propertyId);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
@@ -160,33 +165,25 @@ class PaymentService extends Service
                 });
         }
 
-        $propertyId = $request->input("propertyId");
-
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->where("id", $propertyId);
-            });
-        }
-
         $startMonth = $request->input("startMonth");
         $endMonth = $request->input("endMonth");
         $startYear = $request->input("startYear");
         $endYear = $request->input("endYear");
 
-        if ($request->filled("startMonth")) {
-            $query = $query->where("month", ">=", $startMonth);
+		// Start Date Logic
+        if ($startMonth || $startYear) {
+            $startYear = $startYear ?? now()->year; // Default to the current year if not provided
+            $startMonth = $startMonth ?? 1; // Default to January if not provided
+            $startDate = Carbon::createFromDate($startYear, $startMonth, 1)->startOfMonth();
+            $query = $query->where("paid_on", ">=", $startDate);
         }
 
-        if ($request->filled("endMonth")) {
-            $query = $query->where("month", "<=", $endMonth);
-        }
-
-        if ($request->filled("startYear")) {
-            $query = $query->where("year", ">=", $startYear);
-        }
-
-        if ($request->filled("endYear")) {
-            $query = $query->where("year", "<=", $endYear);
+		// End Date Logic
+        if ($endMonth || $endYear) {
+            $endYear = $endYear ?? now()->year; // Default to the current year if not provided
+            $endMonth = $endMonth ?? 12; // Default to December if not provided
+            $endDate = Carbon::createFromDate($endYear, $endMonth, 1)->endOfMonth();
+            $query = $query->where("paid_on", "<=", $endDate);
         }
 
         return $query;

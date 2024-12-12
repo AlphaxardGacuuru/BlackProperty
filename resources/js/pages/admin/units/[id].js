@@ -40,7 +40,7 @@ const show = (props) => {
 			setUnit(res.data.data)
 		})
 		// Fetch Tenants
-		props.getPaginated(`tenants?unitId=${id}`, setTenants)
+		props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
 		// Fetch Statements
 		props.getPaginated(`units/statements/${id}?type=rent`, setRentStatements)
 		props.getPaginated(`units/statements/${id}?type=water`, setWaterStatements)
@@ -78,7 +78,7 @@ const show = (props) => {
 				// Fetch Unit
 				props.get(`units/${id}`, setUnit)
 				// Fetch Tenants
-				props.getPaginated(`tenants/by-unit-id/${id}`, setTenants)
+				props.getPaginated(`tenants?unitId${id}&vacated=true`, setTenants)
 				// Fetch Auth
 				props.get("auth", props.setAuth, "auth")
 			})
@@ -129,15 +129,15 @@ const show = (props) => {
 	const setStatements = (type) => {
 		switch (type) {
 			case "rent":
-				return rentStatements
+				return setRentStatements
 				break
 
 			case "water":
-				return waterStatements
+				return setWaterStatements
 				break
 
 			default:
-				return serviceChargeStatements
+				return setServiceChargeStatements
 				break
 		}
 	}

@@ -81642,7 +81642,9 @@ __webpack_require__.r(__webpack_exports__);
 var HeroHeading = function HeroHeading(_ref) {
   var heading = _ref.heading,
     data = _ref.data;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "my-auto"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "fs-4"
   }, data));
 };
@@ -82038,7 +82040,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/staff",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_32__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/staff/:id/create",
+    path: "/admin/staff/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_33__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/staff/:id/edit",
@@ -83776,12 +83778,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
 /* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
 /* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -83796,11 +83792,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var StaffList = function StaffList(props) {
   var _props$staff$data, _props$staff$data2;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState2 = _slicedToArray(_useState, 2),
-    roleQuery = _useState2[0],
-    setRoleQuery = _useState2[1];
-
   /*
    * Delete Staff
    */
@@ -83826,7 +83817,7 @@ var StaffList = function StaffList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Total Staff",
     data: (_props$staff$data = props.staff.data) === null || _props$staff$data === void 0 ? void 0 : _props$staff$data.length
@@ -83854,14 +83845,14 @@ var StaffList = function StaffList(props) {
     placeholder: "Search by Role",
     className: "form-control me-2",
     onChange: function onChange(e) {
-      return setRoleQuery(e.target.value);
+      return props.setRoleQuery(e.target.value);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
   }, "All"), props.roles.map(function (role, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
-      value: role.name
+      value: role.id
     }, role.name);
   }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
@@ -83872,7 +83863,7 @@ var StaffList = function StaffList(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    linkTo: "/staff/".concat(props.propertyId, "/create"),
+    linkTo: "/staff/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "add staff"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Role"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Date Joined"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
@@ -83985,16 +83976,20 @@ var StatementList = function StatementList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
     heading: "Due",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.statements.due)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_4__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_4__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
     heading: "Paid",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.statements.paid)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
     heading: "Balance",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.statements.balance)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84067,24 +84062,6 @@ __webpack_require__.r(__webpack_exports__);
 var TenantList = function TenantList(props) {
   var _props$tenants$meta, _props$tenants$data;
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
-
-  /*
-   * Vacate Tenant
-   */
-  var onVacate = function onVacate(tenantId, unitId) {
-    Axios.put("/api/tenants/".concat(tenantId), {
-      unitId: unitId,
-      vacate: true
-    }).then(function (res) {
-      props.setMessages([res.data.message]);
-      // Fetch Tenants
-      props.getPaginated("tenants?unitId=".concat(id), props.setTenants);
-      // Fetch Auth
-      props.get("auth", props.setAuth, "auth");
-    })["catch"](function (err) {
-      return props.getErrors(err);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84092,7 +84069,7 @@ var TenantList = function TenantList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_7__["default"], {
     heading: "Total Tenants",
     data: (_props$tenants$meta = props.tenants.meta) === null || _props$tenants$meta === void 0 ? void 0 : _props$tenants$meta.total
@@ -84125,14 +84102,16 @@ var TenantList = function TenantList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, location.pathname.match("/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "6"
+    colSpan: "7"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
     linkTo: "/tenants/".concat(props.unitId, "/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     text: "add tenant"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Move In Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data = props.tenants.data) === null || _props$tenants$data === void 0 ? void 0 : _props$tenants$data.map(function (tenant, key) {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Move In Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "text-center"
+  }, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$tenants$data = props.tenants.data) === null || _props$tenants$data === void 0 ? void 0 : _props$tenants$data.map(function (tenant, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.tenants)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -84143,8 +84122,8 @@ var TenantList = function TenantList(props) {
         height: "3em"
       },
       alt: "Avatar"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.occupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.occupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex justify-content-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/tenants/".concat(tenant.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null),
@@ -84184,7 +84163,7 @@ var TenantList = function TenantList(props) {
       className: "mysonar-btn btn-2",
       "data-bs-dismiss": "modal",
       onClick: function onClick() {
-        return onVacate(tenant.id, tenant.unitId);
+        return props.onVacate(tenant.id, tenant.unitId);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "me-1"
@@ -84246,7 +84225,7 @@ var UnitList = function UnitList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Total Units",
     data: (_props$units$meta = props.units.meta) === null || _props$units$meta === void 0 ? void 0 : _props$units$meta.total
@@ -84470,13 +84449,15 @@ var WaterReadingList = function WaterReadingList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Bill",
     data: "KES ".concat(props.waterReadings.totalBill)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Usage",
     data: "".concat(props.waterReadings.totalUsage, "L")
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84622,7 +84603,7 @@ var WaterReadingList = function WaterReadingList(props) {
     }, "KES"), waterReading.bill), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, props.months[waterReading.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, waterReading.year), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
+      className: "d-flex justify-content-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/water-readings/".concat(waterReading.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
@@ -84983,51 +84964,21 @@ var index = function index(props) {
     _useState6 = _slicedToArray(_useState5, 2),
     unit = _useState6[0],
     setUnit = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState8 = _slicedToArray(_useState7, 2),
-    propertyId = _useState8[0],
-    setPropertyId = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState10 = _slicedToArray(_useState9, 2),
-    startMonth = _useState10[0],
-    setStartMonth = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState12 = _slicedToArray(_useState11, 2),
-    startYear = _useState12[0],
-    setStartYear = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState14 = _slicedToArray(_useState13, 2),
-    endMonth = _useState14[0],
-    setEndMonth = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState16 = _slicedToArray(_useState15, 2),
-    endYear = _useState16[0],
-    setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState18 = _slicedToArray(_useState17, 2),
-    properties = _useState18[0],
-    setProperties = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState20 = _slicedToArray(_useState19, 2),
-    deleteIds = _useState20[0],
-    setDeleteIds = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState22 = _slicedToArray(_useState21, 2),
-    loading = _useState22[0],
-    setLoading = _useState22[1];
+    loading = _useState8[0],
+    setLoading = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
-      name: "Credit Note",
+      name: "Credit Notes",
       path: ["credit-notes"]
     });
-    // Fetch Properties
-    props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Credit Note
-    props.getPaginated("credit-notes/by-property-id/".concat(props.auth.propertyIds, "?\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tpropertyId=").concat(propertyId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
-  }, [tenant, unit, propertyId, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit), setCreditNotes);
+  }, [props.selectedPropertyId, tenant, unit]);
 
   /*
    * Delete CreditNote
@@ -85040,6 +84991,7 @@ var index = function index(props) {
       props.setMessages([res.data.message]);
       // Remove row
       setCreditNotes({
+        sum: creditNotes.sum,
         meta: creditNotes.meta,
         links: creditNotes.links,
         data: creditNotes.data.filter(function (creditNote) {
@@ -85092,97 +85044,7 @@ var index = function index(props) {
     onChange: function onChange(e) {
       return setUnit(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    name: "property",
-    className: "form-control text-capitalize",
-    onChange: function onChange(e) {
-      return setPropertyId(e.target.value);
-    },
-    required: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Filter by Property"), properties.map(function (property, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: property.id
-    }, property.name);
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm py-2 px-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end flex-wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-grow-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: ""
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setStartMonth(e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Month"), props.months.map(function (month, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: key
-    }, month);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "",
-    className: "invisible"
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setStartYear(e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Year"), props.years.map(function (year, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: year
-    }, year);
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-grow-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: ""
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setEndMonth(e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Month"), props.months.map(function (month, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: key
-    }, month);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "",
-    className: "invisible"
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setStartYear(e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Year"), props.years.map(function (year, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: year
-    }, year);
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
@@ -85672,6 +85534,18 @@ var show = function show(props) {
     });
     props.get("invoices/".concat(id), setInvoice);
   }, []);
+
+  /*
+   * Print Status Report
+   */
+  var printInvoice = function printInvoice() {
+    var contentToPrint = document.getElementById("contentToPrint").innerHTML;
+    document.body.innerHTML = contentToPrint;
+    // Print
+    window.print();
+    // Reload
+    window.location.reload();
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -85688,7 +85562,7 @@ var show = function show(props) {
     className: "me-5",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PrintSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null),
     text: "print",
-    onClick: "printInvoice()"
+    onClick: printInvoice
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "contentToPrint",
     className: "row mb-5"
@@ -85872,7 +85746,7 @@ var create = function create(props) {
     // Fetch Properties
     props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
     // Fetch Tenants
-    props.get("tenants/by-property-id/".concat(props.auth.propertyIds, "?idAndName=true"), setTenants);
+    props.get("tenants?propertyId=".concat(props.auth.propertyIds, "&idAndName=true"), setTenants);
   }, []);
 
   /*
@@ -86175,7 +86049,7 @@ var edit = function edit(props) {
 
     // Fetch Tenants
     props.auth.propertyIds.forEach(function (id) {
-      Axios.get("api/tenants/by-property-id/".concat(id)).then(function (res) {
+      Axios.get("api/tenants?propertyId=".concat(id)).then(function (res) {
         setTenants([].concat(_toConsumableArray(tenants), _toConsumableArray(res.data.data)));
       });
     });
@@ -86413,33 +86287,27 @@ var index = function index(props) {
     _useState20 = _slicedToArray(_useState19, 2),
     endYear = _useState20[0],
     setEndYear = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState22 = _slicedToArray(_useState21, 2),
-    properties = _useState22[0],
-    setProperties = _useState22[1];
   var statuses = ["pending", "partially_paid", "paid", "overpaid"];
   var types = ["rent", "water", "service_charge"];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState22 = _slicedToArray(_useState21, 2),
+    deleteIds = _useState22[0],
+    setDeleteIds = _useState22[1];
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState24 = _slicedToArray(_useState23, 2),
-    deleteIds = _useState24[0],
-    setDeleteIds = _useState24[1];
-  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState26 = _slicedToArray(_useState25, 2),
-    loading = _useState26[0],
-    setLoading = _useState26[1];
+    loading = _useState24[0],
+    setLoading = _useState24[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Invoices",
       path: ["invoices"]
     });
-    // Fetch Properties
-    props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Invoices
-    props.getPaginated("invoices/by-property-id/".concat(props.auth.propertyIds, "?\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tpropertyId=").concat(propertyId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
-  }, [tenant, unit, type, status, propertyId, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
+  }, [props.selectedPropertyId, tenant, unit, type, status, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Handle DeleteId checkboxes
@@ -86463,6 +86331,9 @@ var index = function index(props) {
       props.setMessages([res.data.message]);
       // Remove row
       setInvoices({
+        due: invoices.due,
+        paid: invoices.paid,
+        balance: invoices.balance,
         meta: invoices.meta,
         links: invoices.links,
         data: invoices.data.filter(function (invoice) {
@@ -86487,16 +86358,20 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Due",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoices.due)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Paid",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoices.paid)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Balance",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoices.balance)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86559,22 +86434,6 @@ var index = function index(props) {
     }, status.split("_").map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" "));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    name: "property",
-    className: "form-control text-capitalize",
-    onChange: function onChange(e) {
-      return setPropertyId(e.target.value);
-    },
-    required: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Filter by Property"), properties.map(function (property, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: property.id
-    }, property.name);
   }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87125,31 +86984,21 @@ var index = function index(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState18 = _slicedToArray(_useState17, 2),
-    properties = _useState18[0],
-    setProperties = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState20 = _slicedToArray(_useState19, 2),
-    deleteIds = _useState20[0],
-    setDeleteIds = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState22 = _slicedToArray(_useState21, 2),
-    loading = _useState22[0],
-    setLoading = _useState22[1];
+    loading = _useState18[0],
+    setLoading = _useState18[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Payments",
       path: ["payments"]
     });
-    // Fetch Properties
-    props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
-    props.getPaginated("payments/by-property-id/".concat(props.auth.propertyIds, "?\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tpropertyId=").concat(propertyId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
-  }, [tenant, unit, propertyId, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+  }, [props.selectedPropertyId, tenant, unit, propertyId, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete Payment
@@ -87162,6 +87011,7 @@ var index = function index(props) {
       props.setMessages([res.data.message]);
       // Remove row
       setPayments({
+        sum: payments.sum,
         meta: payments.meta,
         links: payments.links,
         data: payments.data.filter(function (payment) {
@@ -87214,23 +87064,7 @@ var index = function index(props) {
     onChange: function onChange(e) {
       return setUnit(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    name: "property",
-    className: "form-control text-capitalize",
-    onChange: function onChange(e) {
-      return setPropertyId(e.target.value);
-    },
-    required: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Filter by Property"), properties.map(function (property, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: property.id
-    }, property.name);
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end flex-wrap"
@@ -87245,9 +87079,7 @@ var index = function index(props) {
     onChange: function onChange(e) {
       return setStartMonth(e.target.value);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Month"), props.months.map(function (month, key) {
+  }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key
@@ -87280,9 +87112,7 @@ var index = function index(props) {
     onChange: function onChange(e) {
       return setEndMonth(e.target.value);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Month"), props.months.map(function (month, key) {
+  }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: key
@@ -87295,7 +87125,7 @@ var index = function index(props) {
   }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
-      return setStartYear(e.target.value);
+      return setEndYear(e.target.value);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
@@ -87436,7 +87266,7 @@ var show = function show(props) {
     });
     props.get("properties/".concat(id), setProperty);
     props.getPaginated("units?propertyId=".concat(id), setUnits);
-    props.getPaginated("tenants?propertyId=".concat(id), setTenants);
+    props.getPaginated("tenants?propertyId=".concat(id, "&occupied=true"), setTenants);
     props.getPaginated("staff?propertyId=".concat(id), setStaff);
     props.get("roles?idAndName=true", setRoles);
   }, [id]);
@@ -87444,7 +87274,7 @@ var show = function show(props) {
     props.getPaginated("units?propertyId=".concat(id, "&\n\t\t\tname=").concat(unitNameQuery, "&\n\t\t\ttype=").concat(unitTypeQuery, "&\n\t\t\tstatus=").concat(unitStatusQuery), setUnits);
   }, [unitNameQuery, unitTypeQuery, unitStatusQuery]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    props.getPaginated("tenants?propertyId=".concat(id, "&\n\t\t\tname=").concat(tenantNameQuery, "&\n\t\t\tphone=").concat(tenantPhoneQuery), setTenants);
+    props.getPaginated("tenants?propertyId=".concat(id, "&\n\t\t\toccupied=true&\n\t\t\tname=").concat(tenantNameQuery, "&\n\t\t\tphone=").concat(tenantPhoneQuery), setTenants);
   }, [tenantNameQuery, tenantPhoneQuery]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     props.getPaginated("staff?propertyId=".concat(id, "&name=").concat(staffNameQuery), setStaff);
@@ -88482,15 +88312,7 @@ var index = function index(props) {
     className: "table-responsive"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "4"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "text-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    linkTo: "/roles/create",
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null),
-    text: "add role"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Permissions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_roles$data2 = roles.data) === null || _roles$data2 === void 0 ? void 0 : _roles$data2.map(function (role, key) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Permissions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_roles$data2 = roles.data) === null || _roles$data2 === void 0 ? void 0 : _roles$data2.map(function (role, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, role.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, role.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88502,22 +88324,7 @@ var index = function index(props) {
       }, "| ", permission);
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      linkTo: "/roles/".concat(role.id, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      className: "btn-sm me-1"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      linkTo: "/roles/".concat(role.id, "/edit"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
-      className: "btn-sm"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      index: key,
-      model: role,
-      modelName: "Role",
-      onDelete: onDeleteRole
-    }))))));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null))));
   }))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -88583,8 +88390,12 @@ var create = function create(props) {
     setUserRoles = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState14 = _slicedToArray(_useState13, 2),
-    loading = _useState14[0],
-    setLoading = _useState14[1];
+    propertyId = _useState14[0],
+    setPropertyId = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
 
   // Get Faculties and Departments
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -88617,14 +88428,14 @@ var create = function create(props) {
       phone: phone,
       gender: gender,
       userRoles: userRoles,
-      propertyId: id
+      propertyId: propertyId
     }).then(function (res) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
       // Redirect to Staff
       setTimeout(function () {
-        return history.push("/admin/properties/".concat(id, "/show"));
+        return history.push("/admin/staff");
       }, 500);
     })["catch"](function (err) {
       setLoading(false);
@@ -88685,7 +88496,27 @@ var create = function create(props) {
     value: "male"
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    name: "type",
+    placeholder: "Location",
+    className: "form-control text-capitalize mb-2 me-2",
+    onChange: function onChange(e) {
+      return setPropertyId(e.target.value);
+    },
+    required: true
+  }, [{
+    id: "",
+    name: "Select Property"
+  }].concat(props.properties).map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: property.id,
+      selected: property.id == props.selectedPropertyId
+    }, property.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
@@ -88715,7 +88546,7 @@ var create = function create(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/properties/".concat(id, "/show"),
+    linkTo: "/staff",
     text: "back to staff"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
@@ -88787,8 +88618,12 @@ var edit = function edit(props) {
     setGender = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
+    propertyId = _useState16[0],
+    setPropertyId = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState18 = _slicedToArray(_useState17, 2),
+    loading = _useState18[0],
+    setLoading = _useState18[1];
 
   // Get Faculties and Departments
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -88836,7 +88671,8 @@ var edit = function edit(props) {
       email: email,
       phone: phone,
       gender: gender,
-      userRoles: userRoles
+      userRoles: userRoles,
+      propertyId: propertyId
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -88902,7 +88738,27 @@ var edit = function edit(props) {
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female",
     selected: staff.gender == "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    name: "type",
+    placeholder: "Location",
+    className: "form-control text-capitalize mb-2 me-2",
+    onChange: function onChange(e) {
+      return setPropertyId(e.target.value);
+    },
+    required: true
+  }, [{
+    id: "",
+    name: "Select Property"
+  }].concat(props.properties).map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: property.id,
+      selected: property.id == staff.propertyId
+    }, property.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
@@ -88933,8 +88789,8 @@ var edit = function edit(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", {
     className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/properties/".concat(staff.propertyId, "/show"),
-    text: "back to property"
+    linkTo: "/staff",
+    text: "back to staff"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-4"
   }))));
@@ -88974,15 +88830,25 @@ var index = function index(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     roles = _useState4[0],
     setRoles = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    nameQuery = _useState6[0],
+    setNameQuery = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    roleQuery = _useState8[0],
+    setRoleQuery = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Staff",
       path: ["staff"]
     });
-    props.getPaginated("staff", setStaff);
-    props.get("roles?idAndName=true", setRoles);
+    props.get("roles?propertyId=".concat(props.selectedPropertyId, "&idAndName=true"), setRoles);
   }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.getPaginated("staff?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\troleId=").concat(roleQuery), setStaff);
+  }, [props.selectedPropertyId, nameQuery, roleQuery]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88990,7 +88856,9 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Staff_StaffList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     staff: staff,
     setStaff: setStaff,
-    roles: roles
+    roles: roles,
+    setNameQuery: setNameQuery,
+    setRoleQuery: setRoleQuery
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -89213,16 +89081,9 @@ var edit = function edit(props) {
     // Set page
     props.setPage({
       name: "Edit Tenant",
-      path: ["properties", "edit"]
+      path: ["tenants", "edit"]
     });
-    Axios.get("/api/tenants/".concat(id)).then(function (res) {
-      setTenant(res.data.data);
-      // Set page
-      props.setPage({
-        name: "Edit Tenant",
-        path: ["properties", "properties/".concat(res.data.data.propertyId, "/show"), "units/".concat(res.data.data.unitId, "/show"), "edit"]
-      });
-    });
+    props.get("/tenants/".concat(id), setTenant);
   }, []);
 
   /*
@@ -89299,9 +89160,9 @@ var edit = function edit(props) {
     className: "mb-2",
     loading: loading
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    linkTo: "/units/".concat(tenant.unitId, "/show"),
+    linkTo: "/tenants",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
-    text: "back to unit"
+    text: "back to tenants"
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (edit);
@@ -89349,7 +89210,7 @@ var index = function index(props) {
       name: "Tenants",
       path: ["tenants"]
     });
-    props.getPaginated("tenants?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
+    props.getPaginated("tenants?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\toccupied=true&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
   }, [props.selectedPropertyId, nameQuery, phoneQuery]);
 
   /*
@@ -89491,7 +89352,7 @@ var show = function show(props) {
       setUnit(res.data.data);
     });
     // Fetch Tenants
-    props.getPaginated("tenants?unitId=".concat(id), setTenants);
+    props.getPaginated("tenants?unitId=".concat(id, "&vacated=true"), setTenants);
     // Fetch Statements
     props.getPaginated("units/statements/".concat(id, "?type=rent"), setRentStatements);
     props.getPaginated("units/statements/".concat(id, "?type=water"), setWaterStatements);
@@ -89514,7 +89375,7 @@ var show = function show(props) {
       // Fetch Unit
       props.get("units/".concat(id), setUnit);
       // Fetch Tenants
-      props.getPaginated("tenants/by-unit-id/".concat(id), setTenants);
+      props.getPaginated("tenants?unitId".concat(id, "&vacated=true"), setTenants);
       // Fetch Auth
       props.get("auth", props.setAuth, "auth");
     })["catch"](function (err) {
@@ -89562,13 +89423,13 @@ var show = function show(props) {
   var setStatements = function setStatements(type) {
     switch (type) {
       case "rent":
-        return rentStatements;
+        return setRentStatements;
         break;
       case "water":
-        return waterStatements;
+        return setWaterStatements;
         break;
       default:
-        return serviceChargeStatements;
+        return setServiceChargeStatements;
         break;
     }
   };
@@ -90923,10 +90784,8 @@ var create = function create(props) {
       path: ["water-readings", "create"]
     });
 
-    // Fetch Properties
-    props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
     // Fetch Tenants
-    props.get("tenants/by-property-id/".concat(props.auth.propertyIds, "?idAndName=true"), setTenants);
+    props.get("tenants?propertyId=".concat(props.auth.propertyIds, "&occupied=true&idAndName=true"), setTenants);
   }, []);
 
   /*
@@ -91004,7 +90863,7 @@ var create = function create(props) {
     required: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Property"), properties.map(function (property, key) {
+  }, "Select Property"), props.properties.map(function (property, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: property.id
@@ -91274,8 +91133,8 @@ var index = function index(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Water Readings
-    props.getPaginated("water-readings/by-property-id/".concat(props.auth.propertyIds, "?\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
-  }, [tenant, unit, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("water-readings?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     waterReadings: waterReadings,
     setWaterReadings: setWaterReadings,
@@ -92105,25 +91964,29 @@ var LogoSVG = function LogoSVG() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
     "data-v-423bf9ae": "",
     xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 536 95",
-    className: "iconLeft",
-    width: "8em",
+    viewBox: "0 0 432.6315789473684 163",
+    className: "iconAbove",
+    width: "4em",
     height: "auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
     "data-v-423bf9ae": "",
-    id: "a8d80f4b-b34e-443c-aa5c-16259439036d",
+    id: "bcba994c-cb7e-427a-8bd8-6b5638ce1913",
     fill: "currentColor",
-    transform: "matrix(4.2105263157894735,0,0,4.2105263157894735,96.57799304786482,11.384779836002153)"
+    transform: "matrix(4.2105263157894735,0,0,4.2105263157894735,-5.89473949608049,97.10526170856075)"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M5.25 1.40Q6.02 1.40 6.68 1.74Q7.34 2.09 7.72 2.69Q8.11 3.29 8.11 4.05L8.11 4.05Q8.11 4.83 7.69 5.45Q7.27 6.08 6.57 6.38L6.57 6.38Q7.55 6.65 8.11 7.37Q8.68 8.09 8.68 9.16L8.68 9.16Q8.68 10.08 8.27 10.80Q7.85 11.52 7.12 11.93Q6.38 12.33 5.46 12.33L5.46 12.33L1.95 12.33Q1.69 12.33 1.55 12.23Q1.40 12.12 1.40 11.91L1.40 11.91L1.40 1.82Q1.40 1.62 1.52 1.51Q1.64 1.40 1.82 1.40L1.82 1.40L5.25 1.40ZM5.25 6.02Q6.15 6.02 6.71 5.47Q7.27 4.93 7.27 4.05L7.27 4.05Q7.27 3.19 6.71 2.72Q6.16 2.24 5.25 2.24L5.25 2.24L2.24 2.24L2.24 6.02L5.25 6.02ZM5.46 11.49Q6.15 11.49 6.69 11.19Q7.22 10.89 7.53 10.36Q7.84 9.83 7.84 9.16L7.84 9.16Q7.84 8.50 7.53 7.97Q7.22 7.45 6.69 7.15Q6.15 6.86 5.46 6.86L5.46 6.86L2.24 6.86L2.24 11.49L5.46 11.49ZM10.43 1.82Q10.43 1.62 10.55 1.51Q10.67 1.40 10.85 1.40L10.85 1.40Q11.05 1.40 11.16 1.51Q11.27 1.62 11.27 1.82L11.27 1.82L11.27 10.02Q11.27 10.67 11.54 11.08Q11.82 11.49 12.25 11.49L12.25 11.49L12.60 11.49Q12.75 11.49 12.85 11.61Q12.95 11.72 12.95 11.91L12.95 11.91Q12.95 12.10 12.84 12.21Q12.73 12.33 12.53 12.33L12.53 12.33L12.25 12.33Q11.45 12.33 10.94 11.69Q10.43 11.05 10.43 10.02L10.43 10.02L10.43 1.82ZM17.57 4.59Q18.66 4.59 19.56 5.10Q20.45 5.61 20.96 6.51Q21.48 7.41 21.48 8.51L21.48 8.51L21.48 11.91Q21.48 12.10 21.36 12.21Q21.25 12.33 21.06 12.33L21.06 12.33Q20.87 12.33 20.76 12.21Q20.64 12.10 20.64 11.91L20.64 11.91L20.64 10.82Q20.17 11.56 19.37 11.99Q18.56 12.42 17.57 12.42L17.57 12.42Q16.46 12.42 15.57 11.91Q14.67 11.40 14.16 10.50Q13.65 9.60 13.65 8.51L13.65 8.51Q13.65 7.41 14.16 6.51Q14.67 5.61 15.57 5.10Q16.46 4.59 17.57 4.59L17.57 4.59ZM17.57 11.63Q18.44 11.63 19.14 11.23Q19.84 10.82 20.24 10.11Q20.64 9.39 20.64 8.51L20.64 8.51Q20.64 7.63 20.24 6.92Q19.84 6.20 19.14 5.79Q18.44 5.38 17.57 5.38L17.57 5.38Q16.70 5.38 16.00 5.79Q15.30 6.20 14.90 6.92Q14.49 7.63 14.49 8.51L14.49 8.51Q14.49 9.39 14.90 10.11Q15.30 10.82 16.00 11.23Q16.70 11.63 17.57 11.63L17.57 11.63ZM26.75 4.61Q27.65 4.61 28.39 4.96Q29.13 5.31 29.68 5.99L29.68 5.99Q29.78 6.13 29.78 6.23L29.78 6.23Q29.78 6.43 29.58 6.54L29.58 6.54Q29.48 6.62 29.36 6.62L29.36 6.62Q29.16 6.62 29.04 6.45L29.04 6.45Q28.14 5.39 26.75 5.39L26.75 5.39Q25.94 5.39 25.31 5.79Q24.68 6.19 24.34 6.90Q24.00 7.62 24.00 8.51L24.00 8.51Q24.00 9.39 24.37 10.11Q24.75 10.82 25.42 11.23Q26.10 11.63 26.96 11.63L26.96 11.63Q28.20 11.63 28.94 10.95L28.94 10.95Q29.06 10.82 29.23 10.82L29.23 10.82Q29.39 10.82 29.48 10.92L29.48 10.92Q29.62 11.05 29.62 11.23L29.62 11.23Q29.62 11.38 29.51 11.48L29.51 11.48Q29.02 11.93 28.36 12.17Q27.71 12.42 26.96 12.42L26.96 12.42Q25.89 12.42 25.02 11.91Q24.15 11.40 23.65 10.50Q23.16 9.60 23.16 8.51L23.16 8.51Q23.16 7.41 23.62 6.52Q24.08 5.63 24.91 5.12Q25.73 4.61 26.75 4.61L26.75 4.61ZM37.66 11.72Q37.76 11.83 37.76 11.97L37.76 11.97Q37.76 12.12 37.60 12.26L37.60 12.26Q37.46 12.38 37.35 12.38L37.35 12.38Q37.18 12.38 37.06 12.21L37.06 12.21L34.02 8.50L32.72 9.69L32.72 11.91Q32.72 12.10 32.61 12.21Q32.49 12.33 32.30 12.33L32.30 12.33Q32.12 12.33 32.00 12.21Q31.88 12.10 31.88 11.91L31.88 11.91L31.88 1.82Q31.88 1.62 32.00 1.51Q32.12 1.40 32.30 1.40L32.30 1.40Q32.49 1.40 32.61 1.51Q32.72 1.62 32.72 1.82L32.72 1.82L32.72 8.67L37.06 4.72Q37.20 4.61 37.32 4.61L37.32 4.61Q37.46 4.61 37.59 4.75L37.59 4.75Q37.72 4.87 37.72 5.01L37.72 5.01Q37.72 5.15 37.58 5.28L37.58 5.28L34.61 7.98L37.66 11.72ZM45.00 11.91Q45.00 12.10 44.88 12.21Q44.77 12.33 44.58 12.33L44.58 12.33Q44.39 12.33 44.27 12.21Q44.16 12.10 44.16 11.91L44.16 11.91L44.16 1.82Q44.16 1.62 44.27 1.51Q44.39 1.40 44.58 1.40L44.58 1.40L47.38 1.40Q48.38 1.40 49.18 1.85Q49.98 2.30 50.43 3.09Q50.88 3.89 50.88 4.90L50.88 4.90Q50.88 5.92 50.43 6.72Q49.98 7.52 49.18 7.97Q48.38 8.41 47.38 8.41L47.38 8.41L45.00 8.41L45.00 11.91ZM47.38 7.57Q48.15 7.57 48.75 7.23Q49.35 6.89 49.69 6.28Q50.04 5.67 50.04 4.90L50.04 4.90Q50.04 4.13 49.69 3.53Q49.35 2.93 48.75 2.58Q48.15 2.24 47.38 2.24L47.38 2.24L45.00 2.24L45.00 7.57L47.38 7.57ZM55.73 4.59Q56.80 4.59 56.80 5.05L56.80 5.05Q56.80 5.12 56.78 5.17L56.78 5.17Q56.74 5.32 56.65 5.38Q56.56 5.45 56.41 5.45L56.41 5.45Q56.28 5.45 56.08 5.42Q55.87 5.39 55.73 5.39L55.73 5.39Q55.03 5.39 54.49 5.68Q53.94 5.98 53.63 6.50Q53.33 7.01 53.33 7.66L53.33 7.66L53.33 11.91Q53.33 12.10 53.21 12.21Q53.10 12.33 52.91 12.33L52.91 12.33Q52.72 12.33 52.60 12.21Q52.49 12.10 52.49 11.91L52.49 11.91L52.49 5.10Q52.49 4.90 52.60 4.79Q52.72 4.68 52.91 4.68L52.91 4.68Q53.10 4.68 53.21 4.79Q53.33 4.90 53.33 5.10L53.33 5.10L53.33 5.96Q53.73 5.32 54.36 4.96Q54.99 4.59 55.73 4.59L55.73 4.59ZM61.56 4.59Q62.65 4.59 63.55 5.10Q64.44 5.61 64.95 6.51Q65.46 7.41 65.46 8.51L65.46 8.51Q65.46 9.60 64.95 10.50Q64.44 11.40 63.55 11.91Q62.65 12.42 61.56 12.42L61.56 12.42Q60.45 12.42 59.56 11.91Q58.66 11.40 58.15 10.50Q57.64 9.60 57.64 8.51L57.64 8.51Q57.64 7.41 58.15 6.51Q58.66 5.61 59.56 5.10Q60.45 4.59 61.56 4.59L61.56 4.59ZM61.56 5.38Q60.69 5.38 59.99 5.79Q59.29 6.20 58.88 6.92Q58.48 7.63 58.48 8.51L58.48 8.51Q58.48 9.39 58.88 10.11Q59.29 10.82 59.99 11.23Q60.69 11.63 61.56 11.63L61.56 11.63Q62.43 11.63 63.13 11.23Q63.83 10.82 64.22 10.11Q64.62 9.39 64.62 8.51L64.62 8.51Q64.62 7.63 64.22 6.92Q63.83 6.20 63.13 5.79Q62.43 5.38 61.56 5.38L61.56 5.38ZM71.47 4.59Q72.58 4.59 73.47 5.10Q74.37 5.61 74.88 6.51Q75.39 7.41 75.39 8.51L75.39 8.51Q75.39 9.60 74.88 10.50Q74.37 11.40 73.47 11.91Q72.58 12.42 71.47 12.42L71.47 12.42Q70.48 12.42 69.67 11.99Q68.87 11.56 68.40 10.82L68.40 10.82L68.40 15.19Q68.40 15.39 68.29 15.50Q68.18 15.61 67.98 15.61L67.98 15.61Q67.80 15.61 67.68 15.50Q67.56 15.39 67.56 15.19L67.56 15.19L67.56 8.46L67.56 8.43Q67.58 7.35 68.10 6.47Q68.61 5.59 69.50 5.09Q70.39 4.59 71.47 4.59L71.47 4.59ZM71.47 11.63Q72.34 11.63 73.04 11.23Q73.74 10.82 74.14 10.11Q74.55 9.39 74.55 8.51L74.55 8.51Q74.55 7.63 74.14 6.92Q73.74 6.20 73.04 5.79Q72.34 5.38 71.47 5.38L71.47 5.38Q70.60 5.38 69.90 5.79Q69.20 6.20 68.80 6.92Q68.40 7.63 68.40 8.51L68.40 8.51Q68.40 9.39 68.80 10.11Q69.20 10.82 69.90 11.23Q70.60 11.63 71.47 11.63L71.47 11.63ZM80.67 4.61Q81.69 4.61 82.50 5.09Q83.30 5.57 83.75 6.43Q84.20 7.28 84.20 8.37L84.20 8.37Q84.20 8.55 84.08 8.66Q83.97 8.76 83.79 8.76L83.79 8.76L77.92 8.76Q77.97 9.59 78.36 10.24Q78.75 10.89 79.41 11.26Q80.07 11.62 80.88 11.62L80.88 11.62Q81.42 11.62 81.98 11.43Q82.53 11.24 82.85 10.93L82.85 10.93Q82.99 10.82 83.15 10.82L83.15 10.82Q83.30 10.82 83.40 10.91L83.40 10.91Q83.55 11.03 83.55 11.20L83.55 11.20Q83.55 11.34 83.43 11.47L83.43 11.47Q82.98 11.87 82.26 12.14Q81.54 12.40 80.88 12.40L80.88 12.40Q79.77 12.40 78.91 11.91Q78.05 11.41 77.56 10.52Q77.07 9.63 77.07 8.51L77.07 8.51Q77.07 7.38 77.53 6.49Q77.98 5.60 78.80 5.10Q79.62 4.61 80.67 4.61L80.67 4.61ZM80.67 5.39Q79.58 5.39 78.83 6.12Q78.08 6.85 77.94 8.04L77.94 8.04L83.38 8.04Q83.29 6.85 82.54 6.12Q81.80 5.39 80.67 5.39L80.67 5.39ZM89.26 4.59Q90.33 4.59 90.33 5.05L90.33 5.05Q90.33 5.12 90.31 5.17L90.31 5.17Q90.27 5.32 90.18 5.38Q90.09 5.45 89.94 5.45L89.94 5.45Q89.81 5.45 89.61 5.42Q89.40 5.39 89.26 5.39L89.26 5.39Q88.56 5.39 88.02 5.68Q87.47 5.98 87.16 6.50Q86.86 7.01 86.86 7.66L86.86 7.66L86.86 11.91Q86.86 12.10 86.74 12.21Q86.63 12.33 86.44 12.33L86.44 12.33Q86.25 12.33 86.14 12.21Q86.02 12.10 86.02 11.91L86.02 11.91L86.02 5.10Q86.02 4.90 86.14 4.79Q86.25 4.68 86.44 4.68L86.44 4.68Q86.63 4.68 86.74 4.79Q86.86 4.90 86.86 5.10L86.86 5.10L86.86 5.96Q87.26 5.32 87.89 4.96Q88.52 4.59 89.26 4.59L89.26 4.59ZM95.61 11.48Q95.80 11.48 95.92 11.60Q96.04 11.72 96.04 11.91L96.04 11.91Q96.04 12.10 95.92 12.21Q95.80 12.33 95.61 12.33L95.61 12.33L95.28 12.33Q94.51 12.33 93.91 11.98Q93.31 11.63 92.97 11.03Q92.64 10.42 92.64 9.65L92.64 9.65L92.64 5.71L91.55 5.71Q91.38 5.71 91.27 5.61Q91.17 5.50 91.17 5.33L91.17 5.33Q91.17 5.17 91.27 5.06Q91.38 4.96 91.55 4.96L91.55 4.96L92.64 4.96L92.64 2.67Q92.64 2.48 92.76 2.36Q92.88 2.24 93.06 2.24L93.06 2.24Q93.25 2.24 93.37 2.36Q93.49 2.48 93.49 2.67L93.49 2.67L93.49 4.96L95.34 4.96Q95.51 4.96 95.61 5.06Q95.72 5.17 95.72 5.33L95.72 5.33Q95.72 5.50 95.61 5.61Q95.51 5.71 95.34 5.71L95.34 5.71L93.49 5.71L93.49 9.65Q93.49 10.46 94.00 10.97Q94.50 11.48 95.30 11.48L95.30 11.48L95.61 11.48ZM103.88 4.69Q104.15 4.80 104.15 5.01L104.15 5.01Q104.15 5.07 104.09 5.21L104.09 5.21L99.39 15.40Q99.26 15.65 99.06 15.65L99.06 15.65Q98.98 15.65 98.87 15.61L98.87 15.61Q98.60 15.50 98.60 15.29L98.60 15.29Q98.60 15.23 98.66 15.09L98.66 15.09L100.06 12.07Q100.04 12.05 100.00 11.97L100.00 11.97L96.94 5.25Q96.88 5.14 96.88 5.03L96.88 5.03Q96.88 4.82 97.12 4.70L97.12 4.70Q97.23 4.65 97.34 4.65L97.34 4.65Q97.55 4.65 97.66 4.89L97.66 4.89L100.51 11.10L103.36 4.90Q103.49 4.65 103.68 4.65L103.68 4.65Q103.78 4.65 103.88 4.69L103.88 4.69Z"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("g", {
     "data-v-423bf9ae": "",
-    id: "16387026-9830-46e8-b379-2c2b1d53df56",
-    transform: "matrix(1.0250150892469618,0,0,1.0250150892469618,-10.50435093069973,-2.359689922993617)",
+    id: "5d959492-747d-41aa-bd9a-6be1a19d88f5",
+    transform: "matrix(1.6070882295181732,0,0,1.6070882295181732,168.79145388692194,-3.214890032723787)",
     stroke: "none",
     fill: "currentColor"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M73.749 61.79c1.058-.278 1.974-.083 2.606.585 1.385 1.461.896 4.656-1.243 8.139-1.358 2.213-2.396 3.203-4.589 2.861a583.24 583.24 0 01-3.287 11.73c-1.442 4.903-5.879 6.652-7.338 7.228-.207.081-.402.153-.602.228.077-.178.146-.36.203-.558l.01-.036.008-.035.164-.914c1.515-.608 5.116-2.242 6.303-6.278 1.748-5.948 3.416-12.212 3.435-12.275a.65.65 0 01.629-.483h.068c.05 0 .1.006.149.018 1.653.387 2.308.16 3.735-2.166 1.969-3.203 2.197-5.725 1.408-6.559-.603-.633-1.753-.109-2.222.145-.619.336-1.146.816-1.612 1.469-.017.025-.575.834-.783 1.108-.433.565-1.137.751-1.717.452-.552-.285-.788-.904-.588-1.543 1.668-5.344-1.184-8.678-1.306-8.818a.327.327 0 01-.041-.051c-1.606-2.239-.886-3.578-.187-4.873.417-.771.848-1.569.93-2.714.248-3.456-2.118-5.637-7.235-6.667-2.871-.578-6.894-.708-9.767-.715-2.873.007-6.896.137-9.767.715-5.115 1.031-7.481 3.211-7.234 6.667.081 1.145.512 1.942.93 2.714.698 1.295 1.42 2.633-.187 4.873a.434.434 0 01-.042.054c-.12.138-2.973 3.472-1.305 8.817.199.637-.036 1.256-.588 1.541-.58.299-1.287.113-1.717-.452a42.867 42.867 0 01-.789-1.118c-.461-.643-.988-1.123-1.607-1.459-.469-.254-1.62-.777-2.221-.145-.789.834-.561 3.354 1.408 6.559 1.43 2.326 2.081 2.553 3.736 2.166a.63.63 0 01.148-.018h.066a.65.65 0 01.631.483c.018.063 1.687 6.327 3.435 12.275 1.206 4.102 4.901 5.719 6.373 6.306.055.314.106.615.157.889l.008.034.01.036c.061.206.134.398.216.587a34.992 34.992 0 01-.677-.257c-1.459-.574-5.897-2.323-7.338-7.229a565.394 565.394 0 01-3.287-11.729c-2.194.341-3.23-.649-4.59-2.86-2.139-3.482-2.629-6.679-1.243-8.14.69-.729 1.719-.896 2.897-.497-10.617-5.787-17.59-15.633-17.59-26.628 0-17.572 18.172-31.839 40.223-32.047H50.949c22.052.208 40.224 14.475 40.224 32.047.006 10.937-6.896 20.739-17.424 26.538zm-44.793 7.306c.241.403.7.537.835.568a.645.645 0 00.621-.187.654.654 0 00.15-.633 8.548 8.548 0 00-.677-1.627 8.27 8.27 0 00-1.358-1.859.651.651 0 10-.928.916 7.071 7.071 0 011.312 1.9.707.707 0 00-.062.15.994.994 0 00.107.772zm45.213-2.823a.652.652 0 00-.929-.916 8.343 8.343 0 00-1.359 1.858 8.48 8.48 0 00-.676 1.627.66.66 0 00.15.634.657.657 0 00.622.186c.136-.031.594-.165.836-.568a.978.978 0 00.104-.771.64.64 0 00-.062-.15 7.031 7.031 0 011.314-1.9zm-9.96-1.83c.462.735 1.566.043 1.104-.693-1.092-1.742-3.094-2.896-5.386-2.896-1.887 0-3.588.782-4.739 2.03-.59.64.367 1.523.957.886a4.982 4.982 0 011.78-1.226 1.898 1.898 0 103.001-.293c1.414.269 2.592 1.089 3.283 2.192zm2.454-4.949c.043-.516-.517-1.271-1.474-1.943l-.002-.001c-1.014-.712-2.472-1.329-4.125-1.46-1.93-.154-3.756.311-4.998.938h-.004c-.932.472-1.535 1.031-1.611 1.494-.297 1.802.003 1.265 1.388.787 1.942-.672 3.56-.811 4.894-.65 1.287.092 2.752.486 4.383 1.388 1.24.683 1.402 1.26 1.549-.553zm-24.47 5.947a1.896 1.896 0 001.613-2.896 4.933 4.933 0 011.78 1.225c.589.64 1.548-.246.958-.885-1.152-1.248-2.854-2.029-4.74-2.029-2.292 0-4.294 1.152-5.386 2.896-.463.736.642 1.431 1.104.692.691-1.104 1.869-1.924 3.281-2.19a1.892 1.892 0 00-.509 1.293 1.9 1.9 0 001.899 1.894zm-1.191-6.784c1.336-.159 2.952-.021 4.896.649 1.384.479 1.684 1.016 1.387-.785-.077-.463-.682-1.023-1.612-1.494h-.003c-1.244-.629-3.07-1.092-5-.938-1.652.131-3.109.748-4.123 1.46l-.004.001c-.955.673-1.516 1.429-1.473 1.943.147 1.812.312 1.235 1.552.551 1.63-.899 3.094-1.295 4.38-1.387zm19.829 20.431c-1.035 6.225-1.618 10.285-2.067 12.703-1.132 3.941-7.848 3.661-7.848 3.661s-6.715.28-7.848-3.661c-.45-2.418-1.033-6.479-2.067-12.703-.44-2.652 5.065-3.307 8.085-3.467-.188-.15-.455-.32-.943-.51-.592-.23-1.203-.381-1.693-.533l-1.1-.279c-.711-.164-1.562-.74-1.562-1.771 0-.547.136-.913.321-1.146l.033-.055c.088-.132.188-.256.305-.376.615-.627 1.556.296.943.92a1.47 1.47 0 00-.141.171.805.805 0 00-.145.485c0 .168.154.398.562.49l1.14.291c.871.271 1.81.486 2.613.942a5.174 5.174 0 001.523.243c.486 0 1.021-.092 1.436-.229.811-.464 1.764-.681 2.645-.957l1.142-.291c.401-.093.56-.324.56-.49a.924.924 0 00-.28-.657c-.618-.63.329-1.547.94-.92.412.425.659.979.659 1.577 0 1.041-.869 1.608-1.584 1.771l-1.074.275c-.799.247-1.935.483-2.659 1.039 2.939.149 8.55.782 8.104 3.477zm-1.338 1.48l-8.577.096-8.577-.096c.64 2.715 1.691 8.526 3.502 8.754 3.423.428 2.941-.519 2.875-4.797-1.188-.389-1.903-1.115-1.903-2.045 0-.049.06-.188.235-.121l.162.067c1.13.468 2.498.593 3.694.593 1.195 0 2.563-.125 3.693-.593l.162-.067c.178-.066.235.072.235.121 0 .924-.704 1.646-1.88 2.037-.066 4.284-.551 5.233 2.875 4.805 1.813-.226 2.865-6.039 3.504-8.754z"
+    d: "M2.11 27.6a26.252 26.252 0 000 4.784.7.7 0 00.443.567L5.926 34.3a1 1 0 01.607.72 23.819 23.819 0 003.324 8.016 1 1 0 01.081.937L8.51 47.321a.658.658 0 00.073.7 27.854 27.854 0 003.386 3.388.666.666 0 00.708.086l3.349-1.429a.994.994 0 01.937.081 23.819 23.819 0 008.016 3.324 1 1 0 01.72.607l1.35 3.378a.7.7 0 00.555.439 26.5 26.5 0 004.782 0 .7.7 0 00.567-.444l1.347-3.377a1 1 0 01.72-.607 23.819 23.819 0 008.016-3.324 1 1 0 01.937-.081l3.347 1.428a.651.651 0 00.7-.073 27.765 27.765 0 003.38-3.386.66.66 0 00.087-.708l-1.429-3.349a1 1 0 01.081-.937 23.819 23.819 0 003.324-8.016 1 1 0 01.607-.72l3.378-1.35a.7.7 0 00.439-.555 26.5 26.5 0 000-4.782V27.6a.7.7 0 00-.443-.557l-3.37-1.343a1 1 0 01-.607-.721 23.8 23.8 0 00-3.324-8.016 1 1 0 01-.081-.937l1.428-3.347a.66.66 0 00-.074-.7A27.764 27.764 0 0048.031 8.6a.666.666 0 00-.709-.086l-3.348 1.424a1 1 0 01-.937-.081 23.8 23.8 0 00-8.016-3.324 1 1 0 01-.72-.607l-1.35-3.378a.7.7 0 00-.551-.438 26.321 26.321 0 00-4.782 0 .7.7 0 00-.567.443L25.7 5.926a1 1 0 01-.72.607 23.8 23.8 0 00-8.016 3.324 1 1 0 01-.937.081L12.679 8.51a.662.662 0 00-.7.073A28.056 28.056 0 008.6 11.969a.664.664 0 00-.086.708l1.429 3.349a1 1 0 01-.081.937 23.8 23.8 0 00-3.324 8.016 1 1 0 01-.607.721l-3.383 1.349a.7.7 0 00-.438.551zM30 9A21 21 0 119 30 21.024 21.024 0 0130 9z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M45 24.806l-14.425-9.637a1.057 1.057 0 00-1.153 0L15 24.781l1.128 1.726 13.313-8.861a1.006 1.006 0 011.11 0l13.291 8.862zM27 31a1 1 0 00-1 1v11h8V32a1 1 0 00-1-1z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M39 43a2 2 0 002-2V27.014L30 19.68l-11 7.334V41a2 2 0 002 2h3V32a3 3 0 013-3h6a3 3 0 013 3v11z"
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (LogoSVG);

@@ -19,6 +19,19 @@ const show = (props) => {
 		props.get(`invoices/${id}`, setInvoice)
 	}, [])
 
+	/*
+	 * Print Status Report
+	 */
+	const printInvoice = () => {
+		var contentToPrint = document.getElementById("contentToPrint").innerHTML
+
+		document.body.innerHTML = contentToPrint
+		// Print
+		window.print()
+		// Reload
+		window.location.reload()
+	}
+
 	return (
 		<React.Fragment>
 			{/*Create Link*/}
@@ -41,7 +54,7 @@ const show = (props) => {
 					className="me-5"
 					icon={<PrintSVG />}
 					text="print"
-					onClick="printInvoice()"
+					onClick={printInvoice}
 				/>
 			</div>
 			{/*Create Link End*/}

@@ -14,10 +14,10 @@ const StatementList = (props) => {
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm p-2">
-				<div className="d-flex justify-content-between">
-					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
-						{/* Due */}
+				{/* Total */}
+				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
+					{/* Due */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Due"
 							data={
@@ -29,8 +29,10 @@ const StatementList = (props) => {
 						<HeroIcon>
 							<MoneySVG />
 						</HeroIcon>
-						{/* Due End */}
-						{/* Paid */}
+					</div>
+					{/* Due End */}
+					{/* Paid */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Paid"
 							data={
@@ -42,8 +44,10 @@ const StatementList = (props) => {
 						<HeroIcon>
 							<PaymentSVG />
 						</HeroIcon>
-						{/* Paid End */}
-						{/* Balance */}
+					</div>
+					{/* Paid End */}
+					{/* Balance */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Balance"
 							data={
@@ -55,10 +59,10 @@ const StatementList = (props) => {
 						<HeroIcon>
 							<BalanceSVG />
 						</HeroIcon>
-						{/* Balance End */}
 					</div>
-					{/* Total End */}
+					{/* Balance End */}
 				</div>
+				{/* Total End */}
 			</div>
 			{/* Data End */}
 

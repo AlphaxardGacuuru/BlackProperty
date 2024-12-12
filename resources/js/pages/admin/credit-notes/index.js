@@ -21,41 +21,26 @@ const index = (props) => {
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
-	const [propertyId, setPropertyId] = useState("")
-	const [startMonth, setStartMonth] = useState("")
-	const [startYear, setStartYear] = useState("")
-	const [endMonth, setEndMonth] = useState("")
-	const [endYear, setEndYear] = useState("")
-
-	const [properties, setProperties] = useState([])
-
-	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Credit Note", path: ["credit-notes"] })
-		// Fetch Properties
-		props.get(
-			`properties/by-user-id/${props.auth.id}?idAndName=true`,
-			setProperties
-		)
+		props.setPage({ name: "Credit Notes", path: ["credit-notes"] })
 	}, [])
 
 	useEffect(() => {
 		// Fetch Credit Note
 		props.getPaginated(
-			`credit-notes/by-property-id/${props.auth.propertyIds}?
+			`credit-notes?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
-			unit=${unit}&
-			propertyId=${propertyId}&
-			startMonth=${startMonth}&
-			endMonth=${endMonth}&
-			startYear=${startYear}&
-			endYear=${endYear}`,
+			unit=${unit}`,
 			setCreditNotes
 		)
-	}, [tenant, unit, propertyId, startMonth, endMonth, startYear, endYear])
+	}, [
+		props.selectedPropertyId,
+		tenant,
+		unit,
+	])
 
 	/*
 	 * Delete CreditNote
@@ -72,6 +57,7 @@ const index = (props) => {
 				props.setMessages([res.data.message])
 				// Remove row
 				setCreditNotes({
+					sum: creditNotes.sum,
 					meta: creditNotes.meta,
 					links: creditNotes.links,
 					data: creditNotes.data.filter((creditNote) => {
@@ -142,113 +128,6 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Unit End */}
-					{/* Properties */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<select
-							name="property"
-							className="form-control text-capitalize"
-							onChange={(e) => setPropertyId(e.target.value)}
-							required={true}>
-							<option value="">Filter by Property</option>
-							{properties.map((property, key) => (
-								<option
-									key={key}
-									value={property.id}>
-									{property.name}
-								</option>
-							))}
-						</select>
-					</div>
-					{/* Properties End */}
-				</div>
-			</div>
-
-			<div className="card shadow-sm py-2 px-4">
-				<div className="d-flex justify-content-end flex-wrap">
-					<div className="d-flex flex-grow-1">
-						{/* Start Date */}
-						<div className="flex-grow-1 me-2 mb-2">
-							<label htmlFor="">Start At</label>
-							{/* Start Month */}
-							<select
-								className="form-control"
-								onChange={(e) => setStartMonth(e.target.value)}>
-								<option value="">Select Month</option>
-								{props.months.map((month, key) => (
-									<option
-										key={key}
-										value={key}>
-										{month}
-									</option>
-								))}
-							</select>
-						</div>
-						{/* Start Month End */}
-						{/* Start Year */}
-						<div className="flex-grow-1 me-2 mb-2">
-							<label
-								htmlFor=""
-								className="invisible">
-								Start At
-							</label>
-							<select
-								className="form-control"
-								onChange={(e) => setStartYear(e.target.value)}>
-								<option value="">Select Year</option>
-								{props.years.map((year, key) => (
-									<option
-										key={key}
-										value={year}>
-										{year}
-									</option>
-								))}
-							</select>
-						</div>
-						{/* Start Year End */}
-					</div>
-					{/* Start Date End */}
-					{/* End Date */}
-					<div className="d-flex flex-grow-1">
-						{/* End Month */}
-						<div className="flex-grow-1 me-2 mb-2">
-							<label htmlFor="">End At</label>
-							<select
-								className="form-control"
-								onChange={(e) => setEndMonth(e.target.value)}>
-								<option value="">Select Month</option>
-								{props.months.map((month, key) => (
-									<option
-										key={key}
-										value={key}>
-										{month}
-									</option>
-								))}
-							</select>
-						</div>
-						{/* End Month End */}
-						{/* End Year */}
-						<div className="flex-grow-1 me-2 mb-2">
-							<label
-								htmlFor=""
-								className="invisible">
-								End At
-							</label>
-							<select
-								className="form-control"
-								onChange={(e) => setStartYear(e.target.value)}>
-								<option value="">Select Year</option>
-								{props.years.map((year, key) => (
-									<option
-										key={key}
-										value={year}>
-										{year}
-									</option>
-								))}
-							</select>
-						</div>
-						{/* End Year End */}
-					</div>
-					{/* End Date End */}
 				</div>
 			</div>
 			{/* Filters End */}

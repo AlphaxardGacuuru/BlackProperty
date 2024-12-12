@@ -20,7 +20,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Water Readings
 		props.getPaginated(
-			`water-readings/by-property-id/${props.auth.propertyIds}?
+			`water-readings?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			startMonth=${startMonth}&
@@ -29,7 +29,7 @@ const index = (props) => {
 			endYear=${endYear}`,
 			setWaterReadings
 		)
-	}, [tenant, unit, startMonth, endMonth, startYear, endYear])
+	}, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear])
 
 	return (
 		<WaterReadingList

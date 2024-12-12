@@ -42,8 +42,7 @@ class TenantService extends Service
 
         $tenantQuery = $this->search($tenantQuery, $request);
 
-        $tenants = $tenantQuery->whereNull("vacated_at")
-            ->orderBy("id", "DESC")
+        $tenants = $tenantQuery->orderBy("id", "DESC")
             ->paginate(20)
             ->appends([
                 "propertyId" => $request->propertyId,
@@ -202,7 +201,7 @@ class TenantService extends Service
      */
     public function search($query, $request)
     {
-        $propertyId = explode(",", $request->propertyId, );
+        $propertyId = explode(",", $request->propertyId);
 
         if ($request->filled("propertyId")) {
             $query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
@@ -210,6 +209,12 @@ class TenantService extends Service
             });
         }
 
+        $unitId = $request->input("unitId");
+
+        if ($request->filled("unitId")) {
+            $query = $query->where("unit_id", $unitId);
+        }
+		
         $name = $request->input("name");
 
         if ($request->filled("name")) {
@@ -220,28 +225,30 @@ class TenantService extends Service
         }
 
         $phone = $request->input("phone");
-
+		
         if ($request->filled("phone")) {
-            $query = $query
-                ->whereHas("user", function ($query) use ($phone) {
-                    $query->where("phone", "LIKE", "%" . $phone . "%");
-                });
+			$query = $query
+			->whereHas("user", function ($query) use ($phone) {
+				$query->where("phone", "LIKE", "%" . $phone . "%");
+			});
         }
-
+		
         $gender = $request->input("gender");
-
+		
         if ($request->filled("gender")) {
-            $query = $query
-                ->whereHas("user", function ($query) use ($gender) {
-                    $query->where("gender", "LIKE", "%" . $gender . "%");
-                });
+			$query = $query
+			->whereHas("user", function ($query) use ($gender) {
+				$query->where("gender", "LIKE", "%" . $gender . "%");
+			});
         }
-
-        $unitId = $request->input("unitId");
-
-        if ($request->filled("unitId")) {
-            $query = $query->where("unit_id", $unitId);
-        }
+		
+		if ($request->filled("vacated")) {
+			$query = $query->whereNotNull("vacated_at");
+		}
+		
+		if ($request->filled("occupied")) {
+			$query = $query->whereNull("vacated_at");
+		}
 
         return $query;
     }

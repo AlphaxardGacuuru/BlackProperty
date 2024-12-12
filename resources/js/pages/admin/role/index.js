@@ -61,7 +61,7 @@ const index = (props) => {
 				<div className="table-responsive">
 					<table className="table table-hover">
 						<thead>
-							<tr>
+							{/* <tr>
 								<th colSpan="4"></th>
 								<th className="text-end">
 									<MyLink
@@ -70,7 +70,7 @@ const index = (props) => {
 										text="add role"
 									/>
 								</th>
-							</tr>
+							</tr> */}
 							<tr>
 								<th>#</th>
 								<th>Name</th>
@@ -99,26 +99,20 @@ const index = (props) => {
 									<td>
 										<div className="d-flex justify-content-end">
 											<React.Fragment>
-												<MyLink
-													linkTo={`/roles/${role.id}/show`}
-													icon={<ViewSVG />}
-													className="btn-sm me-1"
-												/>
-
-												<MyLink
+												{/* <MyLink
 													linkTo={`/roles/${role.id}/edit`}
 													icon={<EditSVG />}
 													className="btn-sm"
-												/>
+												/> */}
 
-												<div className="mx-1">
+												{/* <div className="mx-1">
 													<DeleteModal
 														index={key}
 														model={role}
 														modelName="Role"
 														onDelete={onDeleteRole}
 													/>
-												</div>
+												</div> */}
 											</React.Fragment>
 										</div>
 									</td>

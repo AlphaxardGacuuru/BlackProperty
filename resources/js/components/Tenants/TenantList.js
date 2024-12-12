@@ -20,31 +20,13 @@ import LogoutSVG from "@/svgs/LogoutSVG"
 const TenantList = (props) => {
 	const location = useLocation()
 
-	/*
-	 * Vacate Tenant
-	 */
-	const onVacate = (tenantId, unitId) => {
-		Axios.put(`/api/tenants/${tenantId}`, {
-			unitId: unitId,
-			vacate: true,
-		})
-			.then((res) => {
-				props.setMessages([res.data.message])
-				// Fetch Tenants
-				props.getPaginated(`tenants?unitId=${id}`, props.setTenants)
-				// Fetch Auth
-				props.get("auth", props.setAuth, "auth")
-			})
-			.catch((err) => props.getErrors(err))
-	}
-
 	return (
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm p-2">
 				<div className="d-flex justify-content-between">
 					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-4">
+					<div className="d-flex justify-content-between w-100 align-items-center mx-2">
 						<HeroHeading
 							heading="Total Tenants"
 							data={props.tenants.meta?.total}
@@ -96,7 +78,7 @@ const TenantList = (props) => {
 					<thead>
 						{location.pathname.match("/units/") && (
 							<tr>
-								<th colSpan="6"></th>
+								<th colSpan="7"></th>
 								<th className="text-end">
 									<MyLink
 										linkTo={`/tenants/${props.unitId}/create`}
@@ -111,8 +93,9 @@ const TenantList = (props) => {
 							<th></th>
 							<th>Name</th>
 							<th>Phone</th>
+							<th>Unit</th>
 							<th>Move In Date</th>
-							<th>Action</th>
+							<th className="text-center">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -129,9 +112,10 @@ const TenantList = (props) => {
 								</td>
 								<td>{tenant.name}</td>
 								<td>{tenant.phone}</td>
+								<td>{tenant.unitName}</td>
 								<td>{tenant.occupiedAt}</td>
 								<td>
-									<div className="d-flex justify-content-end">
+									<div className="d-flex justify-content-center">
 										<React.Fragment>
 											<MyLink
 												linkTo={`/tenants/${tenant.id}/edit`}
@@ -175,7 +159,7 @@ const TenantList = (props) => {
 																	type="button"
 																	className="mysonar-btn btn-2"
 																	data-bs-dismiss="modal"
-																	onClick={() => onVacate(tenant.id, tenant.unitId)}>
+																	onClick={() => props.onVacate(tenant.id, tenant.unitId)}>
 																	<span className="me-1">{<LogoutSVG />}</span>
 																	Vacate {tenant.name}
 																</button>

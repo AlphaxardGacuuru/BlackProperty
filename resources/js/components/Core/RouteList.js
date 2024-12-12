@@ -186,7 +186,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminStaff {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/staff/:id/create",
+			path: "/admin/staff/create",
 			component: <AdminStaffCreate {...GLOBAL_STATE} />,
 		},
 		{
