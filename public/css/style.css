@@ -3270,3 +3270,25 @@ div.hidden-scroll span {
 	/* Hide scrollbar for Firefox */
 	scrollbar-width: none;
 }
+
+.nav-property-dropdown {
+	width: 25%;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.nav-property-dropdown {
+		width: 70%;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.nav-property-dropdown {
+		width: 70%;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.nav-property-dropdown {
+		width: 70%;
+	}
+}

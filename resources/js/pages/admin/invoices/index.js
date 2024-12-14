@@ -16,6 +16,8 @@ import InvoiceSVG from "@/svgs/InvoiceSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
+import EmailSentSVG from "@/svgs/EmailSentSVG"
+import SendEmailSVG from "@/svgs/SendEmailSVG"
 
 const index = (props) => {
 	const [invoices, setInvoices] = useState([])
@@ -30,7 +32,7 @@ const index = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const statuses = ["pending", "partially_paid", "paid", "overpaid"]
+	const statuses = ["not_paid", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
 
 	const [deleteIds, setDeleteIds] = useState([])
@@ -340,8 +342,10 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="11"></th>
-							<th className="text-end">
+							<th colSpan="8"></th>
+							<th
+								colSpan="2"
+								className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
 										<Btn
@@ -384,8 +388,8 @@ const index = (props) => {
 							<th>Month</th>
 							<th>Year</th>
 							<th>Amount</th>
-							<th>Paid</th>
-							<th>Balance</th>
+							{/* <th>Paid</th> */}
+							{/* <th>Balance</th> */}
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -399,7 +403,7 @@ const index = (props) => {
 									/>
 								</td>
 								{/* <td>{props.iterator(key, invoices)}</td> */}
-								<td>{invoice.id}</td>
+								<td>{invoice.code}</td>
 								<td>{invoice.tenantName}</td>
 								<td>{invoice.unitName}</td>
 								<td className="text-capitalize">
@@ -415,12 +419,12 @@ const index = (props) => {
 								<td className="text-success">
 									<small>KES</small> {invoice.amount}
 								</td>
-								<td className="text-success">
+								{/* <td className="text-success">
 									<small>KES</small> {invoice.paid}
-								</td>
-								<td className="text-success">
+								</td> */}
+								{/* <td className="text-success">
 									<small>KES</small> {invoice.balance}
-								</td>
+								</td> */}
 								<td className="text-capitalize">
 									<span
 										className={`
@@ -443,14 +447,17 @@ const index = (props) => {
 									</span>
 								</td>
 								<td>
-									<div className="d-flex justify-content-end">
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/invoices/${invoice.id}/show`}
-												icon={<ViewSVG />}
-												className="me-1"
-											/>
-										</div>
+									<div className="d-flex justify-content-center">
+										<MyLink
+											linkTo={`/invoices/${invoice.id}/show`}
+											icon={<ViewSVG />}
+											className="me-1"
+										/>
+
+										<Btn
+											className="btn-3"
+											icon={<SendEmailSVG />}
+										/>
 
 										<div className="mx-1">
 											<DeleteModal

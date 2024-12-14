@@ -254,7 +254,7 @@ const index = (props) => {
 								<td>{props.iterator(key, payments)}</td>
 								<td>{payment.tenantName}</td>
 								<td>{payment.unitName}</td>
-								<td>{payment.invoiceId}</td>
+								<td>{payment.invoiceCode}</td>
 								<td>{payment.channel}</td>
 								<td>{payment.transactionReference}</td>
 								<td className="text-success">
@@ -267,6 +267,12 @@ const index = (props) => {
 											linkTo={`/invoices/${payment.invoiceId}/show`}
 											icon={<ViewSVG />}
 											text="view invoice"
+											className="me-1"
+										/>
+
+										<MyLink
+											linkTo={`/payments/${payment.id}/show`}
+											icon={<ViewSVG />}
 											className="me-1"
 										/>
 

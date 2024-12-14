@@ -14,8 +14,12 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
+        $code = str_pad($this->id, 6, '0', STR_PAD_LEFT);
+		$code = "I-" . $code;
+
         return [
 			"id" => $this->id,
+			"code" => $code,
 			"userUnitId" => $this->user_unit_id,
 			"tenantId" => $this->userUnit->user_id,
 			"tenantName" => $this->userUnit->user->name,

@@ -6,6 +6,7 @@ import Btn from "@/components/Core/Btn"
 
 import PlusSVG from "@/svgs/PlusSVG"
 import PrintSVG from "@/svgs/PrintSVG"
+import LogoSVG from "@/svgs/LogoSVG"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -65,7 +66,11 @@ const show = (props) => {
 				<div className="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div className="card p-5">
 						<div className="card-header bg-white border-0 d-flex justify-content-between">
-							<h2 className="text-dark mb-1">Black Property</h2>
+							<div
+								className="text-dark mb-1"
+								style={{ fontSize: "3em" }}>
+								<LogoSVG />
+							</div>
 
 							<div>
 								<h2 className="mb-0">INVOICE</h2>

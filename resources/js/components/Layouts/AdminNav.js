@@ -134,7 +134,7 @@ const AdminMenu = (props) => {
 										{/* <!-- Left Menu Icon End --> */}
 
 										{/* <!-- Logo Area  --> */}
-										<div className="logo-area mb-2">
+										<div className="logo-area hidden me-2 mb-2">
 											<Link
 												to="/admin"
 												className="text-white">
@@ -144,7 +144,7 @@ const AdminMenu = (props) => {
 									</div>
 
 									{/* Property List */}
-									<div className="w-25">
+									<div className="nav-property-dropdown">
 										<select
 											className="form-control mt-2"
 											onChange={(e) => {

@@ -17,7 +17,7 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Roles", path: ["role"] })
+		props.setPage({ name: "Roles", path: ["roles"] })
 		props.getPaginated("roles", setRoles)
 	}, [])
 

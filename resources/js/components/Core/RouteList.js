@@ -33,6 +33,7 @@ import AdminWaterReadingEdit from "@/pages/admin/water-readings/edit/[id]"
 
 import AdminPayments from "@/pages/admin/payments/index"
 import AdminPaymentCreate from "@/pages/admin/payments/create"
+import AdminPaymentShow from "@/pages/admin/payments/[id]"
 import AdminPaymentEdit from "@/pages/admin/payments/edit/[id]"
 
 import AdminCreditNotes from "@/pages/admin/credit-notes/index"
@@ -156,6 +157,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/payments/:id/create",
 			component: <AdminPaymentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/payments/:id/show",
+			component: <AdminPaymentShow {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/payments/:id/edit",
