@@ -2745,6 +2745,18 @@ ol {
 	color: #fff;
 }
 
+.mysonar-btn.btn-green {
+	background-color: rgba(24, 180, 84, 1);
+	border-color: rgba(24, 180, 84, 1);
+	color: #fff;
+}
+
+.mysonar-btn.btn-yellow {
+	background-color: rgba(255, 205, 86, 1);
+	border-color: rgba(255, 205, 86, 1);
+	color: #fff;
+}
+
 .mysonar-sm {
 	font-size: 9px !important;
 	height: 25px;

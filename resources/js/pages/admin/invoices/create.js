@@ -31,11 +31,6 @@ const create = (props) => {
 			path: ["invoices", "create"],
 		})
 
-		// Fetch Properties
-		props.get(
-			`properties/by-user-id/${props.auth.id}?idAndName=true`,
-			setProperties
-		)
 		// Fetch Tenants
 		props.get(
 			`tenants?propertyId=${props.auth.propertyIds}&idAndName=true`,
@@ -159,7 +154,7 @@ const create = (props) => {
 						onChange={(e) => setPropertyId(e.target.value)}
 						required={true}>
 						<option value="">Select Property</option>
-						{properties.map((property, key) => (
+						{props.properties.map((property, key) => (
 							<option
 								key={key}
 								value={property.id}>

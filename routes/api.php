@@ -81,6 +81,7 @@ Route::get("units/statements/{id}", [UnitController::class, "statements"]);
 /*
  * Invoices
  */
+Route::post("invoices/send-email", [InvoiceController::class, "sendEmail"]);
 
 /*
  * WaterReadings

@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\InvoiceResource;
+use App\Jobs\SendInvoiceJob;
 use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -252,6 +253,17 @@ class InvoiceService extends Service
         } else {
             return $waterReadingQuery->first()->bill;
         }
+    }
 
+    /*
+     * Send Invoice by Email
+     */
+    public function sendEmail($request)
+    {
+		$invoice = Invoice::findOrFail($request->invoiceId);
+
+		$sent = SendInvoiceJob::dispatch($invoice);
+
+		return [$sent, "Invoice Sent", $invoice];
     }
 }

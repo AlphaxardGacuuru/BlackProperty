@@ -37,6 +37,7 @@ const index = (props) => {
 
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
+	const [loadingEmail, setLoadingEmail] = useState()
 
 	useEffect(() => {
 		// Set page
@@ -116,6 +117,25 @@ const index = (props) => {
 				props.getErrors(err)
 				// Clear DeleteIds
 				setDeleteIds([])
+			})
+	}
+
+	/*
+	 * Send Email
+	 */
+	const onSendEmail = (invoiceId) => {
+		setLoadingEmail(true)
+
+		Axios.post("api/invoices/send-email", {
+			invoiceId: invoiceId,
+		})
+			.then((res) => {
+				setLoadingEmail(false)
+				props.setMessages([res.data.message])
+			})
+			.catch((err) => {
+				setLoadingEmail(false)
+				props.getErrors(err)
 			})
 	}
 
@@ -455,8 +475,10 @@ const index = (props) => {
 										/>
 
 										<Btn
-											className="btn-3"
+											className="btn-green"
 											icon={<SendEmailSVG />}
+											loading={loadingEmail}
+											onClick={() => onSendEmail(invoice.id)}
 										/>
 
 										<div className="mx-1">

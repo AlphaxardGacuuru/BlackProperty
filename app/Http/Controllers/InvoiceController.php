@@ -101,10 +101,16 @@ class InvoiceController extends Controller
     }
 
     /*
-     * Get Invoices by Property ID
+     * Send Invoices by Email
      */
-    public function byPropertyId(Request $request, $id)
+    public function sendEmail(Request $request)
     {
-        return $this->service->byPropertyId($request, $id);
+        [$sent, $message, $invoice] = $this->service->sendEmail($request);
+
+		return response([
+			"status" => $sent,
+			"message" => $message,
+			"data" => $invoice
+		], 200);
     }
 }

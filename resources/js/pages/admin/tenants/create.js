@@ -63,6 +63,8 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					{/* Name Start */}
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
 						name="name"
@@ -71,7 +73,10 @@ const create = (props) => {
 						onChange={(e) => setName(e.target.value)}
 						required={true}
 					/>
+					{/* Name End */}
 
+					{/* Email Start */}
+					<label htmlFor="">Email</label>
 					<input
 						type="text"
 						name="email"
@@ -80,7 +85,10 @@ const create = (props) => {
 						onChange={(e) => setEmail(e.target.value)}
 						required={true}
 					/>
+					{/* Email End */}
 
+					{/* Phone Start */}
+					<label htmlFor="">Phone</label>
 					<input
 						type="tel"
 						name="phone"
@@ -89,7 +97,10 @@ const create = (props) => {
 						onChange={(e) => setPhone(e.target.value)}
 						required={true}
 					/>
+					{/* Phone End */}
 
+					{/* Occupied At Start */}
+					<label htmlFor="">Occupied At</label>
 					<input
 						name="occupiedAt"
 						type="date"
@@ -97,6 +108,7 @@ const create = (props) => {
 						onChange={(e) => setOccupiedAt(e.target.value)}
 						required={true}
 					/>
+					{/* Occupied At End */}
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

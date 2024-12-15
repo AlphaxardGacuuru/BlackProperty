@@ -62,6 +62,8 @@ const edit = (props) => {
 			<div className="col-sm-2"></div>
 			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
+					{/* Name Start */}
+					<label htmlFor="">Name</label>
 					<input
 						type="text"
 						name="name"
@@ -69,6 +71,10 @@ const edit = (props) => {
 						className="form-control mb-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
+					{/* Name End */}
+
+					{/* Email Start */}
+					<label htmlFor="">Email</label>
 					<input
 						type="text"
 						name="email"
@@ -76,6 +82,10 @@ const edit = (props) => {
 						className="form-control mb-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
+					{/* Name End */}
+
+					{/* Phone Start */}
+					<label htmlFor="">Phone</label>
 					<input
 						type="tel"
 						name="phone"
@@ -83,7 +93,10 @@ const edit = (props) => {
 						className="form-control mb-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
+					{/* Phone End */}
 
+					{/* Gender Start */}
+					<label htmlFor="">Gender</label>
 					<select
 						name="gender"
 						className="form-control mb-3 mb-2"
@@ -100,6 +113,7 @@ const edit = (props) => {
 							Female
 						</option>
 					</select>
+					{/* Gender End */}
 
 					<center>
 						<Btn

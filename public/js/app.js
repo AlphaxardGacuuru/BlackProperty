@@ -85753,8 +85753,6 @@ var create = function create(props) {
       path: ["invoices", "create"]
     });
 
-    // Fetch Properties
-    props.get("properties/by-user-id/".concat(props.auth.id, "?idAndName=true"), setProperties);
     // Fetch Tenants
     props.get("tenants?propertyId=".concat(props.auth.propertyIds, "&idAndName=true"), setTenants);
   }, []);
@@ -85860,7 +85858,7 @@ var create = function create(props) {
     required: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
-  }, "Select Property"), properties.map(function (property, key) {
+  }, "Select Property"), props.properties.map(function (property, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: property.id
@@ -86311,6 +86309,10 @@ var index = function index(props) {
     _useState24 = _slicedToArray(_useState23, 2),
     loading = _useState24[0],
     setLoading = _useState24[1];
+  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState26 = _slicedToArray(_useState25, 2),
+    loadingEmail = _useState26[0],
+    setLoadingEmail = _useState26[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -86365,6 +86367,22 @@ var index = function index(props) {
       props.getErrors(err);
       // Clear DeleteIds
       setDeleteIds([]);
+    });
+  };
+
+  /*
+   * Send Email
+   */
+  var onSendEmail = function onSendEmail(invoiceId) {
+    setLoadingEmail(true);
+    Axios.post("api/invoices/send-email", {
+      invoiceId: invoiceId
+    }).then(function (res) {
+      setLoadingEmail(false);
+      props.setMessages([res.data.message]);
+    })["catch"](function (err) {
+      setLoadingEmail(false);
+      props.getErrors(err);
     });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86580,8 +86598,12 @@ var index = function index(props) {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      className: "btn-3",
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null)
+      className: "btn-green",
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+      loading: loadingEmail,
+      onClick: function onClick() {
+        return onSendEmail(invoice.id);
+      }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -89107,7 +89129,9 @@ var create = function create(props) {
     className: "col-sm-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "name",
     placeholder: "Name",
@@ -89116,7 +89140,9 @@ var create = function create(props) {
       return setName(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "email",
     placeholder: "Email",
@@ -89125,7 +89151,9 @@ var create = function create(props) {
       return setEmail(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "tel",
     name: "phone",
     placeholder: "Phone",
@@ -89134,7 +89162,9 @@ var create = function create(props) {
       return setPhone(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Occupied At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     name: "occupiedAt",
     type: "date",
     className: "form-control mb-3 me-2",
@@ -89262,7 +89292,9 @@ var edit = function edit(props) {
     className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "name",
     defaultValue: tenant.name,
@@ -89270,7 +89302,9 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setName(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "email",
     defaultValue: tenant.email,
@@ -89278,7 +89312,9 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "tel",
     name: "phone",
     defaultValue: tenant.phone,
@@ -89286,7 +89322,9 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setPhone(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     name: "gender",
     className: "form-control mb-3 mb-2",
     onChange: function onChange(e) {
