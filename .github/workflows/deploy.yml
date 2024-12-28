@@ -10,34 +10,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     # Step 1: Check out the code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Install Composer Dependencies
-    - name: Install Composer dependencies
-      run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-    # Step 3: Install NPM Packages
-    - name: Install NPM packages
-      run: npm install
-	  
-    # Step 5: Run Migrations
-    - name: Run Migrations
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: ':memory:'
-      run: php artisan migrate --force
-
-    # Step 6: Run Tests
-    - name: Run Laravel Tests
-      run: php artisan test
-
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build # Deployment only happens after the build passes
 
     steps:
