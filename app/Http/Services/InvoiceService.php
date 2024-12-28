@@ -4,11 +4,13 @@ namespace App\Http\Services;
 
 use App\Http\Resources\InvoiceResource;
 use App\Jobs\SendInvoiceJob;
+use App\Mail\InvoiceMail;
 use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceService extends Service
@@ -159,6 +161,12 @@ class InvoiceService extends Service
             });
         }
 
+        $code = $request->input("code");
+
+        if ($request->filled("code")) {
+            $query = $query->where("id", "LIKE", "%" . $code . "%");
+        }
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
@@ -260,10 +268,10 @@ class InvoiceService extends Service
      */
     public function sendEmail($request)
     {
-		$invoice = Invoice::findOrFail($request->invoiceId);
+        $invoice = Invoice::findOrFail($request->invoiceId);
 
-		$sent = SendInvoiceJob::dispatch($invoice);
+        $sent = SendInvoiceJob::dispatch($invoice);
 
-		return [$sent, "Invoice Sent", $invoice];
+        return [$sent, "Invoice Dispatched Successfully", $invoice];
     }
 }

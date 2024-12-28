@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
@@ -21,7 +21,9 @@ import SendEmailSVG from "@/svgs/SendEmailSVG"
 
 const index = (props) => {
 	const [invoices, setInvoices] = useState([])
+	const [invoiceToEmail, setInvoiceToEmail] = useState({})
 
+	const [code, setCode] = useState("")
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
 	const [type, setType] = useState("")
@@ -39,6 +41,8 @@ const index = (props) => {
 	const [loading, setLoading] = useState()
 	const [loadingEmail, setLoadingEmail] = useState()
 
+	const modalBtnClose = useRef()
+
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Invoices", path: ["invoices"] })
@@ -48,6 +52,7 @@ const index = (props) => {
 		// Fetch Invoices
 		props.getPaginated(
 			`invoices?propertyId=${props.selectedPropertyId}&
+			code=${code}&
 			tenant=${tenant}&
 			unit=${unit}&
 			type=${type}&
@@ -60,6 +65,7 @@ const index = (props) => {
 		)
 	}, [
 		props.selectedPropertyId,
+		code,
 		tenant,
 		unit,
 		type,
@@ -132,6 +138,8 @@ const index = (props) => {
 			.then((res) => {
 				setLoadingEmail(false)
 				props.setMessages([res.data.message])
+				// Clode Modal
+				modalBtnClose.current.click()
 			})
 			.catch((err) => {
 				setLoadingEmail(false)
@@ -141,6 +149,61 @@ const index = (props) => {
 
 	return (
 		<div className={props.activeTab}>
+			{/* Confirm Delete Modal End */}
+			<div
+				className="modal fade"
+				id={`invoiceModal`}
+				tabIndex="-1"
+				aria-labelledby="deleteModalLabel"
+				aria-hidden="true">
+				<div className="modal-dialog">
+					<div className="modal-content rounded-0">
+						<div className="modal-header">
+							<h1
+								id="deleteModalLabel"
+								className="modal-title fs-5">
+								Send Email for Invoice {invoiceToEmail.code}
+							</h1>
+							<button
+								type="button"
+								className="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div className="modal-body text-start text-wrap">
+							Are you sure you want to send email to {invoiceToEmail.tenantName}
+							.
+						</div>
+						<div className="modal-footer justify-content-between">
+							<button
+								ref={modalBtnClose}
+								type="button"
+								className="mysonar-btn btn-2"
+								data-bs-dismiss="modal">
+								Close
+							</button>
+							{/* <button
+								type="button"
+								className="btn btn-success rounded-0"
+								data-bs-dismiss="modal"
+								onClick={() => onSendEmail(invoiceToEmail.id)}
+								loading={loading}>
+								<span className="me-1">{<SendEmailSVG />}</span>
+								Send
+							</button> */}
+
+							<Btn
+								icon={<SendEmailSVG />}
+								text="send"
+								onClick={() => onSendEmail(invoiceToEmail.id)}
+								loading={loadingEmail}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/* Confirm Delete Modal End */}
+
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
 				{/* Total */}
@@ -200,6 +263,16 @@ const index = (props) => {
 			{/* Filters */}
 			<div className="card shadow-sm px-4 pt-4 pb-3 mb-2">
 				<div className="d-flex flex-wrap">
+					{/* Code */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="text"
+							placeholder="Search by Code"
+							className="form-control"
+							onChange={(e) => setCode(e.target.value)}
+						/>
+					</div>
+					{/* Code End */}
 					{/* Tenant */}
 					<div className="flex-grow-1 me-2 mb-2">
 						<input
@@ -474,12 +547,17 @@ const index = (props) => {
 											className="me-1"
 										/>
 
+										{/* Button trigger modal */}
 										<Btn
-											className="btn-green"
 											icon={<SendEmailSVG />}
-											loading={loadingEmail}
-											onClick={() => onSendEmail(invoice.id)}
+											className={
+												invoice.emailsSent ? `btn-green` : `btn-yellow`
+											}
+											dataBsToggle="modal"
+											dataBsTarget={`#invoiceModal`}
+											onClick={() => setInvoiceToEmail(invoice)}
 										/>
+										{/* Button trigger modal End */}
 
 										<div className="mx-1">
 											<DeleteModal

@@ -122,3 +122,9 @@ Route::prefix('filepond')->group(function () {
 
 // Broadcast Routes
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
+Route::get('/mailable', function () {
+    $invoice = App\Models\Invoice::find(7532);
+
+    return new App\Mail\InvoiceMail($invoice);
+});

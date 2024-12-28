@@ -2,8 +2,10 @@
 
 namespace App\Mail;
 
+use App\Http\Resources\InvoiceResource;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -21,7 +23,7 @@ class InvoiceMail extends Mailable
      */
     public function __construct($invoice)
     {
-        $this->invoice = $invoice;
+        $this->invoice = $this->invoiceResource($invoice);
     }
 
     /**
@@ -49,6 +51,9 @@ class InvoiceMail extends Mailable
     {
         return new Content(
             markdown: 'emails.invoice',
+            with: [
+                'invoice' => $this->invoice,
+            ],
         );
     }
 
@@ -59,6 +64,38 @@ class InvoiceMail extends Mailable
      */
     public function attachments()
     {
-        return [];
+        return [
+			Attachment::fromStorage('/storage/img/vector/default-monochrome.svg')
+                ->as('logo.svg')
+                ->withMime('application/svg'),
+		];
+    }
+
+    public function invoiceResource($invoice)
+    {
+        $code = str_pad($invoice->id, 6, '0', STR_PAD_LEFT);
+        $code = "I-" . $code;
+
+        // $invoice->id = $invoice->id;
+        $invoice->code = $code;
+        $invoice->userUnitId = $invoice->user_unit_id;
+        $invoice->tenantId = $invoice->userUnit->user_id;
+        $invoice->tenantName = $invoice->userUnit->user->name;
+        $invoice->tenantPhone = $invoice->userUnit->user->phone;
+        $invoice->tenantEmail = $invoice->userUnit->user->email;
+        $invoice->unitId = $invoice->userUnit->unit_id;
+        $invoice->unitName = $invoice->userUnit->unit->name;
+        // $invoice->type = $invoice->type;
+        $invoice->amount = number_format($invoice->amount);
+        $invoice->paid = number_format($invoice->paid);
+        $invoice->balance = number_format($invoice->balance);
+        // $invoice->status = $invoice->status;
+        // $invoice->month = $invoice->month;
+        // $invoice->year = $invoice->year;
+        $invoice->emailsSent = $invoice->emails_sent;
+        $invoice->updatedAt = $invoice->updated_at;
+        $invoice->createdAt = $invoice->created_at;
+
+		return $invoice;
     }
 }

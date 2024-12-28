@@ -35,140 +35,79 @@ const AdminNavLinks = (props) => {
 		)
 	}
 
+	const navLinks = [
+		{
+			link: "/admin/dashboard",
+			icon: <HomeSVG />,
+			name: "Dashboard",
+		},
+		{
+			link: "/admin/properties",
+			icon: <PropertySVG />,
+			name: "Properties",
+		},
+		{
+			link: "/admin/units",
+			icon: <UnitSVG />,
+			name: "Units",
+		},
+		{
+			link: "/admin/tenants",
+			icon: <TenantSVG />,
+			name: "Tenants",
+		},
+		{
+			link: "/admin/water-readings",
+			icon: <WaterReadingSVG />,
+			name: "Water Readings",
+		},
+		{
+			link: "/admin/invoices",
+			icon: <InvoiceSVG />,
+			name: "Invoices",
+		},
+		{
+			link: "/admin/payments",
+			icon: <PaymentSVG />,
+			name: "Payments",
+		},
+		{
+			link: "/admin/credit-notes",
+			icon: <CreditNoteSVG />,
+			name: "Credit Notes",
+		},
+		{
+			link: "/admin/wallet",
+			icon: <WalletSVG />,
+			name: "Wallet",
+		},
+		{
+			link: "/admin/staff",
+			icon: <StaffSVG />,
+			name: "Staff",
+		},
+		{
+			link: "/admin/roles",
+			icon: <PersonGearSVG />,
+			name: "Roles",
+		},
+	]
+
 	return (
 		<React.Fragment>
-			{/* Dashboard Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/dashboard`}
-					className={`nav-link ${active("/admin/dashboard")}`}>
-					<div className="nav-link-icon">
-						<HomeSVG />
-					</div>
-					<div className="nav-link-text">Dashboard</div>
-				</Link>
-			</li>
-			{/* Dashboard Link End */}
-			{/* Properties Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/properties`}
-					className={`nav-link ${active("/admin/properties")}`}>
-					<div className="nav-link-icon">
-						<PropertySVG />
-					</div>
-					<div className="nav-link-text">Properties</div>
-				</Link>
-			</li>
-			{/* Properties Link End */}
-			{/* Units Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/units`}
-					className={`nav-link ${active("/admin/units")}`}>
-					<div className="nav-link-icon">
-						<UnitSVG />
-					</div>
-					<div className="nav-link-text">Units</div>
-				</Link>
-			</li>
-			{/* Units Link End */}
-			{/* Tenants Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/tenants`}
-					className={`nav-link ${active("/admin/tenants")}`}>
-					<div className="nav-link-icon">
-						<TenantSVG />
-					</div>
-					<div className="nav-link-text">Tenants</div>
-				</Link>
-			</li>
-			{/* Tenants Link End */}
-			{/* Water Readings Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/water-readings`}
-					className={`nav-link ${active("/admin/water-readings")}`}>
-					<div className="nav-link-icon">
-						<WaterReadingSVG />
-					</div>
-					<div className="nav-link-text">Water Readings</div>
-				</Link>
-			</li>
-			{/* Water Readings Link End */}
-			{/* Invoices Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/invoices`}
-					className={`nav-link ${active("/admin/invoices")}`}>
-					<div className="nav-link-icon">
-						<InvoiceSVG />
-					</div>
-					<div className="nav-link-text">Invoices</div>
-				</Link>
-			</li>
-			{/* Invoices Link End */}
-			{/* Payments Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/payments`}
-					className={`nav-link ${active("/admin/payments")}`}>
-					<div className="nav-link-icon">
-						<PaymentSVG />
-					</div>
-					<div className="nav-link-text">Payments</div>
-				</Link>
-			</li>
-			{/* Payments Link End */}
-			{/* Credit Notes Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/credit-notes`}
-					className={`nav-link ${active("/admin/credit-notes")}`}>
-					<div className="nav-link-icon">
-						<CreditNoteSVG />
-					</div>
-					<div className="nav-link-text">Credit Notes</div>
-				</Link>
-			</li>
-			{/* Credit Notes Link End */}
-			{/* Wallet */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/wallet`}
-					className={`nav-link ${active("/admin/wallet")}`}>
-					<div className="nav-link-icon">
-						<WalletSVG />
-					</div>
-					<div className="nav-link-text">Wallet</div>
-				</Link>
-			</li>
-			{/* Wallet End */}
-			{/* Staff Link */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/staff`}
-					className={`nav-link ${active("/admin/staff")}`}>
-					<div className="nav-link-icon">
-						<StaffSVG />
-					</div>
-					<div className="nav-link-text">Staff</div>
-				</Link>
-			</li>
-			{/* Staff Link End */}
-			{/* Roles Links */}
-			<li className="nav-item">
-				<Link
-					to={`/admin/roles`}
-					className={`nav-link ${active("/admin/roles")}`}>
-					<div className="nav-link-icon">
-						<PersonGearSVG />
-					</div>
-					<div className="nav-link-text">Roles</div>
-				</Link>
-			</li>
-			{/* Roles Link End */}
+			{navLinks.map((navLink, key) => (
+				<li
+					key={key}
+					className="nav-item"
+					onClick={() => props.setAdminMenu("")}>
+					<Link
+						to={navLink.link}
+						className={`nav-link ${active(navLink.link)}`}>
+						<div className="nav-link-icon">{navLink.icon}</div>
+						<div className="nav-link-text">{navLink.name}</div>
+					</Link>
+				</li>
+			))}
 		</React.Fragment>
 	)
 }

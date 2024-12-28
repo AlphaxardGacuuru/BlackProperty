@@ -34,6 +34,7 @@ class InvoiceResource extends JsonResource
 			"status" => $this->status,
 			"month" => $this->month,
 			"year" => $this->year,
+			"emailsSent" => $this->emails_sent,
 			"updatedAt" => $this->updatedAt,
 			"createdAt" => $this->createdAt,
 		];

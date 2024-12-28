@@ -108,7 +108,7 @@ return [
     */
 
     'only_paths' => [
-        // 'api/*'
+        'api/*'
     ],
 
     'ignore_paths' => [
@@ -170,7 +170,7 @@ return [
 
         Watchers\LogWatcher::class => [
             'enabled' => env('TELESCOPE_LOG_WATCHER', true),
-            'level' => 'error',
+            // 'level' => 'error',
         ],
 
         Watchers\MailWatcher::class => env('TELESCOPE_MAIL_WATCHER', true),

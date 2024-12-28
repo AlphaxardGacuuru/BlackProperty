@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendInvoiceJob implements ShouldQueue
@@ -39,17 +40,38 @@ class SendInvoiceJob implements ShouldQueue
             ->user
             ->email;
 
-        Mail::to($email)->send(new InvoiceMail($this->invoice));
+        try {
+            Mail::to($email)->send(new InvoiceMail($this->invoice));
+
+            // Increment the emails_sent column
+            $this->invoice->increment("emails_sent");
+        } catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+
+            throw $exception;
+        }
     }
- 
+
     /**
      * Handle a job failure.
      *
      * @param  \Throwable  $exception
      * @return void
      */
-    public function failed(Throwable $exception)
+    public function failed($exception)
     {
-        // Send user notification of failure, etc...
+        Log::error('Send Invoice Job Failed: ' . $exception);
+
+        Log::emergency('Send Invoice Job Failed: ' . $exception);
+        Log::alert('Send Invoice Job Failed: ' . $exception);
+        Log::critical('Send Invoice Job Failed: ' . $exception);
+        Log::error('Send Invoice Job Failed: ' . $exception);
+        Log::warning('Send Invoice Job Failed: ' . $exception);
+        Log::notice('Send Invoice Job Failed: ' . $exception);
+        Log::info('Send Invoice Job Failed: ' . $exception);
+        Log::debug('Send Invoice Job Failed: ' . $exception);
+
+        if ($this->invoice->emails_sent > 0) {
+            Invoice::find($this->invoice->id)->decrement('emails_sent');
+        }
     }
 }

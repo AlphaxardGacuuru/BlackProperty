@@ -69,6 +69,9 @@ function App() {
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
 
+	console.info("selectedPropertyId", selectedPropertyId)
+	console.info("getNormalLocalStorage('selectedPropertyId')", getNormalLocalStorage("selectedPropertyId"))
+	console.info("auth.propertyIds", auth.propertyIds)
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
 	const [paymentDescription, setPaymentDescription] = useState()

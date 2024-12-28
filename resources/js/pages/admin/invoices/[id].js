@@ -153,7 +153,7 @@ const show = (props) => {
 										</tr>
 										<tr className="border-bottom border-top">
 											<td colSpan={invoice.type == "water" ? 3 : 0}></td>
-											<td className="fw-normal text-end">Amount Paid</td>
+											<td className="fw-normal text-end">Paid</td>
 											<td className="fw-normal text-end">
 												<small className="fw-normal me-1">KES</small>
 												{invoice.paid}

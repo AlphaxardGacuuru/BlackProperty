@@ -80925,6 +80925,9 @@ function App() {
     _useState18 = _slicedToArray(_useState17, 2),
     page = _useState18[0],
     setPage = _useState18[1];
+  console.info("selectedPropertyId", selectedPropertyId);
+  console.info("getNormalLocalStorage('selectedPropertyId')", getNormalLocalStorage("selectedPropertyId"));
+  console.info("auth.propertyIds", auth.propertyIds);
   var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState20 = _slicedToArray(_useState19, 2),
     showPayMenu = _useState20[0],
@@ -81524,15 +81527,26 @@ var Btn = function Btn(_ref) {
     onClick = _ref.onClick,
     loading = _ref.loading,
     dataBsToggle = _ref.dataBsToggle,
-    dataBsTarget = _ref.dataBsTarget;
-  var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+    dataBsTarget = _ref.dataBsTarget,
+    tooltipText = _ref.tooltipText,
+    tooltipBgColor = _ref.tooltipBgColor,
+    tooltipPlacement = _ref.tooltipPlacement;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Initialize Bootstrap tooltips
+    var tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     style: btnStyle,
     className: "mysonar-btn btn-2 ".concat(className),
     onClick: onClick,
     disabled: loading,
     "data-bs-toggle": dataBsToggle,
-    "data-bs-target": dataBsTarget
+    "data-bs-target": dataBsTarget,
+    "data-bs-placement": tooltipPlacement,
+    title: tooltipText
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     style: {
       color: "inherit"
@@ -81551,8 +81565,12 @@ var Btn = function Btn(_ref) {
 };
 Btn.defaultProps = {
   loading: false,
-  disabled: false
+  disabled: false,
+  tooltipBgColor: "primary",
+  // Bootstrap primary background (optional if using Bootstrap's native tooltips)
+  tooltipPlacement: "top" // Default tooltip placement
 };
+
 /* harmony default export */ __webpack_exports__["default"] = (Btn);
 
 /***/ }),
@@ -83008,106 +83026,67 @@ var AdminNavLinks = function AdminNavLinks(props) {
   var activeStrict = function activeStrict(check) {
     return location.pathname == check && "rounded-0 text-primary bg-primary-subtle";
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/dashboard",
-    className: "nav-link ".concat(active("/admin/dashboard"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_HomeSVG__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Dashboard"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/properties",
-    className: "nav-link ".concat(active("/admin/properties"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_4__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Properties"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/units",
-    className: "nav-link ".concat(active("/admin/units"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Units"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/tenants",
-    className: "nav-link ".concat(active("/admin/tenants"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Tenants"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/water-readings",
-    className: "nav-link ".concat(active("/admin/water-readings"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Water Readings"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/invoices",
-    className: "nav-link ".concat(active("/admin/invoices"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Invoices"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/payments",
-    className: "nav-link ".concat(active("/admin/payments"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Payments"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/credit-notes",
-    className: "nav-link ".concat(active("/admin/credit-notes"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Credit Notes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/wallet",
-    className: "nav-link ".concat(active("/admin/wallet"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WalletSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Wallet"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/staff",
-    className: "nav-link ".concat(active("/admin/staff"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Staff"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "nav-item"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/admin/roles",
-    className: "nav-link ".concat(active("/admin/roles"))
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-icon"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PersonGearSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "nav-link-text"
-  }, "Roles"))));
+  var navLinks = [{
+    link: "/admin/dashboard",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_HomeSVG__WEBPACK_IMPORTED_MODULE_3__["default"], null),
+    name: "Dashboard"
+  }, {
+    link: "/admin/properties",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
+    name: "Properties"
+  }, {
+    link: "/admin/units",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null),
+    name: "Units"
+  }, {
+    link: "/admin/tenants",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null),
+    name: "Tenants"
+  }, {
+    link: "/admin/water-readings",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WaterReadingSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null),
+    name: "Water Readings"
+  }, {
+    link: "/admin/invoices",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
+    name: "Invoices"
+  }, {
+    link: "/admin/payments",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+    name: "Payments"
+  }, {
+    link: "/admin/credit-notes",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
+    name: "Credit Notes"
+  }, {
+    link: "/admin/wallet",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WalletSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+    name: "Wallet"
+  }, {
+    link: "/admin/staff",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null),
+    name: "Staff"
+  }, {
+    link: "/admin/roles",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PersonGearSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
+    name: "Roles"
+  }];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, navLinks.map(function (navLink, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      key: key,
+      className: "nav-item",
+      onClick: function onClick() {
+        return props.setAdminMenu("");
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: navLink.link,
+      className: "nav-link ".concat(active(navLink.link))
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "nav-link-icon"
+    }, navLink.icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "nav-link-text"
+    }, navLink.name)));
+  }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (AdminNavLinks);
 
@@ -85646,7 +85625,7 @@ var show = function show(props) {
     colSpan: invoice.type == "water" ? 3 : 0
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "fw-normal text-end"
-  }, "Amount Paid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+  }, "Paid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "fw-normal text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fw-normal me-1"
@@ -86263,56 +86242,65 @@ var index = function index(props) {
     _useState2 = _slicedToArray(_useState, 2),
     invoices = _useState2[0],
     setInvoices = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState4 = _slicedToArray(_useState3, 2),
-    tenant = _useState4[0],
-    setTenant = _useState4[1];
+    invoiceToEmail = _useState4[0],
+    setInvoiceToEmail = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
-    unit = _useState6[0],
-    setUnit = _useState6[1];
+    code = _useState6[0],
+    setCode = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    type = _useState8[0],
-    setType = _useState8[1];
+    tenant = _useState8[0],
+    setTenant = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    status = _useState10[0],
-    setStatus = _useState10[1];
+    unit = _useState10[0],
+    setUnit = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    propertyId = _useState12[0],
-    setPropertyId = _useState12[1];
+    type = _useState12[0],
+    setType = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    startMonth = _useState14[0],
-    setStartMonth = _useState14[1];
+    status = _useState14[0],
+    setStatus = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    startYear = _useState16[0],
-    setStartYear = _useState16[1];
+    propertyId = _useState16[0],
+    setPropertyId = _useState16[1];
   var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    endMonth = _useState18[0],
-    setEndMonth = _useState18[1];
+    startMonth = _useState18[0],
+    setStartMonth = _useState18[1];
   var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState20 = _slicedToArray(_useState19, 2),
-    endYear = _useState20[0],
-    setEndYear = _useState20[1];
+    startYear = _useState20[0],
+    setStartYear = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    endMonth = _useState22[0],
+    setEndMonth = _useState22[1];
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState24 = _slicedToArray(_useState23, 2),
+    endYear = _useState24[0],
+    setEndYear = _useState24[1];
   var statuses = ["not_paid", "partially_paid", "paid", "overpaid"];
   var types = ["rent", "water", "service_charge"];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState22 = _slicedToArray(_useState21, 2),
-    deleteIds = _useState22[0],
-    setDeleteIds = _useState22[1];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState24 = _slicedToArray(_useState23, 2),
-    loading = _useState24[0],
-    setLoading = _useState24[1];
-  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState26 = _slicedToArray(_useState25, 2),
-    loadingEmail = _useState26[0],
-    setLoadingEmail = _useState26[1];
+    deleteIds = _useState26[0],
+    setDeleteIds = _useState26[1];
+  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState28 = _slicedToArray(_useState27, 2),
+    loading = _useState28[0],
+    setLoading = _useState28[1];
+  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState30 = _slicedToArray(_useState29, 2),
+    loadingEmail = _useState30[0],
+    setLoadingEmail = _useState30[1];
+  var modalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -86322,8 +86310,8 @@ var index = function index(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Invoices
-    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
-  }, [props.selectedPropertyId, tenant, unit, type, status, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
+  }, [props.selectedPropertyId, code, tenant, unit, type, status, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Handle DeleteId checkboxes
@@ -86380,6 +86368,8 @@ var index = function index(props) {
     }).then(function (res) {
       setLoadingEmail(false);
       props.setMessages([res.data.message]);
+      // Clode Modal
+      modalBtnClose.current.click();
     })["catch"](function (err) {
       setLoadingEmail(false);
       props.getErrors(err);
@@ -86388,6 +86378,42 @@ var index = function index(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal fade",
+    id: "invoiceModal",
+    tabIndex: "-1",
+    "aria-labelledby": "deleteModalLabel",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-dialog"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-content rounded-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    id: "deleteModalLabel",
+    className: "modal-title fs-5"
+  }, "Send Email for Invoice ", invoiceToEmail.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body text-start text-wrap"
+  }, "Are you sure you want to send email to ", invoiceToEmail.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    ref: modalBtnClose,
+    type: "button",
+    className: "mysonar-btn btn-2",
+    "data-bs-dismiss": "modal"
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+    text: "send",
+    onClick: function onClick() {
+      return onSendEmail(invoiceToEmail.id);
+    },
+    loading: loadingEmail
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
@@ -86411,6 +86437,15 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex flex-wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Code",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setCode(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex-grow-1 me-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
@@ -86598,11 +86633,12 @@ var index = function index(props) {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      className: "btn-green",
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
-      loading: loadingEmail,
+      className: invoice.emailsSent ? "btn-green" : "btn-yellow",
+      dataBsToggle: "modal",
+      dataBsTarget: "#invoiceModal",
       onClick: function onClick() {
-        return onSendEmail(invoice.id);
+        return setInvoiceToEmail(invoice);
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('status')->default('not_paid');
             $table->integer('month');
             $table->integer('year');
+            $table->integer('emails_sent')->default(0);
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 
