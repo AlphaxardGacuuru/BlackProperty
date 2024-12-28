@@ -52,4 +52,9 @@ class UserUnit extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function waterReadings()
+    {
+        return $this->hasMany(WaterReading::class);
+    }
 }

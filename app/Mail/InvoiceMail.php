@@ -76,6 +76,20 @@ class InvoiceMail extends Mailable
         $code = str_pad($invoice->id, 6, '0', STR_PAD_LEFT);
         $code = "I-" . $code;
 
+        $waterReading = $invoice->userUnit
+            ->waterReadings()
+            ->where("month", $invoice->month)
+            ->where("year", $invoice->year)
+            ->first()
+            ->reading;
+			
+        $waterUsage = $invoice->userUnit
+            ->waterReadings()
+            ->where("month", $invoice->month)
+            ->where("year", $invoice->year)
+            ->first()
+            ->usage;
+
         // $invoice->id = $invoice->id;
         $invoice->code = $code;
         $invoice->userUnitId = $invoice->user_unit_id;
@@ -86,6 +100,8 @@ class InvoiceMail extends Mailable
         $invoice->unitId = $invoice->userUnit->unit_id;
         $invoice->unitName = $invoice->userUnit->unit->name;
         // $invoice->type = $invoice->type;
+        $invoice->waterReading = $waterReading;
+        $invoice->waterUsage = $waterUsage;
         $invoice->amount = number_format($invoice->amount);
         $invoice->paid = number_format($invoice->paid);
         $invoice->balance = number_format($invoice->balance);

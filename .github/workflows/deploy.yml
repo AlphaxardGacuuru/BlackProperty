@@ -40,8 +40,3 @@ jobs:
           composer install --no-dev --optimize-autoloader
           npm install --production
           php artisan migrate --force
-          php artisan cache:clear
-          php artisan config:cache
-          php artisan route:cache
-          php artisan queue:restart
-          sudo service php8.1-fpm restart

@@ -41,27 +41,27 @@ Here is the summary of your invoice:
 	<tbody>
 		<tr>
 			<td style="text-align: center;">{{ ucfirst($invoice->type) }}</td>
-			<td style="text-align: center;">{{ $invoice->reading }}</td>
-			<td style="text-align: center;">{{ $invoice->usage }}</td>
+			<td style="text-align: center;">{{ $invoice->waterReading }}</td>
+			<td style="text-align: center;">{{ $invoice->waterUsage }}</td>
 			<td style="text-align: center;">KES {{ $invoice->amount }}</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td></td>
-			<td style="text-align: center;">Total</td>
-			<td style="text-align: center;">KES {{ $invoice->amount }}</td>
+			<td style="text-align: center;"><b>Total</b></td>
+			<td style="text-align: center;"><b>KES {{ $invoice->amount }}</b></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td></td>
-			<td style="text-align: center;">Paid</td>
-			<td style="text-align: center;">KES {{ $invoice->paid }}</td>
+			<td style="text-align: center;"><b>Paid</b></td>
+			<td style="text-align: center;"><b>KES {{ $invoice->paid }}</b></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td></td>
-			<td style="text-align: center;">Balance</td>
-			<td style="text-align: center;">KES {{ $invoice->balance }}</td>
+			<td style="text-align: center;"><b>Balance</b></td>
+			<td style="text-align: center;"><b>KES {{ $invoice->balance }}</b></td>
 		</tr>
 	</tbody>
 </table>

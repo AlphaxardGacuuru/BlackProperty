@@ -138,8 +138,8 @@ const show = (props) => {
 											)}
 											{invoice.type == "water" && <td>{invoice.waterUsage}</td>}
 											<td>{props.months[invoice.month]}</td>
-											<td className="fw-normal text-end">
-												<small className="fw-normal me-1">KES</small>
+											<td className="text-end">
+												<small className="me-1">KES</small>
 												{invoice.amount}
 											</td>
 										</tr>

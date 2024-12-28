@@ -85606,9 +85606,9 @@ var show = function show(props) {
   }, (_invoice$type = invoice.type) === null || _invoice$type === void 0 ? void 0 : _invoice$type.split("_").map(function (word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }).join(" ")), invoice.type == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.waterReading), invoice.type == "water" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.waterUsage), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.months[invoice.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "fw-normal text-end"
+    className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-    className: "fw-normal me-1"
+    className: "me-1"
   }, "KES"), invoice.amount)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
     className: "border-bottom border-top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
