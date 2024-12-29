@@ -3,6 +3,7 @@
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KopokopoRecipientController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SMSMessageController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
@@ -52,7 +54,9 @@ Route::apiResources([
     "users" => UserController::class,
     "staff" => StaffController::class,
     "roles" => RoleController::class,
-    'notifications' => NotificationController::class,
+    "notifications" => NotificationController::class,
+	"emails" => EmailController::class,
+	"sms-messages" => SMSMessageController::class,
 ]);
 
 /*
@@ -82,6 +86,7 @@ Route::get("units/statements/{id}", [UnitController::class, "statements"]);
  * Invoices
  */
 Route::post("invoices/send-email", [InvoiceController::class, "sendEmail"]);
+Route::post("invoices/send-sms", [InvoiceController::class, "sendSMS"]);
 
 /*
  * WaterReadings
@@ -94,6 +99,11 @@ Route::post("invoices/send-email", [InvoiceController::class, "sendEmail"]);
 /*
  * CreditNotes
  */
+
+/*
+* SMS Messages
+*/  
+
 
 // Kopokopo STK Push
 Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);

@@ -113,4 +113,18 @@ class InvoiceController extends Controller
 			"data" => $invoice
 		], 200);
     }
+
+    /*
+     * Send Invoices by SMS
+     */
+    public function sendSMS(Request $request)
+    {
+        [$sent, $message, $invoice] = $this->service->sendSMS($request);
+
+		return response([
+			"status" => $sent,
+			"message" => $message,
+			"data" => $invoice
+		], 200);
+    }
 }

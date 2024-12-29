@@ -15,6 +15,9 @@ class PaymentResource extends JsonResource
      */
     public function toArray($request)
     {
+        $invoiceCode = str_pad($this->invoice_id, 6, '0', STR_PAD_LEFT);
+        $invoiceCode = "I-" . $invoiceCode;
+
         return [
             "id" => $this->id,
             "tenantName" => $this->invoice->userUnit->user->name,
@@ -22,6 +25,7 @@ class PaymentResource extends JsonResource
             "tenantPhone" => $this->invoice->userUnit->user->phone,
             "unitName" => $this->invoice->userUnit->unit->name,
             "invoiceId" => $this->invoice_id,
+            "invoiceCode" => $invoiceCode,
             "channel" => $this->channel,
             "transactionReference" => $this->transaction_reference,
             "amount" => number_format($this->amount),

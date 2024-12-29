@@ -18,10 +18,11 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 import EmailSentSVG from "@/svgs/EmailSentSVG"
 import SendEmailSVG from "@/svgs/SendEmailSVG"
+import SMSSVG from "@/svgs/SMSSVG"
 
 const index = (props) => {
 	const [invoices, setInvoices] = useState([])
-	const [invoiceToEmail, setInvoiceToEmail] = useState({})
+	const [invoiceToSend, setInvoiceToSend] = useState({})
 
 	const [code, setCode] = useState("")
 	const [tenant, setTenant] = useState("")
@@ -39,9 +40,9 @@ const index = (props) => {
 
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
-	const [loadingEmail, setLoadingEmail] = useState()
 
-	const modalBtnClose = useRef()
+	const emailModalBtnClose = useRef()
+	const smsModalBtnClose = useRef()
 
 	useEffect(() => {
 		// Set page
@@ -130,39 +131,60 @@ const index = (props) => {
 	 * Send Email
 	 */
 	const onSendEmail = (invoiceId) => {
-		setLoadingEmail(true)
+		setLoading(true)
 
-		Axios.post("api/invoices/send-email", {
+		Axios.post("api/invoices/send-sms", {
 			invoiceId: invoiceId,
 		})
 			.then((res) => {
-				setLoadingEmail(false)
+				setLoading(false)
 				props.setMessages([res.data.message])
 				// Clode Modal
-				modalBtnClose.current.click()
+				emailModalBtnClose.current.click()
 			})
 			.catch((err) => {
-				setLoadingEmail(false)
+				setLoading(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Send SMS
+	 */
+	const onSendSMS = (invoiceId) => {
+		setLoading(true)
+
+		Axios.post("api/invoices/send-sms", {
+			invoiceId: invoiceId,
+		})
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Clode Modal
+				smsModalBtnClose.current.click()
+			})
+			.catch((err) => {
+				setLoading(false)
 				props.getErrors(err)
 			})
 	}
 
 	return (
 		<div className={props.activeTab}>
-			{/* Confirm Delete Modal End */}
+			{/* Confirm Email Modal End */}
 			<div
 				className="modal fade"
 				id={`invoiceModal`}
 				tabIndex="-1"
-				aria-labelledby="deleteModalLabel"
+				aria-labelledby="emailModalLabel"
 				aria-hidden="true">
 				<div className="modal-dialog">
 					<div className="modal-content rounded-0">
 						<div className="modal-header">
 							<h1
-								id="deleteModalLabel"
+								id="emailModalLabel"
 								className="modal-title fs-5">
-								Send Email for Invoice {invoiceToEmail.code}
+								Send Email for Invoice {invoiceToSend.code}
 							</h1>
 							<button
 								type="button"
@@ -171,38 +193,75 @@ const index = (props) => {
 								aria-label="Close"></button>
 						</div>
 						<div className="modal-body text-start text-wrap">
-							Are you sure you want to send email to {invoiceToEmail.tenantName}
-							.
+							Are you sure you want to send an Email to{" "}
+							{invoiceToSend.tenantName}.
 						</div>
 						<div className="modal-footer justify-content-between">
 							<button
-								ref={modalBtnClose}
+								ref={emailModalBtnClose}
 								type="button"
 								className="mysonar-btn btn-2"
 								data-bs-dismiss="modal">
 								Close
 							</button>
-							{/* <button
-								type="button"
-								className="btn btn-success rounded-0"
-								data-bs-dismiss="modal"
-								onClick={() => onSendEmail(invoiceToEmail.id)}
-								loading={loading}>
-								<span className="me-1">{<SendEmailSVG />}</span>
-								Send
-							</button> */}
 
 							<Btn
 								icon={<SendEmailSVG />}
-								text="send"
-								onClick={() => onSendEmail(invoiceToEmail.id)}
-								loading={loadingEmail}
+								text="send email"
+								onClick={() => onSendEmail(invoiceToSend.id)}
+								loading={loading}
 							/>
 						</div>
 					</div>
 				</div>
 			</div>
-			{/* Confirm Delete Modal End */}
+			{/* Confirm Email Modal End */}
+
+			{/* Confirm SMS Modal End */}
+			<div
+				className="modal fade"
+				id={`smsModal`}
+				tabIndex="-1"
+				aria-labelledby="smsModalLabel"
+				aria-hidden="true">
+				<div className="modal-dialog">
+					<div className="modal-content rounded-0">
+						<div className="modal-header">
+							<h1
+								id="smsModalLabel"
+								className="modal-title fs-5">
+								Send SMS for Invoice {invoiceToSend.code}
+							</h1>
+							<button
+								type="button"
+								className="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div className="modal-body text-start text-wrap">
+							Are you sure you want to send an SMS to {invoiceToSend.tenantName}
+							.
+						</div>
+						<div className="modal-footer justify-content-between">
+							<button
+								ref={smsModalBtnClose}
+								type="button"
+								className="mysonar-btn btn-2"
+								data-bs-dismiss="modal">
+								Close
+							</button>
+
+							<Btn
+								icon={<SMSSVG />}
+								text="send sms"
+								onClick={() => onSendSMS(invoiceToSend.id)}
+								loading={loading}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/* Confirm SMS Modal End */}
 
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
@@ -548,16 +607,32 @@ const index = (props) => {
 										/>
 
 										{/* Button trigger modal */}
-										<Btn
-											icon={<SendEmailSVG />}
-											className={
-												invoice.emailsSent ? `btn-green` : `btn-yellow`
-											}
-											dataBsToggle="modal"
-											dataBsTarget={`#invoiceModal`}
-											onClick={() => setInvoiceToEmail(invoice)}
-										/>
-										{/* Button trigger modal End */}
+										{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
+											<React.Fragment>
+												<Btn
+													icon={<SendEmailSVG />}
+													className={`
+												me-1 ${invoice.emailsSent ? `btn-green` : `btn-yellow`}
+											`}
+													dataBsToggle="modal"
+													dataBsTarget={`#invoiceModal`}
+													onClick={() => setInvoiceToSend(invoice)}
+												/>
+												{/* Button trigger modal End */}
+
+												{/* Button trigger modal */}
+												<Btn
+													icon={<SMSSVG />}
+													className={`
+												me-1 ${invoice.smsMessagesSent ? `btn-green` : `btn-yellow`}
+											`}
+													dataBsToggle="modal"
+													dataBsTarget={`#smsModal`}
+													onClick={() => setInvoiceToSend(invoice)}
+												/>
+												{/* Button trigger modal End */}
+											</React.Fragment>
+										)}
 
 										<div className="mx-1">
 											<DeleteModal

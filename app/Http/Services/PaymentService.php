@@ -156,6 +156,12 @@ class PaymentService extends Service
                 });
         }
 
+        $invoiceCode = $request->input("invoiceCode");
+
+        if ($request->filled("invoiceCode")) {
+            $query = $query->where("invoice_id", "LIKE", "%" . $invoiceCode . "%");
+        }
+
         $unit = $request->input("unit");
 
         if ($request->filled("unit")) {
@@ -165,25 +171,25 @@ class PaymentService extends Service
                 });
         }
 
-        $startMonth = $request->input("startMonth");
-        $endMonth = $request->input("endMonth");
-        $startYear = $request->input("startYear");
-        $endYear = $request->input("endYear");
+        $startMonth = $request->filled("startMonth") ? $request->input("startMonth") : Carbon::now()->month;
+        $endMonth = $request->filled("endMonth") ? $request->input("endMonth") : Carbon::now()->month;
+        $startYear = $request->filled("startYear") ? $request->input("startYear") : Carbon::now()->year;
+        $endYear = $request->filled("endYear") ? $request->input("endYear") : Carbon::now()->year;
 
-		// Start Date Logic
-        if ($startMonth || $startYear) {
-            $startYear = $startYear ?? now()->year; // Default to the current year if not provided
-            $startMonth = $startMonth ?? 1; // Default to January if not provided
-            $startDate = Carbon::createFromDate($startYear, $startMonth, 1)->startOfMonth();
-            $query = $query->where("paid_on", ">=", $startDate);
+        $start = Carbon::createFromDate($startYear, $startMonth, 1)
+            ->startOfMonth()
+            ->toDateTimeString(); // Output: 2024-01-01 00:00:00 (or current year)
+
+        $end = Carbon::createFromDate($endYear, $endMonth, 1)
+            ->endOfMonth()
+            ->toDateTimeString(); // Output: 2024-01-01 00:00:00 (or current year)
+
+        if ($request->filled("startMonth") || $request->filled("startYear")) {
+            $query = $query->whereDate("paid_on", ">=", $start);
         }
 
-		// End Date Logic
-        if ($endMonth || $endYear) {
-            $endYear = $endYear ?? now()->year; // Default to the current year if not provided
-            $endMonth = $endMonth ?? 12; // Default to December if not provided
-            $endDate = Carbon::createFromDate($endYear, $endMonth, 1)->endOfMonth();
-            $query = $query->where("paid_on", "<=", $endDate);
+        if ($request->filled("endMonth") || $request->filled("endYear")) {
+            $query = $query->whereDate("paid_on", "<=", $end);
         }
 
         return $query;

@@ -85590,8 +85590,8 @@ var show = function show(props) {
   }, "Email: ", invoice.tenantEmail)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "text-muted"
-  }, "Invoice No: ", invoice.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, "Invoice No: ", invoice.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-muted"
   }, "Date: ", invoice.createdAt))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive-sm"
@@ -86210,6 +86210,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 /* harmony import */ var _svgs_EmailSentSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/EmailSentSVG */ "./resources/js/svgs/EmailSentSVG.js");
 /* harmony import */ var _svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/SendEmailSVG */ "./resources/js/svgs/SendEmailSVG.js");
+/* harmony import */ var _svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/SMSSVG */ "./resources/js/svgs/SMSSVG.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -86236,6 +86237,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var index = function index(props) {
   var _invoices$data, _invoices$data2;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
@@ -86244,8 +86246,8 @@ var index = function index(props) {
     setInvoices = _useState2[1];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState4 = _slicedToArray(_useState3, 2),
-    invoiceToEmail = _useState4[0],
-    setInvoiceToEmail = _useState4[1];
+    invoiceToSend = _useState4[0],
+    setInvoiceToSend = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
     code = _useState6[0],
@@ -86296,11 +86298,8 @@ var index = function index(props) {
     _useState28 = _slicedToArray(_useState27, 2),
     loading = _useState28[0],
     setLoading = _useState28[1];
-  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState30 = _slicedToArray(_useState29, 2),
-    loadingEmail = _useState30[0],
-    setLoadingEmail = _useState30[1];
-  var modalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var emailModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var smsModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -86362,16 +86361,34 @@ var index = function index(props) {
    * Send Email
    */
   var onSendEmail = function onSendEmail(invoiceId) {
-    setLoadingEmail(true);
-    Axios.post("api/invoices/send-email", {
+    setLoading(true);
+    Axios.post("api/invoices/send-sms", {
       invoiceId: invoiceId
     }).then(function (res) {
-      setLoadingEmail(false);
+      setLoading(false);
       props.setMessages([res.data.message]);
       // Clode Modal
-      modalBtnClose.current.click();
+      emailModalBtnClose.current.click();
     })["catch"](function (err) {
-      setLoadingEmail(false);
+      setLoading(false);
+      props.getErrors(err);
+    });
+  };
+
+  /*
+   * Send SMS
+   */
+  var onSendSMS = function onSendSMS(invoiceId) {
+    setLoading(true);
+    Axios.post("api/invoices/send-sms", {
+      invoiceId: invoiceId
+    }).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Clode Modal
+      smsModalBtnClose.current.click();
+    })["catch"](function (err) {
+      setLoading(false);
       props.getErrors(err);
     });
   };
@@ -86381,7 +86398,7 @@ var index = function index(props) {
     className: "modal fade",
     id: "invoiceModal",
     tabIndex: "-1",
-    "aria-labelledby": "deleteModalLabel",
+    "aria-labelledby": "emailModalLabel",
     "aria-hidden": "true"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-dialog"
@@ -86390,29 +86407,65 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    id: "deleteModalLabel",
+    id: "emailModalLabel",
     className: "modal-title fs-5"
-  }, "Send Email for Invoice ", invoiceToEmail.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, "Send Email for Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-body text-start text-wrap"
-  }, "Are you sure you want to send email to ", invoiceToEmail.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Are you sure you want to send an Email to", " ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-footer justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    ref: modalBtnClose,
+    ref: emailModalBtnClose,
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-dismiss": "modal"
   }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
-    text: "send",
+    text: "send email",
     onClick: function onClick() {
-      return onSendEmail(invoiceToEmail.id);
+      return onSendEmail(invoiceToSend.id);
     },
-    loading: loadingEmail
+    loading: loading
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal fade",
+    id: "smsModal",
+    tabIndex: "-1",
+    "aria-labelledby": "smsModalLabel",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-dialog"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-content rounded-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    id: "smsModalLabel",
+    className: "modal-title fs-5"
+  }, "Send SMS for Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body text-start text-wrap"
+  }, "Are you sure you want to send an SMS to ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    ref: smsModalBtnClose,
+    type: "button",
+    className: "mysonar-btn btn-2",
+    "data-bs-dismiss": "modal"
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
+    text: "send sms",
+    onClick: function onClick() {
+      return onSendSMS(invoiceToSend.id);
+    },
+    loading: loading
   }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86604,6 +86657,7 @@ var index = function index(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_invoices$data2 = invoices.data) === null || _invoices$data2 === void 0 ? void 0 : _invoices$data2.map(function (invoice, key) {
+    var _invoice$balance;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -86632,15 +86686,23 @@ var index = function index(props) {
       linkTo: "/invoices/".concat(invoice.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
-      className: invoice.emailsSent ? "btn-green" : "btn-yellow",
+      className: "\n\t\t\t\t\t\t\t\t\t\t\t\tme-1 ".concat(invoice.emailsSent ? "btn-green" : "btn-yellow", "\n\t\t\t\t\t\t\t\t\t\t\t"),
       dataBsToggle: "modal",
       dataBsTarget: "#invoiceModal",
       onClick: function onClick() {
-        return setInvoiceToEmail(invoice);
+        return setInvoiceToSend(invoice);
       }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
+      className: "\n\t\t\t\t\t\t\t\t\t\t\t\tme-1 ".concat(invoice.smsMessagesSent ? "btn-green" : "btn-yellow", "\n\t\t\t\t\t\t\t\t\t\t\t"),
+      dataBsToggle: "modal",
+      dataBsTarget: "#smsModal",
+      onClick: function onClick() {
+        return setInvoiceToSend(invoice);
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
       index: "invoice".concat(key),
@@ -87165,28 +87227,32 @@ var index = function index(props) {
     setUnit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    propertyId = _useState8[0],
-    setPropertyId = _useState8[1];
+    invoiceCode = _useState8[0],
+    setInvoiceCode = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    startMonth = _useState10[0],
-    setStartMonth = _useState10[1];
+    propertyId = _useState10[0],
+    setPropertyId = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    startYear = _useState12[0],
-    setStartYear = _useState12[1];
+    startMonth = _useState12[0],
+    setStartMonth = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    endMonth = _useState14[0],
-    setEndMonth = _useState14[1];
+    startYear = _useState14[0],
+    setStartYear = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    endYear = _useState16[0],
-    setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    endMonth = _useState16[0],
+    setEndMonth = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
+    endYear = _useState18[0],
+    setEndYear = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState20 = _slicedToArray(_useState19, 2),
+    loading = _useState20[0],
+    setLoading = _useState20[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87196,8 +87262,8 @@ var index = function index(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
-    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
-  }, [props.selectedPropertyId, tenant, unit, propertyId, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+  }, [props.selectedPropertyId, tenant, unit, invoiceCode, propertyId, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete Payment
@@ -87263,6 +87329,15 @@ var index = function index(props) {
     onChange: function onChange(e) {
       return setUnit(e.target.value);
     }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Invoice Code",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setInvoiceCode(e.target.value);
+    }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87276,7 +87351,7 @@ var index = function index(props) {
   }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
-      return setStartMonth(e.target.value);
+      return setStartMonth(e.target.value == "0" ? "" : e.target.value);
     }
   }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -87291,7 +87366,7 @@ var index = function index(props) {
   }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
-      return setStartYear(e.target.value);
+      return setStartYear(e.target.value == "0" ? "" : e.target.value);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
@@ -87309,7 +87384,7 @@ var index = function index(props) {
   }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
-      return setEndMonth(e.target.value);
+      return setEndMonth(e.target.value == "0" ? "" : e.target.value);
     }
   }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -87324,7 +87399,7 @@ var index = function index(props) {
   }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "form-control",
     onChange: function onChange(e) {
-      return setEndYear(e.target.value);
+      return setEndYear(e.target.value == "0" ? "" : e.target.value);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""

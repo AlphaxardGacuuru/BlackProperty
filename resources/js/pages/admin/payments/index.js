@@ -21,6 +21,7 @@ const index = (props) => {
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
+	const [invoiceCode, setInvoiceCode] = useState("")
 	const [propertyId, setPropertyId] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
@@ -40,6 +41,7 @@ const index = (props) => {
 			`payments?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
+			invoiceCode=${invoiceCode}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
@@ -50,6 +52,7 @@ const index = (props) => {
 		props.selectedPropertyId,
 		tenant,
 		unit,
+		invoiceCode,
 		propertyId,
 		startMonth,
 		endMonth,
@@ -141,6 +144,16 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Unit End */}
+					{/* Invoice Code */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="text"
+							placeholder="Search by Invoice Code"
+							className="form-control"
+							onChange={(e) => setInvoiceCode(e.target.value)}
+						/>
+					</div>
+					{/* Code End */}
 				</div>
 			</div>
 
@@ -153,7 +166,9 @@ const index = (props) => {
 							{/* Start Month */}
 							<select
 								className="form-control"
-								onChange={(e) => setStartMonth(e.target.value)}>
+								onChange={(e) =>
+									setStartMonth(e.target.value == "0" ? "" : e.target.value)
+								}>
 								{props.months.map((month, key) => (
 									<option
 										key={key}
@@ -173,7 +188,9 @@ const index = (props) => {
 							</label>
 							<select
 								className="form-control"
-								onChange={(e) => setStartYear(e.target.value)}>
+								onChange={(e) =>
+									setStartYear(e.target.value == "0" ? "" : e.target.value)
+								}>
 								<option value="">Select Year</option>
 								{props.years.map((year, key) => (
 									<option
@@ -194,7 +211,9 @@ const index = (props) => {
 							<label htmlFor="">End At</label>
 							<select
 								className="form-control"
-								onChange={(e) => setEndMonth(e.target.value)}>
+								onChange={(e) =>
+									setEndMonth(e.target.value == "0" ? "" : e.target.value)
+								}>
 								{props.months.map((month, key) => (
 									<option
 										key={key}
@@ -214,7 +233,9 @@ const index = (props) => {
 							</label>
 							<select
 								className="form-control"
-								onChange={(e) => setEndYear(e.target.value)}>
+								onChange={(e) =>
+									setEndYear(e.target.value == "0" ? "" : e.target.value)
+								}>
 								<option value="">Select Year</option>
 								{props.years.map((year, key) => (
 									<option

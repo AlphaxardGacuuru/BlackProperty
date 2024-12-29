@@ -2,15 +2,15 @@
 
 namespace App\Http\Services;
 
+use AfricasTalking\SDK\AfricasTalking;
 use App\Http\Resources\InvoiceResource;
 use App\Jobs\SendInvoiceJob;
-use App\Mail\InvoiceMail;
 use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
-use Illuminate\Support\Facades\Mail;
+use Exception;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceService extends Service
@@ -33,8 +33,9 @@ class InvoiceService extends Service
         $balance = $due - $creditNotes - $paid;
 
         $invoices = $invoiceQuery
-            ->orderBy("month", "ASC")
+            ->orderBy("month", "DESC")
             ->orderBy("year", "DESC")
+            ->orderBy("id", "DESC")
             ->paginate(20)
             ->appends([
                 "propertyId" => $request->propertyId,
@@ -273,5 +274,21 @@ class InvoiceService extends Service
         $sent = SendInvoiceJob::dispatch($invoice);
 
         return [$sent, "Invoice Dispatched Successfully", $invoice];
+    }
+
+    /*
+     * Send Invoice by SMS
+     */
+    public function sendSMS($request)
+    {
+        $invoice = Invoice::findOrFail($request->invoiceId);
+
+        // $sent = SendInvoiceJob::dispatch($invoice);
+
+        $smsService = new SMSService($invoice);
+		
+		$status = $smsService->sendSMS("invoice");
+
+        return [$status, "Invoice Dispatched Successfully", $invoice];
     }
 }

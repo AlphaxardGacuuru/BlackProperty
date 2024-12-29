@@ -43,13 +43,13 @@ Here is the summary of your invoice:
 			<td style="text-align: center;">{{ ucfirst($invoice->type) }}</td>
 			<td style="text-align: center;">{{ $invoice->waterReading }}</td>
 			<td style="text-align: center;">{{ $invoice->waterUsage }}</td>
-			<td style="text-align: center;">KES {{ $invoice->amount }}</td>
+			<td style="text-align: center;">KES {{ $invoice->balance }}</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td></td>
 			<td style="text-align: center;"><b>Total</b></td>
-			<td style="text-align: center;"><b>KES {{ $invoice->amount }}</b></td>
+			<td style="text-align: center;"><b>KES {{ $invoice->balance }}</b></td>
 		</tr>
 		<tr>
 			<td></td>

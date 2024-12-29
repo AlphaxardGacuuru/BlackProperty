@@ -61,17 +61,13 @@ class SendInvoiceJob implements ShouldQueue
     {
         Log::error('Send Invoice Job Failed: ' . $exception);
 
-        Log::emergency('Send Invoice Job Failed: ' . $exception);
-        Log::alert('Send Invoice Job Failed: ' . $exception);
-        Log::critical('Send Invoice Job Failed: ' . $exception);
-        Log::error('Send Invoice Job Failed: ' . $exception);
-        Log::warning('Send Invoice Job Failed: ' . $exception);
-        Log::notice('Send Invoice Job Failed: ' . $exception);
-        Log::info('Send Invoice Job Failed: ' . $exception);
-        Log::debug('Send Invoice Job Failed: ' . $exception);
-
-        if ($this->invoice->emails_sent > 0) {
-            Invoice::find($this->invoice->id)->decrement('emails_sent');
-        }
+        // Log::emergency('Send Invoice Job Failed: ' . $exception);
+        // Log::alert('Send Invoice Job Failed: ' . $exception);
+        // Log::critical('Send Invoice Job Failed: ' . $exception);
+        // Log::error('Send Invoice Job Failed: ' . $exception);
+        // Log::warning('Send Invoice Job Failed: ' . $exception);
+        // Log::notice('Send Invoice Job Failed: ' . $exception);
+        // Log::info('Send Invoice Job Failed: ' . $exception);
+        // Log::debug('Send Invoice Job Failed: ' . $exception);
     }
 }
