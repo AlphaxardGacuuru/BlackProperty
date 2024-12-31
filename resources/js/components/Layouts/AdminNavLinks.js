@@ -18,6 +18,9 @@ import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 import CreditNoteSVG from "@/svgs/CreditNoteSVG"
 import UnitSVG from "@/svgs/UnitSVG"
 import TenantSVG from "@/svgs/TenantSVG"
+import DeductionSVG from "@/svgs/DeductionSVG"
+import EmailSVG from "@/svgs/EmailSVG"
+import ChatSVG from "@/svgs/ChatSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -75,6 +78,21 @@ const AdminNavLinks = (props) => {
 			link: "/admin/credit-notes",
 			icon: <CreditNoteSVG />,
 			name: "Credit Notes",
+		},
+		{
+			link: "/admin/deductions",
+			icon: <DeductionSVG />,
+			name: "Deductions",
+		},
+		{
+			link: "/admin/emails",
+			icon: <EmailSVG />,
+			name: "Emails",
+		},
+		{
+			link: "/admin/smses",
+			icon: <ChatSVG />,
+			name: "SMSes",
 		},
 		{
 			link: "/admin/wallet",

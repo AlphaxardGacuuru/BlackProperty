@@ -103,9 +103,9 @@ class InvoiceController extends Controller
     /*
      * Send Invoices by Email
      */
-    public function sendEmail(Request $request)
+    public function sendEmail($id)
     {
-        [$sent, $message, $invoice] = $this->service->sendEmail($request);
+        [$sent, $message, $invoice] = $this->service->sendEmail($id);
 
 		return response([
 			"status" => $sent,
@@ -117,9 +117,9 @@ class InvoiceController extends Controller
     /*
      * Send Invoices by SMS
      */
-    public function sendSMS(Request $request)
+    public function sendSMS($id)
     {
-        [$sent, $message, $invoice] = $this->service->sendSMS($request);
+        [$sent, $message, $invoice] = $this->service->sendSMS($id);
 
 		return response([
 			"status" => $sent,

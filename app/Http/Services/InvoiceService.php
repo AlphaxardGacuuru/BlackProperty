@@ -5,12 +5,14 @@ namespace App\Http\Services;
 use AfricasTalking\SDK\AfricasTalking;
 use App\Http\Resources\InvoiceResource;
 use App\Jobs\SendInvoiceJob;
+use App\Mail\InvoiceMail;
 use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceService extends Service
@@ -267,28 +269,34 @@ class InvoiceService extends Service
     /*
      * Send Invoice by Email
      */
-    public function sendEmail($request)
+    public function sendEmail($id)
     {
-        $invoice = Invoice::findOrFail($request->invoiceId);
+        $invoice = Invoice::findOrFail($id);
 
-        $sent = SendInvoiceJob::dispatch($invoice);
+        try {
+            Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
 
-        return [$sent, "Invoice Dispatched Successfully", $invoice];
+            // Increment the emails_sent column
+            $invoice->increment("emails_sent");
+        } catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+
+            throw $exception;
+        }
+
+        return ["Success", "Invoice Email Sent Successfully", $invoice];
     }
 
     /*
      * Send Invoice by SMS
      */
-    public function sendSMS($request)
+    public function sendSMS($id)
     {
-        $invoice = Invoice::findOrFail($request->invoiceId);
-
-        // $sent = SendInvoiceJob::dispatch($invoice);
+        $invoice = Invoice::findOrFail($id);
 
         $smsService = new SMSService($invoice);
 		
 		$status = $smsService->sendSMS("invoice");
 
-        return [$status, "Invoice Dispatched Successfully", $invoice];
+        return [$status, "Invoice SMS Sent Successfully", $invoice];
     }
 }

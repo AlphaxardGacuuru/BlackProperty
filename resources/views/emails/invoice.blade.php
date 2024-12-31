@@ -41,8 +41,8 @@ Here is the summary of your invoice:
 	<tbody>
 		<tr>
 			<td style="text-align: center;">{{ ucfirst($invoice->type) }}</td>
-			<td style="text-align: center;">{{ $invoice->waterReading }}</td>
-			<td style="text-align: center;">{{ $invoice->waterUsage }}</td>
+			<td style="text-align: center;">{{ $invoice->type == "water" ? $invoice->waterReading : "" }}</td>
+			<td style="text-align: center;">{{ $invoice->type == "water" ? $invoice->waterUsage : "" }}</td>
 			<td style="text-align: center;">KES {{ $invoice->balance }}</td>
 		</tr>
 		<tr>
@@ -83,7 +83,7 @@ Here is the summary of your invoice:
 ---
 
 <x-mail::button url="https://tenant.property.black.co.ke/invoices">
-View Invoice
+View Full Invoice
 </x-mail::button>
 
 Thanks,  

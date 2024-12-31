@@ -82998,6 +82998,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/CreditNoteSVG */ "./resources/js/svgs/CreditNoteSVG.js");
 /* harmony import */ var _svgs_UnitSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/UnitSVG */ "./resources/js/svgs/UnitSVG.js");
 /* harmony import */ var _svgs_TenantSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/TenantSVG */ "./resources/js/svgs/TenantSVG.js");
+/* harmony import */ var _svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/DeductionSVG */ "./resources/js/svgs/DeductionSVG.js");
+/* harmony import */ var _svgs_EmailSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/EmailSVG */ "./resources/js/svgs/EmailSVG.js");
+/* harmony import */ var _svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/ChatSVG */ "./resources/js/svgs/ChatSVG.js");
+
+
+
 
 
 
@@ -83058,6 +83064,18 @@ var AdminNavLinks = function AdminNavLinks(props) {
     link: "/admin/credit-notes",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     name: "Credit Notes"
+  }, {
+    link: "/admin/deductions",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+    name: "Deductions"
+  }, {
+    link: "/admin/emails",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EmailSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
+    name: "Emails"
+  }, {
+    link: "/admin/smses",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
+    name: "SMSes"
   }, {
     link: "/admin/wallet",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_WalletSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
@@ -86211,6 +86229,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_EmailSentSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/EmailSentSVG */ "./resources/js/svgs/EmailSentSVG.js");
 /* harmony import */ var _svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/SendEmailSVG */ "./resources/js/svgs/SendEmailSVG.js");
 /* harmony import */ var _svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/SMSSVG */ "./resources/js/svgs/SMSSVG.js");
+/* harmony import */ var _svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/ChatSVG */ "./resources/js/svgs/ChatSVG.js");
+/* harmony import */ var _svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/svgs/ChatSendSVG */ "./resources/js/svgs/ChatSendSVG.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
@@ -86221,6 +86241,8 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -86298,8 +86320,15 @@ var index = function index(props) {
     _useState28 = _slicedToArray(_useState27, 2),
     loading = _useState28[0],
     setLoading = _useState28[1];
-  var emailModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
-  var smsModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState30 = _slicedToArray(_useState29, 2),
+    loadingSMS = _useState30[0],
+    setLoadingSMS = _useState30[1];
+  var _useState31 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState32 = _slicedToArray(_useState31, 2),
+    loadingEmail = _useState32[0],
+    setLoadingEmail = _useState32[1];
+  var invoiceModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -86361,16 +86390,14 @@ var index = function index(props) {
    * Send Email
    */
   var onSendEmail = function onSendEmail(invoiceId) {
-    setLoading(true);
-    Axios.post("api/invoices/send-sms", {
-      invoiceId: invoiceId
-    }).then(function (res) {
-      setLoading(false);
+    setLoadingEmail(true);
+    Axios.post("api/invoices/send-email/".concat(invoiceId)).then(function (res) {
+      setLoadingEmail(false);
       props.setMessages([res.data.message]);
       // Clode Modal
-      emailModalBtnClose.current.click();
+      invoiceModalBtnClose.current.click();
     })["catch"](function (err) {
-      setLoading(false);
+      setLoadingEmail(false);
       props.getErrors(err);
     });
   };
@@ -86379,16 +86406,14 @@ var index = function index(props) {
    * Send SMS
    */
   var onSendSMS = function onSendSMS(invoiceId) {
-    setLoading(true);
-    Axios.post("api/invoices/send-sms", {
-      invoiceId: invoiceId
-    }).then(function (res) {
-      setLoading(false);
+    setLoadingSMS(true);
+    Axios.post("api/invoices/send-sms/".concat(invoiceId)).then(function (res) {
+      setLoadingSMS(false);
       props.setMessages([res.data.message]);
       // Clode Modal
-      smsModalBtnClose.current.click();
+      invoiceModalBtnClose.current.click();
     })["catch"](function (err) {
-      setLoading(false);
+      setLoadingSMS(false);
       props.getErrors(err);
     });
   };
@@ -86398,7 +86423,7 @@ var index = function index(props) {
     className: "modal fade",
     id: "invoiceModal",
     tabIndex: "-1",
-    "aria-labelledby": "emailModalLabel",
+    "aria-labelledby": "invoiceModalLabel",
     "aria-hidden": "true"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-dialog"
@@ -86407,66 +86432,39 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    id: "emailModalLabel",
+    id: "invoiceModalLabel",
     className: "modal-title fs-5"
-  }, "Send Email for Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, "Send Invoice for Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-body text-start text-wrap"
-  }, "Are you sure you want to send an Email to", " ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Are you sure you want to send an Invoice to", " ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-footer justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    ref: emailModalBtnClose,
+    ref: invoiceModalBtnClose,
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-dismiss": "modal"
-  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
-    text: "send email",
-    onClick: function onClick() {
-      return onSendEmail(invoiceToSend.id);
-    },
-    loading: loading
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal fade",
-    id: "smsModal",
-    tabIndex: "-1",
-    "aria-labelledby": "smsModalLabel",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-dialog"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-content rounded-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    id: "smsModalLabel",
-    className: "modal-title fs-5"
-  }, "Send SMS for Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-body text-start text-wrap"
-  }, "Are you sure you want to send an SMS to ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-footer justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    ref: smsModalBtnClose,
-    type: "button",
-    className: "mysonar-btn btn-2",
-    "data-bs-dismiss": "modal"
-  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
     text: "send sms",
+    className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-yellow"),
     onClick: function onClick() {
       return onSendSMS(invoiceToSend.id);
     },
-    loading: loading
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    loading: loadingSMS
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+    text: "send email",
+    className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-yellow"),
+    onClick: function onClick() {
+      return onSendEmail(invoiceToSend.id);
+    },
+    loading: loadingEmail
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
@@ -86686,23 +86684,16 @@ var index = function index(props) {
       linkTo: "/invoices/".concat(invoice.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
-    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
-      className: "\n\t\t\t\t\t\t\t\t\t\t\t\tme-1 ".concat(invoice.emailsSent ? "btn-green" : "btn-yellow", "\n\t\t\t\t\t\t\t\t\t\t\t"),
+    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null),
+      text: "send invoice",
+      className: "me-1",
       dataBsToggle: "modal",
       dataBsTarget: "#invoiceModal",
       onClick: function onClick() {
         return setInvoiceToSend(invoice);
       }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
-      className: "\n\t\t\t\t\t\t\t\t\t\t\t\tme-1 ".concat(invoice.smsMessagesSent ? "btn-green" : "btn-yellow", "\n\t\t\t\t\t\t\t\t\t\t\t"),
-      dataBsToggle: "modal",
-      dataBsTarget: "#smsModal",
-      onClick: function onClick() {
-        return setInvoiceToSend(invoice);
-      }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
       index: "invoice".concat(key),
@@ -91919,6 +91910,66 @@ var BellSVG = function BellSVG() {
 
 /***/ }),
 
+/***/ "./resources/js/svgs/ChatSVG.js":
+/*!**************************************!*\
+  !*** ./resources/js/svgs/ChatSVG.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ChatSVG = function ChatSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "mb-2 bi bi-chat-right-text",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (ChatSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/ChatSendSVG.js":
+/*!******************************************!*\
+  !*** ./resources/js/svgs/ChatSendSVG.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var ChatSendSVG = function ChatSendSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "mb-1 bi bi-send-plus",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372zm-2.54 1.183L5.93 9.363 1.591 6.602z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (ChatSendSVG);
+
+/***/ }),
+
 /***/ "./resources/js/svgs/ChevronRightSVG.js":
 /*!**********************************************!*\
   !*** ./resources/js/svgs/ChevronRightSVG.js ***!
@@ -92023,15 +92074,45 @@ var CreditNoteSVG = function CreditNoteSVG() {
     width: "1em",
     height: "1em",
     fill: "currentColor",
-    className: "mb-1 bi bi-file-earmark-diff",
+    className: "mb-1 bi bi-file-earmark-plus",
     viewBox: "0 0 16 16"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M8 5a.5.5 0 0 1 .5.5V7H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V8H6a.5.5 0 0 1 0-1h1.5V5.5A.5.5 0 0 1 8 5m-2.5 6.5A.5.5 0 0 1 6 11h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5"
+    d: "M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"
+    d: "M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (CreditNoteSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/DeductionSVG.js":
+/*!*******************************************!*\
+  !*** ./resources/js/svgs/DeductionSVG.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var DeductionSVG = function DeductionSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "mb-1 bi bi-file-earmark-minus",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M5.5 9a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (DeductionSVG);
 
 /***/ }),
 

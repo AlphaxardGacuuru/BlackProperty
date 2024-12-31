@@ -41,6 +41,8 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
+            // 'username' => env('MAIL_USERNAME_SANDBOX'),
+            // 'password' => env('MAIL_PASSWORD_SANDBOX'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

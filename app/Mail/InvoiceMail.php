@@ -65,9 +65,9 @@ class InvoiceMail extends Mailable
     public function attachments()
     {
         return [
-			Attachment::fromStorage('/storage/img/vector/default-monochrome.svg')
-                ->as('logo.svg')
-                ->withMime('application/svg'),
+			// Attachment::fromStorage('/storage/img/vector/default-monochrome.svg')
+                // ->as('logo.svg')
+                // ->withMime('application/svg'),
 		];
     }
 
