@@ -18,7 +18,7 @@ import LogoSVG from "@/svgs/LogoSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
-	const router = useHistory()
+	const history = useHistory()
 
 	const [notifications, setNotifications] = useState([])
 
@@ -77,13 +77,13 @@ const AdminMenu = (props) => {
 					posts: 0,
 					fans: 0,
 				})
+				// Redirect to Dashboard
+				setTimeout(() => history.push("/admin/dashboard"), 500)
 			})
 			.catch((err) => {
 				props.getErrors(err)
 				// Remove phone from localStorage
 				localStorage.clear()
-				// Reload
-				window.location.reload()
 				// Set Auth to Guest
 				props.setAuth({
 					name: "Guest",
@@ -93,6 +93,10 @@ const AdminMenu = (props) => {
 					posts: 0,
 					fans: 0,
 				})
+				// Redirect to Dashboard
+				setTimeout(() => history.push("/admin/dashboard"), 500)
+				// Reload
+				setTimeout(() => window.location.reload(), 500)
 			})
 	}
 

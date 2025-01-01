@@ -128,6 +128,111 @@ const index = (props) => {
 						/>
 					</div>
 					{/* Unit End */}
+					{/* Invoice Code */}
+					<div className="flex-grow-1 me-2 mb-2">
+						<input
+							type="text"
+							placeholder="Search by Invoice Code"
+							className="form-control"
+							onChange={(e) => setInvoiceCode(e.target.value)}
+						/>
+					</div>
+					{/* Code End */}
+				</div>
+			</div>
+
+			<div className="card shadow-sm py-2 px-4">
+				<div className="d-flex justify-content-end flex-wrap">
+					<div className="d-flex flex-grow-1">
+						{/* Start Date */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label htmlFor="">Start At</label>
+							{/* Start Month */}
+							<select
+								className="form-control"
+								onChange={(e) =>
+									setStartMonth(e.target.value == "0" ? "" : e.target.value)
+								}>
+								{props.months.map((month, key) => (
+									<option
+										key={key}
+										value={key}>
+										{month}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Start Month End */}
+						{/* Start Year */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label
+								htmlFor=""
+								className="invisible">
+								Start At
+							</label>
+							<select
+								className="form-control"
+								onChange={(e) =>
+									setStartYear(e.target.value == "0" ? "" : e.target.value)
+								}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={year}>
+										{year}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* Start Year End */}
+					</div>
+					{/* Start Date End */}
+					{/* End Date */}
+					<div className="d-flex flex-grow-1">
+						{/* End Month */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label htmlFor="">End At</label>
+							<select
+								className="form-control"
+								onChange={(e) =>
+									setEndMonth(e.target.value == "0" ? "" : e.target.value)
+								}>
+								{props.months.map((month, key) => (
+									<option
+										key={key}
+										value={key}>
+										{month}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* End Month End */}
+						{/* End Year */}
+						<div className="flex-grow-1 me-2 mb-2">
+							<label
+								htmlFor=""
+								className="invisible">
+								End At
+							</label>
+							<select
+								className="form-control"
+								onChange={(e) =>
+									setEndYear(e.target.value == "0" ? "" : e.target.value)
+								}>
+								<option value="">Select Year</option>
+								{props.years.map((year, key) => (
+									<option
+										key={key}
+										value={year}>
+										{year}
+									</option>
+								))}
+							</select>
+						</div>
+						{/* End Year End */}
+					</div>
+					{/* End Date End */}
 				</div>
 			</div>
 			{/* Filters End */}
@@ -153,7 +258,7 @@ const index = (props) => {
 								<td>{props.iterator(key, creditNotes)}</td>
 								<td>{creditNote.tenantName}</td>
 								<td>{creditNote.unitName}</td>
-								<td>{creditNote.invoiceId}</td>
+								<td>{creditNote.invoiceCode}</td>
 								<td className="text-capitalize">
 									{creditNote.type
 										.split("_")

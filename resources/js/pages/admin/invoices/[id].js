@@ -7,6 +7,9 @@ import Btn from "@/components/Core/Btn"
 import PlusSVG from "@/svgs/PlusSVG"
 import PrintSVG from "@/svgs/PrintSVG"
 import LogoSVG from "@/svgs/LogoSVG"
+import DeductionSVG from "@/svgs/DeductionSVG"
+import CreditNoteSVG from "@/svgs/CreditNoteSVG"
+import PaymentSVG from "@/svgs/PaymentSVG"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -40,15 +43,22 @@ const show = (props) => {
 				<MyLink
 					className="me-2"
 					linkTo={`/payments/${id}/create`}
-					icon={<PlusSVG />}
+					icon={<PaymentSVG />}
 					text="add payment"
 				/>
 
 				<MyLink
 					className="me-2"
 					linkTo={`/credit-notes/${id}/create`}
-					icon={<PlusSVG />}
+					icon={<CreditNoteSVG />}
 					text="create credit note"
+				/>
+
+				<MyLink
+					className="me-2"
+					linkTo={`/deductions/${id}/create`}
+					icon={<DeductionSVG />}
+					text="create deduction"
 				/>
 
 				<Btn

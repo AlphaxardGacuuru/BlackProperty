@@ -20,6 +20,7 @@ class EmailResource extends JsonResource
             "unitName" => $this->userUnit->unit->name,
             "email" => $this->email,
             "text" => $this->text,
+            "status" => $this->status,
             "updatedAt" => $this->updated_at,
             "createdAt" => $this->created_at,
         ];

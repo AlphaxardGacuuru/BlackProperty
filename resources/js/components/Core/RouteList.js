@@ -40,6 +40,10 @@ import AdminCreditNotes from "@/pages/admin/credit-notes/index"
 import AdminCreditNoteCreate from "@/pages/admin/credit-notes/create"
 import AdminCreditNoteEdit from "@/pages/admin/credit-notes/edit/[id]"
 
+import AdminDeductions from "@/pages/admin/deductions/index"
+import AdminDeductionCreate from "@/pages/admin/deductions/create"
+import AdminDeductionEdit from "@/pages/admin/deductions/edit/[id]"
+
 import AdminEmails from "@/pages/admin/emails/index"
 import AdminSMSMessages from "@/pages/admin/sms-messages/index"
 
@@ -180,6 +184,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/credit-notes/:id/edit",
 			component: <AdminCreditNoteEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/deductions",
+			component: <AdminDeductions {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/deductions/:id/create",
+			component: <AdminDeductionCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/deductions/:id/edit",
+			component: <AdminDeductionEdit {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/emails",

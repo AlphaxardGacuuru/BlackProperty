@@ -462,7 +462,7 @@ const index = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="8"></th>
+							<th colSpan="9"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -509,7 +509,7 @@ const index = (props) => {
 							<th>Year</th>
 							<th>Amount</th>
 							{/* <th>Paid</th> */}
-							{/* <th>Balance</th> */}
+							<th>Balance</th>
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -542,9 +542,9 @@ const index = (props) => {
 								{/* <td className="text-success">
 									<small>KES</small> {invoice.paid}
 								</td> */}
-								{/* <td className="text-success">
+								<td className="text-success">
 									<small>KES</small> {invoice.balance}
-								</td> */}
+								</td>
 								<td className="text-capitalize">
 									<span
 										className={`

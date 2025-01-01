@@ -2,105 +2,105 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\CreditNoteResource;
-use App\Models\CreditNote;
+use App\Http\Resources\DeductionResource;
+use App\Models\Deduction;
 use Illuminate\Support\Facades\DB;
 
-class CreditNoteService extends Service
+class DeductionService extends Service
 {
     /*
-     * Fetch All Credit Notes
+     * Fetch All Deductions
      */
     public function index($request)
     {
-        $creditNotesQuery = new CreditNote;
+        $deductionsQuery = new Deduction;
 
-        $creditNotesQuery = $this->search($creditNotesQuery, $request);
+        $deductionsQuery = $this->search($deductionsQuery, $request);
 
-        $sum = $creditNotesQuery->sum("amount");
+        $sum = $deductionsQuery->sum("amount");
 
-        $creditNotes = $creditNotesQuery
+        $deductions = $deductionsQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        return CreditNoteResource::collection($creditNotes)
+        return DeductionResource::collection($deductions)
             ->additional(["sum" => $sum]);
     }
 
     /*
-     * Fetch Credit Note
+     * Fetch Deduction
      */
     public function show($id)
     {
-        $creditNote = CreditNote::find($id);
+        $deduction = Deduction::find($id);
 
-        return new CreditNoteResource($creditNote);
+        return new DeductionResource($deduction);
     }
 
     /*
-     * Save Credit Note
+     * Save Deduction
      */
     public function store($request)
     {
-        $creditNote = new CreditNote();
-        $creditNote->invoice_id = $request->invoiceId;
-        $creditNote->description = $request->description;
-        $creditNote->amount = $request->amount;
-        $creditNote->created_by = $this->id;
+        $deduction = new Deduction();
+        $deduction->invoice_id = $request->invoiceId;
+        $deduction->description = $request->description;
+        $deduction->amount = $request->amount;
+        $deduction->created_by = $this->id;
 
-        $saved = DB::transaction(function () use ($creditNote) {
-            $saved = $creditNote->save();
+        $saved = DB::transaction(function () use ($deduction) {
+            $saved = $deduction->save();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $saved;
         });
 
-        return [$saved, "Credit Note created successfully", $creditNote];
+        return [$saved, "Deduction created successfully", $deduction];
     }
 
     /*
-     * Update Credit Note
+     * Update Deduction
      */
     public function update($request, $id)
     {
-        $creditNote = CreditNote::find($id);
+        $deduction = Deduction::find($id);
 
         if ($request->filled("amount")) {
-            $creditNote->amount = $request->amount;
+            $deduction->amount = $request->amount;
         }
 
         if ($request->filled("description")) {
-            $creditNote->description = $request->description;
+            $deduction->description = $request->description;
         }
 
-        $saved = DB::transaction(function () use ($creditNote) {
-            $saved = $creditNote->save();
+        $saved = DB::transaction(function () use ($deduction) {
+            $saved = $deduction->save();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $saved;
         });
 
-        return [$saved, "Credit Note updated", $creditNote];
+        return [$saved, "Deduction updated", $deduction];
     }
 
     /*
-     * Destroy Credit Note
+     * Destroy Deduction
      */
     public function destroy($id)
     {
-        $creditNote = CreditNote::findOrFail($id);
+        $deduction = Deduction::findOrFail($id);
 
-        $deleted = DB::transaction(function () use ($creditNote) {
-            $deleted = $creditNote->delete();
+        $deleted = DB::transaction(function () use ($deduction) {
+            $deleted = $deduction->delete();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $deleted;
         });
 
-        return [$deleted, "Credit Note deleted successfully", $creditNote];
+        return [$deleted, "Deduction deleted successfully", $deduction];
     }
 
     /*
@@ -168,5 +168,4 @@ class CreditNoteService extends Service
     {
         return new InvoiceService;
     }
-
 }

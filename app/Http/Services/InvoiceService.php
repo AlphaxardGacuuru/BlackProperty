@@ -2,16 +2,14 @@
 
 namespace App\Http\Services;
 
-use AfricasTalking\SDK\AfricasTalking;
 use App\Http\Resources\InvoiceResource;
-use App\Jobs\SendInvoiceJob;
 use App\Mail\InvoiceMail;
 use App\Models\CreditNote;
+use App\Models\Deduction;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
-use Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
@@ -28,11 +26,13 @@ class InvoiceService extends Service
 
         $creditNotes = CreditNote::sum("amount");
 
-        $due = $invoiceQuery->sum("amount") - $creditNotes;
+        $deductions = Deduction::sum("amount");
 
         $paid = Payment::sum("amount");
+		
+        $due = $invoiceQuery->sum("amount");
 
-        $balance = $due - $creditNotes - $paid;
+        $balance = $due - $creditNotes - $paid + $deductions;
 
         $invoices = $invoiceQuery
             ->orderBy("month", "DESC")
@@ -267,6 +267,41 @@ class InvoiceService extends Service
     }
 
     /*
+     * Handle Invoice Adjustment
+     */
+    public function adjustInvoice($invoiceId)
+    {
+        $paid = Payment::where("invoice_id", $invoiceId)->sum("amount");
+
+        $creditNotes = CreditNote::where("invoice_id", $invoiceId)->sum("amount");
+
+        $deductions = Deduction::where("invoice_id", $invoiceId)->sum("amount");
+
+        $paid = $paid + $creditNotes - $deductions;
+
+        $invoice = Invoice::find($invoiceId);
+
+        $balance = $invoice->amount - $paid;
+
+        // Check if paid is enough
+        if ($paid == 0) {
+            $status = "not_paid";
+        } else if ($paid < $invoice->amount) {
+            $status = "partially_paid";
+        } else if ($paid == $invoice->amount) {
+            $status = "paid";
+        } else {
+            $status = "over_paid";
+        }
+
+        $invoice->paid = $paid;
+        $invoice->balance = $balance;
+        $invoice->status = $status;
+
+        return $invoice->save();
+    }
+
+    /*
      * Send Invoice by Email
      */
     public function sendEmail($id)
@@ -279,15 +314,15 @@ class InvoiceService extends Service
             // Increment the emails_sent column
             $invoice->increment("emails_sent");
 
-			// Save Email
-			$emailService = new EmailService;
+            // Save Email
+            $emailService = new EmailService;
 
-			// Populate Email Service with request details
-			$emailService->user_unit_id = $invoice->userUnit->id;
-			$emailService->email = $invoice->userUnit->user->email;
-			$emailService->model = $invoice->userUnit->id;
+            // Populate Email Service with request details
+            $emailService->user_unit_id = $invoice->userUnit->id;
+            $emailService->email = $invoice->userUnit->user->email;
+            $emailService->model = $invoice->userUnit->id;
 
-			$emailService->store($emailService);
+            $emailService->store($emailService);
 
         } catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
 
@@ -305,8 +340,8 @@ class InvoiceService extends Service
         $invoice = Invoice::findOrFail($id);
 
         $smsService = new SMSService($invoice);
-		
-		$status = $smsService->sendSMS("invoice");
+
+        $status = $smsService->sendSMS("invoice");
 
         return [$status, "Invoice SMS Sent Successfully", $invoice];
     }

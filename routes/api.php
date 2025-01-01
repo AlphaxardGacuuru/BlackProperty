@@ -3,6 +3,7 @@
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
@@ -49,6 +50,7 @@ Route::apiResources([
     "mpesa-transactions" => MPESATransactionController::class,
     "payments" => PaymentController::class,
     "credit-notes" => CreditNoteController::class,
+	"deductions" => DeductionController::class,
     "kopokopo-recipients" => KopokopoRecipientController::class,
     "kopokopo-transfers" => KopokopoTransferController::class,
     "users" => UserController::class,
