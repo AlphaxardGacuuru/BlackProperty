@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\EmailService;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
 {
+	public function __construct(protected EmailService $service)
+	{
+		// 
+	}
+	
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->service->index($request);
     }
 
     /**

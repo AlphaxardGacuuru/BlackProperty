@@ -4,47 +4,46 @@ namespace App\Http\Services;
 
 // AfricasTalking
 
-use App\Http\Resources\SMSMessageResource;
-use App\Models\SMSMessage;
+use App\Http\Resources\EmailResource;
+use App\Models\Email;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
-class SMSMessageService extends Service
+class EmailService extends Service
 {
     /**
      * Display a listing of the resource.
      */
     public function index($request)
     {
-        $smsMessageQuery = new SMSMessage;
+        $emailQuery = new Email;
 
-		$successful = $smsMessageQuery->where("status", "success")->count();
+        $successful = $emailQuery->where("status", "success")->count();
 
-		$failed = $smsMessageQuery->whereNot("status", "success")->count();
+        $failed = $emailQuery->whereNot("status", "success")->count();
 
-        $smsMessageQuery = $this->search($smsMessageQuery, $request);
+        $emailQuery = $this->search($emailQuery, $request);
 
-        $smsMessages = $smsMessageQuery
+        $emails = $emailQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        return SMSMessageResource::collection($smsMessages)
-		->additional([
-			"successfull" => $successful,
-			"failed" => $failed,
-		]);
+        return EmailResource::collection($emails)
+            ->additional([
+                "successfull" => $successful,
+                "failed" => $failed,
+            ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($request)
     {
-        $sms = SMSMessage::where('message_id', $request->id)->first();
-        $sms->delivery_status = $request->input('status');
-        $sms->network_code = $request->input('networkCode');
-        $sms->failure_reason = $request->input('failureReason');
-        $sms->retry_count = $request->input('retryCount');
+        $sms = new Email;
+        $sms->user_unit_id = $request->user_unit_id;
+        $sms->email = $request->email;
+        $sms->model = $request->model;
         $sms->save();
     }
 
@@ -67,7 +66,7 @@ class SMSMessageService extends Service
         //     'retryCount' => $callback['retryCount'],
         // );
 
-        $sms = new SMSMessage;
+        $sms = new Email;
         $sms->message_id = $callback['id'];
         $sms->status = $callback['status'];
         $sms->number = $callback['phoneNumber'];
@@ -80,10 +79,10 @@ class SMSMessageService extends Service
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SMSMessage  $sMS
+     * @param  \App\Email  $sMS
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SMSMessage $sMS)
+    public function destroy(Email $sMS)
     {
         //
     }
@@ -119,12 +118,12 @@ class SMSMessageService extends Service
                 });
         }
 
-        $phone = $request->input("phone");
+        $email = $request->input("email");
 
-        if ($request->filled("phone")) {
+        if ($request->filled("email")) {
             $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($phone) {
-                    $query->where("phone", "LIKE", "%" . $phone . "%");
+                ->whereHas("userUnit.user", function ($query) use ($email) {
+                    $query->where("email", "LIKE", "%" . $email . "%");
                 });
         }
 

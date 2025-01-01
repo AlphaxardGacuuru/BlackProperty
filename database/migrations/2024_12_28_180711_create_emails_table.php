@@ -20,6 +20,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->jsonb("model");
+            $table->string("email");
+            $table->string("status")->nullable();
             $table->timestamps();
         });
     }

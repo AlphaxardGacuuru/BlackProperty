@@ -90,9 +90,9 @@ const AdminNavLinks = (props) => {
 			name: "Emails",
 		},
 		{
-			link: "/admin/smses",
+			link: "/admin/sms-messages",
 			icon: <ChatSVG />,
-			name: "SMSes",
+			name: "SMS Messages",
 		},
 		{
 			link: "/admin/wallet",

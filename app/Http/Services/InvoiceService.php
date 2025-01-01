@@ -278,6 +278,17 @@ class InvoiceService extends Service
 
             // Increment the emails_sent column
             $invoice->increment("emails_sent");
+
+			// Save Email
+			$emailService = new EmailService;
+
+			// Populate Email Service with request details
+			$emailService->user_unit_id = $invoice->userUnit->id;
+			$emailService->email = $invoice->userUnit->user->email;
+			$emailService->model = $invoice->userUnit->id;
+
+			$emailService->store($emailService);
+
         } catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
 
             throw $exception;
