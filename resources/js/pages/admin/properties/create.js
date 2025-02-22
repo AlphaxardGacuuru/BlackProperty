@@ -14,6 +14,9 @@ const create = (props) => {
 	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [serviceCharge, setServiceCharge] = useState(0)
 	const [waterBillRate, setWaterBillRate] = useState(0)
+	const [invoiceDate, setInvoiceDate] = useState(0)
+	const [email, setEmail] = useState(0)
+	const [sms, setSms] = useState(0)
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -35,6 +38,9 @@ const create = (props) => {
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 			serviceCharge: serviceCharge,
 			waterBillRate: waterBillRate,
+			invoiceDate: invoiceDate,
+			email: email,
+			sms: sms,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -125,6 +131,40 @@ const create = (props) => {
 						onChange={(e) => setWaterBillRate(e.target.value)}
 						required={true}
 					/>
+
+					<label htmlFor="">Invoice Date</label>
+					<input
+						type="number"
+						placeholder="5"
+						min="1"
+						max="30"
+						step="1"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setInvoiceDate(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Invoice Type</label>
+					<div className="d-flex justify-content-center">
+						<div className="mx-2">
+							<input
+								type="checkbox"
+								className="mb-2 me-2"
+								onChange={(e) => setEmail(e.target.value)}
+								required={true}
+							/>
+							<span className="ms-2">Email</span>
+						</div>
+						<div className="mx-2">
+							<input
+								type="checkbox"
+								className="mb-2 me-2"
+								onChange={(e) => setSms(e.target.value)}
+								required={true}
+							/>
+							<span className="ms-2">SMS</span>
+						</div>
+					</div>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

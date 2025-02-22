@@ -94,7 +94,7 @@ const index = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="7"></th>
+									<th colSpan="9"></th>
 									<th className="text-end">
 										<MyLink
 											linkTo={`/properties/create`}
@@ -111,6 +111,8 @@ const index = (props) => {
 									<th>Deposit Formula</th>
 									<th>Water Bill Rate</th>
 									<th>Units</th>
+									<th>Invoice Date</th>
+									<th>Invoice Type</th>
 									<th className="text-center">Action</th>
 								</tr>
 								{properties.data?.map((property, key) => (
@@ -124,6 +126,16 @@ const index = (props) => {
 										<td>{property.depositFormula}</td>
 										<td>{property.waterBillRate}</td>
 										<td>{property.unitCount}</td>
+										<td>{property.invoiceDate}</td>
+										<td>
+											<small className="me-1">
+												{property.email ? "EMAIL" : ""}
+											</small>
+											<b>|</b>
+											<small className="ms-1">
+												{property.sms ? "SMS" : ""}
+											</small>
+										</td>
 										<td>
 											<div className="d-flex justify-content-center">
 												<MyLink

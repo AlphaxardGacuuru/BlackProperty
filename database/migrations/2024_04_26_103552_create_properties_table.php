@@ -25,6 +25,9 @@ return new class extends Migration
             $table->integer("service_charge")->default(0);
             $table->integer("water_bill_rate")->default(0);
             $table->integer("unit_count")->default(0);
+			$table->integer("invoice_date")->default(1);
+			$table->boolean("email")->default(1);
+			$table->boolean("sms")->default(1);
             $table->timestamps();
         });
     }

@@ -43,7 +43,7 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 
 				// Redirect to Deductions
-				setTimeout(() => history.push(`/admin/deductions`), 500)
+				setTimeout(() => history.push(`/admin/invoices/${id}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -87,9 +87,9 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/deductions`}
+							linkTo={`/invoices/${id}/show`}
 							icon={<BackSVG />}
-							text="back to deductions"
+							text="back to invoice"
 						/>
 					</div>
 					<div className="col-sm-4"></div>

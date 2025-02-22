@@ -135,8 +135,8 @@ Route::prefix('filepond')->group(function () {
 // Broadcast Routes
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
-Route::get('/mailable', function () {
-    $invoice = App\Models\Invoice::find(7532);
+Route::get('/mailable/{id}', function ($id) {
+    $invoice = App\Models\Invoice::find($id);
 
     return new App\Mail\InvoiceMail($invoice);
 });
