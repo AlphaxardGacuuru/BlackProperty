@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Laravel
+name: CI/CD Pipeline for Black Property
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     # Step 1: Check out the code
@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v3
 
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build # Deployment only happens after the build passes
 
     steps:

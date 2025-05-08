@@ -15,8 +15,8 @@ const create = (props) => {
 	const [serviceCharge, setServiceCharge] = useState(0)
 	const [waterBillRate, setWaterBillRate] = useState(0)
 	const [invoiceDate, setInvoiceDate] = useState(0)
-	const [email, setEmail] = useState(0)
-	const [sms, setSms] = useState(0)
+	const [email, setEmail] = useState(true)
+	const [sms, setSms] = useState(false)
 	const [loading, setLoading] = useState()
 
 	// Get Properties
@@ -144,26 +144,41 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<label htmlFor="">Invoice Type</label>
-					<div className="d-flex justify-content-center">
-						<div className="mx-2">
+					<label htmlFor="">Invoice Channel</label>
+					<div className="d-flex justify-content-start ms-4">
+						{/* Email Switch Start */}
+						<div class="form-check form-switch me-5">
 							<input
+								id="email"
+								class="form-check-input"
 								type="checkbox"
-								className="mb-2 me-2"
-								onChange={(e) => setEmail(e.target.value)}
-								required={true}
+								role="switch"
+								onChange={(e) => setEmail(e.target.checked)}
+								defaultChecked={true}
 							/>
-							<span className="ms-2">Email</span>
+							<label
+								class="form-check-label"
+								htmlFor="email">
+								Email
+							</label>
 						</div>
-						<div className="mx-2">
+						{/* Email Switch End */}
+						{/* SMS Switch Start */}
+						<div class="form-check form-switch">
 							<input
+								id="sms"
+								class="form-check-input me-2"
 								type="checkbox"
-								className="mb-2 me-2"
-								onChange={(e) => setSms(e.target.value)}
-								required={true}
+								role="switch"
+								onChange={(e) => setSms(e.target.checked)}
 							/>
-							<span className="ms-2">SMS</span>
+							<label
+								class="form-check-label"
+								htmlFor="sms">
+								SMS
+							</label>
 						</div>
+						{/* SMS Switch End */}
 					</div>
 
 					<div className="d-flex justify-content-end mb-2">

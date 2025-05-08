@@ -112,7 +112,7 @@ const index = (props) => {
 									<th>Water Bill Rate</th>
 									<th>Units</th>
 									<th>Invoice Date</th>
-									<th>Invoice Type</th>
+									<th>Invoice Channel</th>
 									<th className="text-center">Action</th>
 								</tr>
 								{properties.data?.map((property, key) => (

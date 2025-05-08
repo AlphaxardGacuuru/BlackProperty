@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 
-import FlutterWaveHookBtn from "@/components/Payments/FlutterWaveHookBtn"
 import KopokopoBtn from "@/components/Payments/KopokopoBtn"
 
 import CloseSVG from "@/svgs/CloseSVG"
@@ -29,15 +28,6 @@ const PaymentMenu = (props) => {
 					</div>
 
 					<div className="mt-4 mb-2">
-						<FlutterWaveHookBtn
-							{...props}
-							paymentAmount={props.paymentAmount}
-							paymentTitle={props.paymentTitle}
-							paymentDescription={props.paymentDescription}
-							text="pay with card"
-						/>
-					</div>
-					<div className="mb-2">
 						<KopokopoBtn
 							{...props}
 							paymentAmount={props.paymentAmount}

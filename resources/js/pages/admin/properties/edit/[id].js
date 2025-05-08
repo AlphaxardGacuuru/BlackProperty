@@ -15,6 +15,9 @@ const edit = (props) => {
 	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [serviceCharge, setServiceCharge] = useState()
 	const [waterBillRate, setWaterBillRate] = useState()
+	const [invoiceDate, setInvoiceDate] = useState()
+	const [email, setEmail] = useState()
+	const [sms, setSms] = useState()
 	const [loading, setLoading] = useState()
 
 	// Extract Rent Multiple and Additional Charges
@@ -35,7 +38,28 @@ const edit = (props) => {
 			path: ["properties", `properties/${id}/show`, "edit"],
 		})
 
-		props.get(`properties/${id}`, setProperty)
+		Axios.get(`api/properties/${id}`)
+			.then((res) => {
+				const data = res.data.data
+				// Set Property
+				setProperty(data)
+				setName(data.name)
+				setLocation(data.location)
+				setRentMultiple(data.depositFormula.split("*")[1])
+				setAdditionalCharges(data.depositFormula.split("+")[1])
+				setServiceCharge(data.serviceCharge)
+				setWaterBillRate(data.waterBillRate)
+				var extractedInvoiceDate = data.invoiceDate.replace(
+					/(st|nd|rd|th)$/i,
+					""
+				)
+				extractedInvoiceDate = parseInt(extractedInvoiceDate, 10)
+				console.log(extractedInvoiceDate)
+				setInvoiceDate(extractedInvoiceDate)
+				setEmail(data.email)
+				setSms(data.sms)
+			})
+			.catch((err) => ["Failed to fetch Property"])
 	}, [])
 
 	/*
@@ -51,6 +75,9 @@ const edit = (props) => {
 			depositFormula: `r*${rentMultiple}+${additionalCharges}`,
 			serviceCharge: serviceCharge,
 			waterBillRate: waterBillRate,
+			invoiceDate: invoiceDate,
+			email: email,
+			sms: sms,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -140,6 +167,56 @@ const edit = (props) => {
 						className="form-control mb-2 me-2"
 						onChange={(e) => setWaterBillRate(e.target.value)}
 					/>
+
+					<label htmlFor="">Invoice Date</label>
+					<input
+						type="number"
+						placeholder="5"
+						min="1"
+						max="30"
+						step="1"
+						defaultValue={invoiceDate}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setInvoiceDate(e.target.value)}
+					/>
+
+					<label htmlFor="">Invoice Channel</label>
+					<div className="d-flex justify-content-start ms-4">
+						{/* Email Switch Start */}
+						<div class="form-check form-switch me-5">
+							<input
+								id="email"
+								class="form-check-input"
+								type="checkbox"
+								role="switch"
+								onChange={(e) => setEmail(e.target.checked)}
+								defaultChecked={email}
+							/>
+							<label
+								class="form-check-label"
+								htmlFor="email">
+								Email
+							</label>
+						</div>
+						{/* Email Switch End */}
+						{/* SMS Switch Start */}
+						<div class="form-check form-switch">
+							<input
+								id="sms"
+								class="form-check-input me-2"
+								type="checkbox"
+								role="switch"
+								onChange={(e) => setSms(e.target.checked)}
+								defaultChecked={sms}
+							/>
+							<label
+								class="form-check-label"
+								htmlFor="sms">
+								SMS
+							</label>
+						</div>
+						{/* SMS Switch End */}
+					</div>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

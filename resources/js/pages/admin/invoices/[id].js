@@ -15,7 +15,6 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [invoice, setInvoice] = useState({})
-	const [tenants, setTenants] = useState([])
 
 	useEffect(() => {
 		// Set page
@@ -51,14 +50,14 @@ const show = (props) => {
 					className="me-2"
 					linkTo={`/credit-notes/${id}/create`}
 					icon={<CreditNoteSVG />}
-					text="create credit note"
+					text="add credit note"
 				/>
 
 				<MyLink
 					className="me-2"
 					linkTo={`/deductions/${id}/create`}
 					icon={<DeductionSVG />}
-					text="create deduction"
+					text="add deduction"
 				/>
 
 				<Btn

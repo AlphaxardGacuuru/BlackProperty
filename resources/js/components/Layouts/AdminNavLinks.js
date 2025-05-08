@@ -116,7 +116,21 @@ const AdminNavLinks = (props) => {
 			{navLinks.map((navLink, key) => (
 				<li
 					key={key}
-					className="nav-item"
+					className="nav-item hidden">
+					<Link
+						to={navLink.link}
+						className={`nav-link ${active(navLink.link)}`}>
+						<div className="nav-link-icon">{navLink.icon}</div>
+						<div className="nav-link-text">{navLink.name}</div>
+					</Link>
+				</li>
+			))}
+
+			{/* Mobile Start */}
+			{navLinks.map((navLink, key) => (
+				<li
+					key={key}
+					className="nav-item anti-hidden"
 					onClick={() => props.setAdminMenu("")}>
 					<Link
 						to={navLink.link}
@@ -126,6 +140,7 @@ const AdminNavLinks = (props) => {
 					</Link>
 				</li>
 			))}
+			{/* Mobile End */}
 		</React.Fragment>
 	)
 }

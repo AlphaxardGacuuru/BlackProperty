@@ -2757,6 +2757,12 @@ ol {
 	color: #fff;
 }
 
+.mysonar-btn.btn-red {
+	background-color: rgb(220, 53, 69);
+	border-color: rgb(220, 53, 69);
+	color: #fff;
+}
+
 .mysonar-sm {
 	font-size: 9px !important;
 	height: 25px;

@@ -7,6 +7,7 @@ import LoginPopUp from "@/components/Auth/LoginPopUp"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
 import PaymentMenu from "@/components/Payments/PaymentMenu"
+import PageLoader from "@/components/Core/PageLoader"
 
 import RouteList from "./Core/RouteList"
 import { random } from "lodash"
@@ -68,9 +69,13 @@ function App() {
 			: auth.propertyIds
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
+	const [loadingItems, setLoadingItems] = useState(0)
 
 	console.info("selectedPropertyId", selectedPropertyId)
-	console.info("getNormalLocalStorage('selectedPropertyId')", getNormalLocalStorage("selectedPropertyId"))
+	console.info(
+		"getNormalLocalStorage('selectedPropertyId')",
+		getNormalLocalStorage("selectedPropertyId")
+	)
 	console.info("auth.propertyIds", auth.propertyIds)
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
@@ -81,25 +86,81 @@ function App() {
 	const [downloadLinkText, setDownloadLinkText] = useState("")
 
 	// Function for fetching data from API
-	const get = (endpoint, setState, storage = null, errors = true) => {
-		Axios.get(`/api/${endpoint}`)
+	const get = (
+		endpoint,
+		setState,
+		storage = null,
+		errors = true,
+		controller = {}
+	) => {
+		// Increment loading items for select endpoints
+		if (!["notifications"].includes(endpoint)) {
+			setLoadingItems((prev) => prev + 1)
+		}
+
+		Axios.get(`/api/${endpoint}`, { signal: controller.signal }) // Pass the controller signal)
 			.then((res) => {
+				// Decrement loading items
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
+				// Set State
 				var data = res.data ? res.data.data : []
 				setState(data)
+				// Set Local Storage
 				storage && setLocalStorage(storage, data)
 			})
-			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+			.catch((error) => {
+				// Decrement loading items
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
+				if (Axios.isCancel(error)) {
+					console.log(`Request for ${endpoint} canceled`)
+				} else {
+					// Show Errors
+					errors && setErrors([`Failed to fetch ${endpoint.split("?")[0]}`])
+				}
+			})
 	}
 
 	// Function for fetching data from API
-	const getPaginated = (endpoint, setState, storage = null, errors = true) => {
+	const getPaginated = (
+		endpoint,
+		setState,
+		storage = null,
+		errors = true,
+		controller = {}
+	) => {
+		// Increment loading items for select endpoints
+		if (!["notifications"].includes(endpoint)) {
+			setLoadingItems((prev) => prev + 1)
+		}
+
 		Axios.get(`/api/${endpoint}`)
 			.then((res) => {
+				// Decrement loading items
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
+				// Set State
 				var data = res.data ? res.data : []
 				setState(data)
+				// Set Local Storage
 				storage && setLocalStorage(storage, data)
 			})
-			.catch(() => errors && setErrors([`Failed to fetch ${endpoint}`]))
+			.catch(() => {
+				// Decrement loading items
+				if (!["notifications"].includes(endpoint)) {
+					setLoadingItems((prev) => prev - 1)
+				}
+
+				// Set Errors
+				errors && setErrors([`Failed to fetch ${endpoint.split("?")[0]}`])
+			})
 	}
 
 	// Function for showing iteration
@@ -173,6 +234,8 @@ function App() {
 		getPaginated,
 		iterator,
 		getErrors,
+		loadingItems,
+		setLoadingItems,
 		login,
 		setLogin,
 		auth,
@@ -217,6 +280,7 @@ function App() {
 		<HashRouter>
 			<ScrollToTop />
 			<LoginPopUp {...GLOBAL_STATE} />
+			<PageLoader {...GLOBAL_STATE} />
 			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
