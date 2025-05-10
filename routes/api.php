@@ -35,108 +35,111 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
 
-Route::get('auth', [UserController::class, 'auth']);
+Route::middleware('auth:sanctum')->group(function () {
 
-Route::apiResources([
-    "properties" => PropertyController::class,
-    "units" => UnitController::class,
-    "tenants" => TenantController::class,
-    "invoices" => InvoiceController::class,
-    "water-readings" => WaterReadingController::class,
-    "card-transactions" => CardTransactionController::class,
-    "mpesa-transactions" => MPESATransactionController::class,
-    "payments" => PaymentController::class,
-    "credit-notes" => CreditNoteController::class,
-	"deductions" => DeductionController::class,
-    "kopokopo-recipients" => KopokopoRecipientController::class,
-    "kopokopo-transfers" => KopokopoTransferController::class,
-    "users" => UserController::class,
-    "staff" => StaffController::class,
-    "roles" => RoleController::class,
-    "notifications" => NotificationController::class,
-	"emails" => EmailController::class,
-	"sms-messages" => SMSMessageController::class,
-]);
+	Route::get('auth', [UserController::class, 'auth']);
 
-/*
+	Route::apiResources([
+		"properties" => PropertyController::class,
+		"units" => UnitController::class,
+		"tenants" => TenantController::class,
+		"invoices" => InvoiceController::class,
+		"water-readings" => WaterReadingController::class,
+		"card-transactions" => CardTransactionController::class,
+		"mpesa-transactions" => MPESATransactionController::class,
+		"payments" => PaymentController::class,
+		"credit-notes" => CreditNoteController::class,
+		"deductions" => DeductionController::class,
+		"kopokopo-recipients" => KopokopoRecipientController::class,
+		"kopokopo-transfers" => KopokopoTransferController::class,
+		"users" => UserController::class,
+		"staff" => StaffController::class,
+		"roles" => RoleController::class,
+		"notifications" => NotificationController::class,
+		"emails" => EmailController::class,
+		"sms-messages" => SMSMessageController::class,
+	]);
+
+	/*
  * Dashboard
  */
-Route::get("dashboard/{id}", [DashboardController::class, "index"]);
-Route::get("dashboard/properties/{id}", [DashboardController::class, "properties"]);
+	Route::get("dashboard/{id}", [DashboardController::class, "index"]);
+	Route::get("dashboard/properties/{id}", [DashboardController::class, "properties"]);
 
-/*
+	/*
  * Properties
  */
 
-/*
- * Units
- */
-Route::get("units/statements/{id}", [UnitController::class, "statements"]);
+	/*
+* Units
+*/
+	Route::get("units/statements/{id}", [UnitController::class, "statements"]);
 
-/*
+	/*
  * Tenants
  */
 
-/*
+	/*
  * Staff
  */
 
-/*
+	/*
  * Invoices
  */
-Route::post("invoices/send-email/{id}", [InvoiceController::class, "sendEmail"]);
-Route::post("invoices/send-sms/{id}", [InvoiceController::class, "sendSMS"]);
+	Route::post("invoices/send-email/{id}", [InvoiceController::class, "sendEmail"]);
+	Route::post("invoices/send-sms/{id}", [InvoiceController::class, "sendSMS"]);
 
-/*
+	/*
  * WaterReadings
  */
 
-/*
+	/*
  * Payments
  */
 
-/*
+	/*
  * CreditNotes
  */
 
-/*
+	/*
 * SMS Messages
-*/  
+*/
 
 
-// Kopokopo STK Push
-Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
-Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
+	// Kopokopo STK Push
+	Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
+	Route::post("kopokopo-initiate-transfer", [KopokopoTransferController::class, 'initiateTransfer']);
+
+	// Broadcast Routes
+	Broadcast::routes();
+});
 
 /*
  * Filepond Controller
  */
 Route::prefix('filepond')->group(function () {
-    Route::controller(FilePondController::class)->group(function () {
-        // User
-        Route::post('avatar/{id}', 'updateAvatar');
+	Route::controller(FilePondController::class)->group(function () {
+		// User
+		Route::post('avatar/{id}', 'updateAvatar');
 
-        // Material
-        Route::post("materials", "storeMaterial");
-        Route::delete("materials/{id}", "destoryMaterial");
+		// Material
+		Route::post("materials", "storeMaterial");
+		Route::delete("materials/{id}", "destoryMaterial");
 
-        // Attachment
-        Route::post("discussion-forums", "storeAttachment");
-        Route::delete("discussion-forums/{id}", "destoryAttachment");
+		// Attachment
+		Route::post("discussion-forums", "storeAttachment");
+		Route::delete("discussion-forums/{id}", "destoryAttachment");
 
-        // Submission
-        Route::post("submissions/{sessionId}/{unitId}/{week}/{userId}/{type}", "storeSubmission");
-    });
+		// Submission
+		Route::post("submissions/{sessionId}/{unitId}/{week}/{userId}/{type}", "storeSubmission");
+	});
 });
 
-// Broadcast Routes
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
-
 Route::get('/mailable/{id}', function ($id) {
-    $invoice = App\Models\Invoice::find($id);
+	$invoice = App\Models\Invoice::find($id);
 
-    return new App\Mail\InvoiceMail($invoice);
+	return new App\Mail\InvoiceMail($invoice);
 });

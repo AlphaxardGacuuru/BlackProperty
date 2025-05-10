@@ -80,11 +80,11 @@ class PropertyController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			"name" => "required|string",
-			"location" => "required|string",
-			"depositFormula" => "required|string",
-			"serviceCharge" => "required|integer",
-			"invoiceDate" => "required|integer",
+			"name" => "nullable|string",
+			"location" => "nullable|string",
+			"depositFormula" => "nullable|string",
+			"serviceCharge" => "nullable|integer",
+			"invoiceDate" => "nullable|integer",
 			"email" => "required_without:sms|boolean",
 			"sms" => "required_without:email|boolean",
 		]);

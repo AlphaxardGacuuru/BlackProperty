@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from "react"
 
 import InvoiceList from "@/components/Invoices/InvoiceList"
 
-const index = (props) => {
+const UnitInvoiceList = (props) => {
 	const [invoices, setInvoices] = useState([])
 	const [invoiceToSend, setInvoiceToSend] = useState({})
 
 	const [code, setCode] = useState("")
 	const [invoice, setInvoice] = useState("")
 	const [unit, setUnit] = useState("")
-	const [tenant, setTenant] = useState("")
 	const [type, setType] = useState("")
+	const [tenant, setTenant] = useState("")
 	const [status, setStatus] = useState("")
+	const [propertyId, setPropertyId] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
@@ -35,9 +36,9 @@ const index = (props) => {
 			`invoices?propertyId=${props.selectedPropertyId}&
 			code=${code}&
 			invoice=${invoice}&
-			unit=${unit}&
-			tenant=${tenant}&
+			unit=${props.unitId}&
 			type=${type}&
+						tenant=${tenant}&
 			status=${status}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
@@ -184,4 +185,4 @@ const index = (props) => {
 	)
 }
 
-export default index
+export default UnitInvoiceList

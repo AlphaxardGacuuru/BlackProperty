@@ -70,13 +70,6 @@ function App() {
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
 	const [loadingItems, setLoadingItems] = useState(0)
-
-	console.info("selectedPropertyId", selectedPropertyId)
-	console.info(
-		"getNormalLocalStorage('selectedPropertyId')",
-		getNormalLocalStorage("selectedPropertyId")
-	)
-	console.info("auth.propertyIds", auth.propertyIds)
 	const [showPayMenu, setShowPayMenu] = useState("")
 	const [paymentTitle, setPaymentTitle] = useState()
 	const [paymentDescription, setPaymentDescription] = useState()
@@ -181,7 +174,14 @@ function App() {
 	}
 
 	// Fetch data on page load
-	useEffect(() => get("auth", setAuth, "auth", false), [])
+	useEffect(() => {
+		Axios.get("api/auth")
+		.then((res) => {
+			setAuth(res.data.data)
+			setLocalStorage("auth", res.data.data)
+			setSelectedPropertyId(res.data.data.propertyIds)
+		}).catch((err) => setErrors(["Failed to fetch auth"]))
+	}, [])
 
 	useEffect(() => {
 		get(`properties?userId=${auth.id}`, setProperties, "properties")

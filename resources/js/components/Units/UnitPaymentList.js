@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import PaymentList from "@/components/Payments/PaymentList"
 
-const index = (props) => {
+const UnitPaymentList = (props) => {
 	const [payments, setPayments] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -25,7 +25,7 @@ const index = (props) => {
 		props.getPaginated(
 			`payments?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
-			unit=${unit}&
+			unit=${props.unitId}&
 			invoiceCode=${invoiceCode}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
@@ -103,4 +103,4 @@ const index = (props) => {
 	)
 }
 
-export default index
+export default UnitPaymentList

@@ -13,6 +13,8 @@ import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import PaginationLinks from "@/components/Core/PaginationLinks"
 import WaterReadingList from "@/components/Water/WaterReadingList"
+import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
+import UnitPaymentList from "@/components/Units/UnitPaymentList"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -331,7 +333,6 @@ const show = (props) => {
 								<th>#</th>
 								<th>Name</th>
 								<th>Vacated On</th>
-								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -342,18 +343,6 @@ const show = (props) => {
 										<td>{key + 1}</td>
 										<td>{tenant.name}</td>
 										<td>{tenant.vacatedAt}</td>
-										<td>
-											<div className="d-flex justify-content-end">
-												<React.Fragment>
-													<MyLink
-														linkTo={`/tenants/${tenant.id}/show`}
-														icon={<ViewSVG />}
-														text="view"
-														className="btn-sm me-1"
-													/>
-												</React.Fragment>
-											</div>
-										</td>
 									</tr>
 								))}
 						</tbody>
@@ -404,8 +393,43 @@ const show = (props) => {
 						Water Readings
 					</div>
 				</div>
+				<div className="d-flex justify-content-between flex-wrap mb-2">
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"invoices"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("invoices")}>
+						Invoices
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"payments"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("payments")}>
+						Payments
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"credit_notes"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("credit_notes")}>
+						Credit Notes
+					</div>
+					<div
+						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
+							"deductions"
+						)}`}
+						style={{ cursor: "pointer" }}
+						onClick={() => setTab("deductions")}>
+						Deductions
+					</div>
+				</div>
 				{/* Tabs End */}
 
+				{/* Tab Content Start */}
 				{tab == "rent" || tab == "water" || tab == "service_charge" ? (
 					<StatementList
 						{...props}
@@ -427,6 +451,21 @@ const show = (props) => {
 						setEndYear={setEndYear}
 					/>
 				)}
+
+				{tab == "invoices" && (
+					<UnitInvoiceList
+						{...props}
+						unitId={id}
+					/>
+				)}
+
+				{tab == "payments" && (
+					<UnitPaymentList
+						{...props}
+						unitId={id}
+					/>
+				)}
+				{/* Tab Content End */}
 			</div>
 		</div>
 	)

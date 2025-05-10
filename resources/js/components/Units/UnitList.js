@@ -137,11 +137,11 @@ const UnitList = (props) => {
 								</td>
 								<td>
 									{unit.tenantId ? (
-										<span className="bg-success-subtle p-1">
+										<span className="bg-success-subtle p-1 px-4">
 											{unit.tenantName}
 										</span>
 									) : (
-										<span className="bg-warning-subtle p-1">Vacant</span>
+										<span className="bg-warning-subtle p-1 px-4">Vacant</span>
 									)}
 								</td>
 								<td>

@@ -170,21 +170,21 @@ class InvoiceService extends Service
             $query = $query->where("id", "LIKE", "%" . $code . "%");
         }
 
+		$unit = $request->input("unit");
+
+		if ($request->filled("unit")) {
+			$query = $query
+				->whereHas("userUnit.unit", function ($query) use ($unit) {
+					$query->where("name", "LIKE", "%" . $unit . "%");
+				});
+		}
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
             $query = $query
                 ->whereHas("userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
-
-        $unit = $request->input("unit");
-
-        if ($request->filled("unit")) {
-            $query = $query
-                ->whereHas("userUnit.unit", function ($query) use ($unit) {
-                    $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
 

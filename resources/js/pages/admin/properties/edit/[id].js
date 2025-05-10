@@ -20,16 +20,6 @@ const edit = (props) => {
 	const [sms, setSms] = useState()
 	const [loading, setLoading] = useState()
 
-	// Extract Rent Multiple and Additional Charges
-	var formula = []
-
-	if (property.depositFormula) {
-		// Remove "r*"
-		formula = property.depositFormula.replace("r*", "")
-		// Split the formula by the "+" sign
-		formula = formula?.split("+")
-	}
-
 	// Get Properties
 	useEffect(() => {
 		// Set page
@@ -42,22 +32,19 @@ const edit = (props) => {
 			.then((res) => {
 				const data = res.data.data
 				// Set Property
-				setProperty(data)
-				setName(data.name)
-				setLocation(data.location)
-				setRentMultiple(data.depositFormula.split("*")[1])
-				setAdditionalCharges(data.depositFormula.split("+")[1])
-				setServiceCharge(data.serviceCharge)
-				setWaterBillRate(data.waterBillRate)
+				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])
+				data.additionalCharges = parseInt(data.depositFormula.split("+")[1])
 				var extractedInvoiceDate = data.invoiceDate.replace(
 					/(st|nd|rd|th)$/i,
 					""
 				)
 				extractedInvoiceDate = parseInt(extractedInvoiceDate, 10)
-				console.log(extractedInvoiceDate)
-				setInvoiceDate(extractedInvoiceDate)
+				data.invoiceDate = extractedInvoiceDate
+				setRentMultiple(data.rentMultiple)
+				setAdditionalCharges(data.additionalCharges)
 				setEmail(data.email)
 				setSms(data.sms)
+				setProperty(data)
 			})
 			.catch((err) => ["Failed to fetch Property"])
 	}, [])
@@ -130,7 +117,7 @@ const edit = (props) => {
 						placeholder="2"
 						min="0"
 						step="0.1"
-						defaultValue={formula[0]}
+						defaultValue={property.rentMultiple}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setRentMultiple(e.target.value)}
 					/>
@@ -140,7 +127,7 @@ const edit = (props) => {
 						type="number"
 						placeholder="2000"
 						min="0"
-						defaultValue={formula[1]}
+						defaultValue={property.additionalCharges}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setAdditionalCharges(e.target.value)}
 						required={true}
@@ -175,7 +162,7 @@ const edit = (props) => {
 						min="1"
 						max="30"
 						step="1"
-						defaultValue={invoiceDate}
+						defaultValue={property.invoiceDate}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setInvoiceDate(e.target.value)}
 					/>
@@ -189,8 +176,8 @@ const edit = (props) => {
 								class="form-check-input"
 								type="checkbox"
 								role="switch"
-								onChange={(e) => setEmail(e.target.checked)}
-								defaultChecked={email}
+								onClick={(e) => setEmail(e.target.checked)}
+								defaultChecked={property.email}
 							/>
 							<label
 								class="form-check-label"
@@ -206,8 +193,8 @@ const edit = (props) => {
 								class="form-check-input me-2"
 								type="checkbox"
 								role="switch"
-								onChange={(e) => setSms(e.target.checked)}
-								defaultChecked={sms}
+								onClick={(e) => setSms(e.target.checked)}
+								defaultChecked={property.sms}
 							/>
 							<label
 								class="form-check-label"

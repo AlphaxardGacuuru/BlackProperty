@@ -1,5 +1,5 @@
 // cacheName needs to be changed after any of the assets are changed
-const cacheName = 'BlackPropertyCache9';
+const cacheName = 'BlackPropertyCache0';
 
 const cacheAssets = [
 	'/js/app.js'
