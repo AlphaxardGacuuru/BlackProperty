@@ -29,7 +29,8 @@ class PaymentFactory extends Factory
 			"amount" => "amount",
 			// "transaction_reference" => fake()->regexify('[A-Z0-9]{10}'),
 			"channel" => $channels[rand(0, 1)],
-			"paid_on" => "paidOn",
+			"month" => Carbon::now()->format('m'),
+			"year" => Carbon::now()->format('y'),
 			"created_by" => Carbon::now()->timestamp,
 		];
 	}

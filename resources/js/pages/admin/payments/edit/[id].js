@@ -96,13 +96,13 @@ const edit = (props) => {
 					{/* Amount End */}
 
 					{/* Transaction Reference */}
-					{/* <label htmlFor="">Transaction Reference</label>
+					<label htmlFor="">Transaction Reference</label>
 					<input
 						type="text"
 						placeholder="ITHX23939950CV"
 						className="form-control mb-2"
 						onChange={(e) => setTransactionReference(e.target.value)}
-					/> */}
+					/>
 					{/* Transaction Reference End */}
 
 					{/* Paid On */}

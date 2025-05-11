@@ -92,9 +92,9 @@ class TenantController extends Controller
      * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        [$deleted, $message, $tenant] = $this->service->destroy($request, $id);
+        [$deleted, $message, $tenant] = $this->service->destroy($id);
 
         return response([
             "status" => $deleted,

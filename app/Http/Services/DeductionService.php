@@ -43,7 +43,7 @@ class DeductionService extends Service
     public function store($request)
     {
         $deduction = new Deduction();
-        $deduction->invoice_id = $request->invoiceId;
+		$deduction->user_unit_id = $request->userUnitId;
         $deduction->description = $request->description;
         $deduction->amount = $request->amount;
         $deduction->created_by = $this->id;
@@ -111,7 +111,7 @@ class DeductionService extends Service
         $propertyId = explode(",", $request->propertyId);
 
         if ($request->filled("propertyId")) {
-            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
                 $query->whereIn("id", $propertyId);
             });
         }
@@ -129,7 +129,7 @@ class DeductionService extends Service
 
 		if ($request->filled("unit")) {
 			$query = $query
-				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+				->whereHas("userUnit.unit", function ($query) use ($unit) {
 					$query->where("name", "LIKE", "%" . $unit . "%");
 				});
 		}
@@ -138,7 +138,7 @@ class DeductionService extends Service
 
 		if ($request->filled("unit")) {
 			$query = $query
-				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+				->whereHas("userUnit.unit", function ($query) use ($unit) {
 					$query->where("name", "LIKE", "%" . $unit . "%");
 				});
 		}
@@ -147,7 +147,7 @@ class DeductionService extends Service
 
         if ($request->filled("tenant")) {
             $query = $query
-                ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
+                ->whereHas("userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
                 });
         }

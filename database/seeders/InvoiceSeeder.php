@@ -70,7 +70,8 @@ class InvoiceSeeder extends Seeder
 			->create([
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
-				"paid_on" => $date,
+				"month" => $month,
+				"year" => $currentYear,
 				"created_by" => $staffId,
 			]);
 	}
@@ -101,7 +102,8 @@ class InvoiceSeeder extends Seeder
 			->create([
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
-				"paid_on" => $date,
+				"month" => $month,
+				"year" => $currentYear,
 				"created_by" => $staffId,
 			]);
 	}
@@ -130,7 +132,8 @@ class InvoiceSeeder extends Seeder
 			->create([
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
-				"paid_on" => $date,
+				"month" => $month,
+				"year" => $currentYear,
 				"created_by" => $staffId,
 			]);
 	}

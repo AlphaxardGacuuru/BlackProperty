@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('user_units', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                ->constained()
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('unit_id')
-                ->constained()
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamp('occupied_at')->nullable();

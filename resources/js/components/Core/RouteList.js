@@ -162,7 +162,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminPayments {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/payments/:id/create",
+			path: "/admin/payments/:userUnitId/create",
 			component: <AdminPaymentCreate {...GLOBAL_STATE} />,
 		},
 		{
@@ -178,7 +178,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminCreditNotes {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/credit-notes/:id/create",
+			path: "/admin/credit-notes/:userUnitId/create",
 			component: <AdminCreditNoteCreate {...GLOBAL_STATE} />,
 		},
 		{
@@ -190,7 +190,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminDeductions {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/deductions/:id/create",
+			path: "/admin/deductions/:userUnitId/create",
 			component: <AdminDeductionCreate {...GLOBAL_STATE} />,
 		},
 		{

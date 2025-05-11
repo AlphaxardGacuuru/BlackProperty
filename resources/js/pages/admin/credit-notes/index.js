@@ -11,7 +11,6 @@ const index = (props) => {
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
-	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
@@ -42,43 +41,6 @@ const index = (props) => {
 		endYear,
 	])
 
-	/*
-	 * Delete CreditNote
-	 */
-	const onDeleteCreditNote = (creditNoteId) => {
-		setLoading(true)
-		var creditNoteIds = Array.isArray(creditNoteId)
-			? creditNoteId.join(",")
-			: creditNoteId
-
-		Axios.delete(`/api/credit-notes/${creditNoteIds}`)
-			.then((res) => {
-				setLoading(false)
-				props.setMessages([res.data.message])
-				// Remove row
-				setCreditNotes({
-					sum: creditNotes.sum,
-					meta: creditNotes.meta,
-					links: creditNotes.links,
-					data: creditNotes.data.filter((creditNote) => {
-						if (Array.isArray(creditNoteId)) {
-							return !creditNoteIds.includes(creditNote.id)
-						} else {
-							return creditNote.id != creditNoteId
-						}
-					}),
-				})
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-			.catch((err) => {
-				setLoading(false)
-				props.getErrors(err)
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-	}
-
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -87,7 +49,6 @@ const index = (props) => {
 					{...props}
 					creditNotes={creditNotes}
 					setCreditNotes={setCreditNotes}
-					onDeleteCreditNote={onDeleteCreditNote}
 					setUnit={setUnit}
 					setInvoiceCode={setInvoiceCode}
 					setTenant={setTenant}
@@ -95,7 +56,6 @@ const index = (props) => {
 					setEndMonth={setEndMonth}
 					setStartYear={setStartYear}
 					setEndYear={setEndYear}
-					loading={loading}
 				/>
 				{/* Credit Notes Tab End */}
 			</div>

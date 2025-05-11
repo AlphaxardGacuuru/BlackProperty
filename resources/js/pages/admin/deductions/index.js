@@ -12,7 +12,6 @@ const index = (props) => {
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
-	const [loading, setLoading] = useState()
 
 	useEffect(() => {
 		// Set page
@@ -43,43 +42,6 @@ const index = (props) => {
 		endYear,
 	])
 
-	/*
-	 * Delete Deduction
-	 */
-	const onDeleteDeduction = (deductionId) => {
-		setLoading(true)
-		var deductionIds = Array.isArray(deductionId)
-			? deductionId.join(",")
-			: deductionId
-
-		Axios.delete(`/api/deductions/${deductionIds}`)
-			.then((res) => {
-				setLoading(false)
-				props.setMessages([res.data.message])
-				// Remove row
-				setDeductions({
-					sum: deductions.sum,
-					meta: deductions.meta,
-					links: deductions.links,
-					data: deductions.data.filter((deduction) => {
-						if (Array.isArray(deductionId)) {
-							return !deductionIds.includes(deduction.id)
-						} else {
-							return deduction.id != deductionId
-						}
-					}),
-				})
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-			.catch((err) => {
-				setLoading(false)
-				props.getErrors(err)
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-	}
-
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -88,7 +50,6 @@ const index = (props) => {
 					{...props}
 					deductions={deductions}
 					setDeductions={setDeductions}
-					onDeleteDeduction={onDeleteDeduction}
 					setInvoiceCode={setInvoiceCode}
 					setUnit={setUnit}
 					setTenant={setTenant}
@@ -96,7 +57,6 @@ const index = (props) => {
 					setEndMonth={setEndMonth}
 					setStartYear={setStartYear}
 					setEndYear={setEndYear}
-					loading={loading}
 				/>
 				{/* Deductions Tab End */}
 			</div>

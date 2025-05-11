@@ -31,7 +31,7 @@ class CreditNoteController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "invoiceId" => "required|integer",
+			"userUnitId" => "required|integer",
             "description" => "required|string",
             "amount" => "required|integer",
         ]);

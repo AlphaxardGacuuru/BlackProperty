@@ -83536,7 +83536,7 @@ var DeleteModal = function DeleteModal(_ref) {
     "data-bs-dismiss": "modal"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_3__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-body text-start text-wrap"
-  }, "Are you sure you want to delete ", (_model$name = model.name) !== null && _model$name !== void 0 ? _model$name : modelName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Are you sure you want to Delete ", (_model$name = model.name) !== null && _model$name !== void 0 ? _model$name : modelName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-footer justify-content-between border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
@@ -84054,7 +84054,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/payments",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_24__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/payments/:id/create",
+    path: "/admin/payments/:userUnitId/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_25__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/payments/:id/show",
@@ -84066,7 +84066,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/credit-notes",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_28__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/credit-notes/:id/create",
+    path: "/admin/credit-notes/:userUnitId/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_29__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/credit-notes/:id/edit",
@@ -84075,7 +84075,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/deductions",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_31__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/deductions/:id/create",
+    path: "/admin/deductions/:userUnitId/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_32__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/deductions/:id/edit",
@@ -84168,6 +84168,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/CreditNoteSVG */ "./resources/js/svgs/CreditNoteSVG.js");
 /* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -84182,7 +84192,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CreditNoteList = function CreditNoteList(props) {
-  var _props$creditNotes$da;
+  var _props$creditNotes$da, _props$creditNotes$da2;
+  var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    deleteIds = _useState2[0],
+    setDeleteIds = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+
+  /*
+   * Handle DeleteId checkboxes
+   */
+  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
+    var exists = deleteIds.includes(invoiceId);
+    var newDeleteIds = exists ? deleteIds.filter(function (item) {
+      return item != invoiceId;
+    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
+    setDeleteIds(newDeleteIds);
+  };
+
+  /*
+   * Delete CreditNote
+   */
+  var onDeleteCreditNote = function onDeleteCreditNote(creditNoteId) {
+    setLoading(true);
+    var creditNoteIds = Array.isArray(creditNoteId) ? creditNoteId.join(",") : creditNoteId;
+    Axios["delete"]("/api/credit-notes/".concat(creditNoteIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      props.setCreditNotes({
+        sum: props.creditNotes.sum,
+        meta: props.creditNotes.meta,
+        links: props.creditNotes.links,
+        data: props.creditNotes.data.filter(function (creditNote) {
+          if (Array.isArray(creditNoteId)) {
+            return !creditNoteIds.includes(creditNote.id);
+          } else {
+            return creditNote.id != creditNoteId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84290,12 +84352,44 @@ var CreditNoteList = function CreditNoteList(props) {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "6"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "2",
+    className: "text-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end"
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    text: "delete ".concat(deleteIds.length),
+    className: "me-2",
+    onClick: function onClick() {
+      return onDeleteCreditNote(deleteIds);
+    },
+    loading: loading
+  }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    linkTo: "/credit-notes/create",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+    text: "add credit note"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: deleteIds.length == ((_props$creditNotes$da = props.creditNotes.data) === null || _props$creditNotes$da === void 0 ? void 0 : _props$creditNotes$da.length) && deleteIds.length != 0,
+    onClick: function onClick() {
+      return setDeleteIds(deleteIds.length == props.creditNotes.data.length ? [] : props.creditNotes.data.map(function (creditNote) {
+        return creditNote.id;
+      }));
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
-  }, "Action")), (_props$creditNotes$da = props.creditNotes.data) === null || _props$creditNotes$da === void 0 ? void 0 : _props$creditNotes$da.map(function (creditNote, key) {
+  }, "Action")), (_props$creditNotes$da2 = props.creditNotes.data) === null || _props$creditNotes$da2 === void 0 ? void 0 : _props$creditNotes$da2.map(function (creditNote, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.creditNotes)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      checked: deleteIds.includes(creditNote.id),
+      onClick: function onClick() {
+        return handleSetDeleteIds(creditNote.id);
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.creditNotes)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, creditNote.type.split("_").map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -84317,7 +84411,7 @@ var CreditNoteList = function CreditNoteList(props) {
       index: "creditNote".concat(key),
       model: creditNote,
       modelName: "Credit Note",
-      onDelete: props.onDeleteCreditNote
+      onDelete: onDeleteCreditNote
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
     list: props.creditNotes,
@@ -84353,6 +84447,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/DeductionSVG */ "./resources/js/svgs/DeductionSVG.js");
 /* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -84367,7 +84471,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var DeductionList = function DeductionList(props) {
-  var _props$deductions$dat;
+  var _props$deductions$dat, _props$deductions$dat2, _props$deductions$dat3;
+  var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    deleteIds = _useState2[0],
+    setDeleteIds = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+
+  /*
+   * Handle DeleteId checkboxes
+   */
+  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
+    var exists = deleteIds.includes(invoiceId);
+    var newDeleteIds = exists ? deleteIds.filter(function (item) {
+      return item != invoiceId;
+    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
+    setDeleteIds(newDeleteIds);
+  };
+
+  /*
+   * Delete Deduction
+   */
+  var onDeleteDeduction = function onDeleteDeduction(deductionId) {
+    setLoading(true);
+    var deductionIds = Array.isArray(deductionId) ? deductionId.join(",") : deductionId;
+    Axios["delete"]("/api/deductions/".concat(deductionIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      props.setDeductions({
+        sum: props.deductions.sum,
+        meta: props.deductions.meta,
+        links: props.deductions.links,
+        data: props.deductions.data.filter(function (deduction) {
+          if (Array.isArray(deductionId)) {
+            return !deductionIds.includes(deduction.id);
+          } else {
+            return deduction.id != deductionId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84401,16 +84557,48 @@ var DeductionList = function DeductionList(props) {
     onChange: function onChange(e) {
       return props.setUnit(e.target.value);
     }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), ((_props$deductions$dat = props.deductions.data) === null || _props$deductions$dat === void 0 ? void 0 : _props$deductions$dat.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "6"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "2",
+    className: "text-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end"
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    text: "delete ".concat(deleteIds.length),
+    className: "me-2",
+    onClick: function onClick() {
+      return onDeleteDeduction(deleteIds);
+    },
+    loading: loading
+  }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    linkTo: "/deductions/create",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+    text: "add deduction"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: deleteIds.length == ((_props$deductions$dat2 = props.deductions.data) === null || _props$deductions$dat2 === void 0 ? void 0 : _props$deductions$dat2.length) && deleteIds.length != 0,
+    onClick: function onClick() {
+      return setDeleteIds(deleteIds.length == props.deductions.data.length ? [] : props.deductions.data.map(function (deduction) {
+        return deduction.id;
+      }));
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
-  }, "Action")), (_props$deductions$dat = props.deductions.data) === null || _props$deductions$dat === void 0 ? void 0 : _props$deductions$dat.map(function (deduction, key) {
+  }, "Action")), (_props$deductions$dat3 = props.deductions.data) === null || _props$deductions$dat3 === void 0 ? void 0 : _props$deductions$dat3.map(function (deduction, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.deductions)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      checked: deleteIds.includes(deduction.id),
+      onClick: function onClick() {
+        return handleSetDeleteIds(deduction.id);
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.deductions)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, deduction.type.split("_").map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -84432,12 +84620,21 @@ var DeductionList = function DeductionList(props) {
       index: "deduction".concat(key),
       model: deduction,
       modelName: "Deduction",
-      onDelete: props.onDeleteDeduction
+      onDelete: onDeleteDeduction
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
     list: props.deductions,
     getPaginated: props.getPaginated,
     setState: props.setDeductions
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "bg-white text-center py-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/no-data-found.jpg",
+    alt: "No entries found",
+    style: {
+      width: "30%",
+      height: "auto"
+    }
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (DeductionList);
@@ -84455,26 +84652,33 @@ var DeductionList = function DeductionList(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
-/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
-/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
-/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
-/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/InvoiceSVG */ "./resources/js/svgs/InvoiceSVG.js");
-/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
-/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
-/* harmony import */ var _svgs_EmailSentSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/EmailSentSVG */ "./resources/js/svgs/EmailSentSVG.js");
-/* harmony import */ var _svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/SendEmailSVG */ "./resources/js/svgs/SendEmailSVG.js");
-/* harmony import */ var _svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/SMSSVG */ "./resources/js/svgs/SMSSVG.js");
-/* harmony import */ var _svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/ChatSVG */ "./resources/js/svgs/ChatSVG.js");
-/* harmony import */ var _svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/svgs/ChatSendSVG */ "./resources/js/svgs/ChatSendSVG.js");
-
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/InvoiceSVG */ "./resources/js/svgs/InvoiceSVG.js");
+/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
+/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _svgs_EmailSentSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/EmailSentSVG */ "./resources/js/svgs/EmailSentSVG.js");
+/* harmony import */ var _svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/SendEmailSVG */ "./resources/js/svgs/SendEmailSVG.js");
+/* harmony import */ var _svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/SMSSVG */ "./resources/js/svgs/SMSSVG.js");
+/* harmony import */ var _svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/ChatSVG */ "./resources/js/svgs/ChatSVG.js");
+/* harmony import */ var _svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/ChatSendSVG */ "./resources/js/svgs/ChatSendSVG.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -84495,8 +84699,106 @@ __webpack_require__.r(__webpack_exports__);
 
 var InvoiceList = function InvoiceList(props) {
   var _props$invoices$data, _props$invoices$data2;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    deleteIds = _useState2[0],
+    setDeleteIds = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loadingSMS = _useState6[0],
+    setLoadingSMS = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState8 = _slicedToArray(_useState7, 2),
+    loadingEmail = _useState8[0],
+    setLoadingEmail = _useState8[1];
+  var invoiceModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   var statuses = ["not_paid", "partially_paid", "paid", "overpaid"];
   var types = ["rent", "water", "service_charge"];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    _useState10 = _slicedToArray(_useState9, 2),
+    invoiceToSend = _useState10[0],
+    setInvoiceToSend = _useState10[1];
+
+  /*
+   * Send Email
+   */
+  var onSendEmail = function onSendEmail(invoiceId) {
+    setLoadingEmail(true);
+    Axios.post("api/invoices/send-email/".concat(invoiceId)).then(function (res) {
+      setLoadingEmail(false);
+      props.setMessages([res.data.message]);
+      // Clode Modal
+      invoiceModalBtnClose.current.click();
+    })["catch"](function (err) {
+      setLoadingEmail(false);
+      props.getErrors(err);
+    });
+  };
+
+  /*
+   * Send SMS
+   */
+  var onSendSMS = function onSendSMS(invoiceId) {
+    setLoadingSMS(true);
+    Axios.post("api/invoices/send-sms/".concat(invoiceId)).then(function (res) {
+      setLoadingSMS(false);
+      props.setMessages([res.data.message]);
+      // Clode Modal
+      invoiceModalBtnClose.current.click();
+    })["catch"](function (err) {
+      setLoadingSMS(false);
+      props.getErrors(err);
+    });
+  };
+
+  /*
+   * Handle DeleteId checkboxes
+   */
+  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
+    var exists = deleteIds.includes(invoiceId);
+    var newDeleteIds = exists ? deleteIds.filter(function (item) {
+      return item != invoiceId;
+    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
+    setDeleteIds(newDeleteIds);
+  };
+
+  /*
+   * Delete Invoice
+   */
+  var onDeleteInvoice = function onDeleteInvoice(invoiceId) {
+    setLoading(true);
+    var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId;
+    Axios["delete"]("/api/invoices/".concat(invoiceIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      props.setInvoices({
+        due: props.invoices.due,
+        paid: props.invoices.paid,
+        balance: props.invoices.balance,
+        meta: props.invoices.meta,
+        links: props.invoices.links,
+        data: props.invoices.data.filter(function (invoice) {
+          if (Array.isArray(invoiceId)) {
+            return !invoiceIds.includes(invoice.id);
+          } else {
+            return invoice.id != invoiceId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84514,56 +84816,56 @@ var InvoiceList = function InvoiceList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     id: "invoiceModalLabel",
     className: "modal-title fs-5"
-  }, "Send Invoice ", props.invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, "Send Invoice ", invoiceToSend.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-body text-start text-wrap border-0"
-  }, "Are you sure you want to send an Invoice to", " ", props.invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Are you sure you want to send an Invoice to", " ", invoiceToSend.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-footer justify-content-between border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    ref: props.invoiceModalBtnClose,
+    ref: invoiceModalBtnClose,
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-dismiss": "modal"
-  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
+  }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
     text: "send sms",
-    className: "me-1 ".concat(props.invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
+    className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
     onClick: function onClick() {
-      return props.onSendSMS(props.invoiceToSend.id);
+      return onSendSMS(invoiceToSend.id);
     },
-    loading: props.loadingSMS
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
+    loading: loadingSMS
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null),
     text: "send email",
-    className: "me-1 ".concat(props.invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
+    className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
     onClick: function onClick() {
-      return props.onSendEmail(props.invoiceToSend.id);
+      return onSendEmail(invoiceToSend.id);
     },
-    loading: props.loadingEmail
+    loading: loadingEmail
   })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__["default"], {
     heading: "Due",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.invoices.due)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_InvoiceSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__["default"], {
     heading: "Paid",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.invoices.paid)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_4__["default"], {
     heading: "Balance",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.invoices.balance)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex flex-wrap"
@@ -84713,22 +85015,22 @@ var InvoiceList = function InvoiceList(props) {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
-  }, props.deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    text: "delete ".concat(props.deleteIds.length),
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    text: "delete ".concat(deleteIds.length),
     className: "me-2",
     onClick: function onClick() {
-      return props.onDeleteInvoice(props.deleteIds);
+      return onDeleteInvoice(deleteIds);
     },
-    loading: props.loading
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    loading: loading
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
     linkTo: "/invoices/create",
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
     text: "create invoice"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
-    checked: props.deleteIds.length == ((_props$invoices$data = props.invoices.data) === null || _props$invoices$data === void 0 ? void 0 : _props$invoices$data.length) && props.deleteIds.length != 0,
+    checked: deleteIds.length == ((_props$invoices$data = props.invoices.data) === null || _props$invoices$data === void 0 ? void 0 : _props$invoices$data.length) && deleteIds.length != 0,
     onClick: function onClick() {
-      return setDeleteIds(props.deleteIds.length == props.invoices.data.length ? [] : props.invoices.data.map(function (invoice) {
+      return setDeleteIds(deleteIds.length == props.invoices.data.length ? [] : props.invoices.data.map(function (invoice) {
         return invoice.id;
       }));
     }
@@ -84740,9 +85042,9 @@ var InvoiceList = function InvoiceList(props) {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
-      checked: props.deleteIds.includes(invoice.id),
+      checked: deleteIds.includes(invoice.id),
       onClick: function onClick() {
-        return props.handleSetDeleteIds(invoice.id);
+        return handleSetDeleteIds(invoice.id);
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, invoice.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
@@ -84762,28 +85064,28 @@ var InvoiceList = function InvoiceList(props) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
       linkTo: "/invoices/".concat(invoice.id, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null),
       className: "mx-1"
-    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null),
+    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
       text: "send invoice",
       className: "mx-1",
       dataBsToggle: "modal",
       dataBsTarget: "#invoiceModal",
       onClick: function onClick() {
-        return props.setInvoiceToSend(invoice);
+        return setInvoiceToSend(invoice);
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
       index: "invoice".concat(key),
       model: invoice,
       modelName: "Invoice",
-      onDelete: props.onDeleteInvoice
+      onDelete: onDeleteInvoice
     })))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_3__["default"], {
     list: props.invoices,
     getPaginated: props.getPaginated,
     setState: props.setInvoices
@@ -86164,6 +86466,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
 /* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -86178,7 +86490,59 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var PaymentList = function PaymentList(props) {
-  var _props$payments$data;
+  var _props$payments$data, _props$payments$data2;
+  var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    deleteIds = _useState2[0],
+    setDeleteIds = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState4 = _slicedToArray(_useState3, 2),
+    loading = _useState4[0],
+    setLoading = _useState4[1];
+
+  /*
+   * Handle DeleteId checkboxes
+   */
+  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
+    var exists = deleteIds.includes(invoiceId);
+    var newDeleteIds = exists ? deleteIds.filter(function (item) {
+      return item != invoiceId;
+    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
+    setDeleteIds(newDeleteIds);
+  };
+
+  /*
+   * Delete Payment
+   */
+  var onDeletePayment = function onDeletePayment(paymentId) {
+    setLoading(true);
+    var paymentIds = Array.isArray(paymentId) ? paymentId.join(",") : paymentId;
+    Axios["delete"]("/api/payments/".concat(paymentIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      setPayments({
+        sum: props.payments.sum,
+        meta: props.payments.meta,
+        links: props.payments.links,
+        data: props.payments.data.filter(function (payment) {
+          if (Array.isArray(paymentId)) {
+            return !paymentIds.includes(payment.id);
+          } else {
+            return payment.id != paymentId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86286,21 +86650,48 @@ var PaymentList = function PaymentList(props) {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "9"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: "2",
+    className: "text-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end"
+  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    text: "delete ".concat(deleteIds.length),
+    className: "me-2",
+    onClick: function onClick() {
+      return onDeletePayment(deleteIds);
+    },
+    loading: loading
+  }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    linkTo: "/payments/create",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null),
+    text: "add payment"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: deleteIds.length == ((_props$payments$data = props.payments.data) === null || _props$payments$data === void 0 ? void 0 : _props$payments$data.length) && deleteIds.length != 0,
+    onClick: function onClick() {
+      return setDeleteIds(deleteIds.length == props.payments.data.length ? [] : props.payments.data.map(function (payment) {
+        return payment.id;
+      }));
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
-  }, "Action")), (_props$payments$data = props.payments.data) === null || _props$payments$data === void 0 ? void 0 : _props$payments$data.map(function (payment, key) {
+  }, "Action")), (_props$payments$data2 = props.payments.data) === null || _props$payments$data2 === void 0 ? void 0 : _props$payments$data2.map(function (payment, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.payments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.channel), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.transactionReference), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      checked: deleteIds.includes(payment.id),
+      onClick: function onClick() {
+        return handleSetDeleteIds(payment.id);
+      }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.payments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.channel), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.transactionReference), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", payment.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.paidOn), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/invoices/".concat(payment.invoiceId, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      text: "view invoice",
-      className: "me-1"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/payments/".concat(payment.id, "/show"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
       className: "me-1"
@@ -86313,7 +86704,7 @@ var PaymentList = function PaymentList(props) {
       index: "payment".concat(key),
       model: payment,
       modelName: "Payment",
-      onDelete: props.onDeletePayment
+      onDelete: onDeletePayment
     })))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
     list: props.payments,
@@ -87006,24 +87397,24 @@ var UnitCreditNoteList = function UnitCreditNoteList(props) {
     setUnit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    startMonth = _useState8[0],
-    setStartMonth = _useState8[1];
+    invoiceCode = _useState8[0],
+    setInvoiceCode = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    startYear = _useState10[0],
-    setStartYear = _useState10[1];
+    startMonth = _useState10[0],
+    setStartMonth = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    endMonth = _useState12[0],
-    setEndMonth = _useState12[1];
+    startYear = _useState12[0],
+    setStartYear = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    endYear = _useState14[0],
-    setEndYear = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(),
+    endMonth = _useState14[0],
+    setEndMonth = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
+    endYear = _useState16[0],
+    setEndYear = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87033,40 +87424,8 @@ var UnitCreditNoteList = function UnitCreditNoteList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Fetch Credit Note
-    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
-  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete CreditNote
-   */
-  var onDeleteCreditNote = function onDeleteCreditNote(creditNoteId) {
-    setLoading(true);
-    var creditNoteIds = Array.isArray(creditNoteId) ? creditNoteId.join(",") : creditNoteId;
-    Axios["delete"]("/api/credit-notes/".concat(creditNoteIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setCreditNotes({
-        sum: creditNotes.sum,
-        meta: creditNotes.meta,
-        links: creditNotes.links,
-        data: creditNotes.data.filter(function (creditNote) {
-          if (Array.isArray(creditNoteId)) {
-            return !creditNoteIds.includes(creditNote.id);
-          } else {
-            return creditNote.id != creditNoteId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
+    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
+  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -87074,14 +87433,13 @@ var UnitCreditNoteList = function UnitCreditNoteList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__["default"], _extends({}, props, {
     creditNotes: creditNotes,
     setCreditNotes: setCreditNotes,
-    onDeleteCreditNote: onDeleteCreditNote,
     setUnit: setUnit,
+    setInvoiceCode: setInvoiceCode,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (UnitCreditNoteList);
@@ -87109,7 +87467,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var UnitDeductionList = function UnitDeductionList(props) {
+var UnitDeduction = function UnitDeduction(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     deductions = _useState2[0],
@@ -87124,24 +87482,24 @@ var UnitDeductionList = function UnitDeductionList(props) {
     setUnit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    startMonth = _useState8[0],
-    setStartMonth = _useState8[1];
+    invoiceCode = _useState8[0],
+    setInvoiceCode = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    startYear = _useState10[0],
-    setStartYear = _useState10[1];
+    startMonth = _useState10[0],
+    setStartMonth = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    endMonth = _useState12[0],
-    setEndMonth = _useState12[1];
+    startYear = _useState12[0],
+    setStartYear = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    endYear = _useState14[0],
-    setEndYear = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    endMonth = _useState14[0],
+    setEndMonth = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
+    endYear = _useState16[0],
+    setEndYear = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87151,40 +87509,8 @@ var UnitDeductionList = function UnitDeductionList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Deduction
-    props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
-  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete Deduction
-   */
-  var onDeleteDeduction = function onDeleteDeduction(deductionId) {
-    setLoading(true);
-    var deductionIds = Array.isArray(deductionId) ? deductionId.join(",") : deductionId;
-    Axios["delete"]("/api/deductions/".concat(deductionIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setDeductions({
-        sum: deductions.sum,
-        meta: deductions.meta,
-        links: deductions.links,
-        data: deductions.data.filter(function (deduction) {
-          if (Array.isArray(deductionId)) {
-            return !deductionIds.includes(deduction.id);
-          } else {
-            return deduction.id != deductionId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
+    props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
+  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87192,17 +87518,16 @@ var UnitDeductionList = function UnitDeductionList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     deductions: deductions,
     setDeductions: setDeductions,
-    onDeleteDeduction: onDeleteDeduction,
+    setInvoiceCode: setInvoiceCode,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
-/* harmony default export */ __webpack_exports__["default"] = (UnitDeductionList);
+/* harmony default export */ __webpack_exports__["default"] = (UnitDeduction);
 
 /***/ }),
 
@@ -87219,10 +87544,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Invoices_InvoiceList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Invoices/InvoiceList */ "./resources/js/components/Invoices/InvoiceList.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -87236,71 +87557,46 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
     _useState2 = _slicedToArray(_useState, 2),
     invoices = _useState2[0],
     setInvoices = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState4 = _slicedToArray(_useState3, 2),
-    invoiceToSend = _useState4[0],
-    setInvoiceToSend = _useState4[1];
+    code = _useState4[0],
+    setCode = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
-    code = _useState6[0],
-    setCode = _useState6[1];
+    invoice = _useState6[0],
+    setInvoice = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    invoice = _useState8[0],
-    setInvoice = _useState8[1];
+    unit = _useState8[0],
+    setUnit = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    unit = _useState10[0],
-    setUnit = _useState10[1];
+    tenant = _useState10[0],
+    setTenant = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
     type = _useState12[0],
     setType = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    tenant = _useState14[0],
-    setTenant = _useState14[1];
+    status = _useState14[0],
+    setStatus = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    status = _useState16[0],
-    setStatus = _useState16[1];
+    startMonth = _useState16[0],
+    setStartMonth = _useState16[1];
   var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    propertyId = _useState18[0],
-    setPropertyId = _useState18[1];
+    startYear = _useState18[0],
+    setStartYear = _useState18[1];
   var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState20 = _slicedToArray(_useState19, 2),
-    startMonth = _useState20[0],
-    setStartMonth = _useState20[1];
+    endMonth = _useState20[0],
+    setEndMonth = _useState20[1];
   var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState22 = _slicedToArray(_useState21, 2),
-    startYear = _useState22[0],
-    setStartYear = _useState22[1];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState24 = _slicedToArray(_useState23, 2),
-    endMonth = _useState24[0],
-    setEndMonth = _useState24[1];
-  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState26 = _slicedToArray(_useState25, 2),
-    endYear = _useState26[0],
-    setEndYear = _useState26[1];
-  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState28 = _slicedToArray(_useState27, 2),
-    deleteIds = _useState28[0],
-    setDeleteIds = _useState28[1];
-  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState30 = _slicedToArray(_useState29, 2),
-    loading = _useState30[0],
-    setLoading = _useState30[1];
-  var _useState31 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState32 = _slicedToArray(_useState31, 2),
-    loadingSMS = _useState32[0],
-    setLoadingSMS = _useState32[1];
-  var _useState33 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState34 = _slicedToArray(_useState33, 2),
-    loadingEmail = _useState34[0],
-    setLoadingEmail = _useState34[1];
-  var invoiceModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+    endYear = _useState22[0],
+    setEndYear = _useState22[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87310,85 +87606,8 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Invoices
-    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttype=").concat(type, "&\n\t\t\t\t\t\ttenant=").concat(tenant, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
+    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
   }, [props.selectedPropertyId, code, invoice, unit, tenant, type, status, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Send Email
-   */
-  var onSendEmail = function onSendEmail(invoiceId) {
-    setLoadingEmail(true);
-    Axios.post("api/invoices/send-email/".concat(invoiceId)).then(function (res) {
-      setLoadingEmail(false);
-      props.setMessages([res.data.message]);
-      // Clode Modal
-      invoiceModalBtnClose.current.click();
-    })["catch"](function (err) {
-      setLoadingEmail(false);
-      props.getErrors(err);
-    });
-  };
-
-  /*
-   * Send SMS
-   */
-  var onSendSMS = function onSendSMS(invoiceId) {
-    setLoadingSMS(true);
-    Axios.post("api/invoices/send-sms/".concat(invoiceId)).then(function (res) {
-      setLoadingSMS(false);
-      props.setMessages([res.data.message]);
-      // Clode Modal
-      invoiceModalBtnClose.current.click();
-    })["catch"](function (err) {
-      setLoadingSMS(false);
-      props.getErrors(err);
-    });
-  };
-
-  /*
-   * Handle DeleteId checkboxes
-   */
-  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
-    var exists = deleteIds.includes(invoiceId);
-    var newDeleteIds = exists ? deleteIds.filter(function (item) {
-      return item != invoiceId;
-    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
-    setDeleteIds(newDeleteIds);
-  };
-
-  /*
-   * Delete Invoice
-   */
-  var onDeleteInvoice = function onDeleteInvoice(invoiceId) {
-    setLoading(true);
-    var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId;
-    Axios["delete"]("/api/invoices/".concat(invoiceIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setInvoices({
-        due: invoices.due,
-        paid: invoices.paid,
-        balance: invoices.balance,
-        meta: invoices.meta,
-        links: invoices.links,
-        data: invoices.data.filter(function (invoice) {
-          if (Array.isArray(invoiceId)) {
-            return !invoiceIds.includes(invoice.id);
-          } else {
-            return invoice.id != invoiceId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87396,7 +87615,6 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Invoices_InvoiceList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     invoices: invoices,
     setInvoices: setInvoices,
-    onDeleteInvoice: onDeleteInvoice,
     setCode: setCode,
     setInvoice: setCode,
     setUnit: setUnit,
@@ -87406,19 +87624,7 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    invoiceToSend: invoiceToSend,
-    setInvoiceToSend: setInvoiceToSend,
-    onSendEmail: onSendEmail,
-    onSendSMS: onSendSMS,
-    loading: loading,
-    loadingSMS: loadingSMS,
-    loadingEmail: loadingEmail,
-    handleSetDeleteIds: handleSetDeleteIds,
-    deleteIds: deleteIds
-    // Invoice Modal
-    ,
-    invoiceModalBtnClose: invoiceModalBtnClose
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (UnitInvoiceList);
@@ -87636,10 +87842,6 @@ var UnitPaymentList = function UnitPaymentList(props) {
     _useState14 = _slicedToArray(_useState13, 2),
     endYear = _useState14[0],
     setEndYear = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87649,40 +87851,8 @@ var UnitPaymentList = function UnitPaymentList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
-    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
   }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete Payment
-   */
-  var onDeletePayment = function onDeletePayment(paymentId) {
-    setLoading(true);
-    var paymentIds = Array.isArray(paymentId) ? paymentId.join(",") : paymentId;
-    Axios["delete"]("/api/payments/".concat(paymentIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setPayments({
-        sum: payments.sum,
-        meta: payments.meta,
-        links: payments.links,
-        data: payments.data.filter(function (payment) {
-          if (Array.isArray(paymentId)) {
-            return !paymentIds.includes(payment.id);
-          } else {
-            return payment.id != paymentId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87690,17 +87860,91 @@ var UnitPaymentList = function UnitPaymentList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Payments_PaymentList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     payments: payments,
     setPayments: setPayments,
-    onDeletePayment: onDeletePayment,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (UnitPaymentList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Water/UnitWaterReadingList.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/Water/UnitWaterReadingList.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Water/WaterReadingList */ "./resources/js/components/Water/WaterReadingList.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+var UnitWaterReadingList = function UnitWaterReadingList(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    waterReadings = _useState2[0],
+    setWaterReadings = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    tenant = _useState4[0],
+    setTenant = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    unit = _useState6[0],
+    setUnit = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    startMonth = _useState8[0],
+    setStartMonth = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startYear = _useState10[0],
+    setStartYear = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    endMonth = _useState12[0],
+    setEndMonth = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    endYear = _useState14[0],
+    setEndYear = _useState14[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Set page
+    props.setPage({
+      name: "Water Readings",
+      path: ["water-readings"]
+    });
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Fetch Water Readings
+    props.getPaginated("water-readings?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
+    waterReadings: waterReadings,
+    setWaterReadings: setWaterReadings,
+    setTenant: setTenant,
+    setUnit: setUnit,
+    setStartMonth: setStartMonth,
+    setEndMonth: setEndMonth,
+    setStartYear: setStartYear,
+    setEndYear: setEndYear
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (UnitWaterReadingList);
 
 /***/ }),
 
@@ -88321,10 +88565,6 @@ var index = function index(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(),
-    _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -88336,38 +88576,6 @@ var index = function index(props) {
     // Fetch Credit Note
     props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
   }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete CreditNote
-   */
-  var onDeleteCreditNote = function onDeleteCreditNote(creditNoteId) {
-    setLoading(true);
-    var creditNoteIds = Array.isArray(creditNoteId) ? creditNoteId.join(",") : creditNoteId;
-    Axios["delete"]("/api/credit-notes/".concat(creditNoteIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setCreditNotes({
-        sum: creditNotes.sum,
-        meta: creditNotes.meta,
-        links: creditNotes.links,
-        data: creditNotes.data.filter(function (creditNote) {
-          if (Array.isArray(creditNoteId)) {
-            return !creditNoteIds.includes(creditNote.id);
-          } else {
-            return creditNote.id != creditNoteId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -88375,15 +88583,13 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__["default"], _extends({}, props, {
     creditNotes: creditNotes,
     setCreditNotes: setCreditNotes,
-    onDeleteCreditNote: onDeleteCreditNote,
     setUnit: setUnit,
     setInvoiceCode: setInvoiceCode,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -88696,10 +88902,6 @@ var index = function index(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -88711,38 +88913,6 @@ var index = function index(props) {
     // Fetch Deduction
     props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
   }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete Deduction
-   */
-  var onDeleteDeduction = function onDeleteDeduction(deductionId) {
-    setLoading(true);
-    var deductionIds = Array.isArray(deductionId) ? deductionId.join(",") : deductionId;
-    Axios["delete"]("/api/deductions/".concat(deductionIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setDeductions({
-        sum: deductions.sum,
-        meta: deductions.meta,
-        links: deductions.links,
-        data: deductions.data.filter(function (deduction) {
-          if (Array.isArray(deductionId)) {
-            return !deductionIds.includes(deduction.id);
-          } else {
-            return deduction.id != deductionId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88750,15 +88920,13 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     deductions: deductions,
     setDeductions: setDeductions,
-    onDeleteDeduction: onDeleteDeduction,
     setInvoiceCode: setInvoiceCode,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -90178,10 +90346,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Invoices_InvoiceList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Invoices/InvoiceList */ "./resources/js/components/Invoices/InvoiceList.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -90195,67 +90359,46 @@ var index = function index(props) {
     _useState2 = _slicedToArray(_useState, 2),
     invoices = _useState2[0],
     setInvoices = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState4 = _slicedToArray(_useState3, 2),
-    invoiceToSend = _useState4[0],
-    setInvoiceToSend = _useState4[1];
+    code = _useState4[0],
+    setCode = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
-    code = _useState6[0],
-    setCode = _useState6[1];
+    invoice = _useState6[0],
+    setInvoice = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    invoice = _useState8[0],
-    setInvoice = _useState8[1];
+    unit = _useState8[0],
+    setUnit = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    unit = _useState10[0],
-    setUnit = _useState10[1];
+    tenant = _useState10[0],
+    setTenant = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    tenant = _useState12[0],
-    setTenant = _useState12[1];
+    type = _useState12[0],
+    setType = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    type = _useState14[0],
-    setType = _useState14[1];
+    status = _useState14[0],
+    setStatus = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState16 = _slicedToArray(_useState15, 2),
-    status = _useState16[0],
-    setStatus = _useState16[1];
+    startMonth = _useState16[0],
+    setStartMonth = _useState16[1];
   var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    startMonth = _useState18[0],
-    setStartMonth = _useState18[1];
+    startYear = _useState18[0],
+    setStartYear = _useState18[1];
   var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState20 = _slicedToArray(_useState19, 2),
-    startYear = _useState20[0],
-    setStartYear = _useState20[1];
+    endMonth = _useState20[0],
+    setEndMonth = _useState20[1];
   var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState22 = _slicedToArray(_useState21, 2),
-    endMonth = _useState22[0],
-    setEndMonth = _useState22[1];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState24 = _slicedToArray(_useState23, 2),
-    endYear = _useState24[0],
-    setEndYear = _useState24[1];
-  var _useState25 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState26 = _slicedToArray(_useState25, 2),
-    deleteIds = _useState26[0],
-    setDeleteIds = _useState26[1];
-  var _useState27 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState28 = _slicedToArray(_useState27, 2),
-    loading = _useState28[0],
-    setLoading = _useState28[1];
-  var _useState29 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState30 = _slicedToArray(_useState29, 2),
-    loadingSMS = _useState30[0],
-    setLoadingSMS = _useState30[1];
-  var _useState31 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState32 = _slicedToArray(_useState31, 2),
-    loadingEmail = _useState32[0],
-    setLoadingEmail = _useState32[1];
-  var invoiceModalBtnClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+    endYear = _useState22[0],
+    setEndYear = _useState22[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -90267,83 +90410,6 @@ var index = function index(props) {
     // Fetch Invoices
     props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
   }, [props.selectedPropertyId, code, invoice, unit, tenant, type, status, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Send Email
-   */
-  var onSendEmail = function onSendEmail(invoiceId) {
-    setLoadingEmail(true);
-    Axios.post("api/invoices/send-email/".concat(invoiceId)).then(function (res) {
-      setLoadingEmail(false);
-      props.setMessages([res.data.message]);
-      // Clode Modal
-      invoiceModalBtnClose.current.click();
-    })["catch"](function (err) {
-      setLoadingEmail(false);
-      props.getErrors(err);
-    });
-  };
-
-  /*
-   * Send SMS
-   */
-  var onSendSMS = function onSendSMS(invoiceId) {
-    setLoadingSMS(true);
-    Axios.post("api/invoices/send-sms/".concat(invoiceId)).then(function (res) {
-      setLoadingSMS(false);
-      props.setMessages([res.data.message]);
-      // Clode Modal
-      invoiceModalBtnClose.current.click();
-    })["catch"](function (err) {
-      setLoadingSMS(false);
-      props.getErrors(err);
-    });
-  };
-
-  /*
-   * Handle DeleteId checkboxes
-   */
-  var handleSetDeleteIds = function handleSetDeleteIds(invoiceId) {
-    var exists = deleteIds.includes(invoiceId);
-    var newDeleteIds = exists ? deleteIds.filter(function (item) {
-      return item != invoiceId;
-    }) : [].concat(_toConsumableArray(deleteIds), [invoiceId]);
-    setDeleteIds(newDeleteIds);
-  };
-
-  /*
-   * Delete Invoice
-   */
-  var onDeleteInvoice = function onDeleteInvoice(invoiceId) {
-    setLoading(true);
-    var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId;
-    Axios["delete"]("/api/invoices/".concat(invoiceIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setInvoices({
-        due: invoices.due,
-        paid: invoices.paid,
-        balance: invoices.balance,
-        meta: invoices.meta,
-        links: invoices.links,
-        data: invoices.data.filter(function (invoice) {
-          if (Array.isArray(invoiceId)) {
-            return !invoiceIds.includes(invoice.id);
-          } else {
-            return invoice.id != invoiceId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -90351,7 +90417,6 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Invoices_InvoiceList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     invoices: invoices,
     setInvoices: setInvoices,
-    onDeleteInvoice: onDeleteInvoice,
     setCode: setCode,
     setInvoice: setCode,
     setUnit: setUnit,
@@ -90361,19 +90426,7 @@ var index = function index(props) {
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    invoiceToSend: invoiceToSend,
-    setInvoiceToSend: setInvoiceToSend,
-    onSendEmail: onSendEmail,
-    onSendSMS: onSendSMS,
-    loading: loading,
-    loadingSMS: loadingSMS,
-    loadingEmail: loadingEmail,
-    handleSetDeleteIds: handleSetDeleteIds,
-    deleteIds: deleteIds
-    // Invoice Modal
-    ,
-    invoiceModalBtnClose: invoiceModalBtnClose
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -90485,7 +90538,7 @@ var show = function show(props) {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
     className: "text-muted"
-  }, "Receipt No: ", payment.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Receipt No: ", payment.code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-muted"
   }, "Date: ", payment.createdAt))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-responsive-sm"
@@ -90630,6 +90683,15 @@ var create = function create(props) {
     className: "form-control mb-2",
     onChange: function onChange(e) {
       return setAmount(e.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "ITHX23939950CV",
+    className: "form-control mb-2",
+    onChange: function onChange(e) {
+      return setTransactionReference(e.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
@@ -90784,6 +90846,15 @@ var edit = function edit(props) {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
+  }, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "ITHX23939950CV",
+    className: "form-control mb-2",
+    onChange: function onChange(e) {
+      return setTransactionReference(e.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
   }, "Paid On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "date",
     className: "form-control mb-2",
@@ -90860,10 +90931,6 @@ var index = function index(props) {
     _useState14 = _slicedToArray(_useState13, 2),
     endYear = _useState14[0],
     setEndYear = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -90875,38 +90942,6 @@ var index = function index(props) {
     // Fetch Payments
     props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
   }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
-
-  /*
-   * Delete Payment
-   */
-  var onDeletePayment = function onDeletePayment(paymentId) {
-    setLoading(true);
-    var paymentIds = Array.isArray(paymentId) ? paymentId.join(",") : paymentId;
-    Axios["delete"]("/api/payments/".concat(paymentIds)).then(function (res) {
-      setLoading(false);
-      props.setMessages([res.data.message]);
-      // Remove row
-      setPayments({
-        sum: payments.sum,
-        meta: payments.meta,
-        links: payments.links,
-        data: payments.data.filter(function (payment) {
-          if (Array.isArray(paymentId)) {
-            return !paymentIds.includes(payment.id);
-          } else {
-            return payment.id != paymentId;
-          }
-        })
-      });
-      // Clear DeleteIds
-      setDeleteIds([]);
-    })["catch"](function (err) {
-      setLoading(false);
-      props.getErrors(err);
-      // Clear DeleteIds
-      setDeleteIds([]);
-    });
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -90914,14 +90949,12 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Payments_PaymentList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     payments: payments,
     setPayments: setPayments,
-    onDeletePayment: onDeletePayment,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
     setEndMonth: setEndMonth,
     setStartYear: setStartYear,
-    setEndYear: setEndYear,
-    loading: loading
+    setEndYear: setEndYear
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -93449,11 +93482,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
 /* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
 /* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Water/WaterReadingList */ "./resources/js/components/Water/WaterReadingList.js");
+/* harmony import */ var _components_Water_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Water/UnitWaterReadingList */ "./resources/js/components/Water/UnitWaterReadingList.js");
 /* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
 /* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
 /* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
 /* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -93461,6 +93496,8 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -93491,44 +93528,12 @@ var show = function show(props) {
     setTenants = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState6 = _slicedToArray(_useState5, 2),
-    rentStatements = _useState6[0],
-    setRentStatements = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    statements = _useState6[0],
+    setStatements = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("statements"),
     _useState8 = _slicedToArray(_useState7, 2),
-    waterStatements = _useState8[0],
-    setWaterStatements = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState10 = _slicedToArray(_useState9, 2),
-    serviceChargeStatements = _useState10[0],
-    setServiceChargeStatements = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
-    _useState12 = _slicedToArray(_useState11, 2),
-    waterReadings = _useState12[0],
-    setWaterReadings = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState14 = _slicedToArray(_useState13, 2),
-    tenant = _useState14[0],
-    setTenant = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState16 = _slicedToArray(_useState15, 2),
-    startMonth = _useState16[0],
-    setStartMonth = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState18 = _slicedToArray(_useState17, 2),
-    startYear = _useState18[0],
-    setStartYear = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState20 = _slicedToArray(_useState19, 2),
-    endMonth = _useState20[0],
-    setEndMonth = _useState20[1];
-  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
-    _useState22 = _slicedToArray(_useState21, 2),
-    endYear = _useState22[0],
-    setEndYear = _useState22[1];
-  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("rent"),
-    _useState24 = _slicedToArray(_useState23, 2),
-    tab = _useState24[0],
-    setTab = _useState24[1];
+    tab = _useState8[0],
+    setTab = _useState8[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -93542,14 +93547,8 @@ var show = function show(props) {
     // Fetch Tenants
     props.getPaginated("tenants?unitId=".concat(id, "&vacated=true"), setTenants);
     // Fetch Statements
-    props.getPaginated("units/statements/".concat(id, "?type=rent"), setRentStatements);
-    props.getPaginated("units/statements/".concat(id, "?type=water"), setWaterStatements);
-    props.getPaginated("units/statements/".concat(id, "?type=service_charge"), setServiceChargeStatements);
+    props.getPaginated("units/statements/".concat(id, "?type=rent"), setStatements);
   }, []);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Fetch Water Readings
-    props.getPaginated("water-readings?\n\t\t\tpropertyId=".concat(props.auth.propertyIds, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(id, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
-  }, [tenant, unit, startMonth, startYear, endMonth, endYear]);
 
   /*
    * Vacate Tenant
@@ -93575,7 +93574,7 @@ var show = function show(props) {
    * Delete Tenant
    */
   var onDeleteTenant = function onDeleteTenant(tenantId) {
-    Axios["delete"]("/api/tenants/".concat(tenantId, "?unitId=").concat(id)).then(function (res) {
+    Axios["delete"]("/api/tenants/".concat(tenantId)).then(function (res) {
       props.setMessages([res.data.message]);
       // Fetch Unit
       props.get("units/".concat(id), setUnit);
@@ -93590,36 +93589,6 @@ var show = function show(props) {
   };
   var activeTab = function activeTab(_activeTab) {
     return _activeTab == tab ? "d-block" : "d-none";
-  };
-
-  // Return Appropriate Statement
-  var statements = function statements(type) {
-    switch (type) {
-      case "rent":
-        return rentStatements;
-        break;
-      case "water":
-        return waterStatements;
-        break;
-      default:
-        return serviceChargeStatements;
-        break;
-    }
-  };
-
-  // Return Appropriate Statement Setter
-  var setStatements = function setStatements(type) {
-    switch (type) {
-      case "rent":
-        return setRentStatements;
-        break;
-      case "water":
-        return setWaterStatements;
-        break;
-      default:
-        return setServiceChargeStatements;
-        break;
-    }
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
@@ -93665,9 +93634,9 @@ var show = function show(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-dialog"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-content rounded-0"
+    className: "modal-content bg-warning rounded-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-header"
+    className: "modal-header border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     id: "deleteModalLabel",
     className: "modal-title fs-5"
@@ -93677,9 +93646,9 @@ var show = function show(props) {
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-body text-start text-wrap"
-  }, "Are you sure you want to vacate ", unit.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-footer justify-content-between"
+    className: "modal-body text-start text-wrap border-0"
+  }, "Are you sure you want to Vacate ", unit.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "mysonar-btn btn-2",
@@ -93707,28 +93676,27 @@ var show = function show(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-dialog"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-content rounded-0"
+    className: "modal-content bg-danger rounded-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-header"
+    className: "modal-header border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     id: "deleteModalLabel",
-    className: "modal-title fs-5"
-  }, "Delete Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "modal-title text-white fs-5"
+  }, "Delete Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     type: "button",
-    className: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-body text-start text-wrap"
+    className: "text-white",
+    "data-bs-dismiss": "modal"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body text-start text-white text-wrap border-0"
   }, "Are you sure you want to delete ", unit.tenantName, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "modal-footer justify-content-between"
+    className: "modal-footer justify-content-between border-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-dismiss": "modal"
   }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: "btn btn-danger rounded-0",
+    className: "mysonar-btn btn-2",
     "data-bs-dismiss": "modal",
     onClick: function onClick() {
       return onDeleteTenant(unit.tenantId);
@@ -93752,12 +93720,21 @@ var show = function show(props) {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     colSpan: "4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Past Tenants"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Vacated On"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_tenants$data = tenants.data) === null || _tenants$data === void 0 ? void 0 : _tenants$data.filter(function (tenant) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Past Tenants"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Vacated On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_tenants$data = tenants.data) === null || _tenants$data === void 0 ? void 0 : _tenants$data.filter(function (tenant) {
     return tenant.vacatedAt;
   }).map(function (tenant, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.vacatedAt));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.vacatedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      "class": "text-end"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mx-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      index: "tenant".concat(key),
+      model: tenant,
+      modelName: "Tenant",
+      onDelete: onDeleteTenant
+    }))));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__["default"], {
     list: tenants,
     getPaginated: props.getPaginated,
@@ -93767,30 +93744,14 @@ var show = function show(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("rent")),
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("statements")),
     style: {
       cursor: "pointer"
     },
     onClick: function onClick() {
-      return setTab("rent");
+      return setTab("statements");
     }
-  }, "Rent Statements"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("water")),
-    style: {
-      cursor: "pointer"
-    },
-    onClick: function onClick() {
-      return setTab("water");
-    }
-  }, "Water Statements"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("service_charge")),
-    style: {
-      cursor: "pointer"
-    },
-    onClick: function onClick() {
-      return setTab("service_charge");
-    }
-  }, "Service Charge Statements"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Statements"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("water_readings")),
     style: {
       cursor: "pointer"
@@ -93798,9 +93759,7 @@ var show = function show(props) {
     onClick: function onClick() {
       return setTab("water_readings");
     }
-  }, "Water Readings")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Water Readings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("invoices")),
     style: {
       cursor: "pointer"
@@ -93832,20 +93791,12 @@ var show = function show(props) {
     onClick: function onClick() {
       return setTab("deductions");
     }
-  }, "Deductions")), tab == "rent" || tab == "water" || tab == "service_charge" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-    statements: statements(tab),
-    setStatements: setStatements(tab),
+  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
+    statements: statements,
+    setStatements: setStatements,
     tab: tab
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
-    activeTab: activeTab("water_readings"),
-    waterReadings: waterReadings,
-    setWaterReadings: setWaterReadings,
-    setTenant: setTenant,
-    setUnit: setUnit,
-    setStartMonth: setStartMonth,
-    setEndMonth: setEndMonth,
-    setStartYear: setStartYear,
-    setEndYear: setEndYear
+  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Water_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
+    unitId: id
   })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
     unitId: id
   })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {

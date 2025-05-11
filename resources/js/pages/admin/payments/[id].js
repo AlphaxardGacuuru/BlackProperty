@@ -70,7 +70,7 @@ const show = (props) => {
 									<div className="text-muted">Email: {payment.tenantEmail}</div>
 								</div>
 								<div className="text-end">
-									<h5 className="text-muted">Receipt No: {payment.id}</h5>
+									<h5 className="text-muted">Receipt No: {payment.code}</h5>
 									<div className="text-muted">Date: {payment.createdAt}</div>
 								</div>
 							</div>

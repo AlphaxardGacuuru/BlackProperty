@@ -136,49 +136,45 @@ class UnitService extends Service
      */
     public function statements($request, $unitId)
     {
-        $type = $request->type;
-
         $invoiceQuery = Invoice::whereHas("userUnit", function ($query) use ($unitId) {
             $query->where("unit_id", $unitId);
-        })->where("type", $type)
-            ->select("*", "amount as invoiceDebit");
+        })->select("*", "amount as invoiceDebit");
 
         $totalInvoices = $invoiceQuery->sum("amount");
 
         $invoices = $invoiceQuery
-            ->orderBy("id", "DESC")
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
             ->get();
 
-        $paymentQuery = Payment::whereHas("invoice.userUnit", function ($query) use ($unitId) {
+        $paymentQuery = Payment::whereHas("userUnit", function ($query) use ($unitId) {
             $query->where("unit_id", $unitId);
-        })->whereHas("invoice", function ($query) use ($type) {
-            $query->where("type", $type);
         })->select("*", "amount as paymentCredit");
 
         $totalPayments = $paymentQuery->sum("amount");
 
         $payments = $paymentQuery
-            ->orderBy("id", "DESC")
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
             ->get();
 
-        $creditNoteQuery = CreditNote::whereHas("invoice.userUnit", function ($query) use ($unitId) {
+        $creditNoteQuery = CreditNote::whereHas("userUnit", function ($query) use ($unitId) {
             $query->where("unit_id", $unitId);
-        })->whereHas("invoice", function ($query) use ($type) {
-            $query->where("type", $type);
         })->select("*", "amount as creditNoteCredit");
 
         $totalCreditNotes = $creditNoteQuery->sum("amount");
 
         $creditNotes = $creditNoteQuery
-            ->orderBy("id", "DESC")
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
             ->get();
 
         $balance = 0;
 
-        $rentStatements = $invoices
+        $statements = $invoices
             ->concat($payments)
             ->concat($creditNotes)
-            ->sortBy("created_at")
+            // ->sortBy("created_at")
             ->values()
             ->map(function ($item) use (&$balance) {
                 if ($item->invoiceDebit) {
@@ -208,14 +204,14 @@ class UnitService extends Service
         $perPage = 20;
 
         // Slice the collection to get the items to display in current page
-        $currentItems = $rentStatements
+        $currentItems = $statements
             ->slice(($currentPage - 1) * $perPage, $perPage)
             ->values();
 
         // Create paginator
         $paginator = new LengthAwarePaginator(
             $currentItems,
-            $rentStatements->count(),
+            $statements->count(),
             $perPage,
             $currentPage,
             [

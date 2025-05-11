@@ -12,244 +12,242 @@ use Illuminate\Support\Facades\Hash;
 
 class TenantService extends Service
 {
-    /*
+	/*
      * Get All Tenants
      */
-    public function index($request)
-    {
-        if ($request->filled("idAndName")) {
-            $tenantQuery = new UserUnit;
+	public function index($request)
+	{
+		if ($request->filled("idAndName")) {
+			$tenantQuery = new UserUnit;
 
-            $tenantQuery = $this->search($tenantQuery, $request);
+			$tenantQuery = $this->search($tenantQuery, $request);
 
-            $tenants = $tenantQuery->whereNull("vacated_at")
-                ->get()
-                ->map(fn($userUnit) => [
-                    "id" => $userUnit->user->id,
-                    "userUnitId" => $userUnit->id,
-                    "unitId" => $userUnit->unit_id,
-                    "unitName" => $userUnit->unit->name,
-                    "propertyId" => $userUnit->unit->property->id,
-                    "name" => $userUnit->user->name,
-                ]);
+			$tenants = $tenantQuery->whereNull("vacated_at")
+				->get()
+				->map(fn($userUnit) => [
+					"id" => $userUnit->user->id,
+					"userUnitId" => $userUnit->id,
+					"unitId" => $userUnit->unit_id,
+					"unitName" => $userUnit->unit->name,
+					"propertyId" => $userUnit->unit->property->id,
+					"name" => $userUnit->user->name,
+				]);
 
-            return response([
-                "data" => $tenants,
-            ], 200);
-        }
+			return response([
+				"data" => $tenants,
+			], 200);
+		}
 
-        $tenantQuery = new UserUnit;
+		$tenantQuery = new UserUnit;
 
-        $tenantQuery = $this->search($tenantQuery, $request);
+		$tenantQuery = $this->search($tenantQuery, $request);
 
-        $tenants = $tenantQuery->orderBy("id", "DESC")
-            ->paginate(20)
-            ->appends([
-                "propertyId" => $request->propertyId,
-                "unitId" => $request->unitId,
-            ]);
+		$tenants = $tenantQuery->orderBy("id", "DESC")
+			->paginate(20)
+			->appends([
+				"propertyId" => $request->propertyId,
+				"unitId" => $request->unitId,
+			]);
 
-        return TenantResource::collection($tenants);
-    }
+		return TenantResource::collection($tenants);
+	}
 
-    /*
+	/*
      * Get One Tenant
      */
-    public function show($id)
-    {
-        $tenant = UserUnit::where("user_id", $id)
-            ->firstOrFail();
+	public function show($id)
+	{
+		$tenant = UserUnit::where("user_id", $id)
+			->firstOrFail();
 
-        return new TenantResource($tenant);
-    }
+		return new TenantResource($tenant);
+	}
 
-    /*
+	/*
      * Store
      */
-    public function store($request)
-    {
-        $tenantQuery = User::where("email", $request->email);
+	public function store($request)
+	{
+		$tenantQuery = User::where("email", $request->email);
 
-        // Check if User exists
-        $doesntExist = $tenantQuery->doesntExist();
+		// Check if User exists
+		$doesntExist = $tenantQuery->doesntExist();
 
-        if ($doesntExist) {
-            $tenant = new User;
-            $tenant->name = $request->input("name");
-            $tenant->email = $request->input("email");
-            $tenant->phone = $request->input("phone");
-            $tenant->gender = $request->input("gender");
-            $tenant->password = Hash::make($request->input("email"));
-        } else {
-            $tenant = $tenantQuery->first();
+		if ($doesntExist) {
+			$tenant = new User;
+			$tenant->name = $request->input("name");
+			$tenant->email = $request->input("email");
+			$tenant->phone = $request->input("phone");
+			$tenant->gender = $request->input("gender");
+			$tenant->password = Hash::make($request->input("email"));
+		} else {
+			$tenant = $tenantQuery->first();
 
-            // Check if user is occupying elsewhere
-            $alreadyATenantElsewhere = UserUnit::where("user_id", $tenant->id)
-                ->whereNull("vacated_at")
-                ->exists();
+			// Check if user is occupying elsewhere
+			$alreadyATenantElsewhere = UserUnit::where("user_id", $tenant->id)
+				->whereNull("vacated_at")
+				->exists();
 
-            if ($alreadyATenantElsewhere) {
-                return [false, $tenant->name . " already a tenant elsewhere", "", 422];
-            }
-        }
+			if ($alreadyATenantElsewhere) {
+				return [false, $tenant->name . " already a tenant elsewhere", "", 422];
+			}
+		}
 
-        // Check if Unit already occupied
-        $unitAlreadyOccupied = UserUnit::where("unit_id", $request->unitId)
-            ->whereNull("vacated_at")
-            ->exists();
+		// Check if Unit already occupied
+		$unitAlreadyOccupied = UserUnit::where("unit_id", $request->unitId)
+			->whereNull("vacated_at")
+			->exists();
 
-        if ($unitAlreadyOccupied) {
-            return [false, "Unit already occupied", "", 422];
-        }
+		if ($unitAlreadyOccupied) {
+			return [false, "Unit already occupied", "", 422];
+		}
 
-        $saved = DB::transaction(function () use ($tenant, $request) {
-            $saved = $tenant->save();
+		$saved = DB::transaction(function () use ($tenant, $request) {
+			$saved = $tenant->save();
 
-            // Add UserUnit
-            if ($request->filled("unitId")) {
-                $userUnit = new UserUnit;
-                $userUnit->user_id = $tenant->id;
-                $userUnit->unit_id = $request->input("unitId");
-                $userUnit->occupied_at = $request->input("occupiedAt");
-                $userUnit->created_by = $this->id;
-                $userUnit->save();
+			// Add UserUnit
+			if ($request->filled("unitId")) {
+				$userUnit = new UserUnit;
+				$userUnit->user_id = $tenant->id;
+				$userUnit->unit_id = $request->input("unitId");
+				$userUnit->occupied_at = $request->input("occupiedAt");
+				$userUnit->created_by = $this->id;
+				$userUnit->save();
 
-                // Set Unit as occupied
-                $unit = $userUnit->unit;
-                $unit->status = "occupied";
-                $unit->save();
-            }
+				// Set Unit as occupied
+				$unit = $userUnit->unit;
+				$unit->status = "occupied";
+				$unit->save();
+			}
 
-            return $saved;
-        });
+			return $saved;
+		});
 
-        $message = $tenant->name . " added successfully";
+		$message = $tenant->name . " added successfully";
 
-        return [$saved, $message, $tenant, 200];
-    }
+		return [$saved, $message, $tenant, 200];
+	}
 
-    /*
+	/*
      * Update Tenant
      */
-    public function update($request, $id)
-    {
-        $tenant = User::findOrFail($id);
+	public function update($request, $id)
+	{
+		$tenant = User::findOrFail($id);
 
-        if ($request->filled("name")) {
-            $tenant->name = $request->input("name");
-        }
+		if ($request->filled("name")) {
+			$tenant->name = $request->input("name");
+		}
 
-        if ($request->filled("email")) {
-            $tenant->email = $request->input("email");
-        }
+		if ($request->filled("email")) {
+			$tenant->email = $request->input("email");
+		}
 
-        if ($request->filled("phone")) {
-            $tenant->phone = $request->input("phone");
-        }
+		if ($request->filled("phone")) {
+			$tenant->phone = $request->input("phone");
+		}
 
-        if ($request->filled("gender")) {
-            $tenant->gender = $request->input("gender");
-        }
+		if ($request->filled("gender")) {
+			$tenant->gender = $request->input("gender");
+		}
 
-        if ($request->filled("password")) {
-            $tenant->password = Hash::make($request->input("email"));
-        }
+		if ($request->filled("password")) {
+			$tenant->password = Hash::make($request->input("email"));
+		}
 
-        if ($request->filled("occupiedAt")) {
-            $tenant->occupied_at = Hash::make($request->input("occupiedAt"));
-        }
+		if ($request->filled("occupiedAt")) {
+			$tenant->occupied_at = Hash::make($request->input("occupiedAt"));
+		}
 
-        // Mark User Unit as vacated
-        if ($request->filled("vacate")) {
-            DB::transaction(function () use ($request, $id) {
-                $userUnit = UserUnit::where("user_id", $id)
-                    ->where("unit_id", $request->input("unitId"))
-                    ->first();
-                $userUnit->vacated_at = Carbon::now();
-                $userUnit->save();
+		// Mark User Unit as vacated
+		if ($request->filled("vacate")) {
+			DB::transaction(function () use ($request, $id) {
+				$userUnit = UserUnit::where("user_id", $id)
+					->where("unit_id", $request->input("unitId"))
+					->first();
+				$userUnit->vacated_at = Carbon::now();
+				$userUnit->save();
 
-                // Set Unit as vacant
-                $unit = $userUnit->unit;
-                $unit->status = "vacant";
-                $unit->save();
-            });
-        }
+				// Set Unit as vacant
+				$unit = $userUnit->unit;
+				$unit->status = "vacant";
+				$unit->save();
+			});
+		}
 
-        $saved = $tenant->save();
+		$saved = $tenant->save();
 
-        $message = $tenant->name . " updated successfully";
+		$message = $tenant->name . " updated successfully";
 
-        return [$saved, $message, $tenant];
-    }
+		return [$saved, $message, $tenant];
+	}
 
-    /*
+	/*
      * Soft Delete Service
      */
-    public function destroy($request, $id)
-    {
-        $tenant = UserUnit::where("user_id", $id)
-            ->where("unit_id", $request->input("unitId"))
-            ->firstOrFail();
+	public function destroy($id)
+	{
+		$tenant = User::findOrFail($id);
 
-        $deleted = $tenant->delete();
+		$deleted = $tenant->delete();
 
-        return [$deleted, $tenant->user->name . " deleted successfully", $tenant];
-    }
+		return [$deleted, $tenant->name . " deleted successfully", $tenant];
+	}
 
-    /*
+	/*
      * Handle Search
      */
-    public function search($query, $request)
-    {
-        $propertyId = explode(",", $request->propertyId);
+	public function search($query, $request)
+	{
+		$propertyId = explode(",", $request->propertyId);
 
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
-                $query->whereIn("id", $propertyId);
-            });
-        }
-
-        $unitId = $request->input("unitId");
-
-        if ($request->filled("unitId")) {
-            $query = $query->where("unit_id", $unitId);
-        }
-		
-        $name = $request->input("name");
-
-        if ($request->filled("name")) {
-            $query = $query
-                ->whereHas("user", function ($query) use ($name) {
-                    $query->where("name", "LIKE", "%" . $name . "%");
-                });
-        }
-
-        $phone = $request->input("phone");
-		
-        if ($request->filled("phone")) {
-			$query = $query
-			->whereHas("user", function ($query) use ($phone) {
-				$query->where("phone", "LIKE", "%" . $phone . "%");
+		if ($request->filled("propertyId")) {
+			$query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
 			});
-        }
-		
-        $gender = $request->input("gender");
-		
-        if ($request->filled("gender")) {
+		}
+
+		$unitId = $request->input("unitId");
+
+		if ($request->filled("unitId")) {
+			$query = $query->where("unit_id", $unitId);
+		}
+
+		$name = $request->input("name");
+
+		if ($request->filled("name")) {
 			$query = $query
-			->whereHas("user", function ($query) use ($gender) {
-				$query->where("gender", "LIKE", "%" . $gender . "%");
-			});
-        }
-		
+				->whereHas("user", function ($query) use ($name) {
+					$query->where("name", "LIKE", "%" . $name . "%");
+				});
+		}
+
+		$phone = $request->input("phone");
+
+		if ($request->filled("phone")) {
+			$query = $query
+				->whereHas("user", function ($query) use ($phone) {
+					$query->where("phone", "LIKE", "%" . $phone . "%");
+				});
+		}
+
+		$gender = $request->input("gender");
+
+		if ($request->filled("gender")) {
+			$query = $query
+				->whereHas("user", function ($query) use ($gender) {
+					$query->where("gender", "LIKE", "%" . $gender . "%");
+				});
+		}
+
 		if ($request->filled("vacated")) {
 			$query = $query->whereNotNull("vacated_at");
 		}
-		
+
 		if ($request->filled("occupied")) {
 			$query = $query->whereNull("vacated_at");
 		}
 
-        return $query;
-    }
+		return $query;
+	}
 }

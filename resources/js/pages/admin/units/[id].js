@@ -12,29 +12,23 @@ import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import PaginationLinks from "@/components/Core/PaginationLinks"
-import WaterReadingList from "@/components/Water/WaterReadingList"
+import UnitWaterReadingList from "@/components/Water/UnitWaterReadingList"
 import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
 import UnitPaymentList from "@/components/Units/UnitPaymentList"
 import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
 import UnitDeductionList from "@/components/Units/UnitDeductionList"
+import DeleteModal from "@/components/Core/DeleteModal"
+
+import CloseSVG from "@/svgs/CloseSVG"
 
 const show = (props) => {
 	var { id } = useParams()
 
 	const [unit, setUnit] = useState({})
 	const [tenants, setTenants] = useState([])
-	const [rentStatements, setRentStatements] = useState([])
-	const [waterStatements, setWaterStatements] = useState([])
-	const [serviceChargeStatements, setServiceChargeStatements] = useState([])
-	const [waterReadings, setWaterReadings] = useState([])
+	const [statements, setStatements] = useState([])
 
-	const [tenant, setTenant] = useState("")
-	const [startMonth, setStartMonth] = useState("")
-	const [startYear, setStartYear] = useState("")
-	const [endMonth, setEndMonth] = useState("")
-	const [endYear, setEndYear] = useState("")
-
-	const [tab, setTab] = useState("rent")
+	const [tab, setTab] = useState("statements")
 
 	useEffect(() => {
 		// Set page
@@ -46,28 +40,8 @@ const show = (props) => {
 		// Fetch Tenants
 		props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
 		// Fetch Statements
-		props.getPaginated(`units/statements/${id}?type=rent`, setRentStatements)
-		props.getPaginated(`units/statements/${id}?type=water`, setWaterStatements)
-		props.getPaginated(
-			`units/statements/${id}?type=service_charge`,
-			setServiceChargeStatements
-		)
+		props.getPaginated(`units/statements/${id}?type=rent`, setStatements)
 	}, [])
-
-	useEffect(() => {
-		// Fetch Water Readings
-		props.getPaginated(
-			`water-readings?
-			propertyId=${props.auth.propertyIds}&
-			tenant=${tenant}&
-			unitId=${id}&
-			startMonth=${startMonth}&
-			endMonth=${endMonth}&
-			startYear=${startYear}&
-			endYear=${endYear}`,
-			setWaterReadings
-		)
-	}, [tenant, unit, startMonth, startYear, endMonth, endYear])
 
 	/*
 	 * Vacate Tenant
@@ -93,7 +67,7 @@ const show = (props) => {
 	 * Delete Tenant
 	 */
 	const onDeleteTenant = (tenantId) => {
-		Axios.delete(`/api/tenants/${tenantId}?unitId=${id}`)
+		Axios.delete(`/api/tenants/${tenantId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Fetch Unit
@@ -110,40 +84,6 @@ const show = (props) => {
 
 	const activeTab = (activeTab) => {
 		return activeTab == tab ? "d-block" : "d-none"
-	}
-
-	// Return Appropriate Statement
-	const statements = (type) => {
-		switch (type) {
-			case "rent":
-				return rentStatements
-				break
-
-			case "water":
-				return waterStatements
-				break
-
-			default:
-				return serviceChargeStatements
-				break
-		}
-	}
-
-	// Return Appropriate Statement Setter
-	const setStatements = (type) => {
-		switch (type) {
-			case "rent":
-				return setRentStatements
-				break
-
-			case "water":
-				return setWaterStatements
-				break
-
-			default:
-				return setServiceChargeStatements
-				break
-		}
 	}
 
 	return (
@@ -211,8 +151,8 @@ const show = (props) => {
 								aria-labelledby="deleteModalLabel"
 								aria-hidden="true">
 								<div className="modal-dialog">
-									<div className="modal-content rounded-0">
-										<div className="modal-header">
+									<div className="modal-content bg-warning rounded-0">
+										<div className="modal-header border-0">
 											<h1
 												id="deleteModalLabel"
 												className="modal-title fs-5">
@@ -224,10 +164,10 @@ const show = (props) => {
 												data-bs-dismiss="modal"
 												aria-label="Close"></button>
 										</div>
-										<div className="modal-body text-start text-wrap">
-											Are you sure you want to vacate {unit.tenantName}.
+										<div className="modal-body text-start text-wrap border-0">
+											Are you sure you want to Vacate {unit.tenantName}.
 										</div>
-										<div className="modal-footer justify-content-between">
+										<div className="modal-footer justify-content-between border-0">
 											<button
 												type="button"
 												className="mysonar-btn btn-2"
@@ -266,23 +206,27 @@ const show = (props) => {
 								aria-labelledby="deleteModalLabel"
 								aria-hidden="true">
 								<div className="modal-dialog">
-									<div className="modal-content rounded-0">
-										<div className="modal-header">
+									<div className="modal-content bg-danger rounded-0">
+										<div className="modal-header border-0">
 											<h1
 												id="deleteModalLabel"
-												className="modal-title fs-5">
+												className="modal-title text-white fs-5">
 												Delete Tenant
 											</h1>
-											<button
+
+											{/* Close Start */}
+											<span
 												type="button"
-												className="btn-close"
-												data-bs-dismiss="modal"
-												aria-label="Close"></button>
+												className="text-white"
+												data-bs-dismiss="modal">
+												<CloseSVG />
+											</span>
+											{/* Close End */}
 										</div>
-										<div className="modal-body text-start text-wrap">
+										<div className="modal-body text-start text-white text-wrap border-0">
 											Are you sure you want to delete {unit.tenantName}.
 										</div>
-										<div className="modal-footer justify-content-between">
+										<div className="modal-footer justify-content-between border-0">
 											<button
 												type="button"
 												className="mysonar-btn btn-2"
@@ -291,7 +235,7 @@ const show = (props) => {
 											</button>
 											<button
 												type="button"
-												className="btn btn-danger rounded-0"
+												className="mysonar-btn btn-2"
 												data-bs-dismiss="modal"
 												onClick={() => onDeleteTenant(unit.tenantId)}>
 												<span className="me-1">{<DeleteSVG />}</span>
@@ -335,6 +279,7 @@ const show = (props) => {
 								<th>#</th>
 								<th>Name</th>
 								<th>Vacated On</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -345,6 +290,16 @@ const show = (props) => {
 										<td>{key + 1}</td>
 										<td>{tenant.name}</td>
 										<td>{tenant.vacatedAt}</td>
+										<td class="text-end">
+											<div className="mx-1">
+												<DeleteModal
+													index={`tenant${key}`}
+													model={tenant}
+													modelName="Tenant"
+													onDelete={onDeleteTenant}
+												/>
+											</div>
+										</td>
 									</tr>
 								))}
 						</tbody>
@@ -364,27 +319,11 @@ const show = (props) => {
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"rent"
+							"statements"
 						)}`}
 						style={{ cursor: "pointer" }}
-						onClick={() => setTab("rent")}>
-						Rent Statements
-					</div>
-					<div
-						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"water"
-						)}`}
-						style={{ cursor: "pointer" }}
-						onClick={() => setTab("water")}>
-						Water Statements
-					</div>
-					<div
-						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"service_charge"
-						)}`}
-						style={{ cursor: "pointer" }}
-						onClick={() => setTab("service_charge")}>
-						Service Charge Statements
+						onClick={() => setTab("statements")}>
+						Statements
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
@@ -394,8 +333,6 @@ const show = (props) => {
 						onClick={() => setTab("water_readings")}>
 						Water Readings
 					</div>
-				</div>
-				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"invoices"
@@ -432,25 +369,18 @@ const show = (props) => {
 				{/* Tabs End */}
 
 				{/* Tab Content Start */}
-				{tab == "rent" || tab == "water" || tab == "service_charge" ? (
+				{tab == "statements" && (
 					<StatementList
 						{...props}
-						statements={statements(tab)}
-						setStatements={setStatements(tab)}
+						statements={statements}
+						setStatements={setStatements}
 						tab={tab}
 					/>
-				) : (
-					<WaterReadingList
+				)}
+				{tab == "water_readings" && (
+					<UnitWaterReadingList
 						{...props}
-						activeTab={activeTab("water_readings")}
-						waterReadings={waterReadings}
-						setWaterReadings={setWaterReadings}
-						setTenant={setTenant}
-						setUnit={setUnit}
-						setStartMonth={setStartMonth}
-						setEndMonth={setEndMonth}
-						setStartYear={setStartYear}
-						setEndYear={setEndYear}
+						unitId={id}
 					/>
 				)}
 

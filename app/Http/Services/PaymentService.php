@@ -59,8 +59,7 @@ class PaymentService extends Service
 		$code = "P-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
 
 		$payment = new Payment;
-        $payment->invoice_id = $request->invoiceId;
-        $payment->user_id = $request->userId;
+        $payment->user_unit_id = $request->userUnitId;
         $payment->code = $code;
         $payment->amount = $request->amount;
         $payment->transaction_reference = $request->transactionReference;
@@ -152,7 +151,7 @@ class PaymentService extends Service
         $propertyId = explode(",", $request->propertyId);
 
         if ($request->filled("propertyId")) {
-            $query = $query->whereHas("invoice.userUnit.unit.property", function ($query) use ($propertyId) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
                 $query->whereIn("id", $propertyId);
             });
         }
@@ -170,7 +169,7 @@ class PaymentService extends Service
 
 		if ($request->filled("unit")) {
 			$query = $query
-				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+				->whereHas("userUnit.unit", function ($query) use ($unit) {
 					$query->where("name", "LIKE", "%" . $unit . "%");
 				});
 		}
@@ -179,7 +178,7 @@ class PaymentService extends Service
 
         if ($request->filled("tenant")) {
             $query = $query
-                ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
+                ->whereHas("userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
                 });
         }

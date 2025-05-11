@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('user_properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                ->constained()
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('property_id')
-                ->constained()
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();

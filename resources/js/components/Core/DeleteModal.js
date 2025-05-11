@@ -23,15 +23,18 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 								className="modal-title fs-5">
 								Delete {modelName}
 							</h1>
+
+							{/* Close Start */}
 							<span
 								type="button"
 								className="text-white"
 								data-bs-dismiss="modal">
 								<CloseSVG />
 							</span>
+							{/* Close End */}
 						</div>
 						<div className="modal-body text-start text-wrap">
-							Are you sure you want to delete {model.name ?? modelName}.
+							Are you sure you want to Delete {model.name ?? modelName}.
 						</div>
 						<div className="modal-footer justify-content-between border-0">
 							<button

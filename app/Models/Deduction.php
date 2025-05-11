@@ -25,12 +25,12 @@ class Deduction extends Model
         );
     }
 
-    /*
+	/*
      * Relationships
      */
 
-    public function invoice()
-    {
-        return $this->belongsTo(Invoice::class);
-    }
+	public function userUnit()
+	{
+		return $this->belongsTo(UserUnit::class);
+	}
 }

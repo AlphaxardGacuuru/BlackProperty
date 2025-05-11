@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
@@ -17,7 +17,62 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 
 const CreditNoteList = (props) => {
-  return (
+	const location = useLocation()
+	
+	const [deleteIds, setDeleteIds] = useState([])
+	const [loading, setLoading] = useState()
+
+	/*
+	 * Handle DeleteId checkboxes
+	 */
+	const handleSetDeleteIds = (invoiceId) => {
+		var exists = deleteIds.includes(invoiceId)
+
+		var newDeleteIds = exists
+			? deleteIds.filter((item) => item != invoiceId)
+			: [...deleteIds, invoiceId]
+
+		setDeleteIds(newDeleteIds)
+	}
+
+	/*
+	 * Delete CreditNote
+	 */
+	const onDeleteCreditNote = (creditNoteId) => {
+		setLoading(true)
+		var creditNoteIds = Array.isArray(creditNoteId)
+			? creditNoteId.join(",")
+			: creditNoteId
+
+		Axios.delete(`/api/credit-notes/${creditNoteIds}`)
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Remove row
+				props.setCreditNotes({
+					sum: props.creditNotes.sum,
+					meta: props.creditNotes.meta,
+					links: props.creditNotes.links,
+					data: props.creditNotes.data.filter((creditNote) => {
+						if (Array.isArray(creditNoteId)) {
+							return !creditNoteIds.includes(creditNote.id)
+						} else {
+							return creditNote.id != creditNoteId
+						}
+					}),
+				})
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+	}
+
+	return (
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
@@ -176,6 +231,49 @@ const CreditNoteList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
+							<th colSpan="6"></th>
+							<th
+								colSpan="2"
+								className="text-end">
+								<div className="d-flex justify-content-end">
+									{deleteIds.length > 0 && (
+										<Btn
+											text={`delete ${deleteIds.length}`}
+											className="me-2"
+											onClick={() => onDeleteCreditNote(deleteIds)}
+											loading={loading}
+										/>
+									)}
+
+									{location.pathname.match("/admin/units/") && (
+										<MyLink
+											linkTo={`/credit-notes/create`}
+											icon={<PlusSVG />}
+											text="add credit note"
+										/>
+									)}
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<input
+									type="checkbox"
+									checked={
+										deleteIds.length == props.creditNotes.data?.length &&
+										deleteIds.length != 0
+									}
+									onClick={() =>
+										setDeleteIds(
+											deleteIds.length == props.creditNotes.data.length
+												? []
+												: props.creditNotes.data.map(
+														(creditNote) => creditNote.id
+												  )
+										)
+									}
+								/>
+							</th>
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Unit</th>
@@ -186,6 +284,13 @@ const CreditNoteList = (props) => {
 						</tr>
 						{props.creditNotes.data?.map((creditNote, key) => (
 							<tr key={key}>
+								<td>
+									<input
+										type="checkbox"
+										checked={deleteIds.includes(creditNote.id)}
+										onClick={() => handleSetDeleteIds(creditNote.id)}
+									/>
+								</td>
 								<td>{props.iterator(key, props.creditNotes)}</td>
 								<td>{creditNote.tenantName}</td>
 								<td>{creditNote.unitName}</td>
@@ -218,7 +323,7 @@ const CreditNoteList = (props) => {
 												index={`creditNote${key}`}
 												model={creditNote}
 												modelName="Credit Note"
-												onDelete={props.onDeleteCreditNote}
+												onDelete={onDeleteCreditNote}
 											/>
 										</div>
 									</div>

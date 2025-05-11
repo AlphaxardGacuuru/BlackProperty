@@ -17,7 +17,59 @@ import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 
 const PaymentList = (props) => {
-	
+	const location = useLocation()
+
+	const [deleteIds, setDeleteIds] = useState([])
+	const [loading, setLoading] = useState()
+
+	/*
+	 * Handle DeleteId checkboxes
+	 */
+	const handleSetDeleteIds = (invoiceId) => {
+		var exists = deleteIds.includes(invoiceId)
+
+		var newDeleteIds = exists
+			? deleteIds.filter((item) => item != invoiceId)
+			: [...deleteIds, invoiceId]
+
+		setDeleteIds(newDeleteIds)
+	}
+
+	/*
+	 * Delete Payment
+	 */
+	const onDeletePayment = (paymentId) => {
+		setLoading(true)
+		var paymentIds = Array.isArray(paymentId) ? paymentId.join(",") : paymentId
+
+		Axios.delete(`/api/payments/${paymentIds}`)
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Remove row
+				setPayments({
+					sum: props.payments.sum,
+					meta: props.payments.meta,
+					links: props.payments.links,
+					data: props.payments.data.filter((payment) => {
+						if (Array.isArray(paymentId)) {
+							return !paymentIds.includes(payment.id)
+						} else {
+							return payment.id != paymentId
+						}
+					}),
+				})
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+	}
+
 	return (
 		<div className={props.activeTab}>
 			{/* Data */}
@@ -177,7 +229,49 @@ const PaymentList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
+							<th colSpan="9"></th>
+							<th
+								colSpan="2"
+								className="text-end">
+								<div className="d-flex justify-content-end">
+									{deleteIds.length > 0 && (
+										<Btn
+											text={`delete ${deleteIds.length}`}
+											className="me-2"
+											onClick={() => onDeletePayment(deleteIds)}
+											loading={loading}
+										/>
+									)}
+
+									{location.pathname.match("/admin/units/") && (
+										<MyLink
+											linkTo={`/payments/create`}
+											icon={<PlusSVG />}
+											text="add payment"
+										/>
+									)}
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<input
+									type="checkbox"
+									checked={
+										deleteIds.length == props.payments.data?.length &&
+										deleteIds.length != 0
+									}
+									onClick={() =>
+										setDeleteIds(
+											deleteIds.length == props.payments.data.length
+												? []
+												: props.payments.data.map((payment) => payment.id)
+										)
+									}
+								/>
+							</th>
 							<th>#</th>
+							<th>Code</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Channel</th>
@@ -188,7 +282,15 @@ const PaymentList = (props) => {
 						</tr>
 						{props.payments.data?.map((payment, key) => (
 							<tr key={key}>
+								<td>
+									<input
+										type="checkbox"
+										checked={deleteIds.includes(payment.id)}
+										onClick={() => handleSetDeleteIds(payment.id)}
+									/>
+								</td>
 								<td>{props.iterator(key, props.payments)}</td>
+								<td>{payment.code}</td>
 								<td>{payment.tenantName}</td>
 								<td>{payment.unitName}</td>
 								<td>{payment.channel}</td>
@@ -199,13 +301,6 @@ const PaymentList = (props) => {
 								<td>{payment.paidOn}</td>
 								<td>
 									<div className="d-flex justify-content-end">
-										<MyLink
-											linkTo={`/invoices/${payment.invoiceId}/show`}
-											icon={<ViewSVG />}
-											text="view invoice"
-											className="me-1"
-										/>
-
 										<MyLink
 											linkTo={`/payments/${payment.id}/show`}
 											icon={<ViewSVG />}
@@ -222,7 +317,7 @@ const PaymentList = (props) => {
 												index={`payment${key}`}
 												model={payment}
 												modelName="Payment"
-												onDelete={props.onDeletePayment}
+												onDelete={onDeletePayment}
 											/>
 										</div>
 									</div>

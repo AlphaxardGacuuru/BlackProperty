@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
+import React, { useState, useRef } from "react"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
@@ -24,8 +23,105 @@ import ChatSendSVG from "@/svgs/ChatSendSVG"
 
 const InvoiceList = (props) => {
 
+	const [deleteIds, setDeleteIds] = useState([])
+	const [loading, setLoading] = useState()
+	const [loadingSMS, setLoadingSMS] = useState()
+	const [loadingEmail, setLoadingEmail] = useState()
+
+	const invoiceModalBtnClose = useRef()
+
 	const statuses = ["not_paid", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
+	
+	const [invoiceToSend, setInvoiceToSend] = useState({})
+
+	/*
+	 * Send Email
+	 */
+	const onSendEmail = (invoiceId) => {
+		setLoadingEmail(true)
+
+		Axios.post(`api/invoices/send-email/${invoiceId}`)
+			.then((res) => {
+				setLoadingEmail(false)
+				props.setMessages([res.data.message])
+				// Clode Modal
+				invoiceModalBtnClose.current.click()
+			})
+			.catch((err) => {
+				setLoadingEmail(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Send SMS
+	 */
+	const onSendSMS = (invoiceId) => {
+		setLoadingSMS(true)
+
+		Axios.post(`api/invoices/send-sms/${invoiceId}`)
+			.then((res) => {
+				setLoadingSMS(false)
+				props.setMessages([res.data.message])
+				// Clode Modal
+				invoiceModalBtnClose.current.click()
+			})
+			.catch((err) => {
+				setLoadingSMS(false)
+				props.getErrors(err)
+			})
+	}
+
+	/*
+	 * Handle DeleteId checkboxes
+	 */
+	const handleSetDeleteIds = (invoiceId) => {
+		var exists = deleteIds.includes(invoiceId)
+
+		var newDeleteIds = exists
+			? deleteIds.filter((item) => item != invoiceId)
+			: [...deleteIds, invoiceId]
+
+		setDeleteIds(newDeleteIds)
+	}
+
+	/*
+	 * Delete Invoice
+	 */
+	const onDeleteInvoice = (invoiceId) => {
+		setLoading(true)
+		var invoiceIds = Array.isArray(invoiceId) ? invoiceId.join(",") : invoiceId
+
+		Axios.delete(`/api/invoices/${invoiceIds}`)
+			.then((res) => {
+				setLoading(false)
+				props.setMessages([res.data.message])
+				// Remove row
+				props.setInvoices({
+					due: props.invoices.due,
+					paid: props.invoices.paid,
+					balance: props.invoices.balance,
+					meta: props.invoices.meta,
+					links: props.invoices.links,
+					data: props.invoices.data.filter((invoice) => {
+						if (Array.isArray(invoiceId)) {
+							return !invoiceIds.includes(invoice.id)
+						} else {
+							return invoice.id != invoiceId
+						}
+					}),
+				})
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+			.catch((err) => {
+				setLoading(false)
+				props.getErrors(err)
+				// Clear DeleteIds
+				setDeleteIds([])
+			})
+	}
 
 	return (
 		<div className={props.activeTab}>
@@ -42,7 +138,7 @@ const InvoiceList = (props) => {
 							<h1
 								id="invoiceModalLabel"
 								className="modal-title fs-5">
-								Send Invoice {props.invoiceToSend.code}
+								Send Invoice {invoiceToSend.code}
 							</h1>
 							<button
 								type="button"
@@ -52,11 +148,11 @@ const InvoiceList = (props) => {
 						</div>
 						<div className="modal-body text-start text-wrap border-0">
 							Are you sure you want to send an Invoice to{" "}
-							{props.invoiceToSend.tenantName}.
+							{invoiceToSend.tenantName}.
 						</div>
 						<div className="modal-footer justify-content-between border-0">
 							<button
-								ref={props.invoiceModalBtnClose}
+								ref={invoiceModalBtnClose}
 								type="button"
 								className="mysonar-btn btn-2"
 								data-bs-dismiss="modal">
@@ -68,20 +164,20 @@ const InvoiceList = (props) => {
 									icon={<SMSSVG />}
 									text="send sms"
 									className={`me-1 ${
-										props.invoiceToSend.emailsSent ? `btn-green` : `btn-2`
+										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
 									}`}
-									onClick={() => props.onSendSMS(props.invoiceToSend.id)}
-									loading={props.loadingSMS}
+									onClick={() => onSendSMS(invoiceToSend.id)}
+									loading={loadingSMS}
 								/>
 
 								<Btn
 									icon={<SendEmailSVG />}
 									text="send email"
 									className={`me-1 ${
-										props.invoiceToSend.emailsSent ? `btn-green` : `btn-2`
+										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
 									}`}
-									onClick={() => props.onSendEmail(props.invoiceToSend.id)}
-									loading={props.loadingEmail}
+									onClick={() => onSendEmail(invoiceToSend.id)}
+									loading={loadingEmail}
 								/>
 							</div>
 						</div>
@@ -326,12 +422,12 @@ const InvoiceList = (props) => {
 								colSpan="2"
 								className="text-end">
 								<div className="d-flex justify-content-end">
-									{props.deleteIds.length > 0 && (
+									{deleteIds.length > 0 && (
 										<Btn
-											text={`delete ${props.deleteIds.length}`}
+											text={`delete ${deleteIds.length}`}
 											className="me-2"
-											onClick={() => props.onDeleteInvoice(props.deleteIds)}
-											loading={props.loading}
+											onClick={() => onDeleteInvoice(deleteIds)}
+											loading={loading}
 										/>
 									)}
 
@@ -348,12 +444,12 @@ const InvoiceList = (props) => {
 								<input
 									type="checkbox"
 									checked={
-										props.deleteIds.length == props.invoices.data?.length &&
-										props.deleteIds.length != 0
+										deleteIds.length == props.invoices.data?.length &&
+										deleteIds.length != 0
 									}
 									onClick={() =>
 										setDeleteIds(
-											props.deleteIds.length == props.invoices.data.length
+											deleteIds.length == props.invoices.data.length
 												? []
 												: props.invoices.data.map((invoice) => invoice.id)
 										)
@@ -377,8 +473,8 @@ const InvoiceList = (props) => {
 								<td>
 									<input
 										type="checkbox"
-										checked={props.deleteIds.includes(invoice.id)}
-										onClick={() => props.handleSetDeleteIds(invoice.id)}
+										checked={deleteIds.includes(invoice.id)}
+										onClick={() => handleSetDeleteIds(invoice.id)}
 									/>
 								</td>
 								{/* <td>{props.iterator(key, invoices)}</td> */}
@@ -441,7 +537,7 @@ const InvoiceList = (props) => {
 												className={`mx-1`}
 												dataBsToggle="modal"
 												dataBsTarget={`#invoiceModal`}
-												onClick={() => props.setInvoiceToSend(invoice)}
+												onClick={() => setInvoiceToSend(invoice)}
 											/>
 										)}
 										{/* Button trigger modal End */}
@@ -451,7 +547,7 @@ const InvoiceList = (props) => {
 												index={`invoice${key}`}
 												model={invoice}
 												modelName="Invoice"
-												onDelete={props.onDeleteInvoice}
+												onDelete={onDeleteInvoice}
 											/>
 										</div>
 									</div>

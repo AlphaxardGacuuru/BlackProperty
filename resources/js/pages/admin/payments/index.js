@@ -12,8 +12,6 @@ const index = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [loading, setLoading] = useState()
-
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "Payments", path: ["payments"] })
@@ -41,41 +39,6 @@ const index = (props) => {
 		endYear,
 	])
 
-	/*
-	 * Delete Payment
-	 */
-	const onDeletePayment = (paymentId) => {
-		setLoading(true)
-		var paymentIds = Array.isArray(paymentId) ? paymentId.join(",") : paymentId
-
-		Axios.delete(`/api/payments/${paymentIds}`)
-			.then((res) => {
-				setLoading(false)
-				props.setMessages([res.data.message])
-				// Remove row
-				setPayments({
-					sum: payments.sum,
-					meta: payments.meta,
-					links: payments.links,
-					data: payments.data.filter((payment) => {
-						if (Array.isArray(paymentId)) {
-							return !paymentIds.includes(payment.id)
-						} else {
-							return payment.id != paymentId
-						}
-					}),
-				})
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-			.catch((err) => {
-				setLoading(false)
-				props.getErrors(err)
-				// Clear DeleteIds
-				setDeleteIds([])
-			})
-	}
-
 	return (
 		<div className="row">
 			<div className="col-sm-12">
@@ -84,14 +47,12 @@ const index = (props) => {
 					{...props}
 					payments={payments}
 					setPayments={setPayments}
-					onDeletePayment={onDeletePayment}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setStartMonth={setStartMonth}
 					setEndMonth={setEndMonth}
 					setStartYear={setStartYear}
 					setEndYear={setEndYear}
-					loading={loading}
 				/>
 				{/* Payments Tab End */}
 			</div>

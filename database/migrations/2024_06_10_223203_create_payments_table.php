@@ -23,7 +23,8 @@ return new class extends Migration
 			$table->string('amount');
 			$table->string('transaction_reference')->nullable();
 			$table->string('channel')->nullable();
-			$table->timestamp('paid_on')->nullable();
+			$table->integer('month');
+			$table->integer('year');
 			$table->unsignedBigInteger('created_by');
 			$table->timestamps();
 
