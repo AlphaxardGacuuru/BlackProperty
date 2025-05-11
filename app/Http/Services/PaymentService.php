@@ -49,9 +49,19 @@ class PaymentService extends Service
      */
     public function store($request)
     {
-        $payment = new Payment;
+		// Get current year in the format YY using Carbon
+		$currentYear = Carbon::now()->format('y');
+		// Get current month in the format MM using Carbon
+		$currentMonth = Carbon::now()->format('m');
+		// Get next invoice iteration
+		$count = Payment::count() + 1;
+		// Generate invoice code
+		$code = "P-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
+
+		$payment = new Payment;
         $payment->invoice_id = $request->invoiceId;
         $payment->user_id = $request->userId;
+        $payment->code = $code;
         $payment->amount = $request->amount;
         $payment->transaction_reference = $request->transactionReference;
         $payment->channel = $request->channel;
@@ -147,27 +157,30 @@ class PaymentService extends Service
             });
         }
 
+		$unitId = $request->input("unitId");
+
+		if ($request->filled("unitId")) {
+			$query = $query
+				->whereHas("userUnit.unit", function ($query) use ($unitId) {
+					$query->where("id", $unitId);
+				});
+		}
+
+		$unit = $request->input("unit");
+
+		if ($request->filled("unit")) {
+			$query = $query
+				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+					$query->where("name", "LIKE", "%" . $unit . "%");
+				});
+		}
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
             $query = $query
                 ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
-
-        $invoiceCode = $request->input("invoiceCode");
-
-        if ($request->filled("invoiceCode")) {
-            $query = $query->where("invoice_id", "LIKE", "%" . $invoiceCode . "%");
-        }
-
-        $unit = $request->input("unit");
-
-        if ($request->filled("unit")) {
-            $query = $query
-                ->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
-                    $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
 

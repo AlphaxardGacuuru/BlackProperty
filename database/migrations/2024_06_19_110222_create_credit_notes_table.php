@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('credit_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('invoice_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+			$table->foreignId('user_unit_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
             $table->longText('description')->nullable();
             $table->integer('amount');
+			$table->integer('month');
+			$table->integer('year');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 

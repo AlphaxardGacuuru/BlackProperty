@@ -1,13 +1,11 @@
+import CreditNoteList from "@/components/CreditNotes/CreditNoteList"
 import React, { useEffect, useState } from "react"
 
-import DeductionList from "@/components/Deductions/DeductionList"
-
-const index = (props) => {
-	const [deductions, setDeductions] = useState([])
+const UnitCreditNoteList = (props) => {
+	const [creditNotes, setCreditNotes] = useState([])
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
-	const [invoiceCode, setInvoiceCode] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
@@ -16,27 +14,25 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "Deductions", path: ["deductions"] })
+		props.setPage({ name: "Credit Notes", path: ["credit-notes"] })
 	}, [])
 
 	useEffect(() => {
-		// Fetch Deduction
+		// Fetch Credit Note
 		props.getPaginated(
-			`deductions?propertyId=${props.selectedPropertyId}&
+			`credit-notes?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
-			unit=${unit}&
-			invoiceCode=${invoiceCode}&
+			unitId=${props.unitId}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
 			endYear=${endYear}`,
-			setDeductions
+			setCreditNotes
 		)
 	}, [
 		props.selectedPropertyId,
 		tenant,
 		unit,
-		invoiceCode,
 		startMonth,
 		endMonth,
 		startYear,
@@ -44,28 +40,28 @@ const index = (props) => {
 	])
 
 	/*
-	 * Delete Deduction
+	 * Delete CreditNote
 	 */
-	const onDeleteDeduction = (deductionId) => {
+	const onDeleteCreditNote = (creditNoteId) => {
 		setLoading(true)
-		var deductionIds = Array.isArray(deductionId)
-			? deductionId.join(",")
-			: deductionId
+		var creditNoteIds = Array.isArray(creditNoteId)
+			? creditNoteId.join(",")
+			: creditNoteId
 
-		Axios.delete(`/api/deductions/${deductionIds}`)
+		Axios.delete(`/api/credit-notes/${creditNoteIds}`)
 			.then((res) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
 				// Remove row
-				setDeductions({
-					sum: deductions.sum,
-					meta: deductions.meta,
-					links: deductions.links,
-					data: deductions.data.filter((deduction) => {
-						if (Array.isArray(deductionId)) {
-							return !deductionIds.includes(deduction.id)
+				setCreditNotes({
+					sum: creditNotes.sum,
+					meta: creditNotes.meta,
+					links: creditNotes.links,
+					data: creditNotes.data.filter((creditNote) => {
+						if (Array.isArray(creditNoteId)) {
+							return !creditNoteIds.includes(creditNote.id)
 						} else {
-							return deduction.id != deductionId
+							return creditNote.id != creditNoteId
 						}
 					}),
 				})
@@ -83,13 +79,12 @@ const index = (props) => {
 	return (
 		<div className="row">
 			<div className="col-sm-12">
-				{/* Deductions Tab */}
-				<DeductionList
+				{/* Credit Notes Tab */}
+				<CreditNoteList
 					{...props}
-					deductions={deductions}
-					setDeductions={setDeductions}
-					onDeleteDeduction={onDeleteDeduction}
-					setInvoiceCode={setInvoiceCode}
+					creditNotes={creditNotes}
+					setCreditNotes={setCreditNotes}
+					onDeleteCreditNote={onDeleteCreditNote}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setStartMonth={setStartMonth}
@@ -98,10 +93,10 @@ const index = (props) => {
 					setEndYear={setEndYear}
 					loading={loading}
 				/>
-				{/* Deductions Tab End */}
+				{/* Credit Notes Tab End */}
 			</div>
 		</div>
 	)
 }
 
-export default index
+export default UnitCreditNoteList

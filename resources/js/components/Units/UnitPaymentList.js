@@ -7,7 +7,6 @@ const UnitPaymentList = (props) => {
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
-	const [invoiceCode, setInvoiceCode] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
@@ -25,8 +24,7 @@ const UnitPaymentList = (props) => {
 		props.getPaginated(
 			`payments?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
-			unit=${props.unitId}&
-			invoiceCode=${invoiceCode}&
+			unitId=${props.unitId}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
@@ -37,7 +35,6 @@ const UnitPaymentList = (props) => {
 		props.selectedPropertyId,
 		tenant,
 		unit,
-		invoiceCode,
 		startMonth,
 		endMonth,
 		startYear,
@@ -88,7 +85,6 @@ const UnitPaymentList = (props) => {
 					payments={payments}
 					setPayments={setPayments}
 					onDeletePayment={onDeletePayment}
-					setInvoiceCode={setInvoiceCode}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setStartMonth={setStartMonth}

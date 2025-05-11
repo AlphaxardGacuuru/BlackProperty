@@ -10,6 +10,7 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
@@ -80,8 +81,18 @@ class InvoiceService extends Service
             $amount = $this->getAmount($request, $userUnitId);
 
             if ($invoiceDoesntExist) {
+				// Get current year in the format YY using Carbon
+				$currentYear = Carbon::now()->format('y');
+				// Get current month in the format MM using Carbon
+				$currentMonth = Carbon::now()->format('m');
+				// Get next invoice iteration
+				$count = Invoice::count() + 1;
+				// Generate invoice code
+				$code = "I-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
+
                 $invoice = new Invoice;
                 $invoice->user_unit_id = $userUnitId;
+                $invoice->code = $code;
                 $invoice->type = $request->type;
                 $invoice->amount = $amount;
                 $invoice->balance = $amount;
@@ -167,8 +178,17 @@ class InvoiceService extends Service
         $code = $request->input("code");
 
         if ($request->filled("code")) {
-            $query = $query->where("id", "LIKE", "%" . $code . "%");
+            $query = $query->where("code", "LIKE", "%" . $code . "%");
         }
+
+		$unitId = $request->input("unitId");
+
+		if ($request->filled("unitId")) {
+			$query = $query
+				->whereHas("userUnit.unit", function ($query) use ($unitId) {
+					$query->where("id", $unitId);
+				});
+		}
 
 		$unit = $request->input("unit");
 

@@ -15,6 +15,8 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 import WaterReadingList from "@/components/Water/WaterReadingList"
 import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
 import UnitPaymentList from "@/components/Units/UnitPaymentList"
+import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
+import UnitDeductionList from "@/components/Units/UnitDeductionList"
 
 const show = (props) => {
 	var { id } = useParams()
@@ -37,7 +39,7 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Unit", path: ["units", "view"] })
-		// Fetch Units
+		// Fetch Unit
 		Axios.get(`api/units/${id}`).then((res) => {
 			setUnit(res.data.data)
 		})
@@ -461,6 +463,20 @@ const show = (props) => {
 
 				{tab == "payments" && (
 					<UnitPaymentList
+						{...props}
+						unitId={id}
+					/>
+				)}
+
+				{tab == "credit_notes" && (
+					<UnitCreditNoteList
+						{...props}
+						unitId={id}
+					/>
+				)}
+
+				{tab == "deductions" && (
+					<UnitDeductionList
 						{...props}
 						unitId={id}
 					/>

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react"
 
 import DeductionList from "@/components/Deductions/DeductionList"
 
-const index = (props) => {
+const UnitDeductionList = (props) => {
 	const [deductions, setDeductions] = useState([])
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
-	const [invoiceCode, setInvoiceCode] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
@@ -24,8 +23,7 @@ const index = (props) => {
 		props.getPaginated(
 			`deductions?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
-			unit=${unit}&
-			invoiceCode=${invoiceCode}&
+			unitId=${props.unitId}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
@@ -36,7 +34,6 @@ const index = (props) => {
 		props.selectedPropertyId,
 		tenant,
 		unit,
-		invoiceCode,
 		startMonth,
 		endMonth,
 		startYear,
@@ -89,7 +86,6 @@ const index = (props) => {
 					deductions={deductions}
 					setDeductions={setDeductions}
 					onDeleteDeduction={onDeleteDeduction}
-					setInvoiceCode={setInvoiceCode}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setStartMonth={setStartMonth}
@@ -104,4 +100,4 @@ const index = (props) => {
 	)
 }
 
-export default index
+export default UnitDeductionList

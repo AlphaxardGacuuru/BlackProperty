@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from 'react'
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
@@ -12,13 +12,12 @@ import HeroIcon from "@/components/Core/HeroIcon"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
-import PaymentSVG from "@/svgs/PaymentSVG"
+import CreditNoteSVG from "@/svgs/CreditNoteSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
 import Btn from "@/components/Core/Btn"
 
-const PaymentList = (props) => {
-	
-	return (
+const CreditNoteList = (props) => {
+  return (
 		<div className={props.activeTab}>
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
@@ -29,12 +28,12 @@ const PaymentList = (props) => {
 							heading="Total"
 							data={
 								<span>
-									<small>KES</small> {props.payments.sum}
+									<small>KES</small> {props.creditNotes.sum}
 								</span>
 							}
 						/>
 						<HeroIcon>
-							<PaymentSVG />
+							<CreditNoteSVG />
 						</HeroIcon>
 						{/* Total End */}
 					</div>
@@ -180,49 +179,46 @@ const PaymentList = (props) => {
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Unit</th>
-							<th>Channel</th>
-							<th>Transaction Reference</th>
+							<th>Type</th>
+							<th>Description</th>
 							<th>Amount</th>
-							<th>Paid On</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{props.payments.data?.map((payment, key) => (
+						{props.creditNotes.data?.map((creditNote, key) => (
 							<tr key={key}>
-								<td>{props.iterator(key, props.payments)}</td>
-								<td>{payment.tenantName}</td>
-								<td>{payment.unitName}</td>
-								<td>{payment.channel}</td>
-								<td>{payment.transactionReference}</td>
-								<td className="text-success">
-									<small>KES</small> {payment.amount}
+								<td>{props.iterator(key, props.creditNotes)}</td>
+								<td>{creditNote.tenantName}</td>
+								<td>{creditNote.unitName}</td>
+								<td className="text-capitalize">
+									{creditNote.type
+										.split("_")
+										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.join(" ")}
 								</td>
-								<td>{payment.paidOn}</td>
+								<td>{creditNote.description}</td>
+								<td className="text-success">
+									<small>KES</small> {creditNote.amount}
+								</td>
 								<td>
 									<div className="d-flex justify-content-end">
 										<MyLink
-											linkTo={`/invoices/${payment.invoiceId}/show`}
+											linkTo={`/invoices/${creditNote.invoiceId}/show`}
 											icon={<ViewSVG />}
 											text="view invoice"
 											className="me-1"
 										/>
 
 										<MyLink
-											linkTo={`/payments/${payment.id}/show`}
-											icon={<ViewSVG />}
-											className="me-1"
-										/>
-
-										<MyLink
-											linkTo={`/payments/${payment.id}/edit`}
+											linkTo={`/credit-notes/${creditNote.id}/edit`}
 											icon={<EditSVG />}
 										/>
 
 										<div className="mx-1">
 											<DeleteModal
-												index={`payment${key}`}
-												model={payment}
-												modelName="Payment"
-												onDelete={props.onDeletePayment}
+												index={`creditNote${key}`}
+												model={creditNote}
+												modelName="Credit Note"
+												onDelete={props.onDeleteCreditNote}
 											/>
 										</div>
 									</div>
@@ -233,9 +229,9 @@ const PaymentList = (props) => {
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks
-					list={props.payments}
+					list={props.creditNotes}
 					getPaginated={props.getPaginated}
-					setState={props.setPayments}
+					setState={props.setCreditNotes}
 				/>
 				{/* Pagination Links End */}
 			</div>
@@ -244,4 +240,4 @@ const PaymentList = (props) => {
 	)
 }
 
-export default PaymentList
+export default CreditNoteList

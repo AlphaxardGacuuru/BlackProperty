@@ -22,14 +22,14 @@ class InvoiceResource extends JsonResource
             ->where("month", $this->month)
             ->where("year", $this->year)
             ->first()
-            ->reading;
+            ?->reading;
 
         $waterUsage = $this->userUnit
             ->waterReadings()
             ->where("month", $this->month)
             ->where("year", $this->year)
             ->first()
-            ->usage;
+            ?->usage;
 
         return [
             "id" => $this->id,

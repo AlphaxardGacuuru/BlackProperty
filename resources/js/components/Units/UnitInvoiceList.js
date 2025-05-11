@@ -36,7 +36,7 @@ const UnitInvoiceList = (props) => {
 			`invoices?propertyId=${props.selectedPropertyId}&
 			code=${code}&
 			invoice=${invoice}&
-			unit=${props.unitId}&
+			unitId=${props.unitId}&
 			type=${type}&
 						tenant=${tenant}&
 			status=${status}&

@@ -7,7 +7,6 @@ const index = (props) => {
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
-	const [invoiceCode, setInvoiceCode] = useState("")
 	const [startMonth, setStartMonth] = useState("")
 	const [startYear, setStartYear] = useState("")
 	const [endMonth, setEndMonth] = useState("")
@@ -26,7 +25,6 @@ const index = (props) => {
 			`payments?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
-			invoiceCode=${invoiceCode}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&
@@ -37,7 +35,6 @@ const index = (props) => {
 		props.selectedPropertyId,
 		tenant,
 		unit,
-		invoiceCode,
 		startMonth,
 		endMonth,
 		startYear,
@@ -88,7 +85,6 @@ const index = (props) => {
 					payments={payments}
 					setPayments={setPayments}
 					onDeletePayment={onDeletePayment}
-					setInvoiceCode={setInvoiceCode}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setStartMonth={setStartMonth}

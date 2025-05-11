@@ -116,21 +116,39 @@ class DeductionService extends Service
             });
         }
 
+		$unitId = $request->input("unitId");
+
+		if ($request->filled("unitId")) {
+			$query = $query
+				->whereHas("userUnit.unit", function ($query) use ($unitId) {
+					$query->where("id", $unitId);
+				});
+		}
+
+		$unit = $request->input("unit");
+
+		if ($request->filled("unit")) {
+			$query = $query
+				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+					$query->where("name", "LIKE", "%" . $unit . "%");
+				});
+		}
+
+		$unit = $request->input("unit");
+
+		if ($request->filled("unit")) {
+			$query = $query
+				->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
+					$query->where("name", "LIKE", "%" . $unit . "%");
+				});
+		}
+
         $tenant = $request->input("tenant");
 
         if ($request->filled("tenant")) {
             $query = $query
                 ->whereHas("invoice.userUnit.user", function ($query) use ($tenant) {
                     $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
-
-        $unit = $request->input("unit");
-
-        if ($request->filled("unit")) {
-            $query = $query
-                ->whereHas("invoice.userUnit.unit", function ($query) use ($unit) {
-                    $query->where("name", "LIKE", "%" . $unit . "%");
                 });
         }
 

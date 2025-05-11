@@ -84144,6 +84144,306 @@ var RouteList = function RouteList(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/CreditNotes/CreditNoteList.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/CreditNotes/CreditNoteList.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/CreditNoteSVG */ "./resources/js/svgs/CreditNoteSVG.js");
+/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+var CreditNoteList = function CreditNoteList(props) {
+  var _props$creditNotes$da;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: props.activeTab
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    heading: "Total",
+    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.creditNotes.sum)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Tenant",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setTenant(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Unit",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setUnit(e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm py-2 px-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-grow-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setStartMonth(e.target.value == "0" ? "" : e.target.value);
+    }
+  }, props.months.map(function (month, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key
+    }, month);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "",
+    className: "invisible"
+  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setStartYear(e.target.value == "0" ? "" : e.target.value);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: year
+    }, year);
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-grow-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setEndMonth(e.target.value == "0" ? "" : e.target.value);
+    }
+  }, props.months.map(function (month, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: key
+    }, month);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "",
+    className: "invisible"
+  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setEndYear(e.target.value == "0" ? "" : e.target.value);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Year"), props.years.map(function (year, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: year
+    }, year);
+  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "text-center"
+  }, "Action")), (_props$creditNotes$da = props.creditNotes.data) === null || _props$creditNotes$da === void 0 ? void 0 : _props$creditNotes$da.map(function (creditNote, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.creditNotes)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-capitalize"
+    }, creditNote.type.split("_").map(function (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(" ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", creditNote.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex justify-content-end"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/invoices/".concat(creditNote.invoiceId, "/show"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+      text: "view invoice",
+      className: "me-1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/credit-notes/".concat(creditNote.id, "/edit"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mx-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      index: "creditNote".concat(key),
+      model: creditNote,
+      modelName: "Credit Note",
+      onDelete: props.onDeleteCreditNote
+    })))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    list: props.creditNotes,
+    getPaginated: props.getPaginated,
+    setState: props.setCreditNotes
+  })));
+};
+/* harmony default export */ __webpack_exports__["default"] = (CreditNoteList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Deductions/DeductionList.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/Deductions/DeductionList.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/DeductionSVG */ "./resources/js/svgs/DeductionSVG.js");
+/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
+/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+var DeductionList = function DeductionList(props) {
+  var _props$deductions$dat;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: props.activeTab
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    heading: "Total",
+    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", props.deductions.sum)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex flex-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Tenant",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setTenant(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 me-2 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Search by Unit",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return props.setUnit(e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "text-center"
+  }, "Action")), (_props$deductions$dat = props.deductions.data) === null || _props$deductions$dat === void 0 ? void 0 : _props$deductions$dat.map(function (deduction, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.deductions)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-capitalize"
+    }, deduction.type.split("_").map(function (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(" ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", deduction.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex justify-content-end"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/invoices/".concat(deduction.invoiceId, "/show"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+      text: "view invoice",
+      className: "me-1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/deductions/".concat(deduction.id, "/edit"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mx-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      index: "deduction".concat(key),
+      model: deduction,
+      modelName: "Deduction",
+      onDelete: props.onDeleteDeduction
+    })))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    list: props.deductions,
+    getPaginated: props.getPaginated,
+    setState: props.setDeductions
+  })));
+};
+/* harmony default export */ __webpack_exports__["default"] = (DeductionList);
+
+/***/ }),
+
 /***/ "./resources/js/components/Invoices/InvoiceList.js":
 /*!*********************************************************!*\
   !*** ./resources/js/components/Invoices/InvoiceList.js ***!
@@ -85912,15 +86212,6 @@ var PaymentList = function PaymentList(props) {
     onChange: function onChange(e) {
       return props.setUnit(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Invoice Code",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return props.setInvoiceCode(e.target.value);
-    }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm py-2 px-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -85995,12 +86286,12 @@ var PaymentList = function PaymentList(props) {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Transaction Reference"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_props$payments$data = props.payments.data) === null || _props$payments$data === void 0 ? void 0 : _props$payments$data.map(function (payment, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.payments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.invoiceCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.channel), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.transactionReference), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.payments)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.channel), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.transactionReference), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", payment.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, payment.paidOn), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-end"
@@ -86679,6 +86970,242 @@ var TenantList = function TenantList(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Units/UnitCreditNoteList.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/Units/UnitCreditNoteList.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/CreditNotes/CreditNoteList */ "./resources/js/components/CreditNotes/CreditNoteList.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+var UnitCreditNoteList = function UnitCreditNoteList(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    creditNotes = _useState2[0],
+    setCreditNotes = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    tenant = _useState4[0],
+    setTenant = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    unit = _useState6[0],
+    setUnit = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    startMonth = _useState8[0],
+    setStartMonth = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startYear = _useState10[0],
+    setStartYear = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    endMonth = _useState12[0],
+    setEndMonth = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    endYear = _useState14[0],
+    setEndYear = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Set page
+    props.setPage({
+      name: "Credit Notes",
+      path: ["credit-notes"]
+    });
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    // Fetch Credit Note
+    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
+
+  /*
+   * Delete CreditNote
+   */
+  var onDeleteCreditNote = function onDeleteCreditNote(creditNoteId) {
+    setLoading(true);
+    var creditNoteIds = Array.isArray(creditNoteId) ? creditNoteId.join(",") : creditNoteId;
+    Axios["delete"]("/api/credit-notes/".concat(creditNoteIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      setCreditNotes({
+        sum: creditNotes.sum,
+        meta: creditNotes.meta,
+        links: creditNotes.links,
+        data: creditNotes.data.filter(function (creditNote) {
+          if (Array.isArray(creditNoteId)) {
+            return !creditNoteIds.includes(creditNote.id);
+          } else {
+            return creditNote.id != creditNoteId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__["default"], _extends({}, props, {
+    creditNotes: creditNotes,
+    setCreditNotes: setCreditNotes,
+    onDeleteCreditNote: onDeleteCreditNote,
+    setUnit: setUnit,
+    setTenant: setTenant,
+    setStartMonth: setStartMonth,
+    setEndMonth: setEndMonth,
+    setStartYear: setStartYear,
+    setEndYear: setEndYear,
+    loading: loading
+  }))));
+};
+/* harmony default export */ __webpack_exports__["default"] = (UnitCreditNoteList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Units/UnitDeductionList.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Units/UnitDeductionList.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Deductions/DeductionList */ "./resources/js/components/Deductions/DeductionList.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+var UnitDeductionList = function UnitDeductionList(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    deductions = _useState2[0],
+    setDeductions = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    tenant = _useState4[0],
+    setTenant = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    unit = _useState6[0],
+    setUnit = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    startMonth = _useState8[0],
+    setStartMonth = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startYear = _useState10[0],
+    setStartYear = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    endMonth = _useState12[0],
+    setEndMonth = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    endYear = _useState14[0],
+    setEndYear = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Set page
+    props.setPage({
+      name: "Deductions",
+      path: ["deductions"]
+    });
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Fetch Deduction
+    props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
+
+  /*
+   * Delete Deduction
+   */
+  var onDeleteDeduction = function onDeleteDeduction(deductionId) {
+    setLoading(true);
+    var deductionIds = Array.isArray(deductionId) ? deductionId.join(",") : deductionId;
+    Axios["delete"]("/api/deductions/".concat(deductionIds)).then(function (res) {
+      setLoading(false);
+      props.setMessages([res.data.message]);
+      // Remove row
+      setDeductions({
+        sum: deductions.sum,
+        meta: deductions.meta,
+        links: deductions.links,
+        data: deductions.data.filter(function (deduction) {
+          if (Array.isArray(deductionId)) {
+            return !deductionIds.includes(deduction.id);
+          } else {
+            return deduction.id != deductionId;
+          }
+        })
+      });
+      // Clear DeleteIds
+      setDeleteIds([]);
+    })["catch"](function (err) {
+      setLoading(false);
+      props.getErrors(err);
+      // Clear DeleteIds
+      setDeleteIds([]);
+    });
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
+    deductions: deductions,
+    setDeductions: setDeductions,
+    onDeleteDeduction: onDeleteDeduction,
+    setUnit: setUnit,
+    setTenant: setTenant,
+    setStartMonth: setStartMonth,
+    setEndMonth: setEndMonth,
+    setStartYear: setStartYear,
+    setEndYear: setEndYear,
+    loading: loading
+  }))));
+};
+/* harmony default export */ __webpack_exports__["default"] = (UnitDeductionList);
+
+/***/ }),
+
 /***/ "./resources/js/components/Units/UnitInvoiceList.js":
 /*!**********************************************************!*\
   !*** ./resources/js/components/Units/UnitInvoiceList.js ***!
@@ -86783,7 +87310,7 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Invoices
-    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(props.unitId, "&\n\t\t\ttype=").concat(type, "&\n\t\t\t\t\t\ttenant=").concat(tenant, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
+    props.getPaginated("invoices?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\tcode=").concat(code, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\ttype=").concat(type, "&\n\t\t\t\t\t\ttenant=").concat(tenant, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
   }, [props.selectedPropertyId, code, invoice, unit, tenant, type, status, startMonth, endMonth, startYear, endYear]);
 
   /*
@@ -87095,28 +87622,24 @@ var UnitPaymentList = function UnitPaymentList(props) {
     setUnit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    invoiceCode = _useState8[0],
-    setInvoiceCode = _useState8[1];
+    startMonth = _useState8[0],
+    setStartMonth = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    startMonth = _useState10[0],
-    setStartMonth = _useState10[1];
+    startYear = _useState10[0],
+    setStartYear = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    startYear = _useState12[0],
-    setStartYear = _useState12[1];
+    endMonth = _useState12[0],
+    setEndMonth = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    endMonth = _useState14[0],
-    setEndMonth = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    endYear = _useState14[0],
+    setEndYear = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    endYear = _useState16[0],
-    setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
+    loading = _useState16[0],
+    setLoading = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -87126,8 +87649,8 @@ var UnitPaymentList = function UnitPaymentList(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
-    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(props.unitId, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
-  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunitId=").concat(props.unitId, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete Payment
@@ -87168,7 +87691,6 @@ var UnitPaymentList = function UnitPaymentList(props) {
     payments: payments,
     setPayments: setPayments,
     onDeletePayment: onDeletePayment,
-    setInvoiceCode: setInvoiceCode,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
@@ -87754,21 +88276,10 @@ var edit = function edit(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
-/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
-/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
-/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
-/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/CreditNoteSVG */ "./resources/js/svgs/CreditNoteSVG.js");
-/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/CreditNotes/CreditNoteList */ "./resources/js/components/CreditNotes/CreditNoteList.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -87777,46 +88288,54 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-
-
-
-
-
-
-
-
-
-
-
 var index = function index(props) {
-  var _creditNotes$data;
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     creditNotes = _useState2[0],
     setCreditNotes = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState4 = _slicedToArray(_useState3, 2),
     tenant = _useState4[0],
     setTenant = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
     unit = _useState6[0],
     setUnit = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    loading = _useState8[0],
-    setLoading = _useState8[1];
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    invoiceCode = _useState8[0],
+    setInvoiceCode = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startMonth = _useState10[0],
+    setStartMonth = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    startYear = _useState12[0],
+    setStartYear = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    endMonth = _useState14[0],
+    setEndMonth = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
+    _useState16 = _slicedToArray(_useState15, 2),
+    endYear = _useState16[0],
+    setEndYear = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(),
+    _useState18 = _slicedToArray(_useState17, 2),
+    loading = _useState18[0],
+    setLoading = _useState18[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Credit Notes",
       path: ["credit-notes"]
     });
   }, []);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Fetch Credit Note
-    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit), setCreditNotes);
-  }, [props.selectedPropertyId, tenant, unit]);
+    props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
+  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete CreditNote
@@ -87849,156 +88368,23 @@ var index = function index(props) {
       setDeleteIds([]);
     });
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: props.activeTab
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm mb-2 p-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    heading: "Total",
-    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", creditNotes.sum)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CreditNoteSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Tenant",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setTenant(e.target.value);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Unit",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setUnit(e.target.value);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Invoice Code",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setInvoiceCode(e.target.value);
-    }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm py-2 px-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end flex-wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-grow-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: ""
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setStartMonth(e.target.value == "0" ? "" : e.target.value);
-    }
-  }, props.months.map(function (month, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: key
-    }, month);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "",
-    className: "invisible"
-  }, "Start At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setStartYear(e.target.value == "0" ? "" : e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Year"), props.years.map(function (year, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: year
-    }, year);
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-grow-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: ""
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setEndMonth(e.target.value == "0" ? "" : e.target.value);
-    }
-  }, props.months.map(function (month, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: key
-    }, month);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "",
-    className: "invisible"
-  }, "End At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setEndYear(e.target.value == "0" ? "" : e.target.value);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: ""
-  }, "Select Year"), props.years.map(function (year, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: year
-    }, year);
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "table-responsive mb-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "text-center"
-  }, "Action")), (_creditNotes$data = creditNotes.data) === null || _creditNotes$data === void 0 ? void 0 : _creditNotes$data.map(function (creditNote, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, creditNotes)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.invoiceCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-capitalize"
-    }, creditNote.type.split("_").map(function (word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(" ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, creditNote.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-success"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", creditNote.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/invoices/".concat(creditNote.invoiceId, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      text: "view invoice",
-      className: "me-1"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/credit-notes/".concat(creditNote.id, "/edit"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      index: "creditNote".concat(key),
-      model: creditNote,
-      modelName: "Credit Note",
-      onDelete: onDeleteCreditNote
-    })))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    list: creditNotes,
-    getPaginated: props.getPaginated,
-    setState: setCreditNotes
-  })));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_CreditNotes_CreditNoteList__WEBPACK_IMPORTED_MODULE_0__["default"], _extends({}, props, {
+    creditNotes: creditNotes,
+    setCreditNotes: setCreditNotes,
+    onDeleteCreditNote: onDeleteCreditNote,
+    setUnit: setUnit,
+    setInvoiceCode: setInvoiceCode,
+    setTenant: setTenant,
+    setStartMonth: setStartMonth,
+    setEndMonth: setEndMonth,
+    setStartYear: setStartYear,
+    setEndYear: setEndYear,
+    loading: loading
+  }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
 
@@ -88267,19 +88653,8 @@ var edit = function edit(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
-/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
-/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
-/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
-/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
-/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/DeductionSVG */ "./resources/js/svgs/DeductionSVG.js");
-/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
-/* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
+/* harmony import */ var _components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Deductions/DeductionList */ "./resources/js/components/Deductions/DeductionList.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -88288,19 +88663,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-
-
-
-
-
-
-
-
-
-
-
 var index = function index(props) {
-  var _deductions$data;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     deductions = _useState2[0],
@@ -88313,10 +88676,30 @@ var index = function index(props) {
     _useState6 = _slicedToArray(_useState5, 2),
     unit = _useState6[0],
     setUnit = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    loading = _useState8[0],
-    setLoading = _useState8[1];
+    invoiceCode = _useState8[0],
+    setInvoiceCode = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    startMonth = _useState10[0],
+    setStartMonth = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState12 = _slicedToArray(_useState11, 2),
+    startYear = _useState12[0],
+    setStartYear = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    endMonth = _useState14[0],
+    setEndMonth = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    _useState16 = _slicedToArray(_useState15, 2),
+    endYear = _useState16[0],
+    setEndYear = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState18 = _slicedToArray(_useState17, 2),
+    loading = _useState18[0],
+    setLoading = _useState18[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -88326,8 +88709,8 @@ var index = function index(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Deduction
-    props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit), setDeductions);
-  }, [props.selectedPropertyId, tenant, unit]);
+    props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
+  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete Deduction
@@ -88361,76 +88744,22 @@ var index = function index(props) {
     });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: props.activeTab
+    className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm mb-2 p-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    heading: "Total",
-    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", deductions.sum)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeductionSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex flex-wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Tenant",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setTenant(e.target.value);
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex-grow-1 me-2 mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    placeholder: "Search by Unit",
-    className: "form-control",
-    onChange: function onChange(e) {
-      return setUnit(e.target.value);
-    }
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "table-responsive mb-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "text-center"
-  }, "Action")), (_deductions$data = deductions.data) === null || _deductions$data === void 0 ? void 0 : _deductions$data.map(function (deduction, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, deductions)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.invoiceCode), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-capitalize"
-    }, deduction.type.split("_").map(function (word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(" ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, deduction.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-success"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", deduction.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "d-flex justify-content-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/invoices/".concat(deduction.invoiceId, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      text: "view invoice",
-      className: "me-1"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/deductions/".concat(deduction.id, "/edit"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      index: "deduction".concat(key),
-      model: deduction,
-      modelName: "Deduction",
-      onDelete: onDeleteDeduction
-    })))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    list: deductions,
-    getPaginated: props.getPaginated,
-    setState: setDeductions
-  })));
+    className: "col-sm-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Deductions_DeductionList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
+    deductions: deductions,
+    setDeductions: setDeductions,
+    onDeleteDeduction: onDeleteDeduction,
+    setInvoiceCode: setInvoiceCode,
+    setUnit: setUnit,
+    setTenant: setTenant,
+    setStartMonth: setStartMonth,
+    setEndMonth: setEndMonth,
+    setStartYear: setStartYear,
+    setEndYear: setEndYear,
+    loading: loading
+  }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
 
@@ -90517,28 +90846,24 @@ var index = function index(props) {
     setUnit = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    invoiceCode = _useState8[0],
-    setInvoiceCode = _useState8[1];
+    startMonth = _useState8[0],
+    setStartMonth = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    startMonth = _useState10[0],
-    setStartMonth = _useState10[1];
+    startYear = _useState10[0],
+    setStartYear = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    startYear = _useState12[0],
-    setStartYear = _useState12[1];
+    endMonth = _useState12[0],
+    setEndMonth = _useState12[1];
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    endMonth = _useState14[0],
-    setEndMonth = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    endYear = _useState14[0],
+    setEndYear = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    endYear = _useState16[0],
-    setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
-    _useState18 = _slicedToArray(_useState17, 2),
-    loading = _useState18[0],
-    setLoading = _useState18[1];
+    loading = _useState16[0],
+    setLoading = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -90548,8 +90873,8 @@ var index = function index(props) {
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
-    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
-  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
 
   /*
    * Delete Payment
@@ -90590,7 +90915,6 @@ var index = function index(props) {
     payments: payments,
     setPayments: setPayments,
     onDeletePayment: onDeletePayment,
-    setInvoiceCode: setInvoiceCode,
     setUnit: setUnit,
     setTenant: setTenant,
     setStartMonth: setStartMonth,
@@ -93128,6 +93452,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Water/WaterReadingList */ "./resources/js/components/Water/WaterReadingList.js");
 /* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
 /* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
+/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
+/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -93135,6 +93461,8 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -93207,7 +93535,7 @@ var show = function show(props) {
       name: "View Unit",
       path: ["units", "view"]
     });
-    // Fetch Units
+    // Fetch Unit
     Axios.get("api/units/".concat(id)).then(function (res) {
       setUnit(res.data.data);
     });
@@ -93521,6 +93849,10 @@ var show = function show(props) {
   })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
     unitId: id
   })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {
+    unitId: id
+  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__["default"], _extends({}, props, {
+    unitId: id
+  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__["default"], _extends({}, props, {
     unitId: id
   }))));
 };

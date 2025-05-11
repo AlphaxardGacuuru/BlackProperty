@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,13 @@ class InvoiceFactory extends Factory
     {
         $types = ["rent", "water", "service_charge"];
 
+		$code = Invoice::count() + 1;
+		$code = str_pad($code, 6, '0', STR_PAD_LEFT);
+		$code = "I-" . $code;
+		
         return [
             "user_unit_id" => "userUnitId",
+            "code" => $code,
             "type" => "rent",
             "amount" => "amount",
             "balance" => "amount",
