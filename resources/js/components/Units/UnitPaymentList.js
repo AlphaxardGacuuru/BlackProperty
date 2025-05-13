@@ -21,7 +21,7 @@ const UnitPaymentList = (props) => {
 		// Fetch Payments
 		props.getPaginated(
 			`payments?propertyId=${props.selectedPropertyId}&
-			unitId=${props.unitId}&
+			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&
 			startMonth=${startMonth}&
@@ -46,6 +46,7 @@ const UnitPaymentList = (props) => {
 				{/* Payments Tab */}
 				<PaymentList
 					{...props}
+					unit={props.unit}
 					payments={payments}
 					setPayments={setPayments}
 					setUnit={setUnit}

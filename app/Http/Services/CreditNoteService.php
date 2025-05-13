@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\CreditNoteResource;
 use App\Models\CreditNote;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CreditNoteService extends Service
@@ -42,11 +43,26 @@ class CreditNoteService extends Service
      */
     public function store($request)
     {
+		// Get current year in the format YY using Carbon
+		$currentYear = Carbon::now()->format('y');
+		// Get current month in the format MM using Carbon
+		$currentMonth = Carbon::now()->format('m');
+		// Get next invoice iteration
+		$count = CreditNote::count() + 1;
+		// Generate invoice code
+		$code = "C-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
+
+		$userUnitId = Unit::find($request->userUnitId)
+			->currentUserUnit()
+			->id;
+
         $creditNote = new CreditNote();
-		$creditNote->user_unit_id = $request->userUnitId;
+		$creditNote->user_unit_id = $userUnitId;
         $creditNote->description = $request->description;
         $creditNote->amount = $request->amount;
-        $creditNote->created_by = $this->id;
+		$creditNote->month = $request->month;
+		$creditNote->year = $request->year;
+		$creditNote->created_by = $this->id;
 
         $saved = DB::transaction(function () use ($creditNote) {
             $saved = $creditNote->save();

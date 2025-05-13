@@ -28,7 +28,7 @@ const Btn = ({
 	return (
 		<button
 			style={btnStyle}
-			className={`mysonar-btn btn-2 ${className}`}
+			className={`mysonar-btn btn-2 text-nowrap ${className}`}
 			onClick={onClick}
 			disabled={loading}
 			data-bs-toggle={dataBsToggle}

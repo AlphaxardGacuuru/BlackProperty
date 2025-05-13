@@ -3,18 +3,18 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
-
+import Btn from "@/components/Core/Btn"
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
+import NoData from "@/components/Core/NoData"
 
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 import MoneySVG from "@/svgs/MoneySVG"
-import Btn from "@/components/Core/Btn"
 
 const WaterReadingList = (props) => {
 	const location = useLocation()
@@ -278,47 +278,61 @@ const WaterReadingList = (props) => {
 							<th>Year</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{props.waterReadings.data?.map((waterReading, key) => (
-							<tr key={key}>
-								<td>
-									<input
-										type="checkbox"
-										checked={deleteIds.includes(waterReading.id)}
-										onClick={() => handleSetDeleteIds(waterReading.id)}
-									/>
-								</td>
-								<td>{waterReading.tenantName}</td>
-								<td>{waterReading.unitName}</td>
-								<td>{waterReading.reading}</td>
-								<td>{waterReading.usage}</td>
-								<td className="text-success">
-									<small className="me-1">KES</small>
-									{waterReading.bill}
-								</td>
-								<td className="text-capitalize">
-									{props.months[waterReading.month]}
-								</td>
-								<td>{waterReading.year}</td>
-								<td>
-									<div className="d-flex justify-content-center">
-										<MyLink
-											linkTo={`/water-readings/${waterReading.id}/edit`}
-											icon={<EditSVG />}
+					</thead>
+					{props.waterReadings.data?.length > 0 ? (
+						<tbody>
+							{props.waterReadings.data?.map((waterReading, key) => (
+								<tr key={key}>
+									<td>
+										<input
+											type="checkbox"
+											checked={deleteIds.includes(waterReading.id)}
+											onClick={() => handleSetDeleteIds(waterReading.id)}
 										/>
-
-										<div className="mx-1">
-											<DeleteModal
-												index={`waterReading${key}`}
-												model={waterReading}
-												modelName="Water Reading"
-												onDelete={onDeleteWaterReading}
+									</td>
+									<td>{waterReading.tenantName}</td>
+									<td>{waterReading.unitName}</td>
+									<td>{waterReading.reading}</td>
+									<td>{waterReading.usage}</td>
+									<td className="text-success">
+										<small className="me-1">KES</small>
+										{waterReading.bill}
+									</td>
+									<td className="text-capitalize">
+										{props.months[waterReading.month]}
+									</td>
+									<td>{waterReading.year}</td>
+									<td>
+										<div className="d-flex justify-content-center">
+											<MyLink
+												linkTo={`/water-readings/${waterReading.id}/edit`}
+												icon={<EditSVG />}
 											/>
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`waterReading${key}`}
+													model={waterReading}
+													modelName="Water Reading"
+													onDelete={onDeleteWaterReading}
+												/>
+											</div>
 										</div>
-									</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="10"
+									className="p-0">
+									<NoData />
 								</td>
 							</tr>
-						))}
-					</thead>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

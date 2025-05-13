@@ -26,6 +26,8 @@ class CreditNoteResource extends JsonResource
             "type" => $this->invoice->type,
             "description" => $this->description,
             "amount" => number_format($this->amount),
+			"month" => $this->month,
+			"year" => $this->year,
             "createdBy" => $this->createdBy,
             "updatedAt" => $this->updated_at,
             "createdAt" => $this->created_at,

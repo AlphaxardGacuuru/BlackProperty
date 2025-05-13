@@ -22,7 +22,7 @@ const UnitDeduction = (props) => {
 		// Fetch Deduction
 		props.getPaginated(
 			`deductions?propertyId=${props.selectedPropertyId}&
-			unitId=${props.unitId}&
+			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&
@@ -49,6 +49,7 @@ const UnitDeduction = (props) => {
 				{/* Deductions Tab */}
 				<DeductionList
 					{...props}
+					unit={props.unit}
 					deductions={deductions}
 					setDeductions={setDeductions}
 					setInvoiceCode={setInvoiceCode}

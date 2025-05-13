@@ -12,7 +12,7 @@ import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import PaginationLinks from "@/components/Core/PaginationLinks"
-import UnitWaterReadingList from "@/components/Water/UnitWaterReadingList"
+import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
 import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
 import UnitPaymentList from "@/components/Units/UnitPaymentList"
 import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
@@ -40,7 +40,7 @@ const show = (props) => {
 		// Fetch Tenants
 		props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
 		// Fetch Statements
-		props.getPaginated(`units/statements/${id}?type=rent`, setStatements)
+		props.getPaginated(`units/statements/${id}`, setStatements)
 	}, [])
 
 	/*
@@ -271,12 +271,11 @@ const show = (props) => {
 					<table className="table table-hover">
 						<thead>
 							<tr>
-								<th colSpan="4">
+								<th colSpan="3">
 									<h4>Past Tenants</h4>
 								</th>
 							</tr>
 							<tr>
-								<th>#</th>
 								<th>Name</th>
 								<th>Vacated On</th>
 								<th>Action</th>
@@ -287,7 +286,6 @@ const show = (props) => {
 								?.filter((tenant) => tenant.vacatedAt)
 								.map((tenant, key) => (
 									<tr key={key}>
-										<td>{key + 1}</td>
 										<td>{tenant.name}</td>
 										<td>{tenant.vacatedAt}</td>
 										<td class="text-end">
@@ -333,6 +331,8 @@ const show = (props) => {
 						onClick={() => setTab("water_readings")}>
 						Water Readings
 					</div>
+				</div>
+				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
 							"invoices"
@@ -380,35 +380,35 @@ const show = (props) => {
 				{tab == "water_readings" && (
 					<UnitWaterReadingList
 						{...props}
-						unitId={id}
+						unit={unit}
 					/>
 				)}
 
 				{tab == "invoices" && (
 					<UnitInvoiceList
 						{...props}
-						unitId={id}
+						unit={unit}
 					/>
 				)}
 
 				{tab == "payments" && (
 					<UnitPaymentList
 						{...props}
-						unitId={id}
+						unit={unit}
 					/>
 				)}
 
 				{tab == "credit_notes" && (
 					<UnitCreditNoteList
 						{...props}
-						unitId={id}
+						unit={unit}
 					/>
 				)}
 
 				{tab == "deductions" && (
 					<UnitDeductionList
 						{...props}
-						unitId={id}
+						unit={unit}
 					/>
 				)}
 				{/* Tab Content End */}

@@ -10,11 +10,13 @@ import MyLink from "@/components/Core/MyLink"
 import BackSVG from "@/svgs/BackSVG"
 
 const create = (props) => {
-	var { id } = useParams()
+	var { unitId } = useParams()
 	const history = useHistory()
 
 	const [description, setDescription] = useState()
 	const [amount, setAmount] = useState()
+		const [month, setMonth] = useState(props.previousMonth)
+		const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -33,9 +35,11 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/deductions", {
-			invoiceId: id,
+			unitId: unitId,
 			description: description,
 			amount: amount,
+			month: month,
+			year: year,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -43,7 +47,7 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 
 				// Redirect to Deductions
-				setTimeout(() => history.push(`/admin/invoices/${id}/show`), 500)
+				setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -78,6 +82,39 @@ const create = (props) => {
 						required={true}></textarea>
 					{/* Description End */}
 
+					<div className="d-flex justify-content-start mb-2">
+						{/* Month */}
+						<select
+							className="form-control me-2"
+							onChange={(e) => setMonth(e.target.value)}
+							required={true}>
+							{props.months.map((month, key) => (
+								<option
+									key={key}
+									value={key}
+									selected={key == props.previousMonth}>
+									{month}
+								</option>
+							))}
+						</select>
+						{/* Month End */}
+
+						{/* Year */}
+						<select
+							className="form-control"
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == props.currentYear}>
+									{year}
+								</option>
+							))}
+						</select>
+						{/* Year End */}
+					</div>
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							text="create deduction"
@@ -85,13 +122,23 @@ const create = (props) => {
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center mb-5">
+					<div className="d-flex justify-content-center mb-2">
 						<MyLink
-							linkTo={`/invoices/${id}/show`}
+							linkTo={`/units/${unitId}/show`}
 							icon={<BackSVG />}
-							text="back to invoice"
+							text="back to unit"
+							className="mb-2"
 						/>
 					</div>
+
+					<div className="d-flex justify-content-center mb-5">
+						<MyLink
+							linkTo={`/deductions`}
+							icon={<BackSVG />}
+							text="go to deductions"
+						/>
+					</div>
+
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

@@ -25,7 +25,7 @@ const UnitInvoiceList = (props) => {
 		// Fetch Invoices
 		props.getPaginated(
 			`invoices?propertyId=${props.selectedPropertyId}&
-			unitId=${props.unitId}&
+			unitId=${props.unit.id}&
 			code=${code}&
 			invoice=${invoice}&
 			unit=${unit}&

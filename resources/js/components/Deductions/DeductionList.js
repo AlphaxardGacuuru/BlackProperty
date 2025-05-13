@@ -5,6 +5,7 @@ import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
+import NoData from "@/components/Core/NoData"
 
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
@@ -128,62 +129,62 @@ const DeductionList = (props) => {
 			<br />
 
 			{/* Table */}
-			{props.deductions.data?.length > 0 ? (
-				<div className="table-responsive mb-5">
-					<table className="table table-hover">
-						<thead>
-							<tr>
-								<th colSpan="6"></th>
-								<th
-									colSpan="2"
-									className="text-end">
-									<div className="d-flex justify-content-end">
-										{deleteIds.length > 0 && (
-											<Btn
-												text={`delete ${deleteIds.length}`}
-												className="me-2"
-												onClick={() => onDeleteDeduction(deleteIds)}
-												loading={loading}
-											/>
-										)}
+			<div className="table-responsive mb-5">
+				<table className="table table-hover">
+					<thead>
+						<tr>
+							<th colSpan="6"></th>
+							<th
+								colSpan="2"
+								className="text-end">
+								<div className="d-flex justify-content-end">
+									{deleteIds.length > 0 && (
+										<Btn
+											text={`delete ${deleteIds.length}`}
+											className="me-2"
+											onClick={() => onDeleteDeduction(deleteIds)}
+											loading={loading}
+										/>
+									)}
 
-										{location.pathname.match("/admin/units/") && (
-											<MyLink
-												linkTo={`/deductions/create`}
-												icon={<PlusSVG />}
-												text="add deduction"
-											/>
-										)}
-									</div>
-								</th>
-							</tr>
-							<tr>
-								<th>
-									<input
-										type="checkbox"
-										checked={
-											deleteIds.length == props.deductions.data?.length &&
-											deleteIds.length != 0
-										}
-										onClick={() =>
-											setDeleteIds(
-												deleteIds.length == props.deductions.data.length
-													? []
-													: props.deductions.data.map(
-															(deduction) => deduction.id
-													  )
-											)
-										}
-									/>
-								</th>
-								<th>#</th>
-								<th>Tenant</th>
-								<th>Unit</th>
-								<th>Type</th>
-								<th>Description</th>
-								<th>Amount</th>
-								<th className="text-center">Action</th>
-							</tr>
+									{location.pathname.match("/admin/units/") && (
+										<MyLink
+											linkTo={`/deductions/${props.unit?.id}/create`}
+											icon={<PlusSVG />}
+											text="add deduction"
+										/>
+									)}
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<input
+									type="checkbox"
+									checked={
+										deleteIds.length == props.deductions.data?.length &&
+										deleteIds.length != 0
+									}
+									onClick={() =>
+										setDeleteIds(
+											deleteIds.length == props.deductions.data.length
+												? []
+												: props.deductions.data.map((deduction) => deduction.id)
+										)
+									}
+								/>
+							</th>
+							<th>#</th>
+							<th>Tenant</th>
+							<th>Unit</th>
+							<th>Type</th>
+							<th>Description</th>
+							<th>Amount</th>
+							<th className="text-center">Action</th>
+						</tr>
+					</thead>
+					{props.deductions.data?.length > 0 ? (
+						<tbody>
 							{props.deductions.data?.map((deduction, key) => (
 								<tr key={key}>
 									<td>
@@ -234,25 +235,27 @@ const DeductionList = (props) => {
 									</td>
 								</tr>
 							))}
-						</thead>
-					</table>
-					{/* Pagination Links */}
-					<PaginationLinks
-						list={props.deductions}
-						getPaginated={props.getPaginated}
-						setState={props.setDeductions}
-					/>
-					{/* Pagination Links End */}
-				</div>
-			) : (
-				<div className="bg-white text-center py-5">
-					<img
-						src="/img/no-data-found.jpg"
-						alt="No entries found"
-						style={{ width: "30%", height: "auto" }}
-					/>
-				</div>
-			)}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<NoData />
+								</td>
+							</tr>
+						</tbody>
+					)}
+				</table>
+				{/* Pagination Links */}
+				<PaginationLinks
+					list={props.deductions}
+					getPaginated={props.getPaginated}
+					setState={props.setDeductions}
+				/>
+				{/* Pagination Links End */}
+			</div>
 			{/* Table End */}
 		</div>
 	)

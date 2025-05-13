@@ -26,6 +26,10 @@ class UnitResource extends JsonResource
         // Evaluate the formula
         $rent = eval("return $rent;");
 
+		$currentTenant = $this->currentTenant();
+
+		$currentUserUnit = $this->currentUserUnit();
+
         return [
             "id" => $this->id,
             "propertyId" => $this->property_id,
@@ -36,13 +40,14 @@ class UnitResource extends JsonResource
             "bedrooms" => $this->bedrooms,
             "size" => $this->size,
             "status" => $this->status,
-            "tenantId" => $this->currentTenant()?->id,
-            "tenantAvatar" => $this->currentTenant()?->avatar,
-            "tenantName" => $this->currentTenant()?->name,
-            "tenantEmail" => $this->currentTenant()?->email,
-            "tenantPhone" => $this->currentTenant()?->phone,
-            "tenantGender" => $this->currentTenant()?->gender,
-            "tenantOccupiedAt" => $this->currentUserUnit()?->occupied_at,
+            "tenantId" => $currentTenant?->id,
+            "tenantAvatar" => $currentTenant?->avatar,
+            "tenantName" => $currentTenant?->name,
+            "tenantEmail" => $currentTenant?->email,
+            "tenantPhone" => $currentTenant?->phone,
+            "tenantGender" => $currentTenant?->gender,
+            "tenantOccupiedAt" => $currentUserUnit?->occupied_at,
+			"currentUserUnitId" => $currentUserUnit?->id,
         ];
     }
 }

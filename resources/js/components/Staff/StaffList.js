@@ -119,100 +119,120 @@ const StaffList = (props) => {
 							<th className="text-center">Action</th>
 						</tr>
 					</thead>
-					<tbody>
-						{props.staff.data?.map((staff, key) => (
-							<tr key={key}>
-								<td>{props.iterator(key, props.staff)}</td>
-								<td>
-									<Img
-										src={staff.avatar}
-										className="rounded-circle"
-										width="25px"
-										height="25px"
-										alt="Avatar"
-									/>
-								</td>
-								<td>{staff.name}</td>
-								<td>{staff.phone}</td>
-								<td>
-									{staff.roleNames?.map((role, key) => (
-										<span key={key}>
-											{key != 0 && <span className="mx-1">|</span>}
-											{role}
-										</span>
-									))}
-								</td>
-								<td>{staff.createdAt}</td>
-								<td>
-									<div className="d-flex justify-content-end">
-										<React.Fragment>
-											<MyLink
-												linkTo={`/staff/${staff.id}/edit`}
-												icon={<EditSVG />}
-												className="btn-sm"
-											/>
+					{props.staff.data?.length > 0 ? (
+						<tbody>
+							{props.staff.data?.map((staff, key) => (
+								<tr key={key}>
+									<td>{props.iterator(key, props.staff)}</td>
+									<td>
+										<Img
+											src={staff.avatar}
+											className="rounded-circle"
+											width="25px"
+											height="25px"
+											alt="Avatar"
+										/>
+									</td>
+									<td>{staff.name}</td>
+									<td>{staff.phone}</td>
+									<td>
+										{staff.roleNames?.map((role, key) => (
+											<span key={key}>
+												{key != 0 && <span className="mx-1">|</span>}
+												{role}
+											</span>
+										))}
+									</td>
+									<td>{staff.createdAt}</td>
+									<td>
+										<div className="d-flex justify-content-end">
+											<React.Fragment>
+												<MyLink
+													linkTo={`/staff/${staff.id}/edit`}
+													icon={<EditSVG />}
+													className="btn-sm"
+												/>
 
-											<div className="mx-1">
-												{/* Confirm Delete Modal End */}
-												<div
-													className="modal fade"
-													id={`deleteModalStaff${staff.id}`}
-													tabIndex="-1"
-													aria-labelledby="deleteModalLabel"
-													aria-hidden="true">
-													<div className="modal-dialog">
-														<div className="modal-content rounded-0">
-															<div className="modal-header">
-																<h1
-																	id="deleteModalLabel"
-																	className="modal-title fs-5">
-																	Delete {staff.name}
-																</h1>
-																<button
-																	type="button"
-																	className="btn-close"
-																	data-bs-dismiss="modal"
-																	aria-label="Close"></button>
-															</div>
-															<div className="modal-body text-start text-wrap">
-																Are you sure you want to delete {staff.name}.
-															</div>
-															<div className="modal-footer justify-content-between">
-																<button
-																	type="button"
-																	className="mysonar-btn btn-2"
-																	data-bs-dismiss="modal">
-																	Close
-																</button>
-																<button
-																	type="button"
-																	className="btn btn-danger rounded-0"
-																	data-bs-dismiss="modal"
-																	onClick={() => onDeleteStaff(staff)}>
-																	<span className="me-1">{<DeleteSVG />}</span>
-																	Delete
-																</button>
+												<div className="mx-1">
+													{/* Confirm Delete Modal End */}
+													<div
+														className="modal fade"
+														id={`deleteModalStaff${staff.id}`}
+														tabIndex="-1"
+														aria-labelledby="deleteModalLabel"
+														aria-hidden="true">
+														<div className="modal-dialog">
+															<div className="modal-content rounded-0">
+																<div className="modal-header">
+																	<h1
+																		id="deleteModalLabel"
+																		className="modal-title fs-5">
+																		Delete {staff.name}
+																	</h1>
+																	<button
+																		type="button"
+																		className="btn-close"
+																		data-bs-dismiss="modal"
+																		aria-label="Close"></button>
+																</div>
+																<div className="modal-body text-start text-wrap">
+																	Are you sure you want to delete {staff.name}.
+																</div>
+																<div className="modal-footer justify-content-between">
+																	<button
+																		type="button"
+																		className="mysonar-btn btn-2"
+																		data-bs-dismiss="modal">
+																		Close
+																	</button>
+																	<button
+																		type="button"
+																		className="btn btn-danger rounded-0"
+																		data-bs-dismiss="modal"
+																		onClick={() => onDeleteStaff(staff)}>
+																		<span className="me-1">
+																			{<DeleteSVG />}
+																		</span>
+																		Delete
+																	</button>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												{/* Confirm Delete Modal End */}
+													{/* Confirm Delete Modal End */}
 
-												{/* Button trigger modal */}
-												<button
-													type="button"
-													className="mysonar-btn btn-2"
-													data-bs-toggle="modal"
-													data-bs-target={`#deleteModalStaff${staff.id}`}>
-													<DeleteSVG />
-												</button>
-											</div>
-										</React.Fragment>
+													{/* Button trigger modal */}
+													<button
+														type="button"
+														className="mysonar-btn btn-2"
+														data-bs-toggle="modal"
+														data-bs-target={`#deleteModalStaff${staff.id}`}>
+														<DeleteSVG />
+													</button>
+												</div>
+											</React.Fragment>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<div className="bg-white text-center w-100 py-5">
+										<img
+											src="/img/no-data-found.jpg"
+											alt="No entries found"
+											style={{ width: "30%", height: "auto" }}
+										/>
 									</div>
 								</td>
 							</tr>
-						))}
-					</tbody>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

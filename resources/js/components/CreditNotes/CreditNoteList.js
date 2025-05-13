@@ -5,6 +5,7 @@ import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
+import NoData from "@/components/Core/NoData"
 
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
@@ -18,7 +19,7 @@ import Btn from "@/components/Core/Btn"
 
 const CreditNoteList = (props) => {
 	const location = useLocation()
-	
+
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 
@@ -247,7 +248,7 @@ const CreditNoteList = (props) => {
 
 									{location.pathname.match("/admin/units/") && (
 										<MyLink
-											linkTo={`/credit-notes/create`}
+											linkTo={`/credit-notes/${props.unit?.id}/create`}
 											icon={<PlusSVG />}
 											text="add credit note"
 										/>
@@ -282,55 +283,71 @@ const CreditNoteList = (props) => {
 							<th>Amount</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{props.creditNotes.data?.map((creditNote, key) => (
-							<tr key={key}>
-								<td>
-									<input
-										type="checkbox"
-										checked={deleteIds.includes(creditNote.id)}
-										onClick={() => handleSetDeleteIds(creditNote.id)}
-									/>
-								</td>
-								<td>{props.iterator(key, props.creditNotes)}</td>
-								<td>{creditNote.tenantName}</td>
-								<td>{creditNote.unitName}</td>
-								<td className="text-capitalize">
-									{creditNote.type
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</td>
-								<td>{creditNote.description}</td>
-								<td className="text-success">
-									<small>KES</small> {creditNote.amount}
-								</td>
-								<td>
-									<div className="d-flex justify-content-end">
-										<MyLink
-											linkTo={`/invoices/${creditNote.invoiceId}/show`}
-											icon={<ViewSVG />}
-											text="view invoice"
-											className="me-1"
+					</thead>
+					{props.creditNotes.data?.length > 0 ? (
+						<tbody>
+							{props.creditNotes.data?.map((creditNote, key) => (
+								<tr key={key}>
+									<td>
+										<input
+											type="checkbox"
+											checked={deleteIds.includes(creditNote.id)}
+											onClick={() => handleSetDeleteIds(creditNote.id)}
 										/>
-
-										<MyLink
-											linkTo={`/credit-notes/${creditNote.id}/edit`}
-											icon={<EditSVG />}
-										/>
-
-										<div className="mx-1">
-											<DeleteModal
-												index={`creditNote${key}`}
-												model={creditNote}
-												modelName="Credit Note"
-												onDelete={onDeleteCreditNote}
+									</td>
+									<td>{props.iterator(key, props.creditNotes)}</td>
+									<td>{creditNote.tenantName}</td>
+									<td>{creditNote.unitName}</td>
+									<td className="text-capitalize">
+										{creditNote.type
+											.split("_")
+											.map(
+												(word) => word.charAt(0).toUpperCase() + word.slice(1)
+											)
+											.join(" ")}
+									</td>
+									<td>{creditNote.description}</td>
+									<td className="text-success">
+										<small>KES</small> {creditNote.amount}
+									</td>
+									<td>
+										<div className="d-flex justify-content-end">
+											<MyLink
+												linkTo={`/invoices/${creditNote.invoiceId}/show`}
+												icon={<ViewSVG />}
+												text="view invoice"
+												className="me-1"
 											/>
+
+											<MyLink
+												linkTo={`/credit-notes/${creditNote.id}/edit`}
+												icon={<EditSVG />}
+											/>
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`creditNote${key}`}
+													model={creditNote}
+													modelName="Credit Note"
+													onDelete={onDeleteCreditNote}
+												/>
+											</div>
 										</div>
-									</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<NoData />
 								</td>
 							</tr>
-						))}
-					</thead>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

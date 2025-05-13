@@ -4,6 +4,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
+import NoData from "@/components/Core/NoData"
 
 import MoneySVG from "@/svgs/MoneySVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
@@ -82,28 +83,40 @@ const StatementList = (props) => {
 							<th>Balance</th>
 						</tr>
 					</thead>
-					<tbody>
-						{props.statements.data?.map((statement, key) => (
-							<tr key={key}>
-								<td>{props.iterator(key, props.statements)}</td>
-								<td>{statement.tenantName}</td>
-								<td className="text-capitalize">{statement.type}</td>
-								<td className="text-capitalize">
-									{props.months[statement.month]}
-								</td>
-								<td>{statement.year}</td>
-								<td className="text-success">
-									<small>KES</small> {statement.credit}
-								</td>
-								<td className="text-success">
-									<small>KES</small> {statement.debit}
-								</td>
-								<td className="text-success">
-									<small>KES</small> {statement.balance}
+					{props.statements.data?.length > 0 ? (
+						<tbody>
+							{props.statements.data?.map((statement, key) => (
+								<tr key={key}>
+									<td>{props.iterator(key, props.statements)}</td>
+									<td>{statement.tenantName}</td>
+									<td className="text-capitalize">{statement.type}</td>
+									<td className="text-capitalize">
+										{props.months[statement.month]}
+									</td>
+									<td>{statement.year}</td>
+									<td className="text-success">
+										<small>KES</small> {statement.credit}
+									</td>
+									<td className="text-success">
+										<small>KES</small> {statement.debit}
+									</td>
+									<td className="text-success">
+										<small>KES</small> {statement.balance}
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<NoData />
 								</td>
 							</tr>
-						))}
-					</tbody>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

@@ -3,8 +3,10 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
+
 import HeroIcon from "@/components/Core/HeroIcon"
 import HeroHeading from "@/components/Core/HeroHeading"
+import NoData from "@/components/Core/NoData"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
@@ -121,57 +123,71 @@ const UnitList = (props) => {
 							<th>Current Tenant</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{props.units.data?.map((unit, key) => (
-							<tr key={key}>
-								<td>{props.iterator(key, props.units)}</td>
-								<td>{unit.name}</td>
-								<td className="text-success">
-									<small>KES</small> {unit.rent}
-								</td>
-								<td className="text-success">
-									<small>KES</small> {unit.deposit}
-								</td>
-								<td className="text-capitalize">{unit.type}</td>
-								<td className="text-capitalize">
-									{unit.bedrooms ?? `${unit.size?.value} ${unit.size?.unit}`}
-								</td>
-								<td>
-									{unit.tenantId ? (
-										<span className="bg-success-subtle p-1 px-4">
-											{unit.tenantName}
-										</span>
-									) : (
-										<span className="bg-warning-subtle p-1 px-4">Vacant</span>
-									)}
-								</td>
-								<td>
-									<div className="d-flex justify-content-center">
-										<MyLink
-											linkTo={`/units/${unit.id}/show`}
-											icon={<ViewSVG />}
-											// text="view"
-											className="me-1"
-										/>
-
-										<MyLink
-											linkTo={`/units/${unit.id}/edit`}
-											icon={<EditSVG />}
-											// text="edit"
-										/>
-
-										<div className="mx-1">
-											<DeleteModal
-												index={`unit${key}`}
-												model={unit}
-												modelName="Unit"
-												onDelete={props.onDeleteUnit}
+					</thead>
+					{props.units.data?.length > 0 ? (
+						<tbody>
+							{props.units.data?.map((unit, key) => (
+								<tr key={key}>
+									<td>{props.iterator(key, props.units)}</td>
+									<td>{unit.name}</td>
+									<td className="text-success">
+										<small>KES</small> {unit.rent}
+									</td>
+									<td className="text-success">
+										<small>KES</small> {unit.deposit}
+									</td>
+									<td className="text-capitalize">{unit.type}</td>
+									<td className="text-capitalize">
+										{unit.bedrooms ?? `${unit.size?.value} ${unit.size?.unit}`}
+									</td>
+									<td>
+										{unit.tenantId ? (
+											<span className="bg-success-subtle p-1 px-4">
+												{unit.tenantName}
+											</span>
+										) : (
+											<span className="bg-warning-subtle p-1 px-4">Vacant</span>
+										)}
+									</td>
+									<td>
+										<div className="d-flex justify-content-center">
+											<MyLink
+												linkTo={`/units/${unit.id}/show`}
+												icon={<ViewSVG />}
+												// text="view"
+												className="me-1"
 											/>
+
+											<MyLink
+												linkTo={`/units/${unit.id}/edit`}
+												icon={<EditSVG />}
+												// text="edit"
+											/>
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`unit${key}`}
+													model={unit}
+													modelName="Unit"
+													onDelete={props.onDeleteUnit}
+												/>
+											</div>
 										</div>
-									</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<NoData />
 								</td>
 							</tr>
-						))}
-					</thead>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

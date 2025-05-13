@@ -32,11 +32,12 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"userUnitId" => "required|integer",
+			"unitId" => "required|integer",
             "channel" => "nullable|string",
             "amount" => "required|string|min:1",
             "transactionReference" => "nullable|string",
-            "paidOn" => "required|string",
+			"month" => "required|integer|min:1",
+			"year" => "required|integer",
         ]);
 
         [$saved, $message, $payment] = $this->service->store($request);

@@ -19,6 +19,7 @@ return new class extends Migration
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
+			$table->string('code')->unique();
             $table->longText('description')->nullable();
             $table->integer('amount');
 			$table->integer('month');

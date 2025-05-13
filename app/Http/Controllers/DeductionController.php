@@ -31,9 +31,11 @@ class DeductionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"userUnitId" => "required|integer",
+			"unitId" => "required|integer",
             "description" => "required|string",
             "amount" => "required|integer",
+			"month" => "required|integer|min:1",
+			"year" => "required|integer",
         ]);
 
         [$saved, $message, $deductions] = $this->service->store($request);

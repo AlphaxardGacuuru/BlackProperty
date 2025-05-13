@@ -25,8 +25,8 @@ class PaymentResource extends JsonResource
             "channel" => $this->channel,
             "transactionReference" => $this->transaction_reference,
             "amount" => number_format($this->amount),
-            "paidOn" => $this->paid_on,
-            "paidOnFormatted" => Carbon::parse($this->paid_on)->format("Y-m-d"),
+            "month" => $this->month,
+            "year" => $this->year,
             "updatedAt" => $this->updatedAt,
             "createdAt" => $this->createdAt,
         ];

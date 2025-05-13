@@ -20,9 +20,9 @@ import SendEmailSVG from "@/svgs/SendEmailSVG"
 import SMSSVG from "@/svgs/SMSSVG"
 import ChatSVG from "@/svgs/ChatSVG"
 import ChatSendSVG from "@/svgs/ChatSendSVG"
+import NoData from "@/components/Core/NoData"
 
 const InvoiceList = (props) => {
-
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 	const [loadingSMS, setLoadingSMS] = useState()
@@ -32,7 +32,7 @@ const InvoiceList = (props) => {
 
 	const statuses = ["not_paid", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
-	
+
 	const [invoiceToSend, setInvoiceToSend] = useState({})
 
 	/*
@@ -468,41 +468,46 @@ const InvoiceList = (props) => {
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
-						{props.invoices.data?.map((invoice, key) => (
-							<tr key={key}>
-								<td>
-									<input
-										type="checkbox"
-										checked={deleteIds.includes(invoice.id)}
-										onClick={() => handleSetDeleteIds(invoice.id)}
-									/>
-								</td>
-								{/* <td>{props.iterator(key, invoices)}</td> */}
-								<td>{invoice.code}</td>
-								<td>{invoice.tenantName}</td>
-								<td>{invoice.unitName}</td>
-								<td className="text-capitalize">
-									{invoice.type
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</td>
-								<td className="text-capitalize">
-									{props.months[invoice.month]}
-								</td>
-								<td>{invoice.year}</td>
-								<td className="text-success">
-									<small>KES</small> {invoice.amount}
-								</td>
-								{/* <td className="text-success">
+					</thead>
+					{props.invoices.data?.length > 0 ? (
+						<tbody>
+							{props.invoices.data?.map((invoice, key) => (
+								<tr key={key}>
+									<td>
+										<input
+											type="checkbox"
+											checked={deleteIds.includes(invoice.id)}
+											onClick={() => handleSetDeleteIds(invoice.id)}
+										/>
+									</td>
+									{/* <td>{props.iterator(key, invoices)}</td> */}
+									<td>{invoice.code}</td>
+									<td>{invoice.tenantName}</td>
+									<td>{invoice.unitName}</td>
+									<td className="text-capitalize">
+										{invoice.type
+											.split("_")
+											.map(
+												(word) => word.charAt(0).toUpperCase() + word.slice(1)
+											)
+											.join(" ")}
+									</td>
+									<td className="text-capitalize">
+										{props.months[invoice.month]}
+									</td>
+									<td>{invoice.year}</td>
+									<td className="text-success">
+										<small>KES</small> {invoice.amount}
+									</td>
+									{/* <td className="text-success">
 								<small>KES</small> {invoice.paid}
 							</td> */}
-								<td className="text-success">
-									<small>KES</small> {invoice.balance}
-								</td>
-								<td className="text-capitalize">
-									<span
-										className={`
+									<td className="text-success">
+										<small>KES</small> {invoice.balance}
+									</td>
+									<td className="text-capitalize">
+										<span
+											className={`
 										${
 											invoice.status == "not_paid"
 												? "bg-danger-subtle"
@@ -513,48 +518,59 @@ const InvoiceList = (props) => {
 												: "bg-dark-subtle"
 										}
 									 py-1 px-3`}>
-										{invoice.status
-											.split("_")
-											.map(
-												(word) => word.charAt(0).toUpperCase() + word.slice(1)
-											)
-											.join(" ")}
-									</span>
-								</td>
-								<td>
-									<div className="d-flex justify-content-center">
-										<MyLink
-											linkTo={`/invoices/${invoice.id}/show`}
-											icon={<ViewSVG />}
-											className="mx-1"
-										/>
-
-										{/* Button trigger modal */}
-										{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
-											<Btn
-												icon={<ChatSendSVG />}
-												text="send invoice"
-												className={`mx-1`}
-												dataBsToggle="modal"
-												dataBsTarget={`#invoiceModal`}
-												onClick={() => setInvoiceToSend(invoice)}
+											{invoice.status
+												.split("_")
+												.map(
+													(word) => word.charAt(0).toUpperCase() + word.slice(1)
+												)
+												.join(" ")}
+										</span>
+									</td>
+									<td>
+										<div className="d-flex justify-content-center">
+											<MyLink
+												linkTo={`/invoices/${invoice.id}/show`}
+												icon={<ViewSVG />}
+												className="mx-1"
 											/>
-										)}
-										{/* Button trigger modal End */}
 
-										<div className="mx-1">
-											<DeleteModal
-												index={`invoice${key}`}
-												model={invoice}
-												modelName="Invoice"
-												onDelete={onDeleteInvoice}
-											/>
+											{/* Button trigger modal */}
+											{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
+												<Btn
+													icon={<ChatSendSVG />}
+													text="send invoice"
+													className={`mx-1`}
+													dataBsToggle="modal"
+													dataBsTarget={`#invoiceModal`}
+													onClick={() => setInvoiceToSend(invoice)}
+												/>
+											)}
+											{/* Button trigger modal End */}
+
+											<div className="mx-1">
+												<DeleteModal
+													index={`invoice${key}`}
+													model={invoice}
+													modelName="Invoice"
+													onDelete={onDeleteInvoice}
+												/>
+											</div>
 										</div>
-									</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					) : (
+						<tbody>
+							<tr>
+								<td
+									colSpan="8"
+									className="p-0">
+									<NoData />
 								</td>
 							</tr>
-						))}
-					</thead>
+						</tbody>
+					)}
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks

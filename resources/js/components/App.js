@@ -9,7 +9,7 @@ import Messages from "@/components/Core/Messages"
 import PaymentMenu from "@/components/Payments/PaymentMenu"
 import PageLoader from "@/components/Core/PageLoader"
 
-import RouteList from "./Core/RouteList"
+import Routes from "@/routes"
 import { random } from "lodash"
 
 function App() {
@@ -281,7 +281,7 @@ function App() {
 			<ScrollToTop />
 			<LoginPopUp {...GLOBAL_STATE} />
 			<PageLoader {...GLOBAL_STATE} />
-			<RouteList GLOBAL_STATE={GLOBAL_STATE} />
+			<Routes GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />

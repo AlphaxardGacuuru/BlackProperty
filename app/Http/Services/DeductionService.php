@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\DeductionResource;
 use App\Models\Deduction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DeductionService extends Service
@@ -42,11 +43,26 @@ class DeductionService extends Service
      */
     public function store($request)
     {
+		// Get current year in the format YY using Carbon
+		$currentYear = Carbon::now()->format('y');
+		// Get current month in the format MM using Carbon
+		$currentMonth = Carbon::now()->format('m');
+		// Get next invoice iteration
+		$count = Deduction::count() + 1;
+		// Generate invoice code
+		$code = "D-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
+
+		$userUnitId = Unit::find($request->userUnitId)
+			->currentUserUnit()
+			->id;
+
         $deduction = new Deduction();
-		$deduction->user_unit_id = $request->userUnitId;
+		$deduction->user_unit_id = $userUnitId;
         $deduction->description = $request->description;
         $deduction->amount = $request->amount;
-        $deduction->created_by = $this->id;
+		$deduction->month = $request->month;
+		$deduction->year = $request->year;
+		$deduction->created_by = $this->id;
 
         $saved = DB::transaction(function () use ($deduction) {
             $saved = $deduction->save();
