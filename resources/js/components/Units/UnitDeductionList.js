@@ -21,7 +21,7 @@ const UnitDeduction = (props) => {
 	useEffect(() => {
 		// Fetch Deduction
 		props.getPaginated(
-			`deductions?propertyId=${props.selectedPropertyId}&
+			`deductions?
 			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&

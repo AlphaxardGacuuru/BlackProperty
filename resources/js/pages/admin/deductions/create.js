@@ -15,8 +15,8 @@ const create = (props) => {
 
 	const [description, setDescription] = useState()
 	const [amount, setAmount] = useState()
-		const [month, setMonth] = useState(props.previousMonth)
-		const [year, setYear] = useState(props.currentYear)
+	const [month, setMonth] = useState(props.previousMonth)
+	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {

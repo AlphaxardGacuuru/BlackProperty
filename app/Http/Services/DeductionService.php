@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\DeductionResource;
 use App\Models\Deduction;
+use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -52,7 +53,7 @@ class DeductionService extends Service
 		// Generate invoice code
 		$code = "D-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
 
-		$userUnitId = Unit::find($request->userUnitId)
+		$userUnitId = Unit::find($request->unitId)
 			->currentUserUnit()
 			->id;
 
@@ -67,7 +68,7 @@ class DeductionService extends Service
         $saved = DB::transaction(function () use ($deduction) {
             $saved = $deduction->save();
 
-            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $saved;
         });
@@ -90,10 +91,18 @@ class DeductionService extends Service
             $deduction->description = $request->description;
         }
 
+		if ($request->filled("month")) {
+			$deduction->month = $request->month;
+		}
+
+		if ($request->filled("year")) {
+			$deduction->year = $request->year;
+		}
+
         $saved = DB::transaction(function () use ($deduction) {
             $saved = $deduction->save();
 
-            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $saved;
         });
@@ -111,7 +120,7 @@ class DeductionService extends Service
         $deleted = DB::transaction(function () use ($deduction) {
             $deleted = $deduction->delete();
 
-            $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
             return $deleted;
         });

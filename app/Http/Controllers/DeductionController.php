@@ -36,6 +36,8 @@ class DeductionController extends Controller
             "amount" => "required|integer",
 			"month" => "required|integer|min:1",
 			"year" => "required|integer",
+			"month" => "nullable|integer|min:1",
+			"year" => "nullable|integer",
         ]);
 
         [$saved, $message, $deductions] = $this->service->store($request);

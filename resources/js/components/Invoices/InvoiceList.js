@@ -564,7 +564,7 @@ const InvoiceList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="8"
+									colSpan="11"
 									className="p-0">
 									<NoData />
 								</td>

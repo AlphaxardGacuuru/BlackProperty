@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\CreditNoteResource;
 use App\Models\CreditNote;
+use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -52,7 +53,7 @@ class CreditNoteService extends Service
 		// Generate invoice code
 		$code = "C-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
 
-		$userUnitId = Unit::find($request->userUnitId)
+		$userUnitId = Unit::find($request->unitId)
 			->currentUserUnit()
 			->id;
 
@@ -67,7 +68,7 @@ class CreditNoteService extends Service
         $saved = DB::transaction(function () use ($creditNote) {
             $saved = $creditNote->save();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
             return $saved;
         });
@@ -90,10 +91,18 @@ class CreditNoteService extends Service
             $creditNote->description = $request->description;
         }
 
+		if ($request->filled("month")) {
+			$creditNote->month = $request->month;
+		}
+
+		if ($request->filled("year")) {
+			$creditNote->year = $request->year;
+		}
+
         $saved = DB::transaction(function () use ($creditNote) {
             $saved = $creditNote->save();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
             return $saved;
         });
@@ -111,7 +120,7 @@ class CreditNoteService extends Service
         $deleted = DB::transaction(function () use ($creditNote) {
             $deleted = $creditNote->delete();
 
-            $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
             return $deleted;
         });

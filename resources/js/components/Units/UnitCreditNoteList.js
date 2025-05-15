@@ -20,7 +20,7 @@ const UnitCreditNoteList = (props) => {
 	useEffect(() => {
 		// Fetch Credit Note
 		props.getPaginated(
-			`credit-notes?propertyId=${props.selectedPropertyId}&
+			`credit-notes?
 			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&

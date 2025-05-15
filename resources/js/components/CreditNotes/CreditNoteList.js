@@ -232,7 +232,7 @@ const CreditNoteList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="6"></th>
+							<th colSpan="7"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -278,9 +278,10 @@ const CreditNoteList = (props) => {
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Unit</th>
-							<th>Type</th>
 							<th>Description</th>
 							<th>Amount</th>
+							<th>Month</th>
+							<th>Year</th>
 							<th className="text-center">Action</th>
 						</tr>
 					</thead>
@@ -298,27 +299,14 @@ const CreditNoteList = (props) => {
 									<td>{props.iterator(key, props.creditNotes)}</td>
 									<td>{creditNote.tenantName}</td>
 									<td>{creditNote.unitName}</td>
-									<td className="text-capitalize">
-										{creditNote.type
-											.split("_")
-											.map(
-												(word) => word.charAt(0).toUpperCase() + word.slice(1)
-											)
-											.join(" ")}
-									</td>
 									<td>{creditNote.description}</td>
 									<td className="text-success">
 										<small>KES</small> {creditNote.amount}
 									</td>
+									<td>{props.months[creditNote.month]}</td>
+									<td>{creditNote.year}</td>
 									<td>
 										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/invoices/${creditNote.invoiceId}/show`}
-												icon={<ViewSVG />}
-												text="view invoice"
-												className="me-1"
-											/>
-
 											<MyLink
 												linkTo={`/credit-notes/${creditNote.id}/edit`}
 												icon={<EditSVG />}
@@ -341,7 +329,7 @@ const CreditNoteList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="8"
+									colSpan="9"
 									className="p-0">
 									<NoData />
 								</td>

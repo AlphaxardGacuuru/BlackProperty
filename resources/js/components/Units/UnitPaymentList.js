@@ -20,7 +20,7 @@ const UnitPaymentList = (props) => {
 	useEffect(() => {
 		// Fetch Payments
 		props.getPaginated(
-			`payments?propertyId=${props.selectedPropertyId}&
+			`payments?
 			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&

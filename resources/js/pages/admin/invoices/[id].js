@@ -46,20 +46,6 @@ const show = (props) => {
 					text="add payment"
 				/>
 
-				<MyLink
-					className="me-2"
-					linkTo={`/credit-notes/${id}/create`}
-					icon={<CreditNoteSVG />}
-					text="add credit note"
-				/>
-
-				<MyLink
-					className="me-2"
-					linkTo={`/deductions/${id}/create`}
-					icon={<DeductionSVG />}
-					text="add deduction"
-				/>
-
 				<Btn
 					className="me-5"
 					icon={<PrintSVG />}

@@ -133,7 +133,7 @@ const DeductionList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="6"></th>
+							<th colSpan="7"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -177,9 +177,10 @@ const DeductionList = (props) => {
 							<th>#</th>
 							<th>Tenant</th>
 							<th>Unit</th>
-							<th>Type</th>
 							<th>Description</th>
 							<th>Amount</th>
+							<th>Month</th>
+							<th>Year</th>
 							<th className="text-center">Action</th>
 						</tr>
 					</thead>
@@ -197,27 +198,14 @@ const DeductionList = (props) => {
 									<td>{props.iterator(key, props.deductions)}</td>
 									<td>{deduction.tenantName}</td>
 									<td>{deduction.unitName}</td>
-									<td className="text-capitalize">
-										{deduction.type
-											.split("_")
-											.map(
-												(word) => word.charAt(0).toUpperCase() + word.slice(1)
-											)
-											.join(" ")}
-									</td>
 									<td>{deduction.description}</td>
 									<td className="text-success">
 										<small>KES</small> {deduction.amount}
 									</td>
+									<td>{props.months[deduction.month]}</td>
+									<td>{deduction.year}</td>
 									<td>
 										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/invoices/${deduction.invoiceId}/show`}
-												icon={<ViewSVG />}
-												text="view invoice"
-												className="me-1"
-											/>
-
 											<MyLink
 												linkTo={`/deductions/${deduction.id}/edit`}
 												icon={<EditSVG />}
@@ -240,7 +228,7 @@ const DeductionList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="8"
+									colSpan="9"
 									className="p-0">
 									<NoData />
 								</td>

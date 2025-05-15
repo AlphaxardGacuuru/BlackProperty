@@ -109,8 +109,12 @@ class PaymentService extends Service
 			$payment->channel = $request->input("channel");
 		}
 
-		if ($request->filled("paidOn")) {
-			$payment->paid_on = $request->input("paidOn");
+		if ($request->filled("month")) {
+			$payment->month = $request->month;
+		}
+
+		if ($request->filled("year")) {
+			$payment->year = $request->year;
 		}
 
 		$saved = DB::transaction(function () use ($payment) {

@@ -74,7 +74,8 @@ class PaymentController extends Controller
             "channel" => "nullable|string",
             "amount" => "nullable|string|min:1",
             "transactionReference" => "nullable|string",
-            "paidOn" => "nullable|string",
+			"month" => "nullable|integer|min:1",
+			"year" => "nullable|integer",
         ]);
 
         [$saved, $message, $payment] = $this->service->update($request, $id);

@@ -16,6 +16,8 @@ const edit = (props) => {
 
 	const [description, setDescription] = useState()
 	const [amount, setAmount] = useState()
+	const [month, setMonth] = useState()
+	const [year, setYear] = useState()
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -40,6 +42,8 @@ const edit = (props) => {
 			invoiceId: id,
 			description: description,
 			amount: amount,
+			month: month,
+			year: year,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -83,6 +87,39 @@ const edit = (props) => {
 						required={true}></textarea>
 					{/* Description End */}
 
+					<div className="d-flex justify-content-start mb-2">
+						{/* Month */}
+						<select
+							className="form-control me-2"
+							onChange={(e) => setMonth(e.target.value)}
+							required={true}>
+							{props.months.map((month, key) => (
+								<option
+									key={key}
+									value={key}
+									selected={key == creditNote.month}>
+									{month}
+								</option>
+							))}
+						</select>
+						{/* Month End */}
+
+						{/* Year */}
+						<select
+							className="form-control"
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == creditNote.year}>
+									{year}
+								</option>
+							))}
+						</select>
+						{/* Year End */}
+					</div>
+
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							text="update credit note"
@@ -90,13 +127,23 @@ const edit = (props) => {
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center mb-5">
+					<div className="d-flex justify-content-center mb-2">
 						<MyLink
-							linkTo={`/credit-notes`}
+							linkTo={`/units/${creditNote.unitId}/show`}
 							icon={<BackSVG />}
-							text="back to credit notes"
+							text="back to unit"
+							className="mb-2"
 						/>
 					</div>
+
+					<div className="d-flex justify-content-center mb-5">
+						<MyLink
+							linkTo={`/deductions`}
+							icon={<BackSVG />}
+							text="go to deductions"
+						/>
+					</div>
+
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

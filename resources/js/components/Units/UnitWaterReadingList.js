@@ -20,7 +20,7 @@ const UnitWaterReadingList = (props) => {
 	useEffect(() => {
 		// Fetch Water Readings
 		props.getPaginated(
-			`water-readings?propertyId=${props.selectedPropertyId}&
+			`water-readings?
 			unitId=${props.unit.id}&
 			tenant=${tenant}&
 			unit=${unit}&

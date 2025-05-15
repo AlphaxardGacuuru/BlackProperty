@@ -20,6 +20,7 @@ class PaymentResource extends JsonResource
             "tenantName" => $this->userUnit->user->name,
             "tenantEmail" => $this->userUnit->user->email,
             "tenantPhone" => $this->userUnit->user->phone,
+            "unitId" => $this->userUnit->unit->id,
             "unitName" => $this->userUnit->unit->name,
             "code" => $this->code,
             "channel" => $this->channel,

@@ -70,6 +70,8 @@ class CreditNoteController extends Controller
         $this->validate($request, [
             "description" => "nullable|string",
             "amount" => "nullable|integer",
+			"month" => "nullable|integer|min:1",
+			"year" => "nullable|integer",
         ]);
 
         [$saved, $message, $creditNotes] = $this->service->update($request, $id);

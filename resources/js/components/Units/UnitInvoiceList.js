@@ -24,7 +24,7 @@ const UnitInvoiceList = (props) => {
 	useEffect(() => {
 		// Fetch Invoices
 		props.getPaginated(
-			`invoices?propertyId=${props.selectedPropertyId}&
+			`invoices?
 			unitId=${props.unit.id}&
 			code=${code}&
 			invoice=${invoice}&

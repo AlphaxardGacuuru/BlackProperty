@@ -17,7 +17,8 @@ const edit = (props) => {
 	const [amount, setAmount] = useState()
 	const [channel, setChannel] = useState()
 	const [transactionReference, setTransactionReference] = useState()
-	const [paidOn, setPaidOn] = useState()
+	const [month, setMonth] = useState(props.previousMonth)
+	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	const channels = ["Bank", "Mpesa"]
@@ -44,7 +45,8 @@ const edit = (props) => {
 			channel: channel,
 			amount: amount,
 			transactionReference: transactionReference,
-			paidOn: paidOn,
+			month: month,
+			year: year,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -105,15 +107,38 @@ const edit = (props) => {
 					/>
 					{/* Transaction Reference End */}
 
-					{/* Paid On */}
-					<label htmlFor="">Paid On</label>
-					<input
-						type="date"
-						className="form-control mb-2"
-						defaultValue={payment.paidOnFormatted}
-						onChange={(e) => setPaidOn(e.target.value)}
-					/>
-					{/* Paid On End */}
+					<div className="d-flex justify-content-start mb-2">
+						{/* Month */}
+						<select
+							className="form-control me-2"
+							onChange={(e) => setMonth(e.target.value)}
+							required={true}>
+							{props.months.map((month, key) => (
+								<option
+									key={key}
+									value={key}
+									selected={key == payment.month}>
+									{month}
+								</option>
+							))}
+						</select>
+						{/* Month End */}
+
+						{/* Year */}
+						<select
+							className="form-control"
+							onChange={(e) => setYear(e.target.value)}>
+							{props.years.map((year, key) => (
+								<option
+									key={key}
+									value={year}
+									selected={key == payment.year}>
+									{year}
+								</option>
+							))}
+						</select>
+						{/* Year End */}
+					</div>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
@@ -122,11 +147,20 @@ const edit = (props) => {
 						/>
 					</div>
 
+					<div className="d-flex justify-content-center mb-2">
+						<MyLink
+							linkTo={`/units/${payment.unitId}/show`}
+							icon={<BackSVG />}
+							text="back to unit"
+							className="mb-2"
+						/>
+					</div>
+
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/payments`}
+							linkTo={`/deductions`}
 							icon={<BackSVG />}
-							text="back to payments"
+							text="go to deductions"
 						/>
 					</div>
 					<div className="col-sm-4"></div>
