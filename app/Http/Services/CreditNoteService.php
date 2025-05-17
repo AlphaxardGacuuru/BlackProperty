@@ -10,86 +10,79 @@ use Illuminate\Support\Facades\DB;
 
 class CreditNoteService extends Service
 {
-    /*
+	/*
      * Fetch All Credit Notes
      */
-    public function index($request)
-    {
-        $creditNotesQuery = new CreditNote;
+	public function index($request)
+	{
+		$creditNotesQuery = new CreditNote;
 
-        $creditNotesQuery = $this->search($creditNotesQuery, $request);
+		$creditNotesQuery = $this->search($creditNotesQuery, $request);
 
-        $sum = $creditNotesQuery->sum("amount");
+		$sum = $creditNotesQuery->sum("amount");
 
-        $creditNotes = $creditNotesQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+		$creditNotes = $creditNotesQuery
+			->orderBy("month", "DESC")
+			->orderBy("year", "DESC")
+			->orderBy("id", "DESC")
+			->paginate(20);
 
-        return CreditNoteResource::collection($creditNotes)
-            ->additional(["sum" => $sum]);
-    }
+		return CreditNoteResource::collection($creditNotes)
+			->additional(["sum" => $sum]);
+	}
 
-    /*
+	/*
      * Fetch Credit Note
      */
-    public function show($id)
-    {
-        $creditNote = CreditNote::find($id);
+	public function show($id)
+	{
+		$creditNote = CreditNote::find($id);
 
-        return new CreditNoteResource($creditNote);
-    }
+		return new CreditNoteResource($creditNote);
+	}
 
-    /*
+	/*
      * Save Credit Note
      */
-    public function store($request)
-    {
-		// Get current year in the format YY using Carbon
-		$currentYear = Carbon::now()->format('y');
-		// Get current month in the format MM using Carbon
-		$currentMonth = Carbon::now()->format('m');
-		// Get next invoice iteration
-		$count = CreditNote::count() + 1;
-		// Generate invoice code
-		$code = "C-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
-
+	public function store($request)
+	{
 		$userUnitId = Unit::find($request->unitId)
 			->currentUserUnit()
 			->id;
 
-        $creditNote = new CreditNote();
+		$creditNote = new CreditNote();
 		$creditNote->user_unit_id = $userUnitId;
-        $creditNote->description = $request->description;
-        $creditNote->amount = $request->amount;
+		$creditNote->description = $request->description;
+		$creditNote->amount = $request->amount;
 		$creditNote->month = $request->month;
 		$creditNote->year = $request->year;
 		$creditNote->created_by = $this->id;
 
-        $saved = DB::transaction(function () use ($creditNote) {
-            $saved = $creditNote->save();
+		$saved = DB::transaction(function () use ($creditNote) {
+			$saved = $creditNote->save();
 
-            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
-            return $saved;
-        });
+			return $saved;
+		});
 
-        return [$saved, "Credit Note created successfully", $creditNote];
-    }
+		return [$saved, "Credit Note created successfully", $creditNote];
+	}
 
-    /*
+	/*
      * Update Credit Note
      */
-    public function update($request, $id)
-    {
-        $creditNote = CreditNote::find($id);
+	public function update($request, $id)
+	{
+		$creditNote = CreditNote::find($id);
 
-        if ($request->filled("amount")) {
-            $creditNote->amount = $request->amount;
-        }
+		if ($request->filled("amount")) {
+			$creditNote->amount = $request->amount;
+		}
 
-        if ($request->filled("description")) {
-            $creditNote->description = $request->description;
-        }
+		if ($request->filled("description")) {
+			$creditNote->description = $request->description;
+		}
 
 		if ($request->filled("month")) {
 			$creditNote->month = $request->month;
@@ -99,47 +92,47 @@ class CreditNoteService extends Service
 			$creditNote->year = $request->year;
 		}
 
-        $saved = DB::transaction(function () use ($creditNote) {
-            $saved = $creditNote->save();
+		$saved = DB::transaction(function () use ($creditNote) {
+			$saved = $creditNote->save();
 
-            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
-            return $saved;
-        });
+			return $saved;
+		});
 
-        return [$saved, "Credit Note updated", $creditNote];
-    }
+		return [$saved, "Credit Note updated", $creditNote];
+	}
 
-    /*
+	/*
      * Destroy Credit Note
      */
-    public function destroy($id)
-    {
-        $creditNote = CreditNote::findOrFail($id);
+	public function destroy($id)
+	{
+		$creditNote = CreditNote::findOrFail($id);
 
-        $deleted = DB::transaction(function () use ($creditNote) {
-            $deleted = $creditNote->delete();
+		$deleted = DB::transaction(function () use ($creditNote) {
+			$deleted = $creditNote->delete();
 
-            // $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
-            return $deleted;
-        });
+			return $deleted;
+		});
 
-        return [$deleted, "Credit Note deleted successfully", $creditNote];
-    }
+		return [$deleted, "Credit Note deleted successfully", $creditNote];
+	}
 
-    /*
+	/*
      * Handle Search
      */
-    public function search($query, $request)
-    {
-        $propertyId = explode(",", $request->propertyId);
+	public function search($query, $request)
+	{
+		$propertyId = explode(",", $request->propertyId);
 
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->whereIn("id", $propertyId);
-            });
-        }
+		if ($request->filled("propertyId")) {
+			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
 		$unitId = $request->input("unitId");
 
@@ -159,48 +152,47 @@ class CreditNoteService extends Service
 				});
 		}
 
-        $tenant = $request->input("tenant");
+		$tenant = $request->input("tenant");
 
-        if ($request->filled("tenant")) {
-            $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($tenant) {
-                    $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
+		if ($request->filled("tenant")) {
+			$query = $query
+				->whereHas("userUnit.user", function ($query) use ($tenant) {
+					$query->where("name", "LIKE", "%" . $tenant . "%");
+				});
+		}
 
-        $type = $request->input("type");
+		$type = $request->input("type");
 
-        if ($request->filled("type")) {
-            $query = $query->where("type", $type);
-        }
+		if ($request->filled("type")) {
+			$query = $query->where("type", $type);
+		}
 
-        $startMonth = $request->input("startMonth");
-        $endMonth = $request->input("endMonth");
-        $startYear = $request->input("startYear");
-        $endYear = $request->input("endYear");
+		$startMonth = $request->input("startMonth");
+		$endMonth = $request->input("endMonth");
+		$startYear = $request->input("startYear");
+		$endYear = $request->input("endYear");
 
-        if ($request->filled("startMonth")) {
-            $query = $query->where("month", ">=", $startMonth);
-        }
+		if ($request->filled("startMonth")) {
+			$query = $query->where("month", ">=", $startMonth);
+		}
 
-        if ($request->filled("endMonth")) {
-            $query = $query->where("month", "<=", $endMonth);
-        }
+		if ($request->filled("endMonth")) {
+			$query = $query->where("month", "<=", $endMonth);
+		}
 
-        if ($request->filled("startYear")) {
-            $query = $query->where("year", ">=", $startYear);
-        }
+		if ($request->filled("startYear")) {
+			$query = $query->where("year", ">=", $startYear);
+		}
 
-        if ($request->filled("endYear")) {
-            $query = $query->where("year", "<=", $endYear);
-        }
+		if ($request->filled("endYear")) {
+			$query = $query->where("year", "<=", $endYear);
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 
-    public function invoiceService()
-    {
-        return new InvoiceService;
-    }
-
+	public function invoiceService()
+	{
+		return new InvoiceService;
+	}
 }

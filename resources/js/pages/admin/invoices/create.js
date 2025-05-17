@@ -307,9 +307,10 @@ const create = (props) => {
 						<MyLink
 							linkTo={`/invoices`}
 							icon={<BackSVG />}
-							text="back to invoices"
+							text="go to invoices"
 						/>
 					</div>
+
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

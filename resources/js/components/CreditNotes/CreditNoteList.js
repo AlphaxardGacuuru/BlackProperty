@@ -232,7 +232,7 @@ const CreditNoteList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="7"></th>
+							<th colSpan="8"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -276,6 +276,7 @@ const CreditNoteList = (props) => {
 								/>
 							</th>
 							<th>#</th>
+							<th>Number</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Description</th>
@@ -297,6 +298,7 @@ const CreditNoteList = (props) => {
 										/>
 									</td>
 									<td>{props.iterator(key, props.creditNotes)}</td>
+									<td>{creditNote.number}</td>
 									<td>{creditNote.tenantName}</td>
 									<td>{creditNote.unitName}</td>
 									<td>{creditNote.description}</td>
@@ -329,7 +331,7 @@ const CreditNoteList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="9"
+									colSpan="10"
 									className="p-0">
 									<NoData />
 								</td>

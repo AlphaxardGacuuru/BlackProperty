@@ -10,86 +10,79 @@ use Illuminate\Support\Facades\DB;
 
 class DeductionService extends Service
 {
-    /*
+	/*
      * Fetch All Deductions
      */
-    public function index($request)
-    {
-        $deductionsQuery = new Deduction;
+	public function index($request)
+	{
+		$deductionsQuery = new Deduction;
 
-        $deductionsQuery = $this->search($deductionsQuery, $request);
+		$deductionsQuery = $this->search($deductionsQuery, $request);
 
-        $sum = $deductionsQuery->sum("amount");
+		$sum = $deductionsQuery->sum("amount");
 
-        $deductions = $deductionsQuery
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+		$deductions = $deductionsQuery
+			->orderBy("month", "DESC")
+			->orderBy("year", "DESC")
+			->orderBy("id", "DESC")
+			->paginate(20);
 
-        return DeductionResource::collection($deductions)
-            ->additional(["sum" => $sum]);
-    }
+		return DeductionResource::collection($deductions)
+			->additional(["sum" => $sum]);
+	}
 
-    /*
+	/*
      * Fetch Deduction
      */
-    public function show($id)
-    {
-        $deduction = Deduction::find($id);
+	public function show($id)
+	{
+		$deduction = Deduction::find($id);
 
-        return new DeductionResource($deduction);
-    }
+		return new DeductionResource($deduction);
+	}
 
-    /*
+	/*
      * Save Deduction
      */
-    public function store($request)
-    {
-		// Get current year in the format YY using Carbon
-		$currentYear = Carbon::now()->format('y');
-		// Get current month in the format MM using Carbon
-		$currentMonth = Carbon::now()->format('m');
-		// Get next invoice iteration
-		$count = Deduction::count() + 1;
-		// Generate invoice code
-		$code = "D-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
-
+	public function store($request)
+	{
 		$userUnitId = Unit::find($request->unitId)
 			->currentUserUnit()
 			->id;
 
-        $deduction = new Deduction();
+		$deduction = new Deduction();
 		$deduction->user_unit_id = $userUnitId;
-        $deduction->description = $request->description;
-        $deduction->amount = $request->amount;
+		$deduction->description = $request->description;
+		$deduction->amount = $request->amount;
 		$deduction->month = $request->month;
 		$deduction->year = $request->year;
 		$deduction->created_by = $this->id;
 
-        $saved = DB::transaction(function () use ($deduction) {
-            $saved = $deduction->save();
+		$saved = DB::transaction(function () use ($deduction) {
+			$saved = $deduction->save();
 
-            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
-            return $saved;
-        });
+			return $saved;
+		});
 
-        return [$saved, "Deduction created successfully", $deduction];
-    }
+		return [$saved, "Deduction created successfully", $deduction];
+	}
 
-    /*
+	/*
      * Update Deduction
      */
-    public function update($request, $id)
-    {
-        $deduction = Deduction::find($id);
+	public function update($request, $id)
+	{
+		$deduction = Deduction::find($id);
 
-        if ($request->filled("amount")) {
-            $deduction->amount = $request->amount;
-        }
+		if ($request->filled("amount")) {
+			$deduction->amount = $request->amount;
+		}
 
-        if ($request->filled("description")) {
-            $deduction->description = $request->description;
-        }
+		if ($request->filled("description")) {
+			$deduction->description = $request->description;
+		}
 
 		if ($request->filled("month")) {
 			$deduction->month = $request->month;
@@ -99,47 +92,47 @@ class DeductionService extends Service
 			$deduction->year = $request->year;
 		}
 
-        $saved = DB::transaction(function () use ($deduction) {
-            $saved = $deduction->save();
+		$saved = DB::transaction(function () use ($deduction) {
+			$saved = $deduction->save();
 
-            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
-            return $saved;
-        });
+			return $saved;
+		});
 
-        return [$saved, "Deduction updated", $deduction];
-    }
+		return [$saved, "Deduction updated", $deduction];
+	}
 
-    /*
+	/*
      * Destroy Deduction
      */
-    public function destroy($id)
-    {
-        $deduction = Deduction::findOrFail($id);
+	public function destroy($id)
+	{
+		$deduction = Deduction::findOrFail($id);
 
-        $deleted = DB::transaction(function () use ($deduction) {
-            $deleted = $deduction->delete();
+		$deleted = DB::transaction(function () use ($deduction) {
+			$deleted = $deduction->delete();
 
-            // $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
-            return $deleted;
-        });
+			return $deleted;
+		});
 
-        return [$deleted, "Deduction deleted successfully", $deduction];
-    }
+		return [$deleted, "Deduction deleted successfully", $deduction];
+	}
 
-    /*
+	/*
      * Handle Search
      */
-    public function search($query, $request)
-    {
-        $propertyId = explode(",", $request->propertyId);
+	public function search($query, $request)
+	{
+		$propertyId = explode(",", $request->propertyId);
 
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->whereIn("id", $propertyId);
-            });
-        }
+		if ($request->filled("propertyId")) {
+			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
 		$unitId = $request->input("unitId");
 
@@ -168,47 +161,47 @@ class DeductionService extends Service
 				});
 		}
 
-        $tenant = $request->input("tenant");
+		$tenant = $request->input("tenant");
 
-        if ($request->filled("tenant")) {
-            $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($tenant) {
-                    $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
+		if ($request->filled("tenant")) {
+			$query = $query
+				->whereHas("userUnit.user", function ($query) use ($tenant) {
+					$query->where("name", "LIKE", "%" . $tenant . "%");
+				});
+		}
 
-        $type = $request->input("type");
+		$type = $request->input("type");
 
-        if ($request->filled("type")) {
-            $query = $query->where("type", $type);
-        }
+		if ($request->filled("type")) {
+			$query = $query->where("type", $type);
+		}
 
-        $startMonth = $request->input("startMonth");
-        $endMonth = $request->input("endMonth");
-        $startYear = $request->input("startYear");
-        $endYear = $request->input("endYear");
+		$startMonth = $request->input("startMonth");
+		$endMonth = $request->input("endMonth");
+		$startYear = $request->input("startYear");
+		$endYear = $request->input("endYear");
 
-        if ($request->filled("startMonth")) {
-            $query = $query->where("month", ">=", $startMonth);
-        }
+		if ($request->filled("startMonth")) {
+			$query = $query->where("month", ">=", $startMonth);
+		}
 
-        if ($request->filled("endMonth")) {
-            $query = $query->where("month", "<=", $endMonth);
-        }
+		if ($request->filled("endMonth")) {
+			$query = $query->where("month", "<=", $endMonth);
+		}
 
-        if ($request->filled("startYear")) {
-            $query = $query->where("year", ">=", $startYear);
-        }
+		if ($request->filled("startYear")) {
+			$query = $query->where("year", ">=", $startYear);
+		}
 
-        if ($request->filled("endYear")) {
-            $query = $query->where("year", "<=", $endYear);
-        }
+		if ($request->filled("endYear")) {
+			$query = $query->where("year", "<=", $endYear);
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 
-    public function invoiceService()
-    {
-        return new InvoiceService;
-    }
+	public function invoiceService()
+	{
+		return new InvoiceService;
+	}
 }

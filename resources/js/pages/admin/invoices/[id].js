@@ -39,13 +39,6 @@ const show = (props) => {
 		<React.Fragment>
 			{/*Create Link*/}
 			<div className="d-flex justify-content-end mb-4">
-				<MyLink
-					className="me-2"
-					linkTo={`/payments/${id}/create`}
-					icon={<PaymentSVG />}
-					text="add payment"
-				/>
-
 				<Btn
 					className="me-5"
 					icon={<PrintSVG />}
@@ -102,7 +95,7 @@ const show = (props) => {
 									<div className="text-muted">Email: {invoice.tenantEmail}</div>
 								</div>
 								<div className="text-end">
-									<h5 className="">Invoice No: {invoice.code}</h5>
+									<h5 className="">Invoice No: {invoice.number}</h5>
 									<div className="text-muted">Date: {invoice.createdAt}</div>
 								</div>
 							</div>

@@ -138,7 +138,9 @@ const UnitList = (props) => {
 									</td>
 									<td className="text-capitalize">{unit.type}</td>
 									<td className="text-capitalize">
-										{unit.bedrooms ?? `${unit.size?.value} ${unit.size?.unit}`}
+										{unit.bedrooms
+											? `${unit.bedrooms} Bed`
+											: `${unit.size?.value} ${unit.size?.unit}`}
 									</td>
 									<td>
 										{unit.tenantId ? (

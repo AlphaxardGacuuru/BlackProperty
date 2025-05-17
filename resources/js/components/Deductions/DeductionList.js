@@ -133,7 +133,7 @@ const DeductionList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="7"></th>
+							<th colSpan="8"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -175,6 +175,7 @@ const DeductionList = (props) => {
 								/>
 							</th>
 							<th>#</th>
+							<th>Number</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Description</th>
@@ -196,6 +197,7 @@ const DeductionList = (props) => {
 										/>
 									</td>
 									<td>{props.iterator(key, props.deductions)}</td>
+									<td>{deduction.number}</td>
 									<td>{deduction.tenantName}</td>
 									<td>{deduction.unitName}</td>
 									<td>{deduction.description}</td>
@@ -228,7 +230,7 @@ const DeductionList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="9"
+									colSpan="11"
 									className="p-0">
 									<NoData />
 								</td>

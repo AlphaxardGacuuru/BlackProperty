@@ -14,12 +14,13 @@ class CreditNoteResource extends JsonResource
      */
     public function toArray($request)
     {
-        $invoiceCode = str_pad($this->invoice_id, 6, '0', STR_PAD_LEFT);
-        $invoiceCode = "I-" . $invoiceCode;
+		$number = str_pad($this->id, 6, '0', STR_PAD_LEFT);
+		$number = "CN-" . $number;
 
-        return [
+		return [
             "id" => $this->id,
-            "tenantName" => $this->userUnit->user->name,
+            "number" => $number,
+			"tenantName" => $this->userUnit->user->name,
             "unitId" => $this->userUnit->unit->id,
             "unitName" => $this->userUnit->unit->name,
             "description" => $this->description,

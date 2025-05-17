@@ -5,7 +5,7 @@ import InvoiceList from "@/components/Invoices/InvoiceList"
 const UnitInvoiceList = (props) => {
 	const [invoices, setInvoices] = useState([])
 
-	const [code, setCode] = useState("")
+	const [number, setNumber] = useState("")
 	const [invoice, setInvoice] = useState("")
 	const [unit, setUnit] = useState("")
 	const [tenant, setTenant] = useState("")
@@ -26,7 +26,7 @@ const UnitInvoiceList = (props) => {
 		props.getPaginated(
 			`invoices?
 			unitId=${props.unit.id}&
-			code=${code}&
+			number=${number}&
 			invoice=${invoice}&
 			unit=${unit}&
 			tenant=${tenant}&
@@ -40,7 +40,7 @@ const UnitInvoiceList = (props) => {
 		)
 	}, [
 		props.selectedPropertyId,
-		code,
+		number,
 		invoice,
 		unit,
 		tenant,
@@ -60,8 +60,8 @@ const UnitInvoiceList = (props) => {
 					{...props}
 					invoices={invoices}
 					setInvoices={setInvoices}
-					setCode={setCode}
-					setInvoice={setCode}
+					setNumber={setNumber}
+					setInvoice={setNumber}
 					setUnit={setUnit}
 					setTenant={setTenant}
 					setType={setType}

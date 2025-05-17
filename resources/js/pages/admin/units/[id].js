@@ -34,9 +34,7 @@ const show = (props) => {
 		// Set page
 		props.setPage({ name: "View Unit", path: ["units", "view"] })
 		// Fetch Unit
-		Axios.get(`api/units/${id}`).then((res) => {
-			setUnit(res.data.data)
-		})
+		props.get(`units/${id}`, setUnit)
 		// Fetch Tenants
 		props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
 		// Fetch Statements
@@ -53,12 +51,14 @@ const show = (props) => {
 		})
 			.then((res) => {
 				props.setMessages([res.data.message])
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
 				// Fetch Unit
 				props.get(`units/${id}`, setUnit)
 				// Fetch Tenants
-				props.getPaginated(`tenants?unitId${id}&vacated=true`, setTenants)
-				// Fetch Auth
-				props.get("auth", props.setAuth, "auth")
+				props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
+				// Fetch Statements
+				props.getPaginated(`units/statements/${id}`, setStatements)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -70,10 +70,14 @@ const show = (props) => {
 		Axios.delete(`/api/tenants/${tenantId}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
-				// Fetch Unit
-				props.get(`units/${id}`, setUnit)
 				// Fetch Auth
 				props.get("auth", props.setAuth, "auth")
+				// Fetch Unit
+				props.get(`units/${id}`, setUnit)
+				// Fetch Tenants
+				props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
+				// Fetch Statements
+				props.getPaginated(`units/statements/${id}`, setStatements)
 			})
 			.catch((err) => props.getErrors(err))
 	}

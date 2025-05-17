@@ -19,13 +19,7 @@ class PaymentFactory extends Factory
 	public function definition()
 	{
 		$channels = ["Bank", "Mpesa"];
-
-		$code = Payment::count() + 1;
-		$code = str_pad($code, 6, '0', STR_PAD_LEFT);
-		$code = "P-" . $code;
-
 		return [
-			"code" => $code,
 			"amount" => "amount",
 			// "transaction_reference" => fake()->regexify('[A-Z0-9]{10}'),
 			"channel" => $channels[rand(0, 1)],

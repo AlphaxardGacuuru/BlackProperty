@@ -48,7 +48,7 @@ const PaymentList = (props) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
 				// Remove row
-				setPayments({
+				props.setPayments({
 					sum: props.payments.sum,
 					meta: props.payments.meta,
 					links: props.payments.links,
@@ -272,7 +272,7 @@ const PaymentList = (props) => {
 								/>
 							</th>
 							<th>#</th>
-							<th>Code</th>
+							<th>Number</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Channel</th>
@@ -295,7 +295,7 @@ const PaymentList = (props) => {
 										/>
 									</td>
 									<td>{props.iterator(key, props.payments)}</td>
-									<td>{payment.code}</td>
+									<td>{payment.number}</td>
 									<td>{payment.tenantName}</td>
 									<td>{payment.unitName}</td>
 									<td>{payment.channel}</td>

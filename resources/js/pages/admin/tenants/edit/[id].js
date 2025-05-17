@@ -99,7 +99,7 @@ const edit = (props) => {
 					<label htmlFor="">Gender</label>
 					<select
 						name="gender"
-						className="form-control mb-3 mb-2"
+						className="form-control mb-3"
 						onChange={(e) => setGender(e.target.value)}>
 						<option value="">Select Gender</option>
 						<option
@@ -124,13 +124,23 @@ const edit = (props) => {
 					</center>
 				</form>
 
-				<center>
+				<div className="d-flex justify-content-center mb-2">
+					<MyLink
+						linkTo={`/units/${tenant.unitId}/show`}
+						icon={<BackSVG />}
+						text="back to unit"
+						className="mb-2"
+					/>
+				</div>
+
+				<div className="d-flex justify-content-center mb-2">
 					<MyLink
 						linkTo={`/tenants`}
 						icon={<BackSVG />}
 						text="back to tenants"
+						className="mb-2"
 					/>
-				</center>
+				</div>
 			</div>
 		</div>
 	)

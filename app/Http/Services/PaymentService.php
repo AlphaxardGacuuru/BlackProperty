@@ -24,6 +24,8 @@ class PaymentService extends Service
 		$sum = $paymentQuery->sum("amount");
 
 		$payments = $paymentQuery
+			->orderBy("month", "DESC")
+			->orderBy("year", "DESC")
 			->orderBy("id", "DESC")
 			->paginate(20)
 			->appends([
@@ -50,22 +52,12 @@ class PaymentService extends Service
      */
 	public function store($request)
 	{
-		// Get current year in the format YY using Carbon
-		$currentYear = Carbon::now()->format('y');
-		// Get current month in the format MM using Carbon
-		$currentMonth = Carbon::now()->format('m');
-		// Get next invoice iteration
-		$count = Payment::count() + 1;
-		// Generate invoice code
-		$code = "P-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
-
 		$userUnitId = Unit::find($request->unitId)
 			->currentUserUnit()
 			?->id;
 
 		$payment = new Payment;
 		$payment->user_unit_id = $userUnitId;
-		$payment->code = $code;
 		$payment->amount = $request->amount;
 		$payment->transaction_reference = $request->transactionReference;
 		$payment->channel = $request->channel;

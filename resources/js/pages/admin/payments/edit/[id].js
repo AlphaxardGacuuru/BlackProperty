@@ -156,13 +156,25 @@ const edit = (props) => {
 						/>
 					</div>
 
-					<div className="d-flex justify-content-center mb-5">
+					<div className="d-flex justify-content-center mb-2">
 						<MyLink
-							linkTo={`/deductions`}
+							linkTo={`/payments`}
 							icon={<BackSVG />}
-							text="go to deductions"
+							text="go to payments"
+							className="mb-2"
 						/>
 					</div>
+
+					{payment.invoiceId && (
+						<div className="d-flex justify-content-center mb-5">
+							<MyLink
+								linkTo={`/invoices/${payment.invoiceId}/payments`}
+								icon={<BackSVG />}
+								text="go to invoice payments"
+							/>
+						</div>
+					)}
+
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

@@ -138,7 +138,7 @@ const InvoiceList = (props) => {
 							<h1
 								id="invoiceModalLabel"
 								className="modal-title fs-5">
-								Send Invoice {invoiceToSend.code}
+								Send Invoice {invoiceToSend.number}
 							</h1>
 							<button
 								type="button"
@@ -251,7 +251,7 @@ const InvoiceList = (props) => {
 							type="text"
 							placeholder="Search by Code"
 							className="form-control"
-							onChange={(e) => props.setCode(e.target.value)}
+							onChange={(e) => props.setNumber(e.target.value)}
 						/>
 					</div>
 					{/* Code End */}
@@ -431,11 +431,13 @@ const InvoiceList = (props) => {
 										/>
 									)}
 
-									<MyLink
-										linkTo={`/invoices/create`}
-										icon={<PlusSVG />}
-										text="create invoice"
-									/>
+									{location.pathname.match("/admin/invoices/") && (
+										<MyLink
+											linkTo={`/invoices/create`}
+											icon={<PlusSVG />}
+											text="create invoice"
+										/>
+									)}
 								</div>
 							</th>
 						</tr>
@@ -456,7 +458,7 @@ const InvoiceList = (props) => {
 									}
 								/>
 							</th>
-							<th>Invoice No</th>
+							<th>Number</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Type</th>
@@ -481,7 +483,7 @@ const InvoiceList = (props) => {
 										/>
 									</td>
 									{/* <td>{props.iterator(key, invoices)}</td> */}
-									<td>{invoice.code}</td>
+									<td>{invoice.number}</td>
 									<td>{invoice.tenantName}</td>
 									<td>{invoice.unitName}</td>
 									<td className="text-capitalize">

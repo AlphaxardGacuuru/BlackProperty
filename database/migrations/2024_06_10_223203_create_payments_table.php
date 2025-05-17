@@ -19,7 +19,6 @@ return new class extends Migration
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
-			$table->string('code')->unique();
 			$table->string('amount');
 			$table->string('transaction_reference')->nullable();
 			$table->string('channel')->nullable();

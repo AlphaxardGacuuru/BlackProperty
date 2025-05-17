@@ -6,42 +6,41 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('credit_notes', function (Blueprint $table) {
-            $table->id();
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('credit_notes', function (Blueprint $table) {
+			$table->id();
 			$table->foreignId('user_unit_id')
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
-			$table->string('code')->unique();
-            $table->longText('description')->nullable();
-            $table->integer('amount');
+			$table->longText('description')->nullable();
+			$table->integer('amount');
 			$table->integer('month');
 			$table->integer('year');
-            $table->unsignedBigInteger('created_by');
-            $table->timestamps();
+			$table->unsignedBigInteger('created_by');
+			$table->timestamps();
 
-            $table->foreign('created_by')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-        });
-    }
+			$table->foreign('created_by')
+				->references('id')
+				->on('users')
+				->onUpdate('cascade')
+				->onDelete('cascade');
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('credit_notes');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('credit_notes');
+	}
 };

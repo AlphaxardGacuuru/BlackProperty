@@ -16,170 +16,160 @@ use Illuminate\Validation\ValidationException;
 
 class InvoiceService extends Service
 {
-    /*
+	/*
      * Fetch All Invoices
      */
-    public function index($request)
-    {
-        $invoiceQuery = new Invoice;
+	public function index($request)
+	{
+		$invoiceQuery = new Invoice;
 
-        $invoiceQuery = $this->search($invoiceQuery, $request);
+		$invoiceQuery = $this->search($invoiceQuery, $request);
 
-        $creditNotes = CreditNote::sum("amount");
+		$creditNotes = CreditNote::sum("amount");
 
-        $deductions = Deduction::sum("amount");
+		$deductions = Deduction::sum("amount");
 
-        $paid = Payment::sum("amount");
-		
-        $due = $invoiceQuery->sum("amount");
+		$paid = Payment::sum("amount");
 
-        $balance = $due - $creditNotes - $paid + $deductions;
+		$due = $invoiceQuery->sum("amount");
 
-        $invoices = $invoiceQuery
-            ->orderBy("month", "DESC")
-            ->orderBy("year", "DESC")
-            ->orderBy("id", "DESC")
-            ->paginate(20)
-            ->appends([
-                "propertyId" => $request->propertyId,
-                "unitId" => $request->unitId,
-            ]);
+		$balance = $due - $creditNotes - $paid + $deductions;
 
-        return InvoiceResource::collection($invoices)
-            ->additional([
-                "due" => number_format($due),
-                "paid" => number_format($paid),
-                "balance" => number_format($balance),
-            ]);
-    }
+		$invoices = $invoiceQuery
+			->orderBy("month", "DESC")
+			->orderBy("year", "DESC")
+			->orderBy("id", "DESC")
+			->paginate(20)
+			->appends([
+				"propertyId" => $request->propertyId,
+				"unitId" => $request->unitId,
+			]);
 
-    /*
+		return InvoiceResource::collection($invoices)
+			->additional([
+				"due" => number_format($due),
+				"paid" => number_format($paid),
+				"balance" => number_format($balance),
+			]);
+	}
+
+	/*
      * Fetch Invoice
      */
-    public function show($id)
-    {
-        $invoice = Invoice::find($id);
+	public function show($id)
+	{
+		$invoice = Invoice::find($id);
 
-        return new InvoiceResource($invoice);
-    }
+		return new InvoiceResource($invoice);
+	}
 
-    /*
+	/*
      * Save Invoice
      */
-    public function store($request)
-    {
-        $saved = 0;
+	public function store($request)
+	{
+		$saved = 0;
 
-        foreach ($request->userUnitIds as $userUnitId) {
-            // Check if invoice exists for User, Unit and Month
-            $invoiceDoesntExist = Invoice::where("user_unit_id", $userUnitId)
-                ->where("type", $request->type)
-                ->where("month", $request->month)
-                ->where("year", $request->year)
-                ->doesntExist();
+		foreach ($request->userUnitIds as $userUnitId) {
+			// Check if invoice exists for User, Unit and Month
+			$invoiceDoesntExist = Invoice::where("user_unit_id", $userUnitId)
+				->where("type", $request->type)
+				->where("month", $request->month)
+				->where("year", $request->year)
+				->doesntExist();
 
-            $amount = $this->getAmount($request, $userUnitId);
+			$amount = $this->getAmount($request, $userUnitId);
 
-            if ($invoiceDoesntExist) {
-				// Get current year in the format YY using Carbon
-				$currentYear = Carbon::now()->format('y');
-				// Get current month in the format MM using Carbon
-				$currentMonth = Carbon::now()->format('m');
-				// Get next invoice iteration
-				$count = Invoice::count() + 1;
-				// Generate invoice code
-				$code = "I-" . $currentYear . $currentMonth . str_pad($count, 2, '0', STR_PAD_LEFT);
+			if ($invoiceDoesntExist) {
+				$invoice = new Invoice;
+				$invoice->user_unit_id = $userUnitId;
+				$invoice->type = $request->type;
+				$invoice->amount = $amount;
+				$invoice->balance = $amount;
+				$invoice->month = $request->month;
+				$invoice->year = $request->year;
+				$invoice->created_by = $this->id;
+				$saved = $invoice->save();
+			}
+		}
 
-                $invoice = new Invoice;
-                $invoice->user_unit_id = $userUnitId;
-                $invoice->code = $code;
-                $invoice->type = $request->type;
-                $invoice->amount = $amount;
-                $invoice->balance = $amount;
-                $invoice->month = $request->month;
-                $invoice->year = $request->year;
-                $invoice->created_by = $this->id;
-                $saved = $invoice->save();
-            }
-        }
+		if ($saved) {
+			$message = count($request->userUnitIds) > 1 ?
+				"Invoices created successfully" :
+				"Invoice created successfully";
+		} else {
+			$message = count($request->userUnitIds) > 1 ?
+				"Invoices already exist" :
+				"Invoice already exists";
+		}
 
-        if ($saved) {
-            $message = count($request->userUnitIds) > 1 ?
-            "Invoices created successfully" :
-            "Invoice created successfully";
-        } else {
-            $message = count($request->userUnitIds) > 1 ?
-            "Invoices already exist" :
-            "Invoice already exists";
-        }
+		return [$saved, $message, ""];
+	}
 
-        return [$saved, $message, ""];
-    }
-
-    /*
+	/*
      * Destroy Invoice
      */
-    public function destroy($id)
-    {
-        $ids = explode(",", $id);
+	public function destroy($id)
+	{
+		$ids = explode(",", $id);
 
-        $deleted = Invoice::whereIn("id", $ids)->delete();
+		$deleted = Invoice::whereIn("id", $ids)->delete();
 
-        $message = count($ids) > 1 ?
-        "Invoices deleted successfully" :
-        "Invoice deleted successfully";
+		$message = count($ids) > 1 ?
+			"Invoices deleted successfully" :
+			"Invoice deleted successfully";
 
-        return [$deleted, $message, ""];
-    }
+		return [$deleted, $message, ""];
+	}
 
-    /*
+	/*
      * Get Invoices by Property ID
      */
-    public function byPropertyId($request, $id)
-    {
-        $ids = explode(",", $id);
+	public function byPropertyId($request, $id)
+	{
+		$ids = explode(",", $id);
 
-        $invoicesQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($ids) {
-            $query->whereIn("id", $ids);
-        });
+		$invoicesQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($ids) {
+			$query->whereIn("id", $ids);
+		});
 
-        $invoicesQuery = $this->search($invoicesQuery, $request);
+		$invoicesQuery = $this->search($invoicesQuery, $request);
 
-        $due = $invoicesQuery->sum("amount");
-        $paid = $invoicesQuery->sum("paid");
-        $balance = $invoicesQuery->sum("balance");
+		$due = $invoicesQuery->sum("amount");
+		$paid = $invoicesQuery->sum("paid");
+		$balance = $invoicesQuery->sum("balance");
 
-        $invoices = $invoicesQuery
-            ->orderBy("month", "DESC")
-            ->orderBy("year", "DESC")
-            ->paginate(20);
+		$invoices = $invoicesQuery
+			->orderBy("month", "DESC")
+			->orderBy("year", "DESC")
+			->paginate(20);
 
-        return InvoiceResource::collection($invoices)
-            ->additional([
-                "due" => number_format($due),
-                "paid" => number_format($paid),
-                "balance" => number_format($balance),
-            ]);
-    }
+		return InvoiceResource::collection($invoices)
+			->additional([
+				"due" => number_format($due),
+				"paid" => number_format($paid),
+				"balance" => number_format($balance),
+			]);
+	}
 
-    /*
+	/*
      * Handle Search
      */
-    public function search($query, $request)
-    {
-        $propertyId = explode(",", $request->propertyId);
+	public function search($query, $request)
+	{
+		$propertyId = explode(",", $request->propertyId);
 
-        if ($request->filled("propertyId")) {
-            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-                $query->whereIn("id", $propertyId);
-            });
-        }
+		if ($request->filled("propertyId")) {
+			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
-        $code = $request->input("code");
+		$number = $request->input("number");
 
-        if ($request->filled("code")) {
-            $query = $query->where("code", "LIKE", "%" . $code . "%");
-        }
+		if ($request->filled("number")) {
+			$query = $query->where("number", "LIKE", "%" . $number . "%");
+		}
 
 		$unitId = $request->input("unitId");
 
@@ -199,170 +189,169 @@ class InvoiceService extends Service
 				});
 		}
 
-        $tenant = $request->input("tenant");
+		$tenant = $request->input("tenant");
 
-        if ($request->filled("tenant")) {
-            $query = $query
-                ->whereHas("userUnit.user", function ($query) use ($tenant) {
-                    $query->where("name", "LIKE", "%" . $tenant . "%");
-                });
-        }
+		if ($request->filled("tenant")) {
+			$query = $query
+				->whereHas("userUnit.user", function ($query) use ($tenant) {
+					$query->where("name", "LIKE", "%" . $tenant . "%");
+				});
+		}
 
-        $type = $request->input("type");
+		$type = $request->input("type");
 
-        if ($request->filled("type")) {
-            $query = $query->where("type", $type);
-        }
+		if ($request->filled("type")) {
+			$query = $query->where("type", $type);
+		}
 
-        $status = $request->input("status");
+		$status = $request->input("status");
 
-        if ($request->filled("status")) {
-            $query = $query->where("status", $status);
-        }
+		if ($request->filled("status")) {
+			$query = $query->where("status", $status);
+		}
 
-        $startMonth = $request->input("startMonth");
-        $endMonth = $request->input("endMonth");
-        $startYear = $request->input("startYear");
-        $endYear = $request->input("endYear");
+		$startMonth = $request->input("startMonth");
+		$endMonth = $request->input("endMonth");
+		$startYear = $request->input("startYear");
+		$endYear = $request->input("endYear");
 
-        if ($request->filled("startMonth")) {
-            $query = $query->where("month", ">=", $startMonth);
-        }
+		if ($request->filled("startMonth")) {
+			$query = $query->where("month", ">=", $startMonth);
+		}
 
-        if ($request->filled("endMonth")) {
-            $query = $query->where("month", "<=", $endMonth);
-        }
+		if ($request->filled("endMonth")) {
+			$query = $query->where("month", "<=", $endMonth);
+		}
 
-        if ($request->filled("startYear")) {
-            $query = $query->where("year", ">=", $startYear);
-        }
+		if ($request->filled("startYear")) {
+			$query = $query->where("year", ">=", $startYear);
+		}
 
-        if ($request->filled("endYear")) {
-            $query = $query->where("year", "<=", $endYear);
-        }
+		if ($request->filled("endYear")) {
+			$query = $query->where("year", "<=", $endYear);
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 
-    /*
+	/*
      * Get Amount
      */
-    public function getAmount($request, $userUnitId)
-    {
-        $userUnit = UserUnit::find($userUnitId);
+	public function getAmount($request, $userUnitId)
+	{
+		$userUnit = UserUnit::find($userUnitId);
 
-        // Get amount depending on the type of invoice
-        switch ($request->type) {
-            case "rent":
-                return $userUnit->unit->rent;
-                break;
+		// Get amount depending on the type of invoice
+		switch ($request->type) {
+			case "rent":
+				return $userUnit->unit->rent;
+				break;
 
-            case "service_charge":
-                return $userUnit->unit->property->service_charge;
-                break;
+			case "service_charge":
+				return $userUnit->unit->property->service_charge;
+				break;
 
-            default:
-                return $this->getWaterBill($request, $userUnitId);
-                break;
-        }
-    }
+			default:
+				return $this->getWaterBill($request, $userUnitId);
+				break;
+		}
+	}
 
-    /*
+	/*
      * Get Water Bill
      */
-    public function getWaterBill($request, $userUnitId)
-    {
-        // Get Water Bill
-        $waterReadingQuery = WaterReading::where("user_unit_id", $userUnitId)
-            ->where("month", $request->month)
-            ->where("year", $request->year);
+	public function getWaterBill($request, $userUnitId)
+	{
+		// Get Water Bill
+		$waterReadingQuery = WaterReading::where("user_unit_id", $userUnitId)
+			->where("month", $request->month)
+			->where("year", $request->year);
 
-        if ($waterReadingQuery->doesntExist()) {
-            return throw ValidationException::withMessages([
-                "Water Reading" => ["Water Reading doesn't exist"],
-            ]);
-        } else {
-            return $waterReadingQuery->first()->bill;
-        }
-    }
+		if ($waterReadingQuery->doesntExist()) {
+			return throw ValidationException::withMessages([
+				"Water Reading" => ["Water Reading doesn't exist"],
+			]);
+		} else {
+			return $waterReadingQuery->first()->bill;
+		}
+	}
 
-    /*
+	/*
      * Handle Invoice Adjustment
      */
-    public function adjustInvoice($invoiceId)
-    {
-        $paid = Payment::where("invoice_id", $invoiceId)->sum("amount");
+	public function adjustInvoice($invoiceId)
+	{
+		$paid = Payment::where("invoice_id", $invoiceId)->sum("amount");
 
-        $creditNotes = CreditNote::where("invoice_id", $invoiceId)->sum("amount");
+		$creditNotes = CreditNote::where("invoice_id", $invoiceId)->sum("amount");
 
-        $deductions = Deduction::where("invoice_id", $invoiceId)->sum("amount");
+		$deductions = Deduction::where("invoice_id", $invoiceId)->sum("amount");
 
-        $paid = $paid + $creditNotes - $deductions;
+		$paid = $paid + $creditNotes - $deductions;
 
-        $invoice = Invoice::find($invoiceId);
+		$invoice = Invoice::find($invoiceId);
 
-        $balance = $invoice->amount - $paid;
+		$balance = $invoice->amount - $paid;
 
-        // Check if paid is enough
-        if ($paid == 0) {
-            $status = "not_paid";
-        } else if ($paid < $invoice->amount) {
-            $status = "partially_paid";
-        } else if ($paid == $invoice->amount) {
-            $status = "paid";
-        } else {
-            $status = "over_paid";
-        }
+		// Check if paid is enough
+		if ($paid == 0) {
+			$status = "not_paid";
+		} else if ($paid < $invoice->amount) {
+			$status = "partially_paid";
+		} else if ($paid == $invoice->amount) {
+			$status = "paid";
+		} else {
+			$status = "over_paid";
+		}
 
-        $invoice->paid = $paid;
-        $invoice->balance = $balance;
-        $invoice->status = $status;
+		$invoice->paid = $paid;
+		$invoice->balance = $balance;
+		$invoice->status = $status;
 
-        return $invoice->save();
-    }
+		return $invoice->save();
+	}
 
-    /*
+	/*
      * Send Invoice by Email
      */
-    public function sendEmail($id)
-    {
-        $invoice = Invoice::findOrFail($id);
+	public function sendEmail($id)
+	{
+		$invoice = Invoice::findOrFail($id);
 
-        try {
-            Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
+		try {
+			Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
 
-            // Increment the emails_sent column
-            $invoice->increment("emails_sent");
+			// Increment the emails_sent column
+			$invoice->increment("emails_sent");
 
-            // Save Email
-            $emailService = new EmailService;
+			// Save Email
+			$emailService = new EmailService;
 
-            // Populate Email Service with request details
-            $emailService->user_unit_id = $invoice->userUnit->id;
-            $emailService->email = $invoice->userUnit->user->email;
-            $emailService->model = $invoice->userUnit->id;
+			// Populate Email Service with request details
+			$emailService->user_unit_id = $invoice->userUnit->id;
+			$emailService->email = $invoice->userUnit->user->email;
+			$emailService->model = $invoice->userUnit->id;
 
-            $emailService->store($emailService);
+			$emailService->store($emailService);
+		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
 
-        } catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+			throw $exception;
+		}
 
-            throw $exception;
-        }
+		return ["Success", "Invoice Email Sent Successfully", $invoice];
+	}
 
-        return ["Success", "Invoice Email Sent Successfully", $invoice];
-    }
-
-    /*
+	/*
      * Send Invoice by SMS
      */
-    public function sendSMS($id)
-    {
-        $invoice = Invoice::findOrFail($id);
+	public function sendSMS($id)
+	{
+		$invoice = Invoice::findOrFail($id);
 
-        $smsService = new SMSService($invoice);
+		$smsService = new SMSService($invoice);
 
-        $status = $smsService->sendSMS("invoice");
+		$status = $smsService->sendSMS("invoice");
 
-        return [$status, "Invoice SMS Sent Successfully", $invoice];
-    }
+		return [$status, "Invoice SMS Sent Successfully", $invoice];
+	}
 }
