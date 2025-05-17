@@ -143,12 +143,14 @@ const UnitList = (props) => {
 											: `${unit.size?.value} ${unit.size?.unit}`}
 									</td>
 									<td>
-										{unit.tenantId ? (
+										{unit.status == "vacant" ? (
+											<span className="bg-warning-subtle p-1 px-4 text-capitalize">
+												{unit.status}
+											</span>
+										) : (
 											<span className="bg-success-subtle p-1 px-4">
 												{unit.tenantName}
 											</span>
-										) : (
-											<span className="bg-warning-subtle p-1 px-4">Vacant</span>
 										)}
 									</td>
 									<td>

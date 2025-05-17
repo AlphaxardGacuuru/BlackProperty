@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\TenantResource;
 use App\Http\Services\Service;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserUnit;
 use Carbon\Carbon;
@@ -165,6 +166,7 @@ class TenantService extends Service
 				$userUnit = UserUnit::where("user_id", $id)
 					->where("unit_id", $request->input("unitId"))
 					->first();
+
 				$userUnit->vacated_at = Carbon::now();
 				$userUnit->save();
 
@@ -177,21 +179,38 @@ class TenantService extends Service
 
 		$saved = $tenant->save();
 
-		$message = $tenant->name . " updated successfully";
+		$message = $tenant->name . " Updated Successfully";
 
 		return [$saved, $message, $tenant];
 	}
 
 	/*
-     * Soft Delete Service
+     * Delete Service
      */
-	public function destroy($id)
+	public function destroy($request, $id)
 	{
 		$tenant = User::findOrFail($id);
 
-		$deleted = $tenant->delete();
+		// Mark User Unit as vacated
+		$deleted = DB::transaction(function () use ($tenant, $request, $id) {
 
-		return [$deleted, $tenant->name . " deleted successfully", $tenant];
+			if ($request->filled("unitId")) {
+				$userUnit = UserUnit::where("user_id", $id)
+					->where("unit_id", $request->input("unitId"))
+					->first();
+				$userUnit->vacated_at = Carbon::now();
+				$userUnit->save();
+
+				// Set Unit as vacant
+				$unit = $userUnit->unit;
+				$unit->status = "vacant";
+				$unit->save();
+			}
+
+			return $tenant->delete();
+		});
+
+		return [$deleted, $tenant->name . " Deleted Successfully", $tenant];
 	}
 
 	/*

@@ -34,7 +34,7 @@ const DeleteModal = ({ index, model, modelName, onDelete }) => {
 							{/* Close End */}
 						</div>
 						<div className="modal-body text-start text-wrap">
-							Are you sure you want to Delete {model.name ?? modelName}.
+							Are you sure you want to Delete {model.name ?? modelName}. All Associated Data will be lost.
 						</div>
 						<div className="modal-footer justify-content-between border-0">
 							<button

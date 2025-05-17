@@ -66,7 +66,7 @@ class DeductionService extends Service
 			return $saved;
 		});
 
-		return [$saved, "Deduction created successfully", $deduction];
+		return [$saved, "Deduction Created Successfully", $deduction];
 	}
 
 	/*
@@ -118,7 +118,7 @@ class DeductionService extends Service
 			return $deleted;
 		});
 
-		return [$deleted, "Deduction deleted successfully", $deduction];
+		return [$deleted, "Deduction Deleted Successfully", $deduction];
 	}
 
 	/*

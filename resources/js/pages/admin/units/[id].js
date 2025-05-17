@@ -50,7 +50,7 @@ const show = (props) => {
 			vacate: true,
 		})
 			.then((res) => {
-				props.setMessages([res.data.message])
+				props.setMessages([`${res.data.data.name} Vacated Successfully`])
 				// Fetch Auth
 				props.get("auth", props.setAuth, "auth")
 				// Fetch Unit
@@ -66,8 +66,11 @@ const show = (props) => {
 	/*
 	 * Delete Tenant
 	 */
-	const onDeleteTenant = (tenantId) => {
-		Axios.delete(`/api/tenants/${tenantId}`)
+	const onDeleteTenant = (tenantId, unitId) => {
+		Axios.post(`/api/tenants/${tenantId}`, {
+			unitId: unitId,
+			_method: "DELETE"
+		})
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Fetch Auth
@@ -228,7 +231,7 @@ const show = (props) => {
 											{/* Close End */}
 										</div>
 										<div className="modal-body text-start text-white text-wrap border-0">
-											Are you sure you want to delete {unit.tenantName}.
+											Are you sure you want to Delete {unit.tenantName}. All associated Invoices, Payments, Credit Notes and Deductions will be deleted.
 										</div>
 										<div className="modal-footer justify-content-between border-0">
 											<button
@@ -241,7 +244,7 @@ const show = (props) => {
 												type="button"
 												className="mysonar-btn btn-2"
 												data-bs-dismiss="modal"
-												onClick={() => onDeleteTenant(unit.tenantId)}>
+												onClick={() => onDeleteTenant(unit.tenantId, unit.id)}>
 												<span className="me-1">{<DeleteSVG />}</span>
 												Delete
 											</button>

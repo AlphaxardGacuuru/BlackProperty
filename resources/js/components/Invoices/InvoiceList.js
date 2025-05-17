@@ -99,7 +99,7 @@ const InvoiceList = (props) => {
 				props.setMessages([res.data.message])
 				// Remove row
 				props.setInvoices({
-					due: props.invoices.due,
+					sum: props.invoices.sum,
 					paid: props.invoices.paid,
 					balance: props.invoices.balance,
 					meta: props.invoices.meta,
@@ -190,13 +190,13 @@ const InvoiceList = (props) => {
 			<div className="card shadow-sm mb-2 p-2">
 				{/* Total */}
 				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
-					{/* Due */}
+					{/* Total */}
 					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
-							heading="Due"
+							heading="Total"
 							data={
 								<span>
-									<small>KES</small> {props.invoices.due}
+									<small>KES</small> {props.invoices.sum}
 								</span>
 							}
 						/>
@@ -204,37 +204,7 @@ const InvoiceList = (props) => {
 							<InvoiceSVG />
 						</HeroIcon>
 					</div>
-					{/* Due End */}
-					{/* Paid */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Paid"
-							data={
-								<span>
-									<small>KES</small> {props.invoices.paid}
-								</span>
-							}
-						/>
-						<HeroIcon>
-							<PaymentSVG />
-						</HeroIcon>
-					</div>
-					{/* Paid End */}
-					{/* Balance */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Balance"
-							data={
-								<span>
-									<small>KES</small> {props.invoices.balance}
-								</span>
-							}
-						/>
-						<HeroIcon>
-							<BalanceSVG />
-						</HeroIcon>
-					</div>
-					{/* Balance End */}
+					{/* Total End */}
 				</div>
 			</div>
 			{/* Total End */}

@@ -25,16 +25,6 @@ class InvoiceService extends Service
 
 		$invoiceQuery = $this->search($invoiceQuery, $request);
 
-		$creditNotes = CreditNote::sum("amount");
-
-		$deductions = Deduction::sum("amount");
-
-		$paid = Payment::sum("amount");
-
-		$due = $invoiceQuery->sum("amount");
-
-		$balance = $due - $creditNotes - $paid + $deductions;
-
 		$invoices = $invoiceQuery
 			->orderBy("month", "DESC")
 			->orderBy("year", "DESC")
@@ -45,11 +35,11 @@ class InvoiceService extends Service
 				"unitId" => $request->unitId,
 			]);
 
+		$sum = $invoiceQuery->sum("amount");
+
 		return InvoiceResource::collection($invoices)
 			->additional([
-				"due" => number_format($due),
-				"paid" => number_format($paid),
-				"balance" => number_format($balance),
+				"sum" => number_format($sum),
 			]);
 	}
 
@@ -95,8 +85,8 @@ class InvoiceService extends Service
 
 		if ($saved) {
 			$message = count($request->userUnitIds) > 1 ?
-				"Invoices created successfully" :
-				"Invoice created successfully";
+				"Invoices Created Successfully" :
+				"Invoice Created Successfully";
 		} else {
 			$message = count($request->userUnitIds) > 1 ?
 				"Invoices already exist" :
@@ -116,8 +106,8 @@ class InvoiceService extends Service
 		$deleted = Invoice::whereIn("id", $ids)->delete();
 
 		$message = count($ids) > 1 ?
-			"Invoices deleted successfully" :
-			"Invoice deleted successfully";
+			"Invoices Deleted Successfully" :
+			"Invoice Deleted Successfully";
 
 		return [$deleted, $message, ""];
 	}

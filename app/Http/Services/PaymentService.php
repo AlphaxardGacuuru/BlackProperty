@@ -117,7 +117,7 @@ class PaymentService extends Service
 			return $saved;
 		});
 
-		$message = "Payment updated successfully";
+		$message = "Payment Updated Successfully";
 
 		return [$saved, $message, $payment];
 	}
@@ -140,7 +140,7 @@ class PaymentService extends Service
 			return $deleted;
 		});
 
-		$message = "Payment deleted successfully";
+		$message = "Payment Deleted Successfully";
 
 		return [$deleted, $message, $payment];
 	}

@@ -66,7 +66,7 @@ class CreditNoteService extends Service
 			return $saved;
 		});
 
-		return [$saved, "Credit Note created successfully", $creditNote];
+		return [$saved, "Credit Note Created Successfully", $creditNote];
 	}
 
 	/*
@@ -118,7 +118,7 @@ class CreditNoteService extends Service
 			return $deleted;
 		});
 
-		return [$deleted, "Credit Note deleted successfully", $creditNote];
+		return [$deleted, "Credit Note Deleted Successfully", $creditNote];
 	}
 
 	/*
