@@ -38,7 +38,9 @@ class UnitController extends Controller
 			"deposit" => "required|string",
 			"type" => "required|string",
 			"bedrooms" => "nullable|string",
-			"size" => "nullable|array"
+			"size" => "nullable|array",
+			"ensuite" => "required|integer",
+			"dsq" => "required|boolean"
 		]);
 
 		[$saved, $message, $unit] = $this->service->store($request);
@@ -76,7 +78,9 @@ class UnitController extends Controller
 			"deposit" => "nullable|string",
 			"type" => "nullable|string",
 			"bedrooms" => "nullable|string",
-			"size" => "nullable|array"
+			"size" => "nullable|array",
+			"ensuite" => "nullable|interger",
+			"dsq" => "nullable|boolean"
 		]);
 
 		[$saved, $message, $unit] = $this->service->update($request, $id);

@@ -41,7 +41,7 @@ class EmailService extends Service
     public function store($request)
     {
         $sms = new Email;
-        $sms->user_unit_id = $request->user_unit_id;
+        $sms->user_unit_id = $request->userUnitId;
         $sms->email = $request->email;
         $sms->model = $request->model;
         $sms->save();

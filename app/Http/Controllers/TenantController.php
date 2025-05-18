@@ -36,6 +36,7 @@ class TenantController extends Controller
             "email" => "required|string",
             "phone" => "required|string",
             "occupiedAt" => "required|date",
+            "sendInvoice" => "required|boolean",
         ]);
 
         [$saved, $message, $tenant, $code] = $this->service->store($request);

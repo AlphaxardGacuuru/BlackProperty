@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\SMSMessageService;
-use App\Models\SMSMessage;
+use App\Http\Services\SMSService;
+use App\Models\SMS;
 use Illuminate\Http\Request;
 
-class SMSMessageController extends Controller
+class SMSController extends Controller
 {
-	public function __construct(protected SMSMessageService $service)
+	public function __construct(protected SMSService $service)
 	{
 		// 
 	}
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
     public function index(Request $request)
-	{
+    {
 		return $this->service->index($request);
-	}
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,10 +37,10 @@ class SMSMessageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SMSMessage  $sMSMessage
+     * @param  \App\Models\SMS  $sMS
      * @return \Illuminate\Http\Response
      */
-    public function show(SMSMessage $sMSMessage)
+    public function show(SMS $sMS)
     {
         //
     }
@@ -49,10 +49,10 @@ class SMSMessageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SMSMessage  $sMSMessage
+     * @param  \App\Models\SMS  $sMS
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SMSMessage $sMSMessage)
+    public function update(Request $request, SMS $sMS)
     {
         //
     }
@@ -60,10 +60,10 @@ class SMSMessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SMSMessage  $sMSMessage
+     * @param  \App\Models\SMS  $sMS
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SMSMessage $sMSMessage)
+    public function destroy(SMS $sMS)
     {
         //
     }

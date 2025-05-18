@@ -27,7 +27,7 @@ return new class extends Migration
 			$table->integer('month');
 			$table->integer('year');
 			$table->integer('emails_sent')->default(0);
-			$table->integer('sms_messages_sent')->default(0);
+			$table->integer('smses_sent')->default(0);
 			$table->unsignedBigInteger('created_by');
 			$table->timestamps();
 

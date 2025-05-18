@@ -58,6 +58,8 @@ class UnitService extends Service
 		$unit->type = $request->input("type");
 		$unit->bedrooms = $request->input("bedrooms");
 		$unit->size = $request->input("size");
+		$unit->ensuite = $request->input("ensuite");
+		$unit->dsq = $request->input("dsq");
 
 		$saved = DB::transaction(function () use ($unit, $request) {
 			$saved = $unit->save();
@@ -104,6 +106,14 @@ class UnitService extends Service
 		if ($request->filled("size")) {
 			$unit->size = $request->input("size");
 			$unit->bedrooms = null;
+		}
+
+		if ($request->filled("ensuite")) {
+			$unit->ensuite = $request->input("ensuite");
+		}
+
+		if ($request->filled("dsq")) {
+			$unit->dsq = $request->input("dsq");
 		}
 
 		$saved = $unit->save();
@@ -270,8 +280,6 @@ class UnitService extends Service
 		if ($request->filled("type")) {
 			$query = $query->where("type", $request->type);
 		}
-
-		$status = $request->status;
 
 		if ($request->filled("status")) {
 			$query = $query->where("status", $request->status);

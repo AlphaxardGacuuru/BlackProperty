@@ -45,7 +45,7 @@ import AdminDeductionCreate from "@/pages/admin/deductions/create"
 import AdminDeductionEdit from "@/pages/admin/deductions/edit/[id]"
 
 import AdminEmails from "@/pages/admin/emails/index"
-import AdminSMSMessages from "@/pages/admin/sms-messages/index"
+import AdminSMSMessages from "@/pages/admin/smses/index"
 
 import AdminWallet from "@/pages/admin/wallet/index"
 import AdminWalletCreate from "@/pages/admin/wallet/create"

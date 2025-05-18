@@ -20,6 +20,24 @@ import LogoutSVG from "@/svgs/LogoutSVG"
 const TenantList = (props) => {
 	const location = useLocation()
 
+	/*
+	 * Vacate Tenant
+	 */
+	const onVacate = (tenantId, unitId) => {
+		Axios.put(`/api/tenants/${tenantId}`, {
+			unitId: unitId,
+			vacate: true,
+		})
+			.then((res) => {
+				props.setMessages([`${res.data.data.name} Vacated Successfully`])
+				// Fetch Auth
+				props.get("auth", props.setAuth, "auth")
+				// State to Update
+				props.stateToUpdate()
+			})
+			.catch((err) => props.getErrors(err))
+	}
+
 	return (
 		<div className={props.activeTab}>
 			{/* Data */}
@@ -133,8 +151,8 @@ const TenantList = (props) => {
 														aria-labelledby="deleteModalLabel"
 														aria-hidden="true">
 														<div className="modal-dialog">
-															<div className="modal-content rounded-0">
-																<div className="modal-header">
+															<div className="modal-content bg-warning rounded-0">
+																<div className="modal-header border-0">
 																	<h1
 																		id="deleteModalLabel"
 																		className="modal-title fs-5">
@@ -146,10 +164,10 @@ const TenantList = (props) => {
 																		data-bs-dismiss="modal"
 																		aria-label="Close"></button>
 																</div>
-																<div className="modal-body text-start text-wrap">
-																	Are you sure you want to vacate {tenant.name}.
+																<div className="modal-body text-start text-wrap border-0">
+																	Are you sure you want to Vacate {tenant.name}.
 																</div>
-																<div className="modal-footer justify-content-between">
+																<div className="modal-footer justify-content-between border-0">
 																	<button
 																		type="button"
 																		className="mysonar-btn btn-2"
@@ -161,7 +179,7 @@ const TenantList = (props) => {
 																		className="mysonar-btn btn-2"
 																		data-bs-dismiss="modal"
 																		onClick={() =>
-																			props.onVacate(tenant.id, tenant.unitId)
+																			onVacate(tenant.id, tenant.unitId)
 																		}>
 																		<span className="me-1">
 																			{<LogoutSVG />}

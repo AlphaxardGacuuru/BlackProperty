@@ -11,13 +11,15 @@ import BackSVG from "@/svgs/BackSVG"
 const create = (props) => {
 	var history = useHistory()
 
+	const [propertyId, setPropertyId] = useState()
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
 	const [deposit, setDeposit] = useState("")
 	const [type, setType] = useState("")
 	const [bedrooms, setBedrooms] = useState()
 	const [size, setSize] = useState({})
-	const [propertyId, setPropertyId] = useState()
+	const [ensuite, setEnsuite] = useState()
+	const [dsq, setDsq] = useState()
 	const [loading, setLoading] = useState()
 
 	// Get Units
@@ -32,9 +34,10 @@ const create = (props) => {
 	const getDeposit = (e) => {
 		var rent = e.target.value
 		var formula = props.properties.find(
-			(property) => property == propertyId
-		).depositFormula
+			(property) => property.id == propertyId
+		)?.depositFormula
 
+		rent = rent > 0 ? rent : 0
 		// Evaluate the formula
 		return eval(formula?.replace("r", rent))
 	}
@@ -47,13 +50,15 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/units", {
+			propertyId: propertyId,
 			name: name,
 			rent: rent,
 			deposit: deposit.toString(),
 			type: type,
 			bedrooms: bedrooms,
 			size: size,
-			propertyId: propertyId,
+			ensuite: ensuite,
+			dsq: dsq,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -76,6 +81,26 @@ const create = (props) => {
 				<form
 					onSubmit={onSubmit}
 					className="mb-5">
+					<label htmlFor="">Property</label>
+					<select
+						type="text"
+						name="type"
+						placeholder="Location"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						{[{ id: "", name: "Select Property" }]
+							.concat(props.properties)
+							.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}
+									selected={property.id == props.selectedPropertyId}>
+									{property.name}
+								</option>
+							))}
+					</select>
+
 					<label htmlFor="">Name</label>
 					<input
 						type="text"
@@ -171,25 +196,31 @@ const create = (props) => {
 						</React.Fragment>
 					)}
 
-					<label htmlFor="">Property</label>
-					<select
-						type="text"
-						name="type"
-						placeholder="Location"
-						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setPropertyId(e.target.value)}
-						required={true}>
-						{[{ id: "", name: "Select Property" }]
-							.concat(props.properties)
-							.map((property, key) => (
-								<option
-									key={key}
-									value={property.id}
-									selected={property.id == props.selectedPropertyId}>
-									{property.name}
-								</option>
-							))}
-					</select>
+					<div className="d-flex justify-content-between">
+						<div className="w-100 me-2">
+							<label htmlFor="">Ensuite</label>
+							<input
+								type="number"
+								placeholder="2"
+								className="form-control mb-2 me-2"
+								onChange={(e) => setEnsuite(e.target.value)}
+								required={true}
+							/>
+						</div>
+
+						<div className="w-100">
+							<label htmlFor="">DSQ</label>
+							<select
+								type="number"
+								className="form-control"
+								onChange={(e) => setDsq(e.target.value == "yes" ? true : false)}
+								required={true}>
+								<option value="">Select Unit</option>
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</div>
+					</div>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

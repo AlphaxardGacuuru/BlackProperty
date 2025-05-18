@@ -104,7 +104,7 @@ const UnitList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="7"></th>
+							<th colSpan="9"></th>
 							<th className="text-end">
 								<MyLink
 									linkTo={`/units/create`}
@@ -120,6 +120,8 @@ const UnitList = (props) => {
 							<th>Deposit</th>
 							<th>Type</th>
 							<th>Size</th>
+							<th>Ensuite</th>
+							<th>DSQ</th>
 							<th>Current Tenant</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -142,6 +144,8 @@ const UnitList = (props) => {
 											? `${unit.bedrooms} Bed`
 											: `${unit.size?.value} ${unit.size?.unit}`}
 									</td>
+									<td>{unit.ensuite}</td>
+									<td>{unit.dsq ? "Yes" : "No"}</td>
 									<td>
 										{unit.status == "vacant" ? (
 											<span className="bg-warning-subtle p-1 px-4 text-capitalize">
@@ -185,7 +189,7 @@ const UnitList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="8"
+									colSpan="10"
 									className="p-0">
 									<NoData />
 								</td>

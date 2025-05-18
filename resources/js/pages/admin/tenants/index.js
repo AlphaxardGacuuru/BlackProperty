@@ -9,9 +9,7 @@ const index = (props) => {
 	const [nameQuery, setNameQuery] = useState("")
 	const [phoneQuery, setPhoneQuery] = useState("")
 
-	useEffect(() => {
-		// Set page
-		props.setPage({ name: "Tenants", path: ["tenants"] })
+	const dataToFetch = () => {
 		props.getPaginated(
 			`tenants?propertyId=${props.selectedPropertyId}&
 			occupied=true&
@@ -19,6 +17,12 @@ const index = (props) => {
 			phone=${phoneQuery}`,
 			setTenants
 		)
+	}
+
+	useEffect(() => {
+		// Set page
+		props.setPage({ name: "Tenants", path: ["tenants"] })
+		dataToFetch()
 	}, [props.selectedPropertyId, nameQuery, phoneQuery])
 
 	/*
@@ -49,6 +53,7 @@ const index = (props) => {
 					onDeleteTenant={onDeleteTenant}
 					setNameQuery={setNameQuery}
 					setPhoneQuery={setPhoneQuery}
+					stateToUpdate={dataToFetch}
 				/>
 				{/* Tenants Tab End */}
 			</div>

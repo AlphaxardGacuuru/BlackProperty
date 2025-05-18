@@ -23,7 +23,9 @@ class UnitFactory extends Factory
             "rent" => rand(8, 100) * 1000,
             "deposit" => ((rand(8, 100) * 1000) * 2) + 2000,
             "type" => "apartment",
-			"bedrooms" => rand(1, 4)
+			"bedrooms" => rand(1, 5),
+			"ensuite" => rand(0, 3),
+			"dsq" => rand(0, 1)
         ];
     }
 }

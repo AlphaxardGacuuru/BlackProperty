@@ -111,6 +111,14 @@ const show = (props) => {
 							<small>KES</small> {unit.deposit}
 						</span>
 					</h6>
+					<h6 className="text-capitalize">Type: {unit.type}</h6>
+					<h6 className="text-capitalize">
+						{unit.bedrooms
+							? `${unit.bedrooms} Bed`
+							: `Size: ${unit.size?.value} ${unit.size?.unit}`}
+					</h6>
+					<h6>Ensuite: {unit.ensuite}</h6>
+					<h6>DSQ: {unit.dsq ? "Yes" : "No"}</h6>
 					<hr />
 					<div className="d-flex justify-content-end">
 						{unit.status == "vacant" && (
@@ -231,7 +239,9 @@ const show = (props) => {
 											{/* Close End */}
 										</div>
 										<div className="modal-body text-start text-white text-wrap border-0">
-											Are you sure you want to Delete {unit.tenantName}. All associated Invoices, Payments, Credit Notes and Deductions will be deleted.
+											Are you sure you want to Delete {unit.tenantName}. All
+											associated Invoices, Payments, Credit Notes and Deductions
+											will be deleted.
 										</div>
 										<div className="modal-footer justify-content-between border-0">
 											<button

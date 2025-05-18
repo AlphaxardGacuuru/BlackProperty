@@ -2,127 +2,153 @@
 
 namespace App\Http\Services;
 
-use AfricasTalking\SDK\AfricasTalking;
+// AfricasTalking
+
+use App\Http\Resources\SMSMessageResource;
 use App\Models\SMSMessage;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
-class SMSService extends Service
+class SMSMessageService extends Service
 {
-    public $africasTalking;
-    public $model;
-
-    public function __construct($model)
-    {
-        // Set your app credentials
-        $username = env('AFRICASTKNG_USERNAME');
-        $apiKey = env('AFRICASTKNG_API_KEY');
-        // $username = env('AFRICASTKNG_USERNAME_SANDBOX');
-        // $apiKey = env('AFRICASTKNG_API_KEY_SANDBOX');
-
-        // Initialize the SDK
-        $this->africasTalking = new AfricasTalking($username, $apiKey);
-
-        $this->model = $model;
-
-        $phone = $model->userUnit->user->phone;
-
-        // $phone = substr_replace($phone, '+254', 0, -9);
-        $phone = substr_replace("0700364446", '+254', 0, -9);
-
-        $this->recipient = $phone;
-    }
-
-    // Send SMS
-    public function sendSMS($type)
-    {
-        // Use the service
-        $sms = $this->africasTalking->sms();
-
-        // Set your message
-        $message = $this->template($type, $this->model);
-
-        // Set your shortCode or senderId
-        $from = "";
-
-        $status = "";
-
-        try {
-            // Send message
-            ["status" => $status, "data" => $data] = $sms->send([
-                'to' => $this->recipient,
-                'message' => $message,
-                'from' => $from,
-            ]);
-
-            // Insert message into data object
-            $data->message = $message;
-
-            // Save SMS
-            $saved = $this->saveSMS($data);
-
-        } catch (\Throwable $exception) {
-            Log::error('Sending SMS Failed: ' . $exception);
-
-            throw $exception;
-        }
-
-        return $status;
-    }
-
-    /*
-     * SMS Template
+    /**
+     * Display a listing of the resource.
      */
-    public function template($type, $model)
+    public function index($request)
     {
-        $amount = number_format($model->balance);
+        $smsMessageQuery = new SMSMessage;
 
-        $invoiceType = collect(explode('_', $model->type))
-            ->map(fn($word) => ucfirst($word)) // Capitalize each word
-            ->join(' '); // Join the words with a space
+		$successful = $smsMessageQuery->where("status", "success")->count();
 
-        switch ($type) {
-            case "invoice":
-                return "Dear " . $model->userUnit->user->name . ",\n
-				Your " . $invoiceType . " invoice of KES " . $amount . " is ready.\n
-				Kindly check your email for more details.";
-                break;
-            case "reminder":
-                return "Dear " . $model->userUnit->user->name . ",\n
-				Your " . $invoiceType . " invoice of KES " . $amount . " is still pending.\n
-				Kindly check your email for more details.";
-                break;
-            case "receipt":
-                return "Dear " . $model->userUnit->user->name . ",\n
-				Your " . $invoiceType . " payment of KES " . $amount . " has been recieved and your receipt is ready.\n
-				Kindly check your email for more details.";
-                break;
-            default:
-                return "Dear customer, this is a reminder to pay your invoice. Kindly check your email for more details.";
-                break;
-        }
+		$failed = $smsMessageQuery->whereNot("status", "success")->count();
+
+        $smsMessageQuery = $this->search($smsMessageQuery, $request);
+
+        $smsMessages = $smsMessageQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
+
+        return SMSMessageResource::collection($smsMessages)
+		->additional([
+			"successfull" => $successful,
+			"failed" => $failed,
+		]);
     }
 
-    /*
-     * Save SMS
+    /**
+     * Store a newly created resource in storage.
      */
-    public function saveSMS($data)
+    public function store(Request $request)
     {
-        $message = $data->message;
-        $data = $data->SMSMessageData;
-        $responseMessage = $data->Message;
-        [$recipient] = $data->Recipients;
+        $sms = SMSMessage::where('message_id', $request->id)->first();
+        $sms->delivery_status = $request->input('status');
+        $sms->network_code = $request->input('networkCode');
+        $sms->failure_reason = $request->input('failureReason');
+        $sms->retry_count = $request->input('retryCount');
+        $sms->save();
+    }
 
-        // Save to database
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        // Store the received json in $callback
+        $callback = file_get_contents('input:://input');
+        // Decode the received json and store into $callbackurl
+        $callbackUrl = json_decode($callback, true);
+
+        // $callbackResponse = array(
+        //     'id' => $callback['id'],
+        //     'status' => $callback['status'],
+        //     'phoneNumber' => $callback['phoneNumber'],
+        //     'networkCode' => $callback['networkCode'],
+        //     'failureReason' => $callback['failureReason'],
+        //     'retryCount' => $callback['retryCount'],
+        // );
+
         $sms = new SMSMessage;
-        $sms->user_unit_id = $this->model->userUnit->id;
-        $sms->response_message = $responseMessage;
-        $sms->message_id = $recipient->messageId;
-        $sms->number = $recipient->number;
-        $sms->text = $message;
-        $sms->status = $recipient->status;
-        $sms->status_code = $recipient->statusCode;
-        $sms->cost = $recipient->cost;
+        $sms->message_id = $callback['id'];
+        $sms->status = $callback['status'];
+        $sms->number = $callback['phoneNumber'];
+        // $sms->network_code = $request->networkCode;
+        // $sms->failure_reason = $request->failureReason;
+        // $sms->retry_count = $request->retryCount;
+        $sms->save();
+    }
 
-        return $sms->save();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\SMSMessage  $sMS
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(SMSMessage $sMS)
+    {
+        //
+    }
+
+    /*
+     * Handle Search
+     */
+    public function search($query, $request)
+    {
+        $propertyId = explode(",", $request->propertyId);
+
+        if ($request->filled("propertyId")) {
+            $query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+                $query->whereIn("id", $propertyId);
+            });
+        }
+
+        $tenant = $request->input("tenant");
+
+        if ($request->filled("tenant")) {
+            $query = $query
+                ->whereHas("userUnit.user", function ($query) use ($tenant) {
+                    $query->where("name", "LIKE", "%" . $tenant . "%");
+                });
+        }
+
+        $unit = $request->input("unit");
+
+        if ($request->filled("unit")) {
+            $query = $query
+                ->whereHas("userUnit.unit", function ($query) use ($unit) {
+                    $query->where("name", "LIKE", "%" . $unit . "%");
+                });
+        }
+
+        $phone = $request->input("phone");
+
+        if ($request->filled("phone")) {
+            $query = $query
+                ->whereHas("userUnit.user", function ($query) use ($phone) {
+                    $query->where("phone", "LIKE", "%" . $phone . "%");
+                });
+        }
+
+        $startMonth = $request->filled("startMonth") ? $request->input("startMonth") : Carbon::now()->month;
+        $endMonth = $request->filled("endMonth") ? $request->input("endMonth") : Carbon::now()->month;
+        $startYear = $request->filled("startYear") ? $request->input("startYear") : Carbon::now()->year;
+        $endYear = $request->filled("endYear") ? $request->input("endYear") : Carbon::now()->year;
+
+        $start = Carbon::createFromDate($startYear, $startMonth, 1)
+            ->startOfMonth()
+            ->toDateTimeString(); // Output: 2024-01-01 00:00:00 (or current year)
+
+        $end = Carbon::createFromDate($endYear, $endMonth, 1)
+            ->endOfMonth()
+            ->toDateTimeString(); // Output: 2024-01-01 00:00:00 (or current year)
+
+        if ($request->filled("startMonth") || $request->filled("startYear")) {
+            $query = $query->whereDate("paid_on", ">=", $start);
+        }
+
+        if ($request->filled("endMonth") || $request->filled("endYear")) {
+            $query = $query->whereDate("paid_on", "<=", $end);
+        }
+
+        return $query;
     }
 }

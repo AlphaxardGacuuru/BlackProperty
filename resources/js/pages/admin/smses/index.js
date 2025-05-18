@@ -24,9 +24,9 @@ import DashCircleSVG from "@/svgs/DashCircleSVG"
 import CheckCircleSVG from "@/svgs/CheckCircleSVG"
 
 const index = (props) => {
-	const [smsMessages, setSMSMessages] = useState([])
+	const [smses, setSmses] = useState([])
 
-	const [smsMessageToView, setSmsMessageToView] = useState({})
+	const [smsToView, setSmsMessageToView] = useState({})
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
@@ -38,13 +38,13 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "SMS Messages", path: ["smsMessages"] })
+		props.setPage({ name: "SMS Messages", path: ["smses"] })
 	}, [])
 
 	useEffect(() => {
 		// Fetch SMS Messages
 		props.getPaginated(
-			`sms-messages?propertyId=${props.selectedPropertyId}&
+			`smses?propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			phone=${phone}&
@@ -52,7 +52,7 @@ const index = (props) => {
 			endMonth=${endMonth}&
 			startYear=${startYear}&
 			endYear=${endYear}`,
-			setSMSMessages
+			setSmses
 		)
 	}, [
 		props.selectedPropertyId,
@@ -89,7 +89,7 @@ const index = (props) => {
 								aria-label="Close"></button>
 						</div>
 						<div className="modal-body text-start text-wrap">
-							{smsMessageToView.text}
+							{smsToView.text}
 						</div>
 						<div className="modal-footer justify-content-between">
 							<button
@@ -112,7 +112,7 @@ const index = (props) => {
 					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Total"
-							data={smsMessages.meta?.total}
+							data={smses.meta?.total}
 						/>
 						<HeroIcon>
 							<SMSSVG />
@@ -123,7 +123,7 @@ const index = (props) => {
 					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Success"
-							data={smsMessages.successfull}
+							data={smses.successfull}
 						/>
 						<HeroIcon>
 							<CheckCircleSVG />
@@ -134,7 +134,7 @@ const index = (props) => {
 					<div className="d-flex justify-content-between flex-grow-1 mx-2">
 						<HeroHeading
 							heading="Failed"
-							data={smsMessages.failed}
+							data={smses.failed}
 						/>
 						<HeroIcon>
 							<DashCircleSVG />
@@ -295,22 +295,22 @@ const index = (props) => {
 							<th>Sent On</th>
 							<th>Action</th>
 						</tr>
-						{smsMessages.data?.map((smsMessage, key) => (
+						{smses.data?.map((sms, key) => (
 							<tr key={key}>
-								<td>{smsMessage.userName}</td>
-								<td>{smsMessage.unitName}</td>
-								{/* <td>{smsMessage.responseMessage}</td> */}
-								<td>{smsMessage.number}</td>
-								<td>{smsMessage.status}</td>
-								{/* <td>{smsMessage.statusCode}</td> */}
-								{/* <td>{smsMessage.cost}</td> */}
-								<td>{smsMessage.deliveryStatus}</td>
-								<td>{smsMessage.network}</td>
-								{/* <td>{smsMessage.networkCode}</td> */}
-								<td>{smsMessage.failureReason}</td>
-								<td>{smsMessage.retryCount}</td>
-								<td>{smsMessage.message}</td>
-								<td>{smsMessage.createdAt}</td>
+								<td>{sms.userName}</td>
+								<td>{sms.unitName}</td>
+								{/* <td>{sms.responseMessage}</td> */}
+								<td>{sms.number}</td>
+								<td>{sms.status}</td>
+								{/* <td>{sms.statusCode}</td> */}
+								{/* <td>{sms.cost}</td> */}
+								<td>{sms.deliveryStatus}</td>
+								<td>{sms.network}</td>
+								{/* <td>{sms.networkCode}</td> */}
+								<td>{sms.failureReason}</td>
+								<td>{sms.retryCount}</td>
+								<td>{sms.message}</td>
+								<td>{sms.createdAt}</td>
 								<td>
 									{/* Button trigger modal */}
 									<Btn
@@ -318,7 +318,7 @@ const index = (props) => {
 										className={`me-1`}
 										dataBsToggle="modal"
 										dataBsTarget={`#smsModal`}
-										onClick={() => setSmsMessageToView(smsMessage)}
+										onClick={() => setSmsMessageToView(sms)}
 									/>
 									{/* Button trigger modal End */}
 								</td>
@@ -328,9 +328,9 @@ const index = (props) => {
 				</table>
 				{/* Pagination Links */}
 				<PaginationLinks
-					list={smsMessages}
+					list={smses}
 					getPaginated={props.getPaginated}
-					setState={setSMSMessages}
+					setState={setSmses}
 				/>
 				{/* Pagination Links End */}
 			</div>

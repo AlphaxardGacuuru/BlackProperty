@@ -103,7 +103,7 @@ class TenantService extends Service
 			return [false, "Unit already occupied", "", 422];
 		}
 
-		$saved = DB::transaction(function () use ($tenant, $request) {
+		[$saved, $userUnit] = DB::transaction(function () use ($tenant, $request) {
 			$saved = $tenant->save();
 
 			// Add UserUnit
@@ -121,10 +121,14 @@ class TenantService extends Service
 				$unit->save();
 			}
 
-			return $saved;
+			return [$saved, $userUnit];
 		});
 
-		$message = $tenant->name . " added successfully";
+		if ($request->input("sendInvoice")) {
+			
+		}
+
+		$message = $tenant->name . " Added Successfully";
 
 		return [$saved, $message, $tenant, 200];
 	}

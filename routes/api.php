@@ -14,6 +14,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\SMSMessageController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\TenantController;
@@ -60,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"roles" => RoleController::class,
 		"notifications" => NotificationController::class,
 		"emails" => EmailController::class,
-		"sms-messages" => SMSMessageController::class,
+		"smses" => SMSController::class,
 	]);
 
 	/*

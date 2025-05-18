@@ -113,36 +113,6 @@ class InvoiceService extends Service
 	}
 
 	/*
-     * Get Invoices by Property ID
-     */
-	public function byPropertyId($request, $id)
-	{
-		$ids = explode(",", $id);
-
-		$invoicesQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($ids) {
-			$query->whereIn("id", $ids);
-		});
-
-		$invoicesQuery = $this->search($invoicesQuery, $request);
-
-		$due = $invoicesQuery->sum("amount");
-		$paid = $invoicesQuery->sum("paid");
-		$balance = $invoicesQuery->sum("balance");
-
-		$invoices = $invoicesQuery
-			->orderBy("month", "DESC")
-			->orderBy("year", "DESC")
-			->paginate(20);
-
-		return InvoiceResource::collection($invoices)
-			->additional([
-				"due" => number_format($due),
-				"paid" => number_format($paid),
-				"balance" => number_format($balance),
-			]);
-	}
-
-	/*
      * Handle Search
      */
 	public function search($query, $request)
@@ -317,12 +287,13 @@ class InvoiceService extends Service
 			// Save Email
 			$emailService = new EmailService;
 
-			// Populate Email Service with request details
-			$emailService->user_unit_id = $invoice->userUnit->id;
-			$emailService->email = $invoice->userUnit->user->email;
-			$emailService->model = $invoice->userUnit->id;
+			$request = new Request([
+				"userUnitId" => $invoice->userUnit->id,
+				"email" => $invoice->userUnit->user->email,
+				"model" => $invoice->userUnit->id,
+			]);
 
-			$emailService->store($emailService);
+			$emailService->store($request);
 		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
 
 			throw $exception;
@@ -337,10 +308,17 @@ class InvoiceService extends Service
 	public function sendSMS($id)
 	{
 		$invoice = Invoice::findOrFail($id);
+		
+		$smsService = new SMSSendService($invoice);
 
-		$smsService = new SMSService($invoice);
+		try {
+			$status = $smsService->sendSMS("invoice");
 
-		$status = $smsService->sendSMS("invoice");
+			// Increment the emails_sent column
+			$invoice->increment("smses_sent");
+		} catch (\Throwable $th) {
+			throw $th;
+		}
 
 		return [$status, "Invoice SMS Sent Successfully", $invoice];
 	}

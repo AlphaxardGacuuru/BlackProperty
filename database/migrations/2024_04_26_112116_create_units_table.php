@@ -25,6 +25,8 @@ return new class extends Migration
             $table->integer("bedrooms")->nullable();
             $table->jsonb("size")->nullable();
             $table->string("type")->default("apartment");
+            $table->integer("ensuite")->default(0);
+            $table->boolean("dsq")->default(false);
             $table->string("status")->default("vacant");
             $table->timestamps();
         });

@@ -39,6 +39,8 @@ class UnitResource extends JsonResource
             "type" => $this->type,
             "bedrooms" => $this->bedrooms,
             "size" => $this->size,
+            "ensuite" => $this->ensuite,
+            "dsq" => $this->dsq,
             "status" => $this->status,
             "tenantId" => $currentTenant?->id,
             "tenantAvatar" => $currentTenant?->avatar,

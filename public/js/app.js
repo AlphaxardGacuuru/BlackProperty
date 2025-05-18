@@ -87004,6 +87004,24 @@ __webpack_require__.r(__webpack_exports__);
 var TenantList = function TenantList(props) {
   var _props$tenants$meta, _props$tenants$data, _props$tenants$data2;
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+
+  /*
+   * Vacate Tenant
+   */
+  var onVacate = function onVacate(tenantId, unitId) {
+    Axios.put("/api/tenants/".concat(tenantId), {
+      unitId: unitId,
+      vacate: true
+    }).then(function (res) {
+      props.setMessages(["".concat(res.data.data.name, " Vacated Successfully")]);
+      // Fetch Auth
+      props.get("auth", props.setAuth, "auth");
+      // State to Update
+      props.stateToUpdate();
+    })["catch"](function (err) {
+      return props.getErrors(err);
+    });
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -87081,9 +87099,9 @@ var TenantList = function TenantList(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "modal-dialog"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "modal-content rounded-0"
+      className: "modal-content bg-warning rounded-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "modal-header"
+      className: "modal-header border-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
       id: "deleteModalLabel",
       className: "modal-title fs-5"
@@ -87093,9 +87111,9 @@ var TenantList = function TenantList(props) {
       "data-bs-dismiss": "modal",
       "aria-label": "Close"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "modal-body text-start text-wrap"
-    }, "Are you sure you want to vacate ", tenant.name, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "modal-footer justify-content-between"
+      className: "modal-body text-start text-wrap border-0"
+    }, "Are you sure you want to Vacate ", tenant.name, "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "modal-footer justify-content-between border-0"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
       className: "mysonar-btn btn-2",
@@ -87105,7 +87123,7 @@ var TenantList = function TenantList(props) {
       className: "mysonar-btn btn-2",
       "data-bs-dismiss": "modal",
       onClick: function onClick() {
-        return props.onVacate(tenant.id, tenant.unitId);
+        return onVacate(tenant.id, tenant.unitId);
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "me-1"
@@ -87517,14 +87535,14 @@ var UnitList = function UnitList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "7"
+    colSpan: "9"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
     linkTo: "/units/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null),
     text: "add unit"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Size"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Size"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Ensuite"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "DSQ"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action"))), ((_props$units$data = props.units.data) === null || _props$units$data === void 0 ? void 0 : _props$units$data.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$units$data2 = props.units.data) === null || _props$units$data2 === void 0 ? void 0 : _props$units$data2.map(function (unit, key) {
     var _unit$size, _unit$size2;
@@ -87538,7 +87556,7 @@ var UnitList = function UnitList(props) {
       className: "text-capitalize"
     }, unit.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
-    }, unit.bedrooms ? "".concat(unit.bedrooms, " Bed") : "".concat((_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value, " ").concat((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.status == "vacant" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, unit.bedrooms ? "".concat(unit.bedrooms, " Bed") : "".concat((_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value, " ").concat((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.ensuite), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.dsq ? "Yes" : "No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.status == "vacant" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "bg-warning-subtle p-1 px-4 text-capitalize"
     }, unit.status) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "bg-success-subtle p-1 px-4"
@@ -87563,7 +87581,7 @@ var UnitList = function UnitList(props) {
       onDelete: props.onDeleteUnit
     })))));
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    colSpan: "8",
+    colSpan: "10",
     className: "p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_NoData__WEBPACK_IMPORTED_MODULE_6__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_7__["default"], {
     list: props.units,
@@ -92253,10 +92271,10 @@ var index = function index(props) {
 
 /***/ }),
 
-/***/ "./resources/js/pages/admin/sms-messages/index.js":
-/*!********************************************************!*\
-  !*** ./resources/js/pages/admin/sms-messages/index.js ***!
-  \********************************************************/
+/***/ "./resources/js/pages/admin/smses/index.js":
+/*!*************************************************!*\
+  !*** ./resources/js/pages/admin/smses/index.js ***!
+  \*************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -92310,14 +92328,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var index = function index(props) {
-  var _smsMessages$meta, _smsMessages$data;
+  var _smses$meta, _smses$data;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
-    smsMessages = _useState2[0],
-    setSMSMessages = _useState2[1];
+    smses = _useState2[0],
+    setSmses = _useState2[1];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState4 = _slicedToArray(_useState3, 2),
-    smsMessageToView = _useState4[0],
+    smsToView = _useState4[0],
     setSmsMessageToView = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState6 = _slicedToArray(_useState5, 2),
@@ -92351,12 +92369,12 @@ var index = function index(props) {
     // Set page
     props.setPage({
       name: "SMS Messages",
-      path: ["smsMessages"]
+      path: ["smses"]
     });
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch SMS Messages
-    props.getPaginated("sms-messages?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tphone=").concat(phone, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setSMSMessages);
+    props.getPaginated("smses?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tphone=").concat(phone, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setSmses);
   }, [props.selectedPropertyId, tenant, unit, phone, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: props.activeTab
@@ -92382,7 +92400,7 @@ var index = function index(props) {
     "aria-label": "Close"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-body text-start text-wrap"
-  }, smsMessageToView.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, smsToView.text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal-footer justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
@@ -92396,17 +92414,17 @@ var index = function index(props) {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Total",
-    data: (_smsMessages$meta = smsMessages.meta) === null || _smsMessages$meta === void 0 ? void 0 : _smsMessages$meta.total
+    data: (_smses$meta = smses.meta) === null || _smses$meta === void 0 ? void 0 : _smses$meta.total
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Success",
-    data: smsMessages.successfull
+    data: smses.successfull
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CheckCircleSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-grow-1 mx-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
     heading: "Failed",
-    data: smsMessages.failed
+    data: smses.failed
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DashCircleSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm px-4 pt-4 pb-3 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -92512,22 +92530,22 @@ var index = function index(props) {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Delivery Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Network"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Failure Reason"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Retry Count"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Message"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Sent On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action")), (_smsMessages$data = smsMessages.data) === null || _smsMessages$data === void 0 ? void 0 : _smsMessages$data.map(function (smsMessage, key) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Delivery Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Network"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Failure Reason"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Retry Count"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Message"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Sent On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Action")), (_smses$data = smses.data) === null || _smses$data === void 0 ? void 0 : _smses$data.map(function (sms, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.userName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.number), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.status), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.deliveryStatus), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.network), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.failureReason), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.retryCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.message), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, smsMessage.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.userName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.unitName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.number), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.status), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.deliveryStatus), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.network), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.failureReason), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.retryCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.message), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, sms.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_9__["default"], {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null),
       className: "me-1",
       dataBsToggle: "modal",
       dataBsTarget: "#smsModal",
       onClick: function onClick() {
-        return setSmsMessageToView(smsMessage);
+        return setSmsMessageToView(sms);
       }
     })));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    list: smsMessages,
+    list: smses,
     getPaginated: props.getPaginated,
-    setState: setSMSMessages
+    setState: setSmses
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -93084,6 +93102,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
 /* harmony import */ var _svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/svgs/BackSVG */ "./resources/js/svgs/BackSVG.js");
+/* harmony import */ var _svgs_LogInSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/LogInSVG */ "./resources/js/svgs/LogInSVG.js");
+/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -93095,30 +93115,40 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var create = function create(props) {
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
-    name = _useState2[0],
-    setName = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    property = _useState2[0],
+    setProperty = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState4 = _slicedToArray(_useState3, 2),
-    email = _useState4[0],
-    setEmail = _useState4[1];
+    unit = _useState4[0],
+    setUnit = _useState4[1];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState6 = _slicedToArray(_useState5, 2),
-    phone = _useState6[0],
-    setPhone = _useState6[1];
+    name = _useState6[0],
+    setName = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState8 = _slicedToArray(_useState7, 2),
-    occupiedAt = _useState8[0],
-    setOccupiedAt = _useState8[1];
+    email = _useState8[0],
+    setEmail = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState10 = _slicedToArray(_useState9, 2),
-    loading = _useState10[0],
-    setLoading = _useState10[1];
+    phone = _useState10[0],
+    setPhone = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState12 = _slicedToArray(_useState11, 2),
+    occupiedAt = _useState12[0],
+    setOccupiedAt = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState14 = _slicedToArray(_useState13, 2),
+    loading = _useState14[0],
+    setLoading = _useState14[1];
 
   // Get Faculties and Departments
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -93126,6 +93156,13 @@ var create = function create(props) {
     props.setPage({
       name: "Add Tenant",
       path: ["units", "units/".concat(id, "/show"), "create"]
+    });
+    // Fetch Property
+    Axios.get("api/units/".concat(id)).then(function (res) {
+      setUnit(res.data.data);
+      props.get("properties/".concat(res.data.data.propertyId), setProperty);
+    })["catch"](function (err) {
+      return props.setMessages(["Failed to fetch unit"]);
     });
   }, []);
 
@@ -93135,12 +93172,20 @@ var create = function create(props) {
   var onSubmit = function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
+
+    // Call Modal
+    var modal = new window.bootstrap.Modal(document.getElementById("vacateModal"));
+    modal.show();
+  };
+  var onSubmitAction = function onSubmitAction() {
+    var sendInvoice = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
     Axios.post("/api/tenants", {
       unitId: id,
       name: name,
       email: email,
       phone: phone,
-      occupiedAt: occupiedAt
+      occupiedAt: occupiedAt,
+      sendInvoice: sendInvoice
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -93213,7 +93258,48 @@ var create = function create(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add tenant",
     loading: loading
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal fade",
+    id: "vacateModal",
+    tabIndex: "-1",
+    "aria-labelledby": "deleteModalLabel",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-dialog"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-content bg-primary rounded-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header border-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    id: "deleteModalLabel",
+    className: "modal-title fs-5 text-white"
+  }, "Add Tenant to ", unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    type: "button",
+    className: "text-white",
+    "data-bs-dismiss": "vacateModal"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body text-start text-wrap text-white border-0"
+  }, "Are you sure you want to Add ", name, " to ", unit.name, ". An Invoice will be sent via", " ", "".concat(property.email ? " Email" : "", " ").concat(property.sms ? " and SMS" : ""), " ", "as well."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between border-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "mysonar-btn btn-2 me-2",
+    "data-bs-dismiss": "modal",
+    onClick: function onClick() {
+      return onSubmitAction(false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "me-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogInSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null)), "Add without invoice"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "mysonar-btn btn-2",
+    "data-bs-dismiss": "modal",
+    onClick: function onClick() {
+      return onSubmitAction();
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "me-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogInSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null)), "Add With Invoice")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/units/".concat(id, "/show"),
@@ -93433,13 +93519,16 @@ var index = function index(props) {
     _useState6 = _slicedToArray(_useState5, 2),
     phoneQuery = _useState6[0],
     setPhoneQuery = _useState6[1];
+  var dataToFetch = function dataToFetch() {
+    props.getPaginated("tenants?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\toccupied=true&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
+  };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
       name: "Tenants",
       path: ["tenants"]
     });
-    props.getPaginated("tenants?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\toccupied=true&\n\t\t\tname=").concat(nameQuery, "&\n\t\t\tphone=").concat(phoneQuery), setTenants);
+    dataToFetch();
   }, [props.selectedPropertyId, nameQuery, phoneQuery]);
 
   /*
@@ -93469,7 +93558,8 @@ var index = function index(props) {
     setTenants: setTenants,
     onDeleteTenant: onDeleteTenant,
     setNameQuery: setNameQuery,
-    setPhoneQuery: setPhoneQuery
+    setPhoneQuery: setPhoneQuery,
+    stateToUpdate: dataToFetch
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (index);
@@ -93531,7 +93621,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var show = function show(props) {
-  var _unit$tenantAvatar, _tenants$data;
+  var _unit$size, _unit$size2, _unit$tenantAvatar, _tenants$data;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -93623,7 +93713,11 @@ var show = function show(props) {
     className: "mx-1 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.rent)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Deposit:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "mx-1 text-success"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", unit.deposit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+    className: "text-capitalize"
+  }, "Type: ", unit.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+    className: "text-capitalize"
+  }, unit.bedrooms ? "".concat(unit.bedrooms, " Bed") : "Size: ".concat((_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value, " ").concat((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Ensuite: ", unit.ensuite), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "DSQ: ", unit.dsq ? "Yes" : "No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
   }, unit.status == "vacant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
     linkTo: "/tenants/".concat(id, "/create"),
@@ -93867,36 +93961,44 @@ var create = function create(props) {
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState2 = _slicedToArray(_useState, 2),
-    name = _useState2[0],
-    setName = _useState2[1];
+    propertyId = _useState2[0],
+    setPropertyId = _useState2[1];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState4 = _slicedToArray(_useState3, 2),
-    rent = _useState4[0],
-    setRent = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    name = _useState4[0],
+    setName = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState6 = _slicedToArray(_useState5, 2),
-    deposit = _useState6[0],
-    setDeposit = _useState6[1];
+    rent = _useState6[0],
+    setRent = _useState6[1];
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    type = _useState8[0],
-    setType = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    deposit = _useState8[0],
+    setDeposit = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState10 = _slicedToArray(_useState9, 2),
-    bedrooms = _useState10[0],
-    setBedrooms = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    type = _useState10[0],
+    setType = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState12 = _slicedToArray(_useState11, 2),
-    size = _useState12[0],
-    setSize = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    bedrooms = _useState12[0],
+    setBedrooms = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState14 = _slicedToArray(_useState13, 2),
-    propertyId = _useState14[0],
-    setPropertyId = _useState14[1];
+    size = _useState14[0],
+    setSize = _useState14[1];
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    loading = _useState16[0],
-    setLoading = _useState16[1];
+    ensuite = _useState16[0],
+    setEnsuite = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState18 = _slicedToArray(_useState17, 2),
+    dsq = _useState18[0],
+    setDsq = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState20 = _slicedToArray(_useState19, 2),
+    loading = _useState20[0],
+    setLoading = _useState20[1];
 
   // Get Units
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -93907,11 +94009,12 @@ var create = function create(props) {
     });
   }, []);
   var getDeposit = function getDeposit(e) {
+    var _props$properties$fin;
     var rent = e.target.value;
-    var formula = props.properties.find(function (property) {
-      return property == propertyId;
-    }).depositFormula;
-
+    var formula = (_props$properties$fin = props.properties.find(function (property) {
+      return property.id == propertyId;
+    })) === null || _props$properties$fin === void 0 ? void 0 : _props$properties$fin.depositFormula;
+    rent = rent > 0 ? rent : 0;
     // Evaluate the formula
     return eval(formula === null || formula === void 0 ? void 0 : formula.replace("r", rent));
   };
@@ -93923,13 +94026,15 @@ var create = function create(props) {
     e.preventDefault();
     setLoading(true);
     Axios.post("/api/units", {
+      propertyId: propertyId,
       name: name,
       rent: rent,
       deposit: deposit.toString(),
       type: type,
       bedrooms: bedrooms,
       size: size,
-      propertyId: propertyId
+      ensuite: ensuite,
+      dsq: dsq
     }).then(function (res) {
       setLoading(false);
       // Show messages
@@ -93954,6 +94059,26 @@ var create = function create(props) {
     onSubmit: onSubmit,
     className: "mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "text",
+    name: "type",
+    placeholder: "Location",
+    className: "form-control text-capitalize mb-2 me-2",
+    onChange: function onChange(e) {
+      return setPropertyId(e.target.value);
+    },
+    required: true
+  }, [{
+    id: "",
+    name: "Select Property"
+  }].concat(props.properties).map(function (property, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: property.id,
+      selected: property.id == props.selectedPropertyId
+    }, property.name);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
@@ -94046,27 +94171,38 @@ var create = function create(props) {
     value: "m\xB2"
   }, "m\xB2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "ft\xB2"
-  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, "ft\xB2")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-100 me-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
-  }, "Property"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    type: "text",
-    name: "type",
-    placeholder: "Location",
-    className: "form-control text-capitalize mb-2 me-2",
+  }, "Ensuite"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "2",
+    className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      return setPropertyId(e.target.value);
+      return setEnsuite(e.target.value);
     },
     required: true
-  }, [{
-    id: "",
-    name: "Select Property"
-  }].concat(props.properties).map(function (property, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: property.id,
-      selected: property.id == props.selectedPropertyId
-    }, property.name);
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-100"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "DSQ"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    type: "number",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setDsq(e.target.value == "yes" ? true : false);
+    },
+    required: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "yes"
+  }, "Yes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "no"
+  }, "No")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "add unit",
@@ -95776,7 +95912,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @/pages/admin/deductions/create */ "./resources/js/pages/admin/deductions/create.js");
 /* harmony import */ var _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @/pages/admin/deductions/edit/[id] */ "./resources/js/pages/admin/deductions/edit/[id].js");
 /* harmony import */ var _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @/pages/admin/emails/index */ "./resources/js/pages/admin/emails/index.js");
-/* harmony import */ var _pages_admin_sms_messages_index__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/sms-messages/index */ "./resources/js/pages/admin/sms-messages/index.js");
+/* harmony import */ var _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/smses/index */ "./resources/js/pages/admin/smses/index.js");
 /* harmony import */ var _pages_admin_wallet_index__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/wallet/index */ "./resources/js/pages/admin/wallet/index.js");
 /* harmony import */ var _pages_admin_wallet_create__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/wallet/create */ "./resources/js/pages/admin/wallet/create.js");
 /* harmony import */ var _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/pages/admin/staff/index */ "./resources/js/pages/admin/staff/index.js");
@@ -95938,7 +96074,7 @@ var RouteList = function RouteList(_ref) {
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_34__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/sms-messages",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_sms_messages_index__WEBPACK_IMPORTED_MODULE_35__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_35__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/wallet",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_wallet_index__WEBPACK_IMPORTED_MODULE_36__["default"], GLOBAL_STATE)
@@ -96619,6 +96755,38 @@ var InvoiceSVG = function InvoiceSVG() {
   }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (InvoiceSVG);
+
+/***/ }),
+
+/***/ "./resources/js/svgs/LogInSVG.js":
+/*!***************************************!*\
+  !*** ./resources/js/svgs/LogInSVG.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var LogInSVG = function LogInSVG() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "1em",
+    height: "1em",
+    fill: "currentColor",
+    className: "mb-1 bi bi-box-arrow-in-right",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    fillRule: "evenodd",
+    d: "M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (LogInSVG);
 
 /***/ }),
 
