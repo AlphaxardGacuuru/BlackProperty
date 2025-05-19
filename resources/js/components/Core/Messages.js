@@ -41,6 +41,7 @@ const Messages = ({ messages, setMessages, errors, setErrors }) => {
 			pauseOnHover
 			theme="colored"
 			transition={Bounce}
+			style={{ zIndex: 1000002 }}
 		/>
 	)
 }

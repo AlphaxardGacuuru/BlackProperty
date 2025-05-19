@@ -16,6 +16,8 @@ const edit = (props) => {
 	const [type, setType] = useState(unit.type)
 	const [bedrooms, setBedrooms] = useState()
 	const [size, setSize] = useState({})
+	const [ensuite, setEnsuite] = useState()
+	const [dsq, setDsq] = useState()
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -58,6 +60,8 @@ const edit = (props) => {
 			type: type,
 			bedrooms: bedrooms,
 			size: size,
+			ensuite: ensuite,
+			dsq: dsq,
 		})
 			.then((res) => {
 				setLoading(false)
@@ -189,6 +193,33 @@ const edit = (props) => {
 							{/* Size End */}
 						</React.Fragment>
 					)}
+
+					<div className="d-flex justify-content-between">
+						<div className="w-100 me-2">
+							<label htmlFor="">Ensuite</label>
+							<input
+								type="number"
+								placeholder="2"
+								className="form-control mb-2 me-2"
+								onChange={(e) => setEnsuite(e.target.value)}
+								required={true}
+								defaultValue={unit.ensuite}
+							/>
+						</div>
+
+						<div className="w-100">
+							<label htmlFor="">DSQ</label>
+							<select
+								type="number"
+								className="form-control"
+								onChange={(e) => setDsq(e.target.value == "yes" ? true : false)}
+								required={true}>
+								<option value="">Select DSQ</option>
+								<option value="yes" selected={unit.dsq == 1}>Yes</option>
+								<option value="no" selected={unit.dsq == 0}>No</option>
+							</select>
+						</div>
+					</div>
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn

@@ -18,6 +18,8 @@ import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
+import AdminUnitInvoiceCreate from "@/pages/admin/units/invoices/create"
+
 import AdminTenants from "@/pages/admin/tenants/index"
 import AdminTenantCreate from "@/pages/admin/tenants/create"
 import AdminTenantEdit from "@/pages/admin/tenants/edit/[id]"
@@ -116,6 +118,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/units/:id/edit",
 			component: <AdminUnitEdit {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:unitId/invoices/create",
+			component: <AdminUnitInvoiceCreate {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/tenants",

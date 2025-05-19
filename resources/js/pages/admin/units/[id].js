@@ -305,7 +305,7 @@ const show = (props) => {
 									<tr key={key}>
 										<td>{tenant.name}</td>
 										<td>{tenant.vacatedAt}</td>
-										<td class="text-end">
+										<td className="text-end">
 											<div className="mx-1">
 												<DeleteModal
 													index={`tenant${key}`}

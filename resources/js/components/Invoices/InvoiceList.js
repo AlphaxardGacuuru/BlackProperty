@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
@@ -23,6 +24,8 @@ import ChatSendSVG from "@/svgs/ChatSendSVG"
 import NoData from "@/components/Core/NoData"
 
 const InvoiceList = (props) => {
+	const location = useLocation()
+
 	const [deleteIds, setDeleteIds] = useState([])
 	const [loading, setLoading] = useState()
 	const [loadingSMS, setLoadingSMS] = useState()
@@ -401,9 +404,17 @@ const InvoiceList = (props) => {
 										/>
 									)}
 
-									{location.pathname.match("/admin/invoices/") && (
+									{location.pathname.match("/admin/invoices") && (
 										<MyLink
 											linkTo={`/invoices/create`}
+											icon={<PlusSVG />}
+											text="create invoice"
+										/>
+									)}
+
+									{location.pathname.match("/admin/units/") && (
+										<MyLink
+											linkTo={`/units/${props.unit?.id}/invoices/create`}
 											icon={<PlusSVG />}
 											text="create invoice"
 										/>

@@ -178,6 +178,7 @@ const edit = (props) => {
 								role="switch"
 								onClick={(e) => setEmail(e.target.checked)}
 								defaultChecked={property.email}
+								disabled={true}
 							/>
 							<label
 								class="form-check-label"

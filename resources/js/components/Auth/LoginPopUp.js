@@ -104,16 +104,33 @@ const LoginPopUp = (props) => {
 									method="POST"
 									action=""
 									onSubmit={onSubmit}>
+									{/* Email Start */}
 									<input
 										id="email"
 										type="text"
-										className="form-control"
+										className="form-control mb-2"
 										name="email"
+										placeholder="Email"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										required={true}
 										autoFocus
 									/>
+									{/* Email End */}
+
+									{/* Password Start */}
+									<input
+										id="password"
+										type="password"
+										name="password"
+										placeholder="Password"
+										className="form-control"
+										defaultValue={password}
+										onChange={(e) => setPassword(e.target.value)}
+										required={true}
+										autoFocus
+									/>
+									{/* Password End */}
 
 									<Btn
 										type="submit"

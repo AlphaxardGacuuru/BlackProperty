@@ -37,6 +37,7 @@ function App() {
 			return JSON.parse(localStorage.getItem(state))
 		} else {
 			return {
+				id: 0,
 				name: "Guest",
 				username: "@guest",
 				avatar: "/storage/avatars/male-avatar.png",
@@ -184,7 +185,9 @@ function App() {
 	}, [])
 
 	useEffect(() => {
-		get(`properties?userId=${auth.id}`, setProperties, "properties")
+		if(auth.id != 0) {
+			get(`properties?userId=${auth.id}`, setProperties, "properties")
+		}
 	}, [auth])
 
 	/*

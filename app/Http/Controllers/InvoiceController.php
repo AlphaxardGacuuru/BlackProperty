@@ -32,7 +32,8 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "userUnitIds" => "required|array",
+            "unitId" => "nullable|integer",
+            "userUnitIds" => "nullable|array",
             "type" => "required|string",
             "month" => "required|integer|min:1",
             "year" => "required|integer",

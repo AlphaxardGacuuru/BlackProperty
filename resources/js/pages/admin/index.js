@@ -35,7 +35,7 @@ const index = (props) => {
 			.catch(() => props.getErrors(["Failed to fetch Dashboard Properties"]))
 
 		// Fetch Dashboard
-		if (props.selectedPropertyId) {
+		if (props.selectedPropertyId?.length > 0) {
 			Axios.get(`api/dashboard/${props.selectedPropertyId}`)
 				.then((res) => {
 					// Reset Data
@@ -248,7 +248,9 @@ const index = (props) => {
 				<div className="col-sm-3 pe-1">
 					{/* Tenancy This Month */}
 					<h4 className="my-2">Current Occupancy</h4>
-					<div className="card shadow-sm p-2 mb-2">
+					<div
+						className="card shadow-sm p-2 mb-2"
+						style={{ minHeight: "80%" }}>
 						<div className="middle2">
 							<h1>
 								{dashboard.units?.percentage}
@@ -277,7 +279,9 @@ const index = (props) => {
 				<div className="col-sm-6">
 					{/* Tenancy This Year */}
 					<h4 className="my-2">Tenancy This Year</h4>
-					<div className="card shadow-sm mb-2 rounded hidden-scroll">
+					<div
+						className="card shadow-sm mb-2 rounded hidden-scroll"
+						style={{ minHeight: "80%" }}>
 						{dashboard.units && (
 							<Bar
 								labels={dashboard.units?.tenantsThisYear.labels}
@@ -292,10 +296,14 @@ const index = (props) => {
 				 * Income
 				 */}
 
-				<div className="row">
+				<div
+					className="row"
+					style={{ minHeight: "400px" }}>
 					<div className="col-sm-8">
 						<h4 className="my-2">Income This Year</h4>
-						<div className="card shadow-sm hidden-scroll">
+						<div
+							className="card shadow-sm hidden-scroll"
+							style={{ minHeight: "80%" }}>
 							{dashboard.rent && (
 								<Bar
 									labels={dashboard.rent?.paidThisYear.labels}
@@ -307,7 +315,9 @@ const index = (props) => {
 					<div className="col-sm-2 px-1">
 						<h4 className="my-2">Income this month</h4>
 						{/* Rent Doughnut */}
-						<div className="card shadow-sm text-center mb-2">
+						<div
+							className="card shadow-sm text-center mb-2"
+							style={{ minHeight: "40%" }}>
 							<div className="middle3">
 								<h2>
 									{dashboard.rent?.percentage}
@@ -332,7 +342,9 @@ const index = (props) => {
 						</div>
 						{/* Rent Doughnut End */}
 						{/* Water Doughnut */}
-						<div className="card shadow-sm text-center mb-2">
+						<div
+							className="card shadow-sm text-center mb-2"
+							style={{ minHeight: "40%" }}>
 							<div className="middle3">
 								<h2>
 									{dashboard.water?.percentage}
@@ -360,7 +372,9 @@ const index = (props) => {
 					<div className="col-sm-2 px-1">
 						<h4 className="invisible my-2 hidden">Income this month</h4>
 						{/* Service Charge Doughnut */}
-						<div className="card shadow-sm text-center mb-2">
+						<div
+							className="card shadow-sm text-center mb-2"
+							style={{ minHeight: "40%" }}>
 							<div className="middle3">
 								<h2>
 									{dashboard.serviceCharge?.percentage}
@@ -385,7 +399,9 @@ const index = (props) => {
 						</div>
 						{/* Service Charge Doughnut End */}
 						{/* Water Usage Pie */}
-						<div className="card shadow-sm text-center mb-2">
+						<div
+							className="card shadow-sm text-center mb-2"
+							style={{ minHeight: "40%" }}>
 							{dashboard.water && (
 								<Pie
 									labels={["Previous Water Usage", "Current Water Usage"]}

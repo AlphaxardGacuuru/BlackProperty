@@ -8,6 +8,7 @@ use App\Models\CreditNote;
 use App\Models\Deduction;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Unit;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 use Carbon\Carbon;
@@ -58,9 +59,15 @@ class InvoiceService extends Service
      */
 	public function store($request)
 	{
+		$fetchedUserUnitId = Unit::find($request->unitId)
+			->currentUserUnit()
+			?->id;
+
+		$userUnitIds = [$fetchedUserUnitId];
+
 		$saved = 0;
 
-		foreach ($request->userUnitIds as $userUnitId) {
+		foreach ($userUnitIds as $userUnitId) {
 			// Check if invoice exists for User, Unit and Month
 			$invoiceDoesntExist = Invoice::where("user_unit_id", $userUnitId)
 				->where("type", $request->type)
@@ -84,11 +91,11 @@ class InvoiceService extends Service
 		}
 
 		if ($saved) {
-			$message = count($request->userUnitIds) > 1 ?
+			$message = count($userUnitIds) > 1 ?
 				"Invoices Created Successfully" :
 				"Invoice Created Successfully";
 		} else {
-			$message = count($request->userUnitIds) > 1 ?
+			$message = count($userUnitIds) > 1 ?
 				"Invoices already exist" :
 				"Invoice already exists";
 		}
@@ -207,6 +214,10 @@ class InvoiceService extends Service
 				return $userUnit->unit->rent;
 				break;
 
+			case "deposit":
+				return $userUnit->unit->deposit;
+				break;
+
 			case "service_charge":
 				return $userUnit->unit->property->service_charge;
 				break;
@@ -308,7 +319,7 @@ class InvoiceService extends Service
 	public function sendSMS($id)
 	{
 		$invoice = Invoice::findOrFail($id);
-		
+
 		$smsService = new SMSSendService($invoice);
 
 		try {

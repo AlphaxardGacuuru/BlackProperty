@@ -9,27 +9,30 @@ import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
 import CloseSVG from "@/svgs/CloseSVG"
+import EditSVG from "@/svgs/EditSVG"
 
 const create = (props) => {
-	var { unitId } = useParams()
-
+	const { unitId } = useParams()
 	var history = useHistory()
 
-	const [amount, setAmount] = useState()
-	const [channel, setChannel] = useState()
-	const [transactionReference, setTransactionReference] = useState()
+	const types = ["rent", "water", "service_charge"]
+
+	const [unit, setUnit] = useState({})
+
+	const [type, setType] = useState()
 	const [month, setMonth] = useState(props.previousMonth + 1)
 	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
-	const channels = ["Bank", "Mpesa"]
-
+	// Get Invoices
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Add Payment",
-			path: ["payments", "create"],
+			name: "Create Invoice",
+			path: ["invoices", "create"],
 		})
+		// Fetch Unit
+		props.get(`units/${unitId}`, setUnit)
 	}, [])
 
 	/*
@@ -37,13 +40,16 @@ const create = (props) => {
 	 */
 	const onSubmit = (e) => {
 		e.preventDefault()
-
 		setLoading(true)
-		Axios.post("/api/payments", {
+
+		if (showServiceChargeError()) {
+			setLoading(false)
+			return props.setErrors(["Property has no Service Charge"])
+		}
+
+		Axios.post("/api/invoices", {
 			unitId: unitId,
-			channel: channel,
-			transactionReference: transactionReference,
-			amount: amount,
+			type: type,
 			month: month,
 			year: year,
 		})
@@ -52,8 +58,11 @@ const create = (props) => {
 				// Show messages
 				props.setMessages([res.data.message])
 
-				// Redirect to Deductions
-				setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
+				// Check if readings saved
+				if (res.data.message.match("successfully")) {
+					// Redirect to Invoices
+					setTimeout(() => history.push(`/admin/invoices`), 500)
+				}
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -62,49 +71,67 @@ const create = (props) => {
 			})
 	}
 
+	const showServiceChargeError = () => {
+		var serviceCharge = props.properties.find(
+			(property) => property.id == unit.propertyId
+		)?.serviceCharge
+
+		var noServiceCharge = serviceCharge < 1
+
+		if (type == "service_charge" && noServiceCharge) {
+			return true
+		} else {
+			return false
+		}
+	}
+
 	return (
 		<div className="row">
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
-					{/* Channel */}
+					{/* No Service Charge Error */}
+					{showServiceChargeError() && (
+						<React.Fragment>
+							<h4 className="bg-warning-subtle text-center mb-2 p-2">
+								{
+									props.properties.find(
+										(property) => property.id == unit.propertyId
+									).name
+								}{" "}
+								doesn't have Service Charge!
+							</h4>
+
+							<MyLink
+								linkTo={`/properties/${unit.propertyId}/edit`}
+								icon={<EditSVG />}
+								text="add service charge"
+								className="btn-sm w-100 mb-5"
+							/>
+						</React.Fragment>
+					)}
+					{/* No Service Charge Error End */}
+
+					{/* Type */}
 					<select
 						type="text"
 						name="type"
 						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setChannel(e.target.value)}
+						onChange={(e) => setType(e.target.value)}
 						required={true}>
-						<option value="">Select Payment Channel</option>
-						{channels.map((channel, key) => (
+						<option value="">Select Invoice Type</option>
+						{types.map((type, key) => (
 							<option
 								key={key}
-								value={channel}>
-								{channel}
+								value={type}>
+								{type
+									.split("_")
+									.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+									.join(" ")}
 							</option>
 						))}
 					</select>
-					{/* Channel End */}
-
-					{/* Amount */}
-					<label htmlFor="">Amount</label>
-					<input
-						type="number"
-						min="1"
-						placeholder="20000"
-						className="form-control mb-2"
-						onChange={(e) => setAmount(e.target.value)}
-					/>
-					{/* Amount End */}
-
-					{/* Transaction Reference */}
-					<label htmlFor="">Transaction Reference</label>
-					<input
-						type="text"
-						placeholder="ITHX23939950CV"
-						className="form-control mb-2"
-						onChange={(e) => setTransactionReference(e.target.value)}
-					/>
-					{/* Transaction Reference End */}
+					{/* Type End */}
 
 					<div className="d-flex justify-content-start mb-2">
 						{/* Month */}
@@ -141,7 +168,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="add payment"
+							text="create invoices"
 							loading={loading}
 						/>
 					</div>
@@ -151,18 +178,17 @@ const create = (props) => {
 							linkTo={`/units/${unitId}/show`}
 							icon={<BackSVG />}
 							text="back to unit"
-							className="mb-2"
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/payments`}
+							linkTo={`/invoices`}
 							icon={<BackSVG />}
-							text="go to payments"
+							text="go to invoices"
 						/>
 					</div>
-					
+
 					<div className="col-sm-4"></div>
 				</form>
 			</div>

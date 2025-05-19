@@ -147,33 +147,34 @@ const create = (props) => {
 					<label htmlFor="">Invoice Channel</label>
 					<div className="d-flex justify-content-start ms-4">
 						{/* Email Switch Start */}
-						<div class="form-check form-switch me-5">
+						<div className="form-check form-switch me-5">
 							<input
 								id="email"
-								class="form-check-input"
+								className="form-check-input"
 								type="checkbox"
 								role="switch"
 								onChange={(e) => setEmail(e.target.checked)}
 								defaultChecked={true}
+								disabled={true}
 							/>
 							<label
-								class="form-check-label"
+								className="form-check-label"
 								htmlFor="email">
 								Email
 							</label>
 						</div>
 						{/* Email Switch End */}
 						{/* SMS Switch Start */}
-						<div class="form-check form-switch">
+						<div className="form-check form-switch">
 							<input
 								id="sms"
-								class="form-check-input me-2"
+								className="form-check-input me-2"
 								type="checkbox"
 								role="switch"
 								onChange={(e) => setSms(e.target.checked)}
 							/>
 							<label
-								class="form-check-label"
+								className="form-check-label"
 								htmlFor="sms">
 								SMS
 							</label>

@@ -94,8 +94,7 @@ const create = (props) => {
 							.map((property, key) => (
 								<option
 									key={key}
-									value={property.id}
-									selected={property.id == props.selectedPropertyId}>
+									value={property.id}>
 									{property.name}
 								</option>
 							))}
@@ -215,7 +214,7 @@ const create = (props) => {
 								className="form-control"
 								onChange={(e) => setDsq(e.target.value == "yes" ? true : false)}
 								required={true}>
-								<option value="">Select Unit</option>
+								<option value="">Select DSQ</option>
 								<option value="yes">Yes</option>
 								<option value="no">No</option>
 							</select>

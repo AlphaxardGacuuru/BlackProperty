@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import {
 	useHistory,
 	useParams,
@@ -24,6 +24,8 @@ const create = (props) => {
 	const [occupiedAt, setOccupiedAt] = useState()
 	const [loading, setLoading] = useState()
 
+	const modalBtn = useRef(null)
+
 	// Get Faculties and Departments
 	useEffect(() => {
 		// Set page
@@ -46,17 +48,19 @@ const create = (props) => {
 	const onSubmit = (e) => {
 		e.preventDefault()
 
-		setLoading(true)
-
 		// Call Modal
-		var modal = new window.bootstrap.Modal(
-			document.getElementById("vacateModal")
-		)
+		// var modal = new window.bootstrap.Modal(
+		// 	document.getElementById("vacateModal")
+		// )
 
-		modal.show()
+		// modal.show()
+
+		modalBtn.current.click()
 	}
 
 	const onSubmitAction = (sendInvoice = true) => {
+		setLoading(true)
+
 		Axios.post("/api/tenants", {
 			unitId: id,
 			name: name,
@@ -138,71 +142,77 @@ const create = (props) => {
 							text="add tenant"
 							loading={loading}
 						/>
+					</div>
+				</form>
 
-						<div
-							className="modal fade"
-							id={`vacateModal`}
-							tabIndex="-1"
-							aria-labelledby="deleteModalLabel"
-							aria-hidden="true">
-							<div className="modal-dialog">
-								<div className="modal-content bg-primary rounded-0">
-									<div className="modal-header border-0">
-										<h1
-											id="deleteModalLabel"
-											className="modal-title fs-5 text-white">
-											Add Tenant to {unit.name}
-										</h1>
+				<button
+					ref={modalBtn}
+					className="d-none"
+					data-bs-toggle="modal"
+					data-bs-target={`#vacateModal`}></button>
 
-										{/* Close Start */}
-										<span
-											type="button"
-											className="text-white"
-											data-bs-dismiss="vacateModal">
-											<CloseSVG />
-										</span>
-										{/* Close End */}
-									</div>
-									<div className="modal-body text-start text-wrap text-white border-0">
-										Are you sure you want to Add {name} to {unit.name}. An
-										Invoice will be sent via{" "}
-										{`${property.email ? " Email" : ""} ${
-											property.sms ? " and SMS" : ""
-										}`}{" "}
-										as well.
-									</div>
-									<div className="modal-footer justify-content-between border-0">
-										<button
-											type="button"
-											className="mysonar-btn btn-2 me-2"
-											data-bs-dismiss="modal"
-											onClick={() => onSubmitAction(false)}>
-											<span className="me-1">{<LogInSVG />}</span>
-											Add without invoice
-										</button>
+				<div
+					className="modal fade"
+					id={`vacateModal`}
+					tabIndex="-1"
+					aria-labelledby="vacateModalLabel"
+					aria-hidden="true">
+					<div className="modal-dialog">
+						<div className="modal-content bg-primary rounded-0">
+							<div className="modal-header border-0">
+								<h1
+									id="vacateModalLabel"
+									className="modal-title fs-5 text-white">
+									Add Tenant to {unit.name}
+								</h1>
 
-										<button
-											type="button"
-											className="mysonar-btn btn-2"
-											data-bs-dismiss="modal"
-											onClick={() => onSubmitAction()}>
-											<span className="me-1">{<LogInSVG />}</span>
-											Add With Invoice
-										</button>
-									</div>
-								</div>
+								{/* Close Start */}
+								<span
+									type="button"
+									className="text-white"
+									data-bs-dismiss="modal">
+									<CloseSVG />
+								</span>
+								{/* Close End */}
+							</div>
+							<div className="modal-body text-start text-wrap text-white border-0">
+								Are you sure you want to Add {name} to {unit.name}. An Invoice
+								will be sent via{" "}
+								{`${property.email ? " Email" : ""} ${
+									property.sms ? " and SMS" : ""
+								}`}{" "}
+								as well.
+							</div>
+							<div className="modal-footer justify-content-between border-0">
+								<button
+									type="button"
+									className="mysonar-btn btn-2 me-2"
+									data-bs-dismiss="modal"
+									onClick={() => onSubmitAction(false)}>
+									<span className="me-1">{<LogInSVG />}</span>
+									Add without invoice
+								</button>
+
+								<button
+									type="button"
+									className="mysonar-btn btn-2"
+									data-bs-dismiss="modal"
+									onClick={() => onSubmitAction()}>
+									<span className="me-1">{<LogInSVG />}</span>
+									Add With Invoice
+								</button>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div className="d-flex justify-content-center">
-						<MyLink
-							linkTo={`/units/${id}/show`}
-							icon={<BackSVG />}
-							text="back to unit"
-						/>
-					</div>
-				</form>
+				<div className="d-flex justify-content-center">
+					<MyLink
+						linkTo={`/units/${id}/show`}
+						icon={<BackSVG />}
+						text="back to unit"
+					/>
+				</div>
 			</div>
 			<div className="col-sm-4"></div>
 		</div>

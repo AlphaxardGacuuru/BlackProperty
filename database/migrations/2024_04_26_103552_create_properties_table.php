@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string("location");
             $table->string("deposit_formula");
             $table->integer("service_charge")->default(0);
-            $table->integer("water_bill_rate")->default(0);
+            $table->float("water_bill_rate")->default(0);
             $table->integer("unit_count")->default(0);
 			$table->integer("invoice_date")->default(1);
 			$table->boolean("email")->default(1);

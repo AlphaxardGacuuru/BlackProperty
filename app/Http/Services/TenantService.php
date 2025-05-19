@@ -10,6 +10,7 @@ use App\Models\UserUnit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class TenantService extends Service
 {
@@ -108,25 +109,22 @@ class TenantService extends Service
 
 			// Add UserUnit
 			if ($request->filled("unitId")) {
-				$userUnit = new UserUnit;
-				$userUnit->user_id = $tenant->id;
-				$userUnit->unit_id = $request->input("unitId");
-				$userUnit->occupied_at = $request->input("occupiedAt");
-				$userUnit->created_by = $this->id;
-				$userUnit->save();
-
-				// Set Unit as occupied
-				$unit = $userUnit->unit;
-				$unit->status = "occupied";
-				$unit->save();
+				[$saved, $userUnit] = $this->createUserUnit($request, $tenant);
 			}
 
-			return [$saved, $userUnit];
-		});
+			if ($request->input("sendInvoice")) {
+				$request = new Request([
+					"userUnitIds" => [$userUnit->id],
+					"type" => "deposit",
+					"month" => Carbon::now()->month,
+					"year" => Carbon::now()->year,
+				]);
 
-		if ($request->input("sendInvoice")) {
-			
-		}
+				[$saved, $message, $invoice] = (new InvoiceService)->store($request);
+			}
+
+			return $saved;
+		});
 
 		$message = $tenant->name . " Added Successfully";
 
@@ -272,5 +270,25 @@ class TenantService extends Service
 		}
 
 		return $query;
+	}
+
+	/*
+	* Create UserUnit
+	*/
+	public function createUserUnit($request, $tenant)
+	{
+		$userUnit = new UserUnit;
+		$userUnit->user_id = $tenant->id;
+		$userUnit->unit_id = $request->input("unitId");
+		$userUnit->occupied_at = $request->input("occupiedAt");
+		$userUnit->created_by = $this->id;
+		$saved = $userUnit->save();
+
+		// Set Unit as occupied
+		$unit = $userUnit->unit;
+		$unit->status = "occupied";
+		$saved = $unit->save();
+
+		return [$saved, $userUnit];
 	}
 }
