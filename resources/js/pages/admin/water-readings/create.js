@@ -15,7 +15,7 @@ const create = (props) => {
 
 	const [propertyId, setPropertyId] = useState()
 	const [waterReadings, setWaterReadings] = useState([])
-	const [month, setMonth] = useState(props.previousMonth)
+	const [month, setMonth] = useState(props.currentMonth)
 	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
@@ -159,7 +159,7 @@ const create = (props) => {
 								<option
 									key={key}
 									value={key}
-									selected={key == props.previousMonth}>
+									selected={key == props.currentMonth}>
 									{month}
 								</option>
 							))}

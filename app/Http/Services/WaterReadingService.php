@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\WaterReadingResource;
+use App\Models\Unit;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 

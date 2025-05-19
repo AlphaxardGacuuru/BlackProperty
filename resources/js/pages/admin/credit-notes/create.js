@@ -15,8 +15,8 @@ const create = (props) => {
 
 	const [description, setDescription] = useState()
 	const [amount, setAmount] = useState()
-		const [month, setMonth] = useState(props.previousMonth + 1)
-		const [year, setYear] = useState(props.currentYear)
+	const [month, setMonth] = useState(props.currentMonth)
+	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
 	useEffect(() => {
@@ -92,7 +92,7 @@ const create = (props) => {
 								<option
 									key={key}
 									value={key}
-									selected={key == props.previousMonth}>
+									selected={key == props.currentMonth}>
 									{month}
 								</option>
 							))}

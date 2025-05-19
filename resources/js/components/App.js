@@ -177,15 +177,16 @@ function App() {
 	// Fetch data on page load
 	useEffect(() => {
 		Axios.get("api/auth")
-		.then((res) => {
-			setAuth(res.data.data)
-			setLocalStorage("auth", res.data.data)
-			setSelectedPropertyId(res.data.data.propertyIds)
-		}).catch((err) => setErrors(["Failed to fetch auth"]))
+			.then((res) => {
+				setAuth(res.data.data)
+				setLocalStorage("auth", res.data.data)
+				setSelectedPropertyId(res.data.data.propertyIds)
+			})
+			.catch((err) => setErrors(["Failed to fetch auth"]))
 	}, [])
 
 	useEffect(() => {
-		if(auth.id != 0) {
+		if (auth.id != 0) {
 			get(`properties?userId=${auth.id}`, setProperties, "properties")
 		}
 	}, [auth])
@@ -195,7 +196,7 @@ function App() {
 	 */
 	var currentDate = new Date()
 	var currentYear = currentDate.getFullYear()
-	var previousMonth = currentDate.getMonth()
+	var currentMonth = currentDate.getMonth() + 1
 
 	const months = [
 		"Select Month",
@@ -273,7 +274,7 @@ function App() {
 		// Date
 		currentDate,
 		currentYear,
-		previousMonth,
+		currentMonth,
 		months,
 		years,
 		apartmentTypes,

@@ -145,7 +145,7 @@ const WaterReadingList = (props) => {
 									<option
 										key={key}
 										value={key}
-										selected={key == props.previousMonth}>
+										selected={key == props.currentMonth}>
 										{month}
 									</option>
 								))}
@@ -188,7 +188,7 @@ const WaterReadingList = (props) => {
 									<option
 										key={key}
 										value={key}
-										selected={key == props.previousMonth}>
+										selected={key == props.currentMonth}>
 										{month}
 									</option>
 								))}
@@ -242,11 +242,21 @@ const WaterReadingList = (props) => {
 										/>
 									)}
 
-									<MyLink
-										linkTo={`/water-readings/create`}
-										icon={<PlusSVG />}
-										text="add water readings"
-									/>
+									{location.pathname.match("/admin/water-readings") && (
+										<MyLink
+											linkTo={`/water-readings/create`}
+											icon={<PlusSVG />}
+											text="add water readings"
+										/>
+									)}
+
+									{location.pathname.match("/admin/units/") && (
+										<MyLink
+											linkTo={`/units/${props.unit?.id}/water-readings/create`}
+											icon={<PlusSVG />}
+											text="add water readings"
+										/>
+									)}
 								</div>
 							</th>
 						</tr>

@@ -8,23 +8,29 @@ import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const create = (props) => {
-	var { unitId } = useParams()
-	const history = useHistory()
+	const { unitId } = useParams()
+	var history = useHistory()
 
-	const [description, setDescription] = useState()
-	const [amount, setAmount] = useState()
+	const [unit, setUnit] = useState({})
+
+	const [reading, setReading] = useState()
 	const [month, setMonth] = useState(props.currentMonth)
 	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
+	// Get Water Readings
 	useEffect(() => {
 		// Set page
 		props.setPage({
-			name: "Create Deduction",
-			path: ["deductions", "create"],
+			name: "Add Water Reading",
+			path: ["water-readings", "create"],
 		})
+
+		// Fetch Tenants
+		props.get(`units/${unitId}`, setUnit)
 	}, [])
 
 	/*
@@ -34,10 +40,13 @@ const create = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.post("/api/deductions", {
-			unitId: unitId,
-			description: description,
-			amount: amount,
+		Axios.post("/api/water-readings", {
+			waterReadings: [
+				{
+					userUnitId: unit.currentUserUnitId,
+					reading: reading,
+				},
+			],
 			month: month,
 			year: year,
 		})
@@ -46,8 +55,11 @@ const create = (props) => {
 				// Show messages
 				props.setMessages([res.data.message])
 
-				// Redirect to Deductions
-				setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
+				// Check if readings saved
+				if (res.data.message.match("successfully")) {
+					// Redirect to Water Readings
+					// setTimeout(() => history.push(`/admin/water-readings`), 500)
+				}
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -58,36 +70,30 @@ const create = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
-					{/* Amount */}
-					<label htmlFor="">Amount</label>
-					<input
-						type="number"
-						placeholder="20000"
-						className="form-control mb-2"
-						onChange={(e) => setAmount(e.target.value)}
-						required={true}
-					/>
-					{/* Amount End */}
-
-					{/* Description */}
-					<label htmlFor="">Description</label>
-					<textarea
-						placeholder="For Damages"
-						className="form-control mb-2"
-						rows="5"
-						onChange={(e) => setDescription(e.target.value)}
-						required={true}></textarea>
-					{/* Description End */}
+					{/* Water Reading Start */}
+					<div>
+						<label
+							htmlFor=""
+							className="ms-1 mb-1">
+							{unit.name}
+						</label>
+						<input
+							type="number"
+							placeholder="8"
+							className="form-control mb-1"
+							onChange={(e) => setReading(e.target.value)}
+						/>
+					</div>
+					{/* Water Reading End */}
 
 					<div className="d-flex justify-content-start mb-2">
 						{/* Month */}
 						<select
 							className="form-control me-2"
-							onChange={(e) => setMonth(e.target.value)}
-							required={true}>
+							onChange={(e) => setMonth(e.target.value)}>
 							{props.months.map((month, key) => (
 								<option
 									key={key}
@@ -117,7 +123,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end mb-2">
 						<Btn
-							text="create deduction"
+							text="add water readings"
 							loading={loading}
 						/>
 					</div>
@@ -127,19 +133,17 @@ const create = (props) => {
 							linkTo={`/units/${unitId}/show`}
 							icon={<BackSVG />}
 							text="back to unit"
-							className="mb-2"
 						/>
 					</div>
 
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
-							linkTo={`/deductions`}
+							linkTo={`/water-readings`}
 							icon={<BackSVG />}
-							text="go to deductions"
+							text="back to water readings"
 						/>
 					</div>
-
-					<div className="col-sm-4"></div>
+					<div className="col-sm-2"></div>
 				</form>
 			</div>
 		</div>

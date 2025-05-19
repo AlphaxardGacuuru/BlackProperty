@@ -20,7 +20,7 @@ const create = (props) => {
 	const [unit, setUnit] = useState({})
 
 	const [type, setType] = useState()
-	const [month, setMonth] = useState(props.previousMonth + 1)
+	const [month, setMonth] = useState(props.currentMonth)
 	const [year, setYear] = useState(props.currentYear)
 	const [loading, setLoading] = useState()
 
@@ -48,7 +48,7 @@ const create = (props) => {
 		}
 
 		Axios.post("/api/invoices", {
-			unitId: unitId,
+			userUnitIds: [unit.currentUserUnitId],
 			type: type,
 			month: month,
 			year: year,
@@ -143,7 +143,7 @@ const create = (props) => {
 								<option
 									key={key}
 									value={key}
-									selected={key == props.previousMonth}>
+									selected={key == props.currentMonth}>
 									{month}
 								</option>
 							))}
