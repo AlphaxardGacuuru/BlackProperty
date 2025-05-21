@@ -46,25 +46,23 @@ class CreditNoteService extends Service
      */
 	public function store($request)
 	{
-		$userUnitId = Unit::find($request->unitId)
-			->currentUserUnit()
-			->id;
+		foreach ($request->userUnitIds as $userUnitId) {
+			$creditNote = new CreditNote();
+			$creditNote->user_unit_id = $userUnitId;
+			$creditNote->description = $request->description;
+			$creditNote->amount = $request->amount;
+			$creditNote->month = $request->month;
+			$creditNote->year = $request->year;
+			$creditNote->created_by = $this->id;
 
-		$creditNote = new CreditNote();
-		$creditNote->user_unit_id = $userUnitId;
-		$creditNote->description = $request->description;
-		$creditNote->amount = $request->amount;
-		$creditNote->month = $request->month;
-		$creditNote->year = $request->year;
-		$creditNote->created_by = $this->id;
+			$saved = DB::transaction(function () use ($creditNote) {
+				$saved = $creditNote->save();
 
-		$saved = DB::transaction(function () use ($creditNote) {
-			$saved = $creditNote->save();
+				// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
 
-			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
-
-			return $saved;
-		});
+				return $saved;
+			});
+		}
 
 		return [$saved, "Credit Note Created Successfully", $creditNote];
 	}

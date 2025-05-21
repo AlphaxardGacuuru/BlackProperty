@@ -147,6 +147,14 @@ const DeductionList = (props) => {
 										/>
 									)}
 
+									{location.pathname.match("/admin/deductions") && (
+										<MyLink
+											linkTo={`/deductions/create`}
+											icon={<PlusSVG />}
+											text="create deduction"
+										/>
+									)}
+
 									{location.pathname.match("/admin/units/") && (
 										<MyLink
 											linkTo={`/deductions/${props.unit?.id}/create`}

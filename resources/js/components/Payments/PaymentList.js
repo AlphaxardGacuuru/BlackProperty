@@ -26,12 +26,12 @@ const PaymentList = (props) => {
 	/*
 	 * Handle DeleteId checkboxes
 	 */
-	const handleSetDeleteIds = (invoiceId) => {
-		var exists = deleteIds.includes(invoiceId)
+	const handleSetDeleteIds = (paymentId) => {
+		var exists = deleteIds.includes(paymentId)
 
 		var newDeleteIds = exists
-			? deleteIds.filter((item) => item != invoiceId)
-			: [...deleteIds, invoiceId]
+			? deleteIds.filter((item) => item != paymentId)
+			: [...deleteIds, paymentId]
 
 		setDeleteIds(newDeleteIds)
 	}
@@ -244,9 +244,17 @@ const PaymentList = (props) => {
 										/>
 									)}
 
+									{location.pathname.match("/admin/payments") && (
+										<MyLink
+											linkTo={`/payments/create`}
+											icon={<PlusSVG />}
+											text="create payment"
+										/>
+									)}
+
 									{location.pathname.match("/admin/units/") && (
 										<MyLink
-											linkTo={`/payments/${props.unit?.id}/create`}
+											linkTo={`/units/${props.unit?.id}/payments/create`}
 											icon={<PlusSVG />}
 											text="add payment"
 										/>

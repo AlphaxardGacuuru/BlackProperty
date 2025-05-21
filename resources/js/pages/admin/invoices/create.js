@@ -13,7 +13,6 @@ const create = (props) => {
 
 	const types = ["rent", "water", "service_charge"]
 
-	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])
 
 	const [type, setType] = useState()
@@ -90,7 +89,7 @@ const create = (props) => {
 	}
 
 	const showServiceChargeError = () => {
-		var serviceCharge = properties.find(
+		var serviceCharge = props.properties.find(
 			(property) => property.id == propertyId
 		)?.serviceCharge
 
@@ -112,7 +111,7 @@ const create = (props) => {
 					{showServiceChargeError() && (
 						<React.Fragment>
 							<h4 className="bg-warning-subtle text-center mb-2 p-2">
-								{properties.find((property) => property.id == propertyId).name}{" "}
+								{props.properties.find((property) => property.id == propertyId).name}{" "}
 								doesn't have Service Charge!
 							</h4>
 

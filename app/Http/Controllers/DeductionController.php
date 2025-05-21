@@ -31,7 +31,7 @@ class DeductionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			"unitId" => "required|integer",
+			"userUnitIds" => "required|array",
             "description" => "required|string",
             "amount" => "required|integer",
 			"month" => "required|integer|min:1",

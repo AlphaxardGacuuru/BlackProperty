@@ -20,6 +20,9 @@ import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
 import AdminUnitWaterReadingCreate from "@/pages/admin/units/water-readings/create"
 import AdminUnitInvoiceCreate from "@/pages/admin/units/invoices/create"
+import AdminUnitPaymentCreate from "@/pages/admin/units/payments/create"
+import AdminUnitCreditNoteCreate from "@/pages/admin/units/credit-notes/create"
+import AdminUnitDeductionCreate from "@/pages/admin/units/deductions/create"
 
 import AdminTenants from "@/pages/admin/tenants/index"
 import AdminTenantCreate from "@/pages/admin/tenants/create"
@@ -129,6 +132,18 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminUnitInvoiceCreate {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/admin/units/:unitId/payments/create",
+			component: <AdminUnitPaymentCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:unitId/credit-notes/create",
+			component: <AdminUnitCreditNoteCreate {...GLOBAL_STATE} />,
+		},
+		{
+			path: "/admin/units/:unitId/deductions/create",
+			component: <AdminUnitDeductionCreate {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/admin/tenants",
 			component: <AdminTenants {...GLOBAL_STATE} />,
 		},
@@ -173,7 +188,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminPayments {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/payments/:unitId/create",
+			path: "/admin/payments/create",
 			component: <AdminPaymentCreate {...GLOBAL_STATE} />,
 		},
 		{
@@ -189,7 +204,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminCreditNotes {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/credit-notes/:unitId/create",
+			path: "/admin/credit-notes/create",
 			component: <AdminCreditNoteCreate {...GLOBAL_STATE} />,
 		},
 		{
@@ -201,7 +216,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminDeductions {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/deductions/:unitId/create",
+			path: "/admin/deductions/create",
 			component: <AdminDeductionCreate {...GLOBAL_STATE} />,
 		},
 		{

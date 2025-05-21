@@ -46,25 +46,23 @@ class DeductionService extends Service
      */
 	public function store($request)
 	{
-		$userUnitId = Unit::find($request->unitId)
-			->currentUserUnit()
-			->id;
+		foreach ($request->userUnitIds as $userUnitId) {
+			$deduction = new Deduction();
+			$deduction->user_unit_id = $userUnitId;
+			$deduction->description = $request->description;
+			$deduction->amount = $request->amount;
+			$deduction->month = $request->month;
+			$deduction->year = $request->year;
+			$deduction->created_by = $this->id;
 
-		$deduction = new Deduction();
-		$deduction->user_unit_id = $userUnitId;
-		$deduction->description = $request->description;
-		$deduction->amount = $request->amount;
-		$deduction->month = $request->month;
-		$deduction->year = $request->year;
-		$deduction->created_by = $this->id;
+			$saved = DB::transaction(function () use ($deduction) {
+				$saved = $deduction->save();
 
-		$saved = DB::transaction(function () use ($deduction) {
-			$saved = $deduction->save();
+				// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
 
-			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
-
-			return $saved;
-		});
+				return $saved;
+			});
+		}
 
 		return [$saved, "Deduction Created Successfully", $deduction];
 	}

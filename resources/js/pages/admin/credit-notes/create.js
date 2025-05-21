@@ -8,11 +8,15 @@ import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const create = (props) => {
-	var { unitId } = useParams()
 	const history = useHistory()
 
+	const [tenants, setTenants] = useState([])
+
+	const [propertyId, setPropertyId] = useState()
+	const [userUnitIds, setUserUnitIds] = useState([])
 	const [description, setDescription] = useState()
 	const [amount, setAmount] = useState()
 	const [month, setMonth] = useState(props.currentMonth)
@@ -25,7 +29,28 @@ const create = (props) => {
 			name: "Create Credit Note",
 			path: ["credit-notes", "create"],
 		})
+
+		// Fetch Tenants
+		props.get(
+			`tenants?propertyId=${props.auth.propertyIds}&idAndName=true`,
+			setTenants
+		)
 	}, [])
+
+	/*
+	 * Handle UserUnit selects
+	 */
+	const handleUserUnitIds = (id) => {
+		if (id) {
+			var exists = userUnitIds.includes(id)
+
+			var newUserUnitIds = exists
+				? userUnitIds.filter((item) => item != id)
+				: [...userUnitIds, id]
+
+			setUserUnitIds(newUserUnitIds)
+		}
+	}
 
 	/*
 	 * Submit Form
@@ -35,7 +60,7 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/credit-notes", {
-			unitId: unitId,
+			userUnitIds: userUnitIds,
 			description: description,
 			amount: amount,
 			month: month,
@@ -47,7 +72,7 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 
 				// Redirect to Deductions
-				setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
+				setTimeout(() => history.push(`/admin/credit-notes`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -61,6 +86,122 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
+					{/* Properties */}
+					<select
+						name="property"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setPropertyId(e.target.value)}
+						required={true}>
+						<option value="">Select Property</option>
+						{props.properties.map((property, key) => (
+							<option
+								key={key}
+								value={property.id}>
+								{property.name}
+							</option>
+						))}
+					</select>
+					{/* Properties End */}
+
+					<h6 className="text-center mb-2">
+						{userUnitIds.length} tenants selected
+					</h6>
+
+					{/* Tenants */}
+					<div className="d-flex">
+						<select
+							name="userUnitId"
+							className="form-control mb-2 me-2"
+							onChange={(e) => {
+								if (e.target.value == "all") {
+									setUserUnitIds(
+										tenants
+											.filter((tenant) => tenant.propertyId == propertyId)
+											.map((tenant) => tenant.userUnitId)
+									)
+								} else {
+									handleUserUnitIds(Number.parseInt(e.target.value))
+								}
+							}}
+							disabled={userUnitIds.length > 0}
+							required={true}>
+							<option value="">Select Tenant</option>
+							{/* Show option "All" if propertyId is selected */}
+							{propertyId && <option value="all">All</option>}
+
+							{tenants
+								.filter((tenant) => tenant.propertyId == propertyId)
+								.map((tenant, key) => (
+									<option
+										key={key}
+										value={tenant.userUnitId}
+										className="text-primary"
+										selected={tenant.userUnitId == userUnitIds[0]}>
+										{tenant.name} - {tenant.unitName}
+									</option>
+								))}
+						</select>
+						{/* Close Icon */}
+						<span
+							className="text-primary"
+							style={{ cursor: "pointer" }}
+							onClick={() => setUserUnitIds(userUnitIds.slice(0, 0))}>
+							<CloseSVG />
+						</span>
+						{/* Close Icon End */}
+					</div>
+
+					{userUnitIds.map((input, key1) => (
+						<div
+							className="d-flex"
+							key={key1}>
+							<select
+								name="userUnitId"
+								className="form-control mb-2 me-2"
+								onChange={(e) =>
+									handleUserUnitIds(Number.parseInt(e.target.value))
+								}
+								disabled={userUnitIds.length > key1 + 1}>
+								<option value="">Select Tenant</option>
+								{tenants
+									.filter((tenant) => tenant.propertyId == propertyId)
+									.map((tenant, key2) => (
+										<option
+											key={key2}
+											value={
+												!userUnitIds.includes(tenant.userUnitId) &&
+												tenant.userUnitId
+											}
+											className={
+												userUnitIds.includes(tenant.userUnitId)
+													? "text-secondary"
+													: "text-primary"
+											}
+											selected={tenant.userUnitId == userUnitIds[key1 + 1]}>
+											{tenant.name}
+										</option>
+									))}
+							</select>
+							{/* Close Icon */}
+							<span
+								className={
+									key1 == userUnitIds.length - 1
+										? "invisible text-primary"
+										: "text-primary"
+								}
+								style={{ cursor: "pointer" }}
+								onClick={() =>
+									setUserUnitIds(
+										userUnitIds.filter((userUnitId, index) => index != key1 + 1)
+									)
+								}>
+								<CloseSVG />
+							</span>
+							{/* Close Icon End */}
+						</div>
+					))}
+					{/* Tenants End */}
+
 					{/* Amount */}
 					<label htmlFor="">Amount</label>
 					<input
@@ -119,15 +260,6 @@ const create = (props) => {
 						<Btn
 							text="create credit note"
 							loading={loading}
-						/>
-					</div>
-
-					<div className="d-flex justify-content-center mb-2">
-						<MyLink
-							linkTo={`/units/${unitId}/show`}
-							icon={<BackSVG />}
-							text="back to unit"
-							className="mb-2"
 						/>
 					</div>
 

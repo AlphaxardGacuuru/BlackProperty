@@ -52,28 +52,26 @@ class PaymentService extends Service
      */
 	public function store($request)
 	{
-		$userUnitId = Unit::find($request->unitId)
-			->currentUserUnit()
-			?->id;
+		foreach ($request->userUnitIds as $userUnitId) {
+			$payment = new Payment;
+			$payment->user_unit_id = $userUnitId;
+			$payment->amount = $request->amount;
+			$payment->transaction_reference = $request->transactionReference;
+			$payment->channel = $request->channel;
+			$payment->month = $request->month;
+			$payment->year = $request->year;
+			$payment->created_by = $this->id;
 
-		$payment = new Payment;
-		$payment->user_unit_id = $userUnitId;
-		$payment->amount = $request->amount;
-		$payment->transaction_reference = $request->transactionReference;
-		$payment->channel = $request->channel;
-		$payment->month = $request->month;
-		$payment->year = $request->year;
-		$payment->created_by = $this->id;
+			$saved = DB::transaction(function () use ($payment) {
+				$saved = $payment->save();
 
-		$saved = DB::transaction(function () use ($payment) {
-			$saved = $payment->save();
+				// $this->updateInvoice($payment->invoice_id);
 
-			// $this->updateInvoice($payment->invoice_id);
+				return $saved;
+			});
+		}
 
-			return $saved;
-		});
-
-		$message = "Payment added successfully";
+		$message = "Payment Added Successfully";
 
 		return [$saved, $message, $payment];
 	}

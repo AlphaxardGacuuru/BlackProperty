@@ -10,7 +10,6 @@ import CloseSVG from "@/svgs/CloseSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	const [properties, setProperties] = useState([])
 	const [tenants, setTenants] = useState([])
 
 	const [propertyId, setPropertyId] = useState()
