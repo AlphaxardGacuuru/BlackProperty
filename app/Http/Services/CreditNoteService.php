@@ -126,11 +126,9 @@ class CreditNoteService extends Service
 	{
 		$propertyId = explode(",", $request->propertyId);
 
-		if ($request->filled("propertyId")) {
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-				$query->whereIn("id", $propertyId);
-			});
-		}
+		$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+			$query->whereIn("id", $propertyId);
+		});
 
 		$unitId = $request->input("unitId");
 

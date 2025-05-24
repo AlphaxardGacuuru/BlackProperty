@@ -33,6 +33,7 @@ class WaterReadingController extends Controller
     {
         $this->validate($request, [
             "waterReadings" => "required|array",
+            "type" => "required|string",
             "month" => "required|integer",
             "year" => "required|integer",
         ]);
@@ -67,7 +68,8 @@ class WaterReadingController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "reading" => "nullable|string",
+            "type" => "nullable|string",
+			"reading" => "nullable|string",
             "month" => "nullable|string",
             "year" => "nullable|integer",
         ]);

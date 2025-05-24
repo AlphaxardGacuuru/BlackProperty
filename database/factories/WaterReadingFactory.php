@@ -16,8 +16,11 @@ class WaterReadingFactory extends Factory
      */
     public function definition()
     {
+		$types = ["council", "borehole", "tanker"];
+
         return [
             "user_unit_id" => "userUnitId",
+            "type" => $types[rand(0, 2)],
             "reading" => "reading",
             "month" => "month",
             "year" => "year",

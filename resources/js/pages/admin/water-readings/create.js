@@ -12,7 +12,23 @@ const create = (props) => {
 
 	const [tenants, setTenants] = useState([])
 
+	const types = [
+		{
+			id: "council",
+			name: "Council",
+		},
+		{
+			id: "borehole",
+			name: "Borehole",
+		},
+		{
+			id: "tanker",
+			name: "Tanker",
+		},
+	]
+
 	const [propertyId, setPropertyId] = useState()
+	const [type, setType] = useState()
 	const [waterReadings, setWaterReadings] = useState([])
 	const [month, setMonth] = useState(props.currentMonth)
 	const [year, setYear] = useState(props.currentYear)
@@ -80,6 +96,7 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/water-readings", {
+			type: type,
 			waterReadings: waterReadings,
 			month: month,
 			year: year,
@@ -107,22 +124,41 @@ const create = (props) => {
 			<div className="col-sm-2"></div>
 			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
-					{/* Properties */}
-					<select
-						name="property"
-						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setPropertyId(e.target.value)}
-						required={true}>
-						<option value="">Select Property</option>
-						{props.properties.map((property, key) => (
-							<option
-								key={key}
-								value={property.id}>
-								{property.name}
-							</option>
-						))}
-					</select>
-					{/* Properties End */}
+					<div className="d-flex">
+						{/* Properties */}
+						<select
+							name="property"
+							className="form-control text-capitalize mb-2 me-2"
+							onChange={(e) => setPropertyId(e.target.value)}
+							required={true}>
+							<option value="">Select Property</option>
+							{props.properties.map((property, key) => (
+								<option
+									key={key}
+									value={property.id}>
+									{property.name}
+								</option>
+							))}
+						</select>
+						{/* Properties End */}
+
+						{/* Type */}
+						<select
+							name="type"
+							className="form-control text-capitalize mb-2 me-2"
+							onChange={(e) => setType(e.target.value)}
+							required={true}>
+							<option value="">Select Type</option>
+							{types.map((type, key) => (
+								<option
+									key={key}
+									value={type.id}>
+									{type.name}
+								</option>
+							))}
+						</select>
+						{/* Type End */}
+					</div>
 
 					{/* Tenants */}
 					<div className="d-flex justify-content-center flex-wrap mb-2">

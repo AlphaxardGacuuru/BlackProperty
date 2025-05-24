@@ -119,11 +119,9 @@ class InvoiceService extends Service
 	{
 		$propertyId = explode(",", $request->propertyId);
 
-		if ($request->filled("propertyId")) {
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-				$query->whereIn("id", $propertyId);
-			});
-		}
+		$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+			$query->whereIn("id", $propertyId);
+		});
 
 		$number = $request->input("number");
 
@@ -312,7 +310,7 @@ class InvoiceService extends Service
 	public function sendSMS($id)
 	{
 		$invoice = Invoice::findOrFail($id);
-		
+
 		$smsService = new SMSSendService($invoice);
 
 		try {

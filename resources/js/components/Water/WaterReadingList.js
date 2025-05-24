@@ -230,7 +230,7 @@ const WaterReadingList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="8"></th>
+							<th colSpan="9"></th>
 							<th className="text-end">
 								<div className="d-flex justify-content-end">
 									{deleteIds.length > 0 && (
@@ -281,6 +281,7 @@ const WaterReadingList = (props) => {
 							</th>
 							<th>Tenant</th>
 							<th>Unit</th>
+							<th>Type</th>
 							<th>Reading</th>
 							<th>Usage</th>
 							<th>Bill</th>
@@ -302,6 +303,7 @@ const WaterReadingList = (props) => {
 									</td>
 									<td>{waterReading.tenantName}</td>
 									<td>{waterReading.unitName}</td>
+									<td className="text-capitalize">{waterReading.type}</td>
 									<td>{waterReading.reading}</td>
 									<td>{waterReading.usage}</td>
 									<td className="text-success">
@@ -336,7 +338,7 @@ const WaterReadingList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="10"
+									colSpan="11"
 									className="p-0">
 									<NoData />
 								</td>

@@ -13,7 +13,23 @@ import CloseSVG from "@/svgs/CloseSVG"
 const edit = (props) => {
 	var { id } = useParams()
 
-	const [waterReading, setWaterReading] = useState({})
+	const types = [
+		{
+			id: "council",
+			name: "Council",
+		},
+		{
+			id: "borehole",
+			name: "Borehole",
+		},
+		{
+			id: "tanker",
+			name: "Tanker",
+		},
+	]
+
+	const [type, setType] = useState()
+	const [waterReading, setWaterReading] = useState({})	
 	const [reading, setReading] = useState()
 	const [month, setMonth] = useState()
 	const [year, setYear] = useState()
@@ -40,6 +56,7 @@ const edit = (props) => {
 		setLoading(true)
 
 		Axios.put(`/api/water-readings/${id}`, {
+			type: type,
 			reading: reading,
 			month: month,
 			year: year,
@@ -62,6 +79,24 @@ const edit = (props) => {
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
 					<h5 className="ms-1 mb-2">{waterReading.unitName}</h5>
+
+					{/* Type */}
+					<select
+						name="type"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						<option value="">Select Type</option>
+						{types.map((type, key) => (
+							<option
+								key={key}
+								value={type.id}
+								selected={type.id == waterReading.type}>
+								{type.name}
+							</option>
+						))}
+					</select>
+					{/* Type End */}
 
 					{/* Reading */}
 					<input

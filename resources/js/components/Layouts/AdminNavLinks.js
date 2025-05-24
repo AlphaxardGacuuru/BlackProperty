@@ -21,6 +21,7 @@ import TenantSVG from "@/svgs/TenantSVG"
 import DeductionSVG from "@/svgs/DeductionSVG"
 import EmailSVG from "@/svgs/EmailSVG"
 import ChatSVG from "@/svgs/ChatSVG"
+import BillableSVG from "@/svgs/BillableSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -95,9 +96,9 @@ const AdminNavLinks = (props) => {
 			name: "SMS Messages",
 		},
 		{
-			link: "/admin/wallet",
-			icon: <WalletSVG />,
-			name: "Wallet",
+			link: "/admin/billing",
+			icon: <PaymentSVG />,
+			name: "Billing",
 		},
 		{
 			link: "/admin/staff",

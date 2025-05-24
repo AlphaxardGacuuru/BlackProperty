@@ -19,6 +19,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('type');
             $table->integer('reading');
             $table->integer('month');
             $table->integer('year');

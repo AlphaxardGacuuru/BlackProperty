@@ -190,9 +190,7 @@ class StaffService extends Service
 	{
 		$propertyId = explode(",", $request->propertyId);
 
-		if ($request->filled("propertyId")) {
-			$query = $query->whereIn("property_id", $propertyId);
-		};
+		$query = $query->whereIn("property_id", $propertyId);
 
 		$roleId = $request->roleId;
 

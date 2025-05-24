@@ -83,6 +83,7 @@ class WaterReadingService extends Service
 			if ($readingQuery->doesntExist()) {
 				$waterReading = new WaterReading;
 				$waterReading->user_unit_id = $reading["userUnitId"];
+				$waterReading->type = $request->type;
 				$waterReading->reading = $reading["reading"];
 				$waterReading->month = $request->month;
 				$waterReading->year = $request->year;
@@ -121,6 +122,10 @@ class WaterReadingService extends Service
 
 		if ($readingExists) {
 			return [0, "Water Reading already exists", $waterReading];
+		}
+
+		if ($request->filled("type")) {
+			$waterReading->type = $request->type;
 		}
 
 		if ($request->filled("reading")) {
@@ -163,11 +168,9 @@ class WaterReadingService extends Service
 	{
 		$propertyId = explode(",", $request->propertyId,);
 
-		if ($request->filled("propertyId")) {
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-				$query->whereIn("id", $propertyId);
-			});
-		}
+		$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+			$query->whereIn("id", $propertyId);
+		});
 
 		$tenant = $request->input("tenant");
 
@@ -194,6 +197,12 @@ class WaterReadingService extends Service
 				->whereHas("userUnit.unit", function ($query) use ($unit) {
 					$query->where("name", "LIKE", "%" . $unit . "%");
 				});
+		}
+
+		$type = $request->input("type");
+
+		if ($request->filled("type")) {
+			$query = $query->where("name", $type);
 		}
 
 		$startMonth = $request->input("startMonth");

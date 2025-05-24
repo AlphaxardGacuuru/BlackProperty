@@ -18,6 +18,7 @@ class WaterReadingResource extends JsonResource
             "id" => $this->id,
             "tenantName" => $this->userUnit->user->name,
             "unitName" => $this->userUnit->unit->name,
+            "type" => $this->type,
             "reading" => $this->reading,
             "usage" => $this->usage,
             "bill" => number_format($this->bill),

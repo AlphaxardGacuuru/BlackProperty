@@ -53,8 +53,7 @@ import AdminDeductionEdit from "@/pages/admin/deductions/edit/[id]"
 import AdminEmails from "@/pages/admin/emails/index"
 import AdminSMSMessages from "@/pages/admin/smses/index"
 
-import AdminWallet from "@/pages/admin/wallet/index"
-import AdminWalletCreate from "@/pages/admin/wallet/create"
+import AdminBilling from "@/pages/admin/billing/index"
 
 import AdminStaff from "@/pages/admin/staff/index"
 import AdminStaffCreate from "@/pages/admin/staff/create"
@@ -232,12 +231,8 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminSMSMessages {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/wallet",
-			component: <AdminWallet {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/admin/wallet/create",
-			component: <AdminWalletCreate {...GLOBAL_STATE} />,
+			path: "/admin/billing",
+			component: <AdminBilling {...GLOBAL_STATE} />,
 		},
 		{
 			path: "/admin/staff",

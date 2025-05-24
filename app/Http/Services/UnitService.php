@@ -269,9 +269,7 @@ class UnitService extends Service
 	{
 		$propertyId = explode(",", $request->propertyId,);
 
-		if ($request->filled("propertyId")) {
-			$query = $query->whereIn("property_id", $propertyId);
-		}
+		$query = $query->whereIn("property_id", $propertyId);
 
 		if ($request->filled("name")) {
 			$query = $query->where("name", "LIKE", "%" . $request->input("name") . "%");

@@ -36,7 +36,7 @@ class PropertyController extends Controller
 			"name" => "required|string",
 			"location" => "required|string",
 			"depositFormula" => "required|string",
-			"serviceCharge" => "required|integer",
+			"serviceCharge" => "nullable|integer",
 			"invoiceDate" => "required|integer",
 			"email" => "required_without:sms|boolean",
 			"sms" => "required_without:email|boolean",
