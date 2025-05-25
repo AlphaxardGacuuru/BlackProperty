@@ -94,18 +94,26 @@ const TenantList = (props) => {
 			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
-						{location.pathname.match("/units/") && (
-							<tr>
-								<th colSpan="7"></th>
-								<th className="text-end">
+						<tr>
+							<th colSpan="6"></th>
+							<th className="d-flex justify-content-end">
+								{location.pathname.match("/admin/tenants") && (
+									<MyLink
+										linkTo={`/tenants/create`}
+										icon={<PlusSVG />}
+										text="add tenants"
+									/>
+								)}
+
+								{location.pathname.match("/units/") && (
 									<MyLink
 										linkTo={`/tenants/${props.unitId}/create`}
 										icon={<PlusSVG />}
 										text="add tenant"
 									/>
-								</th>
-							</tr>
-						)}
+								)}
+							</th>
+						</tr>
 						<tr>
 							<th>#</th>
 							<th></th>
@@ -137,12 +145,19 @@ const TenantList = (props) => {
 										<div className="d-flex justify-content-center">
 											<React.Fragment>
 												<MyLink
-													linkTo={`/tenants/${tenant.id}/edit`}
-													icon={<EditSVG />}
+													linkTo={`/units/${tenant.unitId}/show`}
+													icon={<ViewSVG />}
+													text="View Unit"
 													className="btn-sm"
 												/>
 
-												<div className="mx-1">
+												<MyLink
+													linkTo={`/tenants/${tenant.id}/edit`}
+													icon={<EditSVG />}
+													className="btn-sm mx-1"
+												/>
+
+												<div>
 													{/* Confirm Vacate Modal End */}
 													<div
 														className="modal fade"

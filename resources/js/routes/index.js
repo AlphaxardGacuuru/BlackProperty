@@ -18,6 +18,7 @@ import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
+import AdminUnitTenantCreate from "@/pages/admin/units/tenants/create"
 import AdminUnitWaterReadingCreate from "@/pages/admin/units/water-readings/create"
 import AdminUnitInvoiceCreate from "@/pages/admin/units/invoices/create"
 import AdminUnitPaymentCreate from "@/pages/admin/units/payments/create"
@@ -123,6 +124,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminUnitEdit {...GLOBAL_STATE} />,
 		},
 		{
+			path: "/admin/units/:unitId/tenants/create",
+			component: <AdminUnitTenantCreate {...GLOBAL_STATE} />,
+		},
+		{
 			path: "/admin/units/:unitId/water-readings/create",
 			component: <AdminUnitWaterReadingCreate {...GLOBAL_STATE} />,
 		},
@@ -147,7 +152,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminTenants {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/tenants/:id/create",
+			path: "/admin/tenants/create",
 			component: <AdminTenantCreate {...GLOBAL_STATE} />,
 		},
 		{

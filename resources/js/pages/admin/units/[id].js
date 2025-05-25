@@ -123,7 +123,7 @@ const show = (props) => {
 					<div className="d-flex justify-content-end">
 						{unit.status == "vacant" && (
 							<MyLink
-								linkTo={`/tenants/${id}/create`}
+								linkTo={`/units/${id}/tenants/create`}
 								icon={<PlusSVG />}
 								text="add tenant"
 							/>

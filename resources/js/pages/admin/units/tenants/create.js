@@ -12,12 +12,12 @@ import LogInSVG from "@/svgs/LogInSVG"
 import CloseSVG from "@/svgs/CloseSVG"
 
 const create = (props) => {
-	var { id } = useParams()
+	var { unitId } = useParams()
 	var history = useHistory()
 
-	const [units, setUnits] = useState([])
+	const [property, setProperty] = useState([])
+	const [unit, setUnit] = useState({})
 
-	const [unitId, setUnitId] = useState()
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
@@ -31,10 +31,15 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Tenant",
-			path: ["tenants", "create"],
+			path: ["units", `units/${unitId}/show`, "create"],
 		})
-		// Fetch Units
-		props.get(`units?propertyId=${props.auth.propertyIds}`, setUnits)
+		// Fetch Property
+		Axios.get(`api/units/${unitId}`)
+			.then((res) => {
+				setUnit(res.data.data)
+				props.get(`properties/${res.data.data.propertyId}`, setProperty)
+			})
+			.catch((err) => props.setMessages(["Failed to fetch unit"]))
 	}, [])
 
 	/*
@@ -64,7 +69,7 @@ const create = (props) => {
 				// Fetch Auth
 				props.get("auth", props.setAuth, "auth")
 				// Redirect to Property
-				setTimeout(() => history.push(`/admin/tenants`), 500)
+				setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
 			})
 			.catch((err) => {
 				setLoading(false)
@@ -78,24 +83,6 @@ const create = (props) => {
 			<div className="col-sm-4"></div>
 			<div className="col-sm-4">
 				<form onSubmit={onSubmit}>
-					{/* Units */}
-					<label htmlFor="unitId">Unit</label>
-					<select
-						name="unitId"
-						className="form-control text-capitalize mb-2 me-2"
-						onChange={(e) => setUnitId(e.target.value)}
-						required={true}>
-						<option value="">Select Unit</option>
-						{units.map((unit, key) => (
-							<option
-								key={key}
-								value={unit.id}>
-								{unit.name}
-							</option>
-						))}
-					</select>
-					{/* Units End */}
-
 					{/* Name Start */}
 					<label htmlFor="">Name</label>
 					<input
@@ -169,7 +156,7 @@ const create = (props) => {
 								<h1
 									id="vacateModalLabel"
 									className="modal-title fs-5 text-white">
-									Add Tenant to {units.find((unit) => unit.id == unitId)?.name}
+									Add Tenant to {unit.name}
 								</h1>
 
 								{/* Close Start */}
@@ -182,25 +169,10 @@ const create = (props) => {
 								{/* Close End */}
 							</div>
 							<div className="modal-body text-start text-wrap text-white border-0">
-								Are you sure you want to Add {name} to{" "}
-								{units.find((unit) => unit.id == unitId)?.name}. An Invoice will
-								be sent via{" "}
-								{`${
-									props.properties.find(
-										(property) =>
-											property.id ==
-											units.find((unit) => unit.id == unitId)?.propertyId
-									)?.email
-										? " Email"
-										: ""
-								} ${
-									props.properties.find(
-										(property) =>
-											property.id ==
-											units.find((unit) => unit.id == unitId)?.propertyId
-									)?.email.sms
-										? " and SMS"
-										: ""
+								Are you sure you want to Add {name} to {unit.name}. An Invoice
+								will be sent via{" "}
+								{`${property.email ? " Email" : ""} ${
+									property.sms ? " and SMS" : ""
 								}`}{" "}
 								as well.
 							</div>
@@ -229,9 +201,17 @@ const create = (props) => {
 
 				<div className="d-flex justify-content-center mb-2">
 					<MyLink
+						linkTo={`/units/${unitId}/show`}
+						icon={<BackSVG />}
+						text="back to unit"
+					/>
+				</div>
+
+				<div className="d-flex justify-content-center mb-2">
+					<MyLink
 						linkTo={`/tenants`}
 						icon={<BackSVG />}
-						text="back to tenants"
+						text="go to tenants"
 					/>
 				</div>
 			</div>
