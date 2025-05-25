@@ -256,7 +256,7 @@ class UnitService extends Service
 		// return $pagedRentStatements;
 		return StatementResource::collection($paginator)
 			->additional([
-				"due" => number_format($totalInvoices - $totalCreditNotes + $totalDeductions),
+				"due" => number_format($totalInvoices),
 				"paid" => number_format($totalPayments),
 				"balance" => number_format($totalInvoices - $totalCreditNotes - $totalPayments + $totalDeductions),
 			]);

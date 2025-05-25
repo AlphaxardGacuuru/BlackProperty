@@ -107,7 +107,7 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 
 				// Check if readings saved
-				if (res.data.message.match("successfully")) {
+				if (res.data.message.match("Successfully")) {
 					// Redirect to Water Readings
 					setTimeout(() => history.push(`/admin/water-readings`), 500)
 				}

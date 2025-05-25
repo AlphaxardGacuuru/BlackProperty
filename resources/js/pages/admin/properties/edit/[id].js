@@ -14,7 +14,11 @@ const edit = (props) => {
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
 	const [serviceCharge, setServiceCharge] = useState()
-	const [waterBillRate, setWaterBillRate] = useState()
+	const [waterBillRate, setWaterBillRate] = useState({
+		council: 0,
+		borehole: 0,
+		tanker: 0,
+	})
 	const [invoiceDate, setInvoiceDate] = useState()
 	const [email, setEmail] = useState()
 	const [sms, setSms] = useState()
@@ -103,13 +107,13 @@ const edit = (props) => {
 						onChange={(e) => setLocation(e.target.value)}
 					/>
 
+					<hr className="border-dark w-75 mx-auto" />
+
 					<label
 						htmlFor=""
-						className="text-primary mt-2">
+						className="fw-bold text-center w-100">
 						Deposit Calculation
 					</label>
-
-					<br />
 
 					<label htmlFor="">Rent Multiple</label>
 					<input
@@ -144,16 +148,81 @@ const edit = (props) => {
 						onChange={(e) => setServiceCharge(e.target.value)}
 					/>
 
-					<label htmlFor="">Water Bill Rate</label>
-					<input
-						type="number"
-						placeholder="1.5"
-						min="0"
-						step="0.1"
-						defaultValue={property.waterBillRate}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setWaterBillRate(e.target.value)}
-					/>
+					<hr className="border-dark w-75 mx-auto" />
+
+					<label
+						htmlFor=""
+						className="fw-bold text-center w-100">
+						Water Bill Rate
+					</label>
+
+					{/* Water Billing Rate Start */}
+					<div className="d-flex justify-content-between">
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Council</label>
+							{/* Council Start */}
+							<input
+								type="number"
+								placeholder="1.5"
+								min="0"
+								step="0.1"
+								className="form-control"
+								defaultValue={property.waterBillRateCouncil}
+								onChange={(e) =>
+									setWaterBillRate({
+										council: e.target.value,
+										borehole: waterBillRate.borehole,
+										tanker: waterBillRate.tanker,
+									})
+								}
+								required={true}
+							/>
+						</div>
+						{/* Council End */}
+						{/* Borehole Start */}
+						<div className="flex-grow-1 mb-2 mx-2">
+							<label htmlFor="">Borehole</label>
+							<input
+								type="number"
+								placeholder="2.5"
+								min="0"
+								step="0.1"
+								className="form-control"
+								defaultValue={property.waterBillRateBorehole}
+								onChange={(e) =>
+									setWaterBillRate({
+										council: waterBillRate.council,
+										borehole: e.target.value,
+										tanker: waterBillRate.tanker,
+									})
+								}
+								required={true}
+							/>
+						</div>
+						{/* Borehole End */}
+						{/* Tanker Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Tanker</label>
+							<input
+								type="number"
+								placeholder="3.5"
+								min="0"
+								step="0.1"
+								className="form-control"
+								defaultValue={property.waterBillRateTanker}
+								onChange={(e) =>
+									setWaterBillRate({
+										council: waterBillRate.council,
+										borehole: waterBillRate.borehole,
+										tanker: e.target.value,
+									})
+								}
+								required={true}
+							/>
+						</div>
+						{/* Tanker End */}
+					</div>
+					{/* Water Billing Rate End */}
 
 					<label htmlFor="">Invoice Date</label>
 					<input

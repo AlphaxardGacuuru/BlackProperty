@@ -17,6 +17,7 @@ class WaterReadingResource extends JsonResource
         return [
             "id" => $this->id,
             "tenantName" => $this->userUnit->user->name,
+            "unitId" => $this->userUnit->unit->id,
             "unitName" => $this->userUnit->unit->name,
             "type" => $this->type,
             "reading" => $this->reading,

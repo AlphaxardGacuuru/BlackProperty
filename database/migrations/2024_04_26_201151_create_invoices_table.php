@@ -20,9 +20,9 @@ return new class extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			$table->string('type');
-			$table->integer('amount');
-			$table->integer('paid')->default(0);
-			$table->integer('balance');
+			$table->float('amount');
+			$table->float('paid')->default(0);
+			$table->float('balance');
 			$table->string('status')->default('not_paid');
 			$table->integer('month');
 			$table->integer('year');

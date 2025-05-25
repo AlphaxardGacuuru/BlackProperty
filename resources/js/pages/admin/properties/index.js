@@ -40,6 +40,8 @@ const index = (props) => {
 					links: properties.links,
 					data: properties.data.filter((property) => property.id != propertyId),
 				})
+				// Fetch Properties
+				props.get(`properties?userId=${props.auth.id}`, props.setProperties)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -94,7 +96,7 @@ const index = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="9"></th>
+									<th colSpan="11"></th>
 									<th className="text-end">
 										<MyLink
 											linkTo={`/properties/create`}
@@ -109,7 +111,11 @@ const index = (props) => {
 									<th>Location</th>
 									<th>Service Charge</th>
 									<th>Deposit Formula</th>
-									<th>Water Bill Rate</th>
+									<th
+										colSpan={3}
+										className="text-center">
+										<div>Water Bill Rate</div>
+									</th>
 									<th>Units</th>
 									<th>Invoice Date</th>
 									<th>Invoice Channel</th>
@@ -124,7 +130,9 @@ const index = (props) => {
 											<small>KES</small> {property.serviceCharge}
 										</td>
 										<td>{property.depositFormula}</td>
-										<td>{property.waterBillRate}</td>
+										<td>{property.waterBillRateCouncil}</td>
+										<td>{property.waterBillRateBorehole}</td>
+										<td>{property.waterBillRateTanker}</td>
 										<td>{property.unitCount}</td>
 										<td>{property.invoiceDate}</td>
 										<td>

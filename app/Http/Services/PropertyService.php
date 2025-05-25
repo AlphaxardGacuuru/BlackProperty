@@ -94,6 +94,10 @@ class PropertyService extends Service
 			$property->service_charge = $request->input("serviceCharge");
 		}
 
+		if ($request->filled("waterBillRate")) {
+			$property->water_bill_rate = $request->input("waterBillRate");
+		}
+
 		if ($request->filled("invoiceDate")) {
 			$property->invoice_date = $request->input("invoiceDate");
 		}

@@ -256,7 +256,7 @@ const CreditNoteList = (props) => {
 
 									{location.pathname.match("/admin/units/") && (
 										<MyLink
-											linkTo={`/credit-notes/${props.unit?.id}/create`}
+											linkTo={`/units/${props.unit?.id}/credit-notes/create`}
 											icon={<PlusSVG />}
 											text="add credit note"
 										/>

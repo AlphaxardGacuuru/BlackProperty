@@ -16,6 +16,22 @@ const create = (props) => {
 
 	const [unit, setUnit] = useState({})
 
+	const types = [
+		{
+			id: "council",
+			name: "Council",
+		},
+		{
+			id: "borehole",
+			name: "Borehole",
+		},
+		{
+			id: "tanker",
+			name: "Tanker",
+		},
+	]
+
+	const [type, setType] = useState()
 	const [reading, setReading] = useState()
 	const [month, setMonth] = useState(props.currentMonth)
 	const [year, setYear] = useState(props.currentYear)
@@ -41,6 +57,7 @@ const create = (props) => {
 
 		setLoading(true)
 		Axios.post("/api/water-readings", {
+			type: type,
 			waterReadings: [
 				{
 					userUnitId: unit.currentUserUnitId,
@@ -56,9 +73,9 @@ const create = (props) => {
 				props.setMessages([res.data.message])
 
 				// Check if readings saved
-				if (res.data.message.match("successfully")) {
-					// Redirect to Water Readings
-					// setTimeout(() => history.push(`/admin/water-readings`), 500)
+				if (res.data.message.match("Successfully")) {
+					// Redirect to Deductions
+					setTimeout(() => history.push(`/admin/units/${unitId}/show`), 500)
 				}
 			})
 			.catch((err) => {
@@ -74,20 +91,35 @@ const create = (props) => {
 			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
 					{/* Water Reading Start */}
-					<div>
-						<label
-							htmlFor=""
-							className="ms-1 mb-1">
-							{unit.name}
-						</label>
-						<input
-							type="number"
-							placeholder="8"
-							className="form-control mb-1"
-							onChange={(e) => setReading(e.target.value)}
-						/>
-					</div>
+					<label
+						htmlFor=""
+						className="ms-1 mb-1">
+						{unit.name}
+					</label>
+					<input
+						type="number"
+						placeholder="8"
+						className="form-control mb-1"
+						onChange={(e) => setReading(e.target.value)}
+					/>
 					{/* Water Reading End */}
+
+					{/* Type */}
+					<select
+						name="type"
+						className="form-control text-capitalize mb-2 me-2"
+						onChange={(e) => setType(e.target.value)}
+						required={true}>
+						<option value="">Select Type</option>
+						{types.map((type, key) => (
+							<option
+								key={key}
+								value={type.id}>
+								{type.name}
+							</option>
+						))}
+					</select>
+					{/* Type End */}
 
 					<div className="d-flex justify-content-start mb-2">
 						{/* Month */}

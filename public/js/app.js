@@ -83796,9 +83796,9 @@ var NoData = function NoData() {
       width: "30%",
       height: "auto"
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "opacity-25"
-  }, "We didn't find anything."));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "opacity-50"
+  }, "We didn't find anything"));
 };
 /* harmony default export */ __webpack_exports__["default"] = (NoData);
 
@@ -84156,7 +84156,7 @@ var CreditNoteList = function CreditNoteList(props) {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "create credit note"
   }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    linkTo: "/credit-notes/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/create"),
+    linkTo: "/units/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/credit-notes/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "add credit note"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -84365,7 +84365,7 @@ var DeductionList = function DeductionList(props) {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "create deduction"
   }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    linkTo: "/deductions/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/create"),
+    linkTo: "/units/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/deductions/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
     text: "add deduction"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -91786,7 +91786,11 @@ var create = function create(props) {
     _useState10 = _slicedToArray(_useState9, 2),
     serviceCharge = _useState10[0],
     setServiceCharge = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+      council: 0,
+      borehole: 0,
+      tanker: 0
+    }),
     _useState12 = _slicedToArray(_useState11, 2),
     waterBillRate = _useState12[0],
     setWaterBillRate = _useState12[1];
@@ -91839,7 +91843,7 @@ var create = function create(props) {
       setTimeout(function () {
         return history.push("/admin/properties");
       }, 500);
-      // Fetch Auth
+      // Fetch Auth to fetch new properties
       props.get("auth", props.setAuth, "auth");
     })["catch"](function (err) {
       setLoading(false);
@@ -91876,10 +91880,12 @@ var create = function create(props) {
       return setLocation(e.target.value);
     },
     required: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "text-primary mt-2"
-  }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "fw-bold text-center w-100"
+  }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent Multiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -91912,19 +91918,68 @@ var create = function create(props) {
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "",
+    className: "fw-bold text-center w-100"
+  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
-  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, "Council"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     placeholder: "1.5",
     min: "0",
     step: "0.1",
-    className: "form-control mb-2 me-2",
+    className: "form-control",
     onChange: function onChange(e) {
-      return setWaterBillRate(e.target.value);
+      return setWaterBillRate({
+        council: e.target.value,
+        borehole: waterBillRate.borehole,
+        tanker: waterBillRate.tanker
+      });
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Borehole"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "2.5",
+    min: "0",
+    step: "0.1",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setWaterBillRate({
+        council: waterBillRate.council,
+        borehole: e.target.value,
+        tanker: waterBillRate.tanker
+      });
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Tanker"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "3.5",
+    min: "0",
+    step: "0.1",
+    className: "form-control",
+    onChange: function onChange(e) {
+      return setWaterBillRate({
+        council: waterBillRate.council,
+        borehole: waterBillRate.borehole,
+        tanker: e.target.value
+      });
+    },
+    required: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -92042,7 +92097,11 @@ var edit = function edit(props) {
     _useState12 = _slicedToArray(_useState11, 2),
     serviceCharge = _useState12[0],
     setServiceCharge = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+      council: 0,
+      borehole: 0,
+      tanker: 0
+    }),
     _useState14 = _slicedToArray(_useState13, 2),
     waterBillRate = _useState14[0],
     setWaterBillRate = _useState14[1];
@@ -92142,10 +92201,12 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setLocation(e.target.value);
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "text-primary mt-2"
-  }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "fw-bold text-center w-100"
+  }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent Multiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -92181,19 +92242,71 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "",
+    className: "fw-bold text-center w-100"
+  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
-  }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, "Council"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
     placeholder: "1.5",
     min: "0",
     step: "0.1",
-    defaultValue: property.waterBillRate,
-    className: "form-control mb-2 me-2",
+    className: "form-control",
+    defaultValue: property.waterBillRateCouncil,
     onChange: function onChange(e) {
-      return setWaterBillRate(e.target.value);
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      return setWaterBillRate({
+        council: e.target.value,
+        borehole: waterBillRate.borehole,
+        tanker: waterBillRate.tanker
+      });
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Borehole"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "2.5",
+    min: "0",
+    step: "0.1",
+    className: "form-control",
+    defaultValue: property.waterBillRateBorehole,
+    onChange: function onChange(e) {
+      return setWaterBillRate({
+        council: waterBillRate.council,
+        borehole: e.target.value,
+        tanker: waterBillRate.tanker
+      });
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: ""
+  }, "Tanker"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    placeholder: "3.5",
+    min: "0",
+    step: "0.1",
+    className: "form-control",
+    defaultValue: property.waterBillRateTanker,
+    onChange: function onChange(e) {
+      return setWaterBillRate({
+        council: waterBillRate.council,
+        borehole: waterBillRate.borehole,
+        tanker: e.target.value
+      });
+    },
+    required: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -92324,6 +92437,8 @@ var index = function index(props) {
           return property.id != propertyId;
         })
       });
+      // Fetch Properties
+      props.get("properties?userId=".concat(props.auth.id), props.setProperties);
     })["catch"](function (err) {
       return props.getErrors(err);
     });
@@ -92361,21 +92476,24 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "9"
+    colSpan: "11"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
     linkTo: "/properties/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
     text: "add property"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Location"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit Formula"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Location"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit Formula"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    colSpan: 3,
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Water Bill Rate")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action")), (_properties$data = properties.data) === null || _properties$data === void 0 ? void 0 : _properties$data.map(function (property, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, properties)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.location), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", property.serviceCharge), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.depositFormula), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.unitCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.invoiceDate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", property.serviceCharge), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.depositFormula), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateCouncil), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateBorehole), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateTanker), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.unitCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.invoiceDate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "me-1"
     }, property.email ? "EMAIL" : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "ms-1"
@@ -95944,22 +96062,36 @@ var create = function create(props) {
     _useState2 = _slicedToArray(_useState, 2),
     unit = _useState2[0],
     setUnit = _useState2[1];
+  var types = [{
+    id: "council",
+    name: "Council"
+  }, {
+    id: "borehole",
+    name: "Borehole"
+  }, {
+    id: "tanker",
+    name: "Tanker"
+  }];
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState4 = _slicedToArray(_useState3, 2),
-    reading = _useState4[0],
-    setReading = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentMonth),
+    type = _useState4[0],
+    setType = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState6 = _slicedToArray(_useState5, 2),
-    month = _useState6[0],
-    setMonth = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentYear),
+    reading = _useState6[0],
+    setReading = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentMonth),
     _useState8 = _slicedToArray(_useState7, 2),
-    year = _useState8[0],
-    setYear = _useState8[1];
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    month = _useState8[0],
+    setMonth = _useState8[1];
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentYear),
     _useState10 = _slicedToArray(_useState9, 2),
-    loading = _useState10[0],
-    setLoading = _useState10[1];
+    year = _useState10[0],
+    setYear = _useState10[1];
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState12 = _slicedToArray(_useState11, 2),
+    loading = _useState12[0],
+    setLoading = _useState12[1];
 
   // Get Water Readings
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -95980,6 +96112,7 @@ var create = function create(props) {
     e.preventDefault();
     setLoading(true);
     Axios.post("/api/water-readings", {
+      type: type,
       waterReadings: [{
         userUnitId: unit.currentUserUnitId,
         reading: reading
@@ -95992,9 +96125,11 @@ var create = function create(props) {
       props.setMessages([res.data.message]);
 
       // Check if readings saved
-      if (res.data.message.match("successfully")) {
-        // Redirect to Water Readings
-        // setTimeout(() => history.push(`/admin/water-readings`), 500)
+      if (res.data.message.match("Successfully")) {
+        // Redirect to Deductions
+        setTimeout(function () {
+          return history.push("/admin/units/".concat(unitId, "/show"));
+        }, 500);
       }
     })["catch"](function (err) {
       setLoading(false);
@@ -96010,7 +96145,7 @@ var create = function create(props) {
     className: "col-sm-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
     className: "ms-1 mb-1"
   }, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -96020,6 +96155,20 @@ var create = function create(props) {
     onChange: function onChange(e) {
       return setReading(e.target.value);
     }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: "type",
+    className: "form-control text-capitalize mb-2 me-2",
+    onChange: function onChange(e) {
+      return setType(e.target.value);
+    },
+    required: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "Select Type"), types.map(function (type, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: type.id
+    }, type.name);
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-start mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -96202,7 +96351,7 @@ var create = function create(props) {
       props.setMessages([res.data.message]);
 
       // Check if readings saved
-      if (res.data.message.match("successfully")) {
+      if (res.data.message.match("Successfully")) {
         // Redirect to Water Readings
         setTimeout(function () {
           return history.push("/admin/water-readings");
@@ -96389,7 +96538,15 @@ var edit = function edit(props) {
     });
 
     // Fetch Water Reading
-    props.get("water-readings/".concat(id), setWaterReading);
+    Axios.get("api/water-readings/".concat(id)).then(function (res) {
+      setWaterReading(res.data.data);
+      setType(res.data.data.type);
+      setReading(res.data.data.reading);
+      setMonth(res.data.data.month);
+      setYear(res.data.data.year);
+    })["catch"](function (err) {
+      return props.setErrors(["Failed to fetch Water Reading"]);
+    });
   }, []);
 
   /*
@@ -96429,7 +96586,7 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setType(e.target.value);
     },
-    required: true
+    disabled: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""
   }, "Select Type"), types.map(function (type, key) {
@@ -96451,7 +96608,8 @@ var edit = function edit(props) {
     className: "form-control me-2",
     onChange: function onChange(e) {
       return setMonth(e.target.value);
-    }
+    },
+    disabled: true
   }, props.months.map(function (month, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
@@ -96462,7 +96620,8 @@ var edit = function edit(props) {
     className: "form-control",
     onChange: function onChange(e) {
       return setYear(e.target.value);
-    }
+    },
+    disabled: true
   }, props.years.map(function (year, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
@@ -96474,6 +96633,12 @@ var edit = function edit(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update water reading",
     loading: loading
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-center mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    linkTo: "/units/".concat(waterReading.unitId, "/show"),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
+    text: "back to unit"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {

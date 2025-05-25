@@ -69,8 +69,8 @@ class WaterReadingController extends Controller
     {
         $this->validate($request, [
             "type" => "nullable|string",
-			"reading" => "nullable|string",
-            "month" => "nullable|string",
+			"reading" => "nullable|integer",
+            "month" => "nullable|integer",
             "year" => "nullable|integer",
         ]);
 

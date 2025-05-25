@@ -58,6 +58,7 @@ class WaterReadingService extends Service
 		foreach ($request->waterReadings as $reading) {
 			// Check if water reading exists for UserUnit, Month and Year
 			$readingQuery = WaterReading::where("user_unit_id", $reading["userUnitId"])
+				->where("type", $request->type)
 				->where("month", $request->month)
 				->where("year", $request->year);
 
@@ -78,7 +79,7 @@ class WaterReadingService extends Service
 				->property
 				->water_bill_rate;
 
-			$bill = $usage * $waterBillRate;
+			$bill = $usage * $waterBillRate[$request->type];
 
 			if ($readingQuery->doesntExist()) {
 				$waterReading = new WaterReading;
@@ -96,12 +97,12 @@ class WaterReadingService extends Service
 
 		if ($saved) {
 			$message = count($request->waterReadings) > 1 ?
-				"Water Readings saved successfully" :
-				"Water Reading saved successfully";
+				"Water Readings Saved Successfully" :
+				"Water Reading Saved Successfully";
 		} else {
 			$message = count($request->waterReadings) > 1 ?
-				"Water Readings already exist" :
-				"Water Reading already exists";
+				"Water Readings Already Exist" :
+				"Water Reading Already Exists";
 		}
 
 		return [$saved, $message, ""];
@@ -114,18 +115,8 @@ class WaterReadingService extends Service
 	{
 		$waterReading = WaterReading::find($id);
 
-		// Check if water reading exists for UserUnit, Month and Year
-		$readingExists = WaterReading::where("user_unit_id", $waterReading->user_unit_id)
-			->where("month", $request->month)
-			->where("year", $request->year)
-			->exists();
-
-		if ($readingExists) {
-			return [0, "Water Reading already exists", $waterReading];
-		}
-
 		if ($request->filled("type")) {
-			$waterReading->type = $request->type;
+			// $waterReading->type = $request->type;
 		}
 
 		if ($request->filled("reading")) {
@@ -133,11 +124,11 @@ class WaterReadingService extends Service
 		}
 
 		if ($request->filled("month")) {
-			$waterReading->month = $request->month;
+			// $waterReading->month = $request->month;
 		}
 
 		if ($request->filled("year")) {
-			$waterReading->year = $request->year;
+			// $waterReading->year = $request->year;
 		}
 
 		$saved = $waterReading->save();

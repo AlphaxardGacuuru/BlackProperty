@@ -8,7 +8,7 @@ const NoData = () => {
 				alt="No entries found"
 				style={{ width: "30%", height: "auto" }}
 			/>
-			<h4 className="opacity-25">We didn't find anything.</h4>
+			<h5 className="opacity-50">We didn't find anything</h5>
 		</div>
 	)
 }

@@ -9,34 +9,38 @@ use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    /**
-     * Accesors.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
+	protected $casts = [
+		"water_bill_rate" => "array"
+	];
 
-    protected function updatedAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('d M Y'),
-        );
-    }
+	/**
+	 * Accesors.
+	 *
+	 * @return \Illuminate\Database\Eloquent\Casts\Attribute
+	 */
 
-    protected function createdAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('d M Y'),
-        );
-    }
+	protected function updatedAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn($value) => Carbon::parse($value)->format('d M Y'),
+		);
+	}
 
-    /*
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn($value) => Carbon::parse($value)->format('d M Y'),
+		);
+	}
+
+	/*
      * Relationships
      */
 
-    public function units()
-    {
-        return $this->hasMany(Unit::class);
-    }
+	public function units()
+	{
+		return $this->hasMany(Unit::class);
+	}
 }

@@ -29,7 +29,7 @@ const edit = (props) => {
 	]
 
 	const [type, setType] = useState()
-	const [waterReading, setWaterReading] = useState({})	
+	const [waterReading, setWaterReading] = useState({})
 	const [reading, setReading] = useState()
 	const [month, setMonth] = useState()
 	const [year, setYear] = useState()
@@ -45,7 +45,15 @@ const edit = (props) => {
 		})
 
 		// Fetch Water Reading
-		props.get(`water-readings/${id}`, setWaterReading)
+		Axios.get(`api/water-readings/${id}`)
+			.then((res) => {
+				setWaterReading(res.data.data)
+				setType(res.data.data.type)
+				setReading(res.data.data.reading)
+				setMonth(res.data.data.month)
+				setYear(res.data.data.year)
+			})
+			.catch((err) => props.setErrors(["Failed to fetch Water Reading"]))
 	}, [])
 
 	/*
@@ -85,7 +93,7 @@ const edit = (props) => {
 						name="type"
 						className="form-control text-capitalize mb-2 me-2"
 						onChange={(e) => setType(e.target.value)}
-						required={true}>
+						disabled={true}>
 						<option value="">Select Type</option>
 						{types.map((type, key) => (
 							<option
@@ -111,7 +119,8 @@ const edit = (props) => {
 						{/* Month */}
 						<select
 							className="form-control me-2"
-							onChange={(e) => setMonth(e.target.value)}>
+							onChange={(e) => setMonth(e.target.value)}
+							disabled={true}>
 							{props.months.map((month, key) => (
 								<option
 									key={key}
@@ -126,7 +135,8 @@ const edit = (props) => {
 						{/* Year */}
 						<select
 							className="form-control"
-							onChange={(e) => setYear(e.target.value)}>
+							onChange={(e) => setYear(e.target.value)}
+							disabled={true}>
 							{props.years.map((year, key) => (
 								<option
 									key={key}
@@ -143,6 +153,14 @@ const edit = (props) => {
 						<Btn
 							text="update water reading"
 							loading={loading}
+						/>
+					</div>
+
+					<div className="d-flex justify-content-center mb-2">
+						<MyLink
+							linkTo={`/units/${waterReading.unitId}/show`}
+							icon={<BackSVG />}
+							text="back to unit"
 						/>
 					</div>
 
