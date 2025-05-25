@@ -42,7 +42,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Water Reading",
-			path: ["water-readings", "create"],
+			path: ["units", `units/${unitId}/show`, "water-readings", "create"],
 		})
 
 		// Fetch Tenants

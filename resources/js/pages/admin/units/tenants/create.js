@@ -31,7 +31,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Add Tenant",
-			path: ["units", `units/${unitId}/show`, "create"],
+			path: ["units", `units/${unitId}/show`, "tenants", "create"],
 		})
 		// Fetch Property
 		Axios.get(`api/units/${unitId}`)

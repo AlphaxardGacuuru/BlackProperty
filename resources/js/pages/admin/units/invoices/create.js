@@ -29,7 +29,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Create Invoice",
-			path: ["invoices", "create"],
+			path: ["units", `units/${unitId}/show`, "invoices", "create"],
 		})
 		// Fetch Unit
 		props.get(`units/${unitId}`, setUnit)

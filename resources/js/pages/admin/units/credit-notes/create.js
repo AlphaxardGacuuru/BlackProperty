@@ -25,7 +25,7 @@ const create = (props) => {
 		// Set page
 		props.setPage({
 			name: "Create Credit Note",
-			path: ["credit-notes", "create"],
+			path: ["units", `units/${unitId}/show`, "credit-notes", "create"],
 		})
 
 		props.get(`units/${unitId}`, setUnit)

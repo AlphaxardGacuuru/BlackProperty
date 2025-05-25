@@ -95012,7 +95012,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Create Credit Note",
-      path: ["credit-notes", "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "credit-notes", "create"]
     });
     props.get("units/".concat(unitId), setUnit);
   }, []);
@@ -95182,7 +95182,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Create Deduction",
-      path: ["deductions", "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "deductions", "create"]
     });
     props.get("units/".concat(unitId), setUnit);
   }, []);
@@ -95723,7 +95723,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Create Invoice",
-      path: ["invoices", "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "invoices", "create"]
     });
     // Fetch Unit
     props.get("units/".concat(unitId), setUnit);
@@ -95924,7 +95924,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Add Payment",
-      path: ["payments", "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "payments", "create"]
     });
     props.get("units/".concat(unitId), setUnit);
   }, []);
@@ -96120,7 +96120,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Add Tenant",
-      path: ["units", "units/".concat(unitId, "/show"), "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "tenants", "create"]
     });
     // Fetch Property
     Axios.get("api/units/".concat(unitId)).then(function (res) {
@@ -96359,7 +96359,7 @@ var create = function create(props) {
     // Set page
     props.setPage({
       name: "Add Water Reading",
-      path: ["water-readings", "create"]
+      path: ["units", "units/".concat(unitId, "/show"), "water-readings", "create"]
     });
 
     // Fetch Tenants
