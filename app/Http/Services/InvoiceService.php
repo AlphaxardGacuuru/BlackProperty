@@ -90,7 +90,7 @@ class InvoiceService extends Service
 		} else {
 			$message = count($request->userUnitIds) > 1 ?
 				"Invoices already exist" :
-				"Invoice already exists";
+				"Invoice Already Exists";
 		}
 
 		return [$saved, $message, ""];
@@ -231,10 +231,10 @@ class InvoiceService extends Service
 
 		if ($waterReadingQuery->doesntExist()) {
 			return throw ValidationException::withMessages([
-				"Water Reading" => ["Water Reading doesn't exist"],
+				"Water Reading" => ["Water Reading Doesn't Exist"],
 			]);
 		} else {
-			return $waterReadingQuery->first()->bill;
+			return $waterReadingQuery->sum("bill");
 		}
 	}
 

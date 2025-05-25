@@ -62,13 +62,13 @@ class StaffService extends Service
 		} else {
 			$staff = $staffQuery->first();
 
-			// Check if staff already exists
+			// Check if staff Already Exists
 			$staffExists = UserProperty::where("user_id", $staff->id)
 				->where("property_id", $request->propertyId)
 				->exists();
 
 			if ($staffExists) {
-				return [false, "Staff already exists", "", 422];
+				return [false, "Staff Already Exists", "", 422];
 			}
 		}
 
@@ -138,7 +138,7 @@ class StaffService extends Service
 		if ($request->filled("userRoles")) {
 			if (count($request->input("userRoles")) > 0) {
 				foreach ($request->input("userRoles") as $roleId) {
-					// Check if role already exists
+					// Check if role Already Exists
 					$userRoleDoesntExist = UserRole::where("user_id", $staff->id)
 						->where("role_id", $roleId)
 						->doesntExist();
