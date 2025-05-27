@@ -2,16 +2,10 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\StatementResource;
 use App\Http\Resources\UnitResource;
 use App\Http\Services\Service;
-use App\Models\CreditNote;
-use App\Models\Deduction;
-use App\Models\Invoice;
-use App\Models\Payment;
 use App\Models\Property;
 use App\Models\Unit;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class UnitService extends Service
@@ -140,126 +134,6 @@ class UnitService extends Service
 		$message = $unit->name . " Deleted Successfully";
 
 		return [$deleted, $message, $unit];
-	}
-
-	/*
-     * Statements
-     */
-	public function statements($request, $unitId)
-	{
-		$invoiceQuery = Invoice::whereHas("userUnit", function ($query) use ($unitId) {
-			$query->where("unit_id", $unitId);
-		})->select("*", "amount as invoiceDebit");
-
-		$totalInvoices = $invoiceQuery->sum("amount");
-
-		$invoices = $invoiceQuery
-			->orderBy("month", "ASC")
-			->orderBy("year", "ASC")
-			->get();
-
-		$paymentQuery = Payment::whereHas("userUnit", function ($query) use ($unitId) {
-			$query->where("unit_id", $unitId);
-		})->select("*", "amount as paymentCredit");
-
-		$totalPayments = $paymentQuery->sum("amount");
-
-		$payments = $paymentQuery
-			->orderBy("month", "ASC")
-			->orderBy("year", "ASC")
-			->get();
-
-		$creditNoteQuery = CreditNote::whereHas("userUnit", function ($query) use ($unitId) {
-			$query->where("unit_id", $unitId);
-		})->select("*", "amount as creditNoteCredit");
-
-		$totalCreditNotes = $creditNoteQuery->sum("amount");
-
-		$creditNotes = $creditNoteQuery
-			->orderBy("month", "ASC")
-			->orderBy("year", "ASC")
-			->get();
-
-		$deductionQuery = Deduction::whereHas("userUnit", function ($query) use ($unitId) {
-			$query->where("unit_id", $unitId);
-		})->select("*", "amount as deductionDebit");
-
-		$totalDeductions = $deductionQuery->sum("amount");
-
-		$deductions = $deductionQuery
-			->orderBy("month", "ASC")
-			->orderBy("year", "ASC")
-			->get();
-
-		$balance = 0;
-
-		$statements = $invoices
-			->concat($payments)
-			->concat($creditNotes)
-			->concat($deductions)
-			->groupBy(function ($item) {
-				// Ensure month and year are always two/four digits
-				$month = str_pad($item->month, 2, '0', STR_PAD_LEFT);
-				$year = strlen($item->year) === 2 ? '20' . $item->year : $item->year;
-				return "{$year}-{$month}";
-			})
-			->flatten()
-			->map(function ($item) use (&$balance) {
-				if ($item->invoiceDebit) {
-					$item->type = "Invoice";
-					$item->debit = $item->invoiceDebit;
-					$balance += $item->invoiceDebit;
-				} else if ($item->paymentCredit) {
-					$item->type = "Payment";
-					$item->credit = $item->paymentCredit;
-					$balance -= $item->paymentCredit;
-				} else if ($item->creditNoteCredit) {
-					$item->type = "Credit Note";
-					$item->credit = $item->creditNoteCredit;
-					$balance -= $item->creditNoteCredit;
-				} else {
-					$item->type = "Deduction";
-					$item->debit = $item->deductionDebit;
-					$balance += $item->deductionDebit;
-				}
-
-				$item->balance = $balance;
-
-				return $item;
-			})
-			->reverse()
-			->values();
-
-		// Get current page from the request, default is 1
-		$currentPage = $request->input("page", 1);
-
-		// Define how many items we want to be visible in each page
-		$perPage = 20;
-
-		// Slice the collection to get the items to display in current page
-		$currentItems = $statements
-			->slice(($currentPage - 1) * $perPage, $perPage)
-			->values();
-
-		// Create paginator
-		$paginator = new LengthAwarePaginator(
-			$currentItems,
-			$statements->count(),
-			$perPage,
-			$currentPage,
-			[
-				'path' => $request->url(),
-				'query' => $request->query(),
-			]
-		);
-
-		// return $pagedRentStatements;
-		return StatementResource::collection($paginator)
-			->additional([
-				"due" => number_format($totalInvoices),
-				"paid" => number_format($totalPayments),
-				"balance" => number_format($totalInvoices - $totalCreditNotes - $totalPayments + $totalDeductions),
-			]);
 	}
 
 	/*

@@ -248,7 +248,7 @@ const PaymentList = (props) => {
 										<MyLink
 											linkTo={`/payments/create`}
 											icon={<PlusSVG />}
-											text="create payment"
+											text="add payment"
 										/>
 									)}
 

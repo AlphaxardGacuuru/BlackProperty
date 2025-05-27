@@ -152,6 +152,12 @@ const TenantList = (props) => {
 												/>
 
 												<MyLink
+													linkTo={`/tenants/${tenant.id}/show`}
+													icon={<ViewSVG />}
+													className="btn-sm ms-1"
+												/>
+
+												<MyLink
 													linkTo={`/tenants/${tenant.id}/edit`}
 													icon={<EditSVG />}
 													className="btn-sm mx-1"

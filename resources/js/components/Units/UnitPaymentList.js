@@ -13,11 +13,6 @@ const UnitPaymentList = (props) => {
 	const [endYear, setEndYear] = useState("")
 
 	useEffect(() => {
-		// Set page
-		props.setPage({ name: "Payments", path: ["payments"] })
-	}, [])
-
-	useEffect(() => {
 		// Fetch Payments
 		props.getPaginated(
 			`payments?

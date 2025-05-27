@@ -17,6 +17,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\SMSMessageController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -54,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"payments" => PaymentController::class,
 		"credit-notes" => CreditNoteController::class,
 		"deductions" => DeductionController::class,
+		"statements" => StatementController::class,
 		"kopokopo-recipients" => KopokopoRecipientController::class,
 		"kopokopo-transfers" => KopokopoTransferController::class,
 		"users" => UserController::class,

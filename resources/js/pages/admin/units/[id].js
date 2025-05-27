@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import StatementList from "@/components/Statements/StatementList"
-
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
+import DeleteModal from "@/components/Core/DeleteModal"
+
+import PaginationLinks from "@/components/Core/PaginationLinks"
+import UnitStatementList from "@/components/Units/UnitStatementList"
+import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
+import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
+import UnitPaymentList from "@/components/Units/UnitPaymentList"
+import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
+import UnitDeductionList from "@/components/Units/UnitDeductionList"
 
 import PlusSVG from "@/svgs/PlusSVG"
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
-import PaginationLinks from "@/components/Core/PaginationLinks"
-import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
-import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
-import UnitPaymentList from "@/components/Units/UnitPaymentList"
-import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
-import UnitDeductionList from "@/components/Units/UnitDeductionList"
-import DeleteModal from "@/components/Core/DeleteModal"
-
 import CloseSVG from "@/svgs/CloseSVG"
 
 const show = (props) => {
@@ -26,7 +25,6 @@ const show = (props) => {
 
 	const [unit, setUnit] = useState({})
 	const [tenants, setTenants] = useState([])
-	const [statements, setStatements] = useState([])
 
 	const [tab, setTab] = useState("statements")
 
@@ -36,9 +34,7 @@ const show = (props) => {
 		// Fetch Unit
 		props.get(`units/${id}`, setUnit)
 		// Fetch Tenants
-		props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
-		// Fetch Statements
-		props.getPaginated(`units/statements/${id}`, setStatements)
+		props.getPaginated(`tenants?propertyId=${props.auth.propertyIds}&unitId=${id}&vacated=true`, setTenants)
 	}, [])
 
 	/*
@@ -57,8 +53,6 @@ const show = (props) => {
 				props.get(`units/${id}`, setUnit)
 				// Fetch Tenants
 				props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
-				// Fetch Statements
-				props.getPaginated(`units/statements/${id}`, setStatements)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -79,8 +73,6 @@ const show = (props) => {
 				props.get(`units/${id}`, setUnit)
 				// Fetch Tenants
 				props.getPaginated(`tenants?unitId=${id}&vacated=true`, setTenants)
-				// Fetch Statements
-				props.getPaginated(`units/statements/${id}`, setStatements)
 			})
 			.catch((err) => props.getErrors(err))
 	}
@@ -305,7 +297,13 @@ const show = (props) => {
 									<tr key={key}>
 										<td>{tenant.name}</td>
 										<td>{tenant.vacatedAt}</td>
-										<td className="text-end">
+										<td className="d-flex justify-content-end">
+											<MyLink
+												linkTo={`/tenants/${tenant.userUnitId}/show`}
+												icon={<ViewSVG />}
+												className="btn-sm ms-1"
+											/>
+
 											<div className="mx-1">
 												<DeleteModal
 													index={`tenant${key}`}
@@ -387,13 +385,12 @@ const show = (props) => {
 
 				{/* Tab Content Start */}
 				{tab == "statements" && (
-					<StatementList
+					<UnitStatementList
 						{...props}
-						statements={statements}
-						setStatements={setStatements}
-						tab={tab}
+						unit={unit}
 					/>
 				)}
+
 				{tab == "water_readings" && (
 					<UnitWaterReadingList
 						{...props}

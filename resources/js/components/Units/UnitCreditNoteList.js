@@ -13,11 +13,6 @@ const UnitCreditNoteList = (props) => {
 	const [endYear, setEndYear] = useState("")
 
 	useEffect(() => {
-		// Set page
-		props.setPage({ name: "Credit Notes", path: ["credit-notes"] })
-	}, [])
-
-	useEffect(() => {
 		// Fetch Credit Note
 		props.getPaginated(
 			`credit-notes?

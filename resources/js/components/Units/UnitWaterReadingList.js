@@ -13,11 +13,6 @@ const UnitWaterReadingList = (props) => {
 	const [endYear, setEndYear] = useState("")
 
 	useEffect(() => {
-		// Set page
-		props.setPage({ name: "Water Readings", path: ["water-readings"] })
-	}, [])
-
-	useEffect(() => {
 		// Fetch Water Readings
 		props.getPaginated(
 			`water-readings?

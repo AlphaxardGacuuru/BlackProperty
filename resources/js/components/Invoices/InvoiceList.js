@@ -511,12 +511,6 @@ const InvoiceList = (props) => {
 									</td>
 									<td>
 										<div className="d-flex justify-content-center">
-											<MyLink
-												linkTo={`/invoices/${invoice.id}/show`}
-												icon={<ViewSVG />}
-												className="mx-1"
-											/>
-
 											{/* Button trigger modal */}
 											{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
 												<Btn
@@ -529,6 +523,12 @@ const InvoiceList = (props) => {
 												/>
 											)}
 											{/* Button trigger modal End */}
+
+											<MyLink
+												linkTo={`/invoices/${invoice.id}/show`}
+												icon={<ViewSVG />}
+												className="mx-1"
+											/>
 
 											<div className="mx-1">
 												<DeleteModal

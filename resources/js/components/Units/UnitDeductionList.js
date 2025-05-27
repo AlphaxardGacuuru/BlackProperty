@@ -14,11 +14,6 @@ const UnitDeduction = (props) => {
 	const [endYear, setEndYear] = useState("")
 
 	useEffect(() => {
-		// Set page
-		props.setPage({ name: "Deductions", path: ["deductions"] })
-	}, [])
-
-	useEffect(() => {
 		// Fetch Deduction
 		props.getPaginated(
 			`deductions?

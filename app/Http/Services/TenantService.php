@@ -232,6 +232,12 @@ class TenantService extends Service
 			$query = $query->where("unit_id", $unitId);
 		}
 
+		$userUnitId = $request->input("userUnitId");
+
+		if ($request->filled("userUnitId")) {
+			$query = $query->where("id", $userUnitId);
+		}
+
 		$name = $request->input("name");
 
 		if ($request->filled("name")) {

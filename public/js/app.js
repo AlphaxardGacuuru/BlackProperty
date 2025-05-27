@@ -84838,11 +84838,7 @@ var InvoiceList = function InvoiceList(props) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(" "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "d-flex justify-content-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      linkTo: "/invoices/".concat(invoice.id, "/show"),
-      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
-      className: "mx-1"
-    }), parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }, parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null),
       text: "send invoice",
       className: "mx-1",
@@ -84851,6 +84847,10 @@ var InvoiceList = function InvoiceList(props) {
       onClick: function onClick() {
         return setInvoiceToSend(invoice);
       }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/invoices/".concat(invoice.id, "/show"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+      className: "mx-1"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -86448,7 +86448,7 @@ var PaymentList = function PaymentList(props) {
   }), location.pathname.match("/admin/payments") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
     linkTo: "/payments/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
-    text: "create payment"
+    text: "add payment"
   }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
     linkTo: "/units/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/payments/create"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
@@ -87135,6 +87135,10 @@ var TenantList = function TenantList(props) {
       text: "View Unit",
       className: "btn-sm"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      linkTo: "/tenants/".concat(tenant.id, "/show"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
+      className: "btn-sm ms-1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
       linkTo: "/tenants/".concat(tenant.id, "/edit"),
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null),
       className: "btn-sm mx-1"
@@ -87258,13 +87262,6 @@ var UnitCreditNoteList = function UnitCreditNoteList(props) {
     endYear = _useState16[0],
     setEndYear = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    // Set page
-    props.setPage({
-      name: "Credit Notes",
-      path: ["credit-notes"]
-    });
-  }, []);
-  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     // Fetch Credit Note
     props.getPaginated("credit-notes?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
   }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
@@ -87343,13 +87340,6 @@ var UnitDeduction = function UnitDeduction(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Set page
-    props.setPage({
-      name: "Deductions",
-      path: ["deductions"]
-    });
-  }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Deduction
     props.getPaginated("deductions?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
@@ -87441,13 +87431,6 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
     _useState22 = _slicedToArray(_useState21, 2),
     endYear = _useState22[0],
     setEndYear = _useState22[1];
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Set page
-    props.setPage({
-      name: "Invoices",
-      path: ["invoices"]
-    });
-  }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Invoices
     props.getPaginated("invoices?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\tnumber=").concat(number, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
@@ -87692,13 +87675,6 @@ var UnitPaymentList = function UnitPaymentList(props) {
     endYear = _useState14[0],
     setEndYear = _useState14[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Set page
-    props.setPage({
-      name: "Payments",
-      path: ["payments"]
-    });
-  }, []);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Payments
     props.getPaginated("payments?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
   }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
@@ -87719,6 +87695,45 @@ var UnitPaymentList = function UnitPaymentList(props) {
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (UnitPaymentList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Units/UnitStatementList.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Units/UnitStatementList.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Statements/StatementList */ "./resources/js/components/Statements/StatementList.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+var UnitStatementList = function UnitStatementList(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    statements = _useState2[0],
+    setStatements = _useState2[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Fetch Statements
+    props.getPaginated("statements?unitId=".concat(props.unit.id), setStatements);
+  }, [props.unit]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
+    statements: statements,
+    setStatements: setStatements
+  }));
+};
+/* harmony default export */ __webpack_exports__["default"] = (UnitStatementList);
 
 /***/ }),
 
@@ -87772,13 +87787,6 @@ var UnitWaterReadingList = function UnitWaterReadingList(props) {
     _useState14 = _slicedToArray(_useState13, 2),
     endYear = _useState14[0],
     setEndYear = _useState14[1];
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // Set page
-    props.setPage({
-      name: "Water Readings",
-      path: ["water-readings"]
-    });
-  }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Water Readings
     props.getPaginated("water-readings?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
@@ -93790,6 +93798,203 @@ var index = function index(props) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/admin/tenants/[id].js":
+/*!**************************************************!*\
+  !*** ./resources/js/pages/admin/tenants/[id].js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Statements/StatementList */ "./resources/js/components/Statements/StatementList.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Units/UnitWaterReadingList */ "./resources/js/components/Units/UnitWaterReadingList.js");
+/* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
+/* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
+/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
+/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
+/* harmony import */ var _components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/components/Units/UnitStatementList */ "./resources/js/components/Units/UnitStatementList.js");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var show = function show(props) {
+  var _tenant$avatar;
+  var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+    userUnitId = _useParams.userUnitId;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    _useState2 = _slicedToArray(_useState, 2),
+    tenant = _useState2[0],
+    setTenant = _useState2[1];
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+    _useState4 = _slicedToArray(_useState3, 2),
+    unit = _useState4[0],
+    setUnit = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("statements"),
+    _useState6 = _slicedToArray(_useState5, 2),
+    tab = _useState6[0],
+    setTab = _useState6[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Set page
+    props.setPage({
+      name: "View Tenant",
+      path: ["units", "view"]
+    });
+    // Fetch Unit
+    Axios.get("api/tenants?propertyId=".concat(props.auth.propertyIds, "&userUnitId=").concat(userUnitId)).then(function (res) {
+      setTenant(res.data.data[0]);
+      // Set page
+      props.setPage({
+        name: "View Tenant",
+        path: ["units", "units/".concat(res.data.data[0].unitId, "/show"), "view"]
+      });
+      // Fetch Unit
+      props.get("units/".concat(res.data.data[0].unitId), setUnit);
+    })["catch"](function (err) {
+      return props.setErrors["Failed to fetch Tenant."];
+    });
+  }, []);
+  var active = function active(activeTab) {
+    return activeTab == tab ? "bg-light" : "bg-secondary-subtle";
+  };
+  var activeTab = function activeTab(_activeTab) {
+    return _activeTab == tab ? "d-block" : "d-none";
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm mb-2 p-2 text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    src: (_tenant$avatar = tenant.avatar) !== null && _tenant$avatar !== void 0 ? _tenant$avatar : "/storage/avatars/male-avatar.png",
+    className: "rounded-circle",
+    width: "100px",
+    height: "100px",
+    alt: "Avatar"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.occupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    linkTo: "/tenants/".concat(tenant.id, "/edit"),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+    text: "edit",
+    className: "btn-sm"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-8"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("statements")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("statements");
+    }
+  }, "Statements"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("water_readings")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("water_readings");
+    }
+  }, "Water Readings")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("invoices")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("invoices");
+    }
+  }, "Invoices"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("payments")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("payments");
+    }
+  }, "Payments"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("credit_notes")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("credit_notes");
+    }
+  }, "Credit Notes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("deductions")),
+    style: {
+      cursor: "pointer"
+    },
+    onClick: function onClick() {
+      return setTab("deductions");
+    }
+  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_18__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__["default"], _extends({}, props, {
+    unit: unit,
+    userUnitId: userUnitId
+  }))));
+};
+/* harmony default export */ __webpack_exports__["default"] = (show);
+
+/***/ }),
+
 /***/ "./resources/js/pages/admin/tenants/create.js":
 /*!****************************************************!*\
   !*** ./resources/js/pages/admin/tenants/create.js ***!
@@ -94312,21 +94517,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
 /* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Statements/StatementList */ "./resources/js/components/Statements/StatementList.js");
-/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
-/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
-/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
-/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
-/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Units/UnitWaterReadingList */ "./resources/js/components/Units/UnitWaterReadingList.js");
-/* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
-/* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
-/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
-/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
-/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Units/UnitStatementList */ "./resources/js/components/Units/UnitStatementList.js");
+/* harmony import */ var _components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Units/UnitWaterReadingList */ "./resources/js/components/Units/UnitWaterReadingList.js");
+/* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
+/* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
+/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
+/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
 /* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -94365,14 +94570,10 @@ var show = function show(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     tenants = _useState4[0],
     setTenants = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("statements"),
     _useState6 = _slicedToArray(_useState5, 2),
-    statements = _useState6[0],
-    setStatements = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("statements"),
-    _useState8 = _slicedToArray(_useState7, 2),
-    tab = _useState8[0],
-    setTab = _useState8[1];
+    tab = _useState6[0],
+    setTab = _useState6[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Set page
     props.setPage({
@@ -94382,9 +94583,7 @@ var show = function show(props) {
     // Fetch Unit
     props.get("units/".concat(id), setUnit);
     // Fetch Tenants
-    props.getPaginated("tenants?unitId=".concat(id, "&vacated=true"), setTenants);
-    // Fetch Statements
-    props.getPaginated("units/statements/".concat(id), setStatements);
+    props.getPaginated("tenants?propertyId=".concat(props.auth.propertyIds, "&unitId=").concat(id, "&vacated=true"), setTenants);
   }, []);
 
   /*
@@ -94402,8 +94601,6 @@ var show = function show(props) {
       props.get("units/".concat(id), setUnit);
       // Fetch Tenants
       props.getPaginated("tenants?unitId=".concat(id, "&vacated=true"), setTenants);
-      // Fetch Statements
-      props.getPaginated("units/statements/".concat(id), setStatements);
     })["catch"](function (err) {
       return props.getErrors(err);
     });
@@ -94424,8 +94621,6 @@ var show = function show(props) {
       props.get("units/".concat(id), setUnit);
       // Fetch Tenants
       props.getPaginated("tenants?unitId=".concat(id, "&vacated=true"), setTenants);
-      // Fetch Statements
-      props.getPaginated("units/statements/".concat(id), setStatements);
     })["catch"](function (err) {
       return props.getErrors(err);
     });
@@ -94452,9 +94647,9 @@ var show = function show(props) {
     className: "text-capitalize"
   }, unit.bedrooms ? "".concat(unit.bedrooms, " Bed") : "Size: ".concat((_unit$size = unit.size) === null || _unit$size === void 0 ? void 0 : _unit$size.value, " ").concat((_unit$size2 = unit.size) === null || _unit$size2 === void 0 ? void 0 : _unit$size2.unit)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Ensuite: ", unit.ensuite), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "DSQ: ", unit.dsq ? "Yes" : "No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
-  }, unit.status == "vacant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, unit.status == "vacant" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/units/".concat(id, "/tenants/create"),
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     text: "add tenant"
   }))), unit.tenantName ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2 text-center"
@@ -94462,7 +94657,7 @@ var show = function show(props) {
     className: "mt-4"
   }, "Current Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_2__["default"], {
     src: (_unit$tenantAvatar = unit.tenantAvatar) !== null && _unit$tenantAvatar !== void 0 ? _unit$tenantAvatar : "/storage/avatars/male-avatar.png",
     className: "rounded-circle",
     width: "100px",
@@ -94470,9 +94665,9 @@ var show = function show(props) {
     alt: "Avatar"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, unit.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantEmail), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantPhone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantOccupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/tenants/".concat(unit.tenantId, "/edit"),
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null),
     text: "edit",
     className: "btn-sm"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -94512,12 +94707,12 @@ var show = function show(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null)), "Vacate ", unit.tenantName))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null)), "Vacate ", unit.tenantName))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "mysonar-btn btn-2 mb-2",
     "data-bs-toggle": "modal",
     "data-bs-target": "#vacateModal"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), " Vacate tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null), " Vacate tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal fade",
     id: "deleteModal",
     tabIndex: "-1",
@@ -94553,14 +94748,14 @@ var show = function show(props) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Delete"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null)), "Delete"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "mysonar-btn btn-2",
     "data-bs-toggle": "modal",
     "data-bs-target": "#deleteModal"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "me-1"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null)), "Delete"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null)), "Delete"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-4 text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "text-muted"
@@ -94576,16 +94771,20 @@ var show = function show(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, tenant.vacatedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex justify-content-end"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      linkTo: "/tenants/".concat(tenant.userUnitId, "/show"),
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null),
+      className: "btn-sm ms-1"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mx-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_4__["default"], {
       index: "tenant".concat(key),
       model: tenant,
       modelName: "Tenant",
       onDelete: onDeleteTenant
     }))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__["default"], {
     list: tenants,
     getPaginated: props.getPaginated,
     setState: setTenants
@@ -94643,19 +94842,17 @@ var show = function show(props) {
     onClick: function onClick() {
       return setTab("deductions");
     }
-  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-    statements: statements,
-    setStatements: setStatements,
-    tab: tab
-  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
+  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, props, {
     unit: unit
-  })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
+  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, props, {
     unit: unit
-  })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {
+  })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, props, {
     unit: unit
-  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__["default"], _extends({}, props, {
+  })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, props, {
     unit: unit
-  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__["default"], _extends({}, props, {
+  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_10__["default"], _extends({}, props, {
+    unit: unit
+  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
     unit: unit
   }))));
 };
@@ -97404,34 +97601,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_admin_units_deductions_create__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @/pages/admin/units/deductions/create */ "./resources/js/pages/admin/units/deductions/create.js");
 /* harmony import */ var _pages_admin_tenants_index__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @/pages/admin/tenants/index */ "./resources/js/pages/admin/tenants/index.js");
 /* harmony import */ var _pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @/pages/admin/tenants/create */ "./resources/js/pages/admin/tenants/create.js");
-/* harmony import */ var _pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @/pages/admin/tenants/edit/[id] */ "./resources/js/pages/admin/tenants/edit/[id].js");
-/* harmony import */ var _pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @/pages/admin/invoices/index */ "./resources/js/pages/admin/invoices/index.js");
-/* harmony import */ var _pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @/pages/admin/invoices/create */ "./resources/js/pages/admin/invoices/create.js");
-/* harmony import */ var _pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @/pages/admin/invoices/[id] */ "./resources/js/pages/admin/invoices/[id].js");
-/* harmony import */ var _pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @/pages/admin/invoices/edit/[id] */ "./resources/js/pages/admin/invoices/edit/[id].js");
-/* harmony import */ var _pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @/pages/admin/water-readings/index */ "./resources/js/pages/admin/water-readings/index.js");
-/* harmony import */ var _pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @/pages/admin/water-readings/create */ "./resources/js/pages/admin/water-readings/create.js");
-/* harmony import */ var _pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @/pages/admin/water-readings/edit/[id] */ "./resources/js/pages/admin/water-readings/edit/[id].js");
-/* harmony import */ var _pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @/pages/admin/payments/index */ "./resources/js/pages/admin/payments/index.js");
-/* harmony import */ var _pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @/pages/admin/payments/create */ "./resources/js/pages/admin/payments/create.js");
-/* harmony import */ var _pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @/pages/admin/payments/[id] */ "./resources/js/pages/admin/payments/[id].js");
-/* harmony import */ var _pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @/pages/admin/payments/edit/[id] */ "./resources/js/pages/admin/payments/edit/[id].js");
-/* harmony import */ var _pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @/pages/admin/credit-notes/index */ "./resources/js/pages/admin/credit-notes/index.js");
-/* harmony import */ var _pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/credit-notes/create */ "./resources/js/pages/admin/credit-notes/create.js");
-/* harmony import */ var _pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/credit-notes/edit/[id] */ "./resources/js/pages/admin/credit-notes/edit/[id].js");
-/* harmony import */ var _pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/deductions/index */ "./resources/js/pages/admin/deductions/index.js");
-/* harmony import */ var _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/pages/admin/deductions/create */ "./resources/js/pages/admin/deductions/create.js");
-/* harmony import */ var _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @/pages/admin/deductions/edit/[id] */ "./resources/js/pages/admin/deductions/edit/[id].js");
-/* harmony import */ var _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @/pages/admin/emails/index */ "./resources/js/pages/admin/emails/index.js");
-/* harmony import */ var _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @/pages/admin/smses/index */ "./resources/js/pages/admin/smses/index.js");
-/* harmony import */ var _pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @/pages/admin/billing/index */ "./resources/js/pages/admin/billing/index.js");
-/* harmony import */ var _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @/pages/admin/staff/index */ "./resources/js/pages/admin/staff/index.js");
-/* harmony import */ var _pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @/pages/admin/staff/create */ "./resources/js/pages/admin/staff/create.js");
-/* harmony import */ var _pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @/pages/admin/staff/edit/[id] */ "./resources/js/pages/admin/staff/edit/[id].js");
-/* harmony import */ var _pages_admin_role__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @/pages/admin/role */ "./resources/js/pages/admin/role/index.js");
-/* harmony import */ var _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @/pages/admin/role/create */ "./resources/js/pages/admin/role/create.js");
-/* harmony import */ var _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @/pages/admin/role/edit/[id] */ "./resources/js/pages/admin/role/edit/[id].js");
-/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
+/* harmony import */ var _pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @/pages/admin/tenants/[id] */ "./resources/js/pages/admin/tenants/[id].js");
+/* harmony import */ var _pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @/pages/admin/tenants/edit/[id] */ "./resources/js/pages/admin/tenants/edit/[id].js");
+/* harmony import */ var _pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @/pages/admin/invoices/index */ "./resources/js/pages/admin/invoices/index.js");
+/* harmony import */ var _pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @/pages/admin/invoices/create */ "./resources/js/pages/admin/invoices/create.js");
+/* harmony import */ var _pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @/pages/admin/invoices/[id] */ "./resources/js/pages/admin/invoices/[id].js");
+/* harmony import */ var _pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @/pages/admin/invoices/edit/[id] */ "./resources/js/pages/admin/invoices/edit/[id].js");
+/* harmony import */ var _pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @/pages/admin/water-readings/index */ "./resources/js/pages/admin/water-readings/index.js");
+/* harmony import */ var _pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @/pages/admin/water-readings/create */ "./resources/js/pages/admin/water-readings/create.js");
+/* harmony import */ var _pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @/pages/admin/water-readings/edit/[id] */ "./resources/js/pages/admin/water-readings/edit/[id].js");
+/* harmony import */ var _pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @/pages/admin/payments/index */ "./resources/js/pages/admin/payments/index.js");
+/* harmony import */ var _pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @/pages/admin/payments/create */ "./resources/js/pages/admin/payments/create.js");
+/* harmony import */ var _pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @/pages/admin/payments/[id] */ "./resources/js/pages/admin/payments/[id].js");
+/* harmony import */ var _pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @/pages/admin/payments/edit/[id] */ "./resources/js/pages/admin/payments/edit/[id].js");
+/* harmony import */ var _pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/credit-notes/index */ "./resources/js/pages/admin/credit-notes/index.js");
+/* harmony import */ var _pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/credit-notes/create */ "./resources/js/pages/admin/credit-notes/create.js");
+/* harmony import */ var _pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/credit-notes/edit/[id] */ "./resources/js/pages/admin/credit-notes/edit/[id].js");
+/* harmony import */ var _pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/pages/admin/deductions/index */ "./resources/js/pages/admin/deductions/index.js");
+/* harmony import */ var _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @/pages/admin/deductions/create */ "./resources/js/pages/admin/deductions/create.js");
+/* harmony import */ var _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @/pages/admin/deductions/edit/[id] */ "./resources/js/pages/admin/deductions/edit/[id].js");
+/* harmony import */ var _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @/pages/admin/emails/index */ "./resources/js/pages/admin/emails/index.js");
+/* harmony import */ var _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @/pages/admin/smses/index */ "./resources/js/pages/admin/smses/index.js");
+/* harmony import */ var _pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @/pages/admin/billing/index */ "./resources/js/pages/admin/billing/index.js");
+/* harmony import */ var _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @/pages/admin/staff/index */ "./resources/js/pages/admin/staff/index.js");
+/* harmony import */ var _pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @/pages/admin/staff/create */ "./resources/js/pages/admin/staff/create.js");
+/* harmony import */ var _pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @/pages/admin/staff/edit/[id] */ "./resources/js/pages/admin/staff/edit/[id].js");
+/* harmony import */ var _pages_admin_role__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @/pages/admin/role */ "./resources/js/pages/admin/role/index.js");
+/* harmony import */ var _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @/pages/admin/role/create */ "./resources/js/pages/admin/role/create.js");
+/* harmony import */ var _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @/pages/admin/role/edit/[id] */ "./resources/js/pages/admin/role/edit/[id].js");
+/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
+
 
 
 
@@ -97486,14 +97685,14 @@ var RouteList = function RouteList(_ref) {
   var GLOBAL_STATE = _ref.GLOBAL_STATE;
   var authRoutes = [{
     path: "/socialite/:message/:token",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_49__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_50__["default"], GLOBAL_STATE)
   }];
   var routes = [{
     path: "/",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_index__WEBPACK_IMPORTED_MODULE_3__["default"], GLOBAL_STATE)
   }, {
     path: "/socialite/:message/:token",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_49__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_50__["default"], GLOBAL_STATE)
   }];
 
   // Admin Routes
@@ -97549,86 +97748,89 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/tenants/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_21__["default"], GLOBAL_STATE)
   }, {
+    path: "/admin/tenants/:userUnitId/show",
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_22__["default"], GLOBAL_STATE)
+  }, {
     path: "/admin/tenants/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_22__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_23__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/invoices",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_23__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_24__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/invoices/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_24__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_25__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/invoices/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_25__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_26__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/invoices/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_26__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_27__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/water-readings",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_27__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_28__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/water-readings/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_28__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_29__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/water-readings/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_29__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_30__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/payments",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_30__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_31__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/payments/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_31__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_32__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/payments/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_32__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_33__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/payments/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_33__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_34__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/credit-notes",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_34__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_35__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/credit-notes/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_35__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_36__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/credit-notes/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_36__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_37__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/deductions",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_37__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_38__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/deductions/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_38__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_39__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/deductions/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_39__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_40__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/emails",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_40__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_41__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/sms-messages",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_41__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_42__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/billing",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_42__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_43__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/staff",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_43__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_44__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/staff/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_44__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_45__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/staff/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_45__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_46__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/roles",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role__WEBPACK_IMPORTED_MODULE_46__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role__WEBPACK_IMPORTED_MODULE_47__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/roles/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_create__WEBPACK_IMPORTED_MODULE_47__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_create__WEBPACK_IMPORTED_MODULE_48__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/roles/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_48__["default"], GLOBAL_STATE)
+    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_49__["default"], GLOBAL_STATE)
   }];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, authRoutes.map(function (route, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {

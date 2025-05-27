@@ -1,0 +1,122 @@
+<?php
+
+namespace App\Http\Services;
+
+use App\Http\Resources\StatementResource;
+use App\Http\Services\Service;
+use App\Models\CreditNote;
+use App\Models\Deduction;
+use App\Models\Invoice;
+use App\Models\Payment;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class StatementService extends Service
+{
+	/*
+     * Fetch All Statements
+     */
+	public function index($request)
+	{
+		$invoiceQuery = new Invoice;
+		$invoiceQuery = $this->search($invoiceQuery, $request);
+		$invoiceQuery = $invoiceQuery->select("*", "amount as invoiceDebit");
+
+		$totalInvoices = $invoiceQuery->sum("amount");
+
+		$invoices = $invoiceQuery
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
+			->get();
+
+		$paymentQuery = new Payment;
+		$paymentQuery = $this->search($paymentQuery, $request);
+		$paymentQuery = $paymentQuery->select("*", "amount as paymentCredit");
+
+		$totalPayments = $paymentQuery->sum("amount");
+
+		$payments = $paymentQuery
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
+			->get();
+
+		$creditNoteQuery = new CreditNote;
+		$creditNoteQuery = $this->search($creditNoteQuery, $request);
+		$creditNoteQuery = $creditNoteQuery->select("*", "amount as creditNoteCredit");
+
+		$totalCreditNotes = $creditNoteQuery->sum("amount");
+
+		$creditNotes = $creditNoteQuery
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
+			->get();
+
+		$deductionQuery = new Deduction;
+		$deductionQuery = $deductionQuery->select("*", "amount as deductionDebit");
+		$deductionQuery = $this->search($deductionQuery, $request);
+
+		$totalDeductions = $deductionQuery->sum("amount");
+
+		$deductions = $deductionQuery
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
+			->get();
+
+		$statements = $this->generateStatement(
+			$invoices,
+			$payments,
+			$creditNotes,
+			$deductions
+		);
+
+		// Get current page from the request, default is 1
+		$currentPage = $request->input("page", 1);
+
+		// Define how many items we want to be visible in each page
+		$perPage = 20;
+
+		// Slice the collection to get the items to display in current page
+		$currentItems = $statements
+			->slice(($currentPage - 1) * $perPage, $perPage)
+			->values();
+
+		// Create paginator
+		$paginator = new LengthAwarePaginator(
+			$currentItems,
+			$statements->count(),
+			$perPage,
+			$currentPage,
+			[
+				'path' => $request->url(),
+				'query' => $request->query(),
+			]
+		);
+
+		// return $pagedRentStatements;
+		return StatementResource::collection($paginator)
+			->additional([
+				"due" => number_format($totalInvoices),
+				"paid" => number_format($totalPayments),
+				"balance" => number_format($totalInvoices - $totalCreditNotes - $totalPayments + $totalDeductions),
+			]);
+	}
+
+	/*
+     * Search
+     */
+	public function search($query, $request)
+	{
+		if ($request->filled("userUnitId")) {
+			$query = $query->where("user_unit_id", $request->userUnitId);
+		}
+
+		$unitId = $request->input("unitId");
+
+		if ($request->filled("unitId")) {
+			$query = $query->whereHas("userUnit", function ($query) use ($unitId) {
+				$query->where("unit_id", $unitId);
+			});
+		}
+
+		return $query;
+	}
+}
