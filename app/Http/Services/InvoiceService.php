@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
@@ -79,7 +80,15 @@ class InvoiceService extends Service
 				$invoice->month = $request->month;
 				$invoice->year = $request->year;
 				$invoice->created_by = $this->id;
-				$saved = $invoice->save();
+
+				$saved = DB::transaction(function () use ($invoice) {
+					$saved = $invoice->save();
+
+					// Update Invoice Status
+					$this->updateInvoiceStatus($invoice->user_unit_id);
+
+					return $saved;
+				});
 			}
 		}
 

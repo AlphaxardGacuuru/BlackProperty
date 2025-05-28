@@ -216,7 +216,7 @@ const create = (props) => {
 					{/* Description */}
 					<label htmlFor="">Description</label>
 					<textarea
-						placeholder="For Damages"
+						placeholder="For the Paint Job"
 						className="form-control mb-2"
 						rows="5"
 						onChange={(e) => setDescription(e.target.value)}

@@ -8,6 +8,7 @@ use App\Models\CreditNote;
 use App\Models\Deduction;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Unit;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class StatementService extends Service
@@ -61,12 +62,45 @@ class StatementService extends Service
 			->orderBy("year", "ASC")
 			->get();
 
-		$statements = $this->generateStatement(
-			$invoices,
-			$payments,
-			$creditNotes,
-			$deductions
-		);
+		$balance = 0;
+
+		$statements = $invoices
+			->concat($payments)
+			->concat($creditNotes)
+			->concat($deductions)
+			->groupBy(function ($item) {
+				// Ensure month and year are always two/four digits
+				$month = str_pad($item->month, 2, '0', STR_PAD_LEFT);
+				$year = strlen($item->year) === 2 ? '20' . $item->year : $item->year;
+				return "{$year}-{$month}";
+			})
+			->sortKeys()
+			->flatten()
+			->map(function ($item) use (&$balance) {
+				if ($item->invoiceDebit) {
+					$item->type = "Invoice";
+					$item->debit = $item->invoiceDebit;
+					$balance += $item->invoiceDebit;
+				} else if ($item->paymentCredit) {
+					$item->type = "Payment";
+					$item->credit = $item->paymentCredit;
+					$balance -= $item->paymentCredit;
+				} else if ($item->creditNoteCredit) {
+					$item->type = "Credit Note";
+					$item->credit = $item->creditNoteCredit;
+					$balance -= $item->creditNoteCredit;
+				} else {
+					$item->type = "Deduction";
+					$item->debit = $item->deductionDebit;
+					$balance += $item->deductionDebit;
+				}
+
+				$item->balance = $balance;
+
+				return $item;
+			})
+			->reverse()
+			->values();
 
 		// Get current page from the request, default is 1
 		$currentPage = $request->input("page", 1);

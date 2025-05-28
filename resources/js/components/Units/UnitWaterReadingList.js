@@ -18,6 +18,7 @@ const UnitWaterReadingList = (props) => {
 			`water-readings?
 			propertyId=${props.unit.propertyId}&
 			unitId=${props.unit.id}&
+			userUnitId=${props.userUnitId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			startMonth=${startMonth}&
@@ -41,6 +42,10 @@ const UnitWaterReadingList = (props) => {
 			setEndYear={setEndYear}
 		/>
 	)
+}
+
+UnitWaterReadingList.defaultProps = {
+	userUnitId: "",
 }
 
 export default UnitWaterReadingList

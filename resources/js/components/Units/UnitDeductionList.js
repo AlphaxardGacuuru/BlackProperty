@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import DeductionList from "@/components/Deductions/DeductionList"
 
-const UnitDeduction = (props) => {
+const UnitDeductionList = (props) => {
 	const [deductions, setDeductions] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -19,6 +19,7 @@ const UnitDeduction = (props) => {
 			`deductions?
 			propertyId=${props.unit.propertyId}&
 			unitId=${props.unit.id}&
+			userUnitId=${props.userUnitId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&
@@ -62,4 +63,8 @@ const UnitDeduction = (props) => {
 	)
 }
 
-export default UnitDeduction
+UnitDeductionList.defaultProps = {
+	userUnitId: "",
+}
+
+export default UnitDeductionList

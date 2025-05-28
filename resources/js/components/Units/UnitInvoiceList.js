@@ -22,6 +22,7 @@ const UnitInvoiceList = (props) => {
 			`invoices?
 			propertyId=${props.unit.propertyId}&
 			unitId=${props.unit.id}&
+			userUnitId=${props.userUnitId}&
 			number=${number}&
 			invoice=${invoice}&
 			unit=${unit}&
@@ -71,6 +72,10 @@ const UnitInvoiceList = (props) => {
 			</div>
 		</div>
 	)
+}
+
+UnitInvoiceList.defaultProps = {
+	userUnitId: "",
 }
 
 export default UnitInvoiceList

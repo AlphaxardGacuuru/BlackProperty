@@ -7,7 +7,14 @@ const UnitStatementList = (props) => {
 
 	useEffect(() => {
 		// Fetch Statements
-		props.getPaginated(`statements?unitId=${props.unit.id}`, setStatements)
+		if (props.unit.id) {
+			props.getPaginated(
+				`statements?
+				unitId=${props.unit.id}&
+				userUnitId=${props.userUnitId}`,
+				setStatements
+			)
+		}
 	}, [props.unit])
 
 	return (
@@ -17,6 +24,11 @@ const UnitStatementList = (props) => {
 			setStatements={setStatements}
 		/>
 	)
+}
+
+UnitStatementList.defaultProps = {
+	unit: { id: "" },
+	userUnitId: "",
 }
 
 export default UnitStatementList

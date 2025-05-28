@@ -18,6 +18,7 @@ const UnitCreditNoteList = (props) => {
 			`credit-notes?
 			propertyId=${props.unit.propertyId}&
 			unitId=${props.unit.id}&
+			userUnitId=${props.userUnitId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&
@@ -59,6 +60,10 @@ const UnitCreditNoteList = (props) => {
 			</div>
 		</div>
 	)
+}
+
+UnitCreditNoteList.defaultProps = {
+	userUnitId: "",
 }
 
 export default UnitCreditNoteList

@@ -17,8 +17,8 @@ const edit = (props) => {
 	const [amount, setAmount] = useState()
 	const [channel, setChannel] = useState()
 	const [transactionReference, setTransactionReference] = useState()
-	const [month, setMonth] = useState(props.currentMonth)
-	const [year, setYear] = useState(props.currentYear)
+	const [month, setMonth] = useState()
+	const [year, setYear] = useState()
 	const [loading, setLoading] = useState()
 
 	const channels = ["Bank", "Mpesa"]

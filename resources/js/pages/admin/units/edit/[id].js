@@ -13,7 +13,7 @@ const edit = (props) => {
 	const [name, setName] = useState()
 	const [rent, setRent] = useState()
 	const [deposit, setDeposit] = useState()
-	const [type, setType] = useState(unit.type)
+	const [type, setType] = useState()
 	const [bedrooms, setBedrooms] = useState()
 	const [size, setSize] = useState({})
 	const [ensuite, setEnsuite] = useState()
@@ -59,7 +59,8 @@ const edit = (props) => {
 			deposit: deposit?.toString(),
 			type: type,
 			bedrooms: bedrooms,
-			size: size,
+			// Check size is not empty object
+			size: Object.keys(size).length ? size : null,
 			ensuite: ensuite,
 			dsq: dsq,
 		})
@@ -109,7 +110,7 @@ const edit = (props) => {
 					<input
 						type="number"
 						placeholder="5000"
-						defaultValue={unit.deposit}
+						defaultValue={unit.deposit?.replace(/,/g, "")}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setDeposit(e.target.value)}
 					/>
@@ -143,7 +144,7 @@ const edit = (props) => {
 								name="bedroom"
 								placeholder="2"
 								min="0"
-								defaultValue={unit.bedrooms}
+								defaultValue={parseInt(unit.bedrooms)}
 								className="form-control mb-2 me-2"
 								onChange={(e) => setBedrooms(e.target.value)}
 								required={true}
@@ -215,8 +216,16 @@ const edit = (props) => {
 								onChange={(e) => setDsq(e.target.value == "yes" ? true : false)}
 								required={true}>
 								<option value="">Select DSQ</option>
-								<option value="yes" selected={unit.dsq == 1}>Yes</option>
-								<option value="no" selected={unit.dsq == 0}>No</option>
+								<option
+									value="yes"
+									selected={unit.dsq == 1}>
+									Yes
+								</option>
+								<option
+									value="no"
+									selected={unit.dsq == 0}>
+									No
+								</option>
 							</select>
 						</div>
 					</div>

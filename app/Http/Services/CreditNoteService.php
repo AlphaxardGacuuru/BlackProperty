@@ -58,7 +58,8 @@ class CreditNoteService extends Service
 			$saved = DB::transaction(function () use ($creditNote) {
 				$saved = $creditNote->save();
 
-				// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+				// Update Invoice Status
+				$this->updateInvoiceStatus($creditNote->user_unit_id);
 
 				return $saved;
 			});
@@ -93,7 +94,8 @@ class CreditNoteService extends Service
 		$saved = DB::transaction(function () use ($creditNote) {
 			$saved = $creditNote->save();
 
-			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($creditNote->user_unit_id);
 
 			return $saved;
 		});
@@ -111,7 +113,8 @@ class CreditNoteService extends Service
 		$deleted = DB::transaction(function () use ($creditNote) {
 			$deleted = $creditNote->delete();
 
-			// $this->invoiceService()->adjustInvoice($creditNote->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($creditNote->user_unit_id);
 
 			return $deleted;
 		});

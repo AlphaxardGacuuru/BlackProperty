@@ -58,7 +58,8 @@ class DeductionService extends Service
 			$saved = DB::transaction(function () use ($deduction) {
 				$saved = $deduction->save();
 
-				// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+				// Update Invoice Status
+				$this->updateInvoiceStatus($deduction->user_unit_id);
 
 				return $saved;
 			});
@@ -93,7 +94,8 @@ class DeductionService extends Service
 		$saved = DB::transaction(function () use ($deduction) {
 			$saved = $deduction->save();
 
-			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($deduction->user_unit_id);
 
 			return $saved;
 		});
@@ -111,7 +113,8 @@ class DeductionService extends Service
 		$deleted = DB::transaction(function () use ($deduction) {
 			$deleted = $deduction->delete();
 
-			// $this->invoiceService()->adjustInvoice($deduction->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($deduction->user_unit_id);
 
 			return $deleted;
 		});

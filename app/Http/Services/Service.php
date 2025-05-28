@@ -2,6 +2,12 @@
 
 namespace App\Http\Services;
 
+use App\Models\CreditNote;
+use App\Models\Deduction;
+use App\Models\Invoice;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+
 class Service
 {
 	public $id;
@@ -14,63 +20,47 @@ class Service
 		$this->id = $auth ? $auth->id : 0;
 	}
 
-	public function generateStatement($invoices, $payments, $creditNotes, $deductions)
+	public function updateInvoiceStatus($userUnitId)
 	{
-		$balance = 0;
+		$invoiceQuery = Invoice::where("user_unit_id", $userUnitId);
 
-		$statements = $invoices
-			->concat($payments)
-			->concat($creditNotes)
-			->concat($deductions)
-			->groupBy(function ($item) {
-				// Ensure month and year are always two/four digits
-				$month = str_pad($item->month, 2, '0', STR_PAD_LEFT);
-				$year = strlen($item->year) === 2 ? '20' . $item->year : $item->year;
-				return "{$year}-{$month}";
-			})
-			->flatten()
-			->map(function ($item) use (&$balance) {
-				if ($item->invoiceDebit) {
-					$balance += $item->invoiceDebit;
+		$invoices = $invoiceQuery
+			->orderBy("month", "ASC")
+			->orderBy("year", "ASC")
+			->get();
 
-					$invoice = $item;
+		$paymentQuery = Payment::where("user_unit_id", $userUnitId);
 
-					// Update Invoice Status
-					if ($balance < $invoice->amount) {
-						$invoice->paid = $invoice->amount - $balance;
-						$invoice->balance = $balance;
-						$invoice->status = "partially_paid";
-					} else if ($balance >= $invoice->amount) {
-						$invoice->paid = $invoice->amount;
-						$invoice->balance = 0;
-						$invoice->status = "paid";
-					}
+		$totalPayments = $paymentQuery->sum("amount");
 
-					$invoice->save();
+		$creditNoteQuery = CreditNote::where("user_unit_id", $userUnitId);
 
-					$item->type = "Invoice";
-					$item->debit = $item->invoiceDebit;
-				} else if ($item->paymentCredit) {
-					$item->type = "Payment";
-					$item->credit = $item->paymentCredit;
-					$balance -= $item->paymentCredit;
-				} else if ($item->creditNoteCredit) {
-					$item->type = "Credit Note";
-					$item->credit = $item->creditNoteCredit;
-					$balance -= $item->creditNoteCredit;
-				} else {
-					$item->type = "Deduction";
-					$item->debit = $item->deductionDebit;
-					$balance += $item->deductionDebit;
-				}
+		$totalCreditNotes = $creditNoteQuery->sum("amount");
 
-				$item->balance = $balance;
+		$deductionQuery = Deduction::where("user_unit_id", $userUnitId);
 
-				return $item;
-			})
-			->reverse()
-			->values();
+		$totalDeductions = $deductionQuery->sum("amount");
 
-		return $statements;
+		$paid = $totalPayments + $totalCreditNotes - $totalDeductions;
+
+		$invoices->each(function ($invoice) use (&$paid) {
+			if ($paid <= 0) {
+				$invoice->paid = 0;
+				$invoice->balance = $invoice->amount;
+				$invoice->status = "not_paid";
+			} else if ($paid < $invoice->amount) {
+				$invoice->paid = $invoice->amount - $paid;
+				$invoice->balance = $paid;
+				$invoice->status = "partially_paid";
+			} else if ($paid >= $invoice->amount) {
+				$invoice->paid = $invoice->amount;
+				$invoice->balance = 0;
+				$invoice->status = "paid";
+			}
+
+			$invoice->save();
+			
+			$paid -= $invoice->paid;
+		});
 	}
 }

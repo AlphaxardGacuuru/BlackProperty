@@ -65,7 +65,8 @@ class PaymentService extends Service
 			$saved = DB::transaction(function () use ($payment) {
 				$saved = $payment->save();
 
-				// $this->updateInvoice($payment->invoice_id);
+				// Update Invoice Status
+				$this->updateInvoiceStatus($payment->user_unit_id);
 
 				return $saved;
 			});
@@ -110,7 +111,8 @@ class PaymentService extends Service
 		$saved = DB::transaction(function () use ($payment) {
 			$saved = $payment->save();
 
-			// $this->updateInvoice($payment->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($payment->user_unit_id);
 
 			return $saved;
 		});
@@ -133,7 +135,8 @@ class PaymentService extends Service
 		$deleted = DB::transaction(function () use ($payment) {
 			$deleted = $payment->delete();
 
-			// $this->updateInvoice($payment->invoice_id);
+			// Update Invoice Status
+			$this->updateInvoiceStatus($payment->user_unit_id);
 
 			return $deleted;
 		});

@@ -80,7 +80,7 @@ const edit = (props) => {
 					<label htmlFor="">Description</label>
 					<textarea
 						className="form-control mb-2"
-						placeholder="For Damages"
+						placeholder="For the Paint Job"
 						defaultValue={creditNote.description}
 						rows="5"
 						onChange={(e) => setDescription(e.target.value)}
