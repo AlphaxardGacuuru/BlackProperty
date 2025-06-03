@@ -81,14 +81,14 @@ class InvoiceMail extends Mailable
 			->where("month", $invoice->month)
 			->where("year", $invoice->year)
 			->first()
-			->reading;
+			?->reading;
 
 		$waterUsage = $invoice->userUnit
 			->waterReadings()
 			->where("month", $invoice->month)
 			->where("year", $invoice->year)
 			->first()
-			->usage;
+			?->usage;
 
 		// $invoice->id = $invoice->id;
 		$invoice->number = $number;

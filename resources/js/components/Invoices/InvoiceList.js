@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
+import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
 
@@ -8,6 +9,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
+import NoData from "@/components/Core/NoData"
 
 import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
@@ -15,13 +17,12 @@ import PlusSVG from "@/svgs/PlusSVG"
 import InvoiceSVG from "@/svgs/InvoiceSVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
-import Btn from "@/components/Core/Btn"
 import EmailSentSVG from "@/svgs/EmailSentSVG"
 import SendEmailSVG from "@/svgs/SendEmailSVG"
 import SMSSVG from "@/svgs/SMSSVG"
 import ChatSVG from "@/svgs/ChatSVG"
 import ChatSendSVG from "@/svgs/ChatSendSVG"
-import NoData from "@/components/Core/NoData"
+import CloseSVG from "@/svgs/CloseSVG"
 
 const InvoiceList = (props) => {
 	const location = useLocation()
@@ -136,20 +137,24 @@ const InvoiceList = (props) => {
 				aria-labelledby="invoiceModalLabel"
 				aria-hidden="true">
 				<div className="modal-dialog">
-					<div className="modal-content rounded-0">
+					<div className="modal-content bg-primary rounded-0">
 						<div className="modal-header border-0">
 							<h1
 								id="invoiceModalLabel"
-								className="modal-title fs-5">
+								className="modal-title text-white fs-5">
 								Send Invoice {invoiceToSend.number}
 							</h1>
-							<button
+
+							{/* Close Start */}
+							<span
 								type="button"
-								className="btn-close"
-								data-bs-dismiss="modal"
-								aria-label="Close"></button>
+								className="text-white"
+								data-bs-dismiss="modal">
+								<CloseSVG />
+							</span>
+							{/* Close End */}
 						</div>
-						<div className="modal-body text-start text-wrap border-0">
+						<div className="modal-body text-start text-wrap text-white border-0">
 							Are you sure you want to send an Invoice to{" "}
 							{invoiceToSend.tenantName}.
 						</div>

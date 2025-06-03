@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\UserUnit;
 use App\Models\WaterReading;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
@@ -290,7 +291,8 @@ class InvoiceService extends Service
 		$invoice = Invoice::findOrFail($id);
 
 		try {
-			Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
+			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
+			Mail::to("alphaxardgacuuru47@gmail.com")->send(new InvoiceMail($invoice));
 
 			// Increment the emails_sent column
 			$invoice->increment("emails_sent");
