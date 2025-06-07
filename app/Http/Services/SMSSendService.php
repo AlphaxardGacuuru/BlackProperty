@@ -3,10 +3,10 @@
 namespace App\Http\Services;
 
 use AfricasTalking\SDK\AfricasTalking;
-use App\Models\SMSMessage;
+use App\Models\SMS;
 use Illuminate\Support\Facades\Log;
 
-class SMSService extends Service
+class SMSSendService extends Service
 {
     public $africasTalking;
     public $model;
@@ -28,6 +28,9 @@ class SMSService extends Service
 
         // $phone = substr_replace($phone, '+254', 0, -9);
         $phone = substr_replace("0700364446", '+254', 0, -9);
+        // $phone = substr_replace("0721721357", '+254', 0, -9);
+        // $phone = substr_replace("0721357153", '+254', 0, -9);
+        // $phone = substr_replace("0718560702", '+254', 0, -9);
 
         $this->recipient = $phone;
     }
@@ -113,7 +116,7 @@ class SMSService extends Service
         [$recipient] = $data->Recipients;
 
         // Save to database
-        $sms = new SMSMessage;
+        $sms = new SMS;
         $sms->user_unit_id = $this->model->userUnit->id;
         $sms->response_message = $responseMessage;
         $sms->message_id = $recipient->messageId;

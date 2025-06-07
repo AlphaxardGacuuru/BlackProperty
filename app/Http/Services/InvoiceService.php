@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use App\Http\Services\EmailService;
+use App\Http\Services\SMSSendService;
 
 class InvoiceService extends Service
 {
@@ -303,7 +305,7 @@ class InvoiceService extends Service
 			$request = new Request([
 				"userUnitId" => $invoice->userUnit->id,
 				"email" => $invoice->userUnit->user->email,
-				"model" => $invoice->userUnit->id,
+				"model" => $invoice,
 			]);
 
 			$emailService->store($request);

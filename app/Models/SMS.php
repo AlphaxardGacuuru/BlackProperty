@@ -11,6 +11,8 @@ class SMS extends Model
 {
     use HasFactory;
 
+	protected $table = "smses";
+
 	protected function updatedAt(): Attribute
 	{
 		return Attribute::make(

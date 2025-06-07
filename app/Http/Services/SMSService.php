@@ -4,19 +4,19 @@ namespace App\Http\Services;
 
 // AfricasTalking
 
-use App\Http\Resources\SMSMessageResource;
-use App\Models\SMSMessage;
+use App\Http\Resources\SMSResource;
+use App\Models\SMS;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
-class SMSMessageService extends Service
+class SMSService extends Service
 {
 	/**
 	 * Display a listing of the resource.
 	 */
 	public function index($request)
 	{
-		$smsMessageQuery = new SMSMessage;
+		$smsMessageQuery = new SMS;
 
 		$successful = $smsMessageQuery->where("status", "success")->count();
 
@@ -28,7 +28,7 @@ class SMSMessageService extends Service
 			->orderBy("id", "DESC")
 			->paginate(20);
 
-		return SMSMessageResource::collection($smsMessages)
+		return SMSResource::collection($smsMessages)
 			->additional([
 				"successfull" => $successful,
 				"failed" => $failed,
@@ -40,7 +40,7 @@ class SMSMessageService extends Service
 	 */
 	public function store(Request $request)
 	{
-		$sms = SMSMessage::where('message_id', $request->id)->first();
+		$sms = SMS::where('message_id', $request->id)->first();
 		$sms->delivery_status = $request->input('status');
 		$sms->network_code = $request->input('networkCode');
 		$sms->failure_reason = $request->input('failureReason');
@@ -67,7 +67,7 @@ class SMSMessageService extends Service
 		//     'retryCount' => $callback['retryCount'],
 		// );
 
-		$sms = new SMSMessage;
+		$sms = new SMS;
 		$sms->message_id = $callback['id'];
 		$sms->status = $callback['status'];
 		$sms->number = $callback['phoneNumber'];
@@ -80,10 +80,10 @@ class SMSMessageService extends Service
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\SMSMessage  $sMS
+	 * @param  \App\SMS  $sMS
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(SMSMessage $sMS)
+	public function destroy(SMS $sMS)
 	{
 		//
 	}

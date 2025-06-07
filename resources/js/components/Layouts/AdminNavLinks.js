@@ -22,6 +22,8 @@ import DeductionSVG from "@/svgs/DeductionSVG"
 import EmailSVG from "@/svgs/EmailSVG"
 import ChatSVG from "@/svgs/ChatSVG"
 import BillableSVG from "@/svgs/BillableSVG"
+import SupportSVG from "@/svgs/SupportSVG"
+import BillingSVG from "@/svgs/BillingSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -97,7 +99,7 @@ const AdminNavLinks = (props) => {
 		},
 		{
 			link: "/admin/billing",
-			icon: <PaymentSVG />,
+			icon: <BillingSVG />,
 			name: "Billing",
 		},
 		{
@@ -109,6 +111,11 @@ const AdminNavLinks = (props) => {
 			link: "/admin/roles",
 			icon: <PersonGearSVG />,
 			name: "Roles",
+		},
+		{
+			link: "/admin/support",
+			icon: <SupportSVG />,
+			name: "Support",
 		},
 	]
 
