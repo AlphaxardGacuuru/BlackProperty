@@ -365,7 +365,7 @@ const index = (props) => {
 										className="border border-light rounded-circle p-2 m-4"
 										style={{ width: "80px", height: "80px" }}>
 										<a
-											href="mailto:alphaxardgacuuru47@gmail.com?subject=Photography&body=Enquiry"
+											href="mailto:al@black.co.ke?subject=Property Management System&body=Enquiry"
 											data-toggle="tooltip"
 											className="text-white my-auto fs-1"
 											data-placement="bottom"

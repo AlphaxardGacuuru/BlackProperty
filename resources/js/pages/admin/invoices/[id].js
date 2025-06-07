@@ -15,11 +15,40 @@ const show = (props) => {
 	var { id } = useParams()
 
 	const [invoice, setInvoice] = useState({})
+	const [payments, setPayments] = useState([])
+	const [creditNotes, setCreditNotes] = useState([])
+	const [deductions, setDeductions] = useState([])
 
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Invoice", path: ["invoices", "view"] })
-		props.get(`invoices/${id}`, setInvoice)
+
+		Axios.get(`api/invoices/${id}`)
+			.then((res) => {
+				setInvoice(res.data.data)
+				// Fetch Payments
+				props.getPaginated(
+					`payments?propertyId=${props.selectedPropertyId}&
+					userUnitId=${res.data.data.userUnitId}&,
+					month=${res.data.data.month}`,
+					setPayments
+				)
+				// Fetch Credit Note
+				props.getPaginated(
+					`credit-notes?propertyId=${props.selectedPropertyId}&
+					userUnitId=${res.data.data.userUnitId}&,
+					month=${res.data.data.month}`,
+					setCreditNotes
+				)
+				// Fetch Deduction
+				props.getPaginated(
+					`deductions?propertyId=${props.selectedPropertyId}&
+					userUnitId=${res.data.data.userUnitId}&,
+					month=${res.data.data.month}`,
+					setDeductions
+				)
+			})
+			.catch((err) => props.errors(["Failed to Fetch Invoice"]))
 	}, [])
 
 	/*
@@ -131,6 +160,42 @@ const show = (props) => {
 												{invoice.amount}
 											</td>
 										</tr>
+										{/* Payments Start */}
+										{payments.data?.map((payment, key) => (
+											<tr key={key}>
+												<td>Payment</td>
+												<td>{props.months[payment.month]}</td>
+												<td className="text-end">
+													<small className="me-1">KES</small>
+													{payment.amount}
+												</td>
+											</tr>
+										))}
+										{/* Payments End */}
+										{/* Credit Notes Start */}
+										{creditNotes.data?.map((creditNote, key) => (
+											<tr key={key}>
+												<td>Credit Note</td>
+												<td>{props.months[creditNote.month]}</td>
+												<td className="text-end">
+													<small className="me-1">KES</small>
+													{creditNote.amount}
+												</td>
+											</tr>
+										))}
+										{/* Credit Notes End */}
+										{/* Deductions Start */}
+										{deductions.data?.map((deduction, key) => (
+											<tr key={key}>
+												<td>Deduction</td>
+												<td>{props.months[deduction.month]}</td>
+												<td className="text-end">
+													<small className="me-1">KES</small>
+													{deduction.amount}
+												</td>
+											</tr>
+										))}
+										{/* Deductions End */}
 										<tr className="border-bottom border-top">
 											<td colSpan={invoice.type == "water" ? 3 : 0}></td>
 											<td className="fw-normal text-end">Total</td>

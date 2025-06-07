@@ -23,6 +23,7 @@ class CreditNoteResource extends JsonResource
 			"tenantName" => $this->userUnit->user->name,
             "unitId" => $this->userUnit->unit->id,
             "unitName" => $this->userUnit->unit->name,
+			"userUnitId" => $this->user_unit_id,
             "description" => $this->description,
             "amount" => number_format($this->amount),
 			"month" => $this->month,

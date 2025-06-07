@@ -65,6 +65,8 @@ import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
+import AdminSupport from "@/pages/admin/support"
+
 import Socialite from "@/components/Auth/Socialite"
 
 const RouteList = ({ GLOBAL_STATE }) => {
@@ -265,6 +267,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/admin/roles/:id/edit",
 			component: <AdminRoleEdit {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/admin/support",
+			component: <AdminSupport {...GLOBAL_STATE} />,
+		}
 	]
 
 	return (

@@ -169,6 +169,18 @@ class DeductionService extends Service
 				});
 		}
 
+		$userUnitId = $request->input("userUnitId");
+
+		if ($request->filled("userUnitId")) {
+			$query = $query->where("user_unit_id", $userUnitId);
+		}
+
+		$month = $request->input("month");
+
+		if ($request->filled("month")) {
+			$query = $query->where("month", $month);
+		}
+
 		$type = $request->input("type");
 
 		if ($request->filled("type")) {

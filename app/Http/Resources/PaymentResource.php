@@ -26,6 +26,7 @@ class PaymentResource extends JsonResource
 			"tenantPhone" => $this->userUnit->user->phone,
 			"unitId" => $this->userUnit->unit->id,
 			"unitName" => $this->userUnit->unit->name,
+			"userUnitId" => $this->user_unit_id,
 			"channel" => $this->channel,
 			"transactionReference" => $this->transaction_reference,
 			"amount" => number_format($this->amount),

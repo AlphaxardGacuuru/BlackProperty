@@ -184,6 +184,18 @@ class PaymentService extends Service
 				});
 		}
 
+		$userUnitId = $request->input("userUnitId");
+
+		if ($request->filled("userUnitId")) {
+			$query = $query->where("user_unit_id", $userUnitId);
+		}
+
+		$month = $request->input("month");
+
+		if ($request->filled("month")) {
+			$query = $query->where("month", $month);
+		}
+
 		$startMonth = $request->filled("startMonth") ? $request->input("startMonth") : Carbon::now()->month;
 		$endMonth = $request->filled("endMonth") ? $request->input("endMonth") : Carbon::now()->month;
 		$startYear = $request->filled("startYear") ? $request->input("startYear") : Carbon::now()->year;
