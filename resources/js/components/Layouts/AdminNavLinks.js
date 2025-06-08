@@ -93,9 +93,9 @@ const AdminNavLinks = (props) => {
 			name: "Emails",
 		},
 		{
-			link: "/admin/sms-messages",
+			link: "/admin/smses",
 			icon: <ChatSVG />,
-			name: "SMS Messages",
+			name: "SMSes",
 		},
 		{
 			link: "/admin/billing",

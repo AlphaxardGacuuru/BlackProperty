@@ -239,7 +239,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminEmails {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/sms-messages",
+			path: "/admin/smses",
 			component: <AdminSMSMessages {...GLOBAL_STATE} />,
 		},
 		{

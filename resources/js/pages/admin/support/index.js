@@ -14,8 +14,7 @@ const index = (props) => {
 		<div>
 			{/* Contact Start */}
 			<section
-				className="sonar-contact-area section-padding-100 py-5"
-				style={{ backgroundColor: "#232323" }}>
+				className="sonar-contact-area section-padding-100 py-5 card shadow-sm">
 				{/* <!-- back end content --> */}
 				<div className="backEnd-content">
 					<img
@@ -30,15 +29,15 @@ const index = (props) => {
 						{/* <!-- Contact Form Area --> */}
 						<div className="col-12">
 							<div className="text-center">
-								<h2 className="mb-2 text-white">Contact Us</h2>
-								<h4 className="text-white">Let’s talk</h4>
+								<h2 className="mb-2 text-dark">Contact Us</h2>
+								<h4 className="text-dark">Let’s talk</h4>
 								<div className="d-flex justify-content-center flex-wrap">
 									<div
-										className="border border-light rounded-circle p-2 m-4"
+										className="border border-dark rounded-circle p-2 m-4"
 										style={{ width: "80px", height: "80px" }}>
 										<a
 											href="tel:0700364446"
-											className="text-white my-auto fs-1"
+											className="text-dark my-auto fs-1"
 											data-toggle="tooltip"
 											data-placement="bottom"
 											title="Phone">
@@ -46,20 +45,20 @@ const index = (props) => {
 										</a>
 									</div>
 									<div
-										className="border border-light rounded-circle p-2 m-4"
+										className="border border-dark rounded-circle p-2 m-4"
 										style={{ width: "80px", height: "80px" }}>
 										<a
 											href="sms:0700364446"
-											className="text-white my-auto fs-1">
+											className="text-dark my-auto fs-1">
 											<SMSSVG />
 										</a>
 									</div>
 									<div
-										className="border border-light rounded-circle p-2 m-4"
+										className="border border-dark rounded-circle p-2 m-4"
 										style={{ width: "80px", height: "80px" }}>
 										<a
 											href="https://wa.me/+2540700364446"
-											className="text-white my-auto fs-1"
+											className="text-dark my-auto fs-1"
 											data-toggle="tooltip"
 											data-placement="bottom"
 											title="WhatsApp">
@@ -67,12 +66,12 @@ const index = (props) => {
 										</a>
 									</div>
 									<div
-										className="border border-light rounded-circle p-2 m-4"
+										className="border border-dark rounded-circle p-2 m-4"
 										style={{ width: "80px", height: "80px" }}>
 										<a
 											href="mailto:al@black.co.ke?subject=Property Management System&body=Enquiry"
 											data-toggle="tooltip"
-											className="text-white my-auto fs-1"
+											className="text-dark my-auto fs-1"
 											data-placement="bottom"
 											title="Email">
 											<EmailSVG />

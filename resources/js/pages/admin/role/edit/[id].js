@@ -4,10 +4,10 @@ import { Link, useHistory, useParams } from "react-router-dom"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
-const edit = (props) => {
-	const router = useHistory()
+import BackSVG from "@/svgs/BackSVG"
 
-	var { id } = useParams()
+const edit = (props) => {
+	const { id } = useParams()
 
 	// Declare states
 	const [role, setRole] = useState({})
@@ -33,13 +33,17 @@ const edit = (props) => {
 	}, [])
 
 	var entities = [
-		"finance",
-		"instructors",
-		"students",
-		"faculties",
-		"courses",
-		"sessions",
-		"chat",
+		"properties",
+		"units",
+		"tenants",
+		"water-readings",
+		"invoices",
+		"payments",
+		"credit-notes",
+		"deductions",
+		"emails",
+		"sms",
+		"billing",
 		"staff",
 		"roles",
 	]
@@ -55,6 +59,45 @@ const edit = (props) => {
 			: [...permissions, permission]
 
 		setPermissions(newPermissions)
+	}
+
+	// Handle Select All per Row
+	const handleSelectAllForRow = (rowIsSet, rowEntity) => {
+		const rowPermissions = []
+
+		if (rowIsSet) {
+			entities
+				.filter((entity) => entity == rowEntity)
+				.forEach((entity) => {
+					CRUD.forEach((item) => {
+						rowPermissions.push(`${item} ${entity}`)
+					})
+				})
+
+			setPermissions([...permissions, ...rowPermissions])
+		} else {
+			// Filter out the row permissions from the main permissions
+			const filteredPermissions = permissions.filter(
+				(permission) => !permission.match(rowEntity)
+			)
+
+			setPermissions(filteredPermissions)
+		}
+	}
+
+	// Handle Master Select All
+	const handleMasterSelectAll = (masterIsSet) => {
+		const allPermissions = []
+
+		if (masterIsSet) {
+			entities.forEach((entity) => {
+				CRUD.forEach((item) => {
+					allPermissions.push(`${item} ${entity}`)
+				})
+			})
+		}
+
+		setPermissions(allPermissions)
 	}
 
 	const onSubmit = (e) => {
@@ -124,6 +167,26 @@ const edit = (props) => {
 										<th>Create</th>
 										<th>Update</th>
 										<th>Delete</th>
+										<th>
+											<input
+												type="checkbox"
+												name="masterSelectAll"
+												className="me-2"
+												checked={entities.every((entity) =>
+													CRUD.every((item) =>
+														permissions.includes(`${item} ${entity}`)
+													)
+												)}
+												onChange={(e) =>
+													handleMasterSelectAll(e.target.checked)
+												}
+											/>
+											<label
+												htmlFor="masterSelectAll"
+												className="mb-0">
+												Select All
+											</label>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -141,16 +204,33 @@ const edit = (props) => {
 															type="checkbox"
 															id=""
 															name="entities"
-															defaultChecked={role.permissions?.includes(
-																`${entity}.${item}`
+															checked={permissions.includes(
+																`${item} ${entity}`
 															)}
-															onClick={(e) =>
-																handleSetPermissions(`${entity}.${item}`)
+															onChange={(e) =>
+																handleSetPermissions(e.target.value)
 															}
 														/>
 													</label>
 												</td>
 											))}
+											<td>
+												<input
+													type="checkbox"
+													name="selectAllForRow"
+													checked={[
+														`view ${entity}`,
+														`create ${entity}`,
+														`update ${entity}`,
+														`delete ${entity}`,
+													].every((entityPermission) =>
+														permissions.includes(entityPermission)
+													)}
+													onChange={(e) =>
+														handleSelectAllForRow(e.target.checked, entity)
+													}
+												/>
+											</td>
 										</tr>
 									))}
 								</tbody>
@@ -169,7 +249,8 @@ const edit = (props) => {
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
 							linkTo="/roles"
-							text="back to role"
+							icon={<BackSVG />}
+							text="back to roles"
 						/>
 					</div>
 					<div className="col-sm-4"></div>

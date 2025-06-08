@@ -29,21 +29,21 @@ const show = (props) => {
 				// Fetch Payments
 				props.getPaginated(
 					`payments?propertyId=${props.selectedPropertyId}&
-					userUnitId=${res.data.data.userUnitId}&,
+					userUnitId=${res.data.data.userUnitId}&
 					month=${res.data.data.month}`,
 					setPayments
 				)
 				// Fetch Credit Note
 				props.getPaginated(
 					`credit-notes?propertyId=${props.selectedPropertyId}&
-					userUnitId=${res.data.data.userUnitId}&,
+					userUnitId=${res.data.data.userUnitId}&
 					month=${res.data.data.month}`,
 					setCreditNotes
 				)
 				// Fetch Deduction
 				props.getPaginated(
 					`deductions?propertyId=${props.selectedPropertyId}&
-					userUnitId=${res.data.data.userUnitId}&,
+					userUnitId=${res.data.data.userUnitId}&
 					month=${res.data.data.month}`,
 					setDeductions
 				)
@@ -132,7 +132,7 @@ const show = (props) => {
 								<table className="table table-borderless bg-white">
 									<thead className="border-bottom">
 										<tr>
-											<th>Type</th>
+											<th>Item</th>
 											{invoice.type == "water" && <th>Reading</th>}
 											{invoice.type == "water" && <th>Usage</th>}
 											<th>Month</th>

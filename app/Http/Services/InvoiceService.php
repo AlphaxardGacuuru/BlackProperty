@@ -288,9 +288,9 @@ class InvoiceService extends Service
 	/*
      * Send Invoice by Email
      */
-	public function sendEmail($id)
+	public function sendEmail($invoiceId)
 	{
-		$invoice = Invoice::findOrFail($id);
+		$invoice = Invoice::findOrFail($invoiceId);
 
 		try {
 			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
@@ -304,6 +304,7 @@ class InvoiceService extends Service
 
 			$request = new Request([
 				"userUnitId" => $invoice->userUnit->id,
+				"invoiceId" => $invoice->id,
 				"email" => $invoice->userUnit->user->email,
 				"model" => $invoice,
 			]);
@@ -320,9 +321,9 @@ class InvoiceService extends Service
 	/*
      * Send Invoice by SMS
      */
-	public function sendSMS($id)
+	public function sendSMS($invoiceId)
 	{
-		$invoice = Invoice::findOrFail($id);
+		$invoice = Invoice::findOrFail($invoiceId);
 
 		$smsService = new SMSSendService($invoice);
 

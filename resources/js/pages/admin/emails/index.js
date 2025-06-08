@@ -80,7 +80,7 @@ const index = (props) => {
 							<h1
 								id="smsModalLabel"
 								className="modal-title fs-5">
-								SMS
+								Email
 							</h1>
 							<button
 								type="button"
@@ -91,7 +91,7 @@ const index = (props) => {
 						<div className="modal-body text-start text-wrap">
 							{emailToView.text}
 						</div>
-						<div className="modal-footer justify-content-between">
+						<div className="modal-footer justify-content-end">
 							<button
 								type="button"
 								className="mysonar-btn btn-2"

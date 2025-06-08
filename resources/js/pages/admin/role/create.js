@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom"
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
+import BackSVG from "@/svgs/BackSVG"
+
 const create = (props) => {
 	const router = useHistory()
 
@@ -14,18 +16,22 @@ const create = (props) => {
 	const [loading, setLoading] = useState()
 
 	var entities = [
-		"finance",
-		"instructors",
-		"students",
-		"faculties",
-		"courses",
-		"sessions",
-		"chat",
+		"properties",
+		"units",
+		"tenants",
+		"water-readings",
+		"invoices",
+		"payments",
+		"credit-notes",
+		"deductions",
+		"emails",
+		"sms",
+		"billing",
 		"staff",
 		"roles",
 	]
 
-	var CRUD = ["read", "create", "update", "delete"]
+	var CRUD = ["view", "create", "update", "delete"]
 
 	useEffect(() => {
 		// Set page
@@ -41,6 +47,45 @@ const create = (props) => {
 			: [...permissions, permission]
 
 		setPermissions(newPermissions)
+	}
+
+	// Handle Select All per Row
+	const handleSelectAllForRow = (rowIsSet, rowEntity) => {
+		const rowPermissions = []
+
+		if (rowIsSet) {
+			entities
+				.filter((entity) => entity == rowEntity)
+				.forEach((entity) => {
+					CRUD.forEach((item) => {
+						rowPermissions.push(`${item} ${entity}`)
+					})
+				})
+
+			setPermissions([...permissions, ...rowPermissions])
+		} else {
+			// Filter out the row permissions from the main permissions
+			const filteredPermissions = permissions.filter((permission) =>
+				!permission.match(rowEntity)
+			)
+
+			setPermissions(filteredPermissions)
+		}
+	}
+
+	// Handle Master Select All
+	const handleMasterSelectAll = (masterIsSet) => {
+		const allPermissions = []
+
+		if (masterIsSet) {
+			entities.forEach((entity) => {
+				CRUD.forEach((item) => {
+					allPermissions.push(`${item} ${entity}`)
+				})
+			})
+		}
+
+		setPermissions(allPermissions)
 	}
 
 	const onSubmit = (e) => {
@@ -104,10 +149,30 @@ const create = (props) => {
 								<thead>
 									<tr>
 										<th>Entity</th>
-										<th>Read</th>
+										<th>View</th>
 										<th>Create</th>
 										<th>Update</th>
 										<th>Delete</th>
+										<th>
+											<input
+												type="checkbox"
+												name="masterSelectAll"
+												className="me-2"
+												checked={entities.every((entity) =>
+													CRUD.every((item) =>
+														permissions.includes(`${item} ${entity}`)
+													)
+												)}
+												onChange={(e) =>
+													handleMasterSelectAll(e.target.checked)
+												}
+											/>
+											<label
+												htmlFor="masterSelectAll"
+												className="mb-0">
+												Select All
+											</label>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -124,13 +189,34 @@ const create = (props) => {
 														<input
 															type="checkbox"
 															name="entities"
-															onClick={(e) =>
-																handleSetPermissions(`${entity}.${item}`)
+															value={`${item} ${entity}`}
+															checked={permissions.includes(
+																`${item} ${entity}`
+															)}
+															onChange={(e) =>
+																handleSetPermissions(e.target.value)
 															}
 														/>
 													</label>
 												</td>
 											))}
+											<td>
+												<input
+													type="checkbox"
+													name="selectAllForRow"
+													checked={[
+														`view ${entity}`,
+														`create ${entity}`,
+														`update ${entity}`,
+														`delete ${entity}`,
+													].every((entityPermission) =>
+														permissions.includes(entityPermission)
+													)}
+													onChange={(e) =>
+														handleSelectAllForRow(e.target.checked, entity)
+													}
+												/>
+											</td>
 										</tr>
 									))}
 								</tbody>
@@ -149,7 +235,8 @@ const create = (props) => {
 					<div className="d-flex justify-content-center mb-5">
 						<MyLink
 							linkTo="/roles"
-							text="back to role"
+							icon={<BackSVG />}
+							text="back to roles"
 						/>
 					</div>
 					<div className="col-sm-4"></div>

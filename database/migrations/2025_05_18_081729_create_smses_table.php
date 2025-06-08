@@ -6,16 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('smses', function (Blueprint $table) {
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('smses', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('user_unit_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			$table->foreignId('invoice_id')
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
@@ -31,16 +35,16 @@ return new class extends Migration
 			$table->char('failure_reason')->nullable();
 			$table->char('retry_count')->nullable();
 			$table->timestamps();
-        });
-    }
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('smses');
-    }
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExists('smses');
+	}
 };

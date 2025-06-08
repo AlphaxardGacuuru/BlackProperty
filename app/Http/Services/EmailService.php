@@ -42,6 +42,7 @@ class EmailService extends Service
 	{
 		$sms = new Email;
 		$sms->user_unit_id = $request->userUnitId;
+		$sms->invoice_id = $request->invoiceId;
 		$sms->email = $request->email;
 		$sms->model = $request->model;
 		$sms->save();

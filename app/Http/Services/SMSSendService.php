@@ -118,6 +118,7 @@ class SMSSendService extends Service
         // Save to database
         $sms = new SMS;
         $sms->user_unit_id = $this->model->userUnit->id;
+        $sms->invoice_id = $this->model->id;
         $sms->response_message = $responseMessage;
         $sms->message_id = $recipient->messageId;
         $sms->number = $recipient->number;

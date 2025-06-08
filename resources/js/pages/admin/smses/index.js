@@ -91,7 +91,7 @@ const index = (props) => {
 						<div className="modal-body text-start text-wrap">
 							{smsToView.text}
 						</div>
-						<div className="modal-footer justify-content-between">
+						<div className="modal-footer justify-content-end">
 							<button
 								type="button"
 								className="mysonar-btn btn-2"

@@ -57,4 +57,9 @@ class UserUnit extends Model
     {
         return $this->hasMany(WaterReading::class);
     }
+
+	public function invoices()
+	{
+		return $this->hasMany(Invoice::class);
+	}
 }
