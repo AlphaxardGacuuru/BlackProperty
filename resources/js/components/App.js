@@ -4,6 +4,7 @@ import { HashRouter } from "react-router-dom"
 
 import ScrollToTop from "@/functions/ScrollToTop"
 import LoginPopUp from "@/components/Auth/LoginPopUp"
+import SubscriptionPlan from "@/components/Auth/SubscriptionPlan"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
 import PaymentMenu from "@/components/Payments/PaymentMenu"
@@ -284,6 +285,7 @@ function App() {
 		<HashRouter>
 			<ScrollToTop />
 			<LoginPopUp {...GLOBAL_STATE} />
+			<SubscriptionPlan {...GLOBAL_STATE} />
 			<PageLoader {...GLOBAL_STATE} />
 			<Routes GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />

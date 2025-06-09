@@ -48,7 +48,7 @@ const edit = (props) => {
 		"roles",
 	]
 
-	var CRUD = ["read", "create", "update", "delete"]
+	var CRUD = ["view", "create", "update", "delete"]
 
 	// Handle Permission checkboxes
 	const handleSetPermissions = (permission) => {
@@ -204,6 +204,7 @@ const edit = (props) => {
 															type="checkbox"
 															id=""
 															name="entities"
+															value={`${item} ${entity}`}
 															checked={permissions.includes(
 																`${item} ${entity}`
 															)}

@@ -18,6 +18,7 @@ use App\Http\Controllers\SMSController;
 use App\Http\Controllers\SMSMessageController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StatementController;
+use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -64,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"notifications" => NotificationController::class,
 		"emails" => EmailController::class,
 		"smses" => SMSController::class,
+		"subscription-plans" => SubscriptionPlanController::class,
 	]);
 
 	/*

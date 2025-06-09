@@ -11,9 +11,11 @@ import HeroIcon from "@/components/Core/HeroIcon"
 import PlusSVG from "@/svgs/PlusSVG"
 import BillingSVG from "@/svgs/BillingSVG"
 import ForwardSVG from "@/svgs/ForwardSVG"
+import CheckSVG from "@/svgs/CheckSVG"
 
 const billing = (props) => {
 	const [billings, setBillings] = useState([])
+	const [subscriptionPlans, setSubscriptionPlans] = useState([])
 
 	const [tenant, setTenant] = useState("")
 	const [unit, setUnit] = useState("")
@@ -22,7 +24,7 @@ const billing = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [tab, setTab] = useState("history")
+	const [tab, setTab] = useState("settings")
 
 	useEffect(() => {
 		props.setPage({ name: "Billings", path: ["billings"] })
@@ -39,6 +41,8 @@ const billing = (props) => {
 			endYear=${endYear}`,
 			setBillings
 		)
+		// Fetch Subscription Plan
+		props.get(`subscription-plans`, setSubscriptionPlans)
 	}, [
 		props.selectedPropertyId,
 		tenant,
@@ -146,101 +150,64 @@ const billing = (props) => {
 									</div>
 								</div>
 								<div className="row mb-5">
-									<div className="col-12 col-md-6 col-lg-4">
+									{subscriptionPlans.map((subscriptionPlan, key) => (
 										<div
-											className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-											style={{ backgroundColor: "#232323", color: "white" }}
-											data-wow-delay="300ms">
-											<h4 className="mb-2 text-primary">Current</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<h4 className="mb-2 text-white">Less than 20 units</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<span>Property Management</span>
-											<span>Occupancy Management</span>
-											<span>Billing</span>
-											<span>Water Management</span>
-											<span>Tenant Acquisition</span>
-											<hr className="w-75 mx-auto border-light" />
-											<h3 className="text-success">
-												<small className="fw-lighter me-1">KES</small>2,000
-												<small className="fw-lighter">/mo</small>
-											</h3>
-											<h6 className="mt-2 mb-4 text-success">
-												<small className="fw-lighter me-1">KES</small>
-												5,000 onboarding fee
-											</h6>
-											<Link
-												to="/admin/dashboard"
-												className="btn sonar-btn white-btn w-25 mx-auto">
-												<span className="me-1">change</span>
-												<ForwardSVG />
-											</Link>
+											key={key}
+											className="col-12 col-md-6 col-lg-4">
+											<div
+												className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
+												style={{ backgroundColor: "#232323", color: "white" }}
+												data-wow-delay="300ms">
+												{props.auth.activeSubscription.name ==
+													subscriptionPlan.name && (
+													<React.Fragment>
+														<h4 className="mb-2 text-primary">Current</h4>
+														<hr className="w-75 mx-auto border-light" />
+													</React.Fragment>
+												)}
+												<h4 className="mb-2 text-white">
+													{subscriptionPlan.name}
+												</h4>
+												<hr className="w-75 mx-auto border-light" />
+												<h5 className="text-white">
+													{subscriptionPlan.description}
+												</h5>
+												<hr className="w-75 mx-auto border-light" />
+												{subscriptionPlan.features.map((feature, key) => (
+													<span
+														key={key}
+														className="d-block">
+														<span className="text-success fs-4"><CheckSVG /></span>
+														{feature}
+													</span>
+												))}
+												<hr className="w-75 mx-auto border-light" />
+												<h3 className="text-success">
+													<small className="fw-lighter me-1">KES</small>
+													{subscriptionPlan.price.monthly.toLocaleString()}
+													<small className="fw-lighter">/mo</small>
+												</h3>
+												<h3 className="text-success">
+													<small className="fw-lighter me-1">KES</small>
+													{subscriptionPlan.price.yearly.toLocaleString()}
+													<small className="fw-lighter">/yr</small>
+												</h3>
+												<h6 className="mt-2 mb-4 text-success">
+													<small className="fw-lighter me-1">KES</small>
+													{subscriptionPlan.price.onboarding_fee.toLocaleString()}{" "}
+													onboarding fee
+												</h6>
+												{props.auth.activeSubscription.name !=
+													subscriptionPlan.name && (
+													<Link
+														to="/admin/dashboard"
+														className="btn sonar-btn white-btn w-25 mx-auto">
+														<span className="me-1">change</span>
+													</Link>
+												)}
+											</div>
 										</div>
-									</div>
-									<div className="col-12 col-md-6 col-lg-4">
-										<div
-											className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-											style={{ backgroundColor: "#232323", color: "white" }}
-											data-wow-delay="600ms">
-											<h4 className="mb-2 text-primary">Current</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<h4 className="mb-2 text-white">Between 21 - 50 units</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<span>Property Management</span>
-											<span>Occupancy Management</span>
-											<span>Billing</span>
-											<span>Water Management</span>
-											<span>Tenant Acquisition</span>
-											<hr className="w-75 mx-auto border-light" />
-											<h3 className="text-success">
-												<small className="fw-lighter me-1">KES</small>5,000
-												<small className="fw-lighter">/mo</small>
-											</h3>
-											<h6 className="mt-2 mb-4 text-success">
-												<small className="fw-lighter me-1">KES</small>
-												10,000 onboarding fee
-											</h6>
-											<Link
-												to="/admin/dashboard"
-												className="btn sonar-btn white-btn w-25 mx-auto">
-												<span className="me-1">change</span>
-												<ForwardSVG />
-											</Link>
-										</div>
-									</div>
-									<div className="col-12 col-md-6 col-lg-4">
-										<div
-											className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-											style={{ backgroundColor: "#232323", color: "white" }}
-											data-wow-delay="300ms">
-											<h4 className="mb-2 text-primary">Current</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<h4 className="mb-2 text-white">
-												Between 51 - 100 units
-											</h4>
-											<hr className="w-75 mx-auto border-light" />
-											<span>Property Management</span>
-											<span>Occupancy Management</span>
-											<span>Billing</span>
-											<span>Water Management</span>
-											<span>Tenant Acquisition</span>
-											<hr className="w-75 mx-auto border-light" />
-											<h3 className="text-success">
-												<small className="fw-lighter me-1">KES</small>10,000
-												<small className="fw-lighter">/mo</small>
-											</h3>
-											<h6 className="mt-2 mb-4 text-success">
-												<small className="fw-lighter me-1">KES</small>
-												20,000 onboarding fee
-											</h6>
-											<Link
-												to="/admin/dashboard"
-												className="btn sonar-btn white-btn w-25 mx-auto">
-												<span className="me-1">change</span>
-												<ForwardSVG />
-											</Link>
-										</div>
-									</div>
+									))}
 								</div>
 							</div>
 						</div>
