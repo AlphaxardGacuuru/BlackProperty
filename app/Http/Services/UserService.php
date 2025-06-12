@@ -52,7 +52,7 @@ class UserService extends Service
 
         $saved = $user->save();
 
-        return [$saved, "Account updated", $user];
+        return [$saved, "Account Updated", $user];
     }
 
     /*

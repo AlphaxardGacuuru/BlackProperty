@@ -35,27 +35,41 @@ const Btn = ({
 			data-bs-target={dataBsTarget}
 			data-bs-placement={tooltipPlacement}
 			title={tooltipText}>
-			{/* Icon Start */}
-			<span style={{ color: "inherit" }}>{icon}</span>
-			{/* Icon End */}
+			<div className="d-flex">
+				{/* Icon Start */}
+				<span style={{ color: "inherit" }}>{icon}</span>
+				{/* Icon End */}
 
-			{/* Text Start */}
-			{text && (
-				<span
-					className="mx-1"
-					style={{ color: "inherit" }}>
-					{text}
-				</span>
-			)}
-			{/* Text End */}
+				{/* Text Start */}
+				{text && (
+					<span
+						className="mx-1"
+						style={{ color: "inherit" }}>
+						{text}
+					</span>
+				)}
+				{/* Text End */}
 
-			{/* Loading Start */}
-			{loading && (
-				<div
-					id="sonar-load"
-					style={{ bottom: "0" }}></div>
-			)}
-			{/* Loading End */}
+				{/* Loading Start */}
+				{/* {loading && (
+					<div>
+						<div
+							className="spinner-border spinner-border-sm"
+							style={{ color: "inherit" }}></div>
+					</div>
+				)} */}
+				{/* Loading Start */}
+				{loading && (
+					<div className="d-flex justify-content-center align-items-center">
+						<div
+							id="sonar-load"
+							style={{ bottom: "0" }}></div>
+					</div>
+				)}
+				{/* Loading End */}
+
+				{/* Loading End */}
+			</div>
 		</button>
 	)
 }

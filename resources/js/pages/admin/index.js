@@ -19,6 +19,10 @@ const index = (props) => {
 		// Set page
 		props.setPage({ name: "Dashboard", path: ["/dashboard"] })
 
+		if (props.auth.name == "Guest") {
+			return
+		}
+		
 		// Fetch Dashboard Properties
 		Axios.get(
 			`api/dashboard/properties/${

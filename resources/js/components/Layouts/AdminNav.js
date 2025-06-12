@@ -42,6 +42,10 @@ const AdminMenu = (props) => {
 	}, [props.location, props.auth])
 
 	useEffect(() => {
+		if (props.auth.name == "Guest") {
+			return
+		}
+		
 		props.get("notifications", setNotifications, null, false)
 	}, [])
 

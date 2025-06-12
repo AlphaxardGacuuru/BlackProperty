@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Mail\WelcomeMail;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class WelcomeNotification extends Notification
+class MpesaReceivedNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
-    public $user;
+	protected $transaction;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
-    {
-        $this->user = $user;
-    }
+    public function __construct($transaction)
+	{
+		$this->transaction = $transaction;
+	}
 
     /**
      * Get the notification's delivery channels.
@@ -31,7 +31,7 @@ class WelcomeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -42,8 +42,10 @@ class WelcomeNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new WelcomeMail($notifiable))
-            ->to($notifiable->email);
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -54,10 +56,10 @@ class WelcomeNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-			'url' => '/',
-			'from' => 'Admin',
-			'message' => 'Welcome ' . $this->user->name . ' to Black Property.',
-        ];
+		return [
+			"url" => "/admin/billing",
+			"from" => "",
+			"message" => "Payment of KES " . $this->transaction->amount . " received."
+		];
     }
 }

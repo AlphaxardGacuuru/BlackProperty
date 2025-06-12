@@ -24,16 +24,16 @@ const KopokopoBtn = (props) => {
 	}
 	return (
 		<Btn
-			text={
+			icon={
 				<div>
 					<Img
 						src="/storage/img/mpesa-logo.jpg"
 						className="btn-secondary me-1"
 						style={{ width: "44px", height: "auto" }}
 					/>
-					pay with mpesa
 				</div>
 			}
+			text="pay with mpesa"
 			onClick={() => {
 				props.setStkPushed("menu-open")
 				onSTKPush()

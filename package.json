@@ -41,9 +41,10 @@
         "laravel-echo": "^1.15.2",
         "pusher-js": "^8.2.0",
         "react-filepond": "^7.1.1",
+        "react-form-wizard-component": "^0.2.7",
         "react-router-dom": "^5.2.0",
         "react-social-login-buttons": "^3.4.0",
-        "vue-template-compiler": "^2.7.14",
-		"react-toastify": "^8.2.0"
+        "react-toastify": "^8.2.0",
+        "vue-template-compiler": "^2.7.14"
     }
 }

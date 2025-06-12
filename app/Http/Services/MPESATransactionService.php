@@ -111,8 +111,7 @@ class MPESATransactionService extends Service
             'amount' => $request->input('amount'),
             'currency' => 'KES',
             'email' => auth('sanctum')->user()->email,
-            // 'callbackUrl' => 'https://pay.black.co.ke/api/kopokopo',
-            'callbackUrl' => 'http://localhost:8004/api/mpesa-transactions',
+            'callbackUrl' => 'https://property.black.co.ke/api/mpesa-transactions',
             'accessToken' => $data['accessToken'],
         ]);
 
@@ -131,15 +130,18 @@ class MPESATransactionService extends Service
      */
     public static function options()
     {
-        return [
-            'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
-            // 'clientId' => env('KOPOKOPO_CLIENT_ID'),
-            'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
-            // 'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
-            'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
-            // 'apiKey' => env('KOPOKOPO_API_KEY'),
-            'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
-            // 'baseUrl' => env('KOPOKOPO_BASE_URL'),
-        ];
+		// return [
+		// 	'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
+		// 	'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
+		// 	'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
+		// 	'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
+		// ];
+
+		return [
+			'clientId' => env('KOPOKOPO_CLIENT_ID'),
+			'clientSecret' => env('KOPOKOPO_CLIENT_SECRET'),
+			'apiKey' => env('KOPOKOPO_API_KEY'),
+			'baseUrl' => env('KOPOKOPO_BASE_URL'),
+		];
     }
 }

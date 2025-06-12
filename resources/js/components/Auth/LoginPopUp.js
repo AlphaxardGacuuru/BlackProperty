@@ -28,15 +28,6 @@ const LoginPopUp = (props) => {
 		return CryptoJS.AES.encrypt(token, secretKey).toString()
 	}
 
-	/*
-	 * Fetch
-	 */
-	const fetchAuth = (token) => {
-		Axios.get("api/auth", { Authorization: `Bearer ${token}` })
-			.then((res) => props.setAuth(res.data.data))
-			.catch((err) => props.getErrors(err))
-	}
-
 	const onSubmit = (e) => {
 		setLoading(true)
 		e.preventDefault()

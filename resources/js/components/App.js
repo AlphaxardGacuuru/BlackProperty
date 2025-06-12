@@ -183,7 +183,9 @@ function App() {
 				setLocalStorage("auth", res.data.data)
 				setSelectedPropertyId(res.data.data.propertyIds)
 			})
-			.catch((err) => setErrors(["Failed to fetch auth"]))
+			.catch((err) => {
+				// setErrors(["Failed to fetch auth"])
+			})
 	}, [])
 
 	useEffect(() => {

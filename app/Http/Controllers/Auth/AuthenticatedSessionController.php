@@ -83,9 +83,15 @@ class AuthenticatedSessionController extends Controller
 
 		$user = User::where('email', $request->email)->first();
 
-		if (!$user || !Hash::check($request->password, $user->password)) {
+		if (!$user) {
 			throw ValidationException::withMessages([
-				'email' => ['The provided credentials are incorrect.'],
+				'email' => ['The provided email is incorrect.'],
+			]);
+		}
+
+		if (!Hash::check($request->password, $user->password)) {
+			throw ValidationException::withMessages([
+				'password' => ['The provided password is incorrect.'],
 			]);
 		}
 
