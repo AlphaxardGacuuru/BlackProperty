@@ -6,12 +6,11 @@ import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
 
-import CheckSVG from "@/svgs/CheckSVG"
-import PersonSVG from "@/svgs/PersonSVG"
 import KopokopoBtn from "@/components/Payments/KopokopoBtn"
 
 import FormWizard from "react-form-wizard-component"
 import "react-form-wizard-component/dist/style.css"
+
 import BackSVG from "@/svgs/BackSVG"
 import ForwardSVG from "@/svgs/ForwardSVG"
 import SettingsSVG from "@/svgs/SettingsSVG"
@@ -20,6 +19,8 @@ import PaymentSVG from "@/svgs/PaymentSVG"
 import BillableSVG from "@/svgs/BillableSVG"
 import CloseSVG from "@/svgs/CloseSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
+import CheckSVG from "@/svgs/CheckSVG"
+import PersonSVG from "@/svgs/PersonSVG"
 
 const SubscriptionPlan = (props) => {
 	const history = useHistory()
@@ -27,9 +28,9 @@ const SubscriptionPlan = (props) => {
 	const formWizardRef = useRef(null)
 
 	const [subscriptionPlans, setSubscriptionPlans] = useState([])
-	const [subscriptionPlanId, setSubscriptionPlanId] = useState()
-	const [subscriptionPlanAmount, setSubscriptionPlanAmount] = useState("")
+	const [subscriptionPlan, setSubscriptionPlan] = useState({})
 	const [phone, setPhone] = useState(props.auth.phone)
+	const [mpesaTransaction, setMpesaTransaction] = useState({})
 
 	const [logoutLoading, setLogoutLoading] = useState(false)
 	const [updateLoading, setUpdateLoading] = useState(false)
@@ -39,6 +40,16 @@ const SubscriptionPlan = (props) => {
 	useEffect(() => {
 		// Fetch Subscription Plan
 		if (props.auth.name != "Guest") {
+			Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
+				"MpesaTransactionCreatedEvent",
+				(e) => {
+					console.info("Event:" + e)
+					setMpesaTransaction(e.mpesaTransaction)
+					setStkPushed("d-none")
+					props.setMessages(["Payment Received!"])
+				}
+			)
+
 			props.get(`subscription-plans`, setSubscriptionPlans)
 		}
 	}, [])
@@ -111,7 +122,9 @@ const SubscriptionPlan = (props) => {
 	const onSTKPush = () => {
 		setMpesaLoading(true)
 
-		Axios.post("/api/stk-push", { amount: subscriptionPlanAmount })
+		Axios.post("/api/stk-push", {
+			amount: subscriptionPlan.price.onboarding_fee,
+		})
 			.then((res) => {
 				setMpesaLoading(false)
 				setStkPushed("d-block")
@@ -153,22 +166,28 @@ const SubscriptionPlan = (props) => {
 					backdropFilter: "blur(100px)",
 				}}>
 				<div className="subscription-plan-wizard">
-					<div className="d-flex justify-content-center align-items-center">
-						<Link
-							to="/"
-							className="btn mysonar-btn me-2">
-							<BackSVG />
-							back
-						</Link>
-						<span className="fs-1 mx-4">
-							<LogoSVG />
-						</span>
-						<Btn
-							icon={<LogoutSVG />}
-							text="logout"
-							onClick={logout}
-							loading={logoutLoading}
-						/>
+					<div className="d-flex justify-content-between align-items-center">
+						<div className="">
+							<Link
+								to="/"
+								className="btn mysonar-btn">
+								<BackSVG />
+								back
+							</Link>
+						</div>
+						<div className="flex-grow-1 w-100">
+							<span className="fs-1">
+								<LogoSVG />
+							</span>
+						</div>
+						<div className="">
+							<Btn
+								icon={<LogoutSVG />}
+								text="logout"
+								onClick={logout}
+								loading={logoutLoading}
+							/>
+						</div>
 					</div>
 					<FormWizard
 						ref={formWizardRef}
@@ -182,7 +201,7 @@ const SubscriptionPlan = (props) => {
 							<button
 								className="btn sonar-btn btn-2 mx-1"
 								onClick={handleNext}
-								disabled={!subscriptionPlanId}>
+								disabled={!subscriptionPlan.id}>
 								next
 								<span className="ms-1">
 									<ForwardSVG />
@@ -207,7 +226,7 @@ const SubscriptionPlan = (props) => {
 							}>
 							{/* <!-- ***** Pricing Area Start ***** --> */}
 							<div className="row mb-3 overflow-auto">
-								{subscriptionPlans.map((subscriptionPlan, key) => (
+								{subscriptionPlans.map((subscriptionPlanItem, key) => (
 									<div
 										key={key}
 										className="col-12 col-md-6 col-lg-4">
@@ -215,13 +234,15 @@ const SubscriptionPlan = (props) => {
 											className="single-services-area wow fadeInUp card text-center py-5 px-2"
 											style={{ backgroundColor: "#232323", color: "white" }}
 											data-wow-delay="300ms">
-											<h4 className="text-white">{subscriptionPlan.name}</h4>
+											<h4 className="text-white">
+												{subscriptionPlanItem.name}
+											</h4>
 											<hr className="w-75 mx-auto border-light my-2" />
 											<h5 className="text-white">
-												{subscriptionPlan.description}
+												{subscriptionPlanItem.description}
 											</h5>
 											{/* <hr className="w-75 mx-auto border-light" />
-											{subscriptionPlan.features.map((feature, key) => (
+											{subscriptionPlanItem.features.map((feature, key) => (
 												<span
 													key={key}
 													className="d-block">
@@ -234,35 +255,30 @@ const SubscriptionPlan = (props) => {
 											<hr className="w-75 mx-auto border-light my-2" />
 											<h5 className="mt-2 text-success">
 												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlan.price.onboarding_fee.toLocaleString()}{" "}
+												{subscriptionPlanItem.price.onboarding_fee.toLocaleString()}{" "}
 												onboarding fee
 											</h5>
 											<h6 className="text-white my-1">then</h6>
 											<h5 className="text-success mb-1">
 												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlan.price.monthly.toLocaleString()}
+												{subscriptionPlanItem.price.monthly.toLocaleString()}
 												<small className="fw-lighter">/mo</small>
 											</h5>
 											<h6 className="text-white mb-3">after the 1st month</h6>
-											{subscriptionPlanId == subscriptionPlan.id ? (
+											{subscriptionPlanItem.id == subscriptionPlan.id ? (
 												<Btn
 													text="selected"
+													iconFront={<CheckSVG />}
 													className="btn-green mx-auto"
-													onClick={() => {
-														setSubscriptionPlanId()
-														setSubscriptionPlanAmount()
-													}}
+													onClick={() => setSubscriptionPlan()}
 												/>
 											) : (
 												<Btn
 													text="select"
 													className="btn-white mx-auto"
-													onClick={() => {
-														setSubscriptionPlanId(subscriptionPlan.id)
-														setSubscriptionPlanAmount(
-															subscriptionPlan.price.onboarding_fee
-														)
-													}}
+													onClick={() =>
+														setSubscriptionPlan(subscriptionPlanItem)
+													}
 												/>
 											)}
 										</div>
@@ -327,7 +343,7 @@ const SubscriptionPlan = (props) => {
 												}, 1000)
 											}
 										}}
-										disabled={!subscriptionPlanId}>
+										disabled={!subscriptionPlan.id}>
 										<div className="d-flex justify-content-center align-items-center">
 											<div className="ms-2">
 												<Img
@@ -339,7 +355,7 @@ const SubscriptionPlan = (props) => {
 												pay{" "}
 												<span className="fs-6 text-success">
 													<small className="fw-lighter me-1">KES</small>
-													{subscriptionPlanAmount.toLocaleString()}
+													{subscriptionPlan.price?.onboarding_fee.toLocaleString()}
 												</span>{" "}
 												with mpesa
 											</div>
@@ -364,9 +380,18 @@ const SubscriptionPlan = (props) => {
 										<br />
 
 										<h6>Checking payment</h6>
-										<div className="spinner-border spinner-border-lg border-2 text-success my-4 mx-2"></div>
+										<div className="spinner-border spinner-border-md border-2 text-success my-4 mx-2"></div>
 									</center>
 								</div>
+
+								{/* Payment Received Start */}
+								{mpesaTransaction.user_id == props.auth.id && (
+									<div>
+										<h5>Redirecting you</h5>
+										<div className="spinner-grow spinner-grow-md text-primary my-4 mx-2"></div>
+									</div>
+								)}
+								{/* Payment Received End */}
 							</div>
 						</FormWizard.TabContent>
 					</FormWizard>

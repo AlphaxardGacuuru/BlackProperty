@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Events\MpesaReceivedEvent;
+use App\Events\MpesaTransactionCreatedEvent;
 use Illuminate\Auth\Events\Registered;
-use App\Listeners\MpesaReceivedListener;
+use App\Listeners\MpesaTransactionCreatedListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [SendEmailVerificationNotification::class],
-		MpesaReceivedEvent::class => [MpesaReceivedListener::class]
+		MpesaTransactionCreatedEvent::class => [MpesaTransactionCreatedListener::class]
     ];
 
     /**

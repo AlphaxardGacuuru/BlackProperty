@@ -5,6 +5,7 @@ const Btn = ({
 	btnStyle,
 	className,
 	icon,
+	iconFront,
 	text,
 	onClick,
 	loading,
@@ -49,6 +50,10 @@ const Btn = ({
 					</span>
 				)}
 				{/* Text End */}
+
+				{/* Icon Front Start */}
+				<span style={{ color: "inherit" }}>{iconFront}</span>
+				{/* Icon Front End */}
 
 				{/* Loading Start */}
 				{/* {loading && (

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MpesaTransactionCreatedEvent;
 use App\Http\Services\MPESATransactionService;
 use App\Models\MPESATransaction;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ class MPESATransactionController extends Controller
     public function store(Request $request)
     {
         [$saved, $message, $mpesaTransaction] = $this->service->store($request);
+
+		MpesaTransactionCreatedEvent::dispatchIf($saved, $mpesaTransaction);
 
         return response([
             "status" => $saved ? "success" : "failed",

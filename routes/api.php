@@ -52,7 +52,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		"invoices" => InvoiceController::class,
 		"water-readings" => WaterReadingController::class,
 		"card-transactions" => CardTransactionController::class,
-		"mpesa-transactions" => MPESATransactionController::class,
 		"payments" => PaymentController::class,
 		"credit-notes" => CreditNoteController::class,
 		"deductions" => DeductionController::class,
@@ -63,8 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		"staff" => StaffController::class,
 		"roles" => RoleController::class,
 		"notifications" => NotificationController::class,
-		"emails" => EmailController::class,
-		"smses" => SMSController::class,
 		"subscription-plans" => SubscriptionPlanController::class,
 	]);
 
@@ -121,6 +118,12 @@ Route::middleware('auth:sanctum')->group(function () {
 	// Broadcast Routes
 	Broadcast::routes();
 });
+
+Route::apiResources([
+	"mpesa-transactions" => MPESATransactionController::class,
+	"emails" => EmailController::class,
+	"smses" => SMSController::class,
+]);
 
 /*
  * Filepond Controller

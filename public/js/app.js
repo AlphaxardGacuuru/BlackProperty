@@ -89959,9 +89959,9 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: "pusher",
   key: "8",
-  cluster: "local",
+  cluster: "mt1",
   wsHost: window.location.hostname,
-  wsPort: 6001,
+  wsPort: 6008,
   forceTLS: false,
   disableStats: true,
   authorizer: function authorizer(channel, options) {
@@ -90587,20 +90587,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Btn */ "./resources/js/components/Core/Btn.js");
 /* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/CheckSVG */ "./resources/js/svgs/CheckSVG.js");
-/* harmony import */ var _svgs_PersonSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/PersonSVG */ "./resources/js/svgs/PersonSVG.js");
-/* harmony import */ var _components_Payments_KopokopoBtn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Payments/KopokopoBtn */ "./resources/js/components/Payments/KopokopoBtn.js");
-/* harmony import */ var react_form_wizard_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-form-wizard-component */ "./node_modules/react-form-wizard-component/dist/react-form-wizard-component.es.js");
-/* harmony import */ var react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-form-wizard-component/dist/style.css */ "./node_modules/react-form-wizard-component/dist/style.css");
-/* harmony import */ var react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _svgs_BackSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/BackSVG */ "./resources/js/svgs/BackSVG.js");
-/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
-/* harmony import */ var _svgs_SettingsSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/SettingsSVG */ "./resources/js/svgs/SettingsSVG.js");
-/* harmony import */ var _svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/LogoSVG */ "./resources/js/svgs/LogoSVG.js");
-/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
-/* harmony import */ var _svgs_BillableSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/BillableSVG */ "./resources/js/svgs/BillableSVG.js");
-/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
-/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+/* harmony import */ var _components_Payments_KopokopoBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Payments/KopokopoBtn */ "./resources/js/components/Payments/KopokopoBtn.js");
+/* harmony import */ var react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-form-wizard-component */ "./node_modules/react-form-wizard-component/dist/react-form-wizard-component.es.js");
+/* harmony import */ var react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-form-wizard-component/dist/style.css */ "./node_modules/react-form-wizard-component/dist/style.css");
+/* harmony import */ var react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_form_wizard_component_dist_style_css__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _svgs_BackSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/BackSVG */ "./resources/js/svgs/BackSVG.js");
+/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
+/* harmony import */ var _svgs_SettingsSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/SettingsSVG */ "./resources/js/svgs/SettingsSVG.js");
+/* harmony import */ var _svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/LogoSVG */ "./resources/js/svgs/LogoSVG.js");
+/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
+/* harmony import */ var _svgs_BillableSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/BillableSVG */ "./resources/js/svgs/BillableSVG.js");
+/* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+/* harmony import */ var _svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CheckSVG */ "./resources/js/svgs/CheckSVG.js");
+/* harmony import */ var _svgs_PersonSVG__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/svgs/PersonSVG */ "./resources/js/svgs/PersonSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -90627,6 +90627,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var SubscriptionPlan = function SubscriptionPlan(props) {
+  var _subscriptionPlan$pri;
   var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var formWizardRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -90634,18 +90635,18 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState2 = _slicedToArray(_useState, 2),
     subscriptionPlans = _useState2[0],
     setSubscriptionPlans = _useState2[1];
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState4 = _slicedToArray(_useState3, 2),
-    subscriptionPlanId = _useState4[0],
-    setSubscriptionPlanId = _useState4[1];
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+    subscriptionPlan = _useState4[0],
+    setSubscriptionPlan = _useState4[1];
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.auth.phone),
     _useState6 = _slicedToArray(_useState5, 2),
-    subscriptionPlanAmount = _useState6[0],
-    setSubscriptionPlanAmount = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.auth.phone),
+    phone = _useState6[0],
+    setPhone = _useState6[1];
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState8 = _slicedToArray(_useState7, 2),
-    phone = _useState8[0],
-    setPhone = _useState8[1];
+    mpesaTransaction = _useState8[0],
+    setMpesaTransaction = _useState8[1];
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
     _useState10 = _slicedToArray(_useState9, 2),
     logoutLoading = _useState10[0],
@@ -90665,6 +90666,12 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Subscription Plan
     if (props.auth.name != "Guest") {
+      Echo["private"]("mpesa-transaction-created.".concat(props.auth.id)).listen("MpesaTransactionCreatedEvent", function (e) {
+        console.info("Event:" + e);
+        setMpesaTransaction(e.mpesaTransaction);
+        setStkPushed("d-none");
+        props.setMessages(["Payment Received!"]);
+      });
       props.get("subscription-plans", setSubscriptionPlans);
     }
   }, []);
@@ -90734,7 +90741,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   var onSTKPush = function onSTKPush() {
     setMpesaLoading(true);
     Axios.post("/api/stk-push", {
-      amount: subscriptionPlanAmount
+      amount: subscriptionPlan.price.onboarding_fee
     }).then(function (res) {
       setMpesaLoading(false);
       setStkPushed("d-block");
@@ -90754,7 +90761,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn sonar-btn btn-2 mx-1",
       onClick: handlePrevious
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null), "back");
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), "back");
   };
   var blur = props.auth.name != "Guest" && !props.auth.hasActiveSubscription && location.pathname.match("/admin");
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -90766,18 +90773,24 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "subscription-plan-wizard"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-center align-items-center"
+    className: "d-flex justify-content-between align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     to: "/",
-    className: "btn mysonar-btn me-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null), "back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "fs-1 mx-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null),
+    className: "btn mysonar-btn"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), "back")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex-grow-1 w-100"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "fs-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
     text: "logout",
     onClick: logout,
     loading: logoutLoading
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ref: formWizardRef,
     shape: "circle",
     color: "#232323",
@@ -90789,10 +90802,10 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn sonar-btn btn-2 mx-1",
         onClick: handleNext,
-        disabled: !subscriptionPlanId
+        disabled: !subscriptionPlan.id
       }, "next", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "ms-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
     },
     finishButtonTemplate: function finishButtonTemplate(handleComplete) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -90800,17 +90813,17 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         onClick: handleComplete
       }, "finish");
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_9__["default"].TabContent, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"].TabContent, {
     title: "Choose Subscription Plan",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-white rounded-circle px-2",
       style: {
         backgroundColor: "#232323"
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillableSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null))
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillableSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null))
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row mb-3 overflow-auto"
-  }, subscriptionPlans.map(function (subscriptionPlan, key) {
+  }, subscriptionPlans.map(function (subscriptionPlanItem, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: key,
       className: "col-12 col-md-6 col-lg-4"
@@ -90823,49 +90836,48 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       "data-wow-delay": "300ms"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
       className: "text-white"
-    }, subscriptionPlan.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    }, subscriptionPlanItem.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "w-75 mx-auto border-light my-2"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
       className: "text-white"
-    }, subscriptionPlan.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    }, subscriptionPlanItem.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "w-75 mx-auto border-light my-2"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
       className: "mt-2 text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "fw-lighter me-1"
-    }, "KES"), subscriptionPlan.price.onboarding_fee.toLocaleString(), " ", "onboarding fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+    }, "KES"), subscriptionPlanItem.price.onboarding_fee.toLocaleString(), " ", "onboarding fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
       className: "text-white my-1"
     }, "then"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
       className: "text-success mb-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "fw-lighter me-1"
-    }, "KES"), subscriptionPlan.price.monthly.toLocaleString(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    }, "KES"), subscriptionPlanItem.price.monthly.toLocaleString(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "fw-lighter"
     }, "/mo")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
       className: "text-white mb-3"
-    }, "after the 1st month"), subscriptionPlanId == subscriptionPlan.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }, "after the 1st month"), subscriptionPlanItem.id == subscriptionPlan.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
       text: "selected",
+      iconFront: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
       className: "btn-green mx-auto",
       onClick: function onClick() {
-        setSubscriptionPlanId();
-        setSubscriptionPlanAmount();
+        return setSubscriptionPlan();
       }
     }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
       text: "select",
       className: "btn-white mx-auto",
       onClick: function onClick() {
-        setSubscriptionPlanId(subscriptionPlan.id);
-        setSubscriptionPlanAmount(subscriptionPlan.price.onboarding_fee);
+        return setSubscriptionPlan(subscriptionPlanItem);
       }
     })));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_9__["default"].TabContent, {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"].TabContent, {
     title: "Update Payment Details",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-white rounded-circle py-1 px-2",
       style: {
         backgroundColor: "rgba(35, 35, 35, 0.1)"
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SettingsSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null))
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SettingsSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null))
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onUpdatePhone,
     className: "w-25 mx-auto mb-4"
@@ -90885,14 +90897,14 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     text: "update",
     className: "white-btn btn-2",
     loading: updateLoading
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_9__["default"].TabContent, {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"].TabContent, {
     title: "Payment",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-white rounded-circle py-1 px-2",
       style: {
         backgroundColor: "rgba(35, 35, 35, 0.1)"
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_15__["default"], null))
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null))
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-100 mx-auto mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -90910,7 +90922,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         }, 1000);
       }
     },
-    disabled: !subscriptionPlanId
+    disabled: !subscriptionPlan.id
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -90927,7 +90939,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     className: "fs-6 text-success"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "fw-lighter me-1"
-  }, "KES"), subscriptionPlanAmount.toLocaleString()), " ", "with mpesa"), mpesaLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "KES"), (_subscriptionPlan$pri = subscriptionPlan.price) === null || _subscriptionPlan$pri === void 0 ? void 0 : _subscriptionPlan$pri.onboarding_fee.toLocaleString()), " ", "with mpesa"), mpesaLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "sonar-load",
     className: "me-2",
     style: {
@@ -90938,8 +90950,10 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Request was sent to", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-success"
   }, " ", props.auth.phone)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Checking payment"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "spinner-border spinner-border-lg border-2 text-success my-4 mx-2"
-  })))))))));
+    className: "spinner-border spinner-border-md border-2 text-success my-4 mx-2"
+  }))), mpesaTransaction.user_id == props.auth.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Redirecting you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "spinner-grow spinner-grow-md text-primary my-4 mx-2"
+  }))))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SubscriptionPlan);
 
@@ -91430,6 +91444,7 @@ var Btn = function Btn(_ref) {
   var btnStyle = _ref.btnStyle,
     className = _ref.className,
     icon = _ref.icon,
+    iconFront = _ref.iconFront,
     text = _ref.text,
     onClick = _ref.onClick,
     loading = _ref.loading,
@@ -91465,7 +91480,11 @@ var Btn = function Btn(_ref) {
     style: {
       color: "inherit"
     }
-  }, text), loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      color: "inherit"
+    }
+  }, iconFront), loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "sonar-load",

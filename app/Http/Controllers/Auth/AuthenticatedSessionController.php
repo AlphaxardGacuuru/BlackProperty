@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,16 +51,25 @@ class AuthenticatedSessionController extends Controller
 
 		$avatar = $user->getAvatar() ? $user->getAvatar() : "avatar/male-avatar.png";
 
-		// Get Database User
-		$dbUser = User::firstOrCreate(
-			["email" => $email],
-			[
-				"name" => $name,
-				"email" => $email,
-				"avatar" => $avatar,
-				"password" => Hash::make($email),
-			]
-		);
+		$dbUserQuery = User::where("email", $email);
+
+		if ($dbUserQuery->doesntExist()) {
+			// If user does not exist, create a new user
+			$dbUser = new User;
+			$dbUser->name = $name;
+			$dbUser->email = $email;
+			$dbUser->avatar = $avatar;
+			$dbUser->password = Hash::make($email);
+			$saved = $dbUser->save();
+
+			$dbUser->notify(WelcomeNotification::class);
+		} else {
+			// If user exists, update the existing user
+			$dbUser = $dbUserQuery->first();
+			$dbUser->name = $name;
+			$dbUser->avatar = $avatar;
+			$dbUser->save();
+		}
 
 		// Check if user exists
 		$token = $dbUser
