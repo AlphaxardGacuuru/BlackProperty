@@ -82,7 +82,7 @@ class InvoiceService extends Service
 				$invoice->balance = $amount;
 				$invoice->month = $request->month;
 				$invoice->year = $request->year;
-				$invoice->created_by = $this->id;
+				$invoice->created_by = $this->id == 0 ? $request->createdBy : $this->id;
 
 				$saved = DB::transaction(function () use ($invoice) {
 					$saved = $invoice->save();
@@ -101,7 +101,7 @@ class InvoiceService extends Service
 				"Invoice Created Successfully";
 		} else {
 			$message = count($request->userUnitIds) > 1 ?
-				"Invoices already exist" :
+				"Invoices Already Exist" :
 				"Invoice Already Exists";
 		}
 

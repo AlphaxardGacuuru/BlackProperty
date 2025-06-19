@@ -18,7 +18,7 @@ const create = (props) => {
 	const [type, setType] = useState("")
 	const [bedrooms, setBedrooms] = useState()
 	const [size, setSize] = useState({})
-	const [ensuite, setEnsuite] = useState()
+	const [ensuite, setEnsuite] = useState(0)
 	const [dsq, setDsq] = useState()
 	const [loading, setLoading] = useState()
 
@@ -203,6 +203,7 @@ const create = (props) => {
 								placeholder="2"
 								className="form-control mb-2 me-2"
 								onChange={(e) => setEnsuite(e.target.value)}
+								defaultValue={0}
 								required={true}
 							/>
 						</div>

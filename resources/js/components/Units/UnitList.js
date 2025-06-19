@@ -104,7 +104,7 @@ const UnitList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="9"></th>
+							<th colSpan="10"></th>
 							<th className="text-end">
 								<MyLink
 									linkTo={`/units/create`}
@@ -116,6 +116,7 @@ const UnitList = (props) => {
 						<tr>
 							<th>#</th>
 							<th>Name</th>
+							<th>Property</th>
 							<th>Rent</th>
 							<th>Deposit</th>
 							<th>Type</th>
@@ -132,6 +133,7 @@ const UnitList = (props) => {
 								<tr key={key}>
 									<td>{props.iterator(key, props.units)}</td>
 									<td>{unit.name}</td>
+									<td>{unit.propertyName}</td>
 									<td className="text-success">
 										<small>KES</small> {unit.rent}
 									</td>
@@ -189,7 +191,7 @@ const UnitList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="10"
+									colSpan="11"
 									className="p-0">
 									<NoData />
 								</td>

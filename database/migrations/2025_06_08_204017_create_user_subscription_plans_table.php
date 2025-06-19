@@ -27,10 +27,6 @@ return new class extends Migration
 			$table->timestamp('end_date')->nullable();
 			$table->enum('status', ['active', 'inactive', 'cancelled'])->default('active');
 			$table->integer('amount_paid')->nullable();
-			$table->foreignId('mpesa_transaction_id')
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
 			$table->string('billing_cycle')->default('monthly'); // Default billing cycle, can be 'monthly' or 'yearly'
 			$table->timestamps();
 		});

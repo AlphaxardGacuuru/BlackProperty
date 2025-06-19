@@ -62,7 +62,7 @@ class AuthenticatedSessionController extends Controller
 			$dbUser->password = Hash::make($email);
 			$saved = $dbUser->save();
 
-			$dbUser->notify(WelcomeNotification::class);
+			$dbUser->notify(new WelcomeNotification());
 		} else {
 			// If user exists, update the existing user
 			$dbUser = $dbUserQuery->first();

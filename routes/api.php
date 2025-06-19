@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
 
 	Route::get('auth', [UserController::class, 'auth']);
 
@@ -110,6 +110,10 @@ Route::middleware('auth:sanctum')->group(function () {
 * SMS Messages
 */
 
+	/*
+	* Subscription Plans
+	*/ 
+	Route::post("subscription-plans/subscribe", [SubscriptionPlanController::class, "subscribe"]);
 
 	// Kopokopo STK Push
 	Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
@@ -117,7 +121,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	// Broadcast Routes
 	Broadcast::routes();
-});
+// });
 
 Route::apiResources([
 	"mpesa-transactions" => MPESATransactionController::class,

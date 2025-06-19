@@ -47,7 +47,7 @@ class MpesaTransactionCreatedNotification extends Notification implements Should
 			->from("al@black.co.ke", "Alphaxard from Black Property")
 			->subject('Payment Received')
 			->greeting('Hello ' . $notifiable->name . ',')
-			->line('Your Payment of KES' . $this->mpesaTransaction->amount . ' has been Received!')
+			->line('Your Payment of KES ' . number_format($this->mpesaTransaction->amount) . ' has been Received!')
 			->action('View', url('/admin/dashboard'))
 			->line('Thank you for choosing Black Property!');
 	}

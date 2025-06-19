@@ -74,4 +74,21 @@ class SubscriptionPlanController extends Controller
 	{
 		//
 	}
+
+	public function subscribe(Request $request)
+	{
+		$this->validate($request, [
+			'subscriptionPlanId' => 'required|exists:subscription_plans,id',
+			'amountPaid' => 'required|numeric|min:0',
+			'duration' => 'required|integer|min:1',
+		]);
+
+		[$saved, $message, $userSubscriptionPlan] = $this->service->subscribe($request);
+
+		return response()->json([
+			'success' => $saved,
+			'message' => $message,
+			'user_subscription_plan' => $userSubscriptionPlan,
+		], 200);
+	}
 }

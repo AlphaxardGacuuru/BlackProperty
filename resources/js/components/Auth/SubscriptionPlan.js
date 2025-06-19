@@ -45,14 +45,20 @@ const SubscriptionPlan = (props) => {
 				(e) => {
 					console.info("Event:" + e)
 					setMpesaTransaction(e.mpesaTransaction)
-					setStkPushed("d-none")
-					props.setMessages(["Payment Received!"])
 				}
 			)
 
 			props.get(`subscription-plans`, setSubscriptionPlans)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (mpesaTransaction.id) {
+			setStkPushed("d-none")
+			props.setMessages(["Payment Received!"])
+			onSubscribe()
+		}
+	}, [mpesaTransaction])
 
 	const logout = () => {
 		setLogoutLoading(true)
@@ -137,6 +143,22 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
+	const onSubscribe = () => {
+		Axios.post("/api/subscription-plans/subscribe", {
+			subscriptionPlanId: subscriptionPlan.id,
+			amountPaid: subscriptionPlan.price.onboarding_fee,
+			duration: 1,
+		})
+			.then((res) => {
+				props.setMessages([res.data.message])
+				// Fetch Auth to set the Subscription Plan
+				props.get("auth", props.setAuth, "auth")
+			})
+			.catch((err) => {
+				props.getErrors(err)
+			})
+	}
+
 	const handleTabChange = ({ previousIndex, currentIndex }) => {}
 
 	const handleComplete = () => {}
@@ -154,7 +176,7 @@ const SubscriptionPlan = (props) => {
 
 	const blur =
 		props.auth.name != "Guest" &&
-		!props.auth.hasActiveSubscription &&
+		!props.auth.activeSubscription?.id &&
 		location.pathname.match("/admin")
 
 	return (

@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Jobs\SendAllInvoicesJob;
+use App\Jobs\GenerateInvoicesJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -20,15 +20,15 @@ class Kernel extends ConsoleKernel
 		// $schedule->command('inspire')->hourly();
 
 		$schedule
-			->job(new SendAllInvoicesJob)
+			->job(new GenerateInvoicesJob)
 			->everyMinute()
 			// ->daily()
 			->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {
-				Log::info("SendAllInvoicesJob completed successfully.");
+				Log::info("GenerateInvoicesJob completed successfully.");
 			})
 			->onFailure(function () {
-				Log::error("SendAllInvoicesJob failed.");
+				Log::error("GenerateInvoicesJob failed.");
 			});
 	}
 

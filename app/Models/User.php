@@ -77,7 +77,7 @@ class User extends Authenticatable
      * Relationships
      */
 
-	public function userSubscriptions()
+	public function userSubscriptionPlans()
 	{
 		return $this->hasMany(UserSubscriptionPlan::class);
 	}
@@ -123,10 +123,18 @@ class User extends Authenticatable
 
 	public function activeSubscription()
 	{
-		return $this->userSubscriptions()
-			->whereNull('end_date')
+		$userSubscriptionPlan = $this->userSubscriptionPlans()
 			->where('status', 'active')
 			->first();
+
+		if (!$userSubscriptionPlan) {
+			return null;
+		}
+
+		$userSubscriptionPlan->name = $userSubscriptionPlan->subscriptionPlan->name;
+		$userSubscriptionPlan->price = $userSubscriptionPlan->subscriptionPlan->price;
+
+		return $userSubscriptionPlan;
 	}
 
 	public function currentUnit()

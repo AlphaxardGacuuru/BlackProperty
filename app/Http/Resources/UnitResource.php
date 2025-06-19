@@ -18,7 +18,7 @@ class UnitResource extends JsonResource
 
         $formula = $this->property()
             ->first()
-            ->deposit_factor;
+            ->deposit_formula;
 
         // Replace 'r' in the formula with rent
         $rent = str_replace('r', $rent, $formula);
@@ -33,6 +33,7 @@ class UnitResource extends JsonResource
         return [
             "id" => $this->id,
             "propertyId" => $this->property_id,
+			"propertyName" => $this->property->name,
             "name" => $this->name,
             "rent" => number_format($this->rent),
             "deposit" => number_format($this->deposit),

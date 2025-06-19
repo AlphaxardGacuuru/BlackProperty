@@ -73,10 +73,10 @@ const billing = (props) => {
 							data={
 								<div className="">
 									<h5 className="my-1">
-										{props.auth.plan?.name || "Free Plan"}
+										{props.auth.activeSubscription?.name || "Free Plan"}
 									</h5>
 									<h6 className=" text-success">
-										{props.auth.plan?.price || "KES 0"}
+										KES {props.auth.activeSubscription?.price?.monthly?.toLocaleString() || "KES 0"}
 									</h6>
 								</div>
 							}
@@ -177,7 +177,9 @@ const billing = (props) => {
 													<span
 														key={key}
 														className="d-block">
-														<span className="text-success fs-4"><CheckSVG /></span>
+														<span className="text-success fs-4">
+															<CheckSVG />
+														</span>
 														{feature}
 													</span>
 												))}

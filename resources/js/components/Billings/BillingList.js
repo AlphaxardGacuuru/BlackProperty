@@ -281,15 +281,12 @@ const BillingList = (props) => {
 								/>
 							</th>
 							<th>#</th>
+							<th>Name</th>
 							<th>Number</th>
-							<th>Tenant</th>
-							<th>Unit</th>
 							<th>Channel</th>
 							{/* <th>Transaction Reference</th> */}
 							<th>Amount</th>
-							<th>Month</th>
-							<th>Year</th>
-							<th className="text-center">Action</th>
+							<th>Paid On</th>
 						</tr>
 					</thead>
 					{props.billings.data?.length > 0 ? (
@@ -304,39 +301,14 @@ const BillingList = (props) => {
 										/>
 									</td>
 									<td>{props.iterator(key, props.billings)}</td>
-									<td>{billing.number}</td>
-									<td>{billing.tenantName}</td>
-									<td>{billing.unitName}</td>
-									<td>{billing.channel}</td>
+									<td>{billing.userName}</td>
+									<td>{billing.senderPhoneNumber}</td>
+									<td>MPESA</td>
 									{/* <td>{billing.transactionReference}</td> */}
 									<td className="text-success">
 										<small>KES</small> {billing.amount}
 									</td>
-									<td>{props.months[billing.month]}</td>
-									<td>{billing.year}</td>
-									<td>
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/billings/${billing.id}/show`}
-												icon={<ViewSVG />}
-												className="me-1"
-											/>
-
-											<MyLink
-												linkTo={`/billings/${billing.id}/edit`}
-												icon={<EditSVG />}
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`billing${key}`}
-													model={billing}
-													modelName="Billing"
-													onDelete={onDeleteBilling}
-												/>
-											</div>
-										</div>
-									</td>
+									<td>{billing.createdAt}</td>
 								</tr>
 							))}
 						</tbody>
