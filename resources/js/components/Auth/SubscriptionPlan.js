@@ -37,9 +37,14 @@ const SubscriptionPlan = (props) => {
 	const [mpesaLoading, setMpesaLoading] = useState()
 	const [stkPushed, setStkPushed] = useState("d-none")
 
+	const blur =
+		props.auth.name != "Guest" &&
+		!props.auth.activeSubscription?.id &&
+		location.pathname.match("/admin")
+
 	useEffect(() => {
 		// Fetch Subscription Plan
-		if (props.auth.name != "Guest") {
+		if (blur) {
 			Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
 				"MpesaTransactionCreatedEvent",
 				(e) => {
@@ -173,11 +178,6 @@ const SubscriptionPlan = (props) => {
 			</button>
 		)
 	}
-
-	const blur =
-		props.auth.name != "Guest" &&
-		!props.auth.activeSubscription?.id &&
-		location.pathname.match("/admin")
 
 	return (
 		<div>

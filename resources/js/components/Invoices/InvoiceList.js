@@ -170,9 +170,11 @@ const InvoiceList = (props) => {
 							<div>
 								<Btn
 									icon={<SMSSVG />}
-									text="send sms"
+									text={`send sms ${
+										invoiceToSend.smsesSent ? `${invoiceToSend.smsesSent}` : ""
+									}`}
 									className={`me-1 ${
-										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
+										invoiceToSend.smsesSent ? `btn-green` : `btn-2`
 									}`}
 									onClick={() => onSendSMS(invoiceToSend.id)}
 									loading={loadingSMS}
@@ -180,7 +182,11 @@ const InvoiceList = (props) => {
 
 								<Btn
 									icon={<SendEmailSVG />}
-									text="send email"
+									text={`send email ${
+										invoiceToSend.emailsSent
+											? `(${invoiceToSend.emailsSent})`
+											: ""
+									}`}
 									className={`me-1 ${
 										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
 									}`}
@@ -395,7 +401,7 @@ const InvoiceList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="9"></th>
+							<th colSpan="10"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -451,7 +457,7 @@ const InvoiceList = (props) => {
 							<th>Month</th>
 							<th>Year</th>
 							<th>Amount</th>
-							{/* <th>Paid</th> */}
+							<th>Paid</th>
 							<th>Balance</th>
 							<th>Status</th>
 							<th className="text-center">Action</th>
@@ -487,9 +493,9 @@ const InvoiceList = (props) => {
 									<td className="text-success">
 										<small>KES</small> {invoice.amount}
 									</td>
-									{/* <td className="text-success">
-								<small>KES</small> {invoice.paid}
-							</td> */}
+									<td className="text-success">
+										<small>KES</small> {invoice.paid}
+									</td>
 									<td className="text-success">
 										<small>KES</small> {invoice.balance}
 									</td>
@@ -520,8 +526,16 @@ const InvoiceList = (props) => {
 											{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
 												<Btn
 													icon={<ChatSendSVG />}
-													text="send invoice"
-													className={`mx-1`}
+													text={`send invoice ${
+														invoice.smsesSent || invoice.emailsSent
+															? `(${invoice.smsesSent + invoice.emailsSent})`
+															: ""
+													}`}
+													className={`mx-1 ${
+														invoice.smsesSent || invoice.emailsSent
+															? "btn-green"
+															: ""
+													}`}
 													dataBsToggle="modal"
 													dataBsTarget={`#invoiceModal`}
 													onClick={() => setInvoiceToSend(invoice)}
@@ -552,7 +566,7 @@ const InvoiceList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="11"
+									colSpan="12"
 									className="p-0">
 									<NoData />
 								</td>

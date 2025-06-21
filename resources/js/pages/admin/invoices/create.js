@@ -72,13 +72,16 @@ const create = (props) => {
 		})
 			.then((res) => {
 				setLoading(false)
-				// Show messages
-				props.setMessages([res.data.message])
 
 				// Check if readings saved
 				if (res.data.message.match("Successfully")) {
+					// Show messages
+					props.setMessages([res.data.message])
+
 					// Redirect to Invoices
 					setTimeout(() => history.push(`/admin/invoices`), 500)
+				} else {
+					props.setErrors([res.data.message])
 				}
 			})
 			.catch((err) => {

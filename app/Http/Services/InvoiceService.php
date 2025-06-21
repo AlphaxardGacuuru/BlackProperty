@@ -105,7 +105,7 @@ class InvoiceService extends Service
 				"Invoice Already Exists";
 		}
 
-		return [$saved, $message, ""];
+		return [$saved, $message, $invoice];
 	}
 
 	/*
@@ -294,7 +294,7 @@ class InvoiceService extends Service
 
 		try {
 			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
-			Mail::to("alphaxardgacuuru47@gmail.com")->send(new InvoiceMail($invoice));
+			Mail::to("al@black.co.ke")->send(new InvoiceMail($invoice));
 
 			// Increment the emails_sent column
 			$invoice->increment("emails_sent");
@@ -311,7 +311,6 @@ class InvoiceService extends Service
 
 			$emailService->store($request);
 		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
-
 			throw $exception;
 		}
 

@@ -51,7 +51,7 @@ class InvoiceResource extends JsonResource
             "month" => $this->month,
             "year" => $this->year,
             "emailsSent" => $this->emails_sent,
-            "smsMessagesSent" => $this->sms_messages_sent,
+            "smsesSent" => $this->smses_sent,
             "updatedAt" => $this->updatedAt,
             "createdAt" => $this->createdAt,
         ];

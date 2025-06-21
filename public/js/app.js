@@ -90233,6 +90233,12 @@ function App() {
     message && newError.push(err.response.data.message);
     setErrors(newError);
   };
+  var formatToCommas = function formatToCommas(e) {
+    var value = e.target.value.toString().replace(/[^0-9.]/g, "");
+    value = Number(value);
+    e.target.value = value.toLocaleString("en-US");
+    return e.target.value.replace(/,/g, "");
+  };
 
   // Fetch data on page load
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -90299,6 +90305,7 @@ function App() {
     setSelectedPropertyId: setSelectedPropertyId,
     page: page,
     setPage: setPage,
+    formatToCommas: formatToCommas,
     // PWA
     downloadLink: downloadLink,
     setDownloadLink: setDownloadLink,
@@ -90663,9 +90670,10 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     stkPushed = _useState16[0],
     setStkPushed = _useState16[1];
+  var blur = props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && location.pathname.match("/admin");
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Subscription Plan
-    if (props.auth.name != "Guest") {
+    if (blur) {
       Echo["private"]("mpesa-transaction-created.".concat(props.auth.id)).listen("MpesaTransactionCreatedEvent", function (e) {
         console.info("Event:" + e);
         setMpesaTransaction(e.mpesaTransaction);
@@ -90781,7 +90789,6 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       onClick: handlePrevious
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null), "back");
   };
-  var blur = props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && location.pathname.match("/admin");
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "background-blur d-flex align-items-center overflow-auto",
     style: {
@@ -92611,15 +92618,15 @@ var InvoiceList = function InvoiceList(props) {
     "data-bs-dismiss": "modal"
   }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SMSSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
-    text: "send sms",
-    className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
+    text: "send sms ".concat(invoiceToSend.smsesSent ? "".concat(invoiceToSend.smsesSent) : ""),
+    className: "me-1 ".concat(invoiceToSend.smsesSent ? "btn-green" : "btn-2"),
     onClick: function onClick() {
       return onSendSMS(invoiceToSend.id);
     },
     loading: loadingSMS
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SendEmailSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null),
-    text: "send email",
+    text: "send email ".concat(invoiceToSend.emailsSent ? "(".concat(invoiceToSend.emailsSent, ")") : ""),
     className: "me-1 ".concat(invoiceToSend.emailsSent ? "btn-green" : "btn-2"),
     onClick: function onClick() {
       return onSendEmail(invoiceToSend.id);
@@ -92778,7 +92785,7 @@ var InvoiceList = function InvoiceList(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "9"
+    colSpan: "10"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     colSpan: "2",
     className: "text-end"
@@ -92807,7 +92814,7 @@ var InvoiceList = function InvoiceList(props) {
         return invoice.id;
       }));
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Balance"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Month"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Year"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Balance"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
   }, "Action"))), ((_props$invoices$data2 = props.invoices.data) === null || _props$invoices$data2 === void 0 ? void 0 : _props$invoices$data2.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$invoices$data3 = props.invoices.data) === null || _props$invoices$data3 === void 0 ? void 0 : _props$invoices$data3.map(function (invoice, key) {
     var _invoice$balance;
@@ -92829,6 +92836,8 @@ var InvoiceList = function InvoiceList(props) {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoice.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoice.paid), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", invoice.balance), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-capitalize"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -92839,8 +92848,8 @@ var InvoiceList = function InvoiceList(props) {
       className: "d-flex justify-content-center"
     }, parseFloat((_invoice$balance = invoice.balance) === null || _invoice$balance === void 0 ? void 0 : _invoice$balance.replace(/,/g, "")) > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
       icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSendSVG__WEBPACK_IMPORTED_MODULE_19__["default"], null),
-      text: "send invoice",
-      className: "mx-1",
+      text: "send invoice ".concat(invoice.smsesSent || invoice.emailsSent ? "(".concat(invoice.smsesSent + invoice.emailsSent, ")") : ""),
+      className: "mx-1 ".concat(invoice.smsesSent || invoice.emailsSent ? "btn-green" : ""),
       dataBsToggle: "modal",
       dataBsTarget: "#invoiceModal",
       onClick: function onClick() {
@@ -92859,7 +92868,7 @@ var InvoiceList = function InvoiceList(props) {
       onDelete: onDeleteInvoice
     })))));
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    colSpan: "11",
+    colSpan: "12",
     className: "p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_NoData__WEBPACK_IMPORTED_MODULE_8__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__["default"], {
     list: props.invoices,
@@ -98492,15 +98501,18 @@ var create = function create(props) {
       year: year
     }).then(function (res) {
       setLoading(false);
-      // Show messages
-      props.setMessages([res.data.message]);
 
       // Check if readings saved
       if (res.data.message.match("Successfully")) {
+        // Show messages
+        props.setMessages([res.data.message]);
+
         // Redirect to Invoices
         setTimeout(function () {
           return history.push("/admin/invoices");
         }, 500);
+      } else {
+        props.setErrors([res.data.message]);
       }
     })["catch"](function (err) {
       setLoading(false);
@@ -99185,7 +99197,7 @@ var create = function create(props) {
     _useState6 = _slicedToArray(_useState5, 2),
     userUnitIds = _useState6[0],
     setUserUnitIds = _useState6[1];
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
     _useState8 = _slicedToArray(_useState7, 2),
     amount = _useState8[0],
     setAmount = _useState8[1];
@@ -99376,12 +99388,13 @@ var create = function create(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     min: "1",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""

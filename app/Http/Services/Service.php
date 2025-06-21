@@ -49,8 +49,8 @@ class Service
 				$invoice->balance = $invoice->amount;
 				$invoice->status = "not_paid";
 			} else if ($paid < $invoice->amount) {
-				$invoice->paid = $invoice->amount - $paid;
-				$invoice->balance = $paid;
+				$invoice->paid = $paid;
+				$invoice->balance = $invoice->amount - $paid;
 				$invoice->status = "partially_paid";
 			} else if ($paid >= $invoice->amount) {
 				$invoice->paid = $invoice->amount;

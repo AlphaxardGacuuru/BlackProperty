@@ -17,7 +17,7 @@ const create = (props) => {
 
 	const [propertyId, setPropertyId] = useState()
 	const [userUnitIds, setUserUnitIds] = useState([])
-	const [amount, setAmount] = useState()
+	const [amount, setAmount] = useState("")
 	const [channel, setChannel] = useState()
 	const [transactionReference, setTransactionReference] = useState()
 	const [month, setMonth] = useState(props.currentMonth)
@@ -227,11 +227,15 @@ const create = (props) => {
 					{/* Amount */}
 					<label htmlFor="">Amount</label>
 					<input
-						type="number"
+						type="text"
 						min="1"
 						placeholder="20000"
 						className="form-control mb-2"
-						onChange={(e) => setAmount(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setAmount(value)
+						}}
 					/>
 					{/* Amount End */}
 

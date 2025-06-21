@@ -175,6 +175,13 @@ function App() {
 		setErrors(newError)
 	}
 
+	const formatToCommas = (e) => {
+		let value = e.target.value.toString().replace(/[^0-9.]/g, "")
+		value = Number(value)
+		e.target.value = value.toLocaleString("en-US")
+		return e.target.value.replace(/,/g, "")
+	}
+
 	// Fetch data on page load
 	useEffect(() => {
 		Axios.get("api/auth")
@@ -257,6 +264,7 @@ function App() {
 		setSelectedPropertyId,
 		page,
 		setPage,
+		formatToCommas,
 
 		// PWA
 		downloadLink,

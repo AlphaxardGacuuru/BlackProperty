@@ -21,8 +21,9 @@ class Kernel extends ConsoleKernel
 
 		$schedule
 			->job(new GenerateInvoicesJob)
-			->everyMinute()
-			// ->daily()
+			// ->everyMinute()
+			->daily()
+			// ->emailOutputTo("al@black.co.ke")
 			->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {
 				Log::info("GenerateInvoicesJob completed successfully.");

@@ -19,9 +19,6 @@ class InvoiceController extends Controller
 	 */
 	public function index(Request $request)
 	{
-
-		return "";
-
 		return $this->service->index($request);
 	}
 

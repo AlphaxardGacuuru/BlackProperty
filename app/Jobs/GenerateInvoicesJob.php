@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Notifications\InvoicesGeneratedNotification;
 use Exception;
 use Log;
 
@@ -36,13 +37,25 @@ class GenerateInvoicesJob implements ShouldQueue
 	 */
 	public function handle()
 	{
-		Property::where("invoice_date", now()->day)
-			->where("service_charge", ">", 0)
-			->get()
-			->each(function ($property) {
-				$property
+		$result = [
+			"status" => true,
+			"message" => "Invoice processing completed successfully.",
+			"invoices" => 0,
+			"units" => 0,
+			"properties" => 0,
+		];
+
+		try {
+			$properties = Property::where("invoice_date", now()->day)
+				->where("service_charge", ">", 0)
+				->get();
+
+			$result["properties"] = $properties->count();
+
+			$properties->each(function ($property) use (&$result) {
+				$units = $property
 					->units()
-					// Ensure Unit has a tenent
+					// Ensure Unit has a tenant
 					->whereHas("userUnits", function ($query) {
 						$query->whereNull("vacated_at");
 					})
@@ -51,27 +64,54 @@ class GenerateInvoicesJob implements ShouldQueue
 						$query->where("month", now()->month)
 							->where("year", now()->year);
 					})
-					->get()
-					->each(function ($unit) {
-						// Loop through each invoice type
-						collect(["rent", "service_charge"])->each(function ($type) use ($unit) {
-							// Make Request
-							$request = new Request([
-								"userUnitIds" => [$unit->currentUserUnit()?->id],
-								"type" => $type,
-								"month" => now()->month,
-								"year" => now()->year,
-								"createdBy" => User::where("email", "al@black.co.ke")->first()?->id,
-							]);
+					->get();
 
-							try {
-								[$saved, $message, $invoice] = (new InvoiceService)->store($request);
-							} catch (Exception $e) {
-								Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
-								return;
+				$result["units"] += $units->count();
+
+				$units->each(function ($unit) use (&$result) {
+					// Loop through each invoice type
+					collect(["rent", "service_charge"])->each(function ($type) use ($unit, &$result) {
+						// Make Request
+						$request = new Request([
+							"userUnitIds" => [$unit->currentUserUnit()?->id],
+							"type" => $type,
+							"month" => now()->month,
+							"year" => now()->year,
+							"createdBy" => User::where("email", "al@black.co.ke")->first()?->id,
+						]);
+
+						try {
+							[$saved, $message, $invoice] = (new InvoiceService)->store($request);
+							
+							if ($saved) {
+								$result["invoices"]++;
 							}
-						});
+
+							[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
+							[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
+						} catch (Exception $e) {
+							Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
+							$result["status"] = false;
+							$result["message"] = "Invoice processing encountered errors.";
+						}
 					});
+				});
 			});
+
+			$superAdmin = User::where("email", "al@black.co.ke")->first();
+
+			if (!$superAdmin) {
+				throw new Exception("Super Admin user not found.");
+			}
+
+			$superAdmin->notify(new InvoicesGeneratedNotification($result));
+
+		} catch (Exception $e) {
+			Log::error("Job Error: " . $e->getMessage());
+			$result["status"] = false;
+			$result["message"] = "An error occurred during invoice processing.";
+		}
+
+		return $result;
 	}
 }
