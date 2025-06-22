@@ -47,7 +47,6 @@ class GenerateInvoicesJob implements ShouldQueue
 
 		try {
 			$properties = Property::where("invoice_date", now()->day)
-				->where("service_charge", ">", 0)
 				->get();
 
 			$result["properties"] = $properties->count();
@@ -70,31 +69,37 @@ class GenerateInvoicesJob implements ShouldQueue
 
 				$units->each(function ($unit) use (&$result) {
 					// Loop through each invoice type
-					collect(["rent", "service_charge"])->each(function ($type) use ($unit, &$result) {
-						// Make Request
-						$request = new Request([
-							"userUnitIds" => [$unit->currentUserUnit()?->id],
-							"type" => $type,
-							"month" => now()->month,
-							"year" => now()->year,
-							"createdBy" => User::where("email", "al@black.co.ke")->first()?->id,
-						]);
-
-						try {
-							[$saved, $message, $invoice] = (new InvoiceService)->store($request);
-							
-							if ($saved) {
-								$result["invoices"]++;
+					collect(["rent", "service_charge"])
+						->each(function ($type) use ($unit, &$result) {
+							// Skip if Property doesn't have a service charge
+							if ($type === "service_charge" && $unit->property->service_charge < 1) {
+								return;
 							}
 
-							[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
-							[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
-						} catch (Exception $e) {
-							Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
-							$result["status"] = false;
-							$result["message"] = "Invoice processing encountered errors.";
-						}
-					});
+							// Make Request
+							$request = new Request([
+								"userUnitIds" => [$unit->currentUserUnit()?->id],
+								"type" => $type,
+								"month" => now()->month,
+								"year" => now()->year,
+								"createdBy" => User::where("email", "al@black.co.ke")->first()?->id,
+							]);
+
+							try {
+								[$saved, $message, $invoice] = (new InvoiceService)->store($request);
+
+								if ($saved) {
+									$result["invoices"]++;
+								}
+
+								[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
+								[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
+							} catch (Exception $e) {
+								Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
+								$result["status"] = false;
+								$result["message"] = "Invoice processing encountered errors.";
+							}
+						});
 				});
 			});
 
@@ -105,7 +110,6 @@ class GenerateInvoicesJob implements ShouldQueue
 			}
 
 			$superAdmin->notify(new InvoicesGeneratedNotification($result));
-
 		} catch (Exception $e) {
 			Log::error("Job Error: " . $e->getMessage());
 			$result["status"] = false;

@@ -28,7 +28,7 @@ class CreditNoteService extends Service
 			->paginate(20);
 
 		return CreditNoteResource::collection($creditNotes)
-			->additional(["sum" => $sum]);
+			->additional(["sum" => number_format($sum)]);
 	}
 
 	/*

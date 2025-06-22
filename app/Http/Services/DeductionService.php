@@ -28,7 +28,7 @@ class DeductionService extends Service
 			->paginate(20);
 
 		return DeductionResource::collection($deductions)
-			->additional(["sum" => $sum]);
+			->additional(["sum" => number_format($sum)]);
 	}
 
 	/*
@@ -215,10 +215,5 @@ class DeductionService extends Service
 		}
 
 		return $query;
-	}
-
-	public function invoiceService()
-	{
-		return new InvoiceService;
 	}
 }

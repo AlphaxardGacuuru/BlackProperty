@@ -95929,6 +95929,8 @@ var WaterReadingList = function WaterReadingList(props) {
       props.setMessages([res.data.message]);
       // Remove row
       props.setWaterReadings({
+        totalBill: props.waterReadings.totalBill,
+        totalUsage: props.waterReadings.totalUsage,
         meta: props.waterReadings.meta,
         links: props.waterReadings.links,
         data: props.waterReadings.data.filter(function (waterReading) {
