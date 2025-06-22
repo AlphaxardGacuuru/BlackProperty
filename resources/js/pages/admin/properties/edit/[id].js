@@ -107,11 +107,9 @@ const edit = (props) => {
 						onChange={(e) => setLocation(e.target.value)}
 					/>
 
-					<hr className="border-dark w-75 mx-auto" />
-
 					<label
 						htmlFor=""
-						className="fw-bold text-center w-100">
+						className="fw-bold text-center w-100 mt-2">
 						Deposit Calculation
 					</label>
 
@@ -143,16 +141,14 @@ const edit = (props) => {
 						placeholder="5000"
 						min="0"
 						step="0.1"
-						defaultValue={property.serviceCharge}
+						defaultValue={property.serviceCharge?.replace(/,/g, "")}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setServiceCharge(e.target.value)}
 					/>
 
-					<hr className="border-dark w-75 mx-auto" />
-
 					<label
 						htmlFor=""
-						className="fw-bold text-center w-100">
+						className="fw-bold text-center w-100 mt-2">
 						Water Bill Rate
 					</label>
 

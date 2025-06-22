@@ -10,6 +10,7 @@ import PaginationLinks from "@/components/Core/PaginationLinks"
 import PropertySVG from "@/svgs/PropertySVG"
 import PlusSVG from "@/svgs/PlusSVG"
 import EditSVG from "@/svgs/EditSVG"
+import NoData from "@/components/Core/NoData"
 
 const index = (props) => {
 	const [properties, setProperties] = useState([])
@@ -96,7 +97,7 @@ const index = (props) => {
 						<table className="table table-hover">
 							<thead>
 								<tr>
-									<th colSpan="11"></th>
+									<th colSpan="8"></th>
 									<th className="text-end">
 										<MyLink
 											linkTo={`/properties/create`}
@@ -106,66 +107,78 @@ const index = (props) => {
 									</th>
 								</tr>
 								<tr>
-									<th>#</th>
-									<th>Name</th>
-									<th>Location</th>
-									<th>Service Charge</th>
-									<th>Deposit Formula</th>
-									<th
-										colSpan={3}
-										className="text-center">
-										<div>Water Bill Rate</div>
-									</th>
-									<th>Units</th>
-									<th>Invoice Date</th>
-									<th>Invoice Channel</th>
+									<th className="align-top">#</th>
+									<th className="align-top">Name</th>
+									<th className="align-top">Location</th>
+									<th className="align-top">Service Charge</th>
+									<th className="align-top">Deposit Formula</th>
+									{/* <th className="align-top">Water Rate (C)</th> */}
+									{/* <th className="align-top">Water Rate (B)</th> */}
+									{/* <th className="align-top">Water Rate (T)</th> */}
+									<th className="align-top">Units</th>
+									<th className="align-top">Invoice Date</th>
+									<th className="align-top">Invoice Channel</th>
 									<th className="text-center">Action</th>
 								</tr>
-								{properties.data?.map((property, key) => (
-									<tr key={key}>
-										<td>{props.iterator(key, properties)}</td>
-										<td>{property.name}</td>
-										<td>{property.location}</td>
-										<td className="text-success">
-											<small>KES</small> {property.serviceCharge}
-										</td>
-										<td>{property.depositFormula}</td>
-										<td>{property.waterBillRateCouncil}</td>
-										<td>{property.waterBillRateBorehole}</td>
-										<td>{property.waterBillRateTanker}</td>
-										<td>{property.unitCount}</td>
-										<td>{property.invoiceDate}</td>
-										<td>
-											<small className="me-1">
-												{property.email ? "EMAIL" : ""}
-											</small>
-											<b>|</b>
-											<small className="ms-1">
-												{property.sms ? "SMS" : ""}
-											</small>
-										</td>
-										<td>
-											<div className="d-flex justify-content-center">
-												<MyLink
-													linkTo={`/properties/${property.id}/edit`}
-													icon={<EditSVG />}
-													// text="edit"
-													className="me-1"
-												/>
-
-												<div className="mx-1">
-													<DeleteModal
-														index={`property${key}`}
-														model={property}
-														modelName="Property"
-														onDelete={onDeleteProperty}
+							</thead>
+							{properties.data?.length > 0 ? (
+								<tbody>
+									{properties.data?.map((property, key) => (
+										<tr key={key}>
+											<td>{props.iterator(key, properties)}</td>
+											<td>{property.name}</td>
+											<td>{property.location}</td>
+											<td className="text-success">
+												<small>KES</small> {property.serviceCharge}
+											</td>
+											<td>{property.depositFormula}</td>
+											{/* <td>{property.waterBillRateCouncil}</td> */}
+											{/* <td>{property.waterBillRateBorehole}</td> */}
+											{/* <td>{property.waterBillRateTanker}</td> */}
+											<td>{property.unitCount}</td>
+											<td>{property.invoiceDate}</td>
+											<td>
+												<small className="me-1">
+													{property.email ? "EMAIL" : ""}
+												</small>
+												<b>|</b>
+												<small className="ms-1">
+													{property.sms ? "SMS" : ""}
+												</small>
+											</td>
+											<td>
+												<div className="d-flex justify-content-center">
+													<MyLink
+														linkTo={`/properties/${property.id}/edit`}
+														icon={<EditSVG />}
+														// text="edit"
+														className="me-1"
 													/>
+
+													<div className="mx-1">
+														<DeleteModal
+															index={`property${key}`}
+															model={property}
+															modelName="Property"
+															onDelete={onDeleteProperty}
+														/>
+													</div>
 												</div>
-											</div>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							) : (
+								<tbody>
+									<tr>
+										<td
+											colSpan="12"
+											className="p-0">
+											<NoData />
 										</td>
 									</tr>
-								))}
-							</thead>
+								</tbody>
+							)}
 						</table>
 						{/* Pagination Links */}
 						<PaginationLinks

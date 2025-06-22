@@ -31,8 +31,8 @@ const create = (props) => {
 		})
 	}, [])
 
-	const getDeposit = (e) => {
-		var rent = e.target.value
+	const getDeposit = (value) => {
+		var rent = value
 		var formula = props.properties.find(
 			(property) => property.id == propertyId
 		)?.depositFormula
@@ -111,23 +111,29 @@ const create = (props) => {
 
 					<label htmlFor="">Rent</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="20000"
 						className="form-control mb-2 me-2"
 						onChange={(e) => {
-							setRent(e.target.value)
-							setDeposit(getDeposit(e))
+							let value = props.formatToCommas(e)
+
+							setRent(value)
+							setDeposit(getDeposit(value))
 						}}
 						required={true}
 					/>
 
 					<label htmlFor="">Deposit</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="5000"
 						defaultValue={deposit}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setDeposit(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setDeposit(value)
+						}}
 						required={true}
 					/>
 

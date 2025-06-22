@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-// Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
 	Route::get('auth', [UserController::class, 'auth']);
 
@@ -121,7 +121,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 	// Broadcast Routes
 	Broadcast::routes();
-// });
+});
 
 Route::apiResources([
 	"mpesa-transactions" => MPESATransactionController::class,

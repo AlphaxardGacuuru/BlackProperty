@@ -172,6 +172,12 @@ class CreditNoteService extends Service
 			$query = $query->where("month", $month);
 		}
 
+		$year = $request->input("year");
+
+		if ($request->filled("year")) {
+			$query = $query->where("year", $year);
+		}
+
 		$type = $request->input("type");
 
 		if ($request->filled("type")) {

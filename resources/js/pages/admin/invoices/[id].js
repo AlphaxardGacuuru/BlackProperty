@@ -30,21 +30,24 @@ const show = (props) => {
 				props.getPaginated(
 					`payments?propertyId=${props.selectedPropertyId}&
 					userUnitId=${res.data.data.userUnitId}&
-					month=${res.data.data.month}`,
+					month=${res.data.data.month}&
+					year=${res.data.data.year}`,
 					setPayments
 				)
 				// Fetch Credit Note
 				props.getPaginated(
 					`credit-notes?propertyId=${props.selectedPropertyId}&
 					userUnitId=${res.data.data.userUnitId}&
-					month=${res.data.data.month}`,
+					month=${res.data.data.month}&
+					year=${res.data.data.year}`,
 					setCreditNotes
 				)
 				// Fetch Deduction
 				props.getPaginated(
 					`deductions?propertyId=${props.selectedPropertyId}&
 					userUnitId=${res.data.data.userUnitId}&
-					month=${res.data.data.month}`,
+					month=${res.data.data.month}&
+					year=${res.data.data.year}`,
 					setDeductions
 				)
 			})
@@ -97,7 +100,7 @@ const show = (props) => {
 											${
 												invoice.status == "not_paid"
 													? "bg-danger-subtle"
-													: invoice.status == "partial"
+													: invoice.status == "partially_paid"
 													? "bg-warning-subtle"
 													: invoice.status == "paid"
 													? "bg-success-subtle"

@@ -51,9 +51,21 @@ class InvoiceMail extends Mailable implements ShouldQueue
 	public function content()
 	{
 		return new Content(
-			markdown: 'emails.invoice',
+			view: 'emails.invoice-blade',
 			with: [
 				'invoice' => $this->invoice,
+				'payments' => $this->invoice->userUnit->payments()
+					->where("month", $this->invoice->month)
+					->where("year", $this->invoice->year)
+					->get(),
+				'creditNotes' => $this->invoice->userUnit->creditNotes()
+					->where("month", $this->invoice->month)
+					->where("year", $this->invoice->year)
+					->get(),
+				'deductions' => $this->invoice->userUnit->deductions()
+					->where("month", $this->invoice->month)
+					->where("year", $this->invoice->year)
+					->get(),
 			],
 		);
 	}

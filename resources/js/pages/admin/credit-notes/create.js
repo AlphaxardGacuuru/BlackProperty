@@ -205,10 +205,14 @@ const create = (props) => {
 					{/* Amount */}
 					<label htmlFor="">Amount</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="20000"
 						className="form-control mb-2"
-						onChange={(e) => setAmount(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setAmount(value)
+						}}
 						required={true}
 					/>
 					{/* Amount End */}

@@ -136,9 +136,8 @@ class PropertyService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId);
-
 		if ($request->filled("propertyId")) {
+			$propertyId = explode(",", $request->propertyId);
 			$query = $query->whereIn("id", $propertyId);
 		}
 

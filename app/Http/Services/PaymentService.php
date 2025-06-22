@@ -196,6 +196,12 @@ class PaymentService extends Service
 			$query = $query->where("month", $month);
 		}
 
+		$year = $request->input("year");
+
+		if ($request->filled("year")) {
+			$query = $query->where("year", $year);
+		}
+
 		$startMonth = $request->filled("startMonth") ? $request->input("startMonth") : Carbon::now()->month;
 		$endMonth = $request->filled("endMonth") ? $request->input("endMonth") : Carbon::now()->month;
 		$startYear = $request->filled("startYear") ? $request->input("startYear") : Carbon::now()->year;

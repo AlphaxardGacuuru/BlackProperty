@@ -115,16 +115,16 @@ const edit = (props) => {
 					</select>
 					{/* Gender End */}
 
-					<center>
+					<div className="d-flex justify-content-end mb-2">
 						<Btn
 							text="update"
 							className="mb-2"
 							loading={loading}
 						/>
-					</center>
+					</div>
 				</form>
 
-				<div className="d-flex justify-content-center mb-2">
+				<div className="d-flex justify-content-center mb-1">
 					<MyLink
 						linkTo={`/units/${tenant.unitId}/show`}
 						icon={<BackSVG />}

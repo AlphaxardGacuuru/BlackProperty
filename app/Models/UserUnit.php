@@ -62,4 +62,19 @@ class UserUnit extends Model
 	{
 		return $this->hasMany(Invoice::class);
 	}
+
+	public function payments()
+	{
+		return $this->hasMany(Payment::class);
+	}
+
+	public function creditNotes()
+	{
+		return $this->hasMany(CreditNote::class);
+	}
+
+	public function deductions()
+	{
+		return $this->hasMany(Deduction::class);
+	}
 }

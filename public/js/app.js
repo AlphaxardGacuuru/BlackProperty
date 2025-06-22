@@ -96613,11 +96613,12 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -96702,7 +96703,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _creditNote$amount;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -96775,12 +96775,13 @@ var edit = function edit(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
-    defaultValue: (_creditNote$amount = creditNote.amount) === null || _creditNote$amount === void 0 ? void 0 : _creditNote$amount.replace(/,/g, ""),
+    defaultValue: creditNote.amount,
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -97147,11 +97148,12 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -97236,7 +97238,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _deduction$amount;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -97309,12 +97310,13 @@ var edit = function edit(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
-    defaultValue: (_deduction$amount = deduction.amount) === null || _deduction$amount === void 0 ? void 0 : _deduction$amount.replace(/,/g, ""),
+    defaultValue: deduction.amount,
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -98236,11 +98238,11 @@ var show = function show(props) {
     Axios.get("api/invoices/".concat(id)).then(function (res) {
       setInvoice(res.data.data);
       // Fetch Payments
-      props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month), setPayments);
+      props.getPaginated("payments?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month, "&\n\t\t\t\t\tyear=").concat(res.data.data.year), setPayments);
       // Fetch Credit Note
-      props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month), setCreditNotes);
+      props.getPaginated("credit-notes?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month, "&\n\t\t\t\t\tyear=").concat(res.data.data.year), setCreditNotes);
       // Fetch Deduction
-      props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month), setDeductions);
+      props.getPaginated("deductions?propertyId=".concat(props.selectedPropertyId, "&\n\t\t\t\t\tuserUnitId=").concat(res.data.data.userUnitId, "&\n\t\t\t\t\tmonth=").concat(res.data.data.month, "&\n\t\t\t\t\tyear=").concat(res.data.data.year), setDeductions);
     })["catch"](function (err) {
       return props.errors(["Failed to Fetch Invoice"]);
     });
@@ -98283,7 +98285,7 @@ var show = function show(props) {
   }, "INVOICE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "p-2 text-center text-capitalize"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "\n\t\t\t\t\t\t\t\t\t\t\t".concat(invoice.status == "not_paid" ? "bg-danger-subtle" : invoice.status == "partial" ? "bg-warning-subtle" : invoice.status == "paid" ? "bg-success-subtle" : "bg-dark-subtle", "\n\t\t\t\t\t\t\t\t\t\t py-2 px-4")
+    className: "\n\t\t\t\t\t\t\t\t\t\t\t".concat(invoice.status == "not_paid" ? "bg-danger-subtle" : invoice.status == "partially_paid" ? "bg-warning-subtle" : invoice.status == "paid" ? "bg-success-subtle" : "bg-dark-subtle", "\n\t\t\t\t\t\t\t\t\t\t py-2 px-4")
   }, (_invoice$status = invoice.status) === null || _invoice$status === void 0 ? void 0 : _invoice$status.split("_").map(function (word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }).join(" "))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -99477,7 +99479,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _payment$amount;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -99570,13 +99571,14 @@ var edit = function edit(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     min: "1",
     placeholder: "20000",
     className: "form-control mb-2",
-    defaultValue: (_payment$amount = payment.amount) === null || _payment$amount === void 0 ? void 0 : _payment$amount.replace(/,/g, ""),
+    defaultValue: payment.amount,
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
@@ -100043,11 +100045,9 @@ var create = function create(props) {
       return setLocation(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "fw-bold text-center w-100"
+    className: "fw-bold text-center w-100 mt-2"
   }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent Multiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -100063,29 +100063,29 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Additional Charges to Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "2000",
     min: "0",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      return setAdditionalCharges(e.target.value);
+      var value = props.formatToCommas(e);
+      setAdditionalCharges(value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "5000",
     min: "0",
     step: "0.1",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      return setServiceCharge(e.target.value);
+      var value = props.formatToCommas(e);
+      setServiceCharge(value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "fw-bold text-center w-100"
+    className: "fw-bold text-center w-100 mt-2"
   }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -100234,6 +100234,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
+  var _property$serviceChar;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -100364,11 +100365,9 @@ var edit = function edit(props) {
     onChange: function onChange(e) {
       return setLocation(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "fw-bold text-center w-100"
+    className: "fw-bold text-center w-100 mt-2"
   }, "Deposit Calculation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent Multiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -100400,16 +100399,14 @@ var edit = function edit(props) {
     placeholder: "5000",
     min: "0",
     step: "0.1",
-    defaultValue: property.serviceCharge,
+    defaultValue: (_property$serviceChar = property.serviceCharge) === null || _property$serviceChar === void 0 ? void 0 : _property$serviceChar.replace(/,/g, ""),
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
       return setServiceCharge(e.target.value);
     }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
-    className: "border-dark w-75 mx-auto"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "",
-    className: "fw-bold text-center w-100"
+    className: "fw-bold text-center w-100 mt-2"
   }, "Water Bill Rate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -100551,6 +100548,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgs_PropertySVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/PropertySVG */ "./resources/js/svgs/PropertySVG.js");
 /* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
 /* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _components_Core_NoData__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Core/NoData */ "./resources/js/components/Core/NoData.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -100566,8 +100564,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var index = function index(props) {
-  var _properties$meta, _properties$data;
+  var _properties$meta, _properties$data, _properties$data2;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     properties = _useState2[0],
@@ -100639,24 +100638,37 @@ var index = function index(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "11"
+    colSpan: "8"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_1__["default"], {
     linkTo: "/properties/create",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
     text: "add property"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Location"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit Formula"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: 3,
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Location"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Service Charge"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Deposit Formula"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "align-top"
+  }, "Invoice Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Water Bill Rate")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Units"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Invoice Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "text-center"
-  }, "Action")), (_properties$data = properties.data) === null || _properties$data === void 0 ? void 0 : _properties$data.map(function (property, key) {
+  }, "Action"))), ((_properties$data = properties.data) === null || _properties$data === void 0 ? void 0 : _properties$data.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_properties$data2 = properties.data) === null || _properties$data2 === void 0 ? void 0 : _properties$data2.map(function (property, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, properties)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.location), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", property.serviceCharge), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.depositFormula), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateCouncil), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateBorehole), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.waterBillRateTanker), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.unitCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.invoiceDate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", property.serviceCharge), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.depositFormula), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.unitCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, property.invoiceDate), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "me-1"
     }, property.email ? "EMAIL" : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "ms-1"
@@ -100676,7 +100688,10 @@ var index = function index(props) {
       modelName: "Property",
       onDelete: onDeleteProperty
     })))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colSpan: "12",
+    className: "p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_NoData__WEBPACK_IMPORTED_MODULE_9__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_5__["default"], {
     list: properties,
     getPaginated: props.getPaginated,
     setState: setProperties
@@ -102788,12 +102803,14 @@ var edit = function edit(props) {
   }, "Male"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "female",
     selected: tenant.gender == "female"
-  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, "Female")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-end mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
     text: "update",
     className: "mb-2",
     loading: loading
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-center mb-2"
+    className: "d-flex justify-content-center mb-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/units/".concat(tenant.unitId, "/show"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BackSVG__WEBPACK_IMPORTED_MODULE_4__["default"], null),
@@ -103328,9 +103345,9 @@ var create = function create(props) {
       path: ["units", "create"]
     });
   }, []);
-  var getDeposit = function getDeposit(e) {
+  var getDeposit = function getDeposit(value) {
     var _props$properties$fin;
-    var rent = e.target.value;
+    var rent = value;
     var formula = (_props$properties$fin = props.properties.find(function (property) {
       return property.id == propertyId;
     })) === null || _props$properties$fin === void 0 ? void 0 : _props$properties$fin.depositFormula;
@@ -103410,23 +103427,25 @@ var create = function create(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      setRent(e.target.value);
-      setDeposit(getDeposit(e));
+      var value = props.formatToCommas(e);
+      setRent(value);
+      setDeposit(getDeposit(value));
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "5000",
     defaultValue: deposit,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      return setDeposit(e.target.value);
+      var value = props.formatToCommas(e);
+      setDeposit(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -103909,7 +103928,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var edit = function edit(props) {
-  var _unit$rent, _unit$deposit, _unit$size, _unit$size2, _unit$size3, _unit$size4, _unit$size5;
+  var _unit$size, _unit$size2, _unit$size3, _unit$size4, _unit$size5;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -103967,8 +103986,8 @@ var edit = function edit(props) {
       return props.getErrors(err);
     });
   }, []);
-  var getDeposit = function getDeposit(e) {
-    var rent = e.target.value;
+  var getDeposit = function getDeposit(value) {
+    var rent = value;
     var formula = props.properties.find(function (property) {
       return property == unit.propertyId;
     }).depositFormula;
@@ -104027,23 +104046,25 @@ var edit = function edit(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
-    defaultValue: (_unit$rent = unit.rent) === null || _unit$rent === void 0 ? void 0 : _unit$rent.replace(/,/g, ""),
+    defaultValue: unit.rent,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      setRent(e.target.value);
-      setDeposit(getDeposit(e));
+      var value = props.formatToCommas(e);
+      setRent(value);
+      setDeposit(getDeposit(value));
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "5000",
-    defaultValue: (_unit$deposit = unit.deposit) === null || _unit$deposit === void 0 ? void 0 : _unit$deposit.replace(/,/g, ""),
+    defaultValue: unit.deposit,
     className: "form-control mb-2 me-2",
     onChange: function onChange(e) {
-      return setDeposit(e.target.value);
+      var value = props.formatToCommas(e);
+      setDeposit(value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""

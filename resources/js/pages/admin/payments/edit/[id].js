@@ -88,12 +88,16 @@ const edit = (props) => {
 					{/* Amount */}
 					<label htmlFor="">Amount</label>
 					<input
-						type="number"
+						type="text"
 						min="1"
 						placeholder="20000"
 						className="form-control mb-2"
-						defaultValue={payment.amount?.replace(/,/g, "")}
-						onChange={(e) => setAmount(e.target.value)}
+						defaultValue={payment.amount}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setAmount(value)
+						}}
 					/>
 					{/* Amount End */}
 

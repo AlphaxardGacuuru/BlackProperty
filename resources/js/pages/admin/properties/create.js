@@ -87,11 +87,9 @@ const create = (props) => {
 						required={true}
 					/>
 
-					<hr className="border-dark w-75 mx-auto" />
-
 					<label
 						htmlFor=""
-						className="fw-bold text-center w-100">
+						className="fw-bold text-center w-100 mt-2">
 						Deposit Calculation
 					</label>
 
@@ -108,28 +106,34 @@ const create = (props) => {
 
 					<label htmlFor="">Additional Charges to Deposit</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="2000"
 						min="0"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setAdditionalCharges(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setAdditionalCharges(value)
+						}}
 					/>
 
 					<label htmlFor="">Service Charge</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="5000"
 						min="0"
 						step="0.1"
 						className="form-control mb-2 me-2"
-						onChange={(e) => setServiceCharge(e.target.value)}
-					/>
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
 
-					<hr className="border-dark w-75 mx-auto" />
+							setServiceCharge(value)
+						}}
+					/>
 
 					<label
 						htmlFor=""
-						className="fw-bold text-center w-100">
+						className="fw-bold text-center w-100 mt-2">
 						Water Bill Rate
 					</label>
 

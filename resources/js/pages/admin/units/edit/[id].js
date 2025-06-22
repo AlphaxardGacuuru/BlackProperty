@@ -36,8 +36,8 @@ const edit = (props) => {
 			.catch((err) => props.getErrors(err))
 	}, [])
 
-	const getDeposit = (e) => {
-		var rent = e.target.value
+	const getDeposit = (value) => {
+		var rent = value
 		var formula = props.properties.find(
 			(property) => property == unit.propertyId
 		).depositFormula
@@ -96,23 +96,29 @@ const edit = (props) => {
 
 					<label htmlFor="">Rent</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="20000"
-						defaultValue={unit.rent?.replace(/,/g, "")}
+						defaultValue={unit.rent}
 						className="form-control mb-2 me-2"
 						onChange={(e) => {
-							setRent(e.target.value)
-							setDeposit(getDeposit(e))
+							let value = props.formatToCommas(e)
+
+							setRent(value)
+							setDeposit(getDeposit(value))
 						}}
 					/>
 
 					<label htmlFor="">Deposit</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="5000"
-						defaultValue={unit.deposit?.replace(/,/g, "")}
+						defaultValue={unit.deposit}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setDeposit(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setDeposit(value)
+						}}
 					/>
 
 					<label htmlFor="">Type</label>
