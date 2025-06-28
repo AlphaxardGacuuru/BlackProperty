@@ -90236,9 +90236,13 @@ function App() {
     setErrors(newError);
   };
   var formatToCommas = function formatToCommas(e) {
+    console.info("1", e.target.value);
     var value = e.target.value.toString().replace(/[^0-9.]/g, "");
+    console.info("2", e.target.value);
     value = Number(value);
+    console.info("3", value);
     e.target.value = value.toLocaleString("en-US");
+    console.info("4", e.target.value.replace(/,/g, ""));
     return e.target.value.replace(/,/g, "");
   };
 
@@ -90793,16 +90797,20 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     setLogoutLoading = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
     _useState12 = _slicedToArray(_useState11, 2),
-    updateLoading = _useState12[0],
-    setUpdateLoading = _useState12[1];
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    cantGoToNext = _useState12[0],
+    setCantGoToNext = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
     _useState14 = _slicedToArray(_useState13, 2),
-    mpesaLoading = _useState14[0],
-    setMpesaLoading = _useState14[1];
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("d-none"),
+    updateLoading = _useState14[0],
+    setUpdateLoading = _useState14[1];
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
     _useState16 = _slicedToArray(_useState15, 2),
-    stkPushed = _useState16[0],
-    setStkPushed = _useState16[1];
+    mpesaLoading = _useState16[0],
+    setMpesaLoading = _useState16[1];
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("d-none"),
+    _useState18 = _slicedToArray(_useState17, 2),
+    stkPushed = _useState18[0],
+    setStkPushed = _useState18[1];
   var blur = props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && props.auth.emailVerifiedAt && location.pathname.match("/admin");
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Subscription Plan
@@ -90912,8 +90920,11 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     });
   };
   var handleTabChange = function handleTabChange(_ref) {
-    var previousIndex = _ref.previousIndex,
-      currentIndex = _ref.currentIndex;
+    var prevIndex = _ref.prevIndex,
+      nextIndex = _ref.nextIndex;
+    if (nextIndex == 2) {
+      setCantGoToNext(!subscriptionPlan.id);
+    }
   };
   var handleComplete = function handleComplete() {};
   var backTemplate = function backTemplate(handlePrevious) {
@@ -90960,7 +90971,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn sonar-btn btn-2 mx-1",
         onClick: handleNext,
-        disabled: !subscriptionPlan.id
+        disabled: cantGoToNext
       }, "next", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "ms-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
@@ -90972,9 +90983,19 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       }, "finish");
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"].TabContent, {
+    title: "Welcome ".concat(props.auth.name),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-white rounded-circle py-1 px-2",
+      style: {
+        backgroundColor: "#232323"
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PersonSVG__WEBPACK_IMPORTED_MODULE_18__["default"], null))
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row my-5 overflow-auto"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome ", props.auth.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Let's set you up with a Subscription."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_form_wizard_component__WEBPACK_IMPORTED_MODULE_7__["default"].TabContent, {
     title: "Choose Subscription Plan",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-      className: "text-white rounded-circle px-2",
+      className: "text-white rounded-circle py-1 px-2",
       style: {
         backgroundColor: "#232323"
       }
@@ -91316,7 +91337,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var BillingList = function BillingList(props) {
-  var _props$unit, _props$billings$data, _props$billings$data2, _props$billings$data3;
+  var _props$billings$data, _props$billings$data2;
   var location = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -91476,50 +91497,14 @@ var BillingList = function BillingList(props) {
     className: "table-responsive mb-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-hover"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "9"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    colSpan: "2",
-    className: "text-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-end"
-  }, deleteIds.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_13__["default"], {
-    text: "delete ".concat(deleteIds.length),
-    className: "me-2",
-    onClick: function onClick() {
-      return onDeleteBilling(deleteIds);
-    },
-    loading: loading
-  }), location.pathname.match("/admin/billings") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    linkTo: "/billings/create",
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
-    text: "add billing"
-  }), location.pathname.match("/admin/units/") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    linkTo: "/units/".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.id, "/billings/create"),
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null),
-    text: "add billing"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    checked: deleteIds.length == ((_props$billings$data = props.billings.data) === null || _props$billings$data === void 0 ? void 0 : _props$billings$data.length) && deleteIds.length != 0,
-    onClick: function onClick() {
-      return setDeleteIds(deleteIds.length == props.billings.data.length ? [] : props.billings.data.map(function (billing) {
-        return billing.id;
-      }));
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"))), ((_props$billings$data2 = props.billings.data) === null || _props$billings$data2 === void 0 ? void 0 : _props$billings$data2.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$billings$data3 = props.billings.data) === null || _props$billings$data3 === void 0 ? void 0 : _props$billings$data3.map(function (billing, key) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Paid On"))), ((_props$billings$data = props.billings.data) === null || _props$billings$data === void 0 ? void 0 : _props$billings$data.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_props$billings$data2 = props.billings.data) === null || _props$billings$data2 === void 0 ? void 0 : _props$billings$data2.map(function (billing, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "checkbox",
-      checked: deleteIds.includes(billing.id),
-      onClick: function onClick() {
-        return handleSetDeleteIds(billing.id);
-      }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.billings)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, billing.userName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, billing.senderPhoneNumber), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "MPESA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, props.billings)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, billing.userName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, billing.senderPhoneNumber), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "MPESA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
       className: "text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", billing.amount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, billing.createdAt));
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    colSpan: "11",
+    colSpan: "6",
     className: "p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_NoData__WEBPACK_IMPORTED_MODULE_5__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_4__["default"], {
     list: props.billings,
@@ -96524,7 +96509,7 @@ var billing = function billing(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("settings"),
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("history"),
     _useState18 = _slicedToArray(_useState17, 2),
     tab = _useState18[0],
     setTab = _useState18[1];
@@ -96535,7 +96520,7 @@ var billing = function billing(props) {
     });
 
     // Fetch Billings
-    props.getPaginated("mpesa-transactions?\n\t\t\tpropertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setBillings);
+    props.getPaginated("mpesa-transactions?\n\t\t\tpropertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tuserId=").concat(props.auth.id, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setBillings);
     // Fetch Subscription Plan
     props.get("subscription-plans", setSubscriptionPlans);
   }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
@@ -103942,11 +103927,12 @@ var create = function create(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -104112,11 +104098,12 @@ var create = function create(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     },
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -104873,12 +104860,13 @@ var create = function create(props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     min: "1",
     placeholder: "20000",
     className: "form-control mb-2",
     onChange: function onChange(e) {
-      return setAmount(e.target.value);
+      var value = props.formatToCommas(e);
+      setAmount(value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
@@ -106676,7 +106664,7 @@ var BillableSVG = function BillableSVG() {
     width: "1em",
     height: "1em",
     fill: "currentColor",
-    className: "bi bi-file-text",
+    className: "mb-1 bi bi-file-text",
     viewBox: "0 0 16 16"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
     d: "M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"

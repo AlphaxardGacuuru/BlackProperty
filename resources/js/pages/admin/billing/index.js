@@ -24,7 +24,7 @@ const billing = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [tab, setTab] = useState("settings")
+	const [tab, setTab] = useState("history")
 
 	useEffect(() => {
 		props.setPage({ name: "Billings", path: ["billings"] })
@@ -35,6 +35,7 @@ const billing = (props) => {
 			propertyId=${props.selectedPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
+			userId=${props.auth.id}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
 			startYear=${startYear}&

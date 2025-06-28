@@ -44,10 +44,10 @@ class InvoiceReminderNotification extends Notification
     {
         return (new MailMessage)
 			->from("al@black.co.ke", "Alphaxard from Black Property")
-			->subject('Invoice Reminder')
+			->subject(ucwords(str_replace('_', ' ', $this->invoice->type)) . ' Invoice Reminder')
 			->greeting('Hello ' . $notifiable->name . ',')
-			->line('This is a reminder that your invoice for ' . $this->invoice->type . ' is due')
-			->action('View Invoice', url('/#/invoices/' . $this->invoice->id))
+			->line('This is a reminder that your ' . ucwords(str_replace('_', ' ', $this->invoice->type)) . ' Invoice of KES ' .number_format($this->invoice->balance) . ' is due.')
+			// ->action('View Invoice', url('/#/invoices/' . $this->invoice->id . '/show'))
 			->line('Thank you for choosing Black Property!')
 			->line('If you have any questions, feel free to contact us.');
     }

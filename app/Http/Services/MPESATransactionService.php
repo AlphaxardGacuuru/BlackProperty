@@ -14,15 +14,18 @@ class MPESATransactionService extends Service
      */
     public function index($request)
     {
-        $mpesaTransactions = MPESATransaction::orderBy("id", "DESC")->paginate(20);
+		$mpesaTransactionQuery = new MPESATransaction;
 
-        $sum = MPESATransaction::sum("amount");
+		$mpesaTransactionQuery = $this->search($mpesaTransactionQuery, $request);
 
-        // Check if total is request
-        return MPESATransactionResource::collection($mpesaTransactions)
-            ->additional([
-                "sum" => number_format($sum),
-            ]);
+		$sum = $mpesaTransactionQuery->sum("amount");
+
+		$creditNotes = $mpesaTransactionQuery
+			->orderBy("id", "DESC")
+			->paginate(20);
+
+		return MPESATransactionResource::collection($creditNotes)
+			->additional(["sum" => number_format($sum)]);
     }
 
     /*
@@ -67,6 +70,20 @@ class MPESATransactionService extends Service
 
         return [$saved, $message, $mpesaTransaction, $user];
     }
+
+	/*
+     * Handle Search
+     */
+	public function search($query, $request)
+	{
+		$userId = $request->input("userId");
+
+		if ($request->filled("userId")) {
+			$query = $query->where("user_id", $userId);
+		}
+
+		return $query;
+	}
 
     /**
      * Send STK Push to Kopokopo.

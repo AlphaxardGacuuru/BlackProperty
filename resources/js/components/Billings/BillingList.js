@@ -231,55 +231,6 @@ const BillingList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="9"></th>
-							<th
-								colSpan="2"
-								className="text-end">
-								<div className="d-flex justify-content-end">
-									{deleteIds.length > 0 && (
-										<Btn
-											text={`delete ${deleteIds.length}`}
-											className="me-2"
-											onClick={() => onDeleteBilling(deleteIds)}
-											loading={loading}
-										/>
-									)}
-
-									{location.pathname.match("/admin/billings") && (
-										<MyLink
-											linkTo={`/billings/create`}
-											icon={<PlusSVG />}
-											text="add billing"
-										/>
-									)}
-
-									{location.pathname.match("/admin/units/") && (
-										<MyLink
-											linkTo={`/units/${props.unit?.id}/billings/create`}
-											icon={<PlusSVG />}
-											text="add billing"
-										/>
-									)}
-								</div>
-							</th>
-						</tr>
-						<tr>
-							<th>
-								<input
-									type="checkbox"
-									checked={
-										deleteIds.length == props.billings.data?.length &&
-										deleteIds.length != 0
-									}
-									onClick={() =>
-										setDeleteIds(
-											deleteIds.length == props.billings.data.length
-												? []
-												: props.billings.data.map((billing) => billing.id)
-										)
-									}
-								/>
-							</th>
 							<th>#</th>
 							<th>Name</th>
 							<th>Number</th>
@@ -293,13 +244,6 @@ const BillingList = (props) => {
 						<tbody>
 							{props.billings.data?.map((billing, key) => (
 								<tr key={key}>
-									<td>
-										<input
-											type="checkbox"
-											checked={deleteIds.includes(billing.id)}
-											onClick={() => handleSetDeleteIds(billing.id)}
-										/>
-									</td>
 									<td>{props.iterator(key, props.billings)}</td>
 									<td>{billing.userName}</td>
 									<td>{billing.senderPhoneNumber}</td>
@@ -316,7 +260,7 @@ const BillingList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="11"
+									colSpan="6"
 									className="p-0">
 									<NoData />
 								</td>

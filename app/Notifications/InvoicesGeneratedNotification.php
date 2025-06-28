@@ -50,7 +50,8 @@ class InvoicesGeneratedNotification extends Notification
 			->line('Units Processed: ' . $this->result['units'])
 			->line('Invoices Generated: ' . $this->result['invoices'])
 			->line($this->result['message'])
-			->action('View Invoices', url('/admin/invoices'));
+			// ->action('View Invoices', url('/admin/invoices'))
+			;
 	}
 
 	/**

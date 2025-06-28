@@ -33,6 +33,7 @@ const SubscriptionPlan = (props) => {
 	const [mpesaTransaction, setMpesaTransaction] = useState({})
 
 	const [logoutLoading, setLogoutLoading] = useState(false)
+	const [cantGoToNext, setCantGoToNext] = useState(false)
 	const [updateLoading, setUpdateLoading] = useState(false)
 	const [mpesaLoading, setMpesaLoading] = useState()
 	const [stkPushed, setStkPushed] = useState("d-none")
@@ -165,7 +166,11 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
-	const handleTabChange = ({ previousIndex, currentIndex }) => {}
+	const handleTabChange = ({ prevIndex, nextIndex}) => {
+		if (nextIndex == 2) {
+			setCantGoToNext(!subscriptionPlan.id)
+		}
+	}
 
 	const handleComplete = () => {}
 
@@ -224,7 +229,7 @@ const SubscriptionPlan = (props) => {
 							<button
 								className="btn sonar-btn btn-2 mx-1"
 								onClick={handleNext}
-								disabled={!subscriptionPlan.id}>
+								disabled={cantGoToNext}>
 								next
 								<span className="ms-1">
 									<ForwardSVG />
@@ -239,10 +244,26 @@ const SubscriptionPlan = (props) => {
 							</button>
 						)}>
 						<FormWizard.TabContent
+							title={`Welcome ${props.auth.name}`}
+							icon={
+								<span
+									className="text-white rounded-circle py-1 px-2"
+									style={{ backgroundColor: "#232323" }}>
+									<PersonSVG />
+								</span>
+							}>
+							{/* <!-- ***** Pricing Area Start ***** --> */}
+							<div className="row my-5 overflow-auto">
+								<h1>Welcome {props.auth.name}</h1>
+								<h2>Let's set you up with a Subscription.</h2>
+							</div>
+							{/* <!-- ***** Pricing Area End ***** --> */}
+						</FormWizard.TabContent>
+						<FormWizard.TabContent
 							title="Choose Subscription Plan"
 							icon={
 								<span
-									className="text-white rounded-circle px-2"
+									className="text-white rounded-circle py-1 px-2"
 									style={{ backgroundColor: "#232323" }}>
 									<BillableSVG />
 								</span>
