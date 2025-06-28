@@ -22,6 +22,7 @@ class UserResource extends JsonResource
 			"gender" => $this->gender,
 			"avatar" => $this->avatar,
 			"accountType" => $this->account_type,
+			"emailVerifiedAt" => $this->email_verified_at,
 			"propertyIds" => $this->properties->map(fn($property) => $property->id),
 			"activeSubscription" => $this->activeSubscription(),
 			"createdAt" => $this->created_at,

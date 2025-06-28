@@ -14,42 +14,47 @@ use Inertia\Inertia;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     *
-     * @return \Inertia\Response
-     */
-    public function create()
-    {
-        return Inertia::render('Auth/Register');
-    }
+	/**
+	 * Display the registration view.
+	 *
+	 * @return \Inertia\Response
+	 */
+	public function create()
+	{
+		return Inertia::render('Auth/Register');
+	}
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+	/**
+	 * Handle an incoming registration request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\RedirectResponse
+	 *
+	 * @throws \Illuminate\Validation\ValidationException
+	 */
+	public function store(Request $request)
+	{
+		$request->validate([
+			'name' => 'required|string|max:255',
+			'email' => 'required|string|email|max:255|unique:users',
+			'password' => ['required', 'confirmed', Rules\Password::defaults()],
+		]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+		$user = User::create([
+			'name' => $request->name,
+			'email' => $request->email,
+			'password' => Hash::make($request->password),
+		]);
 
-        event(new Registered($user));
+		$token = $user
+			->createToken($request->device_name)
+			->plainTextToken;
 
-        Auth::login($user);
+		event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
-    }
+		return response([
+			"message" => "Registered Successfully",
+			"data" => $token,
+		], 200);
+	}
 }

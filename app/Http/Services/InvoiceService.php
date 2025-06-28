@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use App\Http\Services\EmailService;
 use App\Http\Services\SMSSendService;
+use App\Models\User;
+use App\Notifications\InvoiceReminderNotification;
 
 class InvoiceService extends Service
 {
@@ -296,7 +298,6 @@ class InvoiceService extends Service
 			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
 			Mail::to("al@black.co.ke")->send(new InvoiceMail($invoice));
 
-			// Increment the emails_sent column
 			$invoice->increment("emails_sent");
 
 			// Save Email
@@ -329,12 +330,31 @@ class InvoiceService extends Service
 		try {
 			$status = $smsService->sendSMS("invoice");
 
-			// Increment the emails_sent column
 			$invoice->increment("smses_sent");
 		} catch (\Throwable $th) {
 			throw $th;
 		}
 
 		return [$status, "Invoice SMS Sent Successfully", $invoice];
+	}
+
+	/*
+     * Send Invoice Reminder
+     */
+	public function sendReminder($invoice)
+	{
+		try {
+			// $invoice->userUnit->user->notify(new InvoiceReminderNotification($invoice));
+
+			User::where("email", "al@black.co.ke")
+				->first()
+				->notify(new InvoiceReminderNotification($invoice));
+
+			$invoice->increment("reminders_sent");
+		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+			throw $exception;
+		}
+
+		return ["Success", "Invoice Reminder Sent Successfully", $invoice];
 	}
 }

@@ -68,6 +68,7 @@ import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 import AdminSupport from "@/pages/admin/support"
 
 import Socialite from "@/components/Auth/Socialite"
+import VerifyEmail from "@/components/Auth/VerifyEmail"
 
 const RouteList = ({ GLOBAL_STATE }) => {
 	const authRoutes = [
@@ -75,16 +76,16 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			path: "/socialite/:message/:token",
 			component: <Socialite {...GLOBAL_STATE} />,
 		},
+		{
+			path: "/verify-email/:id/:hash",
+			component: <VerifyEmail {...GLOBAL_STATE} />,
+		}
 	]
 
 	const routes = [
 		{
 			path: "/",
 			component: <Index {...GLOBAL_STATE} />,
-		},
-		{
-			path: "/socialite/:message/:token",
-			component: <Socialite {...GLOBAL_STATE} />,
 		},
 	]
 

@@ -126,24 +126,32 @@ const edit = (props) => {
 
 					<label htmlFor="">Additional Charges to Deposit</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="2000"
 						min="0"
 						defaultValue={property.additionalCharges}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setAdditionalCharges(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setAdditionalCharges(value)
+						}}
 						required={true}
 					/>
 
 					<label htmlFor="">Service Charge</label>
 					<input
-						type="number"
+						type="text"
 						placeholder="5000"
 						min="0"
 						step="0.1"
-						defaultValue={property.serviceCharge?.replace(/,/g, "")}
+						defaultValue={property.serviceCharge}
 						className="form-control mb-2 me-2"
-						onChange={(e) => setServiceCharge(e.target.value)}
+						onChange={(e) => {
+							let value = props.formatToCommas(e)
+
+							setServiceCharge(value)
+						}}
 					/>
 
 					<label
@@ -171,7 +179,6 @@ const edit = (props) => {
 										tanker: waterBillRate.tanker,
 									})
 								}
-								required={true}
 							/>
 						</div>
 						{/* Council End */}
@@ -192,7 +199,6 @@ const edit = (props) => {
 										tanker: waterBillRate.tanker,
 									})
 								}
-								required={true}
 							/>
 						</div>
 						{/* Borehole End */}
@@ -213,7 +219,6 @@ const edit = (props) => {
 										tanker: e.target.value,
 									})
 								}
-								required={true}
 							/>
 						</div>
 						{/* Tanker End */}

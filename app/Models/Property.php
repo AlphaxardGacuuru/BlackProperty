@@ -39,6 +39,11 @@ class Property extends Model
      * Relationships
      */
 
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
+
 	public function units()
 	{
 		return $this->hasMany(Unit::class);

@@ -40,6 +40,7 @@ const SubscriptionPlan = (props) => {
 	const blur =
 		props.auth.name != "Guest" &&
 		!props.auth.activeSubscription?.id &&
+		props.auth.emailVerifiedAt &&
 		location.pathname.match("/admin")
 
 	useEffect(() => {
@@ -55,7 +56,7 @@ const SubscriptionPlan = (props) => {
 
 			props.get(`subscription-plans`, setSubscriptionPlans)
 		}
-	}, [])
+	}, [props.auth])
 
 	useEffect(() => {
 		if (mpesaTransaction.id) {
@@ -248,22 +249,24 @@ const SubscriptionPlan = (props) => {
 							}>
 							{/* <!-- ***** Pricing Area Start ***** --> */}
 							<div className="row mb-3 overflow-auto">
-								{subscriptionPlans.map((subscriptionPlanItem, key) => (
-									<div
-										key={key}
-										className="col-12 col-md-6 col-lg-4">
-										<div
-											className="single-services-area wow fadeInUp card text-center py-5 px-2"
-											style={{ backgroundColor: "#232323", color: "white" }}
-											data-wow-delay="300ms">
-											<h4 className="text-white">
-												{subscriptionPlanItem.name}
-											</h4>
-											<hr className="w-75 mx-auto border-light my-2" />
-											<h5 className="text-white">
-												{subscriptionPlanItem.description}
-											</h5>
-											{/* <hr className="w-75 mx-auto border-light" />
+								{subscriptionPlans.length > 0 ? (
+									<React.Fragment>
+										{subscriptionPlans.map((subscriptionPlanItem, key) => (
+											<div
+												key={key}
+												className="col-12 col-md-6 col-lg-4">
+												<div
+													className="single-services-area wow fadeInUp card text-center py-5 px-2"
+													style={{ backgroundColor: "#232323", color: "white" }}
+													data-wow-delay="300ms">
+													<h4 className="text-white">
+														{subscriptionPlanItem.name}
+													</h4>
+													<hr className="w-75 mx-auto border-light my-2" />
+													<h5 className="text-white">
+														{subscriptionPlanItem.description}
+													</h5>
+													{/* <hr className="w-75 mx-auto border-light" />
 											{subscriptionPlanItem.features.map((feature, key) => (
 												<span
 													key={key}
@@ -274,38 +277,59 @@ const SubscriptionPlan = (props) => {
 													{feature}
 												</span>
 											))} */}
-											<hr className="w-75 mx-auto border-light my-2" />
-											<h5 className="mt-2 text-success">
-												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlanItem.price.onboarding_fee.toLocaleString()}{" "}
-												onboarding fee
-											</h5>
-											<h6 className="text-white my-1">then</h6>
-											<h5 className="text-success mb-1">
-												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlanItem.price.monthly.toLocaleString()}
-												<small className="fw-lighter">/mo</small>
-											</h5>
-											<h6 className="text-white mb-3">after the 1st month</h6>
-											{subscriptionPlanItem.id == subscriptionPlan.id ? (
-												<Btn
-													text="selected"
-													iconFront={<CheckSVG />}
-													className="btn-green mx-auto"
-													onClick={() => setSubscriptionPlan()}
-												/>
-											) : (
-												<Btn
-													text="select"
-													className="btn-white mx-auto"
-													onClick={() =>
-														setSubscriptionPlan(subscriptionPlanItem)
-													}
-												/>
-											)}
-										</div>
-									</div>
-								))}
+													<hr className="w-75 mx-auto border-light my-2" />
+													<h5 className="mt-2 text-success">
+														<small className="fw-lighter me-1">KES</small>
+														{subscriptionPlanItem.price.onboarding_fee.toLocaleString()}{" "}
+														onboarding fee
+													</h5>
+													<h6 className="text-white my-1">then</h6>
+													<h5 className="text-success mb-1">
+														<small className="fw-lighter me-1">KES</small>
+														{subscriptionPlanItem.price.monthly.toLocaleString()}
+														<small className="fw-lighter">/mo</small>
+													</h5>
+													<h6 className="text-white mb-3">
+														after the 1st month
+													</h6>
+													{subscriptionPlanItem.id == subscriptionPlan.id ? (
+														<Btn
+															text="selected"
+															iconFront={<CheckSVG />}
+															className="btn-green mx-auto"
+															onClick={() => setSubscriptionPlan()}
+														/>
+													) : (
+														<Btn
+															text="select"
+															className="btn-white mx-auto"
+															onClick={() =>
+																setSubscriptionPlan(subscriptionPlanItem)
+															}
+														/>
+													)}
+												</div>
+											</div>
+										))}
+									</React.Fragment>
+								) : (
+									<React.Fragment>
+										{[1, 2, 3].map((item) => (
+											<div
+												key={item}
+												className="col-12 col-md-6 col-lg-4">
+												<div
+													className="single-services-area wow fadeInUp card text-center py-5 px-2"
+													style={{ backgroundColor: "#232323", color: "white" }}
+													data-wow-delay="300ms">
+													<h4 className="text-white">Loading...</h4>
+													<hr className="w-75 mx-auto border-light my-2" />
+													<h5 className="text-white">Please wait...</h5>
+												</div>
+											</div>
+										))}
+									</React.Fragment>
+								)}
 							</div>
 							{/* <!-- ***** Pricing Area End ***** --> */}
 						</FormWizard.TabContent>

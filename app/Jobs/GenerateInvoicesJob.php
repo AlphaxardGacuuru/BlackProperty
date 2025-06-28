@@ -47,6 +47,13 @@ class GenerateInvoicesJob implements ShouldQueue
 
 		try {
 			$properties = Property::where("invoice_date", now()->day)
+				// Check that user of property has active subscription
+				->whereHas("user", function ($query) {
+					$query->whereHas("userSubscriptionPlans", function ($query) {
+						$query->where("status", "active")
+							->where("end_date", ">", now());
+					});
+				})
 				->get();
 
 			$result["properties"] = $properties->count();

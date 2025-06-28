@@ -63,7 +63,7 @@ class MpesaTransactionCreatedNotification extends Notification implements Should
 		return [
 			"url" => "/admin/billing",
 			"from" => "",
-			"message" => "Payment of KES " . $this->mpesaTransaction->amount . " received."
+			"message" => "Payment of KES " . number_format($this->mpesaTransaction->amount) . " received."
 		];
 	}
 }
