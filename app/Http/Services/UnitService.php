@@ -44,6 +44,27 @@ class UnitService extends Service
      */
 	public function store($request)
 	{
+		// Check if User has reached subscription limit
+		$subsciptionMaxUnits = auth("sanctum")
+			->user()
+			->activeSubscription()
+			?->max_units;
+
+		$userUnitCount = auth("sanctum")
+			->user()
+			->properties
+			->reduce(function ($carry, $property) {
+				return $carry + $property->units->count();
+			}, 0);
+
+		if ($userUnitCount >= $subsciptionMaxUnits) {
+			return [
+				false,
+				"You have reached your subscription limit of " . $subsciptionMaxUnits . " units.",
+				null,
+			];
+		}
+
 		$unit = new Unit;
 		$unit->property_id = $request->input("propertyId");
 		$unit->name = $request->input("name");

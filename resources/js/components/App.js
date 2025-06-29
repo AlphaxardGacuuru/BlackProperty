@@ -177,13 +177,9 @@ function App() {
 	}
 
 	const formatToCommas = (e) => {
-		console.info("1", e.target.value)
 		let value = e.target.value.toString().replace(/[^0-9.]/g, "")
-		console.info("2", e.target.value)
 		value = Number(value)
-		console.info("3", value)
 		e.target.value = value.toLocaleString("en-US")
-		console.info("4", e.target.value.replace(/,/g, ""))
 		return e.target.value.replace(/,/g, "")
 	}
 

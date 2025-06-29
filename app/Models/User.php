@@ -134,6 +134,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 		$userSubscriptionPlan->name = $userSubscriptionPlan->subscriptionPlan->name;
 		$userSubscriptionPlan->price = $userSubscriptionPlan->subscriptionPlan->price;
+		$userSubscriptionPlan->max_units = $userSubscriptionPlan->subscriptionPlan->max_units;
 
 		return $userSubscriptionPlan;
 	}

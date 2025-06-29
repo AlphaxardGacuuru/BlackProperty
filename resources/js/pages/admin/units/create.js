@@ -62,10 +62,14 @@ const create = (props) => {
 		})
 			.then((res) => {
 				setLoading(false)
-				// Show messages
-				props.setMessages([res.data.message])
-				// Redirect to Units
-				setTimeout(() => history.push(`/admin/units`), 500)
+				if (res.data.status) {
+					// Show messages
+					props.setMessages([res.data.message])
+					// Redirect to Units
+					setTimeout(() => history.push(`/admin/units`), 500)
+				} else {
+					props.setErrors([res.data.message])
+				}
 			})
 			.catch((err) => {
 				setLoading(false)

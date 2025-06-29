@@ -90236,13 +90236,9 @@ function App() {
     setErrors(newError);
   };
   var formatToCommas = function formatToCommas(e) {
-    console.info("1", e.target.value);
     var value = e.target.value.toString().replace(/[^0-9.]/g, "");
-    console.info("2", e.target.value);
     value = Number(value);
-    console.info("3", value);
     e.target.value = value.toLocaleString("en-US");
-    console.info("4", e.target.value.replace(/,/g, ""));
     return e.target.value.replace(/,/g, "");
   };
 
@@ -103639,12 +103635,16 @@ var create = function create(props) {
       dsq: dsq
     }).then(function (res) {
       setLoading(false);
-      // Show messages
-      props.setMessages([res.data.message]);
-      // Redirect to Units
-      setTimeout(function () {
-        return history.push("/admin/units");
-      }, 500);
+      if (res.data.status) {
+        // Show messages
+        props.setMessages([res.data.message]);
+        // Redirect to Units
+        setTimeout(function () {
+          return history.push("/admin/units");
+        }, 500);
+      } else {
+        props.setErrors([res.data.message]);
+      }
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
