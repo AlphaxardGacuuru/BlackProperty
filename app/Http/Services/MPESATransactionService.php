@@ -148,7 +148,7 @@ class MPESATransactionService extends Service
 	public function statement($request)
 	{
 		$mpesaTransactionQuery = new MPESATransaction;
-		
+
 	}
 
     /*
@@ -156,12 +156,12 @@ class MPESATransactionService extends Service
      */
     public static function options()
     {
-		return [
-			'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
-			'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
-			'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
-			'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
-		];
+		// return [
+		// 	'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
+		// 	'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
+		// 	'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
+		// 	'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
+		// ];
 
 		return [
 			'clientId' => env('KOPOKOPO_CLIENT_ID'),
