@@ -142,17 +142,26 @@ class MPESATransactionService extends Service
         }
     }
 
+	/*
+	* Generate Mpesa Statement
+	*/ 
+	public function statement($request)
+	{
+		$mpesaTransactionQuery = new MPESATransaction;
+		
+	}
+
     /*
      * Kopokopo Environment Variables
      */
     public static function options()
     {
-		// return [
-		// 	'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
-		// 	'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
-		// 	'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
-		// 	'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
-		// ];
+		return [
+			'clientId' => env('KOPOKOPO_CLIENT_ID_SANDBOX'),
+			'clientSecret' => env('KOPOKOPO_CLIENT_SECRET_SANDBOX'),
+			'apiKey' => env('KOPOKOPO_API_KEY_SANDBOX'),
+			'baseUrl' => env('KOPOKOPO_BASE_URL_SANDBOX'),
+		];
 
 		return [
 			'clientId' => env('KOPOKOPO_CLIENT_ID'),

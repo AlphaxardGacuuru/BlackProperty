@@ -17,8 +17,8 @@ class StatementController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Request $request)
+	public function show(Request $request, $type)
 	{
-		return $this->service->index($request);
+		return $this->service->show($request, $type);
 	}
 }

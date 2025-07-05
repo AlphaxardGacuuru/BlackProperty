@@ -197,7 +197,7 @@ function App() {
 	}, [])
 
 	useEffect(() => {
-		if (auth.id != 0) {
+		if (auth.id) {
 			get(`properties?userId=${auth.id}`, setProperties, "properties")
 		}
 	}, [auth])

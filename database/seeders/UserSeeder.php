@@ -26,12 +26,12 @@ class UserSeeder extends Seeder
 		$cikuDoesntExist = User::where('email', 'cikumuhandi@gmail.com')
 			->doesntExist();
 
-		if ($superDoesntExist) {
-			User::factory()->super()->create();
-		}
-
 		if ($alDoesntExist) {
 			User::factory()->al()->create();
+		}
+
+		if ($superDoesntExist) {
+			User::factory()->super()->create();
 		}
 
 		if ($gacuuruDoesntExist) {

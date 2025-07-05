@@ -2,21 +2,41 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\StatementResource;
+use App\Http\Resources\SubscriptionStatementResource;
+use App\Http\Resources\UnitStatementResource;
 use App\Http\Services\Service;
 use App\Models\CreditNote;
 use App\Models\Deduction;
 use App\Models\Invoice;
+use App\Models\MPESATransaction;
 use App\Models\Payment;
 use App\Models\Unit;
+use App\Models\UserSubscriptionPlan;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class StatementService extends Service
 {
 	/*
-     * Fetch All Statements
+	* Handle Statement Type
+	*/
+	public function show($request, $type)
+	{
+		if ($type === "unit") {
+			return $this->unit($request);
+		} else if ($type === "subscription") {
+			return $this->subscription($request);
+		}
+
+		return response()->json([
+			"message" => "Invalid statement type.",
+		], 400);
+	}
+
+	/*
+     * Fetch Unit Statements
      */
-	public function index($request)
+	public function unit($request)
 	{
 		$invoiceQuery = new Invoice;
 		$invoiceQuery = $this->search($invoiceQuery, $request);
@@ -126,11 +146,92 @@ class StatementService extends Service
 		);
 
 		// return $pagedRentStatements;
-		return StatementResource::collection($paginator)
+		return UnitStatementResource::collection($paginator)
 			->additional([
 				"due" => number_format($totalInvoices),
 				"paid" => number_format($totalPayments),
 				"balance" => number_format($totalInvoices - $totalCreditNotes - $totalPayments + $totalDeductions),
+			]);
+	}
+
+	/*
+     * Fetch Subscription Statements
+     */
+	public function subscription($request)
+	{
+		$userSubscriptionQuery = new UserSubscriptionPlan;
+		$userSubscriptionQuery = $this->search($userSubscriptionQuery, $request);
+		$userSubscriptionQuery = $userSubscriptionQuery->select("*", "amount_paid as debit");
+
+		$totalInvoices = $userSubscriptionQuery->sum("amount_paid");
+
+		$invoices = $userSubscriptionQuery
+			->orderBy("id", "DESC")
+			->get();
+
+		$mpesaTransactionQuery = new MPESATransaction;
+		$mpesaTransactionQuery = $this->search($mpesaTransactionQuery, $request);
+		$mpesaTransactionQuery = $mpesaTransactionQuery->select("*", "amount as mpesaCredit");
+
+		$totalPayments = $mpesaTransactionQuery->sum("amount");
+
+		$mpesaPayments = $mpesaTransactionQuery
+			->orderBy("id", "DESC")
+			->get();
+
+		$balance = 0;
+
+		$statements = $invoices
+			->concat($mpesaPayments)
+			->groupBy(fn($item) => $item->created_at)
+			->sortKeys()
+			->flatten()
+			->map(function ($item) use (&$balance) {
+				if ($item->debit) {
+					$item->type = "Subscription";
+					$item->debit = $item->debit;
+					$balance += $item->debit;
+				} else if ($item->mpesaCredit) {
+					$item->type = "Mpesa Payment";
+					$item->credit = $item->mpesaCredit;
+					$balance -= $item->mpesaCredit;
+				}
+
+				$item->balance = $balance;
+
+				return $item;
+			})
+			->reverse()
+			->values();
+
+		// Get current page from the request, default is 1
+		$currentPage = $request->input("page", 1);
+
+		// Define how many items we want to be visible in each page
+		$perPage = 20;
+
+		// Slice the collection to get the items to display in current page
+		$currentItems = $statements
+			->slice(($currentPage - 1) * $perPage, $perPage)
+			->values();
+
+		// Create paginator
+		$paginator = new LengthAwarePaginator(
+			$currentItems,
+			$statements->count(),
+			$perPage,
+			$currentPage,
+			[
+				'path' => $request->url(),
+				'query' => $request->query(),
+			]
+		);
+
+		return SubscriptionStatementResource::collection($paginator)
+			->additional([
+				"due" => number_format($totalInvoices),
+				"paid" => number_format($totalPayments),
+				"balance" => number_format($totalInvoices - $totalPayments),
 			]);
 	}
 
@@ -149,6 +250,10 @@ class StatementService extends Service
 			$query = $query->whereHas("userUnit", function ($query) use ($unitId) {
 				$query->where("unit_id", $unitId);
 			});
+		}
+
+		if ($request->filled("subscriptionUserId")) {
+			$query = $query->where("user_id", $request->subscriptionUserId);
 		}
 
 		return $query;

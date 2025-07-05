@@ -9,7 +9,7 @@ const UnitStatementList = (props) => {
 		// Fetch Statements
 		if (props.unit.id) {
 			props.getPaginated(
-				`statements?
+				`statements/unit?
 				unitId=${props.unit.id}&
 				userUnitId=${props.userUnitId}`,
 				setStatements

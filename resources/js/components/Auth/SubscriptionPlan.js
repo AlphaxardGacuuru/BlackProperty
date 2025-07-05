@@ -33,10 +33,11 @@ const SubscriptionPlan = (props) => {
 	const [mpesaTransaction, setMpesaTransaction] = useState({})
 
 	const [logoutLoading, setLogoutLoading] = useState(false)
-	const [cantGoToNext, setCantGoToNext] = useState(false)
+	const [cantGoToNext, setCantGoToNext] = useState(true)
 	const [updateLoading, setUpdateLoading] = useState(false)
 	const [mpesaLoading, setMpesaLoading] = useState()
 	const [stkPushed, setStkPushed] = useState("d-none")
+	const [simulateLoading, setSimulateLoading] = useState()
 
 	const blur =
 		props.auth.name != "Guest" &&
@@ -50,7 +51,7 @@ const SubscriptionPlan = (props) => {
 			Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
 				"MpesaTransactionCreatedEvent",
 				(e) => {
-					console.info("Event:" + e)
+					console.info(e)
 					setMpesaTransaction(e.mpesaTransaction)
 				}
 			)
@@ -150,6 +151,59 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
+	const onSimulatePayment = () => {
+		setSimulateLoading(true)
+
+		Axios.post("/api/mpesa-transactions", {
+			data: {
+				id: "49b2bf39-0bff-4f37-8b19-43ca21ab3bf2",
+				type: "incoming_payment",
+				attributes: {
+					initiation_time: "2020-10-21T09:30:34.331+03:00",
+					status: "Success",
+					event: {
+						type: "Incoming Payment Request",
+						resource: {
+							id: "f39-0bff-44ef4-0629-481f-83cd-d101f",
+							reference: "OJL7OW3J59",
+							origination_time: "2020-10-21T09:30:40+03:00",
+							sender_phone_number: "+254700364446",
+							amount: "5000.0",
+							currency: "KES",
+							till_number: "K000000",
+							system: "Lipa Na M-PESA",
+							status: "Received",
+							sender_first_name: "Joe",
+							sender_middle_name: null,
+							sender_last_name: "Buyer",
+						},
+						errors: null,
+					},
+					metadata: {
+						customer_id: "123456789",
+						reference: "123456",
+						notes: "Payment for invoice 12345",
+					},
+					_links: {
+						callback_url:
+							"https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8",
+						self: "https://sandbox.kopokopo.com/api/v1/incoming_payments/49b2bf39-0bff-4f37-8b19-43ca21ab3bf2",
+					},
+				},
+			},
+		})
+			.then((res) => {
+				setSimulateLoading(false)
+				props.setMessages([res.data.message])
+				// Fetch Auth to set the Subscription Plan
+				props.get("auth", props.setAuth, "auth")
+			})
+			.catch((err) => {
+				setSimulateLoading(false)
+				props.getErrors(err)
+			})
+	}
+
 	const onSubscribe = () => {
 		Axios.post("/api/subscription-plans/subscribe", {
 			subscriptionPlanId: subscriptionPlan.id,
@@ -166,9 +220,11 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
-	const handleTabChange = ({ prevIndex, nextIndex}) => {
-		if (nextIndex == 2) {
-			setCantGoToNext(!subscriptionPlan.id)
+	const handleTabChange = ({ prevIndex, nextIndex }) => {
+		if (nextIndex >= 2) {
+			setTimeout(() => setCantGoToNext(!subscriptionPlan.id), 500)
+		} else {
+			setTimeout(() => setCantGoToNext(false), 500)
 		}
 	}
 
@@ -395,6 +451,7 @@ const SubscriptionPlan = (props) => {
 							}>
 							<div className="w-100 mx-auto mb-4">
 								<div className="mt-4 mb-2">
+									{/* Pay Button Start */}
 									<button
 										className="btn sonar-btn btn-2 mb-4"
 										onClick={() => {
@@ -436,10 +493,32 @@ const SubscriptionPlan = (props) => {
 											{/* Loading End */}
 										</div>
 									</button>
+									{/* Pay Button End */}
 								</div>
 
 								<div className={stkPushed}>
 									<center>
+										{/* Simulate Payment Start */}
+										{/* Check if url is property.black.co.ke */}
+										{window.location.hostname !== "property.black.co.ke" && (
+											<button
+												className="btn sonar-btn btn-2 mb-4"
+												onClick={onSimulatePayment}>
+												<div className="d-flex justify-content-center align-items-center">
+													<div className="mx-2">simulate payment</div>
+													{/* Loading Start */}
+													{simulateLoading && (
+														<div
+															id="sonar-load"
+															className="me-2"
+															style={{ bottom: "0" }}></div>
+													)}
+													{/* Loading End */}
+												</div>
+											</button>
+										)}
+										{/* Simulate Payment End */}
+
 										<h5>
 											Request was sent to
 											<span className="text-success"> {props.auth.phone}</span>
@@ -448,6 +527,7 @@ const SubscriptionPlan = (props) => {
 
 										<h6>Checking payment</h6>
 										<div className="spinner-border spinner-border-md border-2 text-success my-4 mx-2"></div>
+										<h5 className="text-warning">Do not leave the page while we process your payment</h5>
 									</center>
 								</div>
 

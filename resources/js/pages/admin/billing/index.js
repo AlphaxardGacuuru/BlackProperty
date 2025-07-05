@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
 import MyLink from "@/components/Core/MyLink"
 
 import BillingList from "@/components/Billings/BillingList"
+import SubscriptionStatementList from "@/components/Billings/SubscriptionStatementList"
 import TenantList from "@/components/Tenants/TenantList"
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
@@ -24,7 +25,7 @@ const billing = (props) => {
 	const [endMonth, setEndMonth] = useState("")
 	const [endYear, setEndYear] = useState("")
 
-	const [tab, setTab] = useState("history")
+	const [tab, setTab] = useState("statement")
 
 	useEffect(() => {
 		props.setPage({ name: "Billings", path: ["billings"] })
@@ -42,6 +43,7 @@ const billing = (props) => {
 			endYear=${endYear}`,
 			setBillings
 		)
+
 		// Fetch Subscription Plan
 		props.get(`subscription-plans`, setSubscriptionPlans)
 	}, [
@@ -77,7 +79,9 @@ const billing = (props) => {
 										{props.auth.activeSubscription?.name || "Free Plan"}
 									</h5>
 									<h6 className=" text-success">
-										KES {props.auth.activeSubscription?.price?.monthly?.toLocaleString() || "KES 0"}
+										KES{" "}
+										{props.auth.activeSubscription?.price?.monthly?.toLocaleString() ||
+											"KES 0"}
 									</h6>
 								</div>
 							}
@@ -106,11 +110,11 @@ const billing = (props) => {
 				<div className="d-flex justify-content-between flex-wrap mb-2">
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
-							"history"
+							"statement"
 						)}`}
 						style={{ cursor: "pointer" }}
-						onClick={() => setTab("history")}>
-						History
+						onClick={() => setTab("statement")}>
+						Statement
 					</div>
 					<div
 						className={`card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ${active(
@@ -123,20 +127,13 @@ const billing = (props) => {
 				</div>
 				{/* Tabs End */}
 
-				{/* Units Tab */}
-				<BillingList
-					{...props}
-					activeTab={activeTab("history")}
-					billings={billings}
-					setBillings={setBillings}
-					setUnit={setUnit}
-					setTenant={setTenant}
-					setStartMonth={setStartMonth}
-					setEndMonth={setEndMonth}
-					setStartYear={setStartYear}
-					setEndYear={setEndYear}
-				/>
-				{/* Units Tab End */}
+				{/* Statements Tab */}
+				{tab == "statement" && (
+					<SubscriptionStatementList
+						{...props}
+					/>
+				)}
+				{/* Statements Tab End */}
 
 				{/* Settings Start */}
 				<div className={activeTab("settings")}>
@@ -159,7 +156,7 @@ const billing = (props) => {
 												className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
 												style={{ backgroundColor: "#232323", color: "white" }}
 												data-wow-delay="300ms">
-												{props.auth.activeSubscription.name ==
+												{props.auth.activeSubscription?.name ==
 													subscriptionPlan.name && (
 													<React.Fragment>
 														<h4 className="mb-2 text-primary">Current</h4>
@@ -200,7 +197,7 @@ const billing = (props) => {
 													{subscriptionPlan.price.onboarding_fee.toLocaleString()}{" "}
 													onboarding fee
 												</h6>
-												{props.auth.activeSubscription.name !=
+												{props.auth.activeSubscription?.name !=
 													subscriptionPlan.name && (
 													<Link
 														to="/admin/dashboard"

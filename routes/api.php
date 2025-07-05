@@ -66,53 +66,25 @@ Route::middleware('auth:sanctum')->group(function () {
 	]);
 
 	/*
- * Dashboard
- */
+ 	* Dashboard
+ 	*/
 	Route::get("dashboard/{id}", [DashboardController::class, "index"]);
 	Route::get("dashboard/properties/{id}", [DashboardController::class, "properties"]);
 
 	/*
- * Properties
- */
-
-	/*
-* Units
-*/
+	* Units
+	*/
 	Route::get("units/statements/{id}", [UnitController::class, "statements"]);
 
 	/*
- * Tenants
- */
-
-	/*
- * Staff
- */
-
-	/*
- * Invoices
- */
+ 	* Invoices
+ 	*/
 	Route::post("invoices/send-email/{id}", [InvoiceController::class, "sendEmail"]);
 	Route::post("invoices/send-sms/{id}", [InvoiceController::class, "sendSMS"]);
 
 	/*
- * WaterReadings
- */
-
-	/*
- * Payments
- */
-
-	/*
- * CreditNotes
- */
-
-	/*
-* SMS Messages
-*/
-
-	/*
 	* Subscription Plans
-	*/ 
+	*/
 	Route::post("subscription-plans/subscribe", [SubscriptionPlanController::class, "subscribe"]);
 
 	// Kopokopo STK Push

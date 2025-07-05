@@ -21,7 +21,8 @@ const LoginPopUp = (props) => {
 	const [passwordConfirmation, setPasswordConfirmation] = useState()
 
 	const [register, setRegister] = useState(false)
-	const [loading, setLoading] = useState(false)
+	const [registerLoading, setRegisterLoading] = useState(false)
+	const [loginLoading, setLoginLoading] = useState(false)
 
 	const onSocial = (website) => {
 		window.location.href = `/login/${website}`
@@ -35,7 +36,7 @@ const LoginPopUp = (props) => {
 	}
 
 	const onLogin = (e) => {
-		setLoading(true)
+		setLoginLoading(true)
 		e.preventDefault()
 
 		Axios.get("/sanctum/csrf-cookie").then(() => {
@@ -48,7 +49,7 @@ const LoginPopUp = (props) => {
 				.then((res) => {
 					props.setMessages([res.data.message])
 					// Remove loader
-					setLoading(false)
+					setLoginLoading(false)
 					// Hide Login Pop Up
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
@@ -60,14 +61,14 @@ const LoginPopUp = (props) => {
 				})
 				.catch((err) => {
 					// Remove loader
-					setLoading(false)
+					setLoginLoading(false)
 					props.getErrors(err)
 				})
 		})
 	}
 
 	const onRegister = (e) => {
-		setLoading(true)
+		setRegisterLoading(true)
 		e.preventDefault()
 
 		Axios.get("/sanctum/csrf-cookie").then(() => {
@@ -82,7 +83,7 @@ const LoginPopUp = (props) => {
 				.then((res) => {
 					props.setMessages([res.data.message])
 					// Remove loader
-					setLoading(false)
+					setRegisterLoading(false)
 					// Hide Login Pop Up
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
@@ -94,7 +95,7 @@ const LoginPopUp = (props) => {
 				})
 				.catch((err) => {
 					// Remove loader
-					setLoading(false)
+					setRegisterLoading(false)
 					props.getErrors(err)
 				})
 		})
@@ -198,7 +199,7 @@ const LoginPopUp = (props) => {
 									icon={<LogInSVG />}
 									text="login"
 									onClick={() => setRegister(false)}
-									loading={loading}
+									loading={loginLoading}
 								/>
 								{/* Login End */}
 
@@ -208,7 +209,7 @@ const LoginPopUp = (props) => {
 									className="border-light"
 									icon={<PersonSVG />}
 									text="register"
-									loading={loading}
+									loading={registerLoading}
 								/>
 								{/* Register End */}
 							</div>
@@ -267,7 +268,7 @@ const LoginPopUp = (props) => {
 										icon={<PersonSVG />}
 										text="Register"
 										onClick={() => setRegister(true)}
-										loading={loading}
+										loading={registerLoading}
 									/>
 									{/* Register End */}
 
@@ -283,7 +284,7 @@ const LoginPopUp = (props) => {
 											className="border-light"
 											icon={<LogInSVG />}
 											text="Login"
-											loading={loading}
+											loading={loginLoading}
 										/>
 										{/* Login End */}
 									</div>

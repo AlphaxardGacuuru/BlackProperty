@@ -90253,7 +90253,7 @@ function App() {
     });
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (auth.id != 0) {
+    if (auth.id) {
       get("properties?userId=".concat(auth.id), setProperties, "properties");
     }
   }, [auth]);
@@ -90403,8 +90403,12 @@ var LoginPopUp = function LoginPopUp(props) {
     setRegister = _useState10[1];
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
     _useState12 = _slicedToArray(_useState11, 2),
-    loading = _useState12[0],
-    setLoading = _useState12[1];
+    registerLoading = _useState12[0],
+    setRegisterLoading = _useState12[1];
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+    _useState14 = _slicedToArray(_useState13, 2),
+    loginLoading = _useState14[0],
+    setLoginLoading = _useState14[1];
   var onSocial = function onSocial(website) {
     window.location.href = "/login/".concat(website);
   };
@@ -90416,7 +90420,7 @@ var LoginPopUp = function LoginPopUp(props) {
     return crypto_js__WEBPACK_IMPORTED_MODULE_2___default.a.AES.encrypt(token, secretKey).toString();
   };
   var onLogin = function onLogin(e) {
-    setLoading(true);
+    setLoginLoading(true);
     e.preventDefault();
     Axios.get("/sanctum/csrf-cookie").then(function () {
       Axios.post("/login", {
@@ -90427,7 +90431,7 @@ var LoginPopUp = function LoginPopUp(props) {
       }).then(function (res) {
         props.setMessages([res.data.message]);
         // Remove loader
-        setLoading(false);
+        setLoginLoading(false);
         // Hide Login Pop Up
         props.setLogin(false);
         // Encrypt and Save Sanctum Token to Local Storage
@@ -90440,13 +90444,13 @@ var LoginPopUp = function LoginPopUp(props) {
         }, 1000);
       })["catch"](function (err) {
         // Remove loader
-        setLoading(false);
+        setLoginLoading(false);
         props.getErrors(err);
       });
     });
   };
   var onRegister = function onRegister(e) {
-    setLoading(true);
+    setRegisterLoading(true);
     e.preventDefault();
     Axios.get("/sanctum/csrf-cookie").then(function () {
       Axios.post("/register", {
@@ -90459,7 +90463,7 @@ var LoginPopUp = function LoginPopUp(props) {
       }).then(function (res) {
         props.setMessages([res.data.message]);
         // Remove loader
-        setLoading(false);
+        setRegisterLoading(false);
         // Hide Login Pop Up
         props.setLogin(false);
         // Encrypt and Save Sanctum Token to Local Storage
@@ -90472,7 +90476,7 @@ var LoginPopUp = function LoginPopUp(props) {
         }, 1000);
       })["catch"](function (err) {
         // Remove loader
-        setLoading(false);
+        setRegisterLoading(false);
         props.getErrors(err);
       });
     });
@@ -90572,13 +90576,13 @@ var LoginPopUp = function LoginPopUp(props) {
     onClick: function onClick() {
       return setRegister(false);
     },
-    loading: loading
+    loading: loginLoading
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
     type: "submit",
     className: "border-light",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PersonSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
     text: "register",
-    loading: loading
+    loading: registerLoading
   }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_login_buttons__WEBPACK_IMPORTED_MODULE_5__["GoogleLoginButton"], {
     className: "rounded-0 mt-2",
     onClick: function onClick() {
@@ -90631,7 +90635,7 @@ var LoginPopUp = function LoginPopUp(props) {
     onClick: function onClick() {
       return setRegister(true);
     },
-    loading: loading
+    loading: registerLoading
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -90643,7 +90647,7 @@ var LoginPopUp = function LoginPopUp(props) {
     className: "border-light",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogInSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
     text: "Login",
-    loading: loading
+    loading: loginLoading
   }))))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (LoginPopUp);
@@ -90791,7 +90795,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState10 = _slicedToArray(_useState9, 2),
     logoutLoading = _useState10[0],
     setLogoutLoading = _useState10[1];
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
     _useState12 = _slicedToArray(_useState11, 2),
     cantGoToNext = _useState12[0],
     setCantGoToNext = _useState12[1];
@@ -90807,12 +90811,16 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState18 = _slicedToArray(_useState17, 2),
     stkPushed = _useState18[0],
     setStkPushed = _useState18[1];
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+    _useState20 = _slicedToArray(_useState19, 2),
+    simulateLoading = _useState20[0],
+    setSimulateLoading = _useState20[1];
   var blur = props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && props.auth.emailVerifiedAt && location.pathname.match("/admin");
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Subscription Plan
     if (blur) {
       Echo["private"]("mpesa-transaction-created.".concat(props.auth.id)).listen("MpesaTransactionCreatedEvent", function (e) {
-        console.info("Event:" + e);
+        console.info(e);
         setMpesaTransaction(e.mpesaTransaction);
       });
       props.get("subscription-plans", setSubscriptionPlans);
@@ -90902,6 +90910,54 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       props.getErrors(err);
     });
   };
+  var onSimulatePayment = function onSimulatePayment() {
+    setSimulateLoading(true);
+    Axios.post("/api/mpesa-transactions", {
+      data: {
+        id: "49b2bf39-0bff-4f37-8b19-43ca21ab3bf2",
+        type: "incoming_payment",
+        attributes: {
+          initiation_time: "2020-10-21T09:30:34.331+03:00",
+          status: "Success",
+          event: {
+            type: "Incoming Payment Request",
+            resource: {
+              id: "f39-0bff-44ef4-0629-481f-83cd-d101f",
+              reference: "OJL7OW3J59",
+              origination_time: "2020-10-21T09:30:40+03:00",
+              sender_phone_number: "+254700364446",
+              amount: "5000.0",
+              currency: "KES",
+              till_number: "K000000",
+              system: "Lipa Na M-PESA",
+              status: "Received",
+              sender_first_name: "Joe",
+              sender_middle_name: null,
+              sender_last_name: "Buyer"
+            },
+            errors: null
+          },
+          metadata: {
+            customer_id: "123456789",
+            reference: "123456",
+            notes: "Payment for invoice 12345"
+          },
+          _links: {
+            callback_url: "https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8",
+            self: "https://sandbox.kopokopo.com/api/v1/incoming_payments/49b2bf39-0bff-4f37-8b19-43ca21ab3bf2"
+          }
+        }
+      }
+    }).then(function (res) {
+      setSimulateLoading(false);
+      props.setMessages([res.data.message]);
+      // Fetch Auth to set the Subscription Plan
+      props.get("auth", props.setAuth, "auth");
+    })["catch"](function (err) {
+      setSimulateLoading(false);
+      props.getErrors(err);
+    });
+  };
   var onSubscribe = function onSubscribe() {
     Axios.post("/api/subscription-plans/subscribe", {
       subscriptionPlanId: subscriptionPlan.id,
@@ -90918,8 +90974,14 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   var handleTabChange = function handleTabChange(_ref) {
     var prevIndex = _ref.prevIndex,
       nextIndex = _ref.nextIndex;
-    if (nextIndex == 2) {
-      setCantGoToNext(!subscriptionPlan.id);
+    if (nextIndex >= 2) {
+      setTimeout(function () {
+        return setCantGoToNext(!subscriptionPlan.id);
+      }, 500);
+    } else {
+      setTimeout(function () {
+        return setCantGoToNext(false);
+      }, 500);
     }
   };
   var handleComplete = function handleComplete() {};
@@ -91140,11 +91202,26 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: stkPushed
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Request was sent to", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, window.location.hostname !== "property.black.co.ke" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn sonar-btn btn-2 mb-4",
+    onClick: onSimulatePayment
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-center align-items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mx-2"
+  }, "simulate payment"), simulateLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "sonar-load",
+    className: "me-2",
+    style: {
+      bottom: "0"
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Request was sent to", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-success"
   }, " ", props.auth.phone)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Checking payment"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "spinner-border spinner-border-md border-2 text-success my-4 mx-2"
-  }))), mpesaTransaction.user_id == props.auth.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Redirecting you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "text-warning"
+  }, "Do not leave the page while we process your payment"))), mpesaTransaction.user_id == props.auth.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Redirecting you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "spinner-grow spinner-grow-md text-primary my-4 mx-2"
   }))))))));
 };
@@ -91509,6 +91586,97 @@ var BillingList = function BillingList(props) {
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (BillingList);
+
+/***/ }),
+
+/***/ "./resources/js/components/Billings/SubscriptionStatementList.js":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Billings/SubscriptionStatementList.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _components_Core_NoData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/NoData */ "./resources/js/components/Core/NoData.js");
+/* harmony import */ var _svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/MoneySVG */ "./resources/js/svgs/MoneySVG.js");
+/* harmony import */ var _svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/PaymentSVG */ "./resources/js/svgs/PaymentSVG.js");
+/* harmony import */ var _svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/BalanceSVG */ "./resources/js/svgs/BalanceSVG.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+var StatementList = function StatementList(props) {
+  var _statements$data, _statements$data2;
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    statements = _useState2[0],
+    setStatements = _useState2[1];
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    props.getPaginated("statements/subscription?\n\t\t\tsubscriptionUserId=".concat(props.auth.id), setStatements);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: props.activeTab
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card shadow-sm p-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-wrap w-100 align-items-center mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    heading: "Due",
+    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statements.due)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_MoneySVG__WEBPACK_IMPORTED_MODULE_5__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    heading: "Paid",
+    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statements.paid)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PaymentSVG__WEBPACK_IMPORTED_MODULE_6__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between flex-grow-1 mx-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    heading: "Balance",
+    data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statements.balance)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BalanceSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-responsive mb-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table table-hover"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Created On"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Money In"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Money Out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Balance"))), ((_statements$data = statements.data) === null || _statements$data === void 0 ? void 0 : _statements$data.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, (_statements$data2 = statements.data) === null || _statements$data2 === void 0 ? void 0 : _statements$data2.map(function (statement, key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.iterator(key, statements)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-capitalize"
+    }, statement.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, statement.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statement.credit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statement.debit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "text-success"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", null, "KES"), " ", statement.balance));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colSpan: "8",
+    className: "p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_NoData__WEBPACK_IMPORTED_MODULE_4__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    list: statements,
+    getPaginated: props.getPaginated,
+    setState: setStatements
+  })));
+};
+/* harmony default export */ __webpack_exports__["default"] = (StatementList);
 
 /***/ }),
 
@@ -96017,7 +96185,7 @@ var UnitStatementList = function UnitStatementList(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     // Fetch Statements
     if (props.unit.id) {
-      props.getPaginated("statements?\n\t\t\t\tunitId=".concat(props.unit.id, "&\n\t\t\t\tuserUnitId=").concat(props.userUnitId), setStatements);
+      props.getPaginated("statements/unit?\n\t\t\t\tunitId=".concat(props.unit.id, "&\n\t\t\t\tuserUnitId=").concat(props.userUnitId), setStatements);
     }
   }, [props.unit]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
@@ -96446,20 +96614,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
 /* harmony import */ var _components_Billings_BillingList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Billings/BillingList */ "./resources/js/components/Billings/BillingList.js");
-/* harmony import */ var _components_Tenants_TenantList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Tenants/TenantList */ "./resources/js/components/Tenants/TenantList.js");
-/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
-/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/BillingSVG */ "./resources/js/svgs/BillingSVG.js");
-/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
-/* harmony import */ var _svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/CheckSVG */ "./resources/js/svgs/CheckSVG.js");
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+/* harmony import */ var _components_Billings_SubscriptionStatementList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Billings/SubscriptionStatementList */ "./resources/js/components/Billings/SubscriptionStatementList.js");
+/* harmony import */ var _components_Tenants_TenantList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Tenants/TenantList */ "./resources/js/components/Tenants/TenantList.js");
+/* harmony import */ var _components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Core/HeroHeading */ "./resources/js/components/Core/HeroHeading.js");
+/* harmony import */ var _components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Core/HeroIcon */ "./resources/js/components/Core/HeroIcon.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/BillingSVG */ "./resources/js/svgs/BillingSVG.js");
+/* harmony import */ var _svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/ForwardSVG */ "./resources/js/svgs/ForwardSVG.js");
+/* harmony import */ var _svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/CheckSVG */ "./resources/js/svgs/CheckSVG.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -96505,7 +96674,7 @@ var billing = function billing(props) {
     _useState16 = _slicedToArray(_useState15, 2),
     endYear = _useState16[0],
     setEndYear = _useState16[1];
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("history"),
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("statement"),
     _useState18 = _slicedToArray(_useState17, 2),
     tab = _useState18[0],
     setTab = _useState18[1];
@@ -96517,6 +96686,7 @@ var billing = function billing(props) {
 
     // Fetch Billings
     props.getPaginated("mpesa-transactions?\n\t\t\tpropertyId=".concat(props.selectedPropertyId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tuserId=").concat(props.auth.id, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setBillings);
+
     // Fetch Subscription Plan
     props.get("subscription-plans", setSubscriptionPlans);
   }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
@@ -96534,7 +96704,7 @@ var billing = function billing(props) {
     className: "card shadow-sm p-2 mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between w-100 align-items-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroHeading__WEBPACK_IMPORTED_MODULE_6__["default"], {
     heading: "Current Plan",
     data: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: ""
@@ -96542,8 +96712,8 @@ var billing = function billing(props) {
       className: "my-1"
     }, ((_props$auth$activeSub = props.auth.activeSubscription) === null || _props$auth$activeSub === void 0 ? void 0 : _props$auth$activeSub.name) || "Free Plan"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
       className: " text-success"
-    }, "KES ", ((_props$auth$activeSub2 = props.auth.activeSubscription) === null || _props$auth$activeSub2 === void 0 || (_props$auth$activeSub2 = _props$auth$activeSub2.price) === null || _props$auth$activeSub2 === void 0 || (_props$auth$activeSub2 = _props$auth$activeSub2.monthly) === null || _props$auth$activeSub2 === void 0 ? void 0 : _props$auth$activeSub2.toLocaleString()) || "KES 0"))
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
+    }, "KES", " ", ((_props$auth$activeSub2 = props.auth.activeSubscription) === null || _props$auth$activeSub2 === void 0 || (_props$auth$activeSub2 = _props$auth$activeSub2.price) === null || _props$auth$activeSub2 === void 0 || (_props$auth$activeSub2 = _props$auth$activeSub2.monthly) === null || _props$auth$activeSub2 === void 0 ? void 0 : _props$auth$activeSub2.toLocaleString()) || "KES 0"))
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_HeroIcon__WEBPACK_IMPORTED_MODULE_7__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_9__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
     className: "border"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between"
@@ -96560,14 +96730,14 @@ var billing = function billing(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between flex-wrap mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("history")),
+    className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("statement")),
     style: {
       cursor: "pointer"
     },
     onClick: function onClick() {
-      return setTab("history");
+      return setTab("statement");
     }
-  }, "History"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Statement"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm flex-grow-1 text-center me-1 mb-2 py-2 px-4 ".concat(active("settings")),
     style: {
       cursor: "pointer"
@@ -96575,17 +96745,7 @@ var billing = function billing(props) {
     onClick: function onClick() {
       return setTab("settings");
     }
-  }, "Settings")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Billings_BillingList__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-    activeTab: activeTab("history"),
-    billings: billings,
-    setBillings: setBillings,
-    setUnit: setUnit,
-    setTenant: setTenant,
-    setStartMonth: setStartMonth,
-    setEndMonth: setEndMonth,
-    setStartYear: setStartYear,
-    setEndYear: setEndYear
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Settings")), tab == "statement" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Billings_SubscriptionStatementList__WEBPACK_IMPORTED_MODULE_4__["default"], props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: activeTab("settings")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card shadow-sm mb-2 p-2"
@@ -96600,6 +96760,7 @@ var billing = function billing(props) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Subscription Plans"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row mb-5"
   }, subscriptionPlans.map(function (subscriptionPlan, key) {
+    var _props$auth$activeSub3, _props$auth$activeSub4;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       key: key,
       className: "col-12 col-md-6 col-lg-4"
@@ -96610,7 +96771,7 @@ var billing = function billing(props) {
         color: "white"
       },
       "data-wow-delay": "300ms"
-    }, props.auth.activeSubscription.name == subscriptionPlan.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    }, ((_props$auth$activeSub3 = props.auth.activeSubscription) === null || _props$auth$activeSub3 === void 0 ? void 0 : _props$auth$activeSub3.name) == subscriptionPlan.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
       className: "mb-2 text-primary"
     }, "Current"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "w-75 mx-auto border-light"
@@ -96628,7 +96789,7 @@ var billing = function billing(props) {
         className: "d-block"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "text-success fs-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)), feature);
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_11__["default"], null)), feature);
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", {
       className: "w-75 mx-auto border-light"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -96647,7 +96808,7 @@ var billing = function billing(props) {
       className: "mt-2 mb-4 text-success"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
       className: "fw-lighter me-1"
-    }, "KES"), subscriptionPlan.price.onboarding_fee.toLocaleString(), " ", "onboarding fee"), props.auth.activeSubscription.name != subscriptionPlan.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    }, "KES"), subscriptionPlan.price.onboarding_fee.toLocaleString(), " ", "onboarding fee"), ((_props$auth$activeSub4 = props.auth.activeSubscription) === null || _props$auth$activeSub4 === void 0 ? void 0 : _props$auth$activeSub4.name) != subscriptionPlan.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: "/admin/dashboard",
       className: "btn sonar-btn white-btn w-25 mx-auto"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
