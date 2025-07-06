@@ -1,25 +1,44 @@
 import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import CryptoJS from "crypto-js"
+import { property } from "lodash"
 
 const Socialite = (props) => {
 	let { message, token } = useParams()
 
+	// Encrypt Token
+	const encryptedToken = (token) => {
+		const secretKey = "BlackPropertyAuthorizationToken"
+		// Encrypt
+		return CryptoJS.AES.encrypt(token, secretKey).toString()
+	}
+
 	useEffect(() => {
 		props.setMessages([message])
 
-		// Encrypt Token
-		const encryptedToken = (token) => {
-			const secretKey = "BlackPropertyAuthorizationToken"
-			// Encrypt
-			return CryptoJS.AES.encrypt(token, secretKey).toString()
+		// Check if sanctumToken in in Local Storage
+		if (props.getLocalStorage("sanctumToken")?.length) {
+			// Redirect to index page
+			setTimeout(() => (window.location.href = "/#/admin/dashboard"), 2000)
+			return
 		}
 
 		// Encrypt and Save Sanctum Token to Local Storage
 		props.setLocalStorage("sanctumToken", encryptedToken(token))
 
-		// Redirect to index page
-		setTimeout(() => window.location.replace("/#/admin/dashboard"), 2000)
+		// Fetch Auth with Sanctum Token
+		Axios.get("/api/auth", {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+			.then((res) => {
+				props.setLocalStorage("auth", res.data.data)
+				props.setAuth(res.data.data)
+				// Reload
+				window.location.reload()
+			})
+			.catch((error) => {
+				props.setErrors(["Failed to fetch user data. Please try again."])
+			})
 	}, [])
 
 	return (

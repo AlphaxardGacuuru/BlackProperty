@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Mail\WelcomeMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -40,7 +39,7 @@ class WelcomeNotification extends Notification
 	 */
 	public function toMail($notifiable)
 	{
-		return (new WelcomeMail($notifiable))
+		return (new MailMessage)
 			->from("al@black.co.ke", "Alphaxard from Black Property")
 			->to($notifiable->email)
 			->subject('Welcome to Black Property!')

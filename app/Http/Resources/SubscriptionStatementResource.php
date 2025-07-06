@@ -17,9 +17,9 @@ class SubscriptionStatementResource extends JsonResource
 		return [
 			"id" => $this->id,
 			"type" => $this->type,
-			"credit" => number_format($this->credit),
-			"debit" => number_format($this->debit),
-			"balance" => number_format($this->balance),
+			"credit" => number_format($this->credit ?? 0),
+			"debit" => number_format($this->debit ?? 0),
+			"balance" => number_format($this->balance ?? 0),
 			"updatedAt" => $this->updated_at,
 			"createdAt" => $this->created_at,
 		];

@@ -64,6 +64,8 @@ class AuthenticatedSessionController extends Controller
 			$saved = $dbUser->save();
 
 			$dbUser->notify(new WelcomeNotification());
+
+			event(new Registered($dbUser));
 		} else {
 			// If user exists, update the existing user
 			$dbUser = $dbUserQuery->first();

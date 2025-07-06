@@ -11,13 +11,29 @@ const VerifyEmail = (props) => {
 	const signature = queryParams.get("signature")
 
 	useEffect(() => {
+		// Check if sanctumToken in in Local Storage
+		if (props.auth.emailVerifiedAt) {
+			// Redirect to index page
+			setTimeout(() => (window.location.href = "/#/admin/dashboard"), 2000)
+			return
+		}
+
 		Axios.post(
 			`/verify-email/${id}/${hash}?expires=${expires}&signature=${signature}`
 		)
 			.then((res) => {
 				props.setMessages([res.data.message])
-				// Redirect to login page
-				window.location.replace("/#/admin/dashboard")
+
+				Axios.get("/api/auth")
+					.then((res) => {
+						props.setLocalStorage("auth", res.data.data)
+						props.setAuth(res.data.data)
+						// Reload
+						window.location.reload()
+					})
+					.catch((err) => {
+						props.setErrors(["Failed to fetch user data."])
+					})
 			})
 			.catch((err) => {
 				props.setErrors(["Failed to Verify Email"])

@@ -90668,6 +90668,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 /* harmony import */ var crypto_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(crypto_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -90675,23 +90678,42 @@ var Socialite = function Socialite(props) {
   var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     message = _useParams.message,
     token = _useParams.token;
+
+  // Encrypt Token
+  var encryptedToken = function encryptedToken(token) {
+    var secretKey = "BlackPropertyAuthorizationToken";
+    // Encrypt
+    return crypto_js__WEBPACK_IMPORTED_MODULE_2___default.a.AES.encrypt(token, secretKey).toString();
+  };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$getLocalStorag;
     props.setMessages([message]);
 
-    // Encrypt Token
-    var encryptedToken = function encryptedToken(token) {
-      var secretKey = "BlackPropertyAuthorizationToken";
-      // Encrypt
-      return crypto_js__WEBPACK_IMPORTED_MODULE_2___default.a.AES.encrypt(token, secretKey).toString();
-    };
+    // Check if sanctumToken in in Local Storage
+    if ((_props$getLocalStorag = props.getLocalStorage("sanctumToken")) !== null && _props$getLocalStorag !== void 0 && _props$getLocalStorag.length) {
+      // Redirect to index page
+      setTimeout(function () {
+        return window.location.href = "/#/admin/dashboard";
+      }, 2000);
+      return;
+    }
 
     // Encrypt and Save Sanctum Token to Local Storage
     props.setLocalStorage("sanctumToken", encryptedToken(token));
 
-    // Redirect to index page
-    setTimeout(function () {
-      return window.location.replace("/#/admin/dashboard");
-    }, 2000);
+    // Fetch Auth with Sanctum Token
+    Axios.get("/api/auth", {
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (res) {
+      props.setLocalStorage("auth", res.data.data);
+      props.setAuth(res.data.data);
+      // Reload
+      window.location.reload();
+    })["catch"](function (error) {
+      props.setErrors(["Failed to fetch user data. Please try again."]);
+    });
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "preloader",
@@ -91256,10 +91278,24 @@ var VerifyEmail = function VerifyEmail(props) {
   var expires = queryParams.get("expires");
   var signature = queryParams.get("signature");
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Check if sanctumToken in in Local Storage
+    if (props.auth.emailVerifiedAt) {
+      // Redirect to index page
+      setTimeout(function () {
+        return window.location.href = "/#/admin/dashboard";
+      }, 2000);
+      return;
+    }
     Axios.post("/verify-email/".concat(id, "/").concat(hash, "?expires=").concat(expires, "&signature=").concat(signature)).then(function (res) {
       props.setMessages([res.data.message]);
-      // Redirect to login page
-      window.location.replace("/#/admin/dashboard");
+      Axios.get("/api/auth").then(function (res) {
+        props.setLocalStorage("auth", res.data.data);
+        props.setAuth(res.data.data);
+        // Reload
+        window.location.reload();
+      })["catch"](function (err) {
+        props.setErrors(["Failed to fetch user data."]);
+      });
     })["catch"](function (err) {
       props.setErrors(["Failed to Verify Email"]);
       window.location.replace("/#/admin/dashboard");
