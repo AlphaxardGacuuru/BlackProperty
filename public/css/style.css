@@ -3302,39 +3302,18 @@ div.hidden-scroll span {
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
 	.nav-property-dropdown {
-		width: 70%;
+		width: 60%;
 	}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 	.nav-property-dropdown {
-		width: 70%;
+		width: 60%;
 	}
 }
 
 @media only screen and (max-width: 767px) {
 	.nav-property-dropdown {
-		width: 70%;
+		width: 60%;
 	}
-}
-
-.subscription-plan-wizard {
-	position: fixed;
-	width: 80%;
-	/* bottom: -5000px; */
-	/* background-color: #232323; */
-	z-index: 1000001;
-	text-align: center;
-	padding: 10px 10px;
-	/* margin: 2%; */
-	/* -webkit-box-orient: vertical; */
-	/* -webkit-box-direction: normal; */
-	/* -ms-flex-direction: column; */
-	/* flex-direction: column; */
-	-webkit-transition-duration: 800ms;
-	transition-duration: 800ms;
-	/* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
-	transition: 0.3s;
-	/* margin-right: 25%; */
-	/* margin-left: 25%; */
 }

@@ -4,7 +4,6 @@ import { HashRouter } from "react-router-dom"
 
 import ScrollToTop from "@/functions/ScrollToTop"
 import LoginPopUp from "@/components/Auth/LoginPopUp"
-import SubscriptionPlan from "@/components/Auth/SubscriptionPlan"
 import VerifyEmailWarning from "@/components/Auth/VerifyEmailWarning"
 import Footer from "@/components/Layouts/Footer"
 import Messages from "@/components/Core/Messages"
@@ -13,6 +12,8 @@ import PageLoader from "@/components/Core/PageLoader"
 
 import Routes from "@/routes"
 import { random } from "lodash"
+
+import Subscribed from "@/middleware/subscribed"
 
 function App() {
 	// Function for checking local storage
@@ -296,8 +297,8 @@ function App() {
 		<HashRouter>
 			<ScrollToTop />
 			<LoginPopUp {...GLOBAL_STATE} />
-			<SubscriptionPlan {...GLOBAL_STATE} />
 			<VerifyEmailWarning {...GLOBAL_STATE} />
+			<Subscribed {...GLOBAL_STATE} />
 			<PageLoader {...GLOBAL_STATE} />
 			<Routes GLOBAL_STATE={GLOBAL_STATE} />
 			<Footer {...GLOBAL_STATE} />

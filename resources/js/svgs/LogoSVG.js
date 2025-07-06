@@ -7,8 +7,7 @@ const LogoSVG = () => {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 432.6315789473684 163"
 			className="iconAbove"
-			width="4em"
-			height="auto">
+			width="4em">
 			<g
 				data-v-423bf9ae=""
 				id="bcba994c-cb7e-427a-8bd8-6b5638ce1913"

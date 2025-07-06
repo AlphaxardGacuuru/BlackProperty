@@ -6,6 +6,8 @@ import Index from "@/pages/index"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 
+import AdminSubscriptionPlan from "@/components/Auth/SubscriptionPlan"
+
 import AdminDashboard from "@/pages/admin/index"
 
 import AdminProperties from "@/pages/admin/properties/index"
@@ -91,6 +93,10 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 	// Admin Routes
 	const adminRoutes = [
+		{
+			path: "/admin/subscribe",
+			component: <AdminSubscriptionPlan {...GLOBAL_STATE} />,
+		},
 		{
 			path: "/admin/dashboard",
 			component: <AdminDashboard {...GLOBAL_STATE} />,
@@ -271,7 +277,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		{
 			path: "/admin/support",
 			component: <AdminSupport {...GLOBAL_STATE} />,
-		}
+		},
 	]
 
 	return (
