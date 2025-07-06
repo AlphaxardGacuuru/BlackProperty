@@ -41,7 +41,6 @@ class WelcomeNotification extends Notification
 	{
 		return (new MailMessage)
 			->from("al@black.co.ke", "Alphaxard from Black Property")
-			->to($notifiable->email)
 			->subject('Welcome to Black Property!')
 			->greeting('Hello ' . $notifiable->name . ',')
 			->line("Thank you for joining Black Property. We are excited to have you on board!")
