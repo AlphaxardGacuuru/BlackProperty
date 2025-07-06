@@ -90701,7 +90701,7 @@ var Socialite = function Socialite(props) {
     if ((_props$getLocalStorag = props.getLocalStorage("sanctumToken")) !== null && _props$getLocalStorag !== void 0 && _props$getLocalStorag.length) {
       // Redirect to index page
       setTimeout(function () {
-        return window.location.href = "/#/admin/dashboard";
+        return window.location.href = "/#/admin/subscribe";
       }, 2000);
       return;
     }

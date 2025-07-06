@@ -19,7 +19,7 @@ const Socialite = (props) => {
 		// Check if sanctumToken in in Local Storage
 		if (props.getLocalStorage("sanctumToken")?.length) {
 			// Redirect to index page
-			setTimeout(() => (window.location.href = "/#/admin/dashboard"), 2000)
+			setTimeout(() => (window.location.href = "/#/admin/subscribe"), 2000)
 			return
 		}
 
