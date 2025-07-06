@@ -7,11 +7,12 @@ function subscribed(props) {
 
 		const unlisten = props.history.listen(() => {
 			// Redirect to subscription page if user is not subscribed
+			console.info(props.auth)
 			if (
 				props.auth.name != "Guest" &&
 				!props.auth.activeSubscription?.id &&
 				props.auth.emailVerifiedAt &&
-				location.pathname.match("/admin")
+				location.pathname.match("/admin/")
 			) {
 				// Show a message to subscribe
 				props.setErrors(["Please subscribe to access page"])
