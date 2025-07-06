@@ -90468,8 +90468,6 @@ var LoginPopUp = function LoginPopUp(props) {
         props.setLogin(false);
         // Encrypt and Save Sanctum Token to Local Storage
         props.setLocalStorage("sanctumToken", encryptedToken(res.data.data));
-        // Update Logged in user
-        props.get("auth", props.setAuth, "auth", false);
         // Reload page
         setTimeout(function () {
           return window.location.reload();
@@ -91247,7 +91245,7 @@ var VerifyEmail = function VerifyEmail(props) {
     if (props.auth.emailVerifiedAt) {
       // Redirect to index page
       setTimeout(function () {
-        return window.location.href = "/#/admin/dashboard";
+        return window.location.href = "/#/admin/subscribe";
       }, 2000);
       return;
     }

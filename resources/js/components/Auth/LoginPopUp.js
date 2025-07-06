@@ -88,8 +88,6 @@ const LoginPopUp = (props) => {
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
-					// Update Logged in user
-					props.get(`auth`, props.setAuth, "auth", false)
 					// Reload page
 					setTimeout(() => window.location.reload(), 1000)
 				})
