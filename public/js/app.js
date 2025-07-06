@@ -96630,7 +96630,6 @@ function subscribed(props) {
     var unlisten = props.history.listen(function () {
       var _props$auth$activeSub;
       // Redirect to subscription page if user is not subscribed
-      console.info(props.auth);
       if (props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && props.auth.emailVerifiedAt && location.pathname.match("/admin/")) {
         // Show a message to subscribe
         props.setErrors(["Please subscribe to access page"]);

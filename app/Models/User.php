@@ -60,6 +60,13 @@ class User extends Authenticatable implements MustVerifyEmail
 		);
 	}
 
+	protected function emailVerifiedAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn($value) => $value ? Carbon::parse($value)->format('d M Y') : null,
+		);
+	}
+
 	protected function updatedAt(): Attribute
 	{
 		return Attribute::make(
