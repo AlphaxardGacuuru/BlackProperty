@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class RegisteredUserController extends Controller
 			->createToken($request->device_name)
 			->plainTextToken;
 
-		$user->notify(new WelcomeNotification());
+		$user->notify(new WelcomeNotification);
 
 		event(new Registered($user));
 
