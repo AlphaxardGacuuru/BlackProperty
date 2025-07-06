@@ -58,7 +58,7 @@ class WelcomeNotification extends Notification
 		return [
 			'url' => '/',
 			'from' => 'Admin',
-			'message' => 'Welcome ' . $this->user->name . ' to Black Property.',
+			'message' => 'Welcome ' . $notifiable->name . ' to Black Property.',
 		];
 	}
 }
