@@ -59,6 +59,7 @@ class AuthenticatedSessionController extends Controller
 			$dbUser->name = $name;
 			$dbUser->email = $email;
 			$dbUser->avatar = $avatar;
+			$dbUser->email_verified_at = now();
 			$dbUser->password = Hash::make($email);
 			$saved = $dbUser->save();
 

@@ -19,7 +19,7 @@ const Socialite = (props) => {
 		props.setLocalStorage("sanctumToken", encryptedToken(token))
 
 		// Redirect to index page
-		window.location.replace("/#/admin/dashboard")
+		setTimeout(() => window.location.replace("/#/admin/dashboard"), 2000)
 	}, [])
 
 	return (

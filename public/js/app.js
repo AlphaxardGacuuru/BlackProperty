@@ -90689,7 +90689,9 @@ var Socialite = function Socialite(props) {
     props.setLocalStorage("sanctumToken", encryptedToken(token));
 
     // Redirect to index page
-    window.location.replace("/#/admin/dashboard");
+    setTimeout(function () {
+      return window.location.replace("/#/admin/dashboard");
+    }, 2000);
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "preloader",
