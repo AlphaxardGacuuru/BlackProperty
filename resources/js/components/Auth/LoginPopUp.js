@@ -88,8 +88,20 @@ const LoginPopUp = (props) => {
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
-					// Reload page
-					setTimeout(() => window.location.reload(), 1000)
+
+					// Fetch Auth with Sanctum Token
+					Axios.get("/api/auth", {
+						headers: { Authorization: `Bearer ${res.data.data}` },
+					})
+						.then((res) => {
+							props.setLocalStorage("auth", res.data.data)
+							props.setAuth(res.data.data)
+							// Reload
+							window.location.reload()
+						})
+						.catch((error) => {
+							props.setErrors(["Failed to fetch user data. Please try again."])
+						})
 				})
 				.catch((err) => {
 					// Remove loader
