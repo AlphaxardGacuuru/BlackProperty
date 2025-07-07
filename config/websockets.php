@@ -138,8 +138,11 @@ return [
      * `ChannelManager` interface provided by this package.
      */
     'channel_manager' => \BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManagers\ArrayChannelManager::class,
-	
+
 	'cors' => [
 		'allowed_origins' => ['https://property.black.co.ke'],
+		'allowed_origins' => ['https://property.black.co.ke'],
+		'allowed_methods' => ['GET', 'POST'],
+		'allowed_headers' => ['Content-Type', 'Authorization'],
 	],
 ];
