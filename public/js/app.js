@@ -89963,13 +89963,13 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsHost: window.location.hostname,
   wsPort: 6008,
   wssPort: 6008,
-  forceTLS: false,
+  forceTLS: window.location.protocol === "https:",
   enabledTransports: ["ws", "wss"],
   disableStats: true,
   auth: {
     headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-      'Authorization': 'Bearer ' + localStorage.getItem('sanctumToken')
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+      Authorization: "Bearer " + decryptedToken()
     }
   },
   authorizer: function authorizer(channel, options) {
@@ -108174,8 +108174,8 @@ var WhatsAppSVG = function WhatsAppSVG() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/al/projects/BlackProperty/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/al/projects/BlackProperty/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
