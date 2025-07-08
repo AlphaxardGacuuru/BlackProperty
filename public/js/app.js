@@ -89964,7 +89964,6 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsPort: 6008,
   wssPort: 6008,
   forceTLS: window.location.protocol === "https:",
-  enabledTransports: ["ws", "wss"],
   disableStats: true,
   auth: {
     headers: {
