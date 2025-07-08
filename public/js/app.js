@@ -89987,14 +89987,6 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
     };
   }
 });
-window.Echo.connector.pusher.connection.bind("error", function (error) {
-  console.error("WebSocket Error:", error);
-});
-
-// In browser console
-laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"].connector.pusher.connection.bind('connected', function () {
-  console.log('WebSocket connected!');
-});
 
 /***/ }),
 
@@ -90864,6 +90856,15 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     subscribeLoading = _useState20[0],
     setSubscribeLoading = _useState20[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    window.Echo.connector.pusher.connection.bind("error", function (error) {
+      console.error("WebSocket Error:", error);
+    });
+
+    // In browser console
+    Echo.connector.pusher.connection.bind("connected", function () {
+      console.log("WebSocket connected!");
+    });
+
     // Set page
     props.setPage({
       name: "Subscribe",

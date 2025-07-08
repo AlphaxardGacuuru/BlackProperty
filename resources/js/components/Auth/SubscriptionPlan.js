@@ -40,6 +40,16 @@ const SubscriptionPlan = (props) => {
 	const [subscribeLoading, setSubscribeLoading] = useState(true)
 
 	useEffect(() => {
+
+		window.Echo.connector.pusher.connection.bind("error", (error) => {
+			console.error("WebSocket Error:", error)
+		})
+
+		// In browser console
+		Echo.connector.pusher.connection.bind("connected", () => {
+			console.log("WebSocket connected!")
+		})
+		
 		// Set page
 		props.setPage({ name: "Subscribe", path: ["dashboard", "subscribe"] })
 
