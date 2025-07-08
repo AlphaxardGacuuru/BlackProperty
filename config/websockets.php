@@ -33,6 +33,13 @@ return [
             'enable_statistics' => true,
         ],
     ],
+	
+	'ssl' => [
+		'local_cert' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT'),
+		'local_pk' => env('LARAVEL_WEBSOCKETS_SSL_LOCAL_PK'),
+		'passphrase' => null,
+		'verify_peer' => false,
+	],
 
     /*
      * This class is responsible for finding the apps. The default provider

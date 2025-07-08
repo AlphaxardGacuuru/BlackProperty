@@ -89962,8 +89962,16 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: "mt1",
   wsHost: window.location.hostname,
   wsPort: 6008,
-  forceTLS: false,
+  wssPort: 6008,
+  forceTLS: true,
+  enabledTransports: ["ws", "wss"],
   disableStats: true,
+  auth: {
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+      'Authorization': 'Bearer ' + localStorage.getItem('sanctumToken')
+    }
+  },
   authorizer: function authorizer(channel, options) {
     return {
       authorize: function authorize(socketId, callback) {
@@ -89978,6 +89986,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
       }
     };
   }
+});
+window.Echo.connector.pusher.connection.bind("error", function (error) {
+  console.error("WebSocket Error:", error);
 });
 
 /***/ }),

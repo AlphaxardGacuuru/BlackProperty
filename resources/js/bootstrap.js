@@ -72,6 +72,12 @@ window.Echo = new Echo({
 	forceTLS: true,
 	enabledTransports: ["ws", "wss"],
 	disableStats: true,
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Authorization': 'Bearer ' + localStorage.getItem('sanctumToken')
+        }
+    },
 	authorizer: (channel, options) => {
 		return {
 			authorize: (socketId, callback) => {
