@@ -141,8 +141,8 @@ return [
 
 	'cors' => [
 		'allowed_origins' => ['https://property.black.co.ke'],
-		'allowed_origins' => ['https://property.black.co.ke'],
 		'allowed_methods' => ['GET', 'POST'],
 		'allowed_headers' => ['Content-Type', 'Authorization'],
+		'allowed_headers' => ['Content-Type', 'X-Requested-With'],
 	],
 ];

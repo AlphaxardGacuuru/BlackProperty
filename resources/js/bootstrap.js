@@ -70,6 +70,7 @@ window.Echo = new Echo({
 	wsPort: 6008,
 	wssPort: 6008,
 	forceTLS: true,
+	enabledTransports: ["ws", "wss"],
 	disableStats: true,
 	authorizer: (channel, options) => {
 		return {
