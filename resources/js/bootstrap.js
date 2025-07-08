@@ -95,3 +95,8 @@ window.Echo = new Echo({
 window.Echo.connector.pusher.connection.bind("error", (error) => {
 	console.error("WebSocket Error:", error)
 })
+
+// In browser console
+Echo.connector.pusher.connection.bind('connected', () => {
+    console.log('WebSocket connected!');
+});
