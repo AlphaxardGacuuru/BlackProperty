@@ -63,6 +63,8 @@ const SubscriptionPlan = (props) => {
 		)
 
 		props.get(`subscription-plans`, setSubscriptionPlans)
+
+		
 	}, [props.auth])
 
 	useEffect(() => {
