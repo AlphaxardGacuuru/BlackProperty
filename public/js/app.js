@@ -89956,11 +89956,29 @@ Axios.defaults.withCredentials = true;
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+console.info({
+  broadcaster: "pusher",
+  key: "8",
+  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  cluster: "",
+  // Empty for self-hosted websockets
+  wsHost: window.location.hostname,
+  wsPort: 6008,
+  wssPort: 6008,
+  forceTLS: window.location.protocol === "https:",
+  disableStats: true,
+  auth: {
+    headers: {
+      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+      Authorization: "Bearer " + decryptedToken()
+    }
+  }
+});
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: "pusher",
   key: "8",
   // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-  cluster: '',
+  cluster: "",
   // Empty for self-hosted websockets
   wsHost: window.location.hostname,
   wsPort: 6008,
