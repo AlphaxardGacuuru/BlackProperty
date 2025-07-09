@@ -89979,7 +89979,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: "pusher",
   key: "local",
   // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-  // cluster: "", // Empty for self-hosted websockets
+  cluster: "",
+  // Empty for self-hosted websockets
   wsHost: window.location.hostname,
   wsPort: 6008,
   wssPort: 6008,
