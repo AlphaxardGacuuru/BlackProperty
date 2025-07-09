@@ -65,7 +65,7 @@ window.Pusher = require("pusher-js")
 console.info({
 	broadcaster: "pusher",
 	key: process.env.MIX_PUSHER_APP_KEY,
-	// cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+	clusterOld: process.env.MIX_PUSHER_APP_CLUSTER,
 	cluster: "", // Empty for self-hosted websockets
 	wsHost: window.location.hostname,
 	wsPort: 6008,
