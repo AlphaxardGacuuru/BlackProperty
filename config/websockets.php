@@ -128,7 +128,9 @@ return [
          * Passphrase for your local_cert file.
          */
         'passphrase' => env('LARAVEL_WEBSOCKETS_SSL_PASSPHRASE', null),
-    ],
+		'allow_self_signed' => true,  // Add this
+		'verify_peer_name' => false,  // Add this
+	],
 
     /*
      * Channel Manager
