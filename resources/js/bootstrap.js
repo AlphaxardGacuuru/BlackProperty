@@ -81,6 +81,7 @@ console.info({
 })
 
 window.Echo = new Echo({
+	version: 1,
 	broadcaster: "pusher",
 	key: process.env.MIX_PUSHER_APP_KEY,
 	// cluster: process.env.MIX_PUSHER_APP_CLUSTER,
