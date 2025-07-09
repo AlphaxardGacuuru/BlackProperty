@@ -89958,8 +89958,8 @@ Axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 console.info({
   broadcaster: "pusher",
-  key: "8",
-  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  key: "local",
+  clusterOld: "mt1",
   cluster: "",
   // Empty for self-hosted websockets
   wsHost: window.location.hostname,
@@ -89975,8 +89975,9 @@ console.info({
   }
 });
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  version: 1,
   broadcaster: "pusher",
-  key: "8",
+  key: "local",
   // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
   cluster: "",
   // Empty for self-hosted websockets
