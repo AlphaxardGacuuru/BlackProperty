@@ -22,6 +22,8 @@ class Kernel extends ConsoleKernel
 
 		$schedule->command('telescope:prune')->weekly();
 
+		$schedule->command('websockets:clean')->weekly();
+
 		$schedule
 			->job(new GenerateInvoicesJob)
 			// ->everyMinute()
