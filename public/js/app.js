@@ -89958,7 +89958,7 @@ Axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 console.info({
   broadcaster: "pusher",
-  key: "local",
+  key: "xKp9qR2sT4vW7yZ1wB3eD5gH8jK1mN3pQ",
   clusterOld: "mt1",
   cluster: "",
   // Empty for self-hosted websockets
@@ -89977,10 +89977,9 @@ console.info({
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   version: 2,
   broadcaster: "pusher",
-  key: "local",
-  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-  cluster: "",
-  // Empty for self-hosted websockets
+  key: "xKp9qR2sT4vW7yZ1wB3eD5gH8jK1mN3pQ",
+  cluster: "mt1",
+  // cluster: "", // Empty for self-hosted websockets
   wsHost: window.location.hostname,
   wsPort: 6008,
   wssPort: 6008,
@@ -90871,7 +90870,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState18 = _slicedToArray(_useState17, 2),
     simulateLoading = _useState18[0],
     setSimulateLoading = _useState18[1];
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
     _useState20 = _slicedToArray(_useState19, 2),
     subscribeLoading = _useState20[0],
     setSubscribeLoading = _useState20[1];
@@ -90896,15 +90895,56 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       console.info(e);
       setMpesaTransaction(e.mpesaTransaction);
     });
-    props.get("subscription-plans", setSubscriptionPlans);
+    Axios.get("api/subscription-plans").then(function (subscriptionRes) {
+      setSubscriptionPlans(subscriptionRes.data.data);
+      Axios.get("api/user-subscription-plans?\n\t\t\t\t\tuserId=".concat(props.auth.id, "&\n\t\t\t\t\tstatus=pending")).then(function (res) {
+        var userSubscriptionPlan = res.data.data[0];
+        if (userSubscriptionPlan) {
+          var subscription = subscriptionRes.data.data.find(function (plan) {
+            return plan.id === userSubscriptionPlan.subscriptionPlanId;
+          });
+          setSubscriptionPlan(subscription);
+        } else {
+          setSubscriptionPlan({});
+        }
+      })["catch"](function (err) {
+        return props.setErrors(["Failed to fetch User Subscription Plans"]);
+      });
+    })["catch"](function (err) {
+      return props.setErrors(["Failed to fetch Subscription Plans"]);
+    });
   }, [props.auth]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (mpesaTransaction.id) {
       setStkPushed("d-none");
       props.setMessages(["Payment Received!"]);
-      onSubscribe();
+      onCheckSubscription();
     }
   }, [mpesaTransaction]);
+
+  /*
+   * Save Subscription Plan
+   */
+  var onSetSubscriptionPlan = function onSetSubscriptionPlan(subscriptionPlanItem, save) {
+    if (save) {
+      setSubscriptionPlan(subscriptionPlanItem);
+    } else {
+      setSubscriptionPlan({});
+    }
+    setSubscribeLoading(true);
+    Axios.post("/api/user-subscription-plans", {
+      subscriptionPlanId: subscriptionPlanItem.id,
+      // amountPaid: subscriptionPlanItem.price.onboarding_fee,
+      duration: 1,
+      save: save
+    }).then(function (res) {
+      setSubscribeLoading(false);
+      props.setMessages([res.data.message]);
+    })["catch"](function (err) {
+      setSubscribeLoading(false);
+      props.getErrors(err);
+    });
+  };
   var onUpdatePhone = function onUpdatePhone(e) {
     e.preventDefault();
     setUpdateLoading(true);
@@ -90932,6 +90972,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       setMpesaLoading(false);
       setStkPushed("d-block");
       props.setMessages([res.data.message]);
+      onCheckSubscription();
     })["catch"](function (err) {
       setMpesaLoading(false);
       setStkPushed("d-none");
@@ -90986,29 +91027,26 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       props.getErrors(err);
     });
   };
-  var onSubscribe = function onSubscribe() {
-    setSubscribeLoading(true);
-    Axios.post("/api/subscription-plans/subscribe", {
-      subscriptionPlanId: subscriptionPlan.id,
-      amountPaid: subscriptionPlan.price.onboarding_fee,
-      duration: 1
-    }).then(function (res) {
-      props.setMessages([res.data.message]);
-      // Fetch Auth to set the Subscription Plan
-      Axios.get("api/auth").then(function (res) {
+  var onCheckSubscription = function onCheckSubscription() {
+    Axios.get("/api/auth").then(function (res) {
+      var _res$data$data$active;
+      if ((_res$data$data$active = res.data.data.activeSubscription) !== null && _res$data$data$active !== void 0 && _res$data$data$active.id) {
+        setSubscribeLoading(true);
+        props.setMessages(["Subscribed Successfully."]);
         props.setAuth(res.data.data);
         props.setLocalStorage("auth", res.data.data);
-        setSubscribeLoading(false);
         // Redirect to Dashboard
         setTimeout(function () {
-          return history.push("/admin/dashboard");
-        }, 1000);
-      })["catch"](function (err) {
-        setSubscribeLoading(false);
-        props.setErrors["Failed to Fetch Auth"];
-      });
+          setSubscribeLoading(true);
+          history.push("/admin/dashboard");
+        }, 2000);
+      } else {
+        setTimeout(function () {
+          return onCheckSubscription();
+        }, 5000);
+      }
     })["catch"](function (err) {
-      props.getErrors(err);
+      props.setErrors(["Failed to Fetch Auth"]);
     });
   };
   var handleTabChange = function handleTabChange(_ref) {
@@ -91055,7 +91093,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         className: "btn sonar-btn btn-2 mx-1 mb-2",
         onClick: handleComplete
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "d-flex align-items-center"
+        className: "d-flex justify-content-center align-items-center"
       }, subscribeLoading ? "finishing" : "finish", subscribeLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "sonar-load",
         className: "mx-2",
@@ -91124,14 +91162,16 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       iconFront: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_CheckSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
       className: "btn-green mx-auto",
       onClick: function onClick() {
-        return setSubscriptionPlan();
-      }
+        return onSetSubscriptionPlan(subscriptionPlanItem, false);
+      },
+      loading: subscribeLoading
     }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
       text: "select",
       className: "btn-white mx-auto",
       onClick: function onClick() {
-        return setSubscriptionPlan(subscriptionPlanItem);
-      }
+        return onSetSubscriptionPlan(subscriptionPlanItem, true);
+      },
+      loading: subscribeLoading
     })));
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, [1, 2, 3].map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

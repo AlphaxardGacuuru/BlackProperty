@@ -37,10 +37,9 @@ const SubscriptionPlan = (props) => {
 	const [mpesaLoading, setMpesaLoading] = useState()
 	const [stkPushed, setStkPushed] = useState("d-none")
 	const [simulateLoading, setSimulateLoading] = useState()
-	const [subscribeLoading, setSubscribeLoading] = useState(true)
+	const [subscribeLoading, setSubscribeLoading] = useState(false)
 
 	useEffect(() => {
-
 		window.Echo.connector.pusher.connection.bind("error", (error) => {
 			console.error("WebSocket Error:", error)
 		})
@@ -49,7 +48,7 @@ const SubscriptionPlan = (props) => {
 		Echo.connector.pusher.connection.bind("connected", () => {
 			console.log("WebSocket connected!")
 		})
-		
+
 		// Set page
 		props.setPage({ name: "Subscribe", path: ["dashboard", "subscribe"] })
 
@@ -62,18 +61,68 @@ const SubscriptionPlan = (props) => {
 			}
 		)
 
-		props.get(`subscription-plans`, setSubscriptionPlans)
+		Axios.get(`api/subscription-plans`)
+			.then((subscriptionRes) => {
+				setSubscriptionPlans(subscriptionRes.data.data)
 
-		
+				Axios.get(
+					`api/user-subscription-plans?
+					userId=${props.auth.id}&
+					status=pending`
+				)
+					.then((res) => {
+						const userSubscriptionPlan = res.data.data[0]
+
+						if (userSubscriptionPlan) {
+							const subscription = subscriptionRes.data.data.find(
+								(plan) => plan.id === userSubscriptionPlan.subscriptionPlanId
+							)
+							setSubscriptionPlan(subscription)
+						} else {
+							setSubscriptionPlan({})
+						}
+					})
+					.catch((err) =>
+						props.setErrors(["Failed to fetch User Subscription Plans"])
+					)
+			})
+			.catch((err) => props.setErrors(["Failed to fetch Subscription Plans"]))
 	}, [props.auth])
 
 	useEffect(() => {
 		if (mpesaTransaction.id) {
 			setStkPushed("d-none")
 			props.setMessages(["Payment Received!"])
-			onSubscribe()
+			onCheckSubscription()
 		}
 	}, [mpesaTransaction])
+
+	/*
+	 * Save Subscription Plan
+	 */
+	const onSetSubscriptionPlan = (subscriptionPlanItem, save) => {
+		if (save) {
+			setSubscriptionPlan(subscriptionPlanItem)
+		} else {
+			setSubscriptionPlan({})
+		}
+		setSubscribeLoading(true)
+
+		Axios.post("/api/user-subscription-plans", {
+			subscriptionPlanId: subscriptionPlanItem.id,
+			// amountPaid: subscriptionPlanItem.price.onboarding_fee,
+			duration: 1,
+			save: save,
+		})
+			.then((res) => {
+				setSubscribeLoading(false)
+				props.setMessages([res.data.message])
+			})
+			.catch((err) => {
+				setSubscribeLoading(false)
+				props.getErrors(err)
+			})
+	}
 
 	const onUpdatePhone = (e) => {
 		e.preventDefault()
@@ -107,6 +156,8 @@ const SubscriptionPlan = (props) => {
 				setMpesaLoading(false)
 				setStkPushed("d-block")
 				props.setMessages([res.data.message])
+
+				onCheckSubscription()
 			})
 			.catch((err) => {
 				setMpesaLoading(false)
@@ -168,32 +219,25 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
-	const onSubscribe = () => {
-		setSubscribeLoading(true)
-
-		Axios.post("/api/subscription-plans/subscribe", {
-			subscriptionPlanId: subscriptionPlan.id,
-			amountPaid: subscriptionPlan.price.onboarding_fee,
-			duration: 1,
-		})
+	const onCheckSubscription = () => {
+		Axios.get("/api/auth")
 			.then((res) => {
-				props.setMessages([res.data.message])
-				// Fetch Auth to set the Subscription Plan
-				Axios.get("api/auth")
-					.then((res) => {
-						props.setAuth(res.data.data)
-						props.setLocalStorage("auth", res.data.data)
-						setSubscribeLoading(false)
-						// Redirect to Dashboard
-						setTimeout(() => history.push("/admin/dashboard"), 1000)
-					})
-					.catch((err) => {
-						setSubscribeLoading(false)
-						props.setErrors["Failed to Fetch Auth"]
-					})
+				if (res.data.data.activeSubscription?.id) {
+					setSubscribeLoading(true)
+					props.setMessages(["Subscribed Successfully."])
+					props.setAuth(res.data.data)
+					props.setLocalStorage("auth", res.data.data)
+					// Redirect to Dashboard
+					setTimeout(() => {
+						setSubscribeLoading(true)
+						history.push("/admin/dashboard")
+					}, 2000)
+				} else {
+					setTimeout(() => onCheckSubscription(), 5000)
+				}
 			})
 			.catch((err) => {
-				props.getErrors(err)
+				props.setErrors(["Failed to Fetch Auth"])
 			})
 	}
 
@@ -243,7 +287,7 @@ const SubscriptionPlan = (props) => {
 					<button
 						className="btn sonar-btn btn-2 mx-1 mb-2"
 						onClick={handleComplete}>
-						<div className="d-flex align-items-center">
+						<div className="d-flex justify-content-center align-items-center">
 							{subscribeLoading ? "finishing" : "finish"}
 							{subscribeLoading ? (
 								<div
@@ -331,15 +375,19 @@ const SubscriptionPlan = (props) => {
 													text="selected"
 													iconFront={<CheckSVG />}
 													className="btn-green mx-auto"
-													onClick={() => setSubscriptionPlan()}
+													onClick={() =>
+														onSetSubscriptionPlan(subscriptionPlanItem, false)
+													}
+													loading={subscribeLoading}
 												/>
 											) : (
 												<Btn
 													text="select"
 													className="btn-white mx-auto"
 													onClick={() =>
-														setSubscriptionPlan(subscriptionPlanItem)
+														onSetSubscriptionPlan(subscriptionPlanItem, true)
 													}
+													loading={subscribeLoading}
 												/>
 											)}
 										</div>

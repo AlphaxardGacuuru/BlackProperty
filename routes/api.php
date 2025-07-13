@@ -22,6 +22,7 @@ use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserSubscriptionPlanController;
 use App\Http\Controllers\WaterReadingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"roles" => RoleController::class,
 		"notifications" => NotificationController::class,
 		"subscription-plans" => SubscriptionPlanController::class,
+		"user-subscription-plans" => UserSubscriptionPlanController::class,
 	]);
 
 	/*
@@ -81,11 +83,6 @@ Route::middleware('auth:sanctum')->group(function () {
  	*/
 	Route::post("invoices/send-email/{id}", [InvoiceController::class, "sendEmail"]);
 	Route::post("invoices/send-sms/{id}", [InvoiceController::class, "sendSMS"]);
-
-	/*
-	* Subscription Plans
-	*/
-	Route::post("subscription-plans/subscribe", [SubscriptionPlanController::class, "subscribe"]);
 
 	// Kopokopo STK Push
 	Route::post("stk-push", [MPESATransactionController::class, 'stkPush']);
