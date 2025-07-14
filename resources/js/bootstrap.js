@@ -89,7 +89,8 @@ window.Echo = new Echo({
 	wsHost: window.location.hostname,
 	wsPort: 6008,
 	wssPort: 6008,
-	forceTLS: window.location.protocol === "https:",
+	// forceTLS: window.location.protocol === "https:",
+	forceTLS: false,
 	disableStats: true,
 	auth: {
 		headers: {
