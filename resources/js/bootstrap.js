@@ -62,52 +62,34 @@ import Echo from "laravel-echo"
 
 window.Pusher = require("pusher-js")
 
-console.info({
-	broadcaster: "pusher",
-	key: process.env.MIX_PUSHER_APP_KEY,
-	clusterOld: process.env.MIX_PUSHER_APP_CLUSTER,
-	cluster: "", // Empty for self-hosted websockets
-	wsHost: window.location.hostname,
-	wsPort: 6008,
-	wssPort: 6008,
-	forceTLS: window.location.protocol === "https:",
-	disableStats: true,
-	auth: {
-		headers: {
-			"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-			Authorization: "Bearer " + decryptedToken(),
-		},
-	},
-})
-
-window.Echo = new Echo({
-	version: 2,
-	broadcaster: "pusher",
-	key: process.env.MIX_PUSHER_APP_KEY,
-	cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-	// cluster: "", // Empty for self-hosted websockets
-	wsHost: window.location.hostname,
-	wsPort: 6008,
-	wssPort: 6008,
-	// forceTLS: window.location.protocol === "https:",
-	forceTLS: false,
-	disableStats: true,
-	auth: {
-		headers: {
-			"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-			Authorization: "Bearer " + decryptedToken(),
-		},
-	},
-	authorizer: (channel, options) => {
-		return {
-			authorize: (socketId, callback) => {
-				window.Axios.post("/api/broadcasting/auth", {
-					socket_id: socketId,
-					channel_name: channel.name,
-				})
-					.then((res) => callback(null, res.data))
-					.catch((error) => callback(error))
-			},
-		}
-	},
-})
+// window.Echo = new Echo({
+// 	version: 2,
+// 	broadcaster: "pusher",
+// 	key: process.env.MIX_PUSHER_APP_KEY,
+// 	cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+// 	// cluster: "", // Empty for self-hosted websockets
+// 	wsHost: window.location.hostname,
+// 	wsPort: 6008,
+// 	wssPort: 6008,
+// 	// forceTLS: window.location.protocol === "https:",
+// 	forceTLS: false,
+// 	disableStats: true,
+// 	auth: {
+// 		headers: {
+// 			"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+// 			Authorization: "Bearer " + decryptedToken(),
+// 		},
+// 	},
+// 	authorizer: (channel, options) => {
+// 		return {
+// 			authorize: (socketId, callback) => {
+// 				window.Axios.post("/api/broadcasting/auth", {
+// 					socket_id: socketId,
+// 					channel_name: channel.name,
+// 				})
+// 					.then((res) => callback(null, res.data))
+// 					.catch((error) => callback(error))
+// 			},
+// 		}
+// 	},
+// })

@@ -13,9 +13,6 @@ function subscribed(props) {
 				props.auth.emailVerifiedAt &&
 				location.pathname.match("/admin/")
 			) {
-				// Show a message to subscribe
-				props.setErrors(["Please subscribe to access page"])
-
 				window.location.href = "/#/admin/subscribe"
 			}
 		})

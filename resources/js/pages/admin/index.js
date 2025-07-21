@@ -22,7 +22,7 @@ const index = (props) => {
 		if (props.auth.name == "Guest") {
 			return
 		}
-		
+
 		// Fetch Dashboard Properties
 		Axios.get(
 			`api/dashboard/properties/${
@@ -271,9 +271,14 @@ const index = (props) => {
 							)}
 							<div className="d-flex justify-content-center pb-3">
 								<h6>
-									Total:
-									{dashboard.units?.totalOccupied +
-										dashboard.units?.totalUnoccupied}
+									Total:{" "}
+									{isNaN(
+										dashboard.units?.totalOccupied +
+											dashboard.units?.totalUnoccupied
+									)
+										? 0
+										: dashboard.units?.totalOccupied +
+										  dashboard.units?.totalUnoccupied}
 								</h6>
 							</div>
 						</center>

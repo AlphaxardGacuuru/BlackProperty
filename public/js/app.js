@@ -89956,56 +89956,38 @@ Axios.defaults.withCredentials = true;
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-console.info({
-  broadcaster: "pusher",
-  key: "xKp9qR2sT4vW7yZ1wB3eD5gH8jK1mN3pQ",
-  clusterOld: "mt1",
-  cluster: "",
-  // Empty for self-hosted websockets
-  wsHost: window.location.hostname,
-  wsPort: 6008,
-  wssPort: 6008,
-  forceTLS: window.location.protocol === "https:",
-  disableStats: true,
-  auth: {
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-      Authorization: "Bearer " + decryptedToken()
-    }
-  }
-});
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  version: 2,
-  broadcaster: "pusher",
-  key: "xKp9qR2sT4vW7yZ1wB3eD5gH8jK1mN3pQ",
-  cluster: "mt1",
-  // cluster: "", // Empty for self-hosted websockets
-  wsHost: window.location.hostname,
-  wsPort: 6008,
-  wssPort: 6008,
-  forceTLS: window.location.protocol === "https:",
-  disableStats: true,
-  auth: {
-    headers: {
-      "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-      Authorization: "Bearer " + decryptedToken()
-    }
-  },
-  authorizer: function authorizer(channel, options) {
-    return {
-      authorize: function authorize(socketId, callback) {
-        window.Axios.post("/api/broadcasting/auth", {
-          socket_id: socketId,
-          channel_name: channel.name
-        }).then(function (res) {
-          return callback(null, res.data);
-        })["catch"](function (error) {
-          return callback(error);
-        });
-      }
-    };
-  }
-});
+
+// window.Echo = new Echo({
+// 	version: 2,
+// 	broadcaster: "pusher",
+// 	key: process.env.MIX_PUSHER_APP_KEY,
+// 	cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+// 	// cluster: "", // Empty for self-hosted websockets
+// 	wsHost: window.location.hostname,
+// 	wsPort: 6008,
+// 	wssPort: 6008,
+// 	// forceTLS: window.location.protocol === "https:",
+// 	forceTLS: false,
+// 	disableStats: true,
+// 	auth: {
+// 		headers: {
+// 			"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+// 			Authorization: "Bearer " + decryptedToken(),
+// 		},
+// 	},
+// 	authorizer: (channel, options) => {
+// 		return {
+// 			authorize: (socketId, callback) => {
+// 				window.Axios.post("/api/broadcasting/auth", {
+// 					socket_id: socketId,
+// 					channel_name: channel.name,
+// 				})
+// 					.then((res) => callback(null, res.data))
+// 					.catch((error) => callback(error))
+// 			},
+// 		}
+// 	},
+// })
 
 /***/ }),
 
@@ -90830,7 +90812,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var SubscriptionPlan = function SubscriptionPlan(props) {
-  var _subscriptionPlan$pri;
+  var _props$auth$activeSub, _subscriptionPlan$pri;
   var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var formWizardRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -90874,15 +90856,19 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     _useState20 = _slicedToArray(_useState19, 2),
     subscribeLoading = _useState20[0],
     setSubscribeLoading = _useState20[1];
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+    _useState22 = _slicedToArray(_useState21, 2),
+    finishLoading = _useState22[0],
+    setFinishLoading = _useState22[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    window.Echo.connector.pusher.connection.bind("error", function (error) {
-      console.error("WebSocket Error:", error);
-    });
+    // window.Echo.connector.pusher.connection.bind("error", (error) => {
+    // 	console.error("WebSocket Error:", error)
+    // })
 
     // In browser console
-    Echo.connector.pusher.connection.bind("connected", function () {
-      console.log("WebSocket connected!");
-    });
+    // Echo.connector.pusher.connection.bind("connected", () => {
+    // 	console.log("WebSocket connected!")
+    // })
 
     // Set page
     props.setPage({
@@ -90891,10 +90877,14 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     });
 
     // Fetch Subscription Plan
-    Echo["private"]("mpesa-transaction-created.".concat(props.auth.id)).listen("MpesaTransactionCreatedEvent", function (e) {
-      console.info(e);
-      setMpesaTransaction(e.mpesaTransaction);
-    });
+    // Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
+    // 	"MpesaTransactionCreatedEvent",
+    // 	(e) => {
+    // 		console.info(e)
+    // 		setMpesaTransaction(e.mpesaTransaction)
+    // 	}
+    // )
+
     Axios.get("api/subscription-plans").then(function (subscriptionRes) {
       setSubscriptionPlans(subscriptionRes.data.data);
       Axios.get("api/user-subscription-plans?\n\t\t\t\t\tuserId=".concat(props.auth.id, "&\n\t\t\t\t\tstatus=pending")).then(function (res) {
@@ -90913,7 +90903,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     })["catch"](function (err) {
       return props.setErrors(["Failed to fetch Subscription Plans"]);
     });
-  }, [props.auth]);
+  }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (mpesaTransaction.id) {
       setStkPushed("d-none");
@@ -91031,15 +91021,13 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     Axios.get("/api/auth").then(function (res) {
       var _res$data$data$active;
       if ((_res$data$data$active = res.data.data.activeSubscription) !== null && _res$data$data$active !== void 0 && _res$data$data$active.id) {
-        setSubscribeLoading(true);
-        props.setMessages(["Subscribed Successfully."]);
         props.setAuth(res.data.data);
         props.setLocalStorage("auth", res.data.data);
-        // Redirect to Dashboard
-        setTimeout(function () {
-          setSubscribeLoading(true);
-          history.push("/admin/dashboard");
-        }, 2000);
+        props.setMessages(["Subscribed Successfully."]);
+        setSubscribeLoading(true);
+        setStkPushed("d-none");
+        // Reload window
+        window.location.reload();
       } else {
         setTimeout(function () {
           return onCheckSubscription();
@@ -91049,12 +91037,27 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       props.setErrors(["Failed to Fetch Auth"]);
     });
   };
+
+  /*
+  * Finish Loading and redirect to dashboard
+  */
+  var onComplete = function onComplete() {
+    setFinishLoading(true);
+    setTimeout(function () {
+      setFinishLoading(false);
+      history.push("/admin/dashboard");
+    }, 3000);
+  };
   var handleTabChange = function handleTabChange(_ref) {
     var prevIndex = _ref.prevIndex,
       nextIndex = _ref.nextIndex;
-    if (nextIndex >= 2) {
+    if (nextIndex == 2) {
       setTimeout(function () {
         return setCantGoToNext(!subscriptionPlan.id);
+      }, 500);
+    } else if (nextIndex == 3) {
+      setTimeout(function () {
+        return setCantGoToNext(!props.auth.phone);
       }, 500);
     } else {
       setTimeout(function () {
@@ -91062,7 +91065,6 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       }, 500);
     }
   };
-  var handleComplete = function handleComplete() {};
   var backTemplate = function backTemplate(handlePrevious) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn sonar-btn btn-2 mx-1 mb-2",
@@ -91076,8 +91078,9 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     shape: "circle",
     color: "#232323",
     stepSize: "sm",
+    startIndex: (_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id ? 3 : 0,
     onTabChange: handleTabChange,
-    onComplete: handleComplete,
+    onComplete: onComplete,
     backButtonTemplate: backTemplate,
     nextButtonTemplate: function nextButtonTemplate(handleNext) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -91088,13 +91091,13 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         className: "ms-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ForwardSVG__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
     },
-    finishButtonTemplate: function finishButtonTemplate(handleComplete) {
+    finishButtonTemplate: function finishButtonTemplate(onComplete) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn sonar-btn btn-2 mx-1 mb-2",
-        onClick: handleComplete
+        onClick: onComplete
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "d-flex justify-content-center align-items-center"
-      }, subscribeLoading ? "finishing" : "finish", subscribeLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, finishLoading ? "finishing" : "finish", finishLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "sonar-load",
         className: "mx-2",
         style: {
@@ -91216,7 +91219,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     name: "phone",
     className: "form-control mb-3",
     placeholder: "254712345678",
-    defaultValue: phone,
+    defaultValue: props.auth.phone,
     onChange: function onChange(e) {
       return setPhone(e.target.value);
     }
@@ -91293,9 +91296,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     className: "text-success"
   }, " ", props.auth.phone)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Checking payment"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "spinner-border spinner-border-md border-2 text-success my-4 mx-2"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "text-warning"
-  }, "Do not leave the page while we process your payment"))), mpesaTransaction.user_id == props.auth.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Redirecting you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Do not leave the page while we process your payment"))), mpesaTransaction.user_id == props.auth.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Redirecting you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "spinner-grow spinner-grow-md text-primary my-4 mx-2"
   }))))));
 };
@@ -96708,8 +96709,6 @@ function subscribed(props) {
       var _props$auth$activeSub;
       // Redirect to subscription page if user is not subscribed
       if (props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && props.auth.emailVerifiedAt && location.pathname.match("/admin/")) {
-        // Show a message to subscribe
-        props.setErrors(["Please subscribe to access page"]);
         window.location.href = "/#/admin/subscribe";
       }
     });
@@ -98324,7 +98323,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var index = function index(props) {
-  var _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units9, _payments$data, _staff$data;
+  var _dashboard$units, _dashboard$units2, _dashboard$rent, _dashboard$rent2, _dashboard$water, _dashboard$water2, _dashboard$serviceCha, _dashboard$serviceCha2, _dashboard$units3, _dashboard$units4, _dashboard$rent3, _dashboard$rent4, _dashboard$rent5, _dashboard$water3, _dashboard$water4, _dashboard$water5, _dashboard$serviceCha3, _dashboard$serviceCha4, _dashboard$serviceCha5, _dashboard$water6, _dashboard$water7, _dashboardProperties$, _dashboard$units5, _dashboard$units6, _dashboard$units7, _dashboard$units8, _dashboard$units9, _dashboard$units10, _dashboard$rent6, _dashboard$rent7, _dashboard$rent8, _dashboard$water8, _dashboard$water9, _dashboard$serviceCha6, _dashboard$serviceCha7, _dashboard$water10, _dashboard$units11, _payments$data, _staff$data;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.getLocalStorage("dashboard")),
     _useState2 = _slicedToArray(_useState, 2),
     dashboard = _useState2[0],
@@ -98524,7 +98523,7 @@ var index = function index(props) {
     className: "doughnutSize2"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-center pb-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", ((_dashboard$units6 = dashboard.units) === null || _dashboard$units6 === void 0 ? void 0 : _dashboard$units6.totalOccupied) + ((_dashboard$units7 = dashboard.units) === null || _dashboard$units7 === void 0 ? void 0 : _dashboard$units7.totalUnoccupied)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Total:", " ", isNaN(((_dashboard$units6 = dashboard.units) === null || _dashboard$units6 === void 0 ? void 0 : _dashboard$units6.totalOccupied) + ((_dashboard$units7 = dashboard.units) === null || _dashboard$units7 === void 0 ? void 0 : _dashboard$units7.totalUnoccupied)) ? 0 : ((_dashboard$units8 = dashboard.units) === null || _dashboard$units8 === void 0 ? void 0 : _dashboard$units8.totalOccupied) + ((_dashboard$units9 = dashboard.units) === null || _dashboard$units9 === void 0 ? void 0 : _dashboard$units9.totalUnoccupied)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-sm-6"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "my-2"
@@ -98534,7 +98533,7 @@ var index = function index(props) {
       minHeight: "80%"
     }
   }, dashboard.units && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Charts_Bar__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    labels: (_dashboard$units8 = dashboard.units) === null || _dashboard$units8 === void 0 ? void 0 : _dashboard$units8.tenantsThisYear.labels,
+    labels: (_dashboard$units10 = dashboard.units) === null || _dashboard$units10 === void 0 ? void 0 : _dashboard$units10.tenantsThisYear.labels,
     datasets: barGraphTenants
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row",
@@ -98638,7 +98637,7 @@ var index = function index(props) {
     className: "table table-hover"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     colSpan: "6"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Units"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant")), (_dashboard$units9 = dashboard.units) === null || _dashboard$units9 === void 0 ? void 0 : _dashboard$units9.list.slice(0, 10).map(function (unit, key) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Units"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Rent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Deposit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Current Tenant")), (_dashboard$units11 = dashboard.units) === null || _dashboard$units11 === void 0 ? void 0 : _dashboard$units11.list.slice(0, 10).map(function (unit, key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, key + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, unit.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {

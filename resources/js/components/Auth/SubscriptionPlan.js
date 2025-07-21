@@ -38,28 +38,29 @@ const SubscriptionPlan = (props) => {
 	const [stkPushed, setStkPushed] = useState("d-none")
 	const [simulateLoading, setSimulateLoading] = useState()
 	const [subscribeLoading, setSubscribeLoading] = useState(false)
+	const [finishLoading, setFinishLoading] = useState(false)
 
 	useEffect(() => {
-		window.Echo.connector.pusher.connection.bind("error", (error) => {
-			console.error("WebSocket Error:", error)
-		})
+		// window.Echo.connector.pusher.connection.bind("error", (error) => {
+		// 	console.error("WebSocket Error:", error)
+		// })
 
 		// In browser console
-		Echo.connector.pusher.connection.bind("connected", () => {
-			console.log("WebSocket connected!")
-		})
+		// Echo.connector.pusher.connection.bind("connected", () => {
+		// 	console.log("WebSocket connected!")
+		// })
 
 		// Set page
 		props.setPage({ name: "Subscribe", path: ["dashboard", "subscribe"] })
 
 		// Fetch Subscription Plan
-		Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
-			"MpesaTransactionCreatedEvent",
-			(e) => {
-				console.info(e)
-				setMpesaTransaction(e.mpesaTransaction)
-			}
-		)
+		// Echo.private(`mpesa-transaction-created.${props.auth.id}`).listen(
+		// 	"MpesaTransactionCreatedEvent",
+		// 	(e) => {
+		// 		console.info(e)
+		// 		setMpesaTransaction(e.mpesaTransaction)
+		// 	}
+		// )
 
 		Axios.get(`api/subscription-plans`)
 			.then((subscriptionRes) => {
@@ -87,7 +88,7 @@ const SubscriptionPlan = (props) => {
 					)
 			})
 			.catch((err) => props.setErrors(["Failed to fetch Subscription Plans"]))
-	}, [props.auth])
+	}, [])
 
 	useEffect(() => {
 		if (mpesaTransaction.id) {
@@ -223,15 +224,13 @@ const SubscriptionPlan = (props) => {
 		Axios.get("/api/auth")
 			.then((res) => {
 				if (res.data.data.activeSubscription?.id) {
-					setSubscribeLoading(true)
-					props.setMessages(["Subscribed Successfully."])
 					props.setAuth(res.data.data)
 					props.setLocalStorage("auth", res.data.data)
-					// Redirect to Dashboard
-					setTimeout(() => {
-						setSubscribeLoading(true)
-						history.push("/admin/dashboard")
-					}, 2000)
+					props.setMessages(["Subscribed Successfully."])
+					setSubscribeLoading(true)
+					setStkPushed("d-none")
+					// Reload window
+					window.location.reload()
 				} else {
 					setTimeout(() => onCheckSubscription(), 5000)
 				}
@@ -241,15 +240,27 @@ const SubscriptionPlan = (props) => {
 			})
 	}
 
+	/*
+	* Finish Loading and redirect to dashboard
+	*/ 
+	const onComplete = () => {
+		setFinishLoading(true)
+
+		setTimeout(() => {
+			setFinishLoading(false)
+			history.push("/admin/dashboard")
+		}, 3000)
+	}
+
 	const handleTabChange = ({ prevIndex, nextIndex }) => {
-		if (nextIndex >= 2) {
+		if (nextIndex == 2) {
 			setTimeout(() => setCantGoToNext(!subscriptionPlan.id), 500)
+		} else if (nextIndex == 3) {
+			setTimeout(() => setCantGoToNext(!props.auth.phone), 500)
 		} else {
 			setTimeout(() => setCantGoToNext(false), 500)
 		}
 	}
-
-	const handleComplete = () => {}
 
 	const backTemplate = (handlePrevious) => {
 		return (
@@ -269,8 +280,9 @@ const SubscriptionPlan = (props) => {
 				shape="circle"
 				color="#232323"
 				stepSize="sm"
+				startIndex={props.auth.activeSubscription?.id ? 3 : 0}
 				onTabChange={handleTabChange}
-				onComplete={handleComplete}
+				onComplete={onComplete}
 				backButtonTemplate={backTemplate}
 				nextButtonTemplate={(handleNext) => (
 					<button
@@ -283,13 +295,13 @@ const SubscriptionPlan = (props) => {
 						</span>
 					</button>
 				)}
-				finishButtonTemplate={(handleComplete) => (
+				finishButtonTemplate={(onComplete) => (
 					<button
 						className="btn sonar-btn btn-2 mx-1 mb-2"
-						onClick={handleComplete}>
+						onClick={onComplete}>
 						<div className="d-flex justify-content-center align-items-center">
-							{subscribeLoading ? "finishing" : "finish"}
-							{subscribeLoading ? (
+							{finishLoading ? "finishing" : "finish"}
+							{finishLoading ? (
 								<div
 									id="sonar-load"
 									className="mx-2"
@@ -437,7 +449,7 @@ const SubscriptionPlan = (props) => {
 									name="phone"
 									className="form-control mb-3"
 									placeholder="254712345678"
-									defaultValue={phone}
+									defaultValue={props.auth.phone}
 									onChange={(e) => setPhone(e.target.value)}
 								/>
 
@@ -536,9 +548,7 @@ const SubscriptionPlan = (props) => {
 
 								<h6>Checking payment</h6>
 								<div className="spinner-border spinner-border-md border-2 text-success my-4 mx-2"></div>
-								<h5 className="text-warning">
-									Do not leave the page while we process your payment
-								</h5>
+								<h5>Do not leave the page while we process your payment</h5>
 							</center>
 						</div>
 
