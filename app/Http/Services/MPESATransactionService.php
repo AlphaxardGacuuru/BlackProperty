@@ -99,8 +99,8 @@ class MPESATransactionService extends Service
 	public function stkPush($request)
 	{
 		// Get phone in better format
-		// $betterPhone = substr_replace(auth('sanctum')->user()->phone, '+254', 0, -9);
-		$betterPhone = substr_replace("0700364446", '+254', 0, -9);
+		$betterPhone = substr_replace(auth('sanctum')->user()->phone, '+254', 0, -9);
+		// $betterPhone = substr_replace("0700364446", '+254', 0, -9);
 
 		// Get first and last name
 		$parts = explode(" ", auth('sanctum')->user()->name);
@@ -109,8 +109,8 @@ class MPESATransactionService extends Service
 
 		$firstname = implode(" ", $parts);
 
-		$K2 = new K2($this->sandboxOptions());
-		// $K2 = new K2($this->liveOptions());
+		// $K2 = new K2($this->sandboxOptions());
+		$K2 = new K2($this->liveOptions());
 
 		// Get one of the services
 		$tokens = $K2->TokenService();

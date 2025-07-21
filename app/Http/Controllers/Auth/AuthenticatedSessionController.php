@@ -99,7 +99,7 @@ class AuthenticatedSessionController extends Controller
 
 		if (!$user) {
 			throw ValidationException::withMessages([
-				"email" => ["The Provided Email Doens't Exist."],
+				"email" => ["The Provided Email Doesn't Exist."],
 			]);
 		}
 
