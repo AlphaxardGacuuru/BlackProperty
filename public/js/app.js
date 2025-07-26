@@ -90706,7 +90706,7 @@ var Socialite = function Socialite(props) {
     var _props$getLocalStorag;
     props.setMessages([message]);
 
-    // Check if sanctumToken in in Local Storage
+    // Check if sanctumToken is in Local Storage
     if ((_props$getLocalStorag = props.getLocalStorage("sanctumToken")) !== null && _props$getLocalStorag !== void 0 && _props$getLocalStorag.length) {
       // Redirect to index page
       setTimeout(function () {

@@ -16,7 +16,7 @@ const Socialite = (props) => {
 	useEffect(() => {
 		props.setMessages([message])
 
-		// Check if sanctumToken in in Local Storage
+		// Check if sanctumToken is in Local Storage
 		if (props.getLocalStorage("sanctumToken")?.length) {
 			// Redirect to index page
 			setTimeout(() => (window.location.href = "/#/admin/subscribe"), 2000)
