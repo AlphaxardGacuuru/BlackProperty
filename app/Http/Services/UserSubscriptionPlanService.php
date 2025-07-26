@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\UserSubscriptionPlan;
+use Illuminate\Validation\ValidationException;
 
 class UserSubscriptionPlanService extends Service
 {
@@ -24,6 +25,18 @@ class UserSubscriptionPlanService extends Service
 
 	public function store($request)
 	{
+		// Check if the user is already subscribed to a plan
+		$existingPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
+			->where("status", "active")
+			->first();
+
+		if ($existingPlan) {
+			// Throw Validation Exception if the user is already subscribed
+			throw ValidationException::withMessages([
+				"message" => "You are already subscribed to a plan.",
+			]);
+		}
+
 		if ($request->save) {
 			$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
 				->where("status", "pending")
@@ -46,7 +59,7 @@ class UserSubscriptionPlanService extends Service
 			$saved = $userSubscriptionPlan->delete();
 		}
 
-		return [$saved, 'Subscription Plan Updated Successfully.', $userSubscriptionPlan];
+		return [$saved, "Subscription Plan Updated Successfully.", $userSubscriptionPlan];
 	}
 
 	/**

@@ -111,7 +111,6 @@ const SubscriptionPlan = (props) => {
 
 		Axios.post("/api/user-subscription-plans", {
 			subscriptionPlanId: subscriptionPlanItem.id,
-			// amountPaid: subscriptionPlanItem.price.onboarding_fee,
 			duration: 1,
 			save: save,
 		})
@@ -121,6 +120,7 @@ const SubscriptionPlan = (props) => {
 			})
 			.catch((err) => {
 				setSubscribeLoading(false)
+				setSubscriptionPlan([])
 				props.getErrors(err)
 			})
 	}
@@ -249,7 +249,7 @@ const SubscriptionPlan = (props) => {
 		setTimeout(() => {
 			setFinishLoading(false)
 			history.push("/admin/dashboard")
-		}, 3000)
+		}, 2000)
 	}
 
 	const handleTabChange = ({ prevIndex, nextIndex }) => {

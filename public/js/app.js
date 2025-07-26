@@ -90924,7 +90924,6 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     setSubscribeLoading(true);
     Axios.post("/api/user-subscription-plans", {
       subscriptionPlanId: subscriptionPlanItem.id,
-      // amountPaid: subscriptionPlanItem.price.onboarding_fee,
       duration: 1,
       save: save
     }).then(function (res) {
@@ -90932,6 +90931,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
       props.setMessages([res.data.message]);
     })["catch"](function (err) {
       setSubscribeLoading(false);
+      setSubscriptionPlan([]);
       props.getErrors(err);
     });
   };
@@ -91046,7 +91046,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     setTimeout(function () {
       setFinishLoading(false);
       history.push("/admin/dashboard");
-    }, 3000);
+    }, 2000);
   };
   var handleTabChange = function handleTabChange(_ref) {
     var prevIndex = _ref.prevIndex,
