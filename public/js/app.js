@@ -100909,6 +100909,8 @@ var edit = function edit(props) {
       setLoading(false);
       // Show messages
       props.setMessages([res.data.message]);
+      // Update Property in Auth
+      props.get("properties?userId=".concat(auth.id), props.setProperties, "properties");
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors

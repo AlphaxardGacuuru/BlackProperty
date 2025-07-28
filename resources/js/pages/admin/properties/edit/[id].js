@@ -36,9 +36,11 @@ const edit = (props) => {
 			.then((res) => {
 				const data = res.data.data
 				// Set Property
-				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])		
+				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])
 
-				var extractedAdditionalCharges = parseInt(data.depositFormula.split("+")[1])
+				var extractedAdditionalCharges = parseInt(
+					data.depositFormula.split("+")[1]
+				)
 				data.additionalCharges = extractedAdditionalCharges.toLocaleString()
 
 				var extractedInvoiceDate = data.invoiceDate.replace(
@@ -47,7 +49,7 @@ const edit = (props) => {
 				)
 				extractedInvoiceDate = parseInt(extractedInvoiceDate, 10)
 				data.invoiceDate = extractedInvoiceDate
-				
+
 				setRentMultiple(data.rentMultiple)
 				setAdditionalCharges(extractedAdditionalCharges)
 				setWaterBillRate({
@@ -83,6 +85,12 @@ const edit = (props) => {
 				setLoading(false)
 				// Show messages
 				props.setMessages([res.data.message])
+				// Update Property in Auth
+				props.get(
+					`properties?userId=${auth.id}`,
+					props.setProperties,
+					"properties"
+				)
 			})
 			.catch((err) => {
 				setLoading(false)
