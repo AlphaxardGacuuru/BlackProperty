@@ -55,7 +55,7 @@ class UserController extends Controller
 	{
 		$this->validate($request, [
 			"name" => "nullable|string",
-			"phone" => "nullable|string|min:10|max:10|unique:users,phone," . $id,
+			"phone" => "nullable|digits:10|unique:users,phone," . $id,
 		]);
 
 		[$saved, $message, $user] = $this->service->update($request, $id);

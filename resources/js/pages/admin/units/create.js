@@ -39,7 +39,8 @@ const create = (props) => {
 
 		rent = rent > 0 ? rent : 0
 		// Evaluate the formula
-		return eval(formula?.replace("r", rent))
+		var deposit = eval(formula?.replace("r", rent))
+		return deposit.toLocaleString()
 	}
 
 	/*
@@ -53,7 +54,8 @@ const create = (props) => {
 			propertyId: propertyId,
 			name: name,
 			rent: rent,
-			deposit: deposit.toString(),
+			// Remove commas from deposit
+			deposit: deposit.replace(/,/g, ""),
 			type: type,
 			bedrooms: bedrooms,
 			size: size,

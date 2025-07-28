@@ -122,14 +122,20 @@ const create = (props) => {
 
 					{/* Phone Start */}
 					<label htmlFor="">Phone</label>
-					<input
-						type="tel"
-						name="phone"
-						placeholder="Phone"
-						className="form-control mb-2 me-2"
-						onChange={(e) => setPhone(e.target.value)}
-						required={true}
-					/>
+					<div className="d-flex border bg-white mb-3">
+						<div className="border-end p-2">+254</div>
+						<input
+							type="tel"
+							id="phone"
+							name="phone"
+							minLength="10"
+							maxLength="10"
+							className="form-control border-0"
+							placeholder="0711222333"
+							onChange={(e) => setPhone(e.target.value)}
+							required={true}
+						/>
+					</div>
 					{/* Phone End */}
 
 					{/* Occupied At Start */}

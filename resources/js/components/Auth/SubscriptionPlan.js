@@ -26,6 +26,7 @@ const SubscriptionPlan = (props) => {
 	const history = useHistory()
 	const location = useLocation()
 	const formWizardRef = useRef(null)
+	const isMountedRef = useRef(true)
 
 	const [subscriptionPlans, setSubscriptionPlans] = useState([])
 	const [subscriptionPlan, setSubscriptionPlan] = useState({})
@@ -87,7 +88,14 @@ const SubscriptionPlan = (props) => {
 						props.setErrors(["Failed to fetch User Subscription Plans"])
 					)
 			})
-			.catch((err) => props.setErrors(["Failed to fetch Subscription Plans"]))
+			.catch((err) => props.setErrors["Failed to fetch Subscription Plans"])
+	}, [])
+
+	useEffect(() => {
+		// Cleanup function to stop checking when component unmounts
+		return () => {
+			isMountedRef.current = false
+		}
 	}, [])
 
 	useEffect(() => {
@@ -221,8 +229,18 @@ const SubscriptionPlan = (props) => {
 	}
 
 	const onCheckSubscription = () => {
+		// Stop checking if component is unmounted
+		if (!isMountedRef.current) {
+			return
+		}
+
 		Axios.get("/api/auth")
 			.then((res) => {
+				// Check again if component is still mounted before proceeding
+				if (!isMountedRef.current) {
+					return
+				}
+
 				if (res.data.data.activeSubscription?.id) {
 					props.setAuth(res.data.data)
 					props.setLocalStorage("auth", res.data.data)
@@ -232,17 +250,23 @@ const SubscriptionPlan = (props) => {
 					// Reload window
 					window.location.reload()
 				} else {
-					setTimeout(() => onCheckSubscription(), 5000)
+					// Only continue checking if component is still mounted
+					if (isMountedRef.current) {
+						setTimeout(() => onCheckSubscription(), 5000)
+					}
 				}
 			})
 			.catch((err) => {
-				props.setErrors(["Failed to Fetch Auth"])
+				// Only show error if component is still mounted
+				if (isMountedRef.current) {
+					props.setErrors(["Failed to Fetch Auth"])
+				}
 			})
 	}
 
 	/*
-	* Finish Loading and redirect to dashboard
-	*/ 
+	 * Finish Loading and redirect to dashboard
+	 */
 	const onComplete = () => {
 		setFinishLoading(true)
 
@@ -443,15 +467,21 @@ const SubscriptionPlan = (props) => {
 								onSubmit={onUpdatePhone}
 								className="mx-auto mb-4">
 								<label htmlFor="phone">Mpesa Phone Number</label>
-								<input
-									type="text"
-									id="phone"
-									name="phone"
-									className="form-control mb-3"
-									placeholder="254712345678"
-									defaultValue={props.auth.phone}
-									onChange={(e) => setPhone(e.target.value)}
-								/>
+								<div className="d-flex border bg-white mb-3">
+									<div className="border-end p-2">+254</div>
+									<input
+										type="tel"
+										id="phone"
+										name="phone"
+										minLength="10"
+										maxLength="10"
+										className="form-control border-0"
+										placeholder="0712345678"
+										defaultValue={props.auth.phone}
+										onChange={(e) => setPhone(e.target.value)}
+										required={true}
+									/>
+								</div>
 
 								<Btn
 									text="update"

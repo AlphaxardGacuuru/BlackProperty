@@ -9,7 +9,7 @@ function subscribed(props) {
 			// Redirect to subscription page if user is not subscribed
 			if (
 				props.auth.name != "Guest" &&
-				!props.auth.activeSubscription?.id &&
+				props.auth.activeSubscription == null &&
 				props.auth.emailVerifiedAt &&
 				location.pathname.match("/admin/")
 			) {

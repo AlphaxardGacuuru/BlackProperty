@@ -90816,6 +90816,7 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
   var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
   var formWizardRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
+  var isMountedRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(true);
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     subscriptionPlans = _useState2[0],
@@ -90901,8 +90902,14 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         return props.setErrors(["Failed to fetch User Subscription Plans"]);
       });
     })["catch"](function (err) {
-      return props.setErrors(["Failed to fetch Subscription Plans"]);
+      return props.setErrors["Failed to fetch Subscription Plans"];
     });
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Cleanup function to stop checking when component unmounts
+    return function () {
+      isMountedRef.current = false;
+    };
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (mpesaTransaction.id) {
@@ -91018,8 +91025,16 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     });
   };
   var onCheckSubscription = function onCheckSubscription() {
+    // Stop checking if component is unmounted
+    if (!isMountedRef.current) {
+      return;
+    }
     Axios.get("/api/auth").then(function (res) {
       var _res$data$data$active;
+      // Check again if component is still mounted before proceeding
+      if (!isMountedRef.current) {
+        return;
+      }
       if ((_res$data$data$active = res.data.data.activeSubscription) !== null && _res$data$data$active !== void 0 && _res$data$data$active.id) {
         props.setAuth(res.data.data);
         props.setLocalStorage("auth", res.data.data);
@@ -91029,18 +91044,24 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
         // Reload window
         window.location.reload();
       } else {
-        setTimeout(function () {
-          return onCheckSubscription();
-        }, 5000);
+        // Only continue checking if component is still mounted
+        if (isMountedRef.current) {
+          setTimeout(function () {
+            return onCheckSubscription();
+          }, 5000);
+        }
       }
     })["catch"](function (err) {
-      props.setErrors(["Failed to Fetch Auth"]);
+      // Only show error if component is still mounted
+      if (isMountedRef.current) {
+        props.setErrors(["Failed to Fetch Auth"]);
+      }
     });
   };
 
   /*
-  * Finish Loading and redirect to dashboard
-  */
+   * Finish Loading and redirect to dashboard
+   */
   var onComplete = function onComplete() {
     setFinishLoading(true);
     setTimeout(function () {
@@ -91213,17 +91234,24 @@ var SubscriptionPlan = function SubscriptionPlan(props) {
     className: "mx-auto mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "phone"
-  }, "Mpesa Phone Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
+  }, "Mpesa Phone Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex border bg-white mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-end p-2"
+  }, "+254"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "tel",
     id: "phone",
     name: "phone",
-    className: "form-control mb-3",
-    placeholder: "254712345678",
+    minLength: "10",
+    maxLength: "10",
+    className: "form-control border-0",
+    placeholder: "0712345678",
     defaultValue: props.auth.phone,
     onChange: function onChange(e) {
       return setPhone(e.target.value);
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    },
+    required: true
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
     text: "update",
     className: "white-btn btn-2",
     loading: updateLoading
@@ -96706,9 +96734,8 @@ function subscribed(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     var location = props.history.location;
     var unlisten = props.history.listen(function () {
-      var _props$auth$activeSub;
       // Redirect to subscription page if user is not subscribed
-      if (props.auth.name != "Guest" && !((_props$auth$activeSub = props.auth.activeSubscription) !== null && _props$auth$activeSub !== void 0 && _props$auth$activeSub.id) && props.auth.emailVerifiedAt && location.pathname.match("/admin/")) {
+      if (props.auth.name != "Guest" && props.auth.activeSubscription == null && props.auth.emailVerifiedAt && location.pathname.match("/admin/")) {
         window.location.href = "/#/admin/subscribe";
       }
     });
@@ -100843,12 +100870,18 @@ var edit = function edit(props) {
       var data = res.data.data;
       // Set Property
       data.rentMultiple = parseInt(data.depositFormula.split("*")[1]);
-      data.additionalCharges = parseInt(data.depositFormula.split("+")[1]);
+      var extractedAdditionalCharges = parseInt(data.depositFormula.split("+")[1]);
+      data.additionalCharges = extractedAdditionalCharges.toLocaleString();
       var extractedInvoiceDate = data.invoiceDate.replace(/(st|nd|rd|th)$/i, "");
       extractedInvoiceDate = parseInt(extractedInvoiceDate, 10);
       data.invoiceDate = extractedInvoiceDate;
       setRentMultiple(data.rentMultiple);
-      setAdditionalCharges(data.additionalCharges);
+      setAdditionalCharges(extractedAdditionalCharges);
+      setWaterBillRate({
+        council: data.waterBillRateCouncil,
+        borehole: data.waterBillRateBorehole,
+        tanker: data.waterBillRateTanker
+      });
       setEmail(data.email);
       setSms(data.sms);
       setProperty(data);
@@ -103103,16 +103136,23 @@ var create = function create(props) {
     required: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
-  }, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, "Phone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex border bg-white mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border-end p-2"
+  }, "+254"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "tel",
+    id: "phone",
     name: "phone",
-    placeholder: "Phone",
-    className: "form-control mb-2 me-2",
+    minLength: "10",
+    maxLength: "10",
+    className: "form-control border-0",
+    placeholder: "0711222333",
     onChange: function onChange(e) {
       return setPhone(e.target.value);
     },
     required: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: ""
   }, "Occupied At"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     name: "occupiedAt",
@@ -103898,7 +103938,8 @@ var create = function create(props) {
     })) === null || _props$properties$fin === void 0 ? void 0 : _props$properties$fin.depositFormula;
     rent = rent > 0 ? rent : 0;
     // Evaluate the formula
-    return eval(formula === null || formula === void 0 ? void 0 : formula.replace("r", rent));
+    var deposit = eval(formula === null || formula === void 0 ? void 0 : formula.replace("r", rent));
+    return deposit.toLocaleString();
   };
 
   /*
@@ -103911,7 +103952,8 @@ var create = function create(props) {
       propertyId: propertyId,
       name: name,
       rent: rent,
-      deposit: deposit.toString(),
+      // Remove commas from deposit
+      deposit: deposit.replace(/,/g, ""),
       type: type,
       bedrooms: bedrooms,
       size: size,

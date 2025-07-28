@@ -36,16 +36,25 @@ const edit = (props) => {
 			.then((res) => {
 				const data = res.data.data
 				// Set Property
-				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])
-				data.additionalCharges = parseInt(data.depositFormula.split("+")[1])
+				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])		
+
+				var extractedAdditionalCharges = parseInt(data.depositFormula.split("+")[1])
+				data.additionalCharges = extractedAdditionalCharges.toLocaleString()
+
 				var extractedInvoiceDate = data.invoiceDate.replace(
 					/(st|nd|rd|th)$/i,
 					""
 				)
 				extractedInvoiceDate = parseInt(extractedInvoiceDate, 10)
 				data.invoiceDate = extractedInvoiceDate
+				
 				setRentMultiple(data.rentMultiple)
-				setAdditionalCharges(data.additionalCharges)
+				setAdditionalCharges(extractedAdditionalCharges)
+				setWaterBillRate({
+					council: data.waterBillRateCouncil,
+					borehole: data.waterBillRateBorehole,
+					tanker: data.waterBillRateTanker,
+				})
 				setEmail(data.email)
 				setSms(data.sms)
 				setProperty(data)
