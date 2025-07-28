@@ -100869,7 +100869,8 @@ var edit = function edit(props) {
     Axios.get("api/properties/".concat(id)).then(function (res) {
       var data = res.data.data;
       // Set Property
-      data.rentMultiple = parseInt(data.depositFormula.split("*")[1]);
+      data.rentMultiple = data.depositFormula.split("*")[1];
+      data.rentMultiple = data.rentMultiple.split("+")[0];
       var extractedAdditionalCharges = parseInt(data.depositFormula.split("+")[1]);
       data.additionalCharges = extractedAdditionalCharges.toLocaleString();
       var extractedInvoiceDate = data.invoiceDate.replace(/(st|nd|rd|th)$/i, "");
@@ -100910,7 +100911,7 @@ var edit = function edit(props) {
       // Show messages
       props.setMessages([res.data.message]);
       // Update Property in Auth
-      props.get("properties?userId=".concat(auth.id), props.setProperties, "properties");
+      props.get("properties?userId=".concat(props.auth.id), props.setProperties, "properties");
     })["catch"](function (err) {
       setLoading(false);
       // Get Errors
@@ -101064,10 +101065,10 @@ var edit = function edit(props) {
   }, "Invoice Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-start ms-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "form-check form-switch me-5"
+    className: "form-check form-switch me-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "email",
-    "class": "form-check-input",
+    className: "form-check-input",
     type: "checkbox",
     role: "switch",
     onClick: function onClick(e) {
@@ -101076,13 +101077,13 @@ var edit = function edit(props) {
     defaultChecked: property.email,
     disabled: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "form-check-label",
+    className: "form-check-label",
     htmlFor: "email"
   }, "Email")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "form-check form-switch"
+    className: "form-check form-switch"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "sms",
-    "class": "form-check-input me-2",
+    className: "form-check-input me-2",
     type: "checkbox",
     role: "switch",
     onClick: function onClick(e) {
@@ -101090,7 +101091,7 @@ var edit = function edit(props) {
     },
     defaultChecked: property.sms
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "form-check-label",
+    className: "form-check-label",
     htmlFor: "sms"
   }, "SMS"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end mb-2"

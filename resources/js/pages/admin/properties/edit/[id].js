@@ -36,7 +36,8 @@ const edit = (props) => {
 			.then((res) => {
 				const data = res.data.data
 				// Set Property
-				data.rentMultiple = parseInt(data.depositFormula.split("*")[1])
+				data.rentMultiple = data.depositFormula.split("*")[1]
+				data.rentMultiple = data.rentMultiple.split("+")[0]
 
 				var extractedAdditionalCharges = parseInt(
 					data.depositFormula.split("+")[1]
@@ -87,7 +88,7 @@ const edit = (props) => {
 				props.setMessages([res.data.message])
 				// Update Property in Auth
 				props.get(
-					`properties?userId=${auth.id}`,
+					`properties?userId=${props.auth.id}`,
 					props.setProperties,
 					"properties"
 				)
@@ -257,10 +258,10 @@ const edit = (props) => {
 					<label htmlFor="">Invoice Channel</label>
 					<div className="d-flex justify-content-start ms-4">
 						{/* Email Switch Start */}
-						<div class="form-check form-switch me-5">
+						<div className="form-check form-switch me-5">
 							<input
 								id="email"
-								class="form-check-input"
+								className="form-check-input"
 								type="checkbox"
 								role="switch"
 								onClick={(e) => setEmail(e.target.checked)}
@@ -268,24 +269,24 @@ const edit = (props) => {
 								disabled={true}
 							/>
 							<label
-								class="form-check-label"
+								className="form-check-label"
 								htmlFor="email">
 								Email
 							</label>
 						</div>
 						{/* Email Switch End */}
 						{/* SMS Switch Start */}
-						<div class="form-check form-switch">
+						<div className="form-check form-switch">
 							<input
 								id="sms"
-								class="form-check-input me-2"
+								className="form-check-input me-2"
 								type="checkbox"
 								role="switch"
 								onClick={(e) => setSms(e.target.checked)}
 								defaultChecked={property.sms}
 							/>
 							<label
-								class="form-check-label"
+								className="form-check-label"
 								htmlFor="sms">
 								SMS
 							</label>
