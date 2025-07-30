@@ -104,12 +104,12 @@ class TenantService extends Service
 			return [false, "Unit already occupied", "", 422];
 		}
 
-		[$saved, $userUnit] = DB::transaction(function () use ($tenant, $request) {
+		return DB::transaction(function () use ($tenant, $request) {
 			$saved = $tenant->save();
 
 			// Add UserUnit
 			if ($request->filled("unitId")) {
-				[$saved, $userUnit] = $this->createUserUnit($request, $tenant);
+				[$saved, $message, $userUnit] = $this->createUserUnit($request, $tenant);
 			}
 
 			if ($request->input("sendInvoice")) {
@@ -120,15 +120,13 @@ class TenantService extends Service
 					"year" => Carbon::now()->year,
 				]);
 
-				[$saved, $message, $invoice] = (new InvoiceService)->store($request);
+				[$saved, $invoiceMessage, $invoice] = (new InvoiceService)->store($request);
+
+				$message = $message . " and " . $invoiceMessage;
 			}
 
-			return $saved;
+			return [$saved, $message, $userUnit, 200];
 		});
-
-		$message = $tenant->name . " Added Successfully";
-
-		return [$saved, $message, $tenant, 200];
 	}
 
 	/*
@@ -293,6 +291,6 @@ class TenantService extends Service
 		$unit->status = "occupied";
 		$saved = $unit->save();
 
-		return [$saved, $userUnit];
+		return [$saved, $tenant->name . " Added Successfully", $userUnit];
 	}
 }
