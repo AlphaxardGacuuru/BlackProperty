@@ -58,7 +58,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 	 */
 	protected function gate(): void
 	{
-		Gate::define('viewTelescope', function ($user = null) {
+		Gate::define('viewTelescope', function (Auth $user) {
 			// return true;
 
 			// Allow access in local environment
@@ -67,7 +67,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 			}
 
 			// Allow specific authorized emails
-			return in_array(auth("sanctum")->user()->email, [
+			return in_array($user->email, [
 				"alphaxardgacuuru47@gmail.com",
 				"al@black.co.ke"
 			]);
