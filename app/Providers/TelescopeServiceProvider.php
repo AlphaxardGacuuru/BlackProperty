@@ -67,7 +67,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 			}
 
 			// Allow specific authorized emails
-			return in_array($user->email, [
+			return in_array(auth("sanctum")->user()->email, [
 				"alphaxardgacuuru47@gmail.com",
 				"al@black.co.ke"
 			]);
