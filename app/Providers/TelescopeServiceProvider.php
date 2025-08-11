@@ -58,12 +58,20 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 	 */
 	protected function gate(): void
 	{
-		Gate::define('viewTelescope', function (Auth $user) {
-			// return true;
-
+		Gate::define('viewTelescope', function ($user = null) {
 			// Allow access in local environment
 			if ($this->app->environment('local')) {
 				return true;
+			}
+
+			// Check Sanctum guard first
+			if (Auth::guard('sanctum')->check()) {
+				$user = Auth::guard('sanctum')->user();
+			}
+
+			// No authenticated user found
+			if (!$user) {
+				return false;
 			}
 
 			// Allow specific authorized emails
