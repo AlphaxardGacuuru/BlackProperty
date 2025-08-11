@@ -23,14 +23,14 @@ class Kernel extends ConsoleKernel
 		// Prune Telescope entries older than 30 days
 		$schedule->command('telescope:prune --hours=720')->daily();
 
-		$schedule->command('websockets:clean')->weekly(); 
+		$schedule->command('websockets:clean')->weekly();
 
 		$schedule
 			->job(new GenerateInvoicesJob)
 			->everyMinute()
 			// ->dailyAt("08:00")
 			->emailOutputTo("al@black.co.ke")
-			// ->emailOutputOnFailure("al@black.co.ke")
+			->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {
 				Log::info("GenerateInvoicesJob Completed Successfully at " . now());
 			})
@@ -43,12 +43,12 @@ class Kernel extends ConsoleKernel
 			// ->everyMinute()
 			->dailyAt("08:00")
 			->emailOutputTo("al@black.co.ke")
-			// ->emailOutputOnFailure("al@black.co.ke")
+			->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {
-				Log::info("GenerateInvoicesJob completed successfully.");
+				Log::info("SendInvoiceRemindersJob completed successfully.");
 			})
 			->onFailure(function () {
-				Log::error("GenerateInvoicesJob failed.");
+				Log::error("SendInvoiceRemindersJob failed.");
 			});
 	}
 

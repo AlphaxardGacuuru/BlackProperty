@@ -13,6 +13,7 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Notifications\InvoicesGeneratedNotification;
+use App\Notifications\JobFailedNotification;
 use Exception;
 use Log;
 
@@ -118,5 +119,47 @@ class GenerateInvoicesJob implements ShouldQueue
 		$superAdmin->notify(new InvoicesGeneratedNotification($result));
 
 		return $result;
+	}
+
+	/**
+	 * Handle a job failure.
+	 *
+	 * @param  \Throwable  $exception
+	 * @return void
+	 */
+	public function failed(\Throwable $exception)
+	{
+		Log::error("GenerateInvoicesJob failed", [
+			'exception' => $exception->getMessage(),
+			'trace' => $exception->getTraceAsString(),
+			'file' => $exception->getFile(),
+			'line' => $exception->getLine(),
+			'time' => now()
+		]);
+
+		// Send detailed failure notification
+		try {
+			// Use first or create instead of where to avoid issues if user is not found
+			$superAdmin = User::firstOrCreate(
+				['email' => 'alphaxardgacuuru47@gmail.com']
+			);
+
+			$additionalData = [
+				'server' => request()->server('SERVER_NAME') ?? 'Unknown',
+				'environment' => app()->environment(),
+				'memory_usage' => memory_get_peak_usage(true),
+				'execution_time' => microtime(true) - LARAVEL_START,
+			];
+
+			$superAdmin->notify(new JobFailedNotification(
+				'GenerateInvoicesJob',
+				$exception,
+				$additionalData
+			));
+		} catch (Exception $e) {
+			Log::error(
+				"Failed to send detailed job failure notification: " . $e->getMessage()
+			);
+		}
 	}
 }
