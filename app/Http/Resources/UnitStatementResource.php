@@ -36,9 +36,9 @@ class UnitStatementResource extends JsonResource
             $this->userUnit->unit->name :
             $this->invoice->userUnit->unit->name,
             "type" => $this->type,
-            "credit" => number_format($this->credit),
-            "debit" => number_format($this->debit),
-            "balance" => number_format($this->balance),
+            "credit" => number_format($this->credit ?? 0),
+            "debit" => number_format($this->debit ?? 0),
+            "balance" => number_format($this->balance ?? 0),
             "month" => $this->month ? $this->month : $this->invoice->month,
             "year" => $this->year ? $this->year : $this->invoice->year,
             "updatedAt" => $this->updatedAt,

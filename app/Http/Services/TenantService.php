@@ -218,11 +218,13 @@ class TenantService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId);
+		if ($request->filled("propertyId")) {
+			$propertyId = explode(",", $request->propertyId);
 
-		$query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
-			$query->whereIn("id", $propertyId);
-		});
+			$query = $query->whereHas("unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
 		$unitId = $request->input("unitId");
 

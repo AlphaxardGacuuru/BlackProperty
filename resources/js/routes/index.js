@@ -166,7 +166,7 @@ const RouteList = ({ GLOBAL_STATE }) => {
 			component: <AdminTenantCreate {...GLOBAL_STATE} />,
 		},
 		{
-			path: "/admin/tenants/:userUnitId/show",
+			path: "/admin/tenants/:id/show",
 			component: <AdminTenantShow {...GLOBAL_STATE} />,
 		},
 		{

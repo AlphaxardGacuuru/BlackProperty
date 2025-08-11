@@ -244,11 +244,19 @@ class StatementService extends Service
 			$query = $query->where("user_unit_id", $request->userUnitId);
 		}
 
-		$unitId = $request->input("unitId");
-
 		if ($request->filled("unitId")) {
+			$unitId = $request->input("unitId");
+
 			$query = $query->whereHas("userUnit", function ($query) use ($unitId) {
 				$query->where("unit_id", $unitId);
+			});
+		}
+
+		if ($request->filled("tenantId")) {
+			$tenantId = $request->input("tenantId");
+
+			$query = $query->whereHas("userUnit", function ($query) use ($tenantId) {
+				$query->where("user_id", $tenantId);
 			});
 		}
 

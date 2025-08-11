@@ -90708,10 +90708,18 @@ var Socialite = function Socialite(props) {
 
     // Check if sanctumToken is in Local Storage
     if ((_props$getLocalStorag = props.getLocalStorage("sanctumToken")) !== null && _props$getLocalStorag !== void 0 && _props$getLocalStorag.length) {
-      // Redirect to index page
-      setTimeout(function () {
-        return window.location.href = "/#/admin/subscribe";
-      }, 2000);
+      // Check if user has an active subscription
+      if (props.auth.activeSubscription == null) {
+        // Redirect to subscribe page
+        setTimeout(function () {
+          return window.location.href = "/#/admin/subscribe";
+        }, 2000);
+      } else {
+        // Redirect to index page
+        setTimeout(function () {
+          return window.location.href = "/#/admin/dashboard";
+        }, 2000);
+      }
       return;
     }
 
@@ -92421,7 +92429,9 @@ var PageLoader = function PageLoader(props) {
       react_toastify__WEBPACK_IMPORTED_MODULE_1__["toast"].dismiss("page-loader-toast");
     }
   }, [props.loadingItems]);
-  return 0;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "py-3"
+  });
 };
 /* harmony default export */ __webpack_exports__["default"] = (PageLoader);
 
@@ -102797,23 +102807,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
 /* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Statements/StatementList */ "./resources/js/components/Statements/StatementList.js");
-/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
-/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
-/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
-/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
-/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
-/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
-/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
-/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
-/* harmony import */ var _components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/components/Units/UnitWaterReadingList */ "./resources/js/components/Units/UnitWaterReadingList.js");
-/* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
-/* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
-/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
-/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
+/* harmony import */ var _components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Units/UnitStatementList */ "./resources/js/components/Units/UnitStatementList.js");
+/* harmony import */ var _components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Units/UnitWaterReadingList */ "./resources/js/components/Units/UnitWaterReadingList.js");
+/* harmony import */ var _components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Units/UnitInvoiceList */ "./resources/js/components/Units/UnitInvoiceList.js");
+/* harmony import */ var _components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Units/UnitPaymentList */ "./resources/js/components/Units/UnitPaymentList.js");
+/* harmony import */ var _components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/Units/UnitCreditNoteList */ "./resources/js/components/Units/UnitCreditNoteList.js");
+/* harmony import */ var _components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/Units/UnitDeductionList */ "./resources/js/components/Units/UnitDeductionList.js");
+/* harmony import */ var _components_Core_Img__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/components/Core/Img */ "./resources/js/components/Core/Img.js");
+/* harmony import */ var _components_Core_MyLink__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/components/Core/MyLink */ "./resources/js/components/Core/MyLink.js");
+/* harmony import */ var _svgs_PlusSVG__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/svgs/PlusSVG */ "./resources/js/svgs/PlusSVG.js");
+/* harmony import */ var _svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/svgs/ViewSVG */ "./resources/js/svgs/ViewSVG.js");
+/* harmony import */ var _svgs_EditSVG__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/svgs/EditSVG */ "./resources/js/svgs/EditSVG.js");
+/* harmony import */ var _svgs_DeleteSVG__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/svgs/DeleteSVG */ "./resources/js/svgs/DeleteSVG.js");
+/* harmony import */ var _svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/svgs/LogoutSVG */ "./resources/js/svgs/LogoutSVG.js");
+/* harmony import */ var _components_Core_PaginationLinks__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/components/Core/PaginationLinks */ "./resources/js/components/Core/PaginationLinks.js");
 /* harmony import */ var _components_Core_DeleteModal__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/components/Core/DeleteModal */ "./resources/js/components/Core/DeleteModal.js");
 /* harmony import */ var _svgs_CloseSVG__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/svgs/CloseSVG */ "./resources/js/svgs/CloseSVG.js");
-/* harmony import */ var _components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/components/Units/UnitStatementList */ "./resources/js/components/Units/UnitStatementList.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -102839,11 +102848,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var show = function show(props) {
   var _tenant$avatar;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
-    userUnitId = _useParams.userUnitId;
+    id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
     _useState2 = _slicedToArray(_useState, 2),
     tenant = _useState2[0],
@@ -102862,13 +102870,13 @@ var show = function show(props) {
       name: "View Tenant",
       path: ["units", "view"]
     });
-    // Fetch Unit
-    Axios.get("api/tenants?propertyId=".concat(props.auth.propertyIds, "&userUnitId=").concat(userUnitId)).then(function (res) {
-      setTenant(res.data.data[0]);
+    // Fetch Tenant
+    Axios.get("api/tenants/".concat(id)).then(function (res) {
+      setTenant(res.data.data);
       // Set page
       props.setPage({
         name: "View Tenant",
-        path: ["units", "units/".concat(res.data.data[0].unitId, "/show"), "view"]
+        path: ["units", "units/".concat(res.data.data.unitId, "/show"), "view"]
       });
       // Fetch Unit
       props.get("units/".concat(res.data.data[0].unitId), setUnit);
@@ -102890,7 +102898,7 @@ var show = function show(props) {
     className: "card shadow-sm mb-2 p-2 text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "m-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_Img__WEBPACK_IMPORTED_MODULE_8__["default"], {
     src: (_tenant$avatar = tenant.avatar) !== null && _tenant$avatar !== void 0 ? _tenant$avatar : "/storage/avatars/male-avatar.png",
     className: "rounded-circle",
     width: "100px",
@@ -102898,9 +102906,9 @@ var show = function show(props) {
     alt: "Avatar"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, tenant.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, tenant.occupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-end"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_9__["default"], {
     linkTo: "/tenants/".concat(tenant.id, "/edit"),
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_12__["default"], null),
     text: "edit",
     className: "btn-sm"
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -102957,24 +102965,24 @@ var show = function show(props) {
     onClick: function onClick() {
       return setTab("deductions");
     }
-  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_18__["default"], _extends({}, props, {
+  }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
-  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_11__["default"], _extends({}, props, {
+    userUnitId: tenant.userUnitId
+  })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
-  })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
+    userUnitId: tenant.userUnitId
+  })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
-  })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {
+    userUnitId: tenant.userUnitId
+  })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
-  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_14__["default"], _extends({}, props, {
+    userUnitId: tenant.userUnitId
+  })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
-  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_15__["default"], _extends({}, props, {
+    userUnitId: tenant.userUnitId
+  })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, props, {
     unit: unit,
-    userUnitId: userUnitId
+    userUnitId: tenant.userUnitId
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (show);
@@ -103659,12 +103667,15 @@ var show = function show(props) {
     height: "100px",
     alt: "Avatar"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, unit.tenantName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantEmail), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantPhone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, unit.tenantOccupiedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "d-flex justify-content-between"
+    className: "d-flex justify-content-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    linkTo: "/tenants/".concat(unit.tenantId, "/show"),
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ViewSVG__WEBPACK_IMPORTED_MODULE_13__["default"], null),
+    className: "btn-sm me-1"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Core_MyLink__WEBPACK_IMPORTED_MODULE_3__["default"], {
     linkTo: "/tenants/".concat(unit.tenantId, "/edit"),
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_EditSVG__WEBPACK_IMPORTED_MODULE_14__["default"], null),
-    text: "edit",
-    className: "btn-sm"
+    className: "btn-sm me-1"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modal fade",
     id: "vacateModal",
@@ -103704,7 +103715,7 @@ var show = function show(props) {
     className: "me-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null)), "Vacate ", unit.tenantName))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: "mysonar-btn btn-2 mb-2",
+    className: "mysonar-btn btn-2 mb-2 me-1",
     "data-bs-toggle": "modal",
     "data-bs-target": "#vacateModal"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_LogoutSVG__WEBPACK_IMPORTED_MODULE_16__["default"], null), " Vacate tenant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -106767,7 +106778,7 @@ var RouteList = function RouteList(_ref) {
     path: "/admin/tenants/create",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_22__["default"], GLOBAL_STATE)
   }, {
-    path: "/admin/tenants/:userUnitId/show",
+    path: "/admin/tenants/:id/show",
     component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_23__["default"], GLOBAL_STATE)
   }, {
     path: "/admin/tenants/:id/edit",

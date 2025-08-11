@@ -34,7 +34,10 @@ const show = (props) => {
 		// Fetch Unit
 		props.get(`units/${id}`, setUnit)
 		// Fetch Tenants
-		props.getPaginated(`tenants?propertyId=${props.auth.propertyIds}&unitId=${id}&vacated=true`, setTenants)
+		props.getPaginated(
+			`tenants?propertyId=${props.auth.propertyIds}&unitId=${id}&vacated=true`,
+			setTenants
+		)
 	}, [])
 
 	/*
@@ -63,7 +66,7 @@ const show = (props) => {
 	const onDeleteTenant = (tenantId, unitId) => {
 		Axios.post(`/api/tenants/${tenantId}`, {
 			unitId: unitId,
-			_method: "DELETE"
+			_method: "DELETE",
 		})
 			.then((res) => {
 				props.setMessages([res.data.message])
@@ -142,13 +145,22 @@ const show = (props) => {
 						<h6>{unit.tenantPhone}</h6>
 						<h6>{unit.tenantOccupiedAt}</h6>
 						<hr />
-						<div className="d-flex justify-content-between">
+						<div className="d-flex justify-content-center">
+							{/* View Start */}
+							<MyLink
+								linkTo={`/tenants/${unit.tenantId}/show`}
+								icon={<ViewSVG />}
+								className="btn-sm me-1"
+							/>
+							{/* View End */}
+
+							{/* Edit Start */}
 							<MyLink
 								linkTo={`/tenants/${unit.tenantId}/edit`}
 								icon={<EditSVG />}
-								text="edit"
-								className="btn-sm"
+								className="btn-sm me-1"
 							/>
+							{/* Edit End */}
 
 							{/* Confirm Vacate Modal End */}
 							<div
@@ -198,7 +210,7 @@ const show = (props) => {
 							{/* Button trigger modal */}
 							<button
 								type="button"
-								className="mysonar-btn btn-2 mb-2"
+								className="mysonar-btn btn-2 mb-2 me-1"
 								data-bs-toggle="modal"
 								data-bs-target={`#vacateModal`}>
 								<LogoutSVG /> Vacate tenant

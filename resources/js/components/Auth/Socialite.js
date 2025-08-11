@@ -18,8 +18,15 @@ const Socialite = (props) => {
 
 		// Check if sanctumToken is in Local Storage
 		if (props.getLocalStorage("sanctumToken")?.length) {
-			// Redirect to index page
-			setTimeout(() => (window.location.href = "/#/admin/subscribe"), 2000)
+			// Check if user has an active subscription
+			if (props.auth.activeSubscription == null) {
+				// Redirect to subscribe page
+				setTimeout(() => (window.location.href = "/#/admin/subscribe"), 2000)
+			} else {
+				// Redirect to index page
+				setTimeout(() => (window.location.href = "/#/admin/dashboard"), 2000)
+			}
+
 			return
 		}
 

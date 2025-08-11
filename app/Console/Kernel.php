@@ -20,21 +20,22 @@ class Kernel extends ConsoleKernel
 	{
 		// $schedule->command('inspire')->hourly();
 
-		$schedule->command('telescope:prune')->weekly();
+		// Prune Telescope entries older than 30 days
+		$schedule->command('telescope:prune --hours=720')->daily();
 
-		$schedule->command('websockets:clean')->weekly();
+		$schedule->command('websockets:clean')->weekly(); 
 
 		$schedule
 			->job(new GenerateInvoicesJob)
-			// ->everyMinute()
-			->dailyAt("08:00")
+			->everyMinute()
+			// ->dailyAt("08:00")
 			// ->emailOutputTo("al@black.co.ke")
 			->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {
-				Log::info("GenerateInvoicesJob completed successfully.");
+				Log::info("GenerateInvoicesJob Completed Successfully at " . now());
 			})
 			->onFailure(function () {
-				Log::error("GenerateInvoicesJob failed.");
+				Log::error("GenerateInvoicesJob Failed at " . now());
 			});
 
 		$schedule

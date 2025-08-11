@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-import StatementList from "@/components/Statements/StatementList"
+import UnitStatementList from "@/components/Units/UnitStatementList"
+import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
+import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
+import UnitPaymentList from "@/components/Units/UnitPaymentList"
+import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
+import UnitDeductionList from "@/components/Units/UnitDeductionList"
 
 import Img from "@/components/Core/Img"
 import MyLink from "@/components/Core/MyLink"
@@ -12,18 +17,11 @@ import EditSVG from "@/svgs/EditSVG"
 import DeleteSVG from "@/svgs/DeleteSVG"
 import LogoutSVG from "@/svgs/LogoutSVG"
 import PaginationLinks from "@/components/Core/PaginationLinks"
-import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
-import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
-import UnitPaymentList from "@/components/Units/UnitPaymentList"
-import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
-import UnitDeductionList from "@/components/Units/UnitDeductionList"
 import DeleteModal from "@/components/Core/DeleteModal"
-
 import CloseSVG from "@/svgs/CloseSVG"
-import UnitStatementList from "@/components/Units/UnitStatementList"
 
 const show = (props) => {
-	var { userUnitId } = useParams()
+	var { id } = useParams()
 
 	const [tenant, setTenant] = useState({})
 	const [unit, setUnit] = useState({})
@@ -33,13 +31,13 @@ const show = (props) => {
 	useEffect(() => {
 		// Set page
 		props.setPage({ name: "View Tenant", path: ["units", "view"] })
-		// Fetch Unit
-		Axios.get(`api/tenants?propertyId=${props.auth.propertyIds}&userUnitId=${userUnitId}`).then((res) => {
-			setTenant(res.data.data[0])
+		// Fetch Tenant
+		Axios.get(`api/tenants/${id}`).then((res) => {
+			setTenant(res.data.data)
 			// Set page
 			props.setPage({
 				name: "View Tenant",
-				path: ["units", `units/${res.data.data[0].unitId}/show`, "view"],
+				path: ["units", `units/${res.data.data.unitId}/show`, "view"],
 			})
 			// Fetch Unit
 			props.get(`units/${res.data.data[0].unitId}`, setUnit)
@@ -145,7 +143,7 @@ const show = (props) => {
 					<UnitStatementList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 
@@ -153,7 +151,7 @@ const show = (props) => {
 					<UnitWaterReadingList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 
@@ -161,7 +159,7 @@ const show = (props) => {
 					<UnitInvoiceList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 
@@ -169,7 +167,7 @@ const show = (props) => {
 					<UnitPaymentList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 
@@ -177,7 +175,7 @@ const show = (props) => {
 					<UnitCreditNoteList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 
@@ -185,7 +183,7 @@ const show = (props) => {
 					<UnitDeductionList
 						{...props}
 						unit={unit}
-						userUnitId={userUnitId}
+						userUnitId={tenant.userUnitId}
 					/>
 				)}
 				{/* Tab Content End */}

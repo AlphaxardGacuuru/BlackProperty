@@ -220,8 +220,8 @@ const InvoiceList = (props) => {
 					</div>
 					{/* Total End */}
 				</div>
+				{/* Total End */}
 			</div>
-			{/* Total End */}
 			{/* Data End */}
 
 			<br />

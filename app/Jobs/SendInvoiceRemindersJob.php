@@ -41,37 +41,29 @@ class SendInvoiceRemindersJob implements ShouldQueue
 			"invoices" => 0,
 		];
 
-		try {
-			Invoice::where("status", "!=", "paid")
-				// Check that user of property has active subscription
-				->whereHas("userUnit.unit.property.user", function ($query) {
-					$query->whereHas("userSubscriptionPlans", function ($query) {
-						$query->where("status", "active")
-							->where("end_date", ">", now());
-					});
-				})
-				->get()
-				->each(function ($invoice) use (&$result) {
-					$invoiceDate = $invoice->userUnit->unit->property->invoice_date;
-
-					// Check that the property's invoice date has passed by 10 days
-					if (Carbon::parse($invoiceDate)->addDays(10)->isFuture()) {
-						return;
-					}
-
-					[$saved, $message, $data] = (new InvoiceService)->sendReminder($invoice);
-
-					if ($saved) {
-						$result["invoices"]++;
-					}
+		Invoice::where("status", "!=", "paid")
+			// Check that user of property has active subscription
+			->whereHas("userUnit.unit.property.user", function ($query) {
+				$query->whereHas("userSubscriptionPlans", function ($query) {
+					$query->where("status", "active")
+						->where("end_date", ">", now());
 				});
+			})
+			->get()
+			->each(function ($invoice) use (&$result) {
+				$invoiceDate = $invoice->userUnit->unit->property->invoice_date;
 
-			Log::info("Invoice reminders sent successfully. Total invoices: {$result['invoices']}");
-		} catch (Exception $e) {
-			$result["status"] = false;
-			$result["message"] = "Error sending invoice reminders.";
-			Log::error("Error sending invoice reminders: " . $e->getMessage());
-		}
+				// Check that the property's invoice date has passed by 10 days
+				if (Carbon::parse($invoiceDate)->addDays(10)->isFuture()) {
+					return;
+				}
+
+				[$saved, $message, $data] = (new InvoiceService)->sendReminder($invoice);
+
+				if ($saved) {
+					$result["invoices"]++;
+				}
+			});
 
 		return $result;
 	}

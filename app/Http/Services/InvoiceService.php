@@ -19,6 +19,8 @@ use App\Http\Services\EmailService;
 use App\Http\Services\SMSSendService;
 use App\Models\User;
 use App\Notifications\InvoiceReminderNotification;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Mailer\Exception\HttpTransportException;
 
 class InvoiceService extends Service
 {
@@ -295,8 +297,10 @@ class InvoiceService extends Service
 		$invoice = Invoice::findOrFail($invoiceId);
 
 		try {
-			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
-			Mail::to("al@black.co.ke")->send(new InvoiceMail($invoice));
+			DB::beginTransaction();
+
+			Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
+			// Mail::to("al@black.co.ke")->send(new InvoiceMail($invoice));
 
 			$invoice->increment("emails_sent");
 
@@ -311,7 +315,13 @@ class InvoiceService extends Service
 			]);
 
 			$emailService->store($request);
-		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+
+			DB::commit();
+		} catch (HttpTransportException $exception) {
+			DB::rollBack();
+
+			Log::error("Invoice Email Error: " . $exception->getMessage());
+
 			throw $exception;
 		}
 
