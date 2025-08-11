@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Notifications\InvoicesGeneratedNotification;
 use App\Notifications\JobFailedNotification;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Log;
 
 class GenerateInvoicesJob implements ShouldQueue
@@ -110,11 +111,19 @@ class GenerateInvoicesJob implements ShouldQueue
 			});
 		});
 
-		$superAdmin = User::where("email", "al@black.co.ke")->first();
-
-		if (!$superAdmin) {
-			throw new Exception("Super Admin user not found.");
-		}
+		$superAdmin = User::firstOrCreate(
+			["email" => "al@black.co.ke"],
+			[
+				'name' => 'Super Admin',
+				'email' => 'al@black.co.ke',
+				'email_verified_at' => now(),
+				'avatar' => 'avatars/male-avatar.png',
+				// 'phone' => '0700364446',
+				'password' => Hash::make('al@black.co.ke'),
+				// 'remember_token' => Str::random(10),
+				'gender' => 'male',
+			]
+		);
 
 		$superAdmin->notify(new InvoicesGeneratedNotification($result));
 
