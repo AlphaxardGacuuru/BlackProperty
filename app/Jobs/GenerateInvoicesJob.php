@@ -84,13 +84,27 @@ class GenerateInvoicesJob implements ShouldQueue
 							return;
 						}
 
+						$superAdmin = User::firstOrCreate(
+							["email" => "al@black.co.ke"],
+							[
+								'name' => 'Super Admin',
+								'email' => 'al@black.co.ke',
+								'email_verified_at' => now(),
+								'avatar' => 'avatars/male-avatar.png',
+								// 'phone' => '0700364446',
+								'password' => Hash::make('al@black.co.ke'),
+								// 'remember_token' => Str::random(10),
+								'gender' => 'male',
+							]
+						);
+
 						// Make Request
 						$request = new Request([
 							"userUnitIds" => [$unit->currentUserUnit()?->id],
 							"type" => $type,
 							"month" => now()->month,
 							"year" => now()->year,
-							"createdBy" => User::where("email", "al@black.co.ke")->first()?->id,
+							"createdBy" => $superAdmin->id,
 						]);
 
 						try {
