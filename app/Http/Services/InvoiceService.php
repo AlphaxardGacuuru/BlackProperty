@@ -354,14 +354,14 @@ class InvoiceService extends Service
 	public function sendReminder($invoice)
 	{
 		try {
-			// $invoice->userUnit->user->notify(new InvoiceReminderNotification($invoice));
+			$invoice->userUnit->user->notify(new InvoiceReminderNotification($invoice));
 
-			User::where("email", "al@black.co.ke")
-				->first()
-				->notify(new InvoiceReminderNotification($invoice));
+			// User::where("email", "al@black.co.ke")
+				// ->first()
+				// ->notify(new InvoiceReminderNotification($invoice));
 
 			$invoice->increment("reminders_sent");
-		} catch (\Symfony\Component\Mailer\Exception\HttpTransportException $exception) {
+		} catch (HttpTransportException $exception) {
 			throw $exception;
 		}
 

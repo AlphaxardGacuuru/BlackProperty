@@ -51,10 +51,13 @@ class SendInvoiceRemindersJob implements ShouldQueue
 			})
 			->get()
 			->each(function ($invoice) use (&$result) {
-				$invoiceDate = $invoice->userUnit->unit->property->invoice_date;
+				$invoiceDay = $invoice->userUnit->unit->property->invoice_date;
+
+				// Construct a new Carbon instance for the current month, setting the day to the invoice day
+				$dateToCheck = now()->day($invoiceDay);
 
 				// Check that the property's invoice date has passed by 10 days
-				if (Carbon::parse($invoiceDate)->addDays(10)->isFuture()) {
+				if ($dateToCheck->addDays(10)->isFuture()) {
 					return;
 				}
 
