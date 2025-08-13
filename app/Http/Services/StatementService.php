@@ -240,7 +240,7 @@ class StatementService extends Service
      */
 	public function search($query, $request)
 	{
-		if ($request->filled("userUnitId")) {
+		if ($request->filled("userUnitId") && $request->userUnitId != "undefined") {
 			$query = $query->where("user_unit_id", $request->userUnitId);
 		}
 

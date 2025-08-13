@@ -16,10 +16,10 @@ const UnitWaterReadingList = (props) => {
 		// Fetch Water Readings
 		props.getPaginated(
 			`water-readings?
-			propertyId=${props.unit.propertyId}&
-			unitId=${props.unit.id}&
-			userUnitId=${props.userUnitId}&
+			propertyId=${props.unit?.propertyId}&
+			unitId=${props.unit?.id}&
 			tenant=${tenant}&
+			tenantId=${props.tenant?.id}&
 			unit=${unit}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
@@ -27,7 +27,7 @@ const UnitWaterReadingList = (props) => {
 			endYear=${endYear}`,
 			setWaterReadings
 		)
-	}, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear])
+	}, [props.selectedPropertyId, props.tenant, tenant, unit, startMonth, endMonth, startYear, endYear])
 
 	return (
 		<WaterReadingList

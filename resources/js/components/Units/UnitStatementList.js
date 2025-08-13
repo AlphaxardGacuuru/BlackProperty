@@ -7,15 +7,15 @@ const UnitStatementList = (props) => {
 
 	useEffect(() => {
 		// Fetch Statements
-		if (props.unit.id) {
+		if (props.unit?.id || props.tenant?.userUnitId) {
 			props.getPaginated(
 				`statements/unit?
-				unitId=${props.unit.id}&
-				userUnitId=${props.userUnitId}`,
+				unitId=${props.unit?.id}&
+				userUnitId=${props.tenant?.userUnitId}&`,
 				setStatements
 			)
 		}
-	}, [props.unit])
+	}, [props.unit, props.tenant])
 
 	return (
 		<StatementList

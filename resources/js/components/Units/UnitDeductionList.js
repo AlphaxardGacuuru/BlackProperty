@@ -17,10 +17,10 @@ const UnitDeductionList = (props) => {
 		// Fetch Deduction
 		props.getPaginated(
 			`deductions?
-			propertyId=${props.unit.propertyId}&
-			unitId=${props.unit.id}&
-			userUnitId=${props.userUnitId}&
+			propertyId=${props.unit?.propertyId}&
+			unitId=${props.unit?.id}&
 			tenant=${tenant}&
+			tenantId=${props.tenant?.id}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&
 			startMonth=${startMonth}&
@@ -31,6 +31,7 @@ const UnitDeductionList = (props) => {
 		)
 	}, [
 		props.selectedPropertyId,
+		props.tenant,
 		tenant,
 		unit,
 		invoiceCode,

@@ -16,9 +16,10 @@ const UnitPaymentList = (props) => {
 		// Fetch Payments
 		props.getPaginated(
 			`payments?
-			propertyId=${props.unit.propertyId}&
-			unitId=${props.unit.id}&
+			propertyId=${props.unit?.propertyId}&
+			unitId=${props.unit?.id}&
 			tenant=${tenant}&
+			tenantId=${props.tenant?.id}&
 			unit=${unit}&
 			startMonth=${startMonth}&
 			endMonth=${endMonth}&
@@ -28,6 +29,7 @@ const UnitPaymentList = (props) => {
 		)
 	}, [
 		props.selectedPropertyId,
+		props.tenant,
 		tenant,
 		unit,
 		startMonth,

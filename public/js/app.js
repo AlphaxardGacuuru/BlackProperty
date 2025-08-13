@@ -95838,9 +95838,10 @@ var UnitCreditNoteList = function UnitCreditNoteList(props) {
     endYear = _useState16[0],
     setEndYear = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var _props$unit, _props$unit2, _props$tenant;
     // Fetch Credit Note
-    props.getPaginated("credit-notes?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\tuserUnitId=").concat(props.userUnitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
-  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("credit-notes?\n\t\t\tpropertyId=".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.propertyId, "&\n\t\t\tunitId=").concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttenantId=").concat((_props$tenant = props.tenant) === null || _props$tenant === void 0 ? void 0 : _props$tenant.id, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setCreditNotes);
+  }, [props.selectedPropertyId, props.tenant, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -95920,9 +95921,10 @@ var UnitDeductionList = function UnitDeductionList(props) {
     endYear = _useState16[0],
     setEndYear = _useState16[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$unit, _props$unit2, _props$tenant;
     // Fetch Deduction
-    props.getPaginated("deductions?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\tuserUnitId=").concat(props.userUnitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
-  }, [props.selectedPropertyId, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("deductions?\n\t\t\tpropertyId=".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.propertyId, "&\n\t\t\tunitId=").concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttenantId=").concat((_props$tenant = props.tenant) === null || _props$tenant === void 0 ? void 0 : _props$tenant.id, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tinvoiceCode=").concat(invoiceCode, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setDeductions);
+  }, [props.selectedPropertyId, props.tenant, tenant, unit, invoiceCode, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -96014,9 +96016,10 @@ var UnitInvoiceList = function UnitInvoiceList(props) {
     endYear = _useState22[0],
     setEndYear = _useState22[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$unit, _props$unit2, _props$tenant;
     // Fetch Invoices
-    props.getPaginated("invoices?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\tuserUnitId=").concat(props.userUnitId, "&\n\t\t\tnumber=").concat(number, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
-  }, [props.selectedPropertyId, number, invoice, unit, tenant, type, status, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("invoices?\n\t\t\tpropertyId=".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.propertyId, "&\n\t\t\tunitId=").concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\tnumber=").concat(number, "&\n\t\t\tinvoice=").concat(invoice, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttenantId=").concat((_props$tenant = props.tenant) === null || _props$tenant === void 0 ? void 0 : _props$tenant.id, "&\n\t\t\ttype=").concat(type, "&\n\t\t\tstatus=").concat(status, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setInvoices);
+  }, [props.selectedPropertyId, props.tenant, number, invoice, unit, tenant, type, status, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -96260,9 +96263,10 @@ var UnitPaymentList = function UnitPaymentList(props) {
     endYear = _useState14[0],
     setEndYear = _useState14[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$unit, _props$unit2, _props$tenant;
     // Fetch Payments
-    props.getPaginated("payments?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
-  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("payments?\n\t\t\tpropertyId=".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.propertyId, "&\n\t\t\tunitId=").concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttenantId=").concat((_props$tenant = props.tenant) === null || _props$tenant === void 0 ? void 0 : _props$tenant.id, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setPayments);
+  }, [props.selectedPropertyId, props.tenant, tenant, unit, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -96310,11 +96314,13 @@ var UnitStatementList = function UnitStatementList(props) {
     statements = _useState2[0],
     setStatements = _useState2[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$unit, _props$tenant;
     // Fetch Statements
-    if (props.unit.id) {
-      props.getPaginated("statements/unit?\n\t\t\t\tunitId=".concat(props.unit.id, "&\n\t\t\t\tuserUnitId=").concat(props.userUnitId), setStatements);
+    if ((_props$unit = props.unit) !== null && _props$unit !== void 0 && _props$unit.id || (_props$tenant = props.tenant) !== null && _props$tenant !== void 0 && _props$tenant.userUnitId) {
+      var _props$unit2, _props$tenant2;
+      props.getPaginated("statements/unit?\n\t\t\t\tunitId=".concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\t\tuserUnitId=").concat((_props$tenant2 = props.tenant) === null || _props$tenant2 === void 0 ? void 0 : _props$tenant2.userUnitId, "&"), setStatements);
     }
-  }, [props.unit]);
+  }, [props.unit, props.tenant]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Statements_StatementList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     statements: statements,
     setStatements: setStatements
@@ -96381,9 +96387,10 @@ var UnitWaterReadingList = function UnitWaterReadingList(props) {
     endYear = _useState14[0],
     setEndYear = _useState14[1];
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var _props$unit, _props$unit2, _props$tenant;
     // Fetch Water Readings
-    props.getPaginated("water-readings?\n\t\t\tpropertyId=".concat(props.unit.propertyId, "&\n\t\t\tunitId=").concat(props.unit.id, "&\n\t\t\tuserUnitId=").concat(props.userUnitId, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
-  }, [props.selectedPropertyId, tenant, unit, startMonth, endMonth, startYear, endYear]);
+    props.getPaginated("water-readings?\n\t\t\tpropertyId=".concat((_props$unit = props.unit) === null || _props$unit === void 0 ? void 0 : _props$unit.propertyId, "&\n\t\t\tunitId=").concat((_props$unit2 = props.unit) === null || _props$unit2 === void 0 ? void 0 : _props$unit2.id, "&\n\t\t\ttenant=").concat(tenant, "&\n\t\t\ttenantId=").concat((_props$tenant = props.tenant) === null || _props$tenant === void 0 ? void 0 : _props$tenant.id, "&\n\t\t\tunit=").concat(unit, "&\n\t\t\tstartMonth=").concat(startMonth, "&\n\t\t\tendMonth=").concat(endMonth, "&\n\t\t\tstartYear=").concat(startYear, "&\n\t\t\tendYear=").concat(endYear), setWaterReadings);
+  }, [props.selectedPropertyId, props.tenant, tenant, unit, startMonth, endMonth, startYear, endYear]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Water_WaterReadingList__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, props, {
     waterReadings: waterReadings,
     setWaterReadings: setWaterReadings,
@@ -102966,23 +102973,23 @@ var show = function show(props) {
       return setTab("deductions");
     }
   }, "Deductions")), tab == "statements" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitStatementList__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   })), tab == "water_readings" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitWaterReadingList__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   })), tab == "invoices" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitInvoiceList__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   })), tab == "payments" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitPaymentList__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   })), tab == "credit_notes" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitCreditNoteList__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   })), tab == "deductions" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Units_UnitDeductionList__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, props, {
-    unit: unit,
-    userUnitId: tenant.userUnitId
+    // unit={unit}
+    tenant: tenant
   }))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (show);
@@ -103319,7 +103326,7 @@ var edit = function edit(props) {
       name: "Edit Tenant",
       path: ["tenants", "edit"]
     });
-    props.get("/tenants/".concat(id), setTenant);
+    props.get("tenants/".concat(id), setTenant);
   }, []);
 
   /*

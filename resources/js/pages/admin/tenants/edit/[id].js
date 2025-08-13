@@ -27,7 +27,7 @@ const edit = (props) => {
 		// Set page
 		props.setPage({ name: "Edit Tenant", path: ["tenants", "edit"] })
 
-		props.get(`/tenants/${id}`, setTenant)
+		props.get(`tenants/${id}`, setTenant)
 	}, [])
 
 	/*

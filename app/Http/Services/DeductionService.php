@@ -127,19 +127,20 @@ class DeductionService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId);
+		if ($request->propertyId != "undefined") {
+			$propertyId = explode(",", $request->propertyId);
 
-		$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-			$query->whereIn("id", $propertyId);
-		});
+			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
-		$unitId = $request->input("unitId");
+		if ($request->filled("unitId") && $request->unitId != "undefined") {
+			$unitId = $request->input("unitId");
 
-		if ($request->filled("unitId")) {
-			$query = $query
-				->whereHas("userUnit.unit", function ($query) use ($unitId) {
-					$query->where("id", $unitId);
-				});
+			$query = $query->whereHas("userUnit.unit", function ($query) use ($unitId) {
+				$query->where("id", $unitId);
+			});
 		}
 
 		$unit = $request->input("unit");
@@ -167,6 +168,14 @@ class DeductionService extends Service
 				->whereHas("userUnit.user", function ($query) use ($tenant) {
 					$query->where("name", "LIKE", "%" . $tenant . "%");
 				});
+		}
+
+		if ($request->filled("tenantId") && $request->tenantId != "undefined") {
+			$tenantId = $request->input("tenantId");
+
+			$query = $query->whereHas("userUnit", function ($query) use ($tenantId) {
+				$query->where("user_id", $tenantId);
+			});
 		}
 
 		$userUnitId = $request->input("userUnitId");

@@ -142,48 +142,48 @@ const show = (props) => {
 				{tab == "statements" && (
 					<UnitStatementList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 
 				{tab == "water_readings" && (
 					<UnitWaterReadingList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 
 				{tab == "invoices" && (
 					<UnitInvoiceList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 
 				{tab == "payments" && (
 					<UnitPaymentList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 
 				{tab == "credit_notes" && (
 					<UnitCreditNoteList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 
 				{tab == "deductions" && (
 					<UnitDeductionList
 						{...props}
-						unit={unit}
-						userUnitId={tenant.userUnitId}
+						// unit={unit}
+						tenant={tenant}
 					/>
 				)}
 				{/* Tab Content End */}

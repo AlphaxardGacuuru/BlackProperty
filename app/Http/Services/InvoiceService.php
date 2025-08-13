@@ -133,11 +133,13 @@ class InvoiceService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId);
+		if ($request->propertyId != "undefined") {
+			$propertyId = explode(",", $request->propertyId);
 
-		$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-			$query->whereIn("id", $propertyId);
-		});
+			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
+				$query->whereIn("id", $propertyId);
+			});
+		}
 
 		$number = $request->input("number");
 
@@ -145,31 +147,42 @@ class InvoiceService extends Service
 			$query = $query->where("number", "LIKE", "%" . $number . "%");
 		}
 
-		$unitId = $request->input("unitId");
+		if ($request->filled("unitId") && $request->unitId != "undefined") {
+			$unitId = $request->input("unitId");
 
-		if ($request->filled("unitId")) {
-			$query = $query
-				->whereHas("userUnit.unit", function ($query) use ($unitId) {
-					$query->where("id", $unitId);
-				});
+			$query = $query->whereHas("userUnit.unit", function ($query) use ($unitId) {
+				$query->where("id", $unitId);
+			});
 		}
 
 		$unit = $request->input("unit");
 
 		if ($request->filled("unit")) {
-			$query = $query
-				->whereHas("userUnit.unit", function ($query) use ($unit) {
-					$query->where("name", "LIKE", "%" . $unit . "%");
-				});
+			$query = $query->whereHas("userUnit.unit", function ($query) use ($unit) {
+				$query->where("name", "LIKE", "%" . $unit . "%");
+			});
 		}
 
 		$tenant = $request->input("tenant");
 
 		if ($request->filled("tenant")) {
-			$query = $query
-				->whereHas("userUnit.user", function ($query) use ($tenant) {
-					$query->where("name", "LIKE", "%" . $tenant . "%");
-				});
+			$query = $query->whereHas("userUnit.user", function ($query) use ($tenant) {
+				$query->where("name", "LIKE", "%" . $tenant . "%");
+			});
+		}
+
+		if ($request->filled("tenantId") && $request->tenantId != "undefined") {
+			$tenantId = $request->input("tenantId");
+
+			$query = $query->whereHas("userUnit", function ($query) use ($tenantId) {
+				$query->where("user_id", $tenantId);
+			});
+		}
+
+		if ($request->filled("userUserId")) {
+			$userUserId = $request->input("userUserId");
+
+			$query = $query->where("user_unit_id", $userUserId);
 		}
 
 		$type = $request->input("type");
@@ -357,8 +370,8 @@ class InvoiceService extends Service
 			$invoice->userUnit->user->notify(new InvoiceReminderNotification($invoice));
 
 			// User::where("email", "al@black.co.ke")
-				// ->first()
-				// ->notify(new InvoiceReminderNotification($invoice));
+			// ->first()
+			// ->notify(new InvoiceReminderNotification($invoice));
 
 			$invoice->increment("reminders_sent");
 		} catch (HttpTransportException $exception) {
