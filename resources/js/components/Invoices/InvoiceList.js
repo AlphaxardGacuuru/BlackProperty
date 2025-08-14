@@ -401,7 +401,7 @@ const InvoiceList = (props) => {
 				<table className="table table-hover">
 					<thead>
 						<tr>
-							<th colSpan="10"></th>
+							<th colSpan="8"></th>
 							<th
 								colSpan="2"
 								className="text-end">
@@ -450,15 +450,15 @@ const InvoiceList = (props) => {
 									}
 								/>
 							</th>
-							<th>Number</th>
+							<th>INV</th>
 							<th>Tenant</th>
 							<th>Unit</th>
 							<th>Type</th>
 							<th>Month</th>
 							<th>Year</th>
 							<th>Amount</th>
-							<th>Paid</th>
-							<th>Balance</th>
+							{/* <th>Paid</th> */}
+							{/* <th>Balance</th> */}
 							<th>Status</th>
 							<th className="text-center">Action</th>
 						</tr>
@@ -475,7 +475,7 @@ const InvoiceList = (props) => {
 										/>
 									</td>
 									{/* <td>{props.iterator(key, invoices)}</td> */}
-									<td>{invoice.number}</td>
+									<td className="text-nowrap">{invoice.number}</td>
 									<td>{invoice.tenantName}</td>
 									<td>{invoice.unitName}</td>
 									<td className="text-capitalize">
@@ -490,16 +490,16 @@ const InvoiceList = (props) => {
 										{props.months[invoice.month]}
 									</td>
 									<td>{invoice.year}</td>
-									<td className="text-success">
+									<td className="text-success text-nowrap">
 										<small>KES</small> {invoice.amount}
 									</td>
-									<td className="text-success">
+									{/* <td className="text-success">
 										<small>KES</small> {invoice.paid}
-									</td>
-									<td className="text-success">
+									</td> */}
+									{/* <td className="text-success">
 										<small>KES</small> {invoice.balance}
-									</td>
-									<td className="text-capitalize">
+									</td> */}
+									<td className="text-capitalize text-nowrap">
 										<span
 											className={`
 										${
@@ -566,7 +566,7 @@ const InvoiceList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="12"
+									colSpan="10"
 									className="p-0">
 									<NoData />
 								</td>

@@ -74,27 +74,41 @@ class GenerateInvoicesJob implements ShouldQueue
 				// Loop through each invoice type
 				collect(["rent", "service_charge", "water"])
 					->each(function ($type) use ($unit, &$result) {
+						// Prevent Rent Invoice from being generated if Deposit invoice exists for that month
+						if ($type === "rent") {
+							$depositInvoice = $unit->currentUserUnit()
+								?->invoices()
+								->where("type", "deposit")
+								->where("month", now()->month)
+								->where("year", now()->year)
+								->first();
+
+							if ($depositInvoice) {
+								return;
+							}
+						}
+
 						// Skip if Property doesn't have a service charge
 						if ($type === "service_charge" && $unit->property->service_charge < 1) {
-							Log::error("Property {$unit->property->id} does not have a service charge set.");
-							
 							return;
 						}
 
 						// Check that water reading exists for this month
-						$waterReading = $unit->waterReadings()
-							->where("month", now()->month)
-							->where("year", now()->year)
-							->first();
+						if ($type === "water") {
+							$waterReading = $unit->currentUserUnit()
+								?->waterReadings()
+								->where("month", now()->month)
+								->where("year", now()->year)
+								->first();
 
-						if ($type === "water" && !$waterReading) {
-							Log::error("Water reading missing for Unit {$unit->id} in " . now()->format("F Y"));
-
-							return;
+							if (!$waterReading) {
+								return;
+							}
 						}
 
 						// Check if Invoice Exists for type, month and year
-						$invoice = $unit->invoices()
+						$invoice = $unit->currentUserUnit()
+							?->invoices()
 							->where("type", $type)
 							->where("month", now()->month)
 							->where("year", now()->year)
