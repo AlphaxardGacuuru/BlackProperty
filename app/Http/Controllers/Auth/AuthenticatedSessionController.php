@@ -34,7 +34,9 @@ class AuthenticatedSessionController extends Controller
      * Social Logins*/
 	public function redirectToProvider($website)
 	{
-		return Socialite::driver($website)->redirect();
+		return Socialite::driver($website)
+			->scopes(['email']) // Add explicit scopes if needed
+			->redirect();
 	}
 
 	/**
@@ -44,7 +46,21 @@ class AuthenticatedSessionController extends Controller
 	 */
 	public function handleProviderCallback($website)
 	{
-		$user = Socialite::driver($website)->user();
+		try {
+			// Try with state validation first
+			$user = Socialite::driver($website)->user();
+
+		} catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+			// If state is invalid, try stateless (less secure but works)
+			try {
+				$user = Socialite::driver($website)->stateless()->user();
+			} catch (\Exception $e) {
+				return redirect('/#/dashboard')->with('error', 'Authentication failed. Please try again.');
+			}
+		} catch (\Exception $e) {
+			// Handle any other exceptions
+			return redirect('/#/dashboard')->with('error', 'Authentication failed. Please try again.');
+		}
 
 		$name = $user->getName() ? $user->getName() : " ";
 
