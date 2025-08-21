@@ -39,13 +39,25 @@ class GenerateInvoicesJob implements ShouldQueue
 	 */
 	public function handle()
 	{
-		$result = [
-			"status" => true,
-			"message" => "Invoice processing completed successfully.",
-			"invoices" => 0,
-			"units" => 0,
-			"properties" => 0,
-		];
+		// Define Anonymous Class
+		$result = new class {
+			public $users;
+			public $properties;
+			public $units;
+			public $invoices;
+			public $message;
+			public $status;
+
+			public function __construct()
+			{
+				$this->users = collect([]);
+				$this->properties = collect([]);
+				$this->units = collect([]);
+				$this->invoices = collect([]);
+				$this->message = "Invoice Processing Completed Successfully.";
+				$this->status = true;
+			}
+		};
 
 		$properties = Property::where("invoice_date", now()->day)
 			// Check that user of property has active subscription
@@ -57,7 +69,7 @@ class GenerateInvoicesJob implements ShouldQueue
 			})
 			->get();
 
-		$result["properties"] = $properties->count();
+		// $result->properties->push($properties);
 
 		$properties->each(function ($property) use (&$result) {
 			$units = $property
@@ -68,7 +80,7 @@ class GenerateInvoicesJob implements ShouldQueue
 				})
 				->get();
 
-			$result["units"] += $units->count();
+			// $result->units->push($units);
 
 			$units->each(function ($unit) use (&$result) {
 				// Loop through each invoice type
@@ -147,19 +159,89 @@ class GenerateInvoicesJob implements ShouldQueue
 							[$saved, $message, $invoice] = (new InvoiceService)->store($request);
 
 							if ($saved) {
-								$result["invoices"]++;
-							}
+								$result->users->push($invoice->userUnit->unit->property->user);
+								$result->properties->push($invoice->userUnit->unit->property);
+								$result->units->push($invoice->userUnit->unit);
+								$result->invoices->push($invoice);
 
-							[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
-							[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
+								// [$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
+								// [$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
+							}
 						} catch (Exception $e) {
 							Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
-							$result["status"] = false;
-							$result["message"] = "Invoice processing encountered errors.";
+							$result->status = false;
+							$result->message = "Invoice Processing Encountered Errors.";
 						}
 					});
 			});
 		});
+
+		$result->users = $result->users->unique()->values();
+		$result->properties = $result->properties->unique()->values();
+		$result->units = $result->units->unique()->values();
+		$result->invoices = $result->invoices->unique()->values();
+
+		// Send notifications to each user with their specific data
+		foreach ($result->users as $user) {
+			// Create a fresh copy for each user
+			$userResult = new class {
+				public $users;
+				public $properties;
+				public $units;
+				public $invoices;
+				public $message;
+				public $status;
+
+				public function __construct()
+				{
+					$this->users = collect([]);
+					$this->properties = collect([]);
+					$this->units = collect([]);
+					$this->invoices = collect([]);
+					$this->message = "Invoice Processing Completed Successfully.";
+					$this->status = true;
+				}
+			};
+
+			// Set the current user
+			$userResult->status = $result->status;
+			$userResult->message = $result->message;
+
+			// Get Users Properties
+			$userResult->properties = $result
+				->properties
+				->filter(fn($property) => $property->user_id == $user->id)
+				->values();
+
+			// Get Users Units
+			$propertyIds = $userResult
+				->properties
+				->map(fn($property) => $property->id)
+				->unique();
+
+			$userResult->units = $result
+				->units
+				->filter(function ($unit) use ($propertyIds) {
+					return $propertyIds->contains($unit->property_id);
+				})
+				->values();
+
+			$unitIds = $userResult
+				->units
+				->map(fn($unit) => $unit->id)
+				->unique();
+
+			$userResult->invoices = $result
+				->invoices
+				->filter(function ($invoice) use ($unitIds) {
+					return $unitIds->contains($invoice->userUnit->unit->id);
+				})
+				->values();
+
+			$user->notify(new InvoicesGeneratedNotification($userResult));
+		}
+
+		// Send Notification to Property Owners
 
 		$superAdmin = User::firstOrCreate(
 			["email" => "al@black.co.ke"],

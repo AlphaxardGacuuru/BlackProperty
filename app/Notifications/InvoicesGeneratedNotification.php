@@ -42,16 +42,30 @@ class InvoicesGeneratedNotification extends Notification
 	 */
 	public function toMail($notifiable)
 	{
-		return (new MailMessage)
+		$notification = (new MailMessage)
 			->greeting('Hello ' . $notifiable->name . ',')
-			->subject('Invoices Generated')
-			->line('The invoice generation process has completed successfully.')
-			->line('Properties Processed: ' . $this->result['properties'])
-			->line('Units Processed: ' . $this->result['units'])
-			->line('Invoices Generated: ' . $this->result['invoices'])
-			->line($this->result['message'])
-			// ->action('View Invoices', url('/admin/invoices'))
-			;
+			->subject('Generate Invoices Job Completed')
+			->line($this->result->message);
+
+		if ($this->result->users->count() > 0) {
+			$notification = $notification
+				->line('Users Processed: ' . $this->result->users->count());
+		}
+
+		$notification = $notification
+			->line('Properties Processed: ' . $this->result->properties->count())
+			->line('Units Processed: ' . $this->result->units->count())
+			->line('Invoices Generated: ' . $this->result->invoices->count());
+
+		if ($this->result->users->count() > 0) {
+			$notification = $notification
+				->action('View Invoices', url('/super/invoices'));
+		} else {
+			$notification = $notification
+				->action('View Invoices', url('/admin/invoices'));
+		}
+
+		return $notification;
 	}
 
 	/**

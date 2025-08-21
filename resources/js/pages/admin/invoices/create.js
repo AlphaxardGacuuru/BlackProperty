@@ -11,7 +11,7 @@ import EditSVG from "@/svgs/EditSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	const types = ["rent", "water", "service_charge"]
+	const types = ["rent", "water", "service_charge", "deposit"]
 
 	const [tenants, setTenants] = useState([])
 

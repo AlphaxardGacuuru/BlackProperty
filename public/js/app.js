@@ -99020,7 +99020,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var create = function create(props) {
   var history = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
-  var types = ["rent", "water", "service_charge"];
+  var types = ["rent", "water", "service_charge", "deposit"];
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState2 = _slicedToArray(_useState, 2),
     tenants = _useState2[0],
@@ -99334,7 +99334,7 @@ var edit = function edit(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     tenants = _useState4[0],
     setTenants = _useState4[1];
-  var types = ["rent", "water", "service"];
+  var types = ["rent", "water", "service", "deposit"];
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
     _useState6 = _slicedToArray(_useState5, 2),
     userUnitIds = _useState6[0],
