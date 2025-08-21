@@ -55,11 +55,11 @@ class AuthenticatedSessionController extends Controller
 			try {
 				$user = Socialite::driver($website)->stateless()->user();
 			} catch (\Exception $e) {
-				return redirect('/#/dashboard')->with('error', 'Authentication failed. Please try again.');
+				return redirect('/#/admin/dashboard')->with('error', 'Authentication failed. Please try again.');
 			}
 		} catch (\Exception $e) {
 			// Handle any other exceptions
-			return redirect('/#/dashboard')->with('error', 'Authentication failed. Please try again.');
+			return redirect('/#/admin/dashboard')->with('error', 'Authentication failed. Please try again.');
 		}
 
 		$name = $user->getName() ? $user->getName() : " ";
