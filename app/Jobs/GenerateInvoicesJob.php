@@ -46,7 +46,7 @@ class GenerateInvoicesJob implements ShouldQueue
 			public $units;
 			public $invoices;
 			public $message;
-			public $status;
+			public $isForAdmin;
 
 			public function __construct()
 			{
@@ -55,7 +55,7 @@ class GenerateInvoicesJob implements ShouldQueue
 				$this->units = collect([]);
 				$this->invoices = collect([]);
 				$this->message = "Invoice Processing Completed Successfully.";
-				$this->status = true;
+				$this->isForAdmin = true;
 			}
 		};
 
@@ -158,18 +158,15 @@ class GenerateInvoicesJob implements ShouldQueue
 						try {
 							[$saved, $message, $invoice] = (new InvoiceService)->store($request);
 
-							if ($saved) {
-								$result->users->push($invoice->userUnit->unit->property->user);
-								$result->properties->push($invoice->userUnit->unit->property);
-								$result->units->push($invoice->userUnit->unit);
-								$result->invoices->push($invoice);
+							$result->users->push($invoice->userUnit->unit->property->user);
+							$result->properties->push($invoice->userUnit->unit->property);
+							$result->units->push($invoice->userUnit->unit);
+							$result->invoices->push($invoice);
 
-								// [$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
-								// [$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
-							}
+							[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
+							[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
 						} catch (Exception $e) {
 							Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
-							$result->status = false;
 							$result->message = "Invoice Processing Encountered Errors.";
 						}
 					});
@@ -190,7 +187,7 @@ class GenerateInvoicesJob implements ShouldQueue
 				public $units;
 				public $invoices;
 				public $message;
-				public $status;
+				public $isForAdmin;
 
 				public function __construct()
 				{
@@ -199,12 +196,11 @@ class GenerateInvoicesJob implements ShouldQueue
 					$this->units = collect([]);
 					$this->invoices = collect([]);
 					$this->message = "Invoice Processing Completed Successfully.";
-					$this->status = true;
+					$this->isForAdmin = false;
 				}
 			};
 
 			// Set the current user
-			$userResult->status = $result->status;
 			$userResult->message = $result->message;
 
 			// Get Users Properties
@@ -242,7 +238,6 @@ class GenerateInvoicesJob implements ShouldQueue
 		}
 
 		// Send Notification to Property Owners
-
 		$superAdmin = User::firstOrCreate(
 			["email" => "al@black.co.ke"],
 			[

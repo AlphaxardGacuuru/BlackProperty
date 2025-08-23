@@ -2,17 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Http\Services\InvoiceService;
-use App\Models\Invoice;
-use Carbon\Carbon;
-use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use App\Http\Services\InvoiceService;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Notifications\InvoiceRemindersSentNotifications;
 
 class SendInvoiceRemindersJob implements ShouldQueue
 {
@@ -35,11 +33,25 @@ class SendInvoiceRemindersJob implements ShouldQueue
 	 */
 	public function handle()
 	{
-		$result = [
-			"status" => true,
-			"message" => "Invoice reminders sent successfully.",
-			"invoices" => 0,
-		];
+		// Define Anonymous Class
+		$result = new class {
+			public $users;
+			public $properties;
+			public $units;
+			public $invoices;
+			public $message;
+			public $isForAdmin;
+
+			public function __construct()
+			{
+				$this->users = collect([]);
+				$this->properties = collect([]);
+				$this->units = collect([]);
+				$this->invoices = collect([]);
+				$this->message = "Invoice Reminders Sent Successfully.";
+				$this->isForAdmin = true;
+			}
+		};
 
 		Invoice::where("status", "!=", "paid")
 			// Check that user of property has active subscription
@@ -57,16 +69,98 @@ class SendInvoiceRemindersJob implements ShouldQueue
 				$dateToCheck = now()->day($invoiceDay);
 
 				// Check that the property's invoice date has passed by 10 days
-				if ($dateToCheck->addDays(10)->isFuture()) {
+				if ($dateToCheck->addDays(10)->isFuture() || $invoice->status === "paid") {
 					return;
 				}
 
 				[$saved, $message, $data] = (new InvoiceService)->sendReminder($invoice);
 
-				if ($saved) {
-					$result["invoices"]++;
-				}
+				$result->users->push($invoice->userUnit->unit->property->user);
+				$result->properties->push($invoice->userUnit->unit->property);
+				$result->units->push($invoice->userUnit->unit);
+				$result->invoices->push($invoice);
 			});
+
+		$result->users = $result->users->unique()->values();
+		$result->properties = $result->properties->unique()->values();
+		$result->units = $result->units->unique()->values();
+		$result->invoices = $result->invoices->unique()->values();
+
+		// Send notifications to each user with their specific data
+		foreach ($result->users as $user) {
+			// Create a fresh copy for each user
+			$userResult = new class {
+				public $users;
+				public $properties;
+				public $units;
+				public $invoices;
+				public $message;
+				public $isForAdmin;
+
+				public function __construct()
+				{
+					$this->users = collect([]);
+					$this->properties = collect([]);
+					$this->units = collect([]);
+					$this->invoices = collect([]);
+					$this->message = "Invoice Reminders Sent Successfully.";
+					$this->isForAdmin = false;
+				}
+			};
+
+			// Set the current user
+			$userResult->message = $result->message;
+
+			// Get Users Properties
+			$userResult->properties = $result
+				->properties
+				->filter(fn($property) => $property->user_id == $user->id)
+				->values();
+
+			// Get Users Units
+			$propertyIds = $userResult
+				->properties
+				->map(fn($property) => $property->id)
+				->unique();
+
+			$userResult->units = $result
+				->units
+				->filter(function ($unit) use ($propertyIds) {
+					return $propertyIds->contains($unit->property_id);
+				})
+				->values();
+
+			$unitIds = $userResult
+				->units
+				->map(fn($unit) => $unit->id)
+				->unique();
+
+			$userResult->invoices = $result
+				->invoices
+				->filter(function ($invoice) use ($unitIds) {
+					return $unitIds->contains($invoice->userUnit->unit->id);
+				})
+				->values();
+
+			$user->notify(new InvoiceRemindersSentNotifications($userResult));
+		}
+
+		// Send Notification to Property Owners
+		$superAdmin = User::firstOrCreate(
+			["email" => "al@black.co.ke"],
+			[
+				'name' => 'Super Admin',
+				'email' => 'al@black.co.ke',
+				'email_verified_at' => now(),
+				'avatar' => 'avatars/male-avatar.png',
+				// 'phone' => '0700364446',
+				'password' => Hash::make('al@black.co.ke'),
+				// 'remember_token' => Str::random(10),
+				'gender' => 'male',
+			]
+		);
+
+		$superAdmin->notify(new InvoiceRemindersSentNotifications($result));
 
 		return $result;
 	}

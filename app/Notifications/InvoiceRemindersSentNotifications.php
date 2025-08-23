@@ -9,53 +9,75 @@ use Illuminate\Notifications\Notification;
 
 class InvoiceRemindersSentNotifications extends Notification
 {
-    use Queueable;
+	use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+	protected $result;
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['mail'];
-    }
+	/**
+	 * Create a new notification instance.
+	 *
+	 * @return void
+	 */
+	public function __construct($result)
+	{
+		$this->result = $result;
+	}
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+	/**
+	 * Get the notification's delivery channels.
+	 *
+	 * @param  mixed  $notifiable
+	 * @return array
+	 */
+	public function via($notifiable)
+	{
+		return ['mail', 'database'];
+	}
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
+	/**
+	 * Get the mail representation of the notification.
+	 *
+	 * @param  mixed  $notifiable
+	 * @return \Illuminate\Notifications\Messages\MailMessage
+	 */
+	public function toMail($notifiable)
+	{
+		$notification = (new MailMessage)
+			->greeting('Hello ' . $notifiable->name . ',')
+			->subject('Invoice Reminder Job Completed')
+			->line($this->result->message);
+
+		if ($this->result->isForAdmin) {
+			$notification = $notification
+				->line('Users Processed: ' . $this->result->users->count());
+		}
+
+		$notification = $notification
+			->line('Properties Processed: ' . $this->result->properties->count())
+			->line('Units Processed: ' . $this->result->units->count())
+			->line('Invoices Generated: ' . $this->result->invoices->count());
+
+		if ($this->result->isForAdmin) {
+			$notification = $notification
+				->action('View Invoices', url('/#/super/invoices'));
+		} else {
+			$notification = $notification
+				->action('View Invoices', url('/#/admin/invoices'));
+		}
+
+		return $notification;
+	}
+
+	/**
+	 * Get the array representation of the notification.
+	 *
+	 * @param  mixed  $notifiable
+	 * @return array
+	 */
+	public function toArray($notifiable)
+	{
+		return [
+			//
+		];
+	}
 }

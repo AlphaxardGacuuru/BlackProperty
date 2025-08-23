@@ -7,6 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+use App\Events\MpesaTransactionCreatedEvent;
+use App\Http\Services\InvoiceService;
+use App\Http\Services\MPESATransactionService;
+use App\Models\Invoice;
+use App\Models\MPESATransaction;
+use App\Models\User;
+use App\Notifications\InvoiceRemindersSentNotifications;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+
 class InvoiceReminderNotification extends Notification
 {
     use Queueable;
@@ -47,7 +58,7 @@ class InvoiceReminderNotification extends Notification
 			->subject(ucwords(str_replace('_', ' ', $this->invoice->type)) . ' Invoice Reminder')
 			->greeting('Hello ' . $notifiable->name . ',')
 			->line('This is a reminder that your ' . ucwords(str_replace('_', ' ', $this->invoice->type)) . ' Invoice of KES ' .number_format($this->invoice->balance) . ' is due.')
-			// ->action('View Invoice', url('/#/invoices/' . $this->invoice->id . '/show'))
+			->action('View Invoice', url('/#/tenant/invoices/' . $this->invoice->id . '/show'))
 			->line('Thank you for choosing Black Property!')
 			->line('If you have any questions, feel free to contact us.');
     }

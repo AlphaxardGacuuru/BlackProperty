@@ -47,7 +47,7 @@ class InvoicesGeneratedNotification extends Notification
 			->subject('Generate Invoices Job Completed')
 			->line($this->result->message);
 
-		if ($this->result->users->count() > 0) {
+		if ($this->result->isForAdmin) {
 			$notification = $notification
 				->line('Users Processed: ' . $this->result->users->count());
 		}
@@ -57,12 +57,12 @@ class InvoicesGeneratedNotification extends Notification
 			->line('Units Processed: ' . $this->result->units->count())
 			->line('Invoices Generated: ' . $this->result->invoices->count());
 
-		if ($this->result->users->count() > 0) {
+		if ($this->result->isForAdmin) {
 			$notification = $notification
-				->action('View Invoices', url('/super/invoices'));
+				->action('View Invoices', url('/#/super/invoices'));
 		} else {
 			$notification = $notification
-				->action('View Invoices', url('/admin/invoices'));
+				->action('View Invoices', url('/#/admin/invoices'));
 		}
 
 		return $notification;
