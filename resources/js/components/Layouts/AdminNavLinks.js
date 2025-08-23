@@ -98,11 +98,6 @@ const AdminNavLinks = (props) => {
 			name: "SMSes",
 		},
 		{
-			link: "/admin/billing",
-			icon: <BillingSVG />,
-			name: "Billing",
-		},
-		{
 			link: "/admin/staff",
 			icon: <StaffSVG />,
 			name: "Staff",
@@ -111,6 +106,11 @@ const AdminNavLinks = (props) => {
 			link: "/admin/roles",
 			icon: <PersonGearSVG />,
 			name: "Roles",
+		},
+		{
+			link: "/admin/billing",
+			icon: <BillingSVG />,
+			name: "Billing",
 		},
 		{
 			link: "/admin/support",

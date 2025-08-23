@@ -94419,10 +94419,6 @@ var AdminNavLinks = function AdminNavLinks(props) {
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_ChatSVG__WEBPACK_IMPORTED_MODULE_17__["default"], null),
     name: "SMSes"
   }, {
-    link: "/admin/billing",
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_20__["default"], null),
-    name: "Billing"
-  }, {
     link: "/admin/staff",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_StaffSVG__WEBPACK_IMPORTED_MODULE_5__["default"], null),
     name: "Staff"
@@ -94430,6 +94426,10 @@ var AdminNavLinks = function AdminNavLinks(props) {
     link: "/admin/roles",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_PersonGearSVG__WEBPACK_IMPORTED_MODULE_8__["default"], null),
     name: "Roles"
+  }, {
+    link: "/admin/billing",
+    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_BillingSVG__WEBPACK_IMPORTED_MODULE_20__["default"], null),
+    name: "Billing"
   }, {
     link: "/admin/support",
     icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svgs_SupportSVG__WEBPACK_IMPORTED_MODULE_19__["default"], null),
@@ -98799,7 +98799,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var show = function show(props) {
-  var _invoice$status, _invoice$type, _payments$data, _creditNotes$data, _deductions$data;
+  var _invoice$status, _invoice$type;
   var _useParams = Object(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
     id = _useParams.id;
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
@@ -98915,31 +98915,7 @@ var show = function show(props) {
     className: "text-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
     className: "me-1"
-  }, "KES"), invoice.amount)), (_payments$data = payments.data) === null || _payments$data === void 0 ? void 0 : _payments$data.map(function (payment, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Payment"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.months[payment.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-      className: "me-1"
-    }, "KES"), payment.amount));
-  }), (_creditNotes$data = creditNotes.data) === null || _creditNotes$data === void 0 ? void 0 : _creditNotes$data.map(function (creditNote, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Credit Note"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.months[creditNote.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-      className: "me-1"
-    }, "KES"), creditNote.amount));
-  }), (_deductions$data = deductions.data) === null || _deductions$data === void 0 ? void 0 : _deductions$data.map(function (deduction, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Deduction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, props.months[deduction.month]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-end"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-      className: "me-1"
-    }, "KES"), deduction.amount));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+  }, "KES"), invoice.amount)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
     className: "border-bottom border-top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     colSpan: invoice.type == "water" ? 3 : 0
@@ -106595,6 +106571,316 @@ var index = function index(props) {
 
 /***/ }),
 
+/***/ "./resources/js/routes/adminRoutes.js":
+/*!********************************************!*\
+  !*** ./resources/js/routes/adminRoutes.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// Admin dashboard and general admin routes
+var adminRoutes = [{
+  path: "/admin/subscribe",
+  component: "AdminSubscriptionPlan"
+}, {
+  path: "/admin/dashboard",
+  component: "AdminDashboard"
+},
+// Water readings
+{
+  path: "/admin/water-readings",
+  component: "AdminWaterReadings"
+}, {
+  path: "/admin/water-readings/create",
+  component: "AdminWaterReadingCreate"
+}, {
+  path: "/admin/water-readings/:id/edit",
+  component: "AdminWaterReadingEdit"
+},
+// Communication
+{
+  path: "/admin/emails",
+  component: "AdminEmails"
+}, {
+  path: "/admin/smses",
+  component: "AdminSMSMessages"
+},
+// Staff and roles
+{
+  path: "/admin/staff",
+  component: "AdminStaff"
+}, {
+  path: "/admin/staff/create",
+  component: "AdminStaffCreate"
+}, {
+  path: "/admin/staff/:id/edit",
+  component: "AdminStaffEdit"
+}, {
+  path: "/admin/roles",
+  component: "AdminRoleIndex"
+}, {
+  path: "/admin/roles/create",
+  component: "AdminRoleCreate"
+}, {
+  path: "/admin/roles/:id/edit",
+  component: "AdminRoleEdit"
+},
+// Support
+{
+  path: "/admin/support",
+  component: "AdminSupport"
+}];
+/* harmony default export */ __webpack_exports__["default"] = (adminRoutes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/authRoutes.js":
+/*!*******************************************!*\
+  !*** ./resources/js/routes/authRoutes.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// Auth-related routes
+var authRoutes = [{
+  path: "/socialite/:message/:token",
+  component: "Socialite"
+}, {
+  path: "/verify-email/:id/:hash",
+  component: "VerifyEmail"
+}];
+/* harmony default export */ __webpack_exports__["default"] = (authRoutes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/componentMap.js":
+/*!*********************************************!*\
+  !*** ./resources/js/routes/componentMap.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Layouts_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/Layouts/Header */ "./resources/js/components/Layouts/Header.js");
+/* harmony import */ var _pages_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/pages/index */ "./resources/js/pages/index.js");
+/* harmony import */ var _components_Layouts_AdminNav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Layouts/AdminNav */ "./resources/js/components/Layouts/AdminNav.js");
+/* harmony import */ var _components_Auth_SubscriptionPlan__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/Auth/SubscriptionPlan */ "./resources/js/components/Auth/SubscriptionPlan.js");
+/* harmony import */ var _pages_admin_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/pages/admin/index */ "./resources/js/pages/admin/index.js");
+/* harmony import */ var _pages_admin_properties_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/pages/admin/properties/index */ "./resources/js/pages/admin/properties/index.js");
+/* harmony import */ var _pages_admin_properties_create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/pages/admin/properties/create */ "./resources/js/pages/admin/properties/create.js");
+/* harmony import */ var _pages_admin_properties_id___WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/pages/admin/properties/[id] */ "./resources/js/pages/admin/properties/[id].js");
+/* harmony import */ var _pages_admin_properties_edit_id___WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/pages/admin/properties/edit/[id] */ "./resources/js/pages/admin/properties/edit/[id].js");
+/* harmony import */ var _pages_admin_units_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/pages/admin/units/index */ "./resources/js/pages/admin/units/index.js");
+/* harmony import */ var _pages_admin_units_create__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/pages/admin/units/create */ "./resources/js/pages/admin/units/create.js");
+/* harmony import */ var _pages_admin_units_id___WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/pages/admin/units/[id] */ "./resources/js/pages/admin/units/[id].js");
+/* harmony import */ var _pages_admin_units_edit_id___WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/pages/admin/units/edit/[id] */ "./resources/js/pages/admin/units/edit/[id].js");
+/* harmony import */ var _pages_admin_units_tenants_create__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/pages/admin/units/tenants/create */ "./resources/js/pages/admin/units/tenants/create.js");
+/* harmony import */ var _pages_admin_units_water_readings_create__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/pages/admin/units/water-readings/create */ "./resources/js/pages/admin/units/water-readings/create.js");
+/* harmony import */ var _pages_admin_units_invoices_create__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/pages/admin/units/invoices/create */ "./resources/js/pages/admin/units/invoices/create.js");
+/* harmony import */ var _pages_admin_units_payments_create__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/pages/admin/units/payments/create */ "./resources/js/pages/admin/units/payments/create.js");
+/* harmony import */ var _pages_admin_units_credit_notes_create__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/pages/admin/units/credit-notes/create */ "./resources/js/pages/admin/units/credit-notes/create.js");
+/* harmony import */ var _pages_admin_units_deductions_create__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/pages/admin/units/deductions/create */ "./resources/js/pages/admin/units/deductions/create.js");
+/* harmony import */ var _pages_admin_tenants_index__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @/pages/admin/tenants/index */ "./resources/js/pages/admin/tenants/index.js");
+/* harmony import */ var _pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @/pages/admin/tenants/create */ "./resources/js/pages/admin/tenants/create.js");
+/* harmony import */ var _pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @/pages/admin/tenants/[id] */ "./resources/js/pages/admin/tenants/[id].js");
+/* harmony import */ var _pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @/pages/admin/tenants/edit/[id] */ "./resources/js/pages/admin/tenants/edit/[id].js");
+/* harmony import */ var _pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @/pages/admin/invoices/index */ "./resources/js/pages/admin/invoices/index.js");
+/* harmony import */ var _pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @/pages/admin/invoices/create */ "./resources/js/pages/admin/invoices/create.js");
+/* harmony import */ var _pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @/pages/admin/invoices/[id] */ "./resources/js/pages/admin/invoices/[id].js");
+/* harmony import */ var _pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @/pages/admin/invoices/edit/[id] */ "./resources/js/pages/admin/invoices/edit/[id].js");
+/* harmony import */ var _pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @/pages/admin/water-readings/index */ "./resources/js/pages/admin/water-readings/index.js");
+/* harmony import */ var _pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @/pages/admin/water-readings/create */ "./resources/js/pages/admin/water-readings/create.js");
+/* harmony import */ var _pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @/pages/admin/water-readings/edit/[id] */ "./resources/js/pages/admin/water-readings/edit/[id].js");
+/* harmony import */ var _pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @/pages/admin/payments/index */ "./resources/js/pages/admin/payments/index.js");
+/* harmony import */ var _pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @/pages/admin/payments/create */ "./resources/js/pages/admin/payments/create.js");
+/* harmony import */ var _pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @/pages/admin/payments/[id] */ "./resources/js/pages/admin/payments/[id].js");
+/* harmony import */ var _pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @/pages/admin/payments/edit/[id] */ "./resources/js/pages/admin/payments/edit/[id].js");
+/* harmony import */ var _pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @/pages/admin/credit-notes/index */ "./resources/js/pages/admin/credit-notes/index.js");
+/* harmony import */ var _pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/credit-notes/create */ "./resources/js/pages/admin/credit-notes/create.js");
+/* harmony import */ var _pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/credit-notes/edit/[id] */ "./resources/js/pages/admin/credit-notes/edit/[id].js");
+/* harmony import */ var _pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/deductions/index */ "./resources/js/pages/admin/deductions/index.js");
+/* harmony import */ var _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/pages/admin/deductions/create */ "./resources/js/pages/admin/deductions/create.js");
+/* harmony import */ var _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @/pages/admin/deductions/edit/[id] */ "./resources/js/pages/admin/deductions/edit/[id].js");
+/* harmony import */ var _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @/pages/admin/emails/index */ "./resources/js/pages/admin/emails/index.js");
+/* harmony import */ var _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @/pages/admin/smses/index */ "./resources/js/pages/admin/smses/index.js");
+/* harmony import */ var _pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @/pages/admin/billing/index */ "./resources/js/pages/admin/billing/index.js");
+/* harmony import */ var _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @/pages/admin/staff/index */ "./resources/js/pages/admin/staff/index.js");
+/* harmony import */ var _pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @/pages/admin/staff/create */ "./resources/js/pages/admin/staff/create.js");
+/* harmony import */ var _pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @/pages/admin/staff/edit/[id] */ "./resources/js/pages/admin/staff/edit/[id].js");
+/* harmony import */ var _pages_admin_role__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @/pages/admin/role */ "./resources/js/pages/admin/role/index.js");
+/* harmony import */ var _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @/pages/admin/role/create */ "./resources/js/pages/admin/role/create.js");
+/* harmony import */ var _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @/pages/admin/role/edit/[id] */ "./resources/js/pages/admin/role/edit/[id].js");
+/* harmony import */ var _pages_admin_support__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @/pages/admin/support */ "./resources/js/pages/admin/support/index.js");
+/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
+/* harmony import */ var _components_Auth_VerifyEmail__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! @/components/Auth/VerifyEmail */ "./resources/js/components/Auth/VerifyEmail.js");
+// Component imports - centralized component mapping
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Component mapping object
+var componentMap = {
+  // Layout components
+  Header: _components_Layouts_Header__WEBPACK_IMPORTED_MODULE_0__["default"],
+  AdminNav: _components_Layouts_AdminNav__WEBPACK_IMPORTED_MODULE_2__["default"],
+  // Public components
+  Index: _pages_index__WEBPACK_IMPORTED_MODULE_1__["default"],
+  // Auth components
+  Socialite: _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_50__["default"],
+  VerifyEmail: _components_Auth_VerifyEmail__WEBPACK_IMPORTED_MODULE_51__["default"],
+  // Admin components
+  AdminSubscriptionPlan: _components_Auth_SubscriptionPlan__WEBPACK_IMPORTED_MODULE_3__["default"],
+  AdminDashboard: _pages_admin_index__WEBPACK_IMPORTED_MODULE_4__["default"],
+  // Property components
+  AdminProperties: _pages_admin_properties_index__WEBPACK_IMPORTED_MODULE_5__["default"],
+  AdminPropertyCreate: _pages_admin_properties_create__WEBPACK_IMPORTED_MODULE_6__["default"],
+  AdminPropertyShow: _pages_admin_properties_id___WEBPACK_IMPORTED_MODULE_7__["default"],
+  AdminPropertyEdit: _pages_admin_properties_edit_id___WEBPACK_IMPORTED_MODULE_8__["default"],
+  // Unit components
+  AdminUnits: _pages_admin_units_index__WEBPACK_IMPORTED_MODULE_9__["default"],
+  AdminUnitCreate: _pages_admin_units_create__WEBPACK_IMPORTED_MODULE_10__["default"],
+  AdminUnitShow: _pages_admin_units_id___WEBPACK_IMPORTED_MODULE_11__["default"],
+  AdminUnitEdit: _pages_admin_units_edit_id___WEBPACK_IMPORTED_MODULE_12__["default"],
+  AdminUnitTenantCreate: _pages_admin_units_tenants_create__WEBPACK_IMPORTED_MODULE_13__["default"],
+  AdminUnitWaterReadingCreate: _pages_admin_units_water_readings_create__WEBPACK_IMPORTED_MODULE_14__["default"],
+  AdminUnitInvoiceCreate: _pages_admin_units_invoices_create__WEBPACK_IMPORTED_MODULE_15__["default"],
+  AdminUnitPaymentCreate: _pages_admin_units_payments_create__WEBPACK_IMPORTED_MODULE_16__["default"],
+  AdminUnitCreditNoteCreate: _pages_admin_units_credit_notes_create__WEBPACK_IMPORTED_MODULE_17__["default"],
+  AdminUnitDeductionCreate: _pages_admin_units_deductions_create__WEBPACK_IMPORTED_MODULE_18__["default"],
+  // Tenant components
+  AdminTenants: _pages_admin_tenants_index__WEBPACK_IMPORTED_MODULE_19__["default"],
+  AdminTenantCreate: _pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_20__["default"],
+  AdminTenantShow: _pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_21__["default"],
+  AdminTenantEdit: _pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_22__["default"],
+  // Financial components
+  AdminInvoices: _pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_23__["default"],
+  AdminInvoiceCreate: _pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_24__["default"],
+  AdminInvoiceShow: _pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_25__["default"],
+  AdminInvoiceEdit: _pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_26__["default"],
+  AdminPayments: _pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_30__["default"],
+  AdminPaymentCreate: _pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_31__["default"],
+  AdminPaymentShow: _pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_32__["default"],
+  AdminPaymentEdit: _pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_33__["default"],
+  AdminCreditNotes: _pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_34__["default"],
+  AdminCreditNoteCreate: _pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_35__["default"],
+  AdminCreditNoteEdit: _pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_36__["default"],
+  AdminDeductions: _pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_37__["default"],
+  AdminDeductionCreate: _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_38__["default"],
+  AdminDeductionEdit: _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_39__["default"],
+  AdminBilling: _pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_42__["default"],
+  // Water readings
+  AdminWaterReadings: _pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_27__["default"],
+  AdminWaterReadingCreate: _pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_28__["default"],
+  AdminWaterReadingEdit: _pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_29__["default"],
+  // Communication
+  AdminEmails: _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_40__["default"],
+  AdminSMSMessages: _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_41__["default"],
+  // Staff and roles
+  AdminStaff: _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_43__["default"],
+  AdminStaffCreate: _pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_44__["default"],
+  AdminStaffEdit: _pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_45__["default"],
+  AdminRoleIndex: _pages_admin_role__WEBPACK_IMPORTED_MODULE_46__["default"],
+  AdminRoleCreate: _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_47__["default"],
+  AdminRoleEdit: _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_48__["default"],
+  // Support
+  AdminSupport: _pages_admin_support__WEBPACK_IMPORTED_MODULE_49__["default"]
+};
+/* harmony default export */ __webpack_exports__["default"] = (componentMap);
+
+/***/ }),
+
+/***/ "./resources/js/routes/financialRoutes.js":
+/*!************************************************!*\
+  !*** ./resources/js/routes/financialRoutes.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _routeUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routeUtils */ "./resources/js/routes/routeUtils.js");
+
+
+// Generate separate route groups for each financial resource
+var invoiceRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/invoices", "AdminInvoice");
+var paymentRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/payments", "AdminPayment");
+
+// Credit notes don't have a show route, so exclude it
+var creditNoteRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/credit-notes", "AdminCreditNote", {
+  excludeShow: true
+});
+
+// Deductions don't have a show route either
+var deductionRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/deductions", "AdminDeduction", {
+  excludeShow: true
+});
+
+// Add the billing route manually since it doesn't follow CRUD pattern
+var billingRoutes = [{
+  path: "/admin/billing",
+  component: "AdminBilling"
+}];
+
+// Combine all financial routes
+var financialRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["groupRoutes"])(invoiceRoutes, paymentRoutes, creditNoteRoutes, deductionRoutes, billingRoutes);
+/* harmony default export */ __webpack_exports__["default"] = (financialRoutes);
+
+/***/ }),
+
 /***/ "./resources/js/routes/index.js":
 /*!**************************************!*\
   !*** ./resources/js/routes/index.js ***!
@@ -106607,58 +106893,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _components_Layouts_Header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/Layouts/Header */ "./resources/js/components/Layouts/Header.js");
-/* harmony import */ var _pages_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/pages/index */ "./resources/js/pages/index.js");
-/* harmony import */ var _components_Layouts_AdminNav__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Layouts/AdminNav */ "./resources/js/components/Layouts/AdminNav.js");
-/* harmony import */ var _components_Auth_SubscriptionPlan__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/Auth/SubscriptionPlan */ "./resources/js/components/Auth/SubscriptionPlan.js");
-/* harmony import */ var _pages_admin_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/pages/admin/index */ "./resources/js/pages/admin/index.js");
-/* harmony import */ var _pages_admin_properties_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/pages/admin/properties/index */ "./resources/js/pages/admin/properties/index.js");
-/* harmony import */ var _pages_admin_properties_create__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/pages/admin/properties/create */ "./resources/js/pages/admin/properties/create.js");
-/* harmony import */ var _pages_admin_properties_id___WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/pages/admin/properties/[id] */ "./resources/js/pages/admin/properties/[id].js");
-/* harmony import */ var _pages_admin_properties_edit_id___WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/pages/admin/properties/edit/[id] */ "./resources/js/pages/admin/properties/edit/[id].js");
-/* harmony import */ var _pages_admin_units_index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @/pages/admin/units/index */ "./resources/js/pages/admin/units/index.js");
-/* harmony import */ var _pages_admin_units_create__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @/pages/admin/units/create */ "./resources/js/pages/admin/units/create.js");
-/* harmony import */ var _pages_admin_units_id___WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @/pages/admin/units/[id] */ "./resources/js/pages/admin/units/[id].js");
-/* harmony import */ var _pages_admin_units_edit_id___WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @/pages/admin/units/edit/[id] */ "./resources/js/pages/admin/units/edit/[id].js");
-/* harmony import */ var _pages_admin_units_tenants_create__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/pages/admin/units/tenants/create */ "./resources/js/pages/admin/units/tenants/create.js");
-/* harmony import */ var _pages_admin_units_water_readings_create__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @/pages/admin/units/water-readings/create */ "./resources/js/pages/admin/units/water-readings/create.js");
-/* harmony import */ var _pages_admin_units_invoices_create__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @/pages/admin/units/invoices/create */ "./resources/js/pages/admin/units/invoices/create.js");
-/* harmony import */ var _pages_admin_units_payments_create__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @/pages/admin/units/payments/create */ "./resources/js/pages/admin/units/payments/create.js");
-/* harmony import */ var _pages_admin_units_credit_notes_create__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @/pages/admin/units/credit-notes/create */ "./resources/js/pages/admin/units/credit-notes/create.js");
-/* harmony import */ var _pages_admin_units_deductions_create__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @/pages/admin/units/deductions/create */ "./resources/js/pages/admin/units/deductions/create.js");
-/* harmony import */ var _pages_admin_tenants_index__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @/pages/admin/tenants/index */ "./resources/js/pages/admin/tenants/index.js");
-/* harmony import */ var _pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @/pages/admin/tenants/create */ "./resources/js/pages/admin/tenants/create.js");
-/* harmony import */ var _pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @/pages/admin/tenants/[id] */ "./resources/js/pages/admin/tenants/[id].js");
-/* harmony import */ var _pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @/pages/admin/tenants/edit/[id] */ "./resources/js/pages/admin/tenants/edit/[id].js");
-/* harmony import */ var _pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @/pages/admin/invoices/index */ "./resources/js/pages/admin/invoices/index.js");
-/* harmony import */ var _pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @/pages/admin/invoices/create */ "./resources/js/pages/admin/invoices/create.js");
-/* harmony import */ var _pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @/pages/admin/invoices/[id] */ "./resources/js/pages/admin/invoices/[id].js");
-/* harmony import */ var _pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @/pages/admin/invoices/edit/[id] */ "./resources/js/pages/admin/invoices/edit/[id].js");
-/* harmony import */ var _pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @/pages/admin/water-readings/index */ "./resources/js/pages/admin/water-readings/index.js");
-/* harmony import */ var _pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @/pages/admin/water-readings/create */ "./resources/js/pages/admin/water-readings/create.js");
-/* harmony import */ var _pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @/pages/admin/water-readings/edit/[id] */ "./resources/js/pages/admin/water-readings/edit/[id].js");
-/* harmony import */ var _pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @/pages/admin/payments/index */ "./resources/js/pages/admin/payments/index.js");
-/* harmony import */ var _pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @/pages/admin/payments/create */ "./resources/js/pages/admin/payments/create.js");
-/* harmony import */ var _pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @/pages/admin/payments/[id] */ "./resources/js/pages/admin/payments/[id].js");
-/* harmony import */ var _pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @/pages/admin/payments/edit/[id] */ "./resources/js/pages/admin/payments/edit/[id].js");
-/* harmony import */ var _pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @/pages/admin/credit-notes/index */ "./resources/js/pages/admin/credit-notes/index.js");
-/* harmony import */ var _pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @/pages/admin/credit-notes/create */ "./resources/js/pages/admin/credit-notes/create.js");
-/* harmony import */ var _pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @/pages/admin/credit-notes/edit/[id] */ "./resources/js/pages/admin/credit-notes/edit/[id].js");
-/* harmony import */ var _pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @/pages/admin/deductions/index */ "./resources/js/pages/admin/deductions/index.js");
-/* harmony import */ var _pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @/pages/admin/deductions/create */ "./resources/js/pages/admin/deductions/create.js");
-/* harmony import */ var _pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @/pages/admin/deductions/edit/[id] */ "./resources/js/pages/admin/deductions/edit/[id].js");
-/* harmony import */ var _pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @/pages/admin/emails/index */ "./resources/js/pages/admin/emails/index.js");
-/* harmony import */ var _pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! @/pages/admin/smses/index */ "./resources/js/pages/admin/smses/index.js");
-/* harmony import */ var _pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @/pages/admin/billing/index */ "./resources/js/pages/admin/billing/index.js");
-/* harmony import */ var _pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! @/pages/admin/staff/index */ "./resources/js/pages/admin/staff/index.js");
-/* harmony import */ var _pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! @/pages/admin/staff/create */ "./resources/js/pages/admin/staff/create.js");
-/* harmony import */ var _pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! @/pages/admin/staff/edit/[id] */ "./resources/js/pages/admin/staff/edit/[id].js");
-/* harmony import */ var _pages_admin_role__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! @/pages/admin/role */ "./resources/js/pages/admin/role/index.js");
-/* harmony import */ var _pages_admin_role_create__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @/pages/admin/role/create */ "./resources/js/pages/admin/role/create.js");
-/* harmony import */ var _pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @/pages/admin/role/edit/[id] */ "./resources/js/pages/admin/role/edit/[id].js");
-/* harmony import */ var _pages_admin_support__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! @/pages/admin/support */ "./resources/js/pages/admin/support/index.js");
-/* harmony import */ var _components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! @/components/Auth/Socialite */ "./resources/js/components/Auth/Socialite.js");
-/* harmony import */ var _components_Auth_VerifyEmail__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! @/components/Auth/VerifyEmail */ "./resources/js/components/Auth/VerifyEmail.js");
+/* harmony import */ var _authRoutes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./authRoutes */ "./resources/js/routes/authRoutes.js");
+/* harmony import */ var _publicRoutes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./publicRoutes */ "./resources/js/routes/publicRoutes.js");
+/* harmony import */ var _propertyRoutes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./propertyRoutes */ "./resources/js/routes/propertyRoutes.js");
+/* harmony import */ var _unitRoutes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./unitRoutes */ "./resources/js/routes/unitRoutes.js");
+/* harmony import */ var _tenantRoutes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tenantRoutes */ "./resources/js/routes/tenantRoutes.js");
+/* harmony import */ var _financialRoutes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./financialRoutes */ "./resources/js/routes/financialRoutes.js");
+/* harmony import */ var _adminRoutes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./adminRoutes */ "./resources/js/routes/adminRoutes.js");
+/* harmony import */ var _componentMap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./componentMap */ "./resources/js/routes/componentMap.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
+
+
+// Import route definitions
 
 
 
@@ -106667,239 +106919,221 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Import component mapping
 
 var RouteList = function RouteList(_ref) {
   var GLOBAL_STATE = _ref.GLOBAL_STATE;
-  var authRoutes = [{
-    path: "/socialite/:message/:token",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_Socialite__WEBPACK_IMPORTED_MODULE_52__["default"], GLOBAL_STATE)
-  }, {
-    path: "/verify-email/:id/:hash",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_VerifyEmail__WEBPACK_IMPORTED_MODULE_53__["default"], GLOBAL_STATE)
-  }];
-  var routes = [{
-    path: "/",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_index__WEBPACK_IMPORTED_MODULE_3__["default"], GLOBAL_STATE)
-  }];
+  // Helper function to render route with component
+  var renderRoute = function renderRoute(route, key) {
+    var Component = _componentMap__WEBPACK_IMPORTED_MODULE_9__["default"][route.component];
 
-  // Admin Routes
-  var adminRoutes = [{
-    path: "/admin/subscribe",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Auth_SubscriptionPlan__WEBPACK_IMPORTED_MODULE_5__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/dashboard",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_index__WEBPACK_IMPORTED_MODULE_6__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/properties",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_properties_index__WEBPACK_IMPORTED_MODULE_7__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/properties/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_properties_create__WEBPACK_IMPORTED_MODULE_8__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/properties/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_properties_id___WEBPACK_IMPORTED_MODULE_9__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/properties/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_properties_edit_id___WEBPACK_IMPORTED_MODULE_10__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_index__WEBPACK_IMPORTED_MODULE_11__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_create__WEBPACK_IMPORTED_MODULE_12__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_id___WEBPACK_IMPORTED_MODULE_13__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_edit_id___WEBPACK_IMPORTED_MODULE_14__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/tenants/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_tenants_create__WEBPACK_IMPORTED_MODULE_15__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/water-readings/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_water_readings_create__WEBPACK_IMPORTED_MODULE_16__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/invoices/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_invoices_create__WEBPACK_IMPORTED_MODULE_17__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/payments/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_payments_create__WEBPACK_IMPORTED_MODULE_18__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/credit-notes/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_credit_notes_create__WEBPACK_IMPORTED_MODULE_19__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/units/:unitId/deductions/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_units_deductions_create__WEBPACK_IMPORTED_MODULE_20__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/tenants",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_index__WEBPACK_IMPORTED_MODULE_21__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/tenants/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_create__WEBPACK_IMPORTED_MODULE_22__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/tenants/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_id___WEBPACK_IMPORTED_MODULE_23__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/tenants/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_tenants_edit_id___WEBPACK_IMPORTED_MODULE_24__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/invoices",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_index__WEBPACK_IMPORTED_MODULE_25__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/invoices/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_create__WEBPACK_IMPORTED_MODULE_26__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/invoices/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_id___WEBPACK_IMPORTED_MODULE_27__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/invoices/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_invoices_edit_id___WEBPACK_IMPORTED_MODULE_28__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/water-readings",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_index__WEBPACK_IMPORTED_MODULE_29__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/water-readings/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_create__WEBPACK_IMPORTED_MODULE_30__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/water-readings/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_water_readings_edit_id___WEBPACK_IMPORTED_MODULE_31__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/payments",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_index__WEBPACK_IMPORTED_MODULE_32__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/payments/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_create__WEBPACK_IMPORTED_MODULE_33__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/payments/:id/show",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_id___WEBPACK_IMPORTED_MODULE_34__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/payments/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_payments_edit_id___WEBPACK_IMPORTED_MODULE_35__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/credit-notes",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_index__WEBPACK_IMPORTED_MODULE_36__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/credit-notes/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_create__WEBPACK_IMPORTED_MODULE_37__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/credit-notes/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_credit_notes_edit_id___WEBPACK_IMPORTED_MODULE_38__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/deductions",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_index__WEBPACK_IMPORTED_MODULE_39__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/deductions/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_create__WEBPACK_IMPORTED_MODULE_40__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/deductions/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_deductions_edit_id___WEBPACK_IMPORTED_MODULE_41__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/emails",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_emails_index__WEBPACK_IMPORTED_MODULE_42__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/smses",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_smses_index__WEBPACK_IMPORTED_MODULE_43__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/billing",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_billing_index__WEBPACK_IMPORTED_MODULE_44__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/staff",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_index__WEBPACK_IMPORTED_MODULE_45__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/staff/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_create__WEBPACK_IMPORTED_MODULE_46__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/staff/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_staff_edit_id___WEBPACK_IMPORTED_MODULE_47__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/roles",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role__WEBPACK_IMPORTED_MODULE_48__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/roles/create",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_create__WEBPACK_IMPORTED_MODULE_49__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/roles/:id/edit",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_role_edit_id___WEBPACK_IMPORTED_MODULE_50__["default"], GLOBAL_STATE)
-  }, {
-    path: "/admin/support",
-    component: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_admin_support__WEBPACK_IMPORTED_MODULE_51__["default"], GLOBAL_STATE)
-  }];
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, authRoutes.map(function (route, key) {
+    // Add error checking to help debug missing components
+    if (!Component) {
+      console.error("Component \"".concat(route.component, "\" not found in componentMap for route: ").concat(route.path));
+      return null;
+    }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
       key: key,
       path: route.path,
       exact: true,
       render: function render() {
-        return route.component;
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, GLOBAL_STATE);
       }
     });
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_Header__WEBPACK_IMPORTED_MODULE_2__["default"], GLOBAL_STATE, routes.map(function (route, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-      key: key,
-      path: route.path,
-      exact: true,
-      render: function render() {
-        return route.component;
-      }
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layouts_AdminNav__WEBPACK_IMPORTED_MODULE_4__["default"], GLOBAL_STATE, adminRoutes.map(function (route, key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-      key: key,
-      path: route.path,
-      exact: true,
-      render: function render() {
-        return route.component;
-      }
-    });
-  })));
+  };
+
+  // Combine all admin routes
+  var allAdminRoutes = [].concat(_toConsumableArray(_adminRoutes__WEBPACK_IMPORTED_MODULE_8__["default"]), _toConsumableArray(_propertyRoutes__WEBPACK_IMPORTED_MODULE_4__["default"]), _toConsumableArray(_unitRoutes__WEBPACK_IMPORTED_MODULE_5__["default"]), _toConsumableArray(_tenantRoutes__WEBPACK_IMPORTED_MODULE_6__["default"]), _toConsumableArray(_financialRoutes__WEBPACK_IMPORTED_MODULE_7__["default"]));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, _authRoutes__WEBPACK_IMPORTED_MODULE_2__["default"].map(renderRoute), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_componentMap__WEBPACK_IMPORTED_MODULE_9__["default"].Header, GLOBAL_STATE, _publicRoutes__WEBPACK_IMPORTED_MODULE_3__["default"].map(renderRoute)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_componentMap__WEBPACK_IMPORTED_MODULE_9__["default"].AdminNav, GLOBAL_STATE, allAdminRoutes.map(renderRoute)));
 };
 /* harmony default export */ __webpack_exports__["default"] = (RouteList);
+
+/***/ }),
+
+/***/ "./resources/js/routes/propertyRoutes.js":
+/*!***********************************************!*\
+  !*** ./resources/js/routes/propertyRoutes.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _routeUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routeUtils */ "./resources/js/routes/routeUtils.js");
+
+
+// Generate all standard CRUD routes for properties
+var propertyRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/properties", "AdminProperty");
+
+// This generates:
+// [
+//   { path: "/admin/properties", component: "AdminProperties" },
+//   { path: "/admin/properties/create", component: "AdminPropertyCreate" },
+//   { path: "/admin/properties/:id/show", component: "AdminPropertyShow" },
+//   { path: "/admin/properties/:id/edit", component: "AdminPropertyEdit" }
+// ]
+
+/* harmony default export */ __webpack_exports__["default"] = (propertyRoutes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/publicRoutes.js":
+/*!*********************************************!*\
+  !*** ./resources/js/routes/publicRoutes.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// Public/landing page routes
+var publicRoutes = [{
+  path: "/",
+  component: "Index"
+}];
+/* harmony default export */ __webpack_exports__["default"] = (publicRoutes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/routeUtils.js":
+/*!*******************************************!*\
+  !*** ./resources/js/routes/routeUtils.js ***!
+  \*******************************************/
+/*! exports provided: generateCrudRoutes, generateNestedRoute, groupRoutes, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateCrudRoutes", function() { return generateCrudRoutes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateNestedRoute", function() { return generateNestedRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "groupRoutes", function() { return groupRoutes; });
+// Route utilities and helpers
+
+/**
+ * Generate CRUD routes for a resource
+ * @param {string} basePath - The base path for the resource (e.g., "/admin/properties")
+ * @param {string} componentPrefix - The component name prefix (e.g., "AdminProperty")
+ * @param {object} options - Additional options
+ */
+var generateCrudRoutes = function generateCrudRoutes(basePath, componentPrefix) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var routes = [];
+
+  // Index route
+  if (!options.excludeIndex) {
+    routes.push({
+      path: basePath,
+      component: "".concat(componentPrefix, "s") // e.g., AdminProperties
+    });
+  }
+
+  // Create route
+  if (!options.excludeCreate) {
+    routes.push({
+      path: "".concat(basePath, "/create"),
+      component: "".concat(componentPrefix, "Create")
+    });
+  }
+
+  // Show route
+  if (!options.excludeShow) {
+    routes.push({
+      path: "".concat(basePath, "/:id/show"),
+      component: "".concat(componentPrefix, "Show")
+    });
+  }
+
+  // Edit route
+  if (!options.excludeEdit) {
+    routes.push({
+      path: "".concat(basePath, "/:id/edit"),
+      component: "".concat(componentPrefix, "Edit")
+    });
+  }
+  return routes;
+};
+
+/**
+ * Generate nested resource routes
+ * @param {string} parentPath - Parent resource path
+ * @param {string} childPath - Child resource path
+ * @param {string} componentName - Component name
+ */
+var generateNestedRoute = function generateNestedRoute(parentPath, childPath, componentName) {
+  return {
+    path: "".concat(parentPath, "/:").concat(parentPath.split("/").pop(), "Id/").concat(childPath, "/create"),
+    component: componentName
+  };
+};
+
+/**
+ * Group routes by feature/module
+ */
+var groupRoutes = function groupRoutes() {
+  for (var _len = arguments.length, routeGroups = new Array(_len), _key = 0; _key < _len; _key++) {
+    routeGroups[_key] = arguments[_key];
+  }
+  return routeGroups.flat();
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  generateCrudRoutes: generateCrudRoutes,
+  generateNestedRoute: generateNestedRoute,
+  groupRoutes: groupRoutes
+});
+
+/***/ }),
+
+/***/ "./resources/js/routes/tenantRoutes.js":
+/*!*********************************************!*\
+  !*** ./resources/js/routes/tenantRoutes.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _routeUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routeUtils */ "./resources/js/routes/routeUtils.js");
+
+
+// Generate CRUD routes but exclude the 'show' route
+var tenantRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/tenants", "AdminTenant");
+
+// If you wanted to exclude certain routes, you could do:
+// const tenantRoutes = generateCrudRoutes("/admin/tenants", "AdminTenant", {
+//   excludeShow: true  // This would skip the show route
+// })
+
+/* harmony default export */ __webpack_exports__["default"] = (tenantRoutes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/unitRoutes.js":
+/*!*******************************************!*\
+  !*** ./resources/js/routes/unitRoutes.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _routeUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routeUtils */ "./resources/js/routes/routeUtils.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
+
+// Generate standard CRUD routes for units
+var unitCrudRoutes = Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateCrudRoutes"])("/admin/units", "AdminUnit");
+
+// Generate nested routes for unit sub-resources
+var unitNestedRoutes = [Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "tenants", "AdminUnitTenantCreate"), Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "water-readings", "AdminUnitWaterReadingCreate"), Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "invoices", "AdminUnitInvoiceCreate"), Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "payments", "AdminUnitPaymentCreate"), Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "credit-notes", "AdminUnitCreditNoteCreate"), Object(_routeUtils__WEBPACK_IMPORTED_MODULE_0__["generateNestedRoute"])("/admin/units", "deductions", "AdminUnitDeductionCreate")];
+
+// Combine all unit routes
+var unitRoutes = [].concat(_toConsumableArray(unitCrudRoutes), unitNestedRoutes);
+/* harmony default export */ __webpack_exports__["default"] = (unitRoutes);
 
 /***/ }),
 

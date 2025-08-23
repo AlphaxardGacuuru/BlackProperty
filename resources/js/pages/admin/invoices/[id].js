@@ -164,7 +164,7 @@ const show = (props) => {
 											</td>
 										</tr>
 										{/* Payments Start */}
-										{payments.data?.map((payment, key) => (
+										{/* {payments.data?.map((payment, key) => (
 											<tr key={key}>
 												<td>Payment</td>
 												<td>{props.months[payment.month]}</td>
@@ -173,10 +173,10 @@ const show = (props) => {
 													{payment.amount}
 												</td>
 											</tr>
-										))}
+										))} */}
 										{/* Payments End */}
 										{/* Credit Notes Start */}
-										{creditNotes.data?.map((creditNote, key) => (
+										{/* {creditNotes.data?.map((creditNote, key) => (
 											<tr key={key}>
 												<td>Credit Note</td>
 												<td>{props.months[creditNote.month]}</td>
@@ -185,10 +185,10 @@ const show = (props) => {
 													{creditNote.amount}
 												</td>
 											</tr>
-										))}
+										))} */}
 										{/* Credit Notes End */}
 										{/* Deductions Start */}
-										{deductions.data?.map((deduction, key) => (
+										{/* {deductions.data?.map((deduction, key) => (
 											<tr key={key}>
 												<td>Deduction</td>
 												<td>{props.months[deduction.month]}</td>
@@ -197,7 +197,7 @@ const show = (props) => {
 													{deduction.amount}
 												</td>
 											</tr>
-										))}
+										))} */}
 										{/* Deductions End */}
 										<tr className="border-bottom border-top">
 											<td colSpan={invoice.type == "water" ? 3 : 0}></td>

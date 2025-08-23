@@ -169,6 +169,64 @@
             padding: 1rem;
             border-top: 1px solid #dee2e6;
         }
+
+        /* Declare btn class similar to the bootstrap 5 class */
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            text-decoration: none;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .btn:hover,
+        .btn:focus {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.65;
+        }
+
+        .sonar-btn {
+            position: relative;
+            z-index: 1;
+            min-width: 180px;
+            max-width: 180px;
+            height: 66px;
+            border: 1px solid;
+            /* border-color: #2f2f2f; */
+            cursor: pointer;
+            border-color: #232323;
+            text-transform: uppercase;
+            color: #232323;
+            font-size: 12px;
+            letter-spacing: 1px;
+            border-radius: 0;
+            line-height: 64px;
+            padding: 0;
+            margin: 20px;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sonar-btn:hover,
+        .sonar-btn:focus {
+            background-color: #232323;
+            font-size: 12px;
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -292,16 +350,16 @@
                                     <td class="text-center">{{ $months[$invoice->month] }}</td>
                                     <td class="text-end">
                                         <small class="me-1">KES</small>
-                                        {{ number_format($invoice->amount) }}
+                                        {{ $invoice->amount }}
                                     </td>
                                 </tr>
-                                @foreach ($payments as $payment)
+                                {{-- @foreach ($payments as $payment)
                                     <tr>
                                         <td class="text-center">Payment</td>
                                         <td class="text-center">{{ $months[$payment->month] }}</td>
                                         <td class="text-end">
                                             <small class="me-1">KES</small>
-                                            {{ number_format($payment->amount) }}
+                                            {{ $payment->amount }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -311,7 +369,7 @@
                                         <td class="text-center">{{ $months[$creditNote->month] }}</td>
                                         <td class="text-end">
                                             <small class="me-1">KES</small>
-                                            {{ number_format($creditNote->amount) }}
+                                            {{ $creditNote->amount }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -321,16 +379,16 @@
                                         <td class="text-center">{{ $months[$deduction->month] }}</td>
                                         <td class="text-end">
                                             <small class="me-1">KES</small>
-                                            {{ number_format($deduction->amount) }}
+                                            {{ $deduction->amount }}
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                                 <tr class="border-bottom border-top">
                                     <td colspan="{{ $invoice->type == 'water' ? 3 : 0 }}"></td>
                                     <td class="fw-normal text-end">Total</td>
                                     <td class="fw-normal text-end">
                                         <small class="fw-normal me-1">KES</small>
-                                        {{ number_format($invoice->amount) }}
+                                        {{ $invoice->amount }}
                                     </td>
                                 </tr>
                                 <tr class="border-bottom border-top">
@@ -338,7 +396,7 @@
                                     <td class="fw-normal text-end">Paid</td>
                                     <td class="fw-normal text-end">
                                         <small class="fw-normal me-1">KES</small>
-                                        {{ number_format($invoice->paid) }}
+                                        {{ $invoice->paid }}
                                     </td>
                                 </tr>
                                 <tr class="border-bottom border-top">
@@ -346,7 +404,7 @@
                                     <td class="fw-normal text-end">Balance</td>
                                     <td class="fw-normal text-end">
                                         <small class="fw-normal me-1">KES</small>
-                                        {{ number_format($invoice->balance) }}
+                                        {{ $invoice->balance }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -362,6 +420,19 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Link Start --}}
+            <center>
+                <a href="{{ url('/#/admin/invoices/' . $invoice->id . "/show") }}" class="btn sonar-btn">
+                    <span style="margin-right: 5px;">View Full Invoice</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+                    </svg>
+                </a>
+            </center>
+            {{-- Link End --}}
         </div>
     </div>
 </body>
