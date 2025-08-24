@@ -11,6 +11,7 @@ use App\Http\Services\InvoiceService;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Notifications\InvoiceRemindersSentNotifications;
+use Illuminate\Support\Facades\Hash;
 
 class SendInvoiceRemindersJob implements ShouldQueue
 {

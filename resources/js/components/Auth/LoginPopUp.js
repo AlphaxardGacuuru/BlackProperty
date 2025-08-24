@@ -10,6 +10,7 @@ import { GoogleLoginButton } from "react-social-login-buttons"
 import CloseSVG from "@/svgs/CloseSVG"
 import LogInSVG from "@/svgs/LogInSVG"
 import PersonSVG from "@/svgs/PersonSVG"
+import TenantSVG from "@/svgs/TenantSVG"
 
 const LoginPopUp = (props) => {
 	const history = useHistory()
@@ -21,11 +22,20 @@ const LoginPopUp = (props) => {
 	const [passwordConfirmation, setPasswordConfirmation] = useState()
 
 	const [register, setRegister] = useState(false)
+	const [tenantLogin, setTenantLogin] = useState(location.pathname.match("/tenant"))
 	const [registerLoading, setRegisterLoading] = useState(false)
 	const [loginLoading, setLoginLoading] = useState(false)
 
 	const onSocial = (website) => {
 		window.location.href = `/login/${website}`
+	}
+
+	const handleTenantLogin = (e) => {
+		e.preventDefault()
+
+		props.setLocalStorage("tenant", !tenantLogin)
+
+		setTenantLogin(!tenantLogin)
 	}
 
 	// Encrypt Token
@@ -54,10 +64,19 @@ const LoginPopUp = (props) => {
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
-					// Update Logged in user
-					props.get(`auth`, props.setAuth, "auth", false)
+					props.setLocalStorage("tenant", false)
+
 					// Reload page
-					setTimeout(() => window.location.reload(), 1000)
+					setTimeout(() => {
+						// Redirect to Tenant if tenant is set
+						if (tenantLogin) {
+							window.location.href = "/#/tenant/dashboard"
+						} else {
+							window.location.href = "/#/admin/dashboard"
+						}
+
+						window.location.reload()
+					}, 1000)
 				})
 				.catch((err) => {
 					// Remove loader
@@ -113,7 +132,8 @@ const LoginPopUp = (props) => {
 
 	const blur =
 		// props.login ||
-		props.auth.name == "Guest" && location.pathname.match("/admin")
+		props.auth.name == "Guest" &&
+		(location.pathname.match("/admin") || location.pathname.match("/tenant"))
 
 	return (
 		<div className={blur ? "menu-open" : ""}>
@@ -124,7 +144,10 @@ const LoginPopUp = (props) => {
 				<div className="d-flex align-items-center justify-content-between">
 					{/* <!-- Logo Area --> */}
 					<div className="logo-area p-2">
-						{register ? <a href="#">Register</a> : <a href="#">Login</a>}
+						<a href="#">
+							{tenantLogin ? "Tenant" : "Admin"}{" "}
+							{register ? "Register" : "Login"}
+						</a>
 					</div>
 					{/* <!-- Close Icon --> */}
 					<div
@@ -133,7 +156,9 @@ const LoginPopUp = (props) => {
 						onClick={() => {
 							props.setLogin(false)
 							// Check location to index
-							history.push("/admin/dashboard")
+							location.pathname.match("/admin")
+								? history.push("/admin/dashboard")
+								: history.push("/tenant/dashboard")
 						}}>
 						<CloseSVG />
 					</div>
@@ -271,20 +296,34 @@ const LoginPopUp = (props) => {
 								{/* Password End */}
 
 								<div className="d-flex justify-content-between">
-									{/* Register Start */}
-									<Btn
-										type="submit"
-										className="border-light"
-										icon={<PersonSVG />}
-										text="Register"
-										onClick={() => setRegister(true)}
-										loading={registerLoading}
-									/>
-									{/* Register End */}
+									<div className="d-flex align-items-center">
+										{/* Register Start */}
+										{!tenantLogin && (
+											<Btn
+												type="submit"
+												className="border-light"
+												icon={<PersonSVG />}
+												text="Register"
+												onClick={() => setRegister(true)}
+												loading={registerLoading}
+											/>
+										)}
+										{/* Register End */}
+
+										{/* Tenant Login Start */}
+										<Btn
+											type="button"
+											className="border-light ms-2"
+											icon={<TenantSVG />}
+											text={`${tenantLogin ? "Admin" : "Tenant"} Login`}
+											onClick={handleTenantLogin}
+										/>
+										{/* Tenant Login End */}
+									</div>
 
 									<div className="d-flex align-items-center">
 										<MyLink
-											to="/forgot-password"
+											linkTo="/forgot-password"
 											className="text-white me-2"
 											text="Forgot Password?"
 										/>

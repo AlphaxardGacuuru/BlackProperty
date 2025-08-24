@@ -7,6 +7,7 @@ import AdminNav from "@/components/Layouts/AdminNav"
 import AdminSubscriptionPlan from "@/components/Auth/SubscriptionPlan"
 
 import AdminDashboard from "@/pages/admin/index"
+import TenantDashboard from "@/pages/tenant/index"
 
 import AdminProperties from "@/pages/admin/properties/index"
 import AdminPropertyCreate from "@/pages/admin/properties/create"
@@ -110,6 +111,7 @@ const componentMap = {
 	AdminTenantCreate,
 	AdminTenantShow,
 	AdminTenantEdit,
+	TenantDashboard,
 
 	// Financial components
 	AdminInvoices,

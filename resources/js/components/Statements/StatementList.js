@@ -9,6 +9,7 @@ import NoData from "@/components/Core/NoData"
 import MoneySVG from "@/svgs/MoneySVG"
 import PaymentSVG from "@/svgs/PaymentSVG"
 import BalanceSVG from "@/svgs/BalanceSVG"
+import CoinSVG from "@/svgs/CoinSVG"
 
 const StatementList = (props) => {
 	return (
@@ -43,7 +44,7 @@ const StatementList = (props) => {
 							}
 						/>
 						<HeroIcon>
-							<PaymentSVG />
+							<CoinSVG />
 						</HeroIcon>
 					</div>
 					{/* Paid End */}

@@ -86,9 +86,9 @@ const TopNav = (props) => {
 
 	// Show Admin Nav based on Location
 	const showTopNav =
-		!location.pathname.match("/student/") &&
+		!location.pathname.match("/super/") &&
 		!location.pathname.match("/admin/") &&
-		!location.pathname.match("/instructor/")
+		!location.pathname.match("/tenant/")
 			? "d-block"
 			: "d-none"
 

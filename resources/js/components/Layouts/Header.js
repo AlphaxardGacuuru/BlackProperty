@@ -19,9 +19,9 @@ const Header = (props) => {
 	// Show Admin Nav based on Location
 	const showHeader =
 		!location.pathname.match("/admin/") &&
-		(!location.pathname.match("/instructor/") &&
-			!location.pathname.match("/student/") &&
-			!location.pathname.match("/socialite"))
+		!location.pathname.match("/tenant/") &&
+		!location.pathname.match("/super/") &&
+		!location.pathname.match("/socialite")
 			? "d-block"
 			: "d-none"
 

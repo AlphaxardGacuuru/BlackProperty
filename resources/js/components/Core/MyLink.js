@@ -9,9 +9,9 @@ const MyLink = ({ linkTo, text, icon, className }) => {
 			to={`${
 				location.pathname.match("/admin/")
 					? "/admin"
-					: location.pathname.match("/instructor/")
-					? "/instructor"
-					: "/student"
+					: location.pathname.match("/tenant/")
+					? "/tenant"
+					: "/super"
 			}${linkTo}`}
 			className={`btn mysonar-btn ${className}`}>
 			<span>{icon}</span>

@@ -3,6 +3,7 @@ import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
 import CryptoJS from "crypto-js"
 
 import AdminNavLinks from "@/components/Layouts/AdminNavLinks"
+import TenantNavLinks from "@/components/Layouts/TenantNavLinks"
 
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
@@ -15,6 +16,7 @@ import MenuSVG from "@/svgs/MenuSVG"
 import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import BellSVG from "@/svgs/BellSVG"
 import LogoSVG from "@/svgs/LogoSVG"
+import TenantSVG from "@/svgs/TenantSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -28,8 +30,8 @@ const AdminMenu = (props) => {
 	useEffect(() => {
 		var isInAdminPage =
 			location.pathname.match("/admin/") ||
-			location.pathname.match("/instructor/") ||
-			location.pathname.match("/student/") ||
+			location.pathname.match("/tenant/") ||
+			location.pathname.match("/super/") ||
 			(!location.pathname.match("/login") &&
 				!location.pathname.match("/register"))
 
@@ -45,7 +47,7 @@ const AdminMenu = (props) => {
 		if (props.auth.name == "Guest") {
 			return
 		}
-		
+
 		props.get("notifications", setNotifications, null, false)
 	}, [])
 
@@ -82,7 +84,9 @@ const AdminMenu = (props) => {
 					fans: 0,
 				})
 				// Redirect to Dashboard
-				setTimeout(() => history.push("/admin/dashboard"), 500)
+				location.pathname.match("/admin")
+					? setTimeout(() => history.push("/admin/dashboard"), 500)
+					: setTimeout(() => history.push("/tenant/dashboard"), 500)
 			})
 			.catch((err) => {
 				props.getErrors(err)
@@ -107,8 +111,8 @@ const AdminMenu = (props) => {
 	// Show Admin Nav based on Location
 	const showAdminNav =
 		location.pathname.match("/admin/") ||
-		location.pathname.match("/instructor/") ||
-		(location.pathname.match("/student/") &&
+		location.pathname.match("/tenant/") ||
+		(location.pathname.match("/super/") &&
 			!location.pathname.match("/admin/login") &&
 			!location.pathname.match("/admin/register") &&
 			!location.pathname.match("/socialite"))
@@ -152,29 +156,33 @@ const AdminMenu = (props) => {
 									</div>
 
 									{/* Property List */}
-									<div className="nav-property-dropdown">
-										<select
-											className="form-control mt-2"
-											onChange={(e) => {
-												localStorage.setItem(
-													"selectedPropertyId",
-													e.target.value
-												)
-												props.setSelectedPropertyId(e.target.value)
-											}}>
-											{[{ id: props.auth.propertyIds, name: "All" }]
-												.concat(props.properties)
-												.map((property, key) => (
-													<option
-														key={key}
-														value={property.id}
-														selected={property.id == props.selectedPropertyId}>
-														{property.name}
-													</option>
-												))}
-										</select>
-										{/* List End */}
-									</div>
+									{location.pathname.match("/admin/") && (
+										<div className="nav-property-dropdown">
+											<select
+												className="form-control mt-2"
+												onChange={(e) => {
+													localStorage.setItem(
+														"selectedPropertyId",
+														e.target.value
+													)
+													props.setSelectedPropertyId(e.target.value)
+												}}>
+												{[{ id: props.auth.propertyIds, name: "All" }]
+													.concat(props.properties)
+													.map((property, key) => (
+														<option
+															key={key}
+															value={property.id}
+															selected={
+																property.id == props.selectedPropertyId
+															}>
+															{property.name}
+														</option>
+													))}
+											</select>
+											{/* List End */}
+										</div>
+									)}
 									{/* Property List End */}
 
 									{/* Top Nav Links Area */}
@@ -229,7 +237,7 @@ const AdminMenu = (props) => {
 															{notifications.map((notification, key) => (
 																<Link
 																	key={key}
-																	to={notification.url}
+																	to={notification.url ?? "#"}
 																	className="p-2 dropdown-item text-dark text-wrap"
 																	onClick={() =>
 																		onDeleteNotifications(notification.id)
@@ -282,6 +290,7 @@ const AdminMenu = (props) => {
 														/>
 													</span>
 													{/* Avatar End */}
+													{/* Name Start */}
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
 														<Link
 															to={`/admin/staff/edit/${props.auth.id}`}
@@ -303,6 +312,22 @@ const AdminMenu = (props) => {
 																</div>
 															</div>
 														</Link>
+														{/* Name End */}
+														{/* Tenant Login Start */}
+														{location.pathname.match("/admin/") && (
+															<Link
+																to="/tenant/dashboard"
+																className="p-2 px-3 dropdown-item">
+																<h6 className="fs-6">
+																	<span className="me-2">
+																		<TenantSVG />
+																	</span>
+																	Go to Tenant Portal
+																</h6>
+															</Link>
+														)}
+														{/* Tenant Login End */}
+														{/* Downloand Start */}
 														<Link
 															to="/download"
 															className="p-1 px-2 dropdown-item"
@@ -316,6 +341,8 @@ const AdminMenu = (props) => {
 																Get App
 															</h6>
 														</Link>
+														{/* Download End */}
+														{/* Logout Start */}
 														<Link
 															to="#"
 															className="p-2 px-3 dropdown-item"
@@ -327,6 +354,7 @@ const AdminMenu = (props) => {
 																Logout
 															</h6>
 														</Link>
+														{/* Logout End */}
 													</div>
 												</div>
 												{/* Avatar Dropdown End */}
@@ -343,13 +371,7 @@ const AdminMenu = (props) => {
 
 				{/* <!-- ***** Side Menu Area Start ***** --> */}
 				<div
-					className={`leftMenu d-flex align-items-center justify-content-start shadow-lg ${
-						location.pathname.match("/admin/")
-							? " bg-secondary"
-							: location.pathname.match("/instructor/")
-							? "bg-danger"
-							: "bg-success"
-					}`}>
+					className={`leftMenu d-flex align-items-center justify-content-start shadow-lg bg-secondary`}>
 					<div
 						className="sonarNav wow fadeInUp w-100 mt-4"
 						data-wow-delay="1s">
@@ -357,6 +379,9 @@ const AdminMenu = (props) => {
 							<ul className="m-0 p-0">
 								{location.pathname.match("/admin/") && (
 									<AdminNavLinks {...props} />
+								)}
+								{location.pathname.match("/tenant/") && (
+									<TenantNavLinks {...props} />
 								)}
 							</ul>
 						</nav>
@@ -385,14 +410,7 @@ const AdminMenu = (props) => {
 								)}
 
 								{key < props.page.path.length - 1 && (
-									<span
-										className={`${
-											location.pathname.match("/admin/")
-												? "text-secondary"
-												: location.pathname.match("/instructor/")
-												? "text-danger"
-												: "text-success"
-										} text-white`}>
+									<span className={`text-secondary text-white`}>
 										<ChevronRightSVG />
 									</span>
 								)}

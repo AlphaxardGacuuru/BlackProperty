@@ -23,6 +23,8 @@ import SMSSVG from "@/svgs/SMSSVG"
 import ChatSVG from "@/svgs/ChatSVG"
 import ChatSendSVG from "@/svgs/ChatSendSVG"
 import CloseSVG from "@/svgs/CloseSVG"
+import MoneySVG from "@/svgs/MoneySVG"
+import CoinSVG from "@/svgs/CoinSVG"
 
 const InvoiceList = (props) => {
 	const location = useLocation()
@@ -215,10 +217,55 @@ const InvoiceList = (props) => {
 							}
 						/>
 						<HeroIcon>
-							<InvoiceSVG />
+							<MoneySVG />
 						</HeroIcon>
 					</div>
 					{/* Total End */}
+					{/* Not Paid */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
+						<HeroHeading
+							heading="Not Paid"
+							data={
+								<span>
+									<small>KES</small> {props.invoices.sum}
+								</span>
+							}
+						/>
+						<HeroIcon>
+							<BalanceSVG />
+						</HeroIcon>
+					</div>
+					{/* Not Paid End */}
+					{/* Partically Paid */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
+						<HeroHeading
+							heading="Partically Paid"
+							data={
+								<span>
+									<small>KES</small> {props.invoices.sum}
+								</span>
+							}
+						/>
+						<HeroIcon>
+							<BalanceSVG />
+						</HeroIcon>
+					</div>
+					{/* Partically Paid End */}
+					{/* Paid */}
+					<div className="d-flex justify-content-between flex-grow-1 mx-2">
+						<HeroHeading
+							heading="Paid"
+							data={
+								<span>
+									<small>KES</small> {props.invoices.sum}
+								</span>
+							}
+						/>
+						<HeroIcon>
+							<CoinSVG />
+						</HeroIcon>
+					</div>
+					{/* Paid End */}
 				</div>
 				{/* Total End */}
 			</div>
