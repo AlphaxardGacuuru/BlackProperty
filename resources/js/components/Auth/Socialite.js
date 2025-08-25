@@ -13,20 +13,51 @@ const Socialite = (props) => {
 		return CryptoJS.AES.encrypt(token, secretKey).toString()
 	}
 
+	const postReferral = async (sanctumToken) => {
+		// Get referer from local storage
+		const referer = props.getLocalStorage("referer")
+
+		if (referer) {
+			try {
+				var res = await Axios.post(
+					"/api/referrals",
+					{ referer: referer },
+					{ headers: { Authorization: `Bearer ${sanctumToken}` } }
+				)
+
+				props.setMessages([res.data.message])
+
+				// Clear referer from local storage
+				props.setLocalStorage("referer", null)
+			} catch (error) {
+				console.error("Failed to post referral:", error)
+			}
+		}
+	}
+
 	useEffect(() => {
 		props.setMessages([message])
 
 		// Check if sanctumToken is in Local Storage
 		if (props.getLocalStorage("sanctumToken")?.length) {
 			const tenant = props.getLocalStorage("tenant")
-			
+
 			// Check if user has an active subscription
 			if (props.auth.activeSubscription == null) {
 				// Redirect to subscribe page
-				setTimeout(() => (window.location.href = `/#/${tenant ? "tenant" : "admin"}/subscribe`), 2000)
+				setTimeout(
+					() => (window.location.href = `/#/${tenant ? "tenant" : "admin"}/subscribe`),
+					2000
+				)
 			} else {
 				// Redirect to index page
-				setTimeout(() => (window.location.href = `/#/${tenant ? "tenant" : "admin"}/dashboard`), 2000)
+				setTimeout(
+					() =>
+						(window.location.href = `/#/${
+							tenant ? "tenant" : "admin"
+						}/dashboard`),
+					2000
+				)
 			}
 
 			return
@@ -34,6 +65,9 @@ const Socialite = (props) => {
 
 		// Encrypt and Save Sanctum Token to Local Storage
 		props.setLocalStorage("sanctumToken", encryptedToken(token))
+
+		// Register Referer synchronously
+		postReferral(token)
 
 		// Fetch Auth with Sanctum Token
 		Axios.get("/api/auth", {

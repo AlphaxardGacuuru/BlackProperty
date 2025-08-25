@@ -22,9 +22,25 @@ const LoginPopUp = (props) => {
 	const [passwordConfirmation, setPasswordConfirmation] = useState()
 
 	const [register, setRegister] = useState(false)
-	const [tenantLogin, setTenantLogin] = useState(location.pathname.match("/tenant"))
+	const [tenantLogin, setTenantLogin] = useState(
+		location.pathname.match("/tenant")
+	)
 	const [registerLoading, setRegisterLoading] = useState(false)
 	const [loginLoading, setLoginLoading] = useState(false)
+
+	/*
+	 * Handle Referral Start
+	 */
+	// Get the referer from URL hash fragment query parameters
+	const searchParams = new URLSearchParams(location.search)
+	const referer = searchParams.get("referer")
+
+	if (referer) {
+		props.setLocalStorage("referer", referer)
+	}
+	/*
+	 * Handle Referral End
+	 */
 
 	const onSocial = (website) => {
 		window.location.href = `/login/${website}`
@@ -36,6 +52,28 @@ const LoginPopUp = (props) => {
 		props.setLocalStorage("tenant", !tenantLogin)
 
 		setTenantLogin(!tenantLogin)
+	}
+
+	const postReferral = async (sanctumToken) => {
+		// Get referer from local storage
+		const referer = props.getLocalStorage("referer")
+
+		if (referer) {
+			try {
+				var res = await Axios.post(
+					"/api/referrals",
+					{ referer: referer },
+					{ headers: { Authorization: `Bearer ${sanctumToken}` } }
+				)
+
+				props.setMessages([res.data.message])
+
+				// Clear referer from local storage
+				props.setLocalStorage("referer", null)
+			} catch (error) {
+				console.error("Failed to post referral:", error)
+			}
+		}
 	}
 
 	// Encrypt Token
@@ -64,7 +102,7 @@ const LoginPopUp = (props) => {
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
-					props.setLocalStorage("tenant", false)
+					props.setLocalStorage("tenant", null)
 
 					// Reload page
 					setTimeout(() => {
@@ -107,6 +145,9 @@ const LoginPopUp = (props) => {
 					props.setLogin(false)
 					// Encrypt and Save Sanctum Token to Local Storage
 					props.setLocalStorage("sanctumToken", encryptedToken(res.data.data))
+
+					// Register Referer synchronously
+					postReferral(res.data.data)
 
 					// Fetch Auth with Sanctum Token
 					Axios.get("/api/auth", {

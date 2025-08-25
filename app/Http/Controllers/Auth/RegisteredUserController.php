@@ -51,9 +51,9 @@ class RegisteredUserController extends Controller
 			->createToken($request->device_name)
 			->plainTextToken;
 
-		$user->notify(new WelcomeNotification);
+		// $user->notify(new WelcomeNotification);
 
-		event(new Registered($user));
+		// event(new Registered($user));
 
 		return response([
 			"message" => "Registered Successfully",

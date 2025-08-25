@@ -13,6 +13,7 @@ use App\Http\Controllers\MPESATransactionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\SMSMessageController;
@@ -65,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"notifications" => NotificationController::class,
 		"subscription-plans" => SubscriptionPlanController::class,
 		"user-subscription-plans" => UserSubscriptionPlanController::class,
+		"referrals" => ReferralController::class
 	]);
 
 	/*
