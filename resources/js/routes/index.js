@@ -2,15 +2,12 @@ import React from "react"
 import { Route } from "react-router-dom"
 
 // Import route definitions
-import authRoutes from "./authRoutes"
+import authRoutes from "./auth"
 import publicRoutes from "./publicRoutes"
-import adminRoutes from "./adminRoutes"
-import propertyRoutes from "./propertyRoutes"
-import unitRoutes from "./unitRoutes"
-import adminTenantRoutes from "./adminTenantRoutes"
-import financialRoutes from "./financialRoutes"
+import superRoutes from "./super"
+import adminRoutes from "./admin"
 
-import tenantRoutes from "./tenantRoutes"
+import tenantRoutes from "./tenant"
 
 // Import component mapping
 import componentMap from "./componentMap"
@@ -38,19 +35,6 @@ const RouteList = ({ GLOBAL_STATE }) => {
 		)
 	}
 
-	// Combine all admin routes
-	const allAdminRoutes = [
-		...adminRoutes,
-		...propertyRoutes,
-		...unitRoutes,
-		...adminTenantRoutes,
-		...financialRoutes,
-	]
-
-	const allTenantRoutes = [
-		...tenantRoutes
-	]
-
 	return (
 		<React.Fragment>
 			{/* Auth routes */}
@@ -63,8 +47,9 @@ const RouteList = ({ GLOBAL_STATE }) => {
 
 			{/* Admin routes with AdminNav layout */}
 			<componentMap.AdminNav {...GLOBAL_STATE}>
-				{allAdminRoutes.map(renderRoute)}
-				{allTenantRoutes.map(renderRoute)}
+				{superRoutes.map(renderRoute)}
+				{adminRoutes.map(renderRoute)}
+				{tenantRoutes.map(renderRoute)}
 			</componentMap.AdminNav>
 		</React.Fragment>
 	)

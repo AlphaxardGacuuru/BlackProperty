@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Link, useLocation, useHistory, withRouter } from "react-router-dom"
 import CryptoJS from "crypto-js"
 
+import SuperNavLinks from "@/components/Layouts/SuperNavLinks"
 import AdminNavLinks from "@/components/Layouts/AdminNavLinks"
 import TenantNavLinks from "@/components/Layouts/TenantNavLinks"
 
@@ -17,6 +18,7 @@ import ChevronRightSVG from "@/svgs/ChevronRightSVG"
 import BellSVG from "@/svgs/BellSVG"
 import LogoSVG from "@/svgs/LogoSVG"
 import TenantSVG from "@/svgs/TenantSVG"
+import PersonSVG from "@/svgs/PersonSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -28,17 +30,20 @@ const AdminMenu = (props) => {
 	const [avatarVisibility, setAvatarVisibility] = useState("")
 
 	useEffect(() => {
-		var isInAdminPage =
-			location.pathname.match("/admin/") ||
-			location.pathname.match("/tenant/") ||
-			location.pathname.match("/super/") ||
-			(!location.pathname.match("/login") &&
-				!location.pathname.match("/register"))
+		var isInSuperPage = location.pathname.match("/super/")
 
-		// Handle Redirects for Admin
-		if (isInAdminPage) {
-			if (props.auth.name == "Guest") {
-				// setTimeout(() => router.push("/login"), 2000)
+		// Handle Redirects for Super
+		if (isInSuperPage) {
+			// Redirect back if not super user
+			if (
+				!["al@black.co.ke", "alphaxardgacuuru47@gmail.com"].includes(
+					props.auth.email
+				)
+			) {
+				setTimeout(() => {
+					props.setErrors(["Restricted Access"])
+					history.goBack()
+				}, 2000)
 			}
 		}
 	}, [props.location, props.auth])
@@ -313,6 +318,20 @@ const AdminMenu = (props) => {
 															</div>
 														</Link>
 														{/* Name End */}
+														{/* Admin Login Start */}
+														{location.pathname.match("/tenant/") && (
+															<Link
+																to="/admin/dashboard"
+																className="p-2 px-3 dropdown-item">
+																<h6 className="fs-6">
+																	<span className="me-2">
+																		<PersonSVG />
+																	</span>
+																	Go to Admin Portal
+																</h6>
+															</Link>
+														)}
+														{/* Admin Login End */}
 														{/* Tenant Login Start */}
 														{location.pathname.match("/admin/") && (
 															<Link
@@ -377,6 +396,9 @@ const AdminMenu = (props) => {
 						data-wow-delay="1s">
 						<nav>
 							<ul className="m-0 p-0">
+								{location.pathname.match("/super/") && (
+									<SuperNavLinks {...props} />
+								)}
 								{location.pathname.match("/admin/") && (
 									<AdminNavLinks {...props} />
 								)}
@@ -459,6 +481,34 @@ const AdminMenu = (props) => {
 								</div>
 							</div>
 						</Link>
+						{/* Admin Login Start */}
+						{location.pathname.match("/tenant/") && (
+							<Link
+								to="/admin/dashboard"
+								className="p-2 text-start text-white">
+								<h6>
+									<span className="ms-3 me-4">
+										<PersonSVG />
+									</span>
+									Go to Admin Portal
+								</h6>
+							</Link>
+						)}
+						{/* Admin Login End */}
+						{/* Tenant Login Start */}
+						{location.pathname.match("/admin/") && (
+							<Link
+								to="/tenant/dashboard"
+								className="p-2 text-start text-white">
+								<h6>
+									<span className="ms-3 me-4">
+										<TenantSVG />
+									</span>
+									Go to Tenant Portal
+								</h6>
+							</Link>
+						)}
+						{/* Tenant Login End */}
 						<Link
 							to="/download"
 							className="p-2 text-start text-white"

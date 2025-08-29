@@ -44,10 +44,14 @@ class InvoiceService extends Service
 			]);
 
 		$sum = $invoiceQuery->sum("amount");
+		$balance = $invoiceQuery->sum("balance");
+		$paid = $invoiceQuery->sum("paid");
 
 		return InvoiceResource::collection($invoices)
 			->additional([
 				"sum" => number_format($sum),
+				"balance" => number_format($balance),
+				"paid" => number_format($paid),
 			]);
 	}
 
