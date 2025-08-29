@@ -56,7 +56,7 @@ const LoginPopUp = (props) => {
 
 	const postReferral = async (sanctumToken) => {
 		// Get referer from local storage
-		const referer = props.getLocalStorage("referer")
+		const referer = props.getLocalStorage("referer", "string")
 
 		if (referer) {
 			try {
@@ -227,7 +227,6 @@ const LoginPopUp = (props) => {
 
 							{/* Email Start */}
 							<input
-								id="email"
 								type="text"
 								className="form-control mb-2"
 								name="email"
@@ -310,7 +309,6 @@ const LoginPopUp = (props) => {
 								className="p-2">
 								{/* Email Start */}
 								<input
-									id="email"
 									type="text"
 									className="form-control mb-2"
 									name="email"

@@ -26,11 +26,13 @@ const Doughnut = (props) => {
 					return delay
 				},
 			},
+			...props.options,
 		},
 		data: {
 			labels: props.labels,
 			datasets: props.datasets,
 		},
+		plugins: props.plugins,
 	}
 
 	useEffect(() => {

@@ -13,7 +13,7 @@ import EditSVG from "@/svgs/EditSVG"
 import NoData from "@/components/Core/NoData"
 
 const index = (props) => {
-	const [properties, setProperties] = useState([])
+	const [properties, setProperties] = useState(props.getLocalStorage("properties"))
 
 	const [nameQuery, setNameQuery] = useState("")
 
@@ -25,7 +25,8 @@ const index = (props) => {
 	useEffect(() => {
 		props.getPaginated(
 			`properties?userId=${props.auth.id}&name=${nameQuery}`,
-			setProperties
+			setProperties,
+			"properties"
 		)
 	}, [nameQuery])
 	/*
@@ -129,7 +130,7 @@ const index = (props) => {
 											<td>{property.name}</td>
 											<td>{property.location}</td>
 											<td className="text-success">
-												<small>KES</small> {property.serviceCharge}
+												<small>KES</small> {Number(property.serviceCharge?.service)?.toLocaleString()}
 											</td>
 											<td>{property.depositFormula}</td>
 											{/* <td>{property.waterBillRateCouncil}</td> */}

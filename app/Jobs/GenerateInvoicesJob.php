@@ -84,7 +84,17 @@ class GenerateInvoicesJob implements ShouldQueue
 
 			$units->each(function ($unit) use (&$result) {
 				// Loop through each invoice type
-				collect(["rent", "service_charge", "water"])
+				collect([
+					"rent",
+					"service_charge",
+					"water",
+					"electricity",
+					"garbage",
+					"security",
+					"internet",
+					"cleaning",
+					"parking"
+				])
 					->each(function ($type) use ($unit, &$result) {
 						// Prevent Rent Invoice from being generated if Deposit invoice exists for that month
 						if ($type === "rent") {
@@ -101,8 +111,56 @@ class GenerateInvoicesJob implements ShouldQueue
 						}
 
 						// Skip if Property doesn't have a service charge
-						if ($type === "service_charge" && $unit->property->service_charge < 1) {
+						if ($type === "service_charge" && $unit->property->service_charge?->service < 1) {
 							return;
+						}
+
+						switch ($type) {
+							case "service_charge":
+								if ($unit->property->service_charge?->service < 1) {
+									return;
+								}
+								break;
+
+							case "electricity":
+								if ($unit->property->service_charge?->electricity < 1) {
+									return;
+								}
+								break;
+
+							case "garbage":
+								if ($unit->property->service_charge?->garbage < 1) {
+									return;
+								}
+								break;
+
+							case "security":
+								if ($unit->property->service_charge?->security < 1) {
+									return;
+								}
+								break;
+
+							case "internet":
+								if ($unit->property->service_charge?->internet < 1) {
+									return;
+								}
+								break;
+
+							case "cleaning":
+								if ($unit->property->service_charge?->cleaning < 1) {
+									return;
+								}
+								break;
+
+							case "parking":
+								if ($unit->property->service_charge?->parking < 1) {
+									return;
+								}
+								break;
+
+							default:
+								# code...
+								break;
 						}
 
 						// Check that water reading exists for this month

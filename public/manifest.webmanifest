@@ -3,6 +3,7 @@
 	"short_name": "Black Property",
 	"start_url": "/#/admin/dashboard",
 	"display": "standalone",
+	"orientation": "any",
 	"theme_color": "#232323",
 	"background_color": "#007BFF",
 	"description": "A Property Management App",

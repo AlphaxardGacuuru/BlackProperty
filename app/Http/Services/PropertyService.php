@@ -61,6 +61,7 @@ class PropertyService extends Service
 		$property->service_charge = $request->input("serviceCharge");
 		$property->water_bill_rate = $request->input("waterBillRate");
 		$property->invoice_date = $request->input("invoiceDate");
+		$property->invoice_reminder_duration = $request->input("invoiceReminderDuration");
 		$property->email = $request->input("email");
 		$property->sms = $request->input("sms");
 
@@ -100,6 +101,10 @@ class PropertyService extends Service
 
 		if ($request->filled("invoiceDate")) {
 			$property->invoice_date = $request->input("invoiceDate");
+		}
+
+		if ($request->filled("invoiceReminderDuration")) {
+			$property->invoice_reminder_duration = $request->input("invoiceReminderDuration");
 		}
 
 		if ($request->filled("email")) {

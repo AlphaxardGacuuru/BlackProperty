@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { ToastContainer, toast, Bounce } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const Messages = ({ messages, setMessages, errors, setErrors }) => {
+const Messages = ({ messages, setMessages, errors, setErrors, setFormErrors }) => {
 
 	useEffect(() => {
 		// Display messages and errors as toasts
@@ -21,6 +21,7 @@ const Messages = ({ messages, setMessages, errors, setErrors }) => {
 				}
 			})
 			setTimeout(() => setErrors([]), 2900)
+			setTimeout(() => setFormErrors([]), 10000)
 		}
 
 		return () => {}

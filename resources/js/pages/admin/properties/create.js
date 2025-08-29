@@ -12,13 +12,22 @@ const create = (props) => {
 	const [location, setLocation] = useState()
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
-	const [serviceCharge, setServiceCharge] = useState(0)
+	const [serviceCharge, setServiceCharge] = useState({
+		service: 0,
+		electricity: 0,
+		garbage: 0,
+		security: 0,
+		internet: 0,
+		cleaning: 0,
+		parking: 0,
+	})
 	const [waterBillRate, setWaterBillRate] = useState({
 		council: 0,
 		borehole: 0,
 		tanker: 0,
 	})
 	const [invoiceDate, setInvoiceDate] = useState(0)
+	const [invoiceReminderDuration, setInvoiceReminderDuration] = useState(0)
 	const [email, setEmail] = useState(true)
 	const [sms, setSms] = useState(false)
 	const [loading, setLoading] = useState()
@@ -43,6 +52,7 @@ const create = (props) => {
 			serviceCharge: serviceCharge,
 			waterBillRate: waterBillRate,
 			invoiceDate: invoiceDate,
+			invoiceReminderDuration: invoiceReminderDuration,
 			email: email,
 			sms: sms,
 		})
@@ -117,19 +127,169 @@ const create = (props) => {
 						}}
 					/>
 
-					<label htmlFor="">Service Charge</label>
-					<input
-						type="text"
-						placeholder="5000"
-						min="0"
-						step="0.1"
-						className="form-control mb-2 me-2"
-						onChange={(e) => {
-							let value = props.formatToCommas(e)
+					<label
+						htmlFor=""
+						className="fw-bold text-center w-100 mt-2">
+						Service Charges
+					</label>
 
-							setServiceCharge(value)
-						}}
-					/>
+					{/* Service Charges Start */}
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Service Charge Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Service Charge</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, service: value })
+								}}
+							/>
+						</div>
+						{/* Service Charge End */}
+						{/* Electricity Start */}
+						<div className="flex-grow-1 mx-2 mb-2">
+							<label htmlFor="">Electricity</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, electricity: value })
+								}}
+							/>
+						</div>
+						{/* Electricity End */}
+						{/* Garbage Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Garbage</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, garbage: value })
+								}}
+							/>
+						</div>
+					</div>
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Garbage End */}
+						{/* Security Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Security</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, security: value })
+								}}
+							/>
+						</div>
+						{/* Security End */}
+						{/* Internet Start */}
+						<div className="flex-grow-1 mx-2 mb-2">
+							<label htmlFor="">Internet</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, internet: value })
+								}}
+							/>
+						</div>
+						{/* Internet End */}
+						{/* Cleaning Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Cleaning</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, cleaning: value })
+								}}
+							/>
+						</div>
+						{/* Cleaning End */}
+					</div>
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Parking Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+						{/* Parking End */}
+						<div className="flex-grow-1 mx-2 mb-2 invisible">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+						<div className="flex-grow-1 mb-2 invisible">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+					</div>
+					{/* Service Charges End */}
 
 					<label
 						htmlFor=""
@@ -211,6 +371,18 @@ const create = (props) => {
 						step="1"
 						className="form-control mb-2 me-2"
 						onChange={(e) => setInvoiceDate(e.target.value)}
+						required={true}
+					/>
+
+					<label htmlFor="">Invoice Date Reminder</label>
+					<input
+						type="number"
+						placeholder="10"
+						min="1"
+						max="30"
+						step="1"
+						className="form-control mb-2 me-2"
+						onChange={(e) => setInvoiceReminderDuration(e.target.value)}
 						required={true}
 					/>
 

@@ -238,8 +238,32 @@ class InvoiceService extends Service
 				return $userUnit->unit->deposit;
 				break;
 
-			case "service_charge":
-				return $userUnit->unit->property->service_charge;
+			case "service":
+				return $userUnit->unit->property->service_charge?->service;
+				break;
+
+			case "electricity":
+				return $userUnit->unit->property->service_charge?->electricity;
+				break;
+
+			case "garbage":
+				return $userUnit->unit->property->service_charge?->garbage;
+				break;
+
+			case "security":
+				return $userUnit->unit->property->service_charge?->security;
+				break;
+
+			case "internet":
+				return $userUnit->unit->property->service_charge?->internet;
+				break;
+
+			case "cleaning":
+				return $userUnit->unit->property->service_charge?->cleaning;
+				break;
+
+			case "parking":
+				return $userUnit->unit->property->service_charge?->parking;
 				break;
 
 			default:

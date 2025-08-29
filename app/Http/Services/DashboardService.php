@@ -115,23 +115,31 @@ class DashboardService extends Service
 
 	public function tenantsThisYear($propertyIds)
 	{
-		$tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
+		// Get tenant count for each month of the current year up to current month
+		$currentMonth = Carbon::now()->month;
+
+		$getTenantsThisYear = collect(range(1, $currentMonth))->map(function ($monthNumber) use ($propertyIds) {
+			$startOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->startOfDay();
+			$endOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->endOfMonth()->endOfDay();
+
+			// Count tenants who were occupied during this month
+			$count = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})
+				// ->whereNotNull("occupied_at")
+				->where("occupied_at", "<=", $endOfMonth)
+				->where(function ($query) use ($startOfMonth) {
+					$query->whereNull("vacated_at")
+						->orWhere("vacated_at", ">=", $startOfMonth);
+				})
+				->count();
+
+			return [
+				"month" => $this->allMonths[$monthNumber - 1],
+				"count" => $count,
+			];
 		});
-
-		// Get Tenants By Month
-		$startOfYear = Carbon::now()->startOfYear();
-		$endOfYear = Carbon::now()->endOfYear();
-
-		$getTenantsThisYear = $tenantQuery
-			->select(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m') as month"), DB::raw("count(*) as count"))
-			->whereBetween("occupied_at", [$startOfYear, $endOfYear])
-			->groupBy(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m')"))
-			->get()
-			->map(fn($item) => [
-				"month" => Carbon::parse($item->month . '-01')->format("F"),
-				"count" => $item->count,
-			]);
+		// dd($getTenantsThisYear);
 
 		[$labels, $data] = $this->getLabelsAndData($getTenantsThisYear);
 
@@ -143,28 +151,36 @@ class DashboardService extends Service
 
 	public function vacanciesThisYear($propertyIds)
 	{
-		$tenantQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
+		// Get vacancy count for each month of the current year up to current month
+		$currentMonth = Carbon::now()->month;
+		$totalUnits = Unit::whereIn("property_id", $propertyIds)->count();
+
+		$getVacanciesThisYear = collect(range(1, $currentMonth))->map(function ($monthNumber) use ($propertyIds, $totalUnits) {
+			$startOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->startOfDay();
+			$endOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->endOfMonth()->endOfDay();
+
+			// Count tenants who were occupied during this month
+			$occupiedCount = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})
+				// ->whereNotNull("occupied_at")
+				->where("occupied_at", "<=", $endOfMonth)
+				->where(function ($query) use ($startOfMonth) {
+					$query->whereNull("vacated_at")
+						->orWhere("vacated_at", ">=", $startOfMonth);
+				})
+				->count();
+
+			// Calculate vacancies (total units - occupied units)
+			$vacancyCount = $totalUnits - $occupiedCount;
+
+			return [
+				"month" => $this->allMonths[$monthNumber - 1],
+				"count" => $vacancyCount,
+			];
 		});
 
-		// Get Tenants By Month
-		$startOfYear = Carbon::now()->startOfYear();
-		$endOfYear = Carbon::now()->endOfYear();
-
-		$totalUnits = Unit::whereIn("property_id", $propertyIds)
-			->count();
-
-		$getTenantsThisYear = $tenantQuery
-			->select(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m') as month"), DB::raw("count(*) as count"))
-			->whereBetween("occupied_at", [$startOfYear, $endOfYear])
-			->groupBy(DB::raw("DATE_FORMAT(occupied_at, '%Y-%m')"))
-			->get()
-			->map(fn($item) => [
-				"month" => Carbon::parse($item->month . '-01')->format("F"),
-				"count" => $totalUnits - $item->count,
-			]);
-
-		[$labels, $data] = $this->getLabelsAndData($getTenantsThisYear);
+		[$labels, $data] = $this->getLabelsAndData($getVacanciesThisYear);
 
 		return [
 			"labels" => $labels,

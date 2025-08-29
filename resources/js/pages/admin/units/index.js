@@ -4,7 +4,7 @@ import UnitList from "@/components/Units/UnitList"
 
 const index = (props) => {
 	// Get Units
-	const [units, setUnits] = useState([])
+	const [units, setUnits] = useState(props.getLocalStorage("units"))
 
 	const [nameQuery, setNameQuery] = useState("")
 	const [typeQuery, setTypeQuery] = useState("")
@@ -19,7 +19,8 @@ const index = (props) => {
 			name=${nameQuery}&
 			type=${typeQuery}& 
 			status=${statusQuery}`,
-			setUnits
+			setUnits,
+			"units"
 		)
 	}, [props.selectedPropertyId, nameQuery, typeQuery, statusQuery])
 

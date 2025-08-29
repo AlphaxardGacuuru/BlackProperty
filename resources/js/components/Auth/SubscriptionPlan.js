@@ -465,23 +465,32 @@ const SubscriptionPlan = (props) => {
 						<div className="col-sm-4">
 							<form
 								onSubmit={onUpdatePhone}
-								className="mx-auto mb-4">
+								className="was-validated mx-auto mb-4">
 								<label htmlFor="phone">Mpesa Phone Number</label>
-								<div className="d-flex border bg-white mb-3">
-									<div className="border-end p-2">+254</div>
+								<div className="d-flex align-items-center bg-white mb-3">
+									{/* <div className="p-2">+254</div> */}
 									<input
-										type="tel"
+										type="text"
 										id="phone"
 										name="phone"
-										minLength="10"
-										maxLength="10"
-										className="form-control border-0"
+										pattern="[0-9]{10}"
+										className="form-control has-validation"
 										placeholder="0712345678"
 										defaultValue={props.auth.phone}
 										onChange={(e) => setPhone(e.target.value)}
 										required={true}
+										title="Please enter a valid 10-digit phone number"
 									/>
 								</div>
+								{props.formErrors
+									.filter((error) => error.field == "phone")
+									.map((error, key) => (
+										<div
+											key={key}
+											className="text-danger">
+											{error.message}
+										</div>
+									))}
 
 								<Btn
 									text="update"

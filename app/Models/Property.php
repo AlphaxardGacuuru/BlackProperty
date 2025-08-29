@@ -12,7 +12,8 @@ class Property extends Model
 	use HasFactory;
 
 	protected $casts = [
-		"water_bill_rate" => "array"
+		"service_charge" => "object",
+		"water_bill_rate" => "object"
 	];
 
 	/**

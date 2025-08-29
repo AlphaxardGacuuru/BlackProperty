@@ -17,9 +17,11 @@ import Subscribed from "@/middleware/subscribed"
 
 function App() {
 	// Function for checking local storage
-	const getLocalStorage = (state) => {
+	const getLocalStorage = (state, string = "array") => {
 		if (typeof window !== "undefined" && localStorage.getItem(state)) {
 			return JSON.parse(localStorage.getItem(state))
+		} else if (string == "string") {
+			return ""
 		} else {
 			return []
 		}
@@ -62,6 +64,7 @@ function App() {
 	// Declare states
 	const [messages, setMessages] = useState([])
 	const [errors, setErrors] = useState([])
+	const [formErrors, setFormErrors] = useState([])
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [headerMenu, setHeaderMenu] = useState()
@@ -167,20 +170,33 @@ function App() {
 
 	// Function for getting errors from responses
 	const getErrors = (err, message = false) => {
-		const resErrors = err.response.data.errors
-		var newError = []
-		for (var resError in resErrors) {
-			newError.push(resErrors[resError])
+		const validationErrors = err.response.data.errors
+		var errorsAsArray = []
+
+		for (var field in validationErrors) {
+			errorsAsArray.push(validationErrors[field])
 		}
+
+		// Get Errors with keys as the field names
+		var arraysWithFieldNames = []
+		for (var field in validationErrors) {
+			arraysWithFieldNames.push({
+				field: field,
+				message: validationErrors[field],
+			})
+		}
+
 		// Get other errors
-		message && newError.push(err.response.data.message)
-		setErrors(newError)
+		message && errorsAsArray.push(err.response.data.message)
+		errors && setErrors(errorsAsArray)
+		formErrors && setFormErrors(arraysWithFieldNames)
 	}
 
 	const formatToCommas = (e) => {
 		let value = e.target.value.toString().replace(/[^0-9.]/g, "")
 		value = Number(value)
 		e.target.value = value.toLocaleString("en-US")
+		
 		return e.target.value.replace(/,/g, "")
 	}
 
@@ -246,6 +262,8 @@ function App() {
 		setMessages,
 		errors,
 		setErrors,
+		formErrors,
+		setFormErrors,
 		get,
 		getPaginated,
 		iterator,

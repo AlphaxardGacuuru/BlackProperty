@@ -12,6 +12,7 @@ import UnitInvoiceList from "@/components/Units/UnitInvoiceList"
 import UnitPaymentList from "@/components/Units/UnitPaymentList"
 import UnitCreditNoteList from "@/components/Units/UnitCreditNoteList"
 import UnitDeductionList from "@/components/Units/UnitDeductionList"
+import TenantScore from "@/components/Charts/TenantScore"
 
 import PlusSVG from "@/svgs/PlusSVG"
 import ViewSVG from "@/svgs/ViewSVG"
@@ -287,9 +288,13 @@ const show = (props) => {
 				)}
 				{/* Tenant Info End */}
 
+				{/* Tenant Score Start */}
+				{unit.tenantName && <TenantScore {...props} />}
+				{/* Tenant Score End */}
+
 				{/* Past Tenant List */}
 				<div className="table-responsive mb-5">
-					<table className="table table-hover">
+					<table className="table bg-white table-hover">
 						<thead>
 							<tr>
 								<th colSpan="3">

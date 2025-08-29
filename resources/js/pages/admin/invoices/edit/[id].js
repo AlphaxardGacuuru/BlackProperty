@@ -17,7 +17,18 @@ const edit = (props) => {
 	const [invoice, setInvoice] = useState({})
 	const [tenants, setTenants] = useState([])
 
-	const types = ["rent", "water", "service", "deposit"]
+	const types = [
+		"deposit",
+		"rent",
+		"water",
+		"service_charge",
+		"electricity",
+		"garbage",
+		"security",
+		"internet",
+		"cleaning",
+		"parking",
+	]
 
 	const [userUnitIds, setUserUnitIds] = useState([])
 	const [type, setType] = useState()

@@ -13,13 +13,22 @@ const edit = (props) => {
 	const [location, setLocation] = useState()
 	const [rentMultiple, setRentMultiple] = useState(0)
 	const [additionalCharges, setAdditionalCharges] = useState(0)
-	const [serviceCharge, setServiceCharge] = useState()
+	const [serviceCharge, setServiceCharge] = useState({
+		service: 0,
+		electricity: 0,
+		garbage: 0,
+		security: 0,
+		internet: 0,
+		cleaning: 0,
+		parking: 0,
+	})
 	const [waterBillRate, setWaterBillRate] = useState({
 		council: 0,
 		borehole: 0,
 		tanker: 0,
 	})
 	const [invoiceDate, setInvoiceDate] = useState()
+	const [invoiceReminderDuration, setInvoiceReminderDuration] = useState()
 	const [email, setEmail] = useState()
 	const [sms, setSms] = useState()
 	const [loading, setLoading] = useState()
@@ -44,6 +53,29 @@ const edit = (props) => {
 				)
 				data.additionalCharges = extractedAdditionalCharges.toLocaleString()
 
+				// Format Service Charge
+				data.serviceCharge.service = Number(
+					data.serviceCharge?.service
+				).toLocaleString()
+				data.serviceCharge.electricity = Number(
+					data.serviceCharge?.electricity
+				).toLocaleString()
+				data.serviceCharge.garbage = Number(
+					data.serviceCharge?.garbage
+				).toLocaleString()
+				data.serviceCharge.security = Number(
+					data.serviceCharge?.security
+				).toLocaleString()
+				data.serviceCharge.internet = Number(
+					data.serviceCharge?.internet
+				).toLocaleString()
+				data.serviceCharge.cleaning = Number(
+					data.serviceCharge?.cleaning
+				).toLocaleString()
+				data.serviceCharge.parking = Number(
+					data.serviceCharge?.parking
+				).toLocaleString()
+
 				var extractedInvoiceDate = data.invoiceDate.replace(
 					/(st|nd|rd|th)$/i,
 					""
@@ -52,6 +84,15 @@ const edit = (props) => {
 				data.invoiceDate = extractedInvoiceDate
 
 				setRentMultiple(data.rentMultiple)
+				setServiceCharge({
+					service: data.serviceCharge?.service.replace(/,/g, ""),
+					electricity: data.serviceCharge?.electricity.replace(/,/g, ""),
+					garbage: data.serviceCharge?.garbage.replace(/,/g, ""),
+					security: data.serviceCharge?.security.replace(/,/g, ""),
+					internet: data.serviceCharge?.internet.replace(/,/g, ""),
+					cleaning: data.serviceCharge?.cleaning.replace(/,/g, ""),
+					parking: data.serviceCharge?.parking.replace(/,/g, ""),
+				})
 				setAdditionalCharges(extractedAdditionalCharges)
 				setWaterBillRate({
 					council: data.waterBillRateCouncil,
@@ -79,6 +120,7 @@ const edit = (props) => {
 			serviceCharge: serviceCharge,
 			waterBillRate: waterBillRate,
 			invoiceDate: invoiceDate,
+			invoiceReminderDuration: invoiceReminderDuration,
 			email: email,
 			sms: sms,
 		})
@@ -157,20 +199,176 @@ const edit = (props) => {
 						required={true}
 					/>
 
-					<label htmlFor="">Service Charge</label>
-					<input
-						type="text"
-						placeholder="5000"
-						min="0"
-						step="0.1"
-						defaultValue={property.serviceCharge}
-						className="form-control mb-2 me-2"
-						onChange={(e) => {
-							let value = props.formatToCommas(e)
+					<label
+						htmlFor=""
+						className="fw-bold text-center w-100 mt-2">
+						Service Charges
+					</label>
 
-							setServiceCharge(value)
-						}}
-					/>
+					{/* Service Charges Start */}
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Service Charge Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Service Charge</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.service}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, service: value })
+								}}
+							/>
+						</div>
+						{/* Service Charge End */}
+						{/* Electricity Start */}
+						<div className="flex-grow-1 mx-2 mb-2">
+							<label htmlFor="">Electricity</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.electricity}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, electricity: value })
+								}}
+							/>
+						</div>
+						{/* Electricity End */}
+						{/* Garbage Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Garbage</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.garbage}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, garbage: value })
+								}}
+							/>
+						</div>
+					</div>
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Garbage End */}
+						{/* Security Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Security</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.security}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, security: value })
+								}}
+							/>
+						</div>
+						{/* Security End */}
+						{/* Internet Start */}
+						<div className="flex-grow-1 mx-2 mb-2">
+							<label htmlFor="">Internet</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.internet}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, internet: value })
+								}}
+							/>
+						</div>
+						{/* Internet End */}
+						{/* Cleaning Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Cleaning</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.cleaning}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, cleaning: value })
+								}}
+							/>
+						</div>
+						{/* Cleaning End */}
+					</div>
+					<div className="d-flex justify-content-start flex-wrap">
+						{/* Parking Start */}
+						<div className="flex-grow-1 mb-2">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								defaultValue={property.serviceCharge?.parking}
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+						{/* Parking End */}
+						<div className="flex-grow-1 mx-2 mb-2 invisible">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+						<div className="flex-grow-1 mb-2 invisible">
+							<label htmlFor="">Parking</label>
+							<input
+								type="text"
+								placeholder="5,000"
+								min="0"
+								step="0.1"
+								className="form-control mb-2"
+								onChange={(e) => {
+									let value = props.formatToCommas(e)
+
+									setServiceCharge({ ...serviceCharge, parking: value })
+								}}
+							/>
+						</div>
+					</div>
+					{/* Service Charges End */}
 
 					<label
 						htmlFor=""
@@ -253,6 +451,19 @@ const edit = (props) => {
 						defaultValue={property.invoiceDate}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setInvoiceDate(e.target.value)}
+					/>
+
+					<label htmlFor="">Invoice Date Reminder</label>
+					<input
+						type="number"
+						placeholder="10"
+						min="1"
+						max="30"
+						step="1"
+						defaultValue={property.invoiceReminderDuration}
+						className="form-control mb-2 me-2"
+						onChange={(e) => setInvoiceReminderDuration(e.target.value)}
+						required={true}
 					/>
 
 					<label htmlFor="">Invoice Channel</label>

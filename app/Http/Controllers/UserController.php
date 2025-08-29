@@ -55,7 +55,13 @@ class UserController extends Controller
 	{
 		$this->validate($request, [
 			"name" => "nullable|string",
-			"phone" => "nullable|digits:10|unique:users,phone," . $id,
+			"phone" => [
+				"nullable",
+				"unique:users,phone," . $id,
+				"regex:/^\d{10}$/"
+			],
+		], [
+			"phone.regex" => "Please enter a valid 10-digit phone number",
 		]);
 
 		[$saved, $message, $user] = $this->service->update($request, $id);

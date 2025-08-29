@@ -36,9 +36,10 @@ class PropertyController extends Controller
 			"name" => "required|string",
 			"location" => "required|string",
 			"depositFormula" => "required|string",
-			"serviceCharge" => "nullable|integer",
+			"serviceCharge" => "nullable|array",
 			"waterBillRate" => "required|array",
 			"invoiceDate" => "required|integer",
+			"invoiceReminderDuration" => "required|integer",
 			"email" => "required_without:sms|boolean",
 			"sms" => "required_without:email|boolean",
 		]);
@@ -84,9 +85,10 @@ class PropertyController extends Controller
 			"name" => "nullable|string",
 			"location" => "nullable|string",
 			"depositFormula" => "nullable|string",
-			"serviceCharge" => "nullable|integer",
+			"serviceCharge" => "nullable|array",
 			"waterBillRate" => "nullable|array",
 			"invoiceDate" => "nullable|integer",
+			"invoiceReminderDuration" => "nullable|integer",
 			"email" => "required_without:sms|boolean",
 			"sms" => "required_without:email|boolean",
 		]);

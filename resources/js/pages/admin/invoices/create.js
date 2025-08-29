@@ -11,7 +11,18 @@ import EditSVG from "@/svgs/EditSVG"
 const create = (props) => {
 	var history = useHistory()
 
-	const types = ["rent", "water", "service_charge", "deposit"]
+	const types = [
+		"deposit",
+		"rent",
+		"water",
+		"service_charge",
+		"electricity",
+		"garbage",
+		"security",
+		"internet",
+		"cleaning",
+		"parking",
+	]
 
 	const [tenants, setTenants] = useState([])
 
@@ -114,7 +125,10 @@ const create = (props) => {
 					{showServiceChargeError() && (
 						<React.Fragment>
 							<h4 className="bg-warning-subtle text-center mb-2 p-2">
-								{props.properties.find((property) => property.id == propertyId).name}{" "}
+								{
+									props.properties.find((property) => property.id == propertyId)
+										.name
+								}{" "}
 								doesn't have Service Charge!
 							</h4>
 
