@@ -58,7 +58,7 @@ class WaterReadingSeeder extends Seeder
 
 				$type = $types[array_rand($types)];
 
-				$bill = $usage * $waterBillRate[$type];
+				$bill = $usage * $waterBillRate->$type;
 
 				WaterReading::factory()
 					->create([

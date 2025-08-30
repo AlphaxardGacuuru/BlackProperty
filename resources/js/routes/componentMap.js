@@ -4,6 +4,8 @@ import Index from "@/pages/index"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 
+import AdminReferral from "@/pages/super/referrals/index"
+
 import AdminSubscriptionPlan from "@/components/Auth/SubscriptionPlan"
 
 import AdminDashboard from "@/pages/admin/index"
@@ -146,6 +148,8 @@ const componentMap = {
 	AdminRoleIndex,
 	AdminRoleCreate,
 	AdminRoleEdit,
+
+	AdminReferral,
 
 	// Support
 	AdminSupport,

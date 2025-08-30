@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('avatar')->default('avatars/male-avatar.png');
             $table->string('gender')->nullable();
+            $table->string('account_type')->nullable();
             $table->timestamps();
         });
     }

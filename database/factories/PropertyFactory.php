@@ -23,12 +23,22 @@ class PropertyFactory extends Factory
 			"location" => fake()->city(),
 			"deposit_formula" => "r*2+2000",
 			"unit_count" => rand(5, 20),
-			"service_charge" => rand(2000, 20000),
+			"service_charge" => [
+				"service" => rand(2000, 20000),
+				"electricity" => rand(2000, 20000),
+				"garbage" => rand(2000, 20000),
+				"security" => rand(2000, 20000),
+				"internet" => rand(2000, 20000),
+				"cleaning" => rand(2000, 20000),
+				"parking" => rand(2000, 20000),
+			],
 			"water_bill_rate" => [
 				"council" => fake()->randomFloat(2, 1, 4),
 				"borehole" => fake()->randomFloat(2, 1, 4),
 				"tanker" => fake()->randomFloat(2, 1, 4),
-			]
+			],
+			"invoice_date" => rand(1, 10),
+			"invoice_reminder_duration" => rand(1, 10),
 		];
 	}
 }

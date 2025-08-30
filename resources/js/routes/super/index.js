@@ -60,6 +60,10 @@ const adminRoutes = [
 		path: "/super/roles/:id/edit",
 		component: "AdminRoleEdit",
 	},
+	{
+		path: "/super/referrals",
+		component: "AdminReferral",
+	},
 	// Support
 	{
 		path: "/super/support",

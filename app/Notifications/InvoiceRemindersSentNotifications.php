@@ -55,7 +55,7 @@ class InvoiceRemindersSentNotifications extends Notification
 		$notification = $notification
 			->line('Properties Processed: ' . $this->result->properties->count())
 			->line('Units Processed: ' . $this->result->units->count())
-			->line('Invoices Generated: ' . $this->result->invoices->count());
+			->line('Invoices Sent: ' . $this->result->invoices->count());
 
 		if ($this->result->isForAdmin) {
 			$notification = $notification

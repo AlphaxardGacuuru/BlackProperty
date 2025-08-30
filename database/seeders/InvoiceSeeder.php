@@ -40,7 +40,7 @@ class InvoiceSeeder extends Seeder
 				$staffId = UserProperty::where("property_id", $userUnit->unit->property_id)
 					->get()
 					->random()
-					->id;
+					->user_id;
 
 				$this->createRentInvoices($userUnit, $date, $staffId, $key, $month, $currentYear);
 				$this->createWaterInvoices($userUnit, $date, $staffId, $key, $month, $currentYear);
@@ -113,7 +113,8 @@ class InvoiceSeeder extends Seeder
 		$amount = $userUnit
 			->unit
 			->property
-			->service_charge;
+			->service_charge
+			->service;
 
 		Invoice::factory()
 			->create([

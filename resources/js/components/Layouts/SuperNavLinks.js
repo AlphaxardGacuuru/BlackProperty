@@ -24,6 +24,7 @@ import ChatSVG from "@/svgs/ChatSVG"
 import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
+import ReferralSVG from "@/svgs/ReferralSVG"
 
 const SuperNavLinks = (props) => {
 	const location = useLocation()
@@ -108,9 +109,9 @@ const SuperNavLinks = (props) => {
 			name: "Roles",
 		},
 		{
-			link: "/super/billing",
-			icon: <BillingSVG />,
-			name: "Billing",
+			link: "/super/referrals",
+			icon: <ReferralSVG />,
+			name: "Referrals",
 		},
 		{
 			link: "/super/support",

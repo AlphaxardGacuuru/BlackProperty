@@ -16,9 +16,15 @@ class ReferralController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
-		//
+		$referrals = $this->service->index($request);
+
+		return response([
+			"status" => true,
+			"message" => "Referrals fetched successfully",
+			"data" => $referrals,
+		], 200);
 	}
 
 	/**
