@@ -62,7 +62,7 @@ const adminRoutes = [
 	},
 	{
 		path: "/super/referrals",
-		component: "AdminReferral",
+		component: "SuperReferral",
 	},
 	// Support
 	{

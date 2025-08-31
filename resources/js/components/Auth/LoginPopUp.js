@@ -11,6 +11,7 @@ import CloseSVG from "@/svgs/CloseSVG"
 import LogInSVG from "@/svgs/LogInSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import TenantSVG from "@/svgs/TenantSVG"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 const LoginPopUp = (props) => {
 	const history = useHistory()
@@ -174,7 +175,10 @@ const LoginPopUp = (props) => {
 	const blur =
 		// props.login ||
 		props.auth.name == "Guest" &&
-		(location.pathname.match("/admin") || location.pathname.match("/tenant"))
+		!location.pathname.match("/forgot-password") &&
+		(location.pathname.match("/admin") ||
+			location.pathname.match("/tenant") ||
+			location.pathname.match("/super"))
 
 	return (
 		<div className={blur ? "menu-open" : ""}>
@@ -361,11 +365,12 @@ const LoginPopUp = (props) => {
 									</div>
 
 									<div className="d-flex align-items-center">
-										<MyLink
-											linkTo="/forgot-password"
-											className="text-white me-2"
-											text="Forgot Password?"
-										/>
+										<Link
+											to="/forgot-password"
+											className="mysonar-btn text-white me-2"
+										>
+											Forgot Password?
+										</Link>
 										{/* Login Start */}
 										<Btn
 											type="submit"

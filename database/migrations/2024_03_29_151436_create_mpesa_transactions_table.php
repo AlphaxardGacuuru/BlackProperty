@@ -19,6 +19,7 @@ return new class extends Migration
 				->constrained()
 				->onUpdate("cascade")
 				->onDelete("cascade");
+			$table->string('purpose')->nullable();
 			$table->string('sender_first_name')->nullable();
 			$table->string('sender_middle_name')->nullable();
 			$table->string('sender_last_name')->nullable();

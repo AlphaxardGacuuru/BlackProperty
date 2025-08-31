@@ -4,9 +4,13 @@ import Index from "@/pages/index"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 
-import AdminReferral from "@/pages/super/referrals/index"
+import Socialite from "@/pages/auth/socialite"
+import VerifyEmail from "@/pages/auth/verify-email"
+import ForgotPassword from "@/pages/auth/forgot-password"
+import ResetPassword from "@/pages/auth/reset-password"
+import AdminSubscriptionPlan from "@/pages/auth/subscription-plan"
 
-import AdminSubscriptionPlan from "@/components/Auth/SubscriptionPlan"
+import SuperReferral from "@/pages/super/referrals/index"
 
 import AdminDashboard from "@/pages/admin/index"
 import TenantDashboard from "@/pages/tenant/index"
@@ -70,9 +74,6 @@ import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
 import AdminSupport from "@/pages/admin/support"
 
-import Socialite from "@/components/Auth/Socialite"
-import VerifyEmail from "@/components/Auth/VerifyEmail"
-
 // Component mapping object
 const componentMap = {
 	// Layout components
@@ -85,6 +86,8 @@ const componentMap = {
 	// Auth components
 	Socialite,
 	VerifyEmail,
+	ForgotPassword,
+	ResetPassword,
 
 	// Admin components
 	AdminSubscriptionPlan,
@@ -149,7 +152,7 @@ const componentMap = {
 	AdminRoleCreate,
 	AdminRoleEdit,
 
-	AdminReferral,
+	SuperReferral,
 
 	// Support
 	AdminSupport,

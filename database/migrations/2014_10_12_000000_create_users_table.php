@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('avatar')->default('avatars/male-avatar.png');
             $table->string('gender')->nullable();
             $table->string('account_type')->nullable();
+            $table->jsonb('settings')->nullable();
             $table->timestamps();
         });
     }
