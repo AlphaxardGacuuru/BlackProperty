@@ -25,6 +25,7 @@ return new class extends Migration
 			$table->integer('month');
 			$table->integer('year');
 			$table->unsignedBigInteger('created_by');
+			$table->timestamp('due_at')->nullable();
 			$table->timestamps();
 
 			$table->foreign('created_by')

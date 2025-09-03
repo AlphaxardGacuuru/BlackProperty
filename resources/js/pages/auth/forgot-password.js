@@ -17,8 +17,8 @@ const ForgotPassword = (props) => {
 	const [timer, setTimer] = useState()
 
 	/*
-	* Count Down from 60s
-	*/ 
+	 * Count Down from 60s
+	 */
 	const countDown = () => {
 		setTimer(60)
 
@@ -95,7 +95,9 @@ const ForgotPassword = (props) => {
 								{timer > 0 ? (
 									<span className="text-muted">
 										Resend link in{" "}
-										<span className="text-warning fw-bold">{timer} seconds</span>
+										<span className="text-warning fw-bold">
+											{timer} seconds
+										</span>
 									</span>
 								) : (
 									<Btn
@@ -110,7 +112,10 @@ const ForgotPassword = (props) => {
 								<Btn
 									icon={<BackSVG />}
 									text="back to dashboard"
-									onClick={() => history.goBack()}
+									onClick={(e) => {
+										e.preventDefault()
+										history.goBack()
+									}}
 								/>
 							</div>
 

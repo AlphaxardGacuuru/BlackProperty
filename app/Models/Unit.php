@@ -17,7 +17,8 @@ class Unit extends Model
      * @var array<string, string>
      */
     protected $casts = [
-		"size" => "array"
+		"size" => "array",
+		"service_charge" => "object"
     ];
 
     /**

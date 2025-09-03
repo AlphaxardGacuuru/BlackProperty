@@ -37,6 +37,7 @@ class UnitResource extends JsonResource
             "name" => $this->name,
             "rent" => number_format($this->rent),
             "deposit" => number_format($this->deposit),
+			"serviceCharge" => $this->service_charge,
             "type" => $this->type,
             "bedrooms" => $this->bedrooms,
             "size" => $this->size,

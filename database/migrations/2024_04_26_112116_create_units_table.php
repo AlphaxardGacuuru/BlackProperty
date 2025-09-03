@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("name");
             $table->integer("rent");
             $table->integer("deposit");
+			$table->jsonb("service_charge")->nullable();
             $table->integer("bedrooms")->nullable();
             $table->jsonb("size")->nullable();
             $table->string("type")->default("apartment");

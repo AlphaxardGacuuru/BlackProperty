@@ -36,6 +36,7 @@ class UnitController extends Controller
 			"name" => "required|string",
 			"rent" => "required|string",
 			"deposit" => "required|string",
+			"serviceCharge" => "nullable|array",
 			"type" => "required|string",
 			"bedrooms" => "nullable|string",
 			"size" => "nullable|array",
@@ -76,10 +77,11 @@ class UnitController extends Controller
 			"name" => "nullable|string",
 			"rent" => "nullable|string",
 			"deposit" => "nullable|string",
+			"serviceCharge" => "nullable|array",
 			"type" => "nullable|string",
 			"bedrooms" => "nullable|string",
 			"size" => "nullable|array",
-			"ensuite" => "nullable|interger",
+			"ensuite" => "nullable|integer",
 			"dsq" => "nullable|boolean"
 		]);
 

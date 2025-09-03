@@ -13,7 +13,9 @@ import EditSVG from "@/svgs/EditSVG"
 import NoData from "@/components/Core/NoData"
 
 const index = (props) => {
-	const [properties, setProperties] = useState(props.getLocalStorage("properties"))
+	const [properties, setProperties] = useState(
+		props.getLocalStorage("propertyList")
+	)
 
 	const [nameQuery, setNameQuery] = useState("")
 
@@ -26,7 +28,7 @@ const index = (props) => {
 		props.getPaginated(
 			`properties?userId=${props.auth.id}&name=${nameQuery}`,
 			setProperties,
-			"properties"
+			"propertyList"
 		)
 	}, [nameQuery])
 	/*

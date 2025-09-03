@@ -110,50 +110,45 @@ class GenerateInvoicesJob implements ShouldQueue
 							}
 						}
 
-						// Skip if Property doesn't have a service charge
-						if ($type === "service_charge" && $unit->property->service_charge?->service < 1) {
-							return;
-						}
-
 						switch ($type) {
 							case "service_charge":
-								if ($unit->property->service_charge?->service < 1) {
+								if ($unit->service_charge?->service < 1) {
 									return;
 								}
 								break;
 
 							case "electricity":
-								if ($unit->property->service_charge?->electricity < 1) {
+								if ($unit->service_charge?->electricity < 1) {
 									return;
 								}
 								break;
 
 							case "garbage":
-								if ($unit->property->service_charge?->garbage < 1) {
+								if ($unit->service_charge?->garbage < 1) {
 									return;
 								}
 								break;
 
 							case "security":
-								if ($unit->property->service_charge?->security < 1) {
+								if ($unit->service_charge?->security < 1) {
 									return;
 								}
 								break;
 
 							case "internet":
-								if ($unit->property->service_charge?->internet < 1) {
+								if ($unit->service_charge?->internet < 1) {
 									return;
 								}
 								break;
 
 							case "cleaning":
-								if ($unit->property->service_charge?->cleaning < 1) {
+								if ($unit->service_charge?->cleaning < 1) {
 									return;
 								}
 								break;
 
 							case "parking":
-								if ($unit->property->service_charge?->parking < 1) {
+								if ($unit->service_charge?->parking < 1) {
 									return;
 								}
 								break;

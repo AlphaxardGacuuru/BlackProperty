@@ -70,6 +70,7 @@ class UnitService extends Service
 		$unit->name = $request->input("name");
 		$unit->rent = $request->input("rent");
 		$unit->deposit = $request->input("deposit");
+		$unit->service_charge = $request->input("serviceCharge");
 		$unit->type = $request->input("type");
 		$unit->bedrooms = $request->input("bedrooms");
 		$unit->size = $request->input("size");
@@ -107,6 +108,10 @@ class UnitService extends Service
 
 		if ($request->filled("deposit")) {
 			$unit->deposit = $request->input("deposit");
+		}
+
+		if ($request->filled("serviceCharge")) {
+			$unit->service_charge = $request->input("serviceCharge");
 		}
 
 		if ($request->filled("type")) {
