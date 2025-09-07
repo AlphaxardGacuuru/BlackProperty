@@ -6,9 +6,85 @@ import Img from "@/components/Core/Img"
 import Bar from "@/components/Charts/Bar"
 import Doughnut from "@/components/Charts/Doughnut"
 import Pie from "@/components/Charts/Pie"
+import PropertyDoughnut from "@/components/Dashboard/PropertyDoughnut"
+import TenancyDoughnut from "@/components/Dashboard/TenancyDoughnut"
+import RentDoughnut from "@/components/Dashboard/RentDoughnut"
+import WaterDoughnut from "@/components/Dashboard/WaterDoughnut"
+import ServiceChargeDoughnut from "@/components/Dashboard/ServiceChargeDoughnut"
+import WaterUsageDoughnut from "@/components/Dashboard/WaterUsagePie"
+import WaterUsagePie from "@/components/Dashboard/WaterUsagePie"
+import TenancyBar from "@/components/Dashboard/TenancyBar"
+import IncomeBar from "@/components/Dashboard/IncomeBar"
 
 const index = (props) => {
-	const [dashboard, setDashboard] = useState(props.getLocalStorage("dashboard"))
+	const months = props.months.filter((month) => month != "Select Month")
+	const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+	const [dashboard, setDashboard] = useState(
+		props.getLocalStorage("dashboard")?.length
+			? props.getLocalStorage("dashboard")
+			: {
+					units: {
+						totalOccupied: 0,
+						totalUnoccupied: 0,
+						percentage: 0,
+						list: [],
+						tenantsThisYear: {
+							labels: months,
+							data: data,
+						},
+						vacanciesThisYear: {
+							labels: months,
+							data: data,
+						},
+					},
+					rent: {
+						paid: 0,
+						due: 0,
+						total: "0",
+						percentage: 0,
+						paidThisYear: {
+							labels: months,
+							data: data,
+						},
+						unpaidThisYear: {
+							labels: months,
+							data: data,
+						},
+					},
+					water: {
+						paid: 0,
+						due: 0,
+						total: "0",
+						usageTwoMonthsAgo: 0,
+						usageLastMonth: 0,
+						percentage: 0,
+						paidThisYear: {
+							labels: months,
+							data: data,
+						},
+						unpaidThisYear: {
+							labels: months,
+							data: data,
+						},
+					},
+					serviceCharge: {
+						paid: 0,
+						due: 0,
+						total: "0",
+						percentage: 0,
+						paidThisYear: {
+							labels: months,
+							data: data,
+						},
+						unpaidThisYear: {
+							labels: months,
+							data: data,
+						},
+					},
+			  }
+	)
+
 	const [dashboardProperties, setDashboardProperties] = useState(
 		props.getLocalStorage("dashboardProperties")
 	)
@@ -64,543 +140,44 @@ const index = (props) => {
 		}
 	}, [props.selectedPropertyId])
 
-	/*
-	 * Graph Data
-	 */
-
-	var doughnutProperties = [
-		{
-			label: " Units",
-			data: dashboardProperties.units,
-		},
-	]
-
-	var barGraphTenants = [
-		{
-			label: " Tenants this month",
-			data: dashboard.units?.tenantsThisYear?.data,
-			backgroundColor: "rgba(54, 162, 235, 1)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "50",
-			stack: "Stack 0",
-		},
-		{
-			label: " Vacancies this month",
-			data: dashboard.units?.vacanciesThisYear?.data,
-			backgroundColor: "rgba(54, 162, 235, 0.5)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "50",
-			stack: "Stack 0",
-		},
-	]
-
-	var barGraphRent = [
-		{
-			label: " Paid Rent",
-			data: dashboard.rent?.paidThisYear?.data,
-			backgroundColor: "rgba(40, 167, 69, 1)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 1",
-		},
-		{
-			label: " Due Rent",
-			data: dashboard.rent?.unpaidThisYear?.data,
-			backgroundColor: "rgba(40, 167, 69, 0.5)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 1",
-		},
-		{
-			label: " Paid Water Bill",
-			data: dashboard.water?.paidThisYear?.data,
-			backgroundColor: "rgba(75, 192, 192, 1)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 2",
-		},
-		{
-			label: " Due Water Bill",
-			data: dashboard.water?.unpaidThisYear?.data,
-			backgroundColor: "rgba(75, 192, 192, 0.5)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 2",
-		},
-		{
-			label: " Paid Service Charge",
-			data: dashboard.serviceCharge?.paidThisYear?.data,
-			backgroundColor: "rgba(201, 203, 207, 1)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 3",
-		},
-		{
-			label: " Due Service Charge",
-			data: dashboard.serviceCharge?.unpaidThisYear?.data,
-			backgroundColor: "rgba(201, 203, 207, 0.5)",
-			borderColor: "rgba(255, 255, 255, 1)",
-			borderWidth: 2,
-			borderRadius: "0",
-			barThickness: "25",
-			stack: "Stack 3",
-		},
-	]
-
-	var doughnutUnits = [
-		{
-			label: " ",
-			data: [dashboard.units?.totalOccupied, dashboard.units?.totalUnoccupied],
-			backgroundColor: ["rgba(54, 162, 235, 1)", "rgba(54, 162, 235, 0.5)"],
-		},
-	]
-
-	var doughnutRent = [
-		{
-			label: " KES",
-			data: [
-				dashboard.rent?.paid,
-				dashboard.rent?.percentage > 100 ? 0 : dashboard.rent?.due,
-			],
-			backgroundColor: ["rgba(40, 167, 69, 1)", "rgba(40, 167, 69, 0.5)"],
-		},
-	]
-
-	var doughnutWater = [
-		{
-			label: " KES",
-			data: [
-				dashboard.water?.paid,
-				dashboard.water?.percentage > 100 ? 0 : dashboard.water?.due,
-			],
-			backgroundColor: ["rgba(75, 192, 192, 1)", "rgba(75, 192, 192, 0.5)"],
-		},
-	]
-
-	var doughnutServiceCharge = [
-		{
-			label: " KES",
-			data: [
-				dashboard.serviceCharge?.paid,
-				dashboard.serviceCharge?.percentage > 100
-					? 0
-					: dashboard.serviceCharge?.due,
-			],
-			backgroundColor: ["rgba(201, 203, 207, 1)", "rgba(201, 203, 207, 0.5)"],
-		},
-	]
-
-	var pieWaterUsage = [
-		{
-			label: " KES",
-			data: [
-				dashboard.water?.usageTwoMonthsAgo,
-				dashboard.water?.usageLastMonth,
-			],
-			backgroundColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
-		},
-	]
-
-	// Custom plugin to draw the center text
-	const propertyText = {
-		id: "centerText",
-		beforeDraw: (chart) => {
-			const { ctx, width, height } = chart
-			const { heading, subHeading } = chart.options.plugins.centerText.data
-
-			ctx.save()
-			ctx.font = "700 3.5rem Inter, sans-serif"
-			ctx.fillStyle = "#4B5563"
-			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
-			ctx.fillText(heading, width / 2, height / 2 - 15)
-
-			ctx.font = "500 1.125rem Inter, sans-serif"
-			ctx.fillStyle = "#6B7280"
-			ctx.fillText(subHeading, width / 2, height / 2 + 25)
-			ctx.restore()
-		},
-	}
-
-	const totalUnits = dashboardProperties.units?.reduce(
-		(unitCount, acc) => unitCount + acc,
-		0
-	)
-
-	const propertyOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: false },
-			tooltip: { enabled: false },
-			centerText: {
-				data: {
-					heading: dashboardProperties.total,
-					subHeading: "properties",
-				},
-			},
-		},
-	}
-
-	// Custom plugin to draw the center text
-	const unitText = {
-		id: "centerText",
-		beforeDraw: (chart) => {
-			const { ctx, width, height } = chart
-			const { heading, subHeading } = chart.options.plugins.centerText.data
-
-			ctx.save()
-			ctx.font = "700 2.5rem Inter, sans-serif"
-			ctx.fillStyle = "rgba(54, 162, 235, 1)"
-			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
-			ctx.fillText(heading, width / 2, height / 1.9)
-
-			ctx.font = "500 1.125rem Inter, sans-serif"
-			ctx.fillStyle = "#6B7280"
-			ctx.fillText(subHeading, width / 2, height / 1.4)
-			ctx.restore()
-		},
-	}
-
-	const unitOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: true },
-			tooltip: { enabled: true },
-			centerText: {
-				data: {
-					heading: `${dashboard.units?.percentage}%`,
-					subHeading: `${totalUnits} ${totalUnits > 1 ? "units" : "unit"}`,
-				},
-			},
-		},
-	}
-
-	// Custom plugin to draw the center text
-	const rentText = {
-		id: "centerText",
-		beforeDraw: (chart) => {
-			const { ctx, width, height } = chart
-			const { heading, subHeading } = chart.options.plugins.centerText.data
-
-			ctx.save()
-			ctx.font = "700 2.5rem Inter, sans-serif"
-			ctx.fillStyle = "rgba(24, 135, 84, 1)"
-			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
-			ctx.fillText(heading, width / 2, height / 1.8)
-
-			ctx.font = "500 1.125rem Inter, sans-serif"
-			ctx.fillStyle = "#6B7280"
-			ctx.fillText(subHeading, width / 2, height / 1.4)
-			ctx.restore()
-		},
-	}
-
-	const rentOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: true },
-			tooltip: { enabled: true },
-			centerText: {
-				data: {
-					heading: `${dashboard.rent?.percentage}%`,
-					subHeading: ``,
-				},
-			},
-		},
-	}
-
-	// Custom plugin to draw the center text
-	const serviceChargeText = {
-		id: "centerText",
-		beforeDraw: (chart) => {
-			const { ctx, width, height } = chart
-			const { heading, subHeading } = chart.options.plugins.centerText.data
-
-			ctx.save()
-			ctx.font = "700 2.5rem Inter, sans-serif"
-			ctx.fillStyle = "rgba(201, 203, 207, 1)"
-			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
-			ctx.fillText(heading, width / 2, height / 1.8)
-
-			ctx.font = "500 1.125rem Inter, sans-serif"
-			ctx.fillStyle = "#6B7280"
-			ctx.fillText(subHeading, width / 2, height / 1.4)
-			ctx.restore()
-		},
-	}
-
-	const serviceChargeOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: true },
-			tooltip: { enabled: true },
-			centerText: {
-				data: {
-					heading: `${dashboard.serviceCharge?.percentage}%`,
-					subHeading: ``,
-				},
-			},
-		},
-	}
-
-	// Custom plugin to draw the center text
-	const waterText = {
-		id: "centerText",
-		beforeDraw: (chart) => {
-			const { ctx, width, height } = chart
-			const { heading, subHeading } = chart.options.plugins.centerText.data
-
-			ctx.save()
-			ctx.font = "700 2.5rem Inter, sans-serif"
-			ctx.fillStyle = "rgba(75, 192, 192, 1)"
-			ctx.textAlign = "center"
-			ctx.textBaseline = "middle"
-			ctx.fillText(heading, width / 2, height / 1.8)
-
-			ctx.font = "500 1.125rem Inter, sans-serif"
-			ctx.fillStyle = "#6B7280"
-			ctx.fillText(subHeading, width / 2, height / 1.4)
-			ctx.restore()
-		},
-	}
-
-	const waterOptions = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: true },
-			tooltip: { enabled: true },
-			centerText: {
-				data: {
-					heading: `${dashboard.water?.percentage}%`,
-					subHeading: ``,
-				},
-			},
-		},
-	}
-
 	return (
 		<React.Fragment>
-			{/*
-			 * Tenancy
-			 */}
-
-			<div className="row">
-				<div className="col-sm-2 pe-1">
-					<h4 className="my-2">Properties</h4>
-					{/* Property Doughnut */}
-					<div className="card shadow-sm p-2 mb-2">
-						<center>
-							{/* <div className="middle1">
-								<h1>{dashboardProperties.total}</h1>
-							</div> */}
-							{dashboardProperties.names && (
-								<Doughnut
-									labels={dashboardProperties.names}
-									datasets={doughnutProperties}
-									cutout="50%"
-									className="doughnutSize1"
-									plugins={[propertyText]}
-									options={propertyOptions}
-									style={{ height: "100%", width: "100%" }}
-								/>
-							)}
-						</center>
-					</div>
-					{/* Property Doughnut End */}
-					{/* Tenancy This Month */}
-					<h4 className="my-2">Current Occupancy</h4>
-					<div
-						className="card shadow-sm p-2 mb-2"
-						style={{ minHeight: "40%" }}>
-						{/* <div className="middle2">
-							<h1>
-								{dashboard.units?.percentage}
-								<small className="fs-1">%</small>
-							</h1>
-						</div> */}
-						<center>
-							{dashboard.units && (
-								<Doughnut
-									labels={["Occupied Units", "Unoccupied Units"]}
-									datasets={doughnutUnits}
-									className="doughnutSize2"
-									plugins={[unitText]}
-									options={unitOptions}
-									style={{ height: "100%", width: "100%" }}
-								/>
-							)}
-						</center>
-					</div>
-					{/* Tenancy This Month End */}
-				</div>
-				<div className="col-sm-10">
-					{/* Tenancy This Year */}
-					<h4 className="my-2">Tenancy This Year</h4>
-					<div
-						className="card shadow-sm mb-2 rounded hidden-scroll"
-						style={{ minHeight: "80%" }}>
-						{dashboard.units && (
-							<Bar
-								labels={dashboard.units?.tenantsThisYear.labels}
-								datasets={barGraphTenants}
-							/>
-						)}
-					</div>
-					{/* Tenancy This Year End */}
-				</div>
+			<div className="d-flex justify-content-start align-items-start flex-wrap">
+				{/* Property Doughnut */}
+				<PropertyDoughnut dashboardProperties={dashboardProperties} />
+				{/* Property Doughnut End */}
+				{/* Tenancy Doughnut */}
+				<TenancyDoughnut
+					dashboard={dashboard}
+					dashboardProperties={dashboardProperties}
+				/>
+				{/* Tenancy Doughnut End */}
+				{/* Rent Doughnut */}
+				<RentDoughnut dashboard={dashboard} />
+				{/* Rent Doughnut End */}
+				{/* Water Doughnut */}
+				<WaterDoughnut dashboard={dashboard} />
+				{/* Water Doughnut End */}
+				{/* Service Charge Doughnut */}
+				<ServiceChargeDoughnut dashboard={dashboard} />
+				{/* Service Charge Doughnut End */}
+				{/* Water Usage Pie */}
+				<WaterUsagePie dashboard={dashboard} />
+				{/* Water Usage Pie End */}
 			</div>
-
-			{/*
-			 * Income
-			 */}
 
 			<div
 				className="row"
 				style={{ minHeight: "400px" }}>
-				<div className="col-sm-8">
-					<h4 className="my-2">Income This Year</h4>
-					<div
-						className="card shadow-sm hidden-scroll mb-5"
-						style={{ minHeight: "80%" }}>
-						{dashboard.rent && (
-							<Bar
-								labels={dashboard.rent?.paidThisYear.labels}
-								datasets={barGraphRent}
-								style={{ height: "100%", width: "100%" }}
-							/>
-						)}
-					</div>
+				<div className="col-sm-6">
+					{/* Tenancy This Year */}
+					<TenancyBar dashboard={dashboard} />
+					{/* Tenancy This Year End */}
 				</div>
-				<div className="col-sm-2">
-					<h4 className="my-2">Income this month</h4>
-					{/* Rent Doughnut */}
-					<div
-						className="card shadow-sm text-center mb-2"
-						style={{ minHeight: "40%" }}>
-						{dashboard.rent && (
-							<Doughnut
-								labels={["Paid Rent", "Due Rent"]}
-								datasets={doughnutRent}
-								cutout="60%"
-								className="doughnutSize3"
-								plugins={[rentText]}
-								options={rentOptions}
-								style={{ height: "100%", width: "100%" }}
-							/>
-						)}
-						<div className="d-flex justify-content-center pb-3">
-							<h6>
-								Total:
-								<small className="mx-1">KES</small>
-								{dashboard.rent?.total}
-							</h6>
-						</div>
-					</div>
-					{/* Rent Doughnut End */}
-					{/* Water Doughnut */}
-					<div
-						className="card shadow-sm text-center mb-2"
-						style={{ minHeight: "40%" }}>
-						{/* <div className="middle3">
-								<h2>
-									{dashboard.water?.percentage}
-									<small className="fs-6">%</small>
-								</h2>
-							</div> */}
-						{dashboard.water && (
-							<Doughnut
-								labels={["Paid Water Bill", "Due Water Bill"]}
-								datasets={doughnutWater}
-								cutout="60%"
-								className="doughnutSize3"
-								plugins={[waterText]}
-								options={waterOptions}
-								style={{ height: "100%", width: "100%" }}
-							/>
-						)}
-						<div className="d-flex justify-content-center pb-3">
-							<h6>
-								Total:
-								<small className="mx-1">KES</small>
-								{dashboard.water?.total}
-							</h6>
-						</div>
-					</div>
-					{/* Water Doughnut End */}
-				</div>
-				<div className="col-sm-2">
-					<h4 className="invisible my-2 hidden">Income this month</h4>
-					{/* Service Charge Doughnut */}
-					<div
-						className="card shadow-sm text-center mb-2"
-						style={{ minHeight: "40%" }}>
-						{/* <div className="middle3">
-								<h2>
-									{dashboard.serviceCharge?.percentage}
-									<small className="fs-6">%</small>
-								</h2>
-							</div> */}
-						{dashboard.serviceCharge && (
-							<Doughnut
-								labels={["Paid Service Charge", "Due Service Charge"]}
-								datasets={doughnutServiceCharge}
-								cutout="60%"
-								className="doughnutSize3"
-								plugins={[serviceChargeText]}
-								options={serviceChargeOptions}
-								style={{ height: "100%", width: "100%" }}
-							/>
-						)}
-						<div className="d-flex justify-content-center pb-3">
-							<h6>
-								Total:
-								<small className="mx-1">KES</small>
-								{dashboard.serviceCharge?.total}
-							</h6>
-						</div>
-					</div>
-					{/* Service Charge Doughnut End */}
-					{/* Water Usage Pie */}
-					<div
-						className="card shadow-sm text-center mb-5"
-						style={{ minHeight: "40%" }}>
-						{dashboard.water && (
-							<Pie
-								labels={["Previous Water Usage", "Current Water Usage"]}
-								datasets={pieWaterUsage}
-								className="doughnutSize3"
-							/>
-						)}
-						<div className="d-flex justify-content-center pb-3">
-							<h6>
-								Current Usage:
-								<span className="mx-1">{dashboard.water?.usageLastMonth}L</span>
-							</h6>
-						</div>
-					</div>
-					{/* Water Usage Pie End */}
+				<div className="col-sm-6">
+					{/* Income Bar Start */}
+					<IncomeBar dashboard={dashboard} />
+					{/* Income Bar End */}
 				</div>
 			</div>
 
@@ -611,7 +188,7 @@ const index = (props) => {
 			<div className="row">
 				<div className="col-sm-6">
 					{/* Units Table */}
-					<div className="table-responsive mb-5">
+					<div className="table-responsive">
 						<table className="table table-hover">
 							<thead>
 								<tr>
@@ -666,7 +243,7 @@ const index = (props) => {
 
 				<div className="col-sm-6">
 					{/* Recent Payments Table */}
-					<div className="table-responsive mb-5">
+					<div className="table-responsive">
 						<table className="table table-hover">
 							<thead>
 								<tr>

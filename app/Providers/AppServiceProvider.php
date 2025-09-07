@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     {
 		// Force all generated URLs to use your APP_URL
 		URL::forceRootUrl(config('app.url'));
+		
+		if (env('APP_ENV') !== 'local') {
+			URL::forceScheme('https');
+		}
 	}
 }

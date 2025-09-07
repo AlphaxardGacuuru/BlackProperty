@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use App\Notifications\WelcomeNotification;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,11 @@ class AuthenticatedSessionController extends Controller
 	 */
 	public function handleProviderCallback($website)
 	{
-		$user = Socialite::driver($website)->stateless()->user();
+		try {
+			$user = Socialite::driver($website)->stateless()->user();
+		} catch (Exception $e) {
+			return redirect('/#/socialite/' . $e->getMessage() . '/failed');
+		}
 
 		$name = $user->getName() ? $user->getName() : " ";
 
@@ -77,7 +82,6 @@ class AuthenticatedSessionController extends Controller
 
 		// Check if user exists
 		$token = $dbUser
-			->first()
 			->createToken("deviceName")
 			->plainTextToken;
 

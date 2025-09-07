@@ -36,17 +36,32 @@ const Socialite = (props) => {
 	}
 
 	useEffect(() => {
+		const tenant = props.getLocalStorage("tenant", "string")
+
+		if (token == "failed") {
+			props.setErrors([message])
+			// Redirect to index page
+			setTimeout(() => {
+				props.setErrors(["Failed to login, please try again"])
+				
+				window.location.href = `/#/${tenant ? "tenant" : "admin"}/dashboard`
+			}, 2000)
+
+			return
+		}
+
 		props.setMessages([message])
 
 		// Check if sanctumToken is in Local Storage
 		if (props.getLocalStorage("sanctumToken")?.length) {
-			const tenant = props.getLocalStorage("tenant", "string")
-
 			// Check if user has an active subscription
 			if (props.auth.activeSubscription == null) {
 				// Redirect to subscribe page
 				setTimeout(
-					() => (window.location.href = `/#/${tenant ? "tenant" : "admin"}/subscribe`),
+					() =>
+						(window.location.href = `/#/${
+							tenant ? "tenant" : "admin"
+						}/subscribe`),
 					2000
 				)
 			} else {
