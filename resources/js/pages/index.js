@@ -27,6 +27,7 @@ import PhoneSVG from "@/svgs/PhoneSVG"
 import EmailSVG from "@/svgs/EmailSVG"
 import SMSSVG from "@/svgs/SMSSVG"
 import WhatsAppSVG from "@/svgs/WhatsAppSVG"
+import SubscriptionPlan from "@/components/SubscriptionPlan/SubscriptionPlan"
 
 const index = (props) => {
 	const [tab, setTab] = useState("property")
@@ -39,6 +40,93 @@ const index = (props) => {
 		{
 			label: " Units",
 			data: [5, 10, 15, 20, 10],
+		},
+	]
+
+	const subscriptionPlans = [
+		{
+			id: 1,
+			name: "BP 20",
+			description: "20 units or Less",
+			amount: null,
+			currency: null,
+			price: {
+				yearly: 20000,
+				monthly: 2000,
+				onboarding_fee: 5000,
+			},
+			features: [
+				"Property Management",
+				"Occupancy Management",
+				"Billing",
+				"Water Management",
+				"Tenant Management",
+				"Staff Management",
+			],
+			createdAt: "2025-09-02T16:45:05.000000Z",
+		},
+		{
+			id: 2,
+			name: "BP 50",
+			description: "Between 21 - 50 units",
+			amount: null,
+			currency: null,
+			price: {
+				yearly: 50000,
+				monthly: 5000,
+				onboarding_fee: 10000,
+			},
+			features: [
+				"Property Management",
+				"Occupancy Management",
+				"Billing",
+				"Water Management",
+				"Tenant Management",
+				"Staff Management",
+			],
+			createdAt: "2025-09-02T16:45:05.000000Z",
+		},
+		{
+			id: 3,
+			name: "BP 100",
+			description: "Betwee 51 - 100 units",
+			amount: null,
+			currency: null,
+			price: {
+				yearly: 100000,
+				monthly: 10000,
+				onboarding_fee: 20000,
+			},
+			features: [
+				"Property Management",
+				"Occupancy Management",
+				"Billing",
+				"Water Management",
+				"Tenant Management",
+				"Staff Management",
+			],
+			createdAt: "2025-09-02T16:45:05.000000Z",
+		},
+		{
+			id: 4,
+			name: "BP 200",
+			description: "Between 101 - 200 units",
+			amount: null,
+			currency: null,
+			price: {
+				yearly: 200000,
+				monthly: 20000,
+				onboarding_fee: 30000,
+			},
+			features: [
+				"Property Management",
+				"Occupancy Management",
+				"Billing",
+				"Water Management",
+				"Tenant Management",
+				"Staff Management",
+			],
+			createdAt: "2025-09-07T17:14:21.000000Z",
 		},
 	]
 
@@ -208,101 +296,19 @@ const index = (props) => {
 
 			{/* <!-- ***** Pricing Area Start ***** --> */}
 			<div className="sonar-services-area">
-				<div className="container">
-					<div className="row">
-						<div className="col-sm-12 text-center my-5">
-							<h2>Pricing</h2>
-						</div>
+				<div className="row">
+					<div className="col-sm-12 text-center my-5">
+						<h2>Pricing</h2>
 					</div>
-					<div className="row mb-5">
-						<div className="col-12 col-md-6 col-lg-4">
-							<div
-								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-								style={{ backgroundColor: "#232323", color: "white" }}
-								data-wow-delay="300ms">
-								<h4 className="mb-2 text-white">Less than 20 units</h4>
-								<hr className="w-75 mx-auto border-light" />
-								<span>Property Management</span>
-								<span>Occupancy Management</span>
-								<span>Billing</span>
-								<span>Water Management</span>
-								<span>Tenant Acquisition</span>
-								<hr className="w-75 mx-auto border-light" />
-								<h3 className="text-success">
-									<small className="fw-lighter me-1">KES</small>2,000
-									<small className="fw-lighter">/mo</small>
-								</h3>
-								<h6 className="mt-2 mb-4 text-success">
-									<small className="fw-lighter me-1">KES</small>
-									5,000 onboarding fee
-								</h6>
-								<Link
-									to="/admin/dashboard"
-									className="btn sonar-btn white-btn w-25 mx-auto">
-									<span className="me-1">start now</span>
-									<ForwardSVG />
-								</Link>
-							</div>
-						</div>
-						<div className="col-12 col-md-6 col-lg-4">
-							<div
-								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-								style={{ backgroundColor: "#232323", color: "white" }}
-								data-wow-delay="600ms">
-								<h4 className="mb-2 text-white">Between 21 - 50 units</h4>
-								<hr className="w-75 mx-auto border-light" />
-								<span>Property Management</span>
-								<span>Occupancy Management</span>
-								<span>Billing</span>
-								<span>Water Management</span>
-								<span>Tenant Acquisition</span>
-								<hr className="w-75 mx-auto border-light" />
-								<h3 className="text-success">
-									<small className="fw-lighter me-1">KES</small>5,000
-									<small className="fw-lighter">/mo</small>
-								</h3>
-								<h6 className="mt-2 mb-4 text-success">
-									<small className="fw-lighter me-1">KES</small>
-									10,000 onboarding fee
-								</h6>
-								<Link
-									to="/admin/dashboard"
-									className="btn sonar-btn white-btn w-25 mx-auto">
-									<span className="me-1">start now</span>
-									<ForwardSVG />
-								</Link>
-							</div>
-						</div>
-						<div className="col-12 col-md-6 col-lg-4">
-							<div
-								className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-								style={{ backgroundColor: "#232323", color: "white" }}
-								data-wow-delay="300ms">
-								<h4 className="mb-2 text-white">Between 51 - 100 units</h4>
-								<hr className="w-75 mx-auto border-light" />
-								<span>Property Management</span>
-								<span>Occupancy Management</span>
-								<span>Billing</span>
-								<span>Water Management</span>
-								<span>Tenant Acquisition</span>
-								<hr className="w-75 mx-auto border-light" />
-								<h3 className="text-success">
-									<small className="fw-lighter me-1">KES</small>10,000
-									<small className="fw-lighter">/mo</small>
-								</h3>
-								<h6 className="mt-2 mb-4 text-success">
-									<small className="fw-lighter me-1">KES</small>
-									20,000 onboarding fee
-								</h6>
-								<Link
-									to="/admin/dashboard"
-									className="btn sonar-btn white-btn w-25 mx-auto">
-									<span className="me-1">start now</span>
-									<ForwardSVG />
-								</Link>
-							</div>
-						</div>
-					</div>
+				</div>
+				<div className="d-flex justify-content-center flex-wrap mb-5">
+					{subscriptionPlans.map((subscriptionPlan, key) => (
+						<SubscriptionPlan
+							{...props}
+							key={key}
+							subscriptionPlan={subscriptionPlan}
+						/>
+					))}
 				</div>
 			</div>
 			{/* <!-- ***** Pricing Area End ***** --> */}
@@ -327,52 +333,72 @@ const index = (props) => {
 							<div className="text-center">
 								<h2 className="mb-2 text-white">Contact Us</h2>
 								<h4 className="text-white">Let’s talk</h4>
-								<div className="d-flex justify-content-center flex-wrap">
-									<div
-										className="border border-light rounded-circle p-2 m-4"
-										style={{ width: "80px", height: "80px" }}>
+								<div className="d-flex justify-content-center flex-column">
+									{/* Phone Start */}
+									<div className="d-flex justify-content-center align-items-center">
 										<a
 											href="tel:0700364446"
-											className="text-white my-auto fs-1"
+											className="d-flex align-items-center text-white fs-1"
 											data-toggle="tooltip"
 											data-placement="bottom"
 											title="Phone">
-											<PhoneSVG />
+											<div
+												className="border border-light rounded-circle p-2 m-4"
+												style={{ width: "80px", height: "80px" }}>
+												<PhoneSVG />
+											</div>
+											<h6>0700364446</h6>
 										</a>
 									</div>
-									<div
-										className="border border-light rounded-circle p-2 m-4"
-										style={{ width: "80px", height: "80px" }}>
+									{/* Phone End */}
+									{/* SMS Start */}
+									<div className="d-flex justify-content-center align-items-center">
 										<a
 											href="sms:0700364446"
-											className="text-white my-auto fs-1">
-											<SMSSVG />
+											className="d-flex align-items-center text-white fs-1">
+											<div
+												className="border border-light rounded-circle p-2 m-4"
+												style={{ width: "80px", height: "80px" }}>
+												<SMSSVG />
+											</div>
+											<h6>0700364446</h6>
 										</a>
 									</div>
-									<div
-										className="border border-light rounded-circle p-2 m-4"
-										style={{ width: "80px", height: "80px" }}>
+									{/* SMS End */}
+									{/* WhatsApp Start */}
+									<div className="d-flex justify-content-center align-items-center">
 										<a
 											href="https://wa.me/+2540700364446"
-											className="text-white my-auto fs-1"
+											className="d-flex align-items-center text-white fs-1"
 											data-toggle="tooltip"
 											data-placement="bottom"
 											title="WhatsApp">
-											<WhatsAppSVG />
+											<div
+												className="border border-light rounded-circle p-2 m-4"
+												style={{ width: "80px", height: "80px" }}>
+												<WhatsAppSVG />
+											</div>
+											<h6>0700364446</h6>
 										</a>
 									</div>
-									<div
-										className="border border-light rounded-circle p-2 m-4"
-										style={{ width: "80px", height: "80px" }}>
+									{/* WhatsApp End */}
+									{/* Email Start */}
+									<div className="d-flex justify-content-center align-items-center">
 										<a
 											href="mailto:al@black.co.ke?subject=Property Management System&body=Enquiry"
 											data-toggle="tooltip"
-											className="text-white my-auto fs-1"
+											className="d-flex align-items-center text-white fs-1"
 											data-placement="bottom"
 											title="Email">
-											<EmailSVG />
+											<div
+												className="border border-light rounded-circle p-2 m-4"
+												style={{ width: "80px", height: "80px" }}>
+												<EmailSVG />
+											</div>
+											<h6>al@black.co.ke</h6>
 										</a>
 									</div>
+									{/* Email End */}
 								</div>
 							</div>
 						</div>

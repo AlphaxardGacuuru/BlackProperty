@@ -304,7 +304,7 @@ const SubscriptionPlan = (props) => {
 				shape="circle"
 				color="#232323"
 				stepSize="sm"
-				startIndex={props.auth.activeSubscription?.id ? 3 : 0}
+				startIndex={props.auth.activeSubscription?.id ? 0 : 0}
 				onTabChange={handleTabChange}
 				onComplete={onComplete}
 				backButtonTemplate={backTemplate}
@@ -364,25 +364,21 @@ const SubscriptionPlan = (props) => {
 						</span>
 					}>
 					{/* <!-- ***** Pricing Area Start ***** --> */}
-					<div className="row mb-3">
+					<div className="d-flex justify-content-center flex-wrap mb-3">
 						{subscriptionPlans.length > 0 ? (
 							<React.Fragment>
 								{subscriptionPlans.map((subscriptionPlanItem, key) => (
 									<div
 										key={key}
-										className="col-sm-4 mb-2">
-										<div
-											className="single-services-area wow fadeInUp card text-center py-5 px-2"
-											style={{ backgroundColor: "#232323", color: "white" }}
-											data-wow-delay="300ms">
-											<h4 className="text-white">
-												{subscriptionPlanItem.name}
-											</h4>
-											<hr className="w-75 mx-auto border-light my-2" />
-											<h5 className="text-white">
-												{subscriptionPlanItem.description}
-											</h5>
-											{/* <hr className="w-75 mx-auto border-light" />
+										className="card shadow text-center p-5 m-2"
+										style={{ backgroundColor: "#232323", color: "white" }}
+										data-wow-delay="300ms">
+										<h4 className="text-white">{subscriptionPlanItem.name}</h4>
+										<hr className="w-75 mx-auto border-light my-2" />
+										<h5 className="text-white">
+											{subscriptionPlanItem.description}
+										</h5>
+										{/* <hr className="w-75 mx-auto border-light" />
 											{subscriptionPlanItem.features.map((feature, key) => (
 												<span
 													key={key}
@@ -393,40 +389,39 @@ const SubscriptionPlan = (props) => {
 													{feature}
 												</span>
 											))} */}
-											<hr className="w-75 mx-auto border-light my-2" />
-											<h5 className="mt-2 text-success">
-												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlanItem.price.onboarding_fee.toLocaleString()}{" "}
-												onboarding fee
-											</h5>
-											<h6 className="text-white my-1">then</h6>
-											<h5 className="text-success mb-1">
-												<small className="fw-lighter me-1">KES</small>
-												{subscriptionPlanItem.price.monthly.toLocaleString()}
-												<small className="fw-lighter">/mo</small>
-											</h5>
-											<h6 className="text-white mb-3">after the 1st month</h6>
-											{subscriptionPlanItem.id == subscriptionPlan.id ? (
-												<Btn
-													text="selected"
-													iconFront={<CheckSVG />}
-													className="btn-green mx-auto"
-													onClick={() =>
-														onSetSubscriptionPlan(subscriptionPlanItem, false)
-													}
-													loading={subscribeLoading}
-												/>
-											) : (
-												<Btn
-													text="select"
-													className="btn-white mx-auto"
-													onClick={() =>
-														onSetSubscriptionPlan(subscriptionPlanItem, true)
-													}
-													loading={subscribeLoading}
-												/>
-											)}
-										</div>
+										<hr className="w-75 mx-auto border-light my-2" />
+										<h5 className="mt-2 text-success">
+											<small className="fw-lighter me-1">KES</small>
+											{subscriptionPlanItem.price.onboarding_fee.toLocaleString()}{" "}
+											onboarding fee
+										</h5>
+										<h6 className="text-white my-1">then</h6>
+										<h5 className="text-success mb-1">
+											<small className="fw-lighter me-1">KES</small>
+											{subscriptionPlanItem.price.monthly.toLocaleString()}
+											<small className="fw-lighter">/mo</small>
+										</h5>
+										<h6 className="text-white mb-3">after the 1st month</h6>
+										{subscriptionPlanItem.id == subscriptionPlan.id ? (
+											<Btn
+												text="selected"
+												iconFront={<CheckSVG />}
+												className="btn-green mx-auto"
+												onClick={() =>
+													onSetSubscriptionPlan(subscriptionPlanItem, false)
+												}
+												loading={subscribeLoading}
+											/>
+										) : (
+											<Btn
+												text="select"
+												className="btn-white mx-auto"
+												onClick={() =>
+													onSetSubscriptionPlan(subscriptionPlanItem, true)
+												}
+												loading={subscribeLoading}
+											/>
+										)}
 									</div>
 								))}
 							</React.Fragment>

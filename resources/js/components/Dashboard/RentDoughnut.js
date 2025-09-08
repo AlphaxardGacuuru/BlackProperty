@@ -67,7 +67,7 @@ const RentDoughnut = (props) => {
 				<h6
 					style={{ color: "rgba(24, 135, 84, 1)" }}
 					className="fw-bold">
-					Total: <small className="">KES</small>
+					Total: <small className="mx-1">KES</small>
 					{props.dashboard.rent?.total}
 				</h6>
 			</div>

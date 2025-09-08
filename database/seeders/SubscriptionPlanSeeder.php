@@ -83,7 +83,31 @@ class SubscriptionPlanSeeder extends Seeder
 				]),
 				'max_properties' => 1,
 				'max_units' => 100,
-				'max_users' => 1,
+				'max_users' => 100,
+			]
+		);
+
+		SubscriptionPlan::updateOrCreate(
+			['name' => 'BP 200'],
+			[
+				'name' => 'BP 200',
+				'description' => 'Between 101 - 200 units',
+				'price' => [
+					"onboarding_fee" => 30000,
+					"monthly" => 20000,
+					"yearly" => 200000,
+				],
+				'features' => json_encode([
+					'Property Management',
+					'Occupancy Management',
+					'Billing',
+					'Water Management',
+					'Tenant Management',
+					'Staff Management',
+				]),
+				'max_properties' => 1,
+				'max_units' => 200,
+				'max_users' => 200,
 			]
 		);
 	}

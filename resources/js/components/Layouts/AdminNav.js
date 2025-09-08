@@ -19,6 +19,7 @@ import BellSVG from "@/svgs/BellSVG"
 import LogoSVG from "@/svgs/LogoSVG"
 import TenantSVG from "@/svgs/TenantSVG"
 import PersonSVG from "@/svgs/PersonSVG"
+import HomeSVG from "@/svgs/HomeSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -318,6 +319,18 @@ const AdminMenu = (props) => {
 															</div>
 														</Link>
 														{/* Name End */}
+														{/* Landing Page Start */}
+														<Link
+															to="/"
+															className="p-2 px-3 dropdown-item">
+															<h6 className="fs-6">
+																<span className="me-2">
+																	<HomeSVG />
+																</span>
+																Landing Page
+															</h6>
+														</Link>
+														{/* Landing Page End */}
 														{/* Admin Login Start */}
 														{location.pathname.match("/tenant/") && (
 															<Link
@@ -327,7 +340,7 @@ const AdminMenu = (props) => {
 																	<span className="me-2">
 																		<PersonSVG />
 																	</span>
-																	Go to Admin Portal
+																	Admin Portal
 																</h6>
 															</Link>
 														)}
@@ -341,7 +354,7 @@ const AdminMenu = (props) => {
 																	<span className="me-2">
 																		<TenantSVG />
 																	</span>
-																	Go to Tenant Portal
+																	Tenant Portal
 																</h6>
 															</Link>
 														)}
@@ -481,6 +494,18 @@ const AdminMenu = (props) => {
 								</div>
 							</div>
 						</Link>
+						{/* Landing Page Start */}
+						<Link
+							to="/"
+							className="p-2 text-start text-white">
+							<h6>
+								<span className="ms-3 me-4">
+									<HomeSVG />
+								</span>
+								Landing Page
+							</h6>
+						</Link>
+						{/* Landing Page End */}
 						{/* Admin Login Start */}
 						{location.pathname.match("/tenant/") && (
 							<Link
@@ -490,7 +515,7 @@ const AdminMenu = (props) => {
 									<span className="ms-3 me-4">
 										<PersonSVG />
 									</span>
-									Go to Admin Portal
+									Admin Portal
 								</h6>
 							</Link>
 						)}
@@ -504,7 +529,7 @@ const AdminMenu = (props) => {
 									<span className="ms-3 me-4">
 										<TenantSVG />
 									</span>
-									Go to Tenant Portal
+									Tenant Portal
 								</h6>
 							</Link>
 						)}

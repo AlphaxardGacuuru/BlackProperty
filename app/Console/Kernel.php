@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
 		$schedule
 			->job(new SendInvoiceRemindersJob)
 			// ->everyMinute()
-			->dailyAt("08:00")
+			->dailyAt("08:05")
 			// ->emailOutputTo("al@black.co.ke")
 			// ->emailOutputOnFailure("al@black.co.ke")
 			->onSuccess(function () {

@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min"
-
-import MyLink from "@/components/Core/MyLink"
 
 import BillingList from "@/components/Billings/BillingList"
 import SubscriptionStatementList from "@/components/Billings/SubscriptionStatementList"
@@ -9,10 +6,8 @@ import TenantList from "@/components/Tenants/TenantList"
 import HeroHeading from "@/components/Core/HeroHeading"
 import HeroIcon from "@/components/Core/HeroIcon"
 
-import PlusSVG from "@/svgs/PlusSVG"
 import BillingSVG from "@/svgs/BillingSVG"
-import ForwardSVG from "@/svgs/ForwardSVG"
-import CheckSVG from "@/svgs/CheckSVG"
+import SubscriptionPlan from "@/components/SubscriptionPlan/SubscriptionPlan"
 
 const billing = (props) => {
 	const [billings, setBillings] = useState([])
@@ -128,11 +123,7 @@ const billing = (props) => {
 				{/* Tabs End */}
 
 				{/* Statements Tab */}
-				{tab == "statement" && (
-					<SubscriptionStatementList
-						{...props}
-					/>
-				)}
+				{tab == "statement" && <SubscriptionStatementList {...props} />}
 				{/* Statements Tab End */}
 
 				{/* Settings Start */}
@@ -147,66 +138,13 @@ const billing = (props) => {
 										<h2>Subscription Plans</h2>
 									</div>
 								</div>
-								<div className="row mb-5">
+								<div className="d-flex justify-content-center flex-wrap mb-5">
 									{subscriptionPlans.map((subscriptionPlan, key) => (
-										<div
+										<SubscriptionPlan
+											{...props}
 											key={key}
-											className="col-12 col-md-6 col-lg-4">
-											<div
-												className="single-services-area wow fadeInUp card text-center py-5 px-2 mb-4"
-												style={{ backgroundColor: "#232323", color: "white" }}
-												data-wow-delay="300ms">
-												{props.auth.activeSubscription?.name ==
-													subscriptionPlan.name && (
-													<React.Fragment>
-														<h4 className="mb-2 text-primary">Current</h4>
-														<hr className="w-75 mx-auto border-light" />
-													</React.Fragment>
-												)}
-												<h4 className="mb-2 text-white">
-													{subscriptionPlan.name}
-												</h4>
-												<hr className="w-75 mx-auto border-light" />
-												<h5 className="text-white">
-													{subscriptionPlan.description}
-												</h5>
-												<hr className="w-75 mx-auto border-light" />
-												{subscriptionPlan.features.map((feature, key) => (
-													<span
-														key={key}
-														className="d-block">
-														<span className="text-success fs-4">
-															<CheckSVG />
-														</span>
-														{feature}
-													</span>
-												))}
-												<hr className="w-75 mx-auto border-light" />
-												<h3 className="text-success">
-													<small className="fw-lighter me-1">KES</small>
-													{subscriptionPlan.price.monthly.toLocaleString()}
-													<small className="fw-lighter">/mo</small>
-												</h3>
-												<h3 className="text-success">
-													<small className="fw-lighter me-1">KES</small>
-													{subscriptionPlan.price.yearly.toLocaleString()}
-													<small className="fw-lighter">/yr</small>
-												</h3>
-												<h6 className="mt-2 mb-4 text-success">
-													<small className="fw-lighter me-1">KES</small>
-													{subscriptionPlan.price.onboarding_fee.toLocaleString()}{" "}
-													onboarding fee
-												</h6>
-												{props.auth.activeSubscription?.name !=
-													subscriptionPlan.name && (
-													<Link
-														to="/admin/dashboard"
-														className="btn sonar-btn white-btn w-25 mx-auto">
-														<span className="me-1">change</span>
-													</Link>
-												)}
-											</div>
-										</div>
+											subscriptionPlan={subscriptionPlan}
+										/>
 									))}
 								</div>
 							</div>
