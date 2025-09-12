@@ -48,7 +48,7 @@ class UnitService extends Service
 		$subsciptionMaxUnits = auth("sanctum")
 			->user()
 			->activeSubscription()
-			?->max_units;
+			?->max_units ?? 0;
 
 		$userUnitCount = auth("sanctum")
 			->user()

@@ -44,6 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 	 * @var array<string, string>
 	 */
 	protected $casts = [
+		'settings' => 'object',
 		'email_verified_at' => 'datetime',
 		'updated_at' => 'datetime:d M Y',
 		'created_at' => 'datetime:d M Y',
@@ -57,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 	protected function avatar(): Attribute
 	{
 		return Attribute::make(
-			get: fn($value) => preg_match("/http/", $value) ? $value : "/storage/" . $value
+			get: fn($value) => preg_match("/https/", $value) ? $value : "/storage/" . $value
 		);
 	}
 

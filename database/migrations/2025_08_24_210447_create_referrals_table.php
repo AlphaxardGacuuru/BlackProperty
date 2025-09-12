@@ -23,6 +23,7 @@ return new class extends Migration
 				->constrained('users')
 				->onUpdate('cascade')
 				->onDelete('cascade');
+			$table->integer('commission')->default(50);
 			$table->timestamps();
 
 			$table->unique(['referer_id', 'referee_id']);
