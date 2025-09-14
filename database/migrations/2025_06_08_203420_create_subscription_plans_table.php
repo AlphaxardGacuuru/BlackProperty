@@ -22,7 +22,7 @@ return new class extends Migration
 			$table->integer('max_properties')->default(1);
 			$table->integer('max_units')->default(1);
 			$table->integer('max_users')->default(1);
-			$table->json('features')->nullable(); // Store features as a JSON object
+			$table->json('features')->nullable();
             $table->timestamps();
         });
     }

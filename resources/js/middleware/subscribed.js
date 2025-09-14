@@ -5,17 +5,26 @@ function subscribed(props) {
 	useEffect(() => {
 		const location = props.history.location
 
-		const unlisten = props.history.listen(() => {
+		const unlisten = props.history.listen((newLocation, action) => {
+			// Get the clicked/intended route
+			const clickedRoute = newLocation.pathname
+
+			// PREVENT redirect if the clicked route is a /super/ or /tenant/ route
+			if (clickedRoute.match(/super/) || clickedRoute.match(/tenant/)) {
+				return
+			}
+
 			// Redirect to subscription page if user is not subscribed
 			if (
 				props.auth.name != "Guest" &&
 				props.auth.activeSubscription == null &&
 				props.auth.emailVerifiedAt &&
-				location.pathname.match("/admin/")
+				clickedRoute.match("/admin/")
 			) {
 				window.location.href = "/#/admin/subscribe"
 			}
 		})
+
 		return () => {
 			unlisten()
 		}

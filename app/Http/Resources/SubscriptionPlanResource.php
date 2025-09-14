@@ -18,10 +18,12 @@ class SubscriptionPlanResource extends JsonResource
 			'id' => $this->id,
 			'name' => $this->name,
 			'description' => $this->description,
-			'amount' => $this->amount,
-			'currency' => $this->currency,
 			'price' => $this->price,
-			'features' => json_decode($this->features),
+			'billingCycle' => $this->billing_cycle,
+			'maxProperties' => $this->max_properties,
+			'maxUnits' => $this->max_units,
+			'maxUsers' => $this->max_users,
+			'features' => $this->features,
 			'createdAt' => $this->created_at,
 		];
     }

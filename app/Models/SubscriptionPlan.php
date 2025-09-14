@@ -10,7 +10,7 @@ class SubscriptionPlan extends Model
     use HasFactory;
 
 	protected $casts = [
-		'price' => 'array',
+		'price' => 'object',
 		'features' => 'array',
 	];
 }

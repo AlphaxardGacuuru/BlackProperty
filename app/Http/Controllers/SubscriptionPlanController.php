@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class SubscriptionPlanController extends Controller
 {
-	public function __construct(protected SubscriptionPlanService $service)
-	{
-		// Constructor injection of the SubscriptionPlanService
-	}
+	public function __construct(protected SubscriptionPlanService $service) {}
 
 	/**
 	 * Display a listing of the resource.
@@ -25,8 +22,8 @@ class SubscriptionPlanController extends Controller
 
 		return SubscriptionPlanResource::collection($subscriptionPlans)
 			->additional([
-				'status' => true,
-				'message' => $subscriptionPlans->count() . ' Subscription plans retrieved successfully.',
+				"status" => true,
+				"message" => $subscriptionPlans->count() . " Subscription plans retrieved successfully.",
 			]);
 	}
 
@@ -38,7 +35,26 @@ class SubscriptionPlanController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		//
+		$this->validate($request, [
+			"name" => "required|string|unique:subscription_plans,name",
+			"description" => "required|string|max:10000",
+			"price" => "required|array",
+			"price.monthly" => "required|numeric|min:0",
+			"price.yearly" => "required|numeric|min:0",
+			"billingCycle" => "required|string",
+			"maxProperties" => "required|numeric",
+			"maxUnits" => "required|numeric",
+			"maxUsers" => "required|numeric",
+			"features" => "nullable|string",
+		]);
+
+		[$saved, $message, $subscriptionPlan] = $this->service->store($request);
+
+		return response()->json([
+			"status" => $saved,
+			"message" => $message,
+			"data" => new SubscriptionPlanResource($subscriptionPlan),
+		], $saved ? 201 : 400);
 	}
 
 	/**
@@ -47,9 +63,15 @@ class SubscriptionPlanController extends Controller
 	 * @param  \App\Models\SubscriptionPlan  $subscriptionPlan
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(SubscriptionPlan $subscriptionPlan)
+	public function show($id)
 	{
-		//
+		$subscriptionPlan = $this->service->show($id);
+
+		return response()->json([
+			"status" => true,
+			"message" => "Subscription plan retrieved successfully.",
+			"data" => new SubscriptionPlanResource($subscriptionPlan),
+		]);
 	}
 
 	/**
@@ -59,9 +81,28 @@ class SubscriptionPlanController extends Controller
 	 * @param  \App\Models\SubscriptionPlan  $subscriptionPlan
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, SubscriptionPlan $subscriptionPlan)
+	public function update(Request $request, $id)
 	{
-		//
+		$this->validate($request, [
+			"name" => "nullable|string|unique:subscription_plans,name",
+			"description" => "nullable|string|max:10000",
+			"price" => "nullable|array",
+			"price.monthly" => "nullable|numeric|min:0",
+			"price.yearly" => "nullable|numeric|min:0",
+			"billingCycle" => "nullable|string",
+			"maxProperties" => "nullable|numeric",
+			"maxUnits" => "nullable|numeric",
+			"maxUsers" => "nullable|numeric",
+			"features" => "nullable|string",
+		]);
+
+		[$saved, $message, $subscriptionPlan] = $this->service->update($request, $id);
+
+		return response()->json([
+			"status" => $saved,
+			"message" => $message,
+			"data" => new SubscriptionPlanResource($subscriptionPlan),
+		], $saved ? 200 : 400);
 	}
 
 	/**
@@ -72,6 +113,11 @@ class SubscriptionPlanController extends Controller
 	 */
 	public function destroy(SubscriptionPlan $subscriptionPlan)
 	{
-		//
+		[$deleted, $message] = $this->service->destroy($subscriptionPlan);
+
+		return response()->json([
+			"status" => $deleted,
+			"message" => $message,
+		], $deleted ? 200 : 400);
 	}
 }

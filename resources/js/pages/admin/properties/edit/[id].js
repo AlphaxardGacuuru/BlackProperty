@@ -208,7 +208,7 @@ const edit = (props) => {
 					{/* Service Charges Start */}
 					<div className="d-flex justify-content-start flex-wrap">
 						{/* Service Charge Start */}
-						<div className="flex-grow-1 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Service Charge</label>
 							<input
 								type="text"
@@ -226,7 +226,7 @@ const edit = (props) => {
 						</div>
 						{/* Service Charge End */}
 						{/* Electricity Start */}
-						<div className="flex-grow-1 mx-2 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Electricity</label>
 							<input
 								type="text"
@@ -244,7 +244,7 @@ const edit = (props) => {
 						</div>
 						{/* Electricity End */}
 						{/* Garbage Start */}
-						<div className="flex-grow-1 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Garbage</label>
 							<input
 								type="text"
@@ -264,7 +264,7 @@ const edit = (props) => {
 					<div className="d-flex justify-content-start flex-wrap">
 						{/* Garbage End */}
 						{/* Security Start */}
-						<div className="flex-grow-1 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Security</label>
 							<input
 								type="text"
@@ -282,7 +282,7 @@ const edit = (props) => {
 						</div>
 						{/* Security End */}
 						{/* Internet Start */}
-						<div className="flex-grow-1 mx-2 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Internet</label>
 							<input
 								type="text"
@@ -300,7 +300,7 @@ const edit = (props) => {
 						</div>
 						{/* Internet End */}
 						{/* Cleaning Start */}
-						<div className="flex-grow-1 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Cleaning</label>
 							<input
 								type="text"
@@ -320,7 +320,7 @@ const edit = (props) => {
 					</div>
 					<div className="d-flex justify-content-start flex-wrap">
 						{/* Parking Start */}
-						<div className="flex-grow-1 mb-2">
+						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Parking</label>
 							<input
 								type="text"
@@ -337,7 +337,7 @@ const edit = (props) => {
 							/>
 						</div>
 						{/* Parking End */}
-						<div className="flex-grow-1 mx-2 mb-2 invisible">
+						<div className="flex-grow-1 me-2 mb-2 invisible">
 							<label htmlFor="">Parking</label>
 							<input
 								type="text"
@@ -352,7 +352,7 @@ const edit = (props) => {
 								}}
 							/>
 						</div>
-						<div className="flex-grow-1 mb-2 invisible">
+						<div className="flex-grow-1 me-2 mb-2 invisible">
 							<label htmlFor="">Parking</label>
 							<input
 								type="text"

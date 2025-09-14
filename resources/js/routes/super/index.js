@@ -2,6 +2,7 @@ import propertyRoutes from "./propertyRoutes"
 import unitRoutes from "./unitRoutes"
 import adminTenantRoutes from "./tenantRoutes"
 import financialRoutes from "./financialRoutes"
+import subscriptionPlanRoutes from "./subscriptionPlanRoutes"
 
 // Super dashboard and general admin routes
 const adminRoutes = [
@@ -64,7 +65,6 @@ const adminRoutes = [
 		path: "/super/referrals",
 		component: "SuperReferral",
 	},
-	// Support
 	{
 		path: "/super/support",
 		component: "AdminSupport",
@@ -78,6 +78,7 @@ const superRoutes = [
 	...unitRoutes,
 	...adminTenantRoutes,
 	...financialRoutes,
+	...subscriptionPlanRoutes,
 ]
 
 export default superRoutes
