@@ -16,6 +16,10 @@ import SuperSubscriptionPlans from "@/pages/super/subscription-plans/index"
 import SuperSubscriptionPlanCreate from "@/pages/super/subscription-plans/create"
 import SuperSubscriptionPlanEdit from "@/pages/super/subscription-plans/edit/[id]"
 
+import SuperUserSubscriptionPlans from "@/pages/super/user-subscription-plans/index"
+import SuperUserSubscriptionPlanCreate from "@/pages/super/user-subscription-plans/create"
+import SuperUserSubscriptionPlanEdit from "@/pages/super/user-subscription-plans/edit/[id]"
+
 import AdminDashboard from "@/pages/admin/index"
 import TenantDashboard from "@/pages/tenant/index"
 
@@ -157,10 +161,14 @@ const componentMap = {
 	AdminRoleEdit,
 
 	SuperReferral,
-	
+
 	SuperSubscriptionPlans,
 	SuperSubscriptionPlanCreate,
 	SuperSubscriptionPlanEdit,
+
+	SuperUserSubscriptionPlans,
+	SuperUserSubscriptionPlanCreate,
+	SuperUserSubscriptionPlanEdit,
 
 	// Support
 	AdminSupport,

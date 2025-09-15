@@ -25,6 +25,7 @@ return new class extends Migration
 				->onDelete('cascade');
 			$table->timestamp('start_date');
 			$table->timestamp('end_date')->nullable();
+			$table->string('type')->nullable()->default('paid');
 			$table->string('status')->default('pending');
 			$table->integer('amount_paid')->nullable();
 			$table->string('billing_cycle')->default('monthly');

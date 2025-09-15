@@ -3,6 +3,7 @@ import unitRoutes from "./unitRoutes"
 import adminTenantRoutes from "./tenantRoutes"
 import financialRoutes from "./financialRoutes"
 import subscriptionPlanRoutes from "./subscriptionPlanRoutes"
+import userSubscriptionPlanRoutes from "./userSubscriptionPlanRoutes"
 
 // Super dashboard and general admin routes
 const adminRoutes = [
@@ -79,6 +80,7 @@ const superRoutes = [
 	...adminTenantRoutes,
 	...financialRoutes,
 	...subscriptionPlanRoutes,
+	...userSubscriptionPlanRoutes,
 ]
 
 export default superRoutes

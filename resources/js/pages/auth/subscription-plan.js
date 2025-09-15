@@ -118,6 +118,7 @@ const SubscriptionPlan = (props) => {
 		setSubscribeLoading(true)
 
 		Axios.post("/api/user-subscription-plans", {
+			userId: props.auth.id,
 			subscriptionPlanId: subscriptionPlanItem.id,
 			duration: 1,
 			save: save,

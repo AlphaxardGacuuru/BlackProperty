@@ -48,9 +48,11 @@ class UserSubscriptionPlanController extends Controller
 	public function store(Request $request)
 	{
 		$this->validate($request, [
+			'userId' => 'required|exists:users,id',
 			'subscriptionPlanId' => 'required|exists:subscription_plans,id',
 			'amountPaid' => 'nullable|numeric|min:0',
 			'duration' => 'required|integer|min:1',
+			'type' => 'nullable|string',
 		]);
 
 		[$saved, $message, $userSubscriptionPlan] = $this->service->store($request);
@@ -70,7 +72,13 @@ class UserSubscriptionPlanController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+		$userSubscriptionPlan = $this->service->show($id);
+
+		return response()->json([
+			"status" => true,
+			"message" => "User Subscription plan retrieved successfully.",
+			"data" => new UserSubscriptionPlanResource($userSubscriptionPlan),
+		]);
 	}
 
 	/**
@@ -93,7 +101,22 @@ class UserSubscriptionPlanController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$this->validate($request, [
+			'userId' => 'nullable|exists:users,id',
+			'subscriptionPlanId' => 'nullable|exists:subscription_plans,id',
+			'startDate' => 'nullable|date',
+			'endDate' => 'nullable|date|after:startDate',
+			'type' => 'nullable|string',
+			'status' => 'nullable|string',
+		]);
+
+		[$saved, $message, $userSubscriptionPlan] = $this->service->update($request, $id);
+
+		return response()->json([
+			"status" => $saved,
+			"message" => $message,
+			"data" => new UserSubscriptionPlanResource($userSubscriptionPlan),
+		], $saved ? 200 : 400);
 	}
 
 	/**
@@ -104,6 +127,11 @@ class UserSubscriptionPlanController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		[$deleted, $message, $userSubscriptionPlan] = $this->service->destroy($id);
+
+		return response()->json([
+			"status" => $deleted,
+			"message" => $message,
+		], $deleted ? 200 : 400);
 	}
 }

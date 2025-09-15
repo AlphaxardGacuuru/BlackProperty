@@ -23,6 +23,13 @@ class UserSubscriptionPlanService extends Service
 		return $userSubscriptionPlans;
 	}
 
+	public function show($id)
+	{
+		$userSubscriptionPlan = UserSubscriptionPlan::findOrFail($id);
+
+		return $userSubscriptionPlan;
+	}
+
 	public function store($request)
 	{
 		// Check if the user is already subscribed to a plan
@@ -37,29 +44,58 @@ class UserSubscriptionPlanService extends Service
 			]);
 		}
 
-		if ($request->save) {
-			$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
-				->where("status", "pending")
-				->first();
+		$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
+			->where("status", "pending")
+			->delete();
 
-			$userSubscriptionPlan = $userSubscriptionPlan ?? new UserSubscriptionPlan;
-			$userSubscriptionPlan->user_id = auth("sanctum")->id();
-			$userSubscriptionPlan->subscription_plan_id = $request->subscriptionPlanId;
-			$userSubscriptionPlan->amount_paid = $request->amountPaid;
-			$userSubscriptionPlan->start_date = now();
-			$userSubscriptionPlan->end_date = now()->addMonths($request->duration);
-			$userSubscriptionPlan->status = "pending";
-			$saved = $userSubscriptionPlan->save();
-		} else {
-			$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->user()->id)
-				->where("subscription_plan_id", $request->subscriptionPlanId)
-				->where("status", "pending")
-				->first();
-
-			$saved = $userSubscriptionPlan->delete();
-		}
+		$userSubscriptionPlan = new UserSubscriptionPlan;
+		$userSubscriptionPlan->user_id = $request->userId;
+		$userSubscriptionPlan->subscription_plan_id = $request->subscriptionPlanId;
+		$userSubscriptionPlan->amount_paid = $request->amountPaid;
+		$userSubscriptionPlan->start_date = now();
+		$userSubscriptionPlan->end_date = now()->addMonths($request->duration);
+		$userSubscriptionPlan->status = $request->input("status", "pending");
+		$userSubscriptionPlan->type = $request->input("type");
+		$saved = $userSubscriptionPlan->save();
 
 		return [$saved, "Subscription Plan Updated Successfully.", $userSubscriptionPlan];
+	}
+
+	public function update($request, $id)
+	{
+		$userSubscriptionPlan = UserSubscriptionPlan::findOrFail($id);
+		$userSubscriptionPlan->subscription_plan_id = $request->input("subscriptionPlanId", $userSubscriptionPlan->subscription_plan_id);
+		$userSubscriptionPlan->amount_paid = $request->input("amountPaid", $userSubscriptionPlan->amount_paid);
+
+		if ($request->filled("startDate")) {
+			$userSubscriptionPlan->start_date = $request->input("startDate");
+		}
+
+		if ($request->filled("endDate")) {
+			$userSubscriptionPlan->end_date = $request->input("endDate");
+		}
+
+		$userSubscriptionPlan->status = $request->input("status", $userSubscriptionPlan->status);
+		$userSubscriptionPlan->type = $request->input("type", $userSubscriptionPlan->type);
+		$saved = $userSubscriptionPlan->save();
+
+		return [
+			$saved,
+			$saved ? "User Subscription Plan Updated Successfully." : "Failed to Update User Subscription Plan.",
+			$userSubscriptionPlan,
+		];
+	}
+
+	public function destroy($id)
+	{
+		$userSubscriptionPlan = UserSubscriptionPlan::findOrFail($id);
+		$deleted = $userSubscriptionPlan->delete();
+
+		return [
+			$deleted,
+			$deleted ? "User Subscription Plan Deleted Successfully." : "Failed to Delete User Subscription Plan.",
+			$userSubscriptionPlan,
+		];
 	}
 
 	/**

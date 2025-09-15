@@ -11,6 +11,11 @@ class UserSubscriptionPlan extends Model
 {
     use HasFactory;
 
+	protected $casts = [
+		'start_date' => 'datetime',
+		'end_date' => 'datetime',
+	];
+
 	protected function updatedAt(): Attribute
 	{
 		return Attribute::make(

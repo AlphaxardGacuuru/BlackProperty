@@ -21,7 +21,7 @@ const index = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "SubscriptionPlans", path: ["subscription-plans"] })
+		props.setPage({ name: "Subscription Plans", path: ["subscription-plans"] })
 	}, [])
 
 	useEffect(() => {

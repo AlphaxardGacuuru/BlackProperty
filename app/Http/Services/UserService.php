@@ -14,11 +14,23 @@ class UserService extends Service
     /*
      * Get All Users
      */
-    public function index()
+    public function index($request)
     {
-        $getUsers = User::orderby("id", "DESC")->paginate();
+		if ($request->filled("idAndName")) {
+			$userQuery = User::select("id", "name");
 
-        return UserResource::collection($getUsers);
+			$users = $userQuery
+				->orderBy("id", "DESC")
+				->get();
+
+			return response([
+				"data" => $users,
+			], 200);
+		}
+
+        $users = User::orderby("id", "DESC")->paginate();
+
+        return UserResource::collection($users);
     }
 
     /**

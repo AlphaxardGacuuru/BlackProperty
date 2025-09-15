@@ -13,7 +13,6 @@ const subscriptionPlanRoutes = generateCrudRoutes(
 // [
 //   { path: "/super/subscription-plans", component: "SuperSubscriptionPlan" },
 //   { path: "/super/subscription-plans/create", component: "SuperSubscriptionPlanCreate" },
-//   { path: "/super/subscription-plans/:id/show", component: "SuperSubscriptionPlanShow" },
 //   { path: "/super/subscription-plans/:id/edit", component: "SuperSubscriptionPlanEdit" }
 // ]
 
