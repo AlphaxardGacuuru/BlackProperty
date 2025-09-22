@@ -2,6 +2,7 @@ import propertyRoutes from "@/routes/admin/propertyRoutes"
 import unitRoutes from "@/routes/admin/unitRoutes"
 import tenantRoutes from "@/routes/admin/tenantRoutes"
 import financialRoutes from "@/routes/admin/financialRoutes"
+import userAdmissionRoutes from "./userAdmissionRoutes"
 
 // Admin dashboard and general admin routes
 const adminRoutes = [
@@ -72,7 +73,8 @@ adminRoutes.push(
 	...propertyRoutes,
 	...unitRoutes,
 	...tenantRoutes,
-	...financialRoutes
+	...financialRoutes,
+	...userAdmissionRoutes
 )
 
 export default adminRoutes

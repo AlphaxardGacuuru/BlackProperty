@@ -7,6 +7,7 @@ use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\IPRSRecordController;
 use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MPESATransactionController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\StatementController;
 use App\Http\Controllers\SubscriptionPlanController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserAdmissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSubscriptionPlanController;
 use App\Http\Controllers\WaterReadingController;
@@ -63,10 +65,12 @@ Route::middleware('auth:sanctum')->group(function () {
 		"users" => UserController::class,
 		"staff" => StaffController::class,
 		"roles" => RoleController::class,
+		"user-admissions" => UserAdmissionController::class,
 		"notifications" => NotificationController::class,
 		"subscription-plans" => SubscriptionPlanController::class,
 		"user-subscription-plans" => UserSubscriptionPlanController::class,
-		"referrals" => ReferralController::class
+		"referrals" => ReferralController::class,
+		"iprs-records" => IPRSRecordController::class,
 	]);
 
 	/*

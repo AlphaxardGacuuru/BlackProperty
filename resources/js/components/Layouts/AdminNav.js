@@ -274,9 +274,10 @@ const AdminMenu = (props) => {
 														aria-expanded="false">
 														<Img
 															src={props.auth?.avatar}
-															className="rounded-circle bg-light p-1"
-															width="40px"
-															height="40px"
+															// className="rounded-circle bg-light p-1"
+															className={`avatar ${
+																props.auth?.activeSubscription && "premium-user"
+															}`}
 															alt="Avatar"
 														/>
 													</a>
@@ -289,9 +290,10 @@ const AdminMenu = (props) => {
 														}}>
 														<Img
 															src={props.auth?.avatar}
-															className="rounded-circle bg-light p-1 anti-hidden"
-															width="30px"
-															height="30px"
+															// className="rounded-circle bg-light p-1 anti-hidden"
+															className={`avatar ${
+																props.auth?.activeSubscription && "premium-user"
+															}`}
 															alt="Avatar"
 														/>
 													</span>
@@ -301,22 +303,9 @@ const AdminMenu = (props) => {
 														<Link
 															to={`/admin/staff/edit/${props.auth.id}`}
 															className="p-1 px-2 pt-3 dropdown-item">
-															<div className="d-flex">
-																<div className="align-items-center">
-																	<Img
-																		src={props.auth?.avatar}
-																		className="rounded-circle"
-																		width="25px"
-																		height="25px"
-																		alt="Avatar"
-																	/>
-																</div>
-																<div className="ps-2">
-																	<h6 className="text-wrap fs-6">
-																		{props.auth?.name}
-																	</h6>
-																</div>
-															</div>
+															<h6 className="text-wrap fs-6">
+																{props.auth?.name}
+															</h6>
 														</Link>
 														{/* Name End */}
 														{/* Landing Page Start */}
@@ -332,7 +321,8 @@ const AdminMenu = (props) => {
 														</Link>
 														{/* Landing Page End */}
 														{/* Admin Login Start */}
-														{location.pathname.match("/tenant/") && (
+														{location.pathname.match("/tenant/") ||
+														location.pathname.match("/super/") ? (
 															<Link
 																to="/admin/dashboard"
 																className="p-2 px-3 dropdown-item">
@@ -343,10 +333,11 @@ const AdminMenu = (props) => {
 																	Admin Portal
 																</h6>
 															</Link>
-														)}
+														) : null}
 														{/* Admin Login End */}
 														{/* Tenant Login Start */}
-														{location.pathname.match("/admin/") && (
+														{location.pathname.match("/admin/") ||
+														location.pathname.match("/super/") ? (
 															<Link
 																to="/tenant/dashboard"
 																className="p-2 px-3 dropdown-item">
@@ -357,7 +348,7 @@ const AdminMenu = (props) => {
 																	Tenant Portal
 																</h6>
 															</Link>
-														)}
+														) : null}
 														{/* Tenant Login End */}
 														{/* Downloand Start */}
 														<Link
@@ -479,11 +470,12 @@ const AdminMenu = (props) => {
 							style={{ padding: "0px", margin: "0px" }}
 							className="border-bottom text-start"
 							onClick={() => setBottomMenu("")}>
-							<div className="d-flex">
+							<div className="d-flex align-items-center">
 								<div className="ms-3 me-3">
 									<Img
 										src={props.auth?.avatar}
-										className="rounded-circle"
+										// className="rounded-circle"
+										className="avatar premium-user"
 										width="25px"
 										height="25px"
 										alt="Avatar"
@@ -507,7 +499,8 @@ const AdminMenu = (props) => {
 						</Link>
 						{/* Landing Page End */}
 						{/* Admin Login Start */}
-						{location.pathname.match("/tenant/") && (
+						{location.pathname.match("/tenant/") ||
+						location.pathname.match("/super/") ? (
 							<Link
 								to="/admin/dashboard"
 								className="p-2 text-start text-white">
@@ -518,10 +511,11 @@ const AdminMenu = (props) => {
 									Admin Portal
 								</h6>
 							</Link>
-						)}
+						) : null}
 						{/* Admin Login End */}
 						{/* Tenant Login Start */}
-						{location.pathname.match("/admin/") && (
+						{location.pathname.match("/admin/") ||
+						location.pathname.match("/super/") ? (
 							<Link
 								to="/tenant/dashboard"
 								className="p-2 text-start text-white">
@@ -532,7 +526,7 @@ const AdminMenu = (props) => {
 									Tenant Portal
 								</h6>
 							</Link>
-						)}
+						) : null}
 						{/* Tenant Login End */}
 						<Link
 							to="/download"

@@ -3317,3 +3317,28 @@ div.hidden-scroll span {
 		width: 60%;
 	}
 }
+
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 3px solid #ddd;
+}
+
+.premium-user {
+	border: 3px solid transparent;
+	background: linear-gradient(45deg, #ffd700, #ffaa00, #ffd700) border-box;
+	box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+	animation: premium-glow 2s infinite alternate;
+}
+
+@keyframes premium-glow {
+	from {
+		box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+	}
+
+	to {
+		box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+	}
+}

@@ -26,6 +26,7 @@ import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
 import ReferralSVG from "@/svgs/ReferralSVG"
 import SubscriptionPlanSVG from "@/svgs/SubscriptionPlanSVG"
+import UserAdmissionSVG from "@/svgs/UserAdmissionSVG"
 
 const SuperNavLinks = (props) => {
 	const location = useLocation()
@@ -160,9 +161,7 @@ const SuperNavLinks = (props) => {
 						<li className="nav-item hidden">
 							<Link
 								to={navLink.link}
-								className={`nav-link accordion-button my-1 ${active(
-									navLink.link
-								)}`}
+								className={`nav-link accordion-button my-1 `}
 								data-bs-toggle="collapse"
 								data-bs-target={`#collapse${key}`}
 								aria-expanded="false"

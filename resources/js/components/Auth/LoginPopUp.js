@@ -339,12 +339,12 @@ const LoginPopUp = (props) => {
 								{/* Password End */}
 
 								<div className="d-flex justify-content-between">
-									<div className="d-flex align-items-center">
+									<div className="d-flex align-items-center flex-wrap">
 										{/* Register Start */}
 										{!tenantLogin && (
 											<Btn
 												type="submit"
-												className="border-light"
+												className="border-light me-2 mb-2"
 												icon={<PersonSVG />}
 												text="Register"
 												onClick={() => setRegister(true)}
@@ -356,7 +356,7 @@ const LoginPopUp = (props) => {
 										{/* Tenant Login Start */}
 										<Btn
 											type="button"
-											className="border-light ms-2"
+											className="border-light mb-2"
 											icon={<TenantSVG />}
 											text={`${tenantLogin ? "Admin" : "Tenant"} Login`}
 											onClick={handleTenantLogin}
@@ -364,17 +364,16 @@ const LoginPopUp = (props) => {
 										{/* Tenant Login End */}
 									</div>
 
-									<div className="d-flex align-items-center">
+									<div className="d-flex justify-content-end align-items-center flex-wrap">
 										<Link
 											to="/forgot-password"
-											className="mysonar-btn text-white me-2"
-										>
+											className="btn mysonar-btn text-white me-2 mb-2">
 											Forgot Password?
 										</Link>
 										{/* Login Start */}
 										<Btn
 											type="submit"
-											className="border-light"
+											className="border-light mb-2"
 											icon={<LogInSVG />}
 											text="Login"
 											loading={loginLoading}

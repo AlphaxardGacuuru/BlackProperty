@@ -24,6 +24,7 @@ import ChatSVG from "@/svgs/ChatSVG"
 import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
+import UserAdmissionSVG from "@/svgs/UserAdmissionSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -88,14 +89,20 @@ const AdminNavLinks = (props) => {
 			name: "Deductions",
 		},
 		{
-			link: "/admin/emails",
+			collapse: "Communication",
 			icon: <EmailSVG />,
-			name: "Emails",
-		},
-		{
-			link: "/admin/smses",
-			icon: <ChatSVG />,
-			name: "SMSes",
+			links: [
+				{
+					link: "/admin/emails",
+					icon: <EmailSVG />,
+					name: "Emails",
+				},
+				{
+					link: "/admin/smses",
+					icon: <ChatSVG />,
+					name: "SMSes",
+				},
+			],
 		},
 		{
 			link: "/admin/staff",
@@ -106,6 +113,11 @@ const AdminNavLinks = (props) => {
 			link: "/admin/roles",
 			icon: <PersonGearSVG />,
 			name: "Roles",
+		},
+		{
+			link: "/admin/user-admissions",
+			icon: <UserAdmissionSVG />,
+			name: "User Admissions",
 		},
 		{
 			link: "/admin/billing",
@@ -120,36 +132,117 @@ const AdminNavLinks = (props) => {
 	]
 
 	return (
-		<React.Fragment>
-			{navLinks.map((navLink, key) => (
-				<li
-					key={key}
-					className="nav-item hidden">
-					<Link
-						to={navLink.link}
-						className={`nav-link ${active(navLink.link)}`}>
-						<div className="nav-link-icon">{navLink.icon}</div>
-						<div className="nav-link-text">{navLink.name}</div>
-					</Link>
-				</li>
-			))}
-
-			{/* Mobile Start */}
-			{navLinks.map((navLink, key) => (
-				<li
-					key={key}
-					className="nav-item anti-hidden"
-					onClick={() => props.setAdminMenu("")}>
-					<Link
-						to={navLink.link}
-						className={`nav-link ${active(navLink.link)}`}>
-						<div className="nav-link-icon">{navLink.icon}</div>
-						<div className="nav-link-text">{navLink.name}</div>
-					</Link>
-				</li>
-			))}
-			{/* Mobile End */}
-		</React.Fragment>
+			<React.Fragment>
+				{navLinks.map((navLink, key) => (
+					<React.Fragment key={key}>
+						{!navLink.collapse ? (
+							<li
+								key={key}
+								className="nav-item hidden">
+								<Link
+									to={navLink.link}
+									className={`nav-link ${active(navLink.link)}`}>
+									<div className="nav-link-icon">{navLink.icon}</div>
+									<div className="nav-link-text">{navLink.name}</div>
+								</Link>
+							</li>
+						) : (
+							<li className="nav-item hidden">
+								<Link
+									to={navLink.link}
+									className={`nav-link accordion-button my-1 `}
+									data-bs-toggle="collapse"
+									data-bs-target={`#collapse${key}`}
+									aria-expanded="false"
+									aria-controls={`collapse${key}`}>
+									<div className="nav-link-icon">{navLink.icon}</div>
+									<div className="nav-link-text">{navLink.collapse}</div>
+								</Link>
+	
+								{/* Collapse */}
+								<div
+									className={"collapse"}
+									id={`collapse${key}`}>
+									<ol className="ms-4">
+										{/* Link Start */}
+										{navLink.links.map((link, index) => (
+											<li
+												className="nav-item"
+												key={index}>
+												<Link
+													to={link.link}
+													className={`nav-link ${activeStrict(link.link)}`}>
+													<div className="nav-link-icon">{link.icon}</div>
+													<div className="nav-link-text">{link.name}</div>
+												</Link>
+											</li>
+										))}
+										{/* Link End */}
+									</ol>
+								</div>
+								{/* Collapse End */}
+							</li>
+						)}
+					</React.Fragment>
+				))}
+	
+				{/* Mobile Start */}
+				{navLinks.map((navLink, key) => (
+					<React.Fragment key={key}>
+						{!navLink.collapse ? (
+							<li
+								key={key}
+								className="nav-item anti-hidden">
+								<Link
+									to={navLink.link}
+									className={`nav-link ${active(navLink.link)}`}>
+									<div className="nav-link-icon">{navLink.icon}</div>
+									<div className="nav-link-text">{navLink.name}</div>
+								</Link>
+							</li>
+						) : (
+							<li className="nav-item anti-hidden">
+								<Link
+									to={navLink.link}
+									className={`nav-link accordion-button my-1 ${active(
+										navLink.link
+									)}`}
+									data-bs-toggle="collapse"
+									data-bs-target={`#collapse${key}`}
+									aria-expanded="false"
+									aria-controls={`collapse${key}`}>
+									<div className="nav-link-icon">{navLink.icon}</div>
+									<div className="nav-link-text">{navLink.collapse}</div>
+								</Link>
+	
+								{/* Collapse */}
+								<div
+									className={"collapse"}
+									id={`collapse${key}`}>
+									<ol className="ms-4">
+										{/* Link Start */}
+										{navLink.links.map((link, index) => (
+											<li
+												className="nav-item"
+												key={index}>
+												<Link
+													to={link.link}
+													className={`nav-link ${activeStrict(link.link)}`}>
+													<div className="nav-link-icon">{link.icon}</div>
+													<div className="nav-link-text">{link.name}</div>
+												</Link>
+											</li>
+										))}
+										{/* Link End */}
+									</ol>
+								</div>
+								{/* Collapse End */}
+							</li>
+						)}
+					</React.Fragment>
+				))}
+				{/* Mobile End */}
+			</React.Fragment>
 	)
 }
 

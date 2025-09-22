@@ -80,6 +80,11 @@ import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
+import AdminUserAdmissions from "@/pages/admin/user-admissions"
+import AdminUserAdmissionCreate from "@/pages/admin/user-admissions/create"
+import AdminUserAdmissionShow from "@/pages/admin/user-admissions/[id]"
+import AdminUserAdmissionEdit from "@/pages/admin/user-admissions/edit/[id]"
+
 import AdminSupport from "@/pages/admin/support"
 
 // Component mapping object
@@ -96,6 +101,16 @@ const componentMap = {
 	VerifyEmail,
 	ForgotPassword,
 	ResetPassword,
+
+	SuperReferral,
+
+	SuperSubscriptionPlans,
+	SuperSubscriptionPlanCreate,
+	SuperSubscriptionPlanEdit,
+
+	SuperUserSubscriptionPlans,
+	SuperUserSubscriptionPlanCreate,
+	SuperUserSubscriptionPlanEdit,
 
 	// Admin components
 	AdminSubscriptionPlan,
@@ -160,17 +175,11 @@ const componentMap = {
 	AdminRoleCreate,
 	AdminRoleEdit,
 
-	SuperReferral,
+	AdminUserAdmissions,
+	AdminUserAdmissionCreate,
+	AdminUserAdmissionShow,
+	AdminUserAdmissionEdit,
 
-	SuperSubscriptionPlans,
-	SuperSubscriptionPlanCreate,
-	SuperSubscriptionPlanEdit,
-
-	SuperUserSubscriptionPlans,
-	SuperUserSubscriptionPlanCreate,
-	SuperUserSubscriptionPlanEdit,
-
-	// Support
 	AdminSupport,
 }
 
