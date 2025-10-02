@@ -24,7 +24,7 @@ import ChatSVG from "@/svgs/ChatSVG"
 import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
-import UserAdmissionSVG from "@/svgs/UserAdmissionSVG"
+import VisitorAdmissionSVG from "@/svgs/VisitorAdmissionSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -115,9 +115,9 @@ const AdminNavLinks = (props) => {
 			name: "Roles",
 		},
 		{
-			link: "/admin/user-admissions",
-			icon: <UserAdmissionSVG />,
-			name: "User Admissions",
+			link: "/admin/visitor-admissions",
+			icon: <VisitorAdmissionSVG />,
+			name: "Visitor Admissions",
 		},
 		{
 			link: "/admin/billing",

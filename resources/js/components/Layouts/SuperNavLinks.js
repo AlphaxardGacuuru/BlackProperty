@@ -26,7 +26,7 @@ import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
 import ReferralSVG from "@/svgs/ReferralSVG"
 import SubscriptionPlanSVG from "@/svgs/SubscriptionPlanSVG"
-import UserAdmissionSVG from "@/svgs/UserAdmissionSVG"
+import UserAdmissionSVG from "@/svgs/VisitorAdmissionSVG"
 
 const SuperNavLinks = (props) => {
 	const location = useLocation()

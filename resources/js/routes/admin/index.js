@@ -2,7 +2,7 @@ import propertyRoutes from "@/routes/admin/propertyRoutes"
 import unitRoutes from "@/routes/admin/unitRoutes"
 import tenantRoutes from "@/routes/admin/tenantRoutes"
 import financialRoutes from "@/routes/admin/financialRoutes"
-import userAdmissionRoutes from "./userAdmissionRoutes"
+import userAdmissionRoutes from "./visitorAdmissionRoutes"
 
 // Admin dashboard and general admin routes
 const adminRoutes = [

@@ -171,7 +171,7 @@ const create = (props) => {
 					</label>
 
 					{/* Service Charges Start */}
-					<div className="d-flex justify-content-start flex-wrap">
+					<div className="d-flex justify-content-start">
 						{/* Service Charge Start */}
 						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Service Charge</label>
@@ -226,7 +226,7 @@ const create = (props) => {
 							/>
 						</div>
 					</div>
-					<div className="d-flex justify-content-start flex-wrap">
+					<div className="d-flex justify-content-start">
 						{/* Garbage End */}
 						{/* Security Start */}
 						<div className="flex-grow-1 me-2 mb-2">
@@ -283,7 +283,7 @@ const create = (props) => {
 						</div>
 						{/* Cleaning End */}
 					</div>
-					<div className="d-flex justify-content-start flex-wrap">
+					<div className="d-flex justify-content-start">
 						{/* Parking Start */}
 						<div className="flex-grow-1 me-2 mb-2">
 							<label htmlFor="">Parking</label>

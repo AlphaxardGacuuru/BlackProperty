@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
@@ -12,6 +13,8 @@ import ViewSVG from "@/svgs/ViewSVG"
 import EditSVG from "@/svgs/EditSVG"
 
 const index = (props) => {
+	const location = useLocation()
+
 	// Get Role
 	const [roles, setRoles] = useState([])
 
@@ -64,11 +67,13 @@ const index = (props) => {
 							<tr>
 								<th colSpan="4"></th>
 								<th className="text-end">
-									<MyLink
-										linkTo={`/roles/create`}
-										icon={<PlusSVG />}
-										text="add role"
-									/>
+									{location.pathname.match("/super/") && (
+										<MyLink
+											linkTo={`/roles/create`}
+											icon={<PlusSVG />}
+											text="add role"
+										/>
+									)}
 								</th>
 							</tr>
 							<tr>

@@ -80,10 +80,10 @@ import AdminRoleIndex from "@/pages/admin/role"
 import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
-import AdminUserAdmissions from "@/pages/admin/user-admissions"
-import AdminUserAdmissionCreate from "@/pages/admin/user-admissions/create"
-import AdminUserAdmissionShow from "@/pages/admin/user-admissions/[id]"
-import AdminUserAdmissionEdit from "@/pages/admin/user-admissions/edit/[id]"
+import AdminVisitorAdmissions from "@/pages/admin/visitor-admissions"
+import AdminVisitorAdmissionCreate from "@/pages/admin/visitor-admissions/create"
+import AdminVisitorAdmissionShow from "@/pages/admin/visitor-admissions/[id]"
+import AdminVisitorAdmissionEdit from "@/pages/admin/visitor-admissions/edit/[id]"
 
 import AdminSupport from "@/pages/admin/support"
 
@@ -175,10 +175,10 @@ const componentMap = {
 	AdminRoleCreate,
 	AdminRoleEdit,
 
-	AdminUserAdmissions,
-	AdminUserAdmissionCreate,
-	AdminUserAdmissionShow,
-	AdminUserAdmissionEdit,
+	AdminVisitorAdmissions,
+	AdminVisitorAdmissionCreate,
+	AdminVisitorAdmissionShow,
+	AdminVisitorAdmissionEdit,
 
 	AdminSupport,
 }
