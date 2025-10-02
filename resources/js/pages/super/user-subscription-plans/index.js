@@ -138,7 +138,15 @@ const index = (props) => {
 													{props.iterator(key, userUserSubscriptionPlans)}
 												</td>
 												<td>{userUserSubscriptionPlan.userName}</td>
-												<td>{userUserSubscriptionPlan.subscriptionPlanName}</td>
+												<td>
+													{userUserSubscriptionPlan.subscriptionPlanName
+														.split("_")
+														.map(
+															(word) =>
+																word.charAt(0).toUpperCase() + word.slice(1)
+														)
+														.join(" ")}
+												</td>
 												<td className="text-success">
 													<small>KES</small>{" "}
 													{Number(
