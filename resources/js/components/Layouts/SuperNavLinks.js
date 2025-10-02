@@ -161,7 +161,9 @@ const SuperNavLinks = (props) => {
 						<li className="nav-item hidden">
 							<Link
 								to={navLink.link}
-								className={`nav-link accordion-button my-1 `}
+								className={`nav-link accordion-button my-1 ${navLink.links
+									.map((link) => active(link.link))
+									.join(" ")}`}
 								data-bs-toggle="collapse"
 								data-bs-target={`#collapse${key}`}
 								aria-expanded="false"

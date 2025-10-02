@@ -38,7 +38,7 @@ const AdminNavLinks = (props) => {
 	// Function for showing active color
 	const activeStrict = (check) => {
 		return (
-			location.pathname == check && "rounded-0 text-primary bg-primary-subtle"
+			location.pathname == check && "text-primary"
 		)
 	}
 
@@ -150,7 +150,9 @@ const AdminNavLinks = (props) => {
 						<li className="nav-item hidden">
 							<Link
 								to={navLink.link}
-								className={`nav-link accordion-button my-1 `}
+								className={`nav-link accordion-button my-1 ${navLink.links
+									.map((link) => active(link.link))
+									.join(" ")}`}
 								data-bs-toggle="collapse"
 								data-bs-target={`#collapse${key}`}
 								aria-expanded="false"
