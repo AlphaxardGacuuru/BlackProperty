@@ -206,7 +206,8 @@ const SuperNavLinks = (props) => {
 							className="nav-item anti-hidden">
 							<Link
 								to={navLink.link}
-								className={`nav-link ${active(navLink.link)}`}>
+								className={`nav-link ${active(navLink.link)}`}
+								onClick={() => props.setAdminMenu("")}>
 								<div className="nav-link-icon">{navLink.icon}</div>
 								<div className="nav-link-text">{navLink.name}</div>
 							</Link>
@@ -238,7 +239,8 @@ const SuperNavLinks = (props) => {
 											key={index}>
 											<Link
 												to={link.link}
-												className={`nav-link ${activeStrict(link.link)}`}>
+												className={`nav-link ${activeStrict(link.link)}`}
+												onClick={() => props.setAdminMenu("")}>
 												<div className="nav-link-icon">{link.icon}</div>
 												<div className="nav-link-text">{link.name}</div>
 											</Link>

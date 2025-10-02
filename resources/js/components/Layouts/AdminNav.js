@@ -475,7 +475,9 @@ const AdminMenu = (props) => {
 									<Img
 										src={props.auth?.avatar}
 										// className="rounded-circle"
-										className="avatar premium-user"
+										className={`avatar ${
+											props.auth?.activeSubscription && "premium-user"
+										}`}
 										width="25px"
 										height="25px"
 										alt="Avatar"
@@ -489,7 +491,8 @@ const AdminMenu = (props) => {
 						{/* Landing Page Start */}
 						<Link
 							to="/"
-							className="p-2 text-start text-white">
+							className="p-2 text-start text-white"
+							onClick={() => setBottomMenu("")}>
 							<h6>
 								<span className="ms-3 me-4">
 									<HomeSVG />
@@ -503,7 +506,8 @@ const AdminMenu = (props) => {
 						location.pathname.match("/super/") ? (
 							<Link
 								to="/admin/dashboard"
-								className="p-2 text-start text-white">
+								className="p-2 text-start text-white"
+								onClick={() => setBottomMenu("")}>
 								<h6>
 									<span className="ms-3 me-4">
 										<PersonSVG />
@@ -518,7 +522,8 @@ const AdminMenu = (props) => {
 						location.pathname.match("/super/") ? (
 							<Link
 								to="/tenant/dashboard"
-								className="p-2 text-start text-white">
+								className="p-2 text-start text-white"
+								onClick={() => setBottomMenu("")}>
 								<h6>
 									<span className="ms-3 me-4">
 										<TenantSVG />

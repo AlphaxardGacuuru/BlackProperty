@@ -70,7 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		"subscription-plans" => SubscriptionPlanController::class,
 		"user-subscription-plans" => UserSubscriptionPlanController::class,
 		"referrals" => ReferralController::class,
-		"iprs-records" => IPRSRecordController::class,
 	]);
 
 	/*

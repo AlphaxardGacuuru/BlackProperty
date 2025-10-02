@@ -19,10 +19,6 @@ return new class extends Migration
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
-			$table->foreignId('iprs_record_id')
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
 			$table->string('first_name')->nullable();
 			$table->string('middle_name')->nullable();
 			$table->string('last_name')->nullable();
