@@ -20,6 +20,7 @@ import SuperUserSubscriptionPlans from "@/pages/super/user-subscription-plans/in
 import SuperUserSubscriptionPlanCreate from "@/pages/super/user-subscription-plans/create"
 import SuperUserSubscriptionPlanEdit from "@/pages/super/user-subscription-plans/edit/[id]"
 
+import AdminUserEdit from "@/pages/admin/users/edit/[id]"
 import AdminDashboard from "@/pages/admin/index"
 import TenantDashboard from "@/pages/tenant/index"
 
@@ -113,6 +114,7 @@ const componentMap = {
 	SuperUserSubscriptionPlanEdit,
 
 	// Admin components
+	AdminUserEdit,
 	AdminSubscriptionPlan,
 	AdminDashboard,
 

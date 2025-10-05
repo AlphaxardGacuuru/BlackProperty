@@ -78,29 +78,33 @@ const WaterReadingList = (props) => {
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
 				{/* Total */}
-				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
-					{/* Bill */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Bill"
-							data={`KES ${props.waterReadings.totalBill}`}
-						/>
-						<HeroIcon>
-							<MoneySVG />
-						</HeroIcon>
+				<div className="row">
+					<div className="col-sm-6">
+						{/* Bill */}
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Bill"
+								data={`KES ${props.waterReadings.totalBill}`}
+							/>
+							<HeroIcon>
+								<MoneySVG />
+							</HeroIcon>
+						</div>
+						{/* Bill End */}
 					</div>
-					{/* Bill End */}
-					{/* Usage */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Usage"
-							data={`${props.waterReadings.totalUsage}L`}
-						/>
-						<HeroIcon>
-							<WaterReadingSVG />
-						</HeroIcon>
+					<div className="col-sm-6">
+						{/* Usage */}
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Usage"
+								data={`${props.waterReadings.totalUsage}L`}
+							/>
+							<HeroIcon>
+								<WaterReadingSVG />
+							</HeroIcon>
+						</div>
+						{/* Usage End */}
 					</div>
-					{/* Usage End */}
 				</div>
 			</div>
 			{/* Total End */}

@@ -125,6 +125,12 @@ const AdminMenu = (props) => {
 			? "d-block"
 			: "d-none"
 
+	const profileLink = location.pathname.match("/tenant/")
+		? ""
+		: `${location.pathname.match("/super/") ? "/super" : "/admin"}/user/${
+				props.auth.id
+		  }/edit`
+
 	return (
 		<React.Fragment>
 			<div
@@ -290,7 +296,6 @@ const AdminMenu = (props) => {
 														}}>
 														<Img
 															src={props.auth?.avatar}
-															// className="rounded-circle bg-light p-1 anti-hidden"
 															className={`avatar ${
 																props.auth?.activeSubscription && "premium-user"
 															}`}
@@ -300,13 +305,31 @@ const AdminMenu = (props) => {
 													{/* Avatar End */}
 													{/* Name Start */}
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
-														<Link
-															to={`/admin/staff/edit/${props.auth.id}`}
-															className="p-1 px-2 pt-3 dropdown-item">
-															<h6 className="text-wrap fs-6">
-																{props.auth?.name}
-															</h6>
-														</Link>
+														<div className="d-flex border-bottom pb-2">
+															<div className="p-2">
+																<Img
+																	src={props.auth?.avatar}
+																	className={`avatar ${
+																		props.auth?.activeSubscription &&
+																		"premium-user"
+																	}`}
+																	style={{ minWidth: "3em", minHeight: "3em" }}
+																	alt="Avatar"
+																/>
+															</div>
+															<div>
+																<Link
+																	to={profileLink}
+																	className="p-1 px-2 pt-3 dropdown-item">
+																	<h6 className="text-nowrap fs-6">
+																		{props.auth?.name}
+																	</h6>
+																	<small className="text-nowrap">
+																		{props.auth?.email}
+																	</small>
+																</Link>
+															</div>
+														</div>
 														{/* Name End */}
 														{/* Landing Page Start */}
 														<Link

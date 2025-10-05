@@ -107,38 +107,44 @@ const index = (props) => {
 			{/* Data */}
 			<div className="card shadow-sm mb-2 p-2">
 				{/* Total */}
-				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
+				<div className="row">
 					{/* Total */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Total"
-							data={smses.meta?.total}
-						/>
-						<HeroIcon>
-							<SMSSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Total"
+								data={smses.meta?.total}
+							/>
+							<HeroIcon>
+								<SMSSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Total End */}
 					{/* Success */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Success"
-							data={smses.successfull}
-						/>
-						<HeroIcon>
-							<CheckCircleSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Success"
+								data={smses.successfull}
+							/>
+							<HeroIcon>
+								<CheckCircleSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Success End */}
 					{/* Failed */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Failed"
-							data={smses.failed}
-						/>
-						<HeroIcon>
-							<DashCircleSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Failed"
+								data={smses.failed}
+							/>
+							<HeroIcon>
+								<DashCircleSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Failed End */}
 				</div>

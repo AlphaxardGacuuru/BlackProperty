@@ -16,7 +16,7 @@ class SubscriptionPlanService extends Service
 		$subscriptionPlanQuery = new SubscriptionPlan;
 
 		return $subscriptionPlanQuery
-			->orderBy("id", "DESC")
+			->orderBy("id", "ASC")
 			->paginate();
 	}
 

@@ -26,50 +26,56 @@ const StatementList = (props) => {
 			{/* Data */}
 			<div className="card shadow-sm p-2">
 				{/* Total */}
-				<div className="d-flex justify-content-between flex-wrap w-100 align-items-center mx-2">
+				<div className="row">
 					{/* Due */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Due"
-							data={
-								<span>
-									<small>KES</small> {statements.due}
-								</span>
-							}
-						/>
-						<HeroIcon>
-							<MoneySVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Due"
+								data={
+									<span>
+										<small>KES</small> {statements.due}
+									</span>
+								}
+							/>
+							<HeroIcon>
+								<MoneySVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Due End */}
 					{/* Paid */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Paid"
-							data={
-								<span>
-									<small>KES</small> {statements.paid}
-								</span>
-							}
-						/>
-						<HeroIcon>
-							<PaymentSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Paid"
+								data={
+									<span>
+										<small>KES</small> {statements.paid}
+									</span>
+								}
+							/>
+							<HeroIcon>
+								<PaymentSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Paid End */}
 					{/* Balance */}
-					<div className="d-flex justify-content-between flex-grow-1 mx-2">
-						<HeroHeading
-							heading="Balance"
-							data={
-								<span>
-									<small>KES</small> {statements.balance}
-								</span>
-							}
-						/>
-						<HeroIcon>
-							<BalanceSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between flex-grow-1 mx-2">
+							<HeroHeading
+								heading="Balance"
+								data={
+									<span>
+										<small>KES</small> {statements.balance}
+									</span>
+								}
+							/>
+							<HeroIcon>
+								<BalanceSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Balance End */}
 				</div>
@@ -96,7 +102,9 @@ const StatementList = (props) => {
 							{statements.data?.map((statement, key) => (
 								<tr key={key}>
 									<td>{props.iterator(key, statements)}</td>
-									<td className="text-capitalize">{statement.type}</td>
+									<td className="text-capitalize">
+										{statement.type.split("_").join(" ")}
+									</td>
 									<td>{statement.createdAt}</td>
 									<td className="text-success">
 										<small>KES</small> {statement.credit}

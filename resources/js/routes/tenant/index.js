@@ -3,6 +3,10 @@ import { generateCrudRoutes } from "../routeUtils"
 // Generate CRUD routes but exclude the 'show' route
 const index = [
 	{
+		path: "/tenant/user/:id/edit",
+		component: "AdminUserEdit",
+	},
+	{
 		path: "/tenant/dashboard",
 		component: "TenantDashboard",
 	},

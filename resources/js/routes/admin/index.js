@@ -7,6 +7,10 @@ import userAdmissionRoutes from "./visitorAdmissionRoutes"
 // Admin dashboard and general admin routes
 const adminRoutes = [
 	{
+		path: "/admin/user/:id/edit",
+		component: "AdminUserEdit",
+	},
+	{
 		path: "/admin/subscribe",
 		component: "AdminSubscriptionPlan",
 	},

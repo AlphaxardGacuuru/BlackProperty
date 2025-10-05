@@ -8,6 +8,10 @@ import userSubscriptionPlanRoutes from "./userSubscriptionPlanRoutes"
 // Super dashboard and general admin routes
 const adminRoutes = [
 	{
+		path: "/super/user/:id/edit",
+		component: "AdminUserEdit",
+	},
+	{
 		path: "/super/subscribe",
 		component: "AdminSubscriptionPlan",
 	},

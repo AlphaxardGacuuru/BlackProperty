@@ -207,9 +207,9 @@ const AdminNavLinks = (props) => {
 						<li className="nav-item anti-hidden">
 							<Link
 								to={navLink.link}
-								className={`nav-link accordion-button my-1 ${active(
-									navLink.link
-								)}`}
+								className={`nav-link accordion-button my-1 ${navLink.links
+									.map((link) => active(link.link))
+									.join(" ")}`}
 								data-bs-toggle="collapse"
 								data-bs-target={`#collapse${key}`}
 								aria-expanded="false"

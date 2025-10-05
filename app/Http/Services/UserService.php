@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service
 {
-    /*
+	/*
      * Get All Users
      */
-    public function index($request)
-    {
+	public function index($request)
+	{
 		if ($request->filled("idAndName")) {
 			$userQuery = User::select("id", "name");
 
@@ -28,87 +28,85 @@ class UserService extends Service
 			], 200);
 		}
 
-        $users = User::orderby("id", "DESC")->paginate();
+		$users = User::orderby("id", "DESC")->paginate();
 
-        return UserResource::collection($users);
-    }
+		return UserResource::collection($users);
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     */
-    public function show($id)
-    {
-        $user = User::findOrFail($id);
+	/**
+	 * Display the specified resource.
+	 *
+	 */
+	public function show($id)
+	{
+		$user = User::findOrFail($id);
 
-        return new UserResource($user);
-    }
+		return new UserResource($user);
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     */
-    public function update($request, $id)
-    {
-        /* Update profile */
-        $user = User::findOrFail($id);
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 */
+	public function update($request, $id)
+	{
+		/* Update profile */
+		$user = User::findOrFail($id);
 
-        if ($request->filled('name')) {
-            $user->name = $request->input('name');
-        }
+		$user->name = $request->input('name', $user->name);
+		$user->phone = $request->input('phone', $user->phone);
 
-        if ($request->filled('phone')) {
-            $user->phone = $request->input('phone');
-            $user->password = Hash::make($request->input('phone'));
-        }
+		if ($request->filled('password')) {
+			$user->password = Hash::make($request->input('password'));
+		}
 
-        $saved = $user->save();
+		$saved = $user->save();
 
-        return [$saved, "Account Updated", $user];
-    }
+		return [$saved, "Account Updated", $user];
+	}
 
-    /*
+	/*
      * Soft Delete Service
      */
-    public function destory($id)
-    {
-        $user = User::findOrFail($id);
+	public function destory($id)
+	{
+		$user = User::findOrFail($id);
 
-        $deleted = $user->delete();
+		$deleted = $user->delete();
 
-        return [$deleted, $user->name . " deleted"];
-    }
+		return [$deleted, $user->name . " deleted"];
+	}
 
-    /*
+	/*
      * Force Delete Service
      */
-    public function forceDestory($id)
-    {
-        $user = User::findOrFail($id);
+	public function forceDestory($id)
+	{
+		$user = User::findOrFail($id);
 
-        // Get old thumbnail and delete it
-        $oldThumbnail = substr($user->thumbnail, 9);
+		// Get old thumbnail and delete it
+		$oldThumbnail = substr($user->thumbnail, 9);
 
-        Storage::disk("public")->delete($oldThumbnail);
+		Storage::disk("public")->delete($oldThumbnail);
 
-        $deleted = $user->delete();
+		$deleted = $user->delete();
 
-        return [$deleted, $user->name . " deleted"];
-    }
+		return [$deleted, $user->name . " deleted"];
+	}
 
-    /**
-     * Get Auth.
-     *
-     */
-    public function auth()
-    {
-        if (auth("sanctum")->check()) {
+	/**
+	 * Get Auth.
+	 *
+	 */
+	public function auth()
+	{
+		if (auth("sanctum")->check()) {
 
-            $auth = auth('sanctum')->user();
+			$auth = auth('sanctum')->user();
 
-            return new UserResource($auth);
-        } else {
-            return response(["message" => "Not Authenticated"], 401);
-        }
-    }
+			return new UserResource($auth);
+		} else {
+			return response(["message" => "Not Authenticated"], 401);
+		}
+	}
 }
