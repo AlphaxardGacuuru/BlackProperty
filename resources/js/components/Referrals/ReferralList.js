@@ -4,6 +4,7 @@ import MyLink from "@/components/Core/MyLink"
 import Btn from "@/components/Core/Btn"
 import Img from "@/components/Core/Img"
 import DeleteModal from "@/components/Core/DeleteModal"
+import NoData from "@/components/Core/NoData"
 
 import PaginationLinks from "@/components/Core/PaginationLinks"
 
@@ -52,12 +53,12 @@ const ReferralList = (props) => {
 			<div className="card shadow-sm p-4">
 				{/* Copy to Clipboard Start */}
 				<div className="d-flex">
-					<input
+					{/* <input
 						type="text"
 						className="form-control me-2"
 						value={referralLink}
 						readOnly
-					/>
+					/> */}
 					<Btn
 						text={clicked ? "Copied" : "Copy Referral Link"}
 						icon={clicked ? <CheckSVG /> : <ClipboardSVG />}
@@ -121,6 +122,7 @@ const ReferralList = (props) => {
 							<th>Name</th>
 							<th>Email</th>
 							<th>Phone</th>
+							<th>Commission</th>
 							<th>Total Income</th>
 							<th>Balance</th>
 							<th>Registered On</th>
@@ -142,6 +144,7 @@ const ReferralList = (props) => {
 									<td>{referral.name}</td>
 									<td>{referral.email}</td>
 									<td>{referral.phone}</td>
+									<td>{referral.commission}</td>
 									<td>{referral.totalIncome}</td>
 									<td>{referral.balance}</td>
 									<td>{referral.createdAt}</td>
@@ -152,15 +155,9 @@ const ReferralList = (props) => {
 						<tbody>
 							<tr>
 								<td
-									colSpan="8"
+									colSpan="9"
 									className="p-0">
-									<div className="bg-white text-center w-100 py-5">
-										<img
-											src="/img/no-data-found.jpg"
-											alt="No entries found"
-											style={{ width: "30%", height: "auto" }}
-										/>
-									</div>
+										<NoData />
 								</td>
 							</tr>
 						</tbody>

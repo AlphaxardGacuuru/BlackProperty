@@ -115,11 +115,6 @@ const SuperNavLinks = (props) => {
 			name: "Roles",
 		},
 		{
-			link: "/super/referrals",
-			icon: <ReferralSVG />,
-			name: "Referrals",
-		},
-		{
 			collapse: "Subscription",
 			icon: <SubscriptionPlanSVG />,
 			links: [
@@ -134,6 +129,11 @@ const SuperNavLinks = (props) => {
 					name: "User Plans",
 				},
 			],
+		},
+		{
+			link: "/super/referrals",
+			icon: <ReferralSVG />,
+			name: "Referrals",
 		},
 		{
 			link: "/super/support",

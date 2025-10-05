@@ -219,7 +219,7 @@ const AdminMenu = (props) => {
 														onClick={onNotification}>
 														<BellSVG />
 														<span
-															className="position-absolute start-200 translate-middle badge rounded-circle bg-danger fw-lighter py-1"
+															className="position-absolute start-200 translate-middle badge rounded-circle bg-danger fw-lighter py-1 px-2"
 															style={{ fontSize: "0.6em", top: "0.2em" }}>
 															{notifications.filter(
 																(notification) => !notification.readAt
