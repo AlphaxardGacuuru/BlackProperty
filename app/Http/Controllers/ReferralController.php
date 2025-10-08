@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ReferralCreatedEvent;
+use App\Http\Resources\ReferralResource;
 use App\Models\Referral;
 use Illuminate\Http\Request;
 use App\Http\Services\ReferralService;
@@ -20,11 +21,10 @@ class ReferralController extends Controller
 	{
 		$referrals = $this->service->index($request);
 
-		return response([
+		return ReferralResource::collection($referrals)->additional([
 			"status" => true,
 			"message" => "Referrals fetched successfully",
-			"data" => $referrals,
-		], 200);
+		]);
 	}
 
 	/**

@@ -14,14 +14,14 @@ class ReferralService extends Service
 
 		$query = $this->search($query, $request);
 
-		$invoices = $query
+		$referrals = $query
 			->orderBy("id", "DESC")
 			->paginate(20)
 			->appends($request->all());
 
-		return ReferralResource::collection($invoices);
+		return $referrals;
 	}
-	
+
 	public function store($request)
 	{
 		$refererId = User::where("email", $request->referer)->first()->id;
@@ -42,7 +42,7 @@ class ReferralService extends Service
 		if ($request->filled("name")) {
 			$query = $query->where("name", "LIKE", "%" . $request->name . "%");
 		}
-		
+
 		if ($request->filled("email")) {
 			$query = $query->where("email", "LIKE", "%" . $request->email . "%");
 		}
