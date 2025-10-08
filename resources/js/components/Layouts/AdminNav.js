@@ -582,9 +582,10 @@ const AdminMenu = (props) => {
 						) ? (
 							<Link
 								to="/super/dashboard"
-								className="p-2 px-3 dropdown-item">
-								<h6 className="fs-6">
-									<span className="me-2">
+								className="p-2 text-start text-white"
+								onClick={() => setBottomMenu("")}>
+								<h6>
+									<span className="ms-3 me-4">
 										<SuperSVG />
 									</span>
 									Super Portal
