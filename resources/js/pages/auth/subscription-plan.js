@@ -249,7 +249,7 @@ const SubscriptionPlan = (props) => {
 					setSubscribeLoading(true)
 					setStkPushed("d-none")
 					// Reload window
-					window.location.reload()
+					// window.location.reload()
 				} else {
 					// Only continue checking if component is still mounted
 					if (isMountedRef.current) {
