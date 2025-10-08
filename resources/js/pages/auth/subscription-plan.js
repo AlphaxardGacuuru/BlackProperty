@@ -249,7 +249,7 @@ const SubscriptionPlan = (props) => {
 					setSubscribeLoading(true)
 					setStkPushed("d-none")
 					// Reload window
-					// window.location.reload()
+					window.location.reload()
 				} else {
 					// Only continue checking if component is still mounted
 					if (isMountedRef.current) {
@@ -305,7 +305,7 @@ const SubscriptionPlan = (props) => {
 				shape="circle"
 				color="#232323"
 				stepSize="sm"
-				startIndex={props.auth.activeSubscription?.id ? 0 : 0}
+				startIndex={props.auth.activeSubscription?.id ? 4 : 0}
 				onTabChange={handleTabChange}
 				onComplete={onComplete}
 				backButtonTemplate={backTemplate}
