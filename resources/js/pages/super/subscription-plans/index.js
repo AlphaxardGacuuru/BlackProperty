@@ -128,10 +128,21 @@ const index = (props) => {
 									{subscriptionPlans.data?.map((subscriptionPlan, key) => (
 										<tr key={key}>
 											<td>{props.iterator(key, subscriptionPlans)}</td>
-											<td>{subscriptionPlan.name}</td>
-											<td className="text-nowrap">{subscriptionPlan.description}</td>
+											<td className="text-nowrap">{subscriptionPlan.name}</td>
+											<td className="text-nowrap">
+												{subscriptionPlan.description}
+											</td>
 											<td className="text-success">
 												<div className="d-flex align-items-center text-nowrap">
+													{/* On Boarding Fee Start */}
+													<div className="text-nowrap">
+														<small>KES</small>{" "}
+														{Number(
+															subscriptionPlan.price?.onboarding_fee
+														)?.toLocaleString()}
+													</div>
+													{/* On Boarding Fee End */}
+													<div className="fs-4 mx-1">|</div>
 													{/* Montly Start */}
 													<div className="text-nowrap">
 														<small>KES</small>{" "}
@@ -149,15 +160,6 @@ const index = (props) => {
 														)?.toLocaleString()}
 													</div>
 													{/* Yearly End */}
-													<div className="fs-4 mx-1">|</div>
-													{/* On Boarding Fee Start */}
-													<div className="text-nowrap">
-														<small>KES</small>{" "}
-														{Number(
-															subscriptionPlan.price?.onboarding_fee
-														)?.toLocaleString()}
-													</div>
-													{/* On Boarding Fee End */}
 												</div>
 											</td>
 											<td className="text-capitalize">
