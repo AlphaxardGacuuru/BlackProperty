@@ -20,6 +20,7 @@ import LogoSVG from "@/svgs/LogoSVG"
 import TenantSVG from "@/svgs/TenantSVG"
 import PersonSVG from "@/svgs/PersonSVG"
 import HomeSVG from "@/svgs/HomeSVG"
+import SuperSVG from "@/svgs/SuperSVG"
 
 const AdminMenu = (props) => {
 	const location = useLocation()
@@ -373,6 +374,24 @@ const AdminMenu = (props) => {
 															</Link>
 														) : null}
 														{/* Tenant Login End */}
+														{/* Super Login Start */}
+														{location.pathname.match("/admin/") &&
+														[
+															"al@black.co.ke",
+															"alphaxardgacuuru47@gmail.com",
+														].includes(props.auth.email) ? (
+															<Link
+																to="/super/dashboard"
+																className="p-2 px-3 dropdown-item">
+																<h6 className="fs-6">
+																	<span className="me-2">
+																		<SuperSVG />
+																	</span>
+																	Super Portal
+																</h6>
+															</Link>
+														) : null}
+														{/* Super Login End */}
 														{/* Downloand Start */}
 														<Link
 															to="/download"
@@ -556,6 +575,23 @@ const AdminMenu = (props) => {
 							</Link>
 						) : null}
 						{/* Tenant Login End */}
+						{/* Super Login Start */}
+						{location.pathname.match("/admin/") &&
+						["al@black.co.ke", "alphaxardgacuuru47@gmail.com"].includes(
+							props.auth.email
+						) ? (
+							<Link
+								to="/super/dashboard"
+								className="p-2 px-3 dropdown-item">
+								<h6 className="fs-6">
+									<span className="me-2">
+										<SuperSVG />
+									</span>
+									Super Portal
+								</h6>
+							</Link>
+						) : null}
+						{/* Super Login End */}
 						<Link
 							to="/download"
 							className="p-2 text-start text-white"
