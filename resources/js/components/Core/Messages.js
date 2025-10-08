@@ -49,7 +49,7 @@ const Messages = ({
 	return (
 		<ToastContainer
 			toastId="messages-toast" // Unique ID for this toast
-			position={isMobile ? "top-center" : "top-right"}
+			position="top-right"
 			autoClose={10000}
 			hideProgressBar={false}
 			newestOnTop={false}
@@ -64,7 +64,7 @@ const Messages = ({
 			style={{
 				zIndex: 1000002,
 				fontSize: isSmallMobile ? "14px" : "16px",
-				width: isSmallMobile ? "95%" : isMobile ? "90%" : "auto",
+				width: isSmallMobile ? "55%" : isMobile ? "50%" : "auto",
 				left: isMobile ? "50%" : "auto",
 				transform: isMobile ? "translateX(-50%)" : "none",
 				top: isMobile ? "10px" : "12px",
