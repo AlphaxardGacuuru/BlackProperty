@@ -129,11 +129,11 @@ const index = (props) => {
 										<tr key={key}>
 											<td>{props.iterator(key, subscriptionPlans)}</td>
 											<td>{subscriptionPlan.name}</td>
-											<td>{subscriptionPlan.description}</td>
+											<td className="text-nowrap">{subscriptionPlan.description}</td>
 											<td className="text-success">
-												<div className="d-flex align-items-center">
+												<div className="d-flex align-items-center text-nowrap">
 													{/* Montly Start */}
-													<div>
+													<div className="text-nowrap">
 														<small>KES</small>{" "}
 														{Number(
 															subscriptionPlan.price?.monthly
@@ -142,7 +142,7 @@ const index = (props) => {
 													{/* Montly End */}
 													<div className="fs-4 mx-1">|</div>
 													{/* Yearly Start */}
-													<div>
+													<div className="text-nowrap">
 														<small>KES</small>{" "}
 														{Number(
 															subscriptionPlan.price?.yearly
@@ -151,7 +151,7 @@ const index = (props) => {
 													{/* Yearly End */}
 													<div className="fs-4 mx-1">|</div>
 													{/* On Boarding Fee Start */}
-													<div>
+													<div className="text-nowrap">
 														<small>KES</small>{" "}
 														{Number(
 															subscriptionPlan.price?.onboarding_fee
