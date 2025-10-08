@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
@@ -33,8 +33,39 @@ const InvoiceList = (props) => {
 	const [loading, setLoading] = useState()
 	const [loadingSMS, setLoadingSMS] = useState()
 	const [loadingEmail, setLoadingEmail] = useState()
+	
+	// Timer states
+	const [emailCountdown, setEmailCountdown] = useState(0)
+	const [smsCountdown, setSmsCountdown] = useState(0)
+	const [canSendEmail, setCanSendEmail] = useState(true)
+	const [canSendSms, setCanSendSms] = useState(true)
 
 	const invoiceModalBtnClose = useRef()
+
+	// Timer effects
+	useEffect(() => {
+		let timer
+		if (emailCountdown > 0) {
+			timer = setTimeout(() => {
+				setEmailCountdown(emailCountdown - 1)
+			}, 1000)
+		} else if (emailCountdown === 0 && !canSendEmail) {
+			setCanSendEmail(true)
+		}
+		return () => clearTimeout(timer)
+	}, [emailCountdown, canSendEmail])
+
+	useEffect(() => {
+		let timer
+		if (smsCountdown > 0) {
+			timer = setTimeout(() => {
+				setSmsCountdown(smsCountdown - 1)
+			}, 1000)
+		} else if (smsCountdown === 0 && !canSendSms) {
+			setCanSendSms(true)
+		}
+		return () => clearTimeout(timer)
+	}, [smsCountdown, canSendSms])
 
 	const statuses = ["not_paid", "partially_paid", "paid", "overpaid"]
 	const types = ["rent", "water", "service_charge"]
@@ -45,7 +76,11 @@ const InvoiceList = (props) => {
 	 * Send Email
 	 */
 	const onSendEmail = (invoiceId) => {
+		if (!canSendEmail || loadingEmail) return
+		
 		setLoadingEmail(true)
+		setCanSendEmail(false)
+		setEmailCountdown(60) // 60 second cooldown
 
 		Axios.post(`api/invoices/send-email/${invoiceId}`)
 			.then((res) => {
@@ -57,6 +92,9 @@ const InvoiceList = (props) => {
 			.catch((err) => {
 				setLoadingEmail(false)
 				props.getErrors(err)
+				// Reset timer on error
+				setCanSendEmail(true)
+				setEmailCountdown(0)
 			})
 	}
 
@@ -64,7 +102,11 @@ const InvoiceList = (props) => {
 	 * Send SMS
 	 */
 	const onSendSMS = (invoiceId) => {
+		if (!canSendSms || loadingSMS) return
+		
 		setLoadingSMS(true)
+		setCanSendSms(false)
+		setSmsCountdown(60) // 60 second cooldown
 
 		Axios.post(`api/invoices/send-sms/${invoiceId}`)
 			.then((res) => {
@@ -76,6 +118,9 @@ const InvoiceList = (props) => {
 			.catch((err) => {
 				setLoadingSMS(false)
 				props.getErrors(err)
+				// Reset timer on error
+				setCanSendSms(true)
+				setSmsCountdown(0)
 			})
 	}
 
@@ -172,28 +217,30 @@ const InvoiceList = (props) => {
 							<div>
 								<Btn
 									icon={<SMSSVG />}
-									text={`send sms ${
+									text={smsCountdown > 0 ? `send sms in ${smsCountdown}s` : `send sms ${
 										invoiceToSend.smsesSent ? `${invoiceToSend.smsesSent}` : ""
 									}`}
 									className={`me-1 ${
 										invoiceToSend.smsesSent ? `btn-green` : `btn-2`
-									}`}
+									} ${!canSendSms ? 'disabled' : ''}`}
 									onClick={() => onSendSMS(invoiceToSend.id)}
 									loading={loadingSMS}
+									disabled={!canSendSms || loadingSMS}
 								/>
 
 								<Btn
 									icon={<SendEmailSVG />}
-									text={`send email ${
+									text={emailCountdown > 0 ? `send email in ${emailCountdown}s` : `send email ${
 										invoiceToSend.emailsSent
 											? `(${invoiceToSend.emailsSent})`
 											: ""
 									}`}
 									className={`me-1 ${
 										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
-									}`}
+									} ${!canSendEmail ? 'disabled' : ''}`}
 									onClick={() => onSendEmail(invoiceToSend.id)}
 									loading={loadingEmail}
+									disabled={!canSendEmail || loadingEmail}
 								/>
 							</div>
 						</div>

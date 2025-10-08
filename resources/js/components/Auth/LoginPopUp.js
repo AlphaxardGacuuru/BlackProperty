@@ -18,8 +18,8 @@ const LoginPopUp = (props) => {
 	const location = useLocation()
 
 	const [name, setName] = useState("")
-	const [email, setEmail] = useState("alphaxardgacuuru47@gmail.com")
-	const [password, setPassword] = useState("alphaxardgacuuru47@gmail.com")
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
 	const [passwordConfirmation, setPasswordConfirmation] = useState()
 
 	const [register, setRegister] = useState(false)

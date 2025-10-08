@@ -12,7 +12,7 @@ const index = (props) => {
 
 	const dataToFetch = () => {
 		props.getPaginated(
-			`referrals?refererId=${props.selectedPropertyId}&
+			`referrals?refererId=${props.auth?.id}&
 			name=${nameQuery}&
 			email=${emailQuery}&
 			phone=${phoneQuery}`,

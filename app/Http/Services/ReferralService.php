@@ -15,8 +15,6 @@ class ReferralService extends Service
 		$query = $this->search($query, $request);
 
 		$invoices = $query
-			->orderBy("month", "DESC")
-			->orderBy("year", "DESC")
 			->orderBy("id", "DESC")
 			->paginate(20)
 			->appends($request->all());
