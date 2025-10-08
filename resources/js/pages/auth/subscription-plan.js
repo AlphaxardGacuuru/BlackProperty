@@ -305,7 +305,7 @@ const SubscriptionPlan = (props) => {
 				shape="circle"
 				color="#232323"
 				stepSize="sm"
-				startIndex={props.auth.activeSubscription?.id ? 4 : 0}
+				startIndex={props.auth.activeSubscription?.id ? 3 : 0}
 				onTabChange={handleTabChange}
 				onComplete={onComplete}
 				backButtonTemplate={backTemplate}
