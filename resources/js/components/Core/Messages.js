@@ -1,8 +1,27 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ToastContainer, toast, Bounce } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const Messages = ({ messages, setMessages, errors, setErrors, setFormErrors }) => {
+const Messages = ({
+	messages,
+	setMessages,
+	errors,
+	setErrors,
+	setFormErrors,
+}) => {
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+	const [isSmallMobile, setIsSmallMobile] = useState(window.innerWidth <= 480)
+
+	// Handle window resize
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth <= 768)
+			setIsSmallMobile(window.innerWidth <= 480)
+		}
+
+		window.addEventListener("resize", handleResize)
+		return () => window.removeEventListener("resize", handleResize)
+	}, [])
 
 	useEffect(() => {
 		// Display messages and errors as toasts
@@ -30,7 +49,7 @@ const Messages = ({ messages, setMessages, errors, setErrors, setFormErrors }) =
 	return (
 		<ToastContainer
 			toastId="messages-toast" // Unique ID for this toast
-			position="top-right"
+			position={isMobile ? "top-center" : "top-right"}
 			autoClose={10000}
 			hideProgressBar={false}
 			newestOnTop={false}
@@ -42,7 +61,21 @@ const Messages = ({ messages, setMessages, errors, setErrors, setFormErrors }) =
 			pauseOnHover
 			theme="colored"
 			transition={Bounce}
-			style={{ zIndex: 1000002 }}
+			style={{
+				zIndex: 1000002,
+				fontSize: isSmallMobile ? "14px" : "16px",
+				width: isSmallMobile ? "95%" : isMobile ? "90%" : "auto",
+				left: isMobile ? "50%" : "auto",
+				transform: isMobile ? "translateX(-50%)" : "none",
+				top: isMobile ? "10px" : "12px",
+			}}
+			toastStyle={{
+				minHeight: isSmallMobile ? "50px" : "68px",
+				fontSize: isSmallMobile ? "14px" : "16px",
+				margin: isSmallMobile ? "4px 0" : "6px 0",
+				borderRadius: isSmallMobile ? "6px" : "8px",
+				padding: isSmallMobile ? "8px 12px" : "12px 16px",
+			}}
 		/>
 	)
 }
