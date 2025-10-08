@@ -135,18 +135,22 @@ const ReferralList = (props) => {
 									<td>{props.iterator(key, props.referrals)}</td>
 									<td>
 										<Img
-											src={referral.avatar}
+											src={referral.refereeAvatar}
 											className="rounded-circle"
 											style={{ minWidth: "3em", height: "3em" }}
 											alt="Avatar"
 										/>
 									</td>
-									<td>{referral.name}</td>
-									<td>{referral.email}</td>
-									<td>{referral.phone}</td>
-									<td>{referral.commission}</td>
-									<td>{referral.totalIncome}</td>
-									<td>{referral.balance}</td>
+									<td>{referral.refereeName}</td>
+									<td>{referral.refereeEmail}</td>
+									<td>{referral.refereePhone}</td>
+									<td>{referral.commission}%</td>
+									<td className="text-success">
+										<small>KES</small> {referral.totalIncome.toLocaleString()}
+									</td>
+									<td className="text-success">
+										<small>KES</small> {referral.balance.toLocaleString()}
+									</td>
 									<td>{referral.createdAt}</td>
 								</tr>
 							))}
@@ -157,7 +161,7 @@ const ReferralList = (props) => {
 								<td
 									colSpan="9"
 									className="p-0">
-										<NoData />
+									<NoData />
 								</td>
 							</tr>
 						</tbody>

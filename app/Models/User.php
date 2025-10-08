@@ -173,4 +173,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 			->collapse()
 			->unique();
 	}
+
+	public function referralPayouts()
+	{
+		return $this->hasMany(ReferralPayout::class);
+	}
 }

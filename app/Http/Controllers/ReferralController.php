@@ -21,10 +21,11 @@ class ReferralController extends Controller
 	{
 		$referrals = $this->service->index($request);
 
-		return ReferralResource::collection($referrals)->additional([
-			"status" => true,
-			"message" => "Referrals fetched successfully",
-		]);
+		return ReferralResource::collection($referrals)
+			->additional([
+				"status" => true,
+				"message" => "Referrals fetched successfully",
+			]);
 	}
 
 	/**
