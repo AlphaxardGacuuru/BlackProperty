@@ -33,7 +33,7 @@ const InvoiceList = (props) => {
 	const [loading, setLoading] = useState()
 	const [loadingSMS, setLoadingSMS] = useState()
 	const [loadingEmail, setLoadingEmail] = useState()
-	
+
 	// Timer states
 	const [emailCountdown, setEmailCountdown] = useState(0)
 	const [smsCountdown, setSmsCountdown] = useState(0)
@@ -67,9 +67,6 @@ const InvoiceList = (props) => {
 		return () => clearTimeout(timer)
 	}, [smsCountdown, canSendSms])
 
-	const statuses = ["not_paid", "partially_paid", "paid", "overpaid"]
-	const types = ["rent", "water", "service_charge"]
-
 	const [invoiceToSend, setInvoiceToSend] = useState({})
 
 	/*
@@ -77,7 +74,7 @@ const InvoiceList = (props) => {
 	 */
 	const onSendEmail = (invoiceId) => {
 		if (!canSendEmail || loadingEmail) return
-		
+
 		setLoadingEmail(true)
 		setCanSendEmail(false)
 		setEmailCountdown(60) // 60 second cooldown
@@ -103,7 +100,7 @@ const InvoiceList = (props) => {
 	 */
 	const onSendSMS = (invoiceId) => {
 		if (!canSendSms || loadingSMS) return
-		
+
 		setLoadingSMS(true)
 		setCanSendSms(false)
 		setSmsCountdown(60) // 60 second cooldown
@@ -217,12 +214,18 @@ const InvoiceList = (props) => {
 							<div>
 								<Btn
 									icon={<SMSSVG />}
-									text={smsCountdown > 0 ? `send sms in ${smsCountdown}s` : `send sms ${
-										invoiceToSend.smsesSent ? `${invoiceToSend.smsesSent}` : ""
-									}`}
+									text={
+										smsCountdown > 0
+											? `send sms in ${smsCountdown}s`
+											: `send sms ${
+													invoiceToSend.smsesSent
+														? `${invoiceToSend.smsesSent}`
+														: ""
+											  }`
+									}
 									className={`me-1 ${
 										invoiceToSend.smsesSent ? `btn-green` : `btn-2`
-									} ${!canSendSms ? 'disabled' : ''}`}
+									} ${!canSendSms ? "disabled" : ""}`}
 									onClick={() => onSendSMS(invoiceToSend.id)}
 									loading={loadingSMS}
 									disabled={!canSendSms || loadingSMS}
@@ -230,14 +233,18 @@ const InvoiceList = (props) => {
 
 								<Btn
 									icon={<SendEmailSVG />}
-									text={emailCountdown > 0 ? `send email in ${emailCountdown}s` : `send email ${
-										invoiceToSend.emailsSent
-											? `(${invoiceToSend.emailsSent})`
-											: ""
-									}`}
+									text={
+										emailCountdown > 0
+											? `send email in ${emailCountdown}s`
+											: `send email ${
+													invoiceToSend.emailsSent
+														? `(${invoiceToSend.emailsSent})`
+														: ""
+											  }`
+									}
 									className={`me-1 ${
 										invoiceToSend.emailsSent ? `btn-green` : `btn-2`
-									} ${!canSendEmail ? 'disabled' : ''}`}
+									} ${!canSendEmail ? "disabled" : ""}`}
 									onClick={() => onSendEmail(invoiceToSend.id)}
 									loading={loadingEmail}
 									disabled={!canSendEmail || loadingEmail}
@@ -316,6 +323,7 @@ const InvoiceList = (props) => {
 				<div className="d-flex flex-wrap">
 					{/* Code */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Code</label>
 						<input
 							type="text"
 							placeholder="Search by Code"
@@ -326,6 +334,7 @@ const InvoiceList = (props) => {
 					{/* Code End */}
 					{/* Tenant */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Tenant</label>
 						<input
 							type="text"
 							placeholder="Search by Tenant"
@@ -336,6 +345,7 @@ const InvoiceList = (props) => {
 					{/* Tenant End */}
 					{/* Unit */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Unit</label>
 						<input
 							type="text"
 							placeholder="Search by Unit"
@@ -346,21 +356,23 @@ const InvoiceList = (props) => {
 					{/* Unit End */}
 					{/* Type */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Type</label>
 						<select
 							type="text"
 							name="type"
 							className="form-control text-capitalize"
 							onChange={(e) => props.setType(e.target.value)}
 							required={true}>
-							<option value="">Filter by Type</option>
-							{types.map((type, key) => (
+							{[
+								{ id: "", name: "All" },
+								{ id: "rent", name: "Rent" },
+								{ id: "water", name: "Water" },
+								{ id: "service_charge", name: "Service Charge" },
+							].map((type, key) => (
 								<option
 									key={key}
-									value={type}>
-									{type
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
+									value={type.id}>
+									{type.name}
 								</option>
 							))}
 						</select>
@@ -368,21 +380,24 @@ const InvoiceList = (props) => {
 					{/* Type End */}
 					{/* Status */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Status</label>
 						<select
 							type="text"
 							name="status"
 							className="form-control text-capitalize"
 							onChange={(e) => props.setStatus(e.target.value)}
 							required={true}>
-							<option value="">Filter by Status</option>
-							{statuses.map((status, key) => (
+							{[
+								{ id: "", name: "All" },
+								{ id: "not_paid", name: "Not Paid" },
+								{ id: "partially_paid", name: "Partially Paid" },
+								{ id: "paid", name: "Paid" },
+								{ id: "overpaid", name: "Overpaid" },
+							].map((status, key) => (
 								<option
 									key={key}
-									value={status}>
-									{status
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
+									value={status.id}>
+									{status.name}
 								</option>
 							))}
 						</select>

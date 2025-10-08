@@ -43,6 +43,7 @@ const UnitList = (props) => {
 				<div className="d-flex flex-wrap">
 					{/* Name */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Name</label>
 						<input
 							id=""
 							type="text"
@@ -55,12 +56,13 @@ const UnitList = (props) => {
 					{/* Name End */}
 					{/* Type */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="type">Type</label>
 						<select
 							type="text"
 							placeholder="Search by Type"
 							className="form-control"
 							onChange={(e) => props.setTypeQuery(e.target.value)}>
-							{[{ id: "", name: "Select Type" }]
+							{[{ id: "", name: "All" }]
 								.concat(props.apartmentTypes)
 								.map((type, key) => (
 									<option
@@ -74,13 +76,14 @@ const UnitList = (props) => {
 					{/* Type End */}
 					{/* Status */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Status</label>
 						<select
 							type="text"
 							placeholder="Search by Type"
 							className="form-control"
 							onChange={(e) => props.setStatusQuery(e.target.value)}>
 							{[
-								{ id: "", name: "Select Status" },
+								{ id: "", name: "All" },
 								{ id: "vacant", name: "Vacant" },
 								{ id: "occupied", name: "Occupied" },
 							].map((status, key) => (

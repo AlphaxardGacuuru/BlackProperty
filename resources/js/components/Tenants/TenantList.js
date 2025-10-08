@@ -65,6 +65,7 @@ const TenantList = (props) => {
 				<div className="d-flex flex-wrap">
 					{/* Name */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Name</label>
 						<input
 							type="text"
 							name="name"
@@ -76,8 +77,9 @@ const TenantList = (props) => {
 					{/* Name End */}
 					{/* Phone */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="phone">Phone</label>
 						<input
-							type="text"
+							type="number"
 							name="phone"
 							placeholder="Search by Phone"
 							className="form-control"

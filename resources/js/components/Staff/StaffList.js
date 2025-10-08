@@ -60,6 +60,7 @@ const StaffList = (props) => {
 				<div className="d-flex flex-wrap">
 					{/* Name */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="name">Name</label>
 						<input
 							id=""
 							type="text"
@@ -72,10 +73,11 @@ const StaffList = (props) => {
 					{/* Name End */}
 					{/* Role */}
 					<div className="flex-grow-1 me-2 mb-2">
+						<label htmlFor="role">Role</label>
 						<select
 							id=""
 							type="text"
-							name="name"
+							name="role"
 							placeholder="Search by Role"
 							className="form-control me-2"
 							onChange={(e) => props.setRoleQuery(e.target.value)}>

@@ -340,7 +340,7 @@ class InvoiceService extends Service
 		try {
 			DB::beginTransaction();
 
-			// Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
+			Mail::to($invoice->userUnit->user->email)->send(new InvoiceMail($invoice));
 			// Mail::to("al@black.co.ke")->send(new InvoiceMail($invoice));
 
 			$invoice->increment("emails_sent");
@@ -355,7 +355,7 @@ class InvoiceService extends Service
 				"model" => $invoice,
 			]);
 
-			// $emailService->store($request);
+			$emailService->store($request);
 
 			DB::commit();
 		} catch (HttpTransportException $exception) {
