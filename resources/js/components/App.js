@@ -68,7 +68,7 @@ function App() {
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [headerMenu, setHeaderMenu] = useState()
-	const [adminMenu, setAdminMenu] = useState("left-open")
+	const [adminMenu, setAdminMenu] = useState(window.innerWidth <= 768 ? "" : "left-open")
 	const [properties, setProperties] = useState(getLocalStorage("properties"))
 	const [selectedPropertyId, setSelectedPropertyId] = useState(
 		getNormalLocalStorage("selectedPropertyId")

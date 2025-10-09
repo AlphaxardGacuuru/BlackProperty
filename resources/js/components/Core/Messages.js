@@ -65,7 +65,7 @@ const Messages = ({
 				zIndex: 1000002,
 				fontSize: isSmallMobile ? "14px" : "16px",
 				width: isSmallMobile ? "55%" : isMobile ? "50%" : "auto",
-				left: isMobile ? "50%" : "auto",
+				left: isMobile ? "50%" : "50%",
 				transform: isMobile ? "translateX(-50%)" : "none",
 				top: isMobile ? "10px" : "12px",
 			}}
