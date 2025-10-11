@@ -14,6 +14,7 @@ import Routes from "@/routes"
 import { random } from "lodash"
 
 import Subscribed from "@/middleware/subscribed"
+import PWABtn from "@/components/Core/PWABtn"
 
 function App() {
 	// Function for checking local storage
@@ -322,6 +323,7 @@ function App() {
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
+			<PWABtn />
 		</HashRouter>
 	)
 }

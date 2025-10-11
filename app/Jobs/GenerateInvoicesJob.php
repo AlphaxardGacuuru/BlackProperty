@@ -287,7 +287,9 @@ class GenerateInvoicesJob implements ShouldQueue
 				})
 				->values();
 
-			$user->notify(new InvoicesGeneratedNotification($userResult));
+			if ($user->settings->invoiceReminderNotification) {
+				$user->notify(new InvoicesGeneratedNotification($userResult));
+			}
 		}
 
 		// Send Notification to Property Owners

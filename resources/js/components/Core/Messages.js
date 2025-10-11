@@ -62,19 +62,19 @@ const Messages = ({
 			theme="colored"
 			transition={Bounce}
 			style={{
-				zIndex: 1000002,
+				// zIndex: 1000002,
 				fontSize: isSmallMobile ? "14px" : "16px",
-				width: isSmallMobile ? "55%" : isMobile ? "50%" : "auto",
-				left: isMobile ? "50%" : "50%",
-				transform: isMobile ? "translateX(-50%)" : "none",
-				top: isMobile ? "10px" : "12px",
+				width: isSmallMobile ? "55%" : isMobile ? "50%" : "",
+				left: isMobile ? "70%" : "",
+				transform: isMobile ? "translateX(-50%)" : "",
+				top: isMobile ? "10px" : "",
 			}}
 			toastStyle={{
 				minHeight: isSmallMobile ? "50px" : "68px",
 				fontSize: isSmallMobile ? "14px" : "16px",
-				margin: isSmallMobile ? "4px 0" : "6px 0",
-				borderRadius: isSmallMobile ? "6px" : "8px",
-				padding: isSmallMobile ? "8px 12px" : "12px 16px",
+				margin: isSmallMobile ? "4px 0" : "",
+				borderRadius: isSmallMobile ? "6px" : "",
+				padding: isSmallMobile ? "8px 12px" : "",
 			}}
 		/>
 	)

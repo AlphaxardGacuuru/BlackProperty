@@ -25,6 +25,9 @@ import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
 import VisitorAdmissionSVG from "@/svgs/VisitorAdmissionSVG"
+import SettingsSVG from "@/svgs/SettingsSVG"
+import ReferralSVG from "@/svgs/ReferralSVG"
+import BellSVG from "@/svgs/BellSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -37,9 +40,7 @@ const AdminNavLinks = (props) => {
 
 	// Function for showing active color
 	const activeStrict = (check) => {
-		return (
-			location.pathname == check && "text-primary"
-		)
+		return location.pathname == check && "text-primary"
 	}
 
 	const navLinks = [
@@ -120,14 +121,25 @@ const AdminNavLinks = (props) => {
 			name: "Visitor Admissions",
 		},
 		{
-			link: "/admin/billing",
-			icon: <BillingSVG />,
-			name: "Billing",
-		},
-		{
-			link: "/admin/support",
-			icon: <SupportSVG />,
-			name: "Support",
+			collapse: "Settings",
+			icon: <SettingsSVG />,
+			links: [
+				{
+					link: "/admin/billing",
+					icon: <BillingSVG />,
+					name: "Billing",
+				},
+				{
+					link: "/admin/referrals",
+					icon: <ReferralSVG />,
+					name: "Referrals",
+				},
+				{
+					link: "/admin/support",
+					icon: <SupportSVG />,
+					name: "Support",
+				},
+			],
 		},
 	]
 

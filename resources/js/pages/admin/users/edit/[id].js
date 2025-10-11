@@ -31,11 +31,18 @@ registerPlugin(
 const edit = (props) => {
 	var { id } = useParams()
 
+	const [user, setUser] = useState({})
+
 	const [name, setName] = useState()
 	const [email, setEmail] = useState()
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
 	const [loading, setLoading] = useState()
+
+	const [invoicesGeneratedNotification, setInvoicesGeneratedNotification] =
+		useState()
+	const [invoiceRemindesNotification, setInvoiceRemindesNotification] =
+		useState()
 
 	// Get Faculties and Departments
 	useEffect(() => {
@@ -44,7 +51,33 @@ const edit = (props) => {
 			name: "Edit User",
 			path: ["dashboard", `users/${props.auth.id}/edit`],
 		})
+
+		// Fetch User
+		props.get(`users/${id}`, setUser)
 	}, [])
+
+	// Handle Notifications Update
+	useEffect(() => {
+		if (user.id) {
+			Axios.put(`/api/users/${user.id}`, {
+				settings: {
+					...user.settings,
+					invoicesGeneratedNotification: invoicesGeneratedNotification,
+					invoiceReminderNotification: invoiceRemindesNotification,
+				},
+			})
+				.then((res) => {
+					// Show messages
+					props.setMessages([res.data.message])
+					// Update Auth
+					props.get("auth", props.setAuth, "auth")
+				})
+				.catch((err) => {
+					// Get Errors
+					props.getErrors(err)
+				})
+		}
+	}, [invoicesGeneratedNotification, invoiceRemindesNotification])
 
 	/*
 	 * Submit Form
@@ -53,7 +86,7 @@ const edit = (props) => {
 		e.preventDefault()
 
 		setLoading(true)
-		Axios.put(`/api/user/${id}`, {
+		Axios.put(`/api/users/${id}`, {
 			name: name,
 			email: email,
 			phone: phone,
@@ -90,7 +123,7 @@ const edit = (props) => {
 									server={{
 										url: `/api/filepond`,
 										process: {
-											url: `/avatar/${props.auth.id}`,
+											url: `/avatar/${user.id}`,
 											onload: (res) => {
 												props.setMessages([res])
 												// Update Auth
@@ -109,7 +142,7 @@ const edit = (props) => {
 						type="text"
 						name="name"
 						placeholder="John Doe"
-						defaultValue={props.auth.name}
+						defaultValue={user.name}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setName(e.target.value)}
 					/>
@@ -118,7 +151,7 @@ const edit = (props) => {
 					<input
 						type="text"
 						placeholder="johndoe@gmail.com"
-						defaultValue={props.auth.email}
+						defaultValue={user.email}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
@@ -127,7 +160,7 @@ const edit = (props) => {
 					<input
 						type="tel"
 						placeholder="0722123456"
-						defaultValue={props.auth.phone}
+						defaultValue={user.phone}
 						className="form-control mb-2 me-2"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
@@ -140,12 +173,12 @@ const edit = (props) => {
 						<option value="">Select Gender</option>
 						<option
 							value="male"
-							selected={props.auth.gender == "male"}>
+							selected={user.gender == "male"}>
 							Male
 						</option>
 						<option
 							value="female"
-							selected={props.auth.gender == "female"}>
+							selected={user.gender == "female"}>
 							Female
 						</option>
 					</select>
@@ -156,6 +189,64 @@ const edit = (props) => {
 							loading={loading}
 						/>
 					</div>
+
+					<h4 className="text-center mb-4">Notifications</h4>
+
+					{/* Invoices Generated Notification Switch Start */}
+					<div className="d-flex justify-content-between align-items-center mx-2 mb-4">
+						<div className="form-check-label">
+							Invoices Generated Notification
+						</div>
+						<div className="form-check form-switch">
+							<input
+								id="invoices-generated"
+								className="form-check-input"
+								type="checkbox"
+								role="switch"
+								onChange={(e) =>
+									setInvoicesGeneratedNotification(e.target.checked)
+								}
+								style={{
+									width: "3rem",
+									height: "1.5rem",
+									transform: "scale(1.2)",
+									cursor: "pointer",
+								}}
+								defaultChecked={
+									user.settings?.invoicesGeneratedNotification ?? false
+								}
+							/>
+						</div>
+					</div>
+					{/* Invoices Generated Notification Switch End */}
+
+					{/* Invoice Reminder Notification Switch Start */}
+					<div className="d-flex justify-content-between align-items-center mx-2 mb-4">
+						<div className="form-check-label">
+							Invoice Reminder Notification
+						</div>
+						<div className="form-check form-switch">
+							<input
+								id="invoice-reminder"
+								className="form-check-input"
+								type="checkbox"
+								role="switch"
+								onChange={(e) =>
+									setInvoiceRemindesNotification(e.target.checked)
+								}
+								style={{
+									width: "3rem",
+									height: "1.5rem",
+									transform: "scale(1.2)",
+									cursor: "pointer",
+								}}
+								defaultChecked={
+									user.settings?.invoiceReminderNotification ?? false
+								}
+							/>
+						</div>
+					</div>
+					{/* Invoice Reminder Notification Switch End */}
 
 					<div className="col-sm-4"></div>
 				</form>

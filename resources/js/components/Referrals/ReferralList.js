@@ -25,6 +25,20 @@ const ReferralList = (props) => {
 
 		// Clear Clicked State After 5 Seconds
 		setTimeout(() => setClicked(false), 5000)
+
+		// Trigger Share Api
+		if (navigator.share) {
+			navigator
+				.share({
+					title: "Black Property - Property Management System",
+					text: "Join Black Property, a Manage your Properties efficiently with our modern Property Management Software that leaves nothing out of the picture, from tenant onboarding, billing to exit.",
+					url: referralLink,
+				})
+				.then(() => console.log("Successful share"))
+				.catch((error) => console.log("Error sharing", error))
+		} else {
+			props.setErrors(["Your browser does not support the share api. Please copy the link manually."])
+		}
 	}
 
 	return (

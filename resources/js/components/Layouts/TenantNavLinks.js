@@ -24,6 +24,7 @@ import ChatSVG from "@/svgs/ChatSVG"
 import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
+import SettingsSVG from "@/svgs/SettingsSVG"
 
 const TenantNavLinks = (props) => {
 	const location = useLocation()
@@ -53,9 +54,15 @@ const TenantNavLinks = (props) => {
 			name: "Tenant",
 		},
 		{
-			link: "/tenant/support",
-			icon: <SupportSVG />,
-			name: "Support",
+			collapse: "Settings",
+			icon: <SettingsSVG />,
+			links: [
+				{
+					link: "/tenant/support",
+					icon: <SupportSVG />,
+					name: "Support",
+				},
+			],
 		},
 	]
 

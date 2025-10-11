@@ -27,6 +27,7 @@ import BillingSVG from "@/svgs/BillingSVG"
 import ReferralSVG from "@/svgs/ReferralSVG"
 import SubscriptionPlanSVG from "@/svgs/SubscriptionPlanSVG"
 import UserAdmissionSVG from "@/svgs/VisitorAdmissionSVG"
+import SettingsSVG from "@/svgs/SettingsSVG"
 
 const SuperNavLinks = (props) => {
 	const location = useLocation()
@@ -131,14 +132,20 @@ const SuperNavLinks = (props) => {
 			],
 		},
 		{
-			link: "/super/referrals",
-			icon: <ReferralSVG />,
-			name: "Referrals",
-		},
-		{
-			link: "/super/support",
-			icon: <SupportSVG />,
-			name: "Support",
+			collapse: "Settings",
+			icon: <SettingsSVG />,
+			links: [
+				{
+					link: "/super/referrals",
+					icon: <ReferralSVG />,
+					name: "Referrals",
+				},
+				{
+					link: "/super/support",
+					icon: <SupportSVG />,
+					name: "Support",
+				}
+			],
 		},
 	]
 

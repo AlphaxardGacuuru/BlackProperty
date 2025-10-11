@@ -43,7 +43,6 @@ const Footer = (props) => {
 
 	return (
 		<React.Fragment>
-
 			{isVisible && (
 				<div
 					id="scrollUpBtn"

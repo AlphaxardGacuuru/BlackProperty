@@ -144,7 +144,9 @@ class SendInvoiceRemindersJob implements ShouldQueue
 				})
 				->values();
 
-			$user->notify(new InvoiceRemindersSentNotifications($userResult));
+			if ($user->settings->invoiceReminderNotification) {
+				$user->notify(new InvoiceRemindersSentNotifications($userResult));
+			}
 		}
 
 		// Send Notification to Property Owners
