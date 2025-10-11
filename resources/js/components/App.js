@@ -323,7 +323,7 @@ function App() {
 			<Footer {...GLOBAL_STATE} />
 			<Messages {...GLOBAL_STATE} />
 			<PaymentMenu {...GLOBAL_STATE} />
-			<PWABtn />
+			<PWABtn {...GLOBAL_STATE} />
 		</HashRouter>
 	)
 }

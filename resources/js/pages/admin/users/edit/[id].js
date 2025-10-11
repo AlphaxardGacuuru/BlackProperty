@@ -190,7 +190,7 @@ const edit = (props) => {
 						/>
 					</div>
 
-					<h4 className="text-center mb-4">Notifications</h4>
+					<h4 className="text-center my-4">Notifications</h4>
 
 					{/* Invoices Generated Notification Switch Start */}
 					<div className="d-flex justify-content-between align-items-center mx-2 mb-4">
