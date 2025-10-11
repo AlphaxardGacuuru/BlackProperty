@@ -49,7 +49,7 @@ class ReferralSavedNotification extends Notification implements ShouldQueue
 			->line('Your Referral ' . $this->referral->referee->name . ' has successfully created an Account!')
 			->line('You will receive proceeds whenever they pay their subscription.')
 			->line('You can now view their details in the referral list.')
-			->action('View', url('/super/referrals'))
+			->action('View', url('/#/super/referrals'))
 			->line('Thank you for choosing Black Property!');
 	}
 
@@ -62,7 +62,7 @@ class ReferralSavedNotification extends Notification implements ShouldQueue
 	public function toArray($notifiable)
 	{
 		return [
-			"url" => "super/referrals",
+			"url" => "/#/super/referrals",
 			"from" => $this->referral->referer->name,
 			"message" => "Your Referral " . $this->referral->referee->name . " has been successfully saved!"
 		];

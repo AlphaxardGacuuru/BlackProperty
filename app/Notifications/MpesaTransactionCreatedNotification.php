@@ -48,7 +48,7 @@ class MpesaTransactionCreatedNotification extends Notification implements Should
 			->subject('Payment Received')
 			->greeting('Hello ' . $notifiable->name . ',')
 			->line('Your Payment of KES ' . number_format($this->mpesaTransaction->amount) . ' has been Received!')
-			->action('View', url('/admin/billing'))
+			->action('View', url('/#/admin/billing'))
 			->line('Thank you for choosing Black Property!');
 	}
 
@@ -61,7 +61,7 @@ class MpesaTransactionCreatedNotification extends Notification implements Should
 	public function toArray($notifiable)
 	{
 		return [
-			"url" => "/admin/billing",
+			"url" => "/#/admin/billing",
 			"from" => "",
 			"message" => "Payment of KES " . number_format($this->mpesaTransaction->amount) . " received."
 		];

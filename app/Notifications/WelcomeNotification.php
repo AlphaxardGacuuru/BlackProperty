@@ -56,7 +56,7 @@ class WelcomeNotification extends Notification
 	public function toArray($notifiable)
 	{
 		return [
-			'url' => '/',
+			'url' => '/#/',
 			'from' => 'Admin',
 			'message' => 'Welcome ' . $notifiable->name . ', to Black Property.',
 		];
