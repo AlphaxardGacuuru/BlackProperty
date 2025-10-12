@@ -14,12 +14,8 @@ const PWABtn = (props) => {
 		}
 	}
 
-	/*
-	 *
-	 * PWA Install button */
 	let deferredPrompt
-	var btnAdd = useRef()
-
+	
 	// Listen to the install prompt
 	window.addEventListener("beforeinstallprompt", (e) => {
 		deferredPrompt = e
@@ -28,7 +24,7 @@ const PWABtn = (props) => {
 		props.setDownloadLink(true)
 
 		// Action when button is clicked
-		btnAdd.current.addEventListener("click", (e) => {
+		props.btnAdd.current.addEventListener("click", (e) => {
 			// Show install banner
 			deferredPrompt.prompt()
 			// Check if the user accepted
@@ -47,7 +43,7 @@ const PWABtn = (props) => {
 
 	return (
 		<button
-			ref={btnAdd}
+			ref={props.btnAdd}
 			style={{ display: "none" }}>
 			test
 		</button>

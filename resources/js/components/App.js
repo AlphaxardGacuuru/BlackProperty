@@ -69,7 +69,9 @@ function App() {
 	const [login, setLogin] = useState()
 	const [auth, setAuth] = useState(getLocalStorageAuth("auth"))
 	const [headerMenu, setHeaderMenu] = useState()
-	const [adminMenu, setAdminMenu] = useState(window.innerWidth <= 768 ? "" : "left-open")
+	const [adminMenu, setAdminMenu] = useState(
+		window.innerWidth <= 768 ? "" : "left-open"
+	)
 	const [properties, setProperties] = useState(getLocalStorage("properties"))
 	const [selectedPropertyId, setSelectedPropertyId] = useState(
 		getNormalLocalStorage("selectedPropertyId")
@@ -197,7 +199,7 @@ function App() {
 		let value = e.target.value.toString().replace(/[^0-9.]/g, "")
 		value = Number(value)
 		e.target.value = value.toLocaleString("en-US")
-		
+
 		return e.target.value.replace(/,/g, "")
 	}
 
@@ -255,6 +257,11 @@ function App() {
 		{ id: "office", name: "Office" },
 	]
 
+	/*
+	 *
+	 * PWA Install button */
+	var btnAdd = useRef()
+
 	const GLOBAL_STATE = {
 		getLocalStorage,
 		setLocalStorage,
@@ -288,6 +295,7 @@ function App() {
 		formatToCommas,
 
 		// PWA
+		btnAdd,
 		downloadLink,
 		setDownloadLink,
 		downloadLinkText,
