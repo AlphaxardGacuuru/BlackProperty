@@ -1,6 +1,7 @@
 // Component imports - centralized component mapping
 import Header from "@/components/Layouts/Header"
 import Index from "@/pages/index"
+import DownloadApp from "@/pages/download-app"
 
 import AdminNav from "@/components/Layouts/AdminNav"
 
@@ -96,6 +97,7 @@ const componentMap = {
 
 	// Public components
 	Index,
+	DownloadApp,
 
 	// Auth components
 	Socialite,

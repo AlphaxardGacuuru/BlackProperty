@@ -21,6 +21,7 @@ const Header = (props) => {
 		!location.pathname.match("/admin/") &&
 		!location.pathname.match("/tenant/") &&
 		!location.pathname.match("/super/") &&
+		// !location.pathname.match("/download-app") &&
 		!location.pathname.match("/socialite")
 			? "d-block"
 			: "d-none"
@@ -57,9 +58,9 @@ const Header = (props) => {
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-12">
-							<div className="menu-area d-flex justify-content-between my-1">
+							<div className="menu-area d-flex justify-content-between alignt-items-center my-1">
 								{/* <!-- Logo Area  --> */}
-								<div className="logo-area mb-2">
+								<div className="logo-area">
 									<Link
 										to="/"
 										className="text-white">

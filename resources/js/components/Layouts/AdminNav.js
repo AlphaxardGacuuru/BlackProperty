@@ -161,7 +161,7 @@ const AdminMenu = (props) => {
 										{/* <!-- Logo Area  --> */}
 										<div className="logo-area hidden me-2 mb-2">
 											<Link
-												to="/admin"
+												to="/"
 												className="text-white">
 												<LogoSVG />
 											</Link>
@@ -308,15 +308,20 @@ const AdminMenu = (props) => {
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
 														<div className="d-flex border-bottom pb-2">
 															<div className="p-2">
-																<Img
-																	src={props.auth?.avatar}
-																	className={`avatar ${
-																		props.auth?.activeSubscription &&
-																		"premium-user"
-																	}`}
-																	style={{ minWidth: "3em", minHeight: "3em" }}
-																	alt="Avatar"
-																/>
+																<Link to={profileLink}>
+																	<Img
+																		src={props.auth?.avatar}
+																		className={`avatar ${
+																			props.auth?.activeSubscription &&
+																			"premium-user"
+																		}`}
+																		style={{
+																			minWidth: "3em",
+																			minHeight: "3em",
+																		}}
+																		alt="Avatar"
+																	/>
+																</Link>
 															</div>
 															<div>
 																<Link
@@ -394,12 +399,12 @@ const AdminMenu = (props) => {
 														{/* Super Login End */}
 														{/* Downloand Start */}
 														<Link
-															to="/download"
-															className="p-1 px-2 dropdown-item"
+															to="/download-app"
+															className="p-2 px-3 dropdown-item"
 															style={{
 																display: props.downloadLink ? "block" : "none",
 															}}>
-															<h6>
+															<h6 className="fs-6">
 																<span className="me-2">
 																	<DownloadSVG />
 																</span>
@@ -508,7 +513,7 @@ const AdminMenu = (props) => {
 						className="m-0 p-0"
 						style={{ display: avatarVisibility }}>
 						<Link
-							to={`/admin/staff/edit/${props.auth.id}`}
+							to={profileLink}
 							style={{ padding: "0px", margin: "0px" }}
 							className="border-bottom text-start"
 							onClick={() => setBottomMenu("")}>
@@ -526,7 +531,10 @@ const AdminMenu = (props) => {
 									/>
 								</div>
 								<div>
-									<h5 className="text-white">{props.auth?.name}</h5>
+									<h5 className="text-white text-nowrap">{props.auth?.name}</h5>
+									<small className="text-white text-nowrap">
+										{props.auth?.email}
+									</small>
 								</div>
 							</div>
 						</Link>
@@ -594,7 +602,7 @@ const AdminMenu = (props) => {
 						) : null}
 						{/* Super Login End */}
 						<Link
-							to="/download"
+							to="/download-app"
 							className="p-2 text-start text-white"
 							style={{
 								display: props.downloadLink ? "inline" : "none",
