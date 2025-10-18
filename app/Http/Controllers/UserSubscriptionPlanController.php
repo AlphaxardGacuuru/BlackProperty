@@ -52,7 +52,7 @@ class UserSubscriptionPlanController extends Controller
 			'subscriptionPlanId' => 'required|exists:subscription_plans,id',
 			'amountPaid' => 'nullable|numeric|min:0',
 			'duration' => 'required|integer|min:1',
-			'type' => 'required|integer|min:1',
+			'type' => 'required|string',
 		]);
 
 		[$saved, $message, $userSubscriptionPlan] = $this->service->store($request);
