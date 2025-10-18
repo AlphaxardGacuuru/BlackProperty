@@ -25,7 +25,9 @@ class UserResource extends JsonResource
 			"emailVerifiedAt" => $this->email_verified_at,
 			"settings" => $this->settings,
 			"propertyIds" => $this->properties->map(fn($property) => $property->id),
+			"assignedPropertyIds" => $this->userProperties->map(fn($userProperty) => $userProperty->property_id),
 			"activeSubscription" => $this->activeSubscription(),
+			"associatedSubscriptions" => $this->associatedSubscriptions(),
 			"createdAt" => $this->created_at,
 		];
 	}

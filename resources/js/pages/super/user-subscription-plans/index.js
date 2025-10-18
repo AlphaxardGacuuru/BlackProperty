@@ -140,7 +140,7 @@ const index = (props) => {
 												<td>{userUserSubscriptionPlan.userName}</td>
 												<td>
 													{userUserSubscriptionPlan.subscriptionPlanName
-														.split("_")
+														?.split("_")
 														.map(
 															(word) =>
 																word.charAt(0).toUpperCase() + word.slice(1)

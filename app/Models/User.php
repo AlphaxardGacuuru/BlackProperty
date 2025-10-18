@@ -12,10 +12,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -108,11 +109,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		return $this->belongsToMany(Unit::class, 'user_units');
 	}
 
-	public function roles()
-	{
-		return $this->belongsToMany(Role::class, 'user_roles');
-	}
-
 	public function userProperties()
 	{
 		return $this->hasMany(UserProperty::class);
@@ -121,11 +117,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 	public function userUnits()
 	{
 		return $this->hasMany(UserUnit::class);
-	}
-
-	public function userRoles()
-	{
-		return $this->hasMany(UserRole::class);
 	}
 
 	/*
@@ -147,6 +138,21 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		$userSubscriptionPlan->max_units = $userSubscriptionPlan->subscriptionPlan->max_units;
 
 		return $userSubscriptionPlan;
+	}
+
+	public function associatedSubscriptions()
+	{
+		$activeSubscriptions = $this->userProperties
+			->flatMap(function ($userProperty) {
+				$hasActiveSubscriptions = $userProperty
+					->property
+					->user
+					->activeSubscription();
+
+				return $hasActiveSubscriptions ? $userProperty->property_id : null;
+			});
+
+		return $activeSubscriptions;
 	}
 
 	public function currentUnit()

@@ -3,7 +3,8 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\RoleResource;
-use App\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleService extends Service
 {
@@ -22,13 +23,15 @@ class RoleService extends Service
 			], 200);
 		}
 
-		$getRoles = Role::orderby("id", "DESC")
-			->paginate(20)
-			->appends([
-				"propertyId" => $request->propertyId,
-			]);
+		$query = new Role;
 
-		return RoleResource::collection($getRoles);
+		$query = $this->search($query, $request);
+
+		$roles = $query->orderBy("id", "DESC")
+			->paginate(20)
+			->appends($request->all());
+
+		return $roles;
 	}
 
 	/*
@@ -48,9 +51,9 @@ class RoleService extends Service
 	{
 		$role = new Role;
 		$role->name = $request->input("name");
-		$role->description = $request->input("description");
-		$role->permissions = $request->input("permissions");
 		$saved = $role->save();
+
+		$role->syncPermissions($request->input("permissionIds"));
 
 		$message = $role->name . ' Created Successfully!';
 
@@ -69,17 +72,11 @@ class RoleService extends Service
 			$role->name = $request->input("name");
 		}
 
-		if ($request->filled("description")) {
-			$role->description = $request->input("description");
-		}
-
-		if ($request->filled("permissions")) {
-			$role->permissions = $request->input("permissions");
-		}
+		$role->syncPermissions($request->input("permissionIds"));
 
 		$saved = $role->save();
 
-		$message = $role->name . " updated";
+		$message = $role->name . " Updated";
 
 		return [$saved, $message, $role];
 	}
@@ -96,5 +93,19 @@ class RoleService extends Service
 		$message = $role->name . " deleted";
 
 		return [$deleted, $message, $role];
+	}
+
+	/*
+     * Handle Search
+     */
+	public function search($query, $request)
+	{
+		$name = $request->input("name");
+
+		if ($request->filled("name")) {
+			$query = $query->where("name", "LIKE", "%" . $name . "%");
+		}
+
+		return $query;
 	}
 }

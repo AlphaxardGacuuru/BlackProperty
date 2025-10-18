@@ -7,17 +7,16 @@ use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FilePondController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\IPRSRecordController;
 use App\Http\Controllers\KopokopoRecipientController;
 use App\Http\Controllers\KopokopoTransferController;
 use App\Http\Controllers\MPESATransactionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SMSController;
-use App\Http\Controllers\SMSMessageController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StatementController;
 use App\Http\Controllers\SubscriptionPlanController;
@@ -65,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"users" => UserController::class,
 		"staff" => StaffController::class,
 		"roles" => RoleController::class,
+		"permissions" => PermissionController::class,
 		"visitor-admissions" => VisitorAdmissionController::class,
 		"notifications" => NotificationController::class,
 		"subscription-plans" => SubscriptionPlanController::class,

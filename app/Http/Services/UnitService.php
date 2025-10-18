@@ -167,7 +167,7 @@ class UnitService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId,);
+		$propertyId = explode(",", $request->propertyId);
 
 		$query = $query->whereIn("property_id", $propertyId);
 

@@ -65,7 +65,7 @@ const index = (props) => {
 					<table className="table table-hover">
 						<thead>
 							<tr>
-								<th colSpan="4"></th>
+								<th colSpan="3"></th>
 								<th className="text-end">
 									{location.pathname.match("/super/") && (
 										<MyLink
@@ -79,7 +79,6 @@ const index = (props) => {
 							<tr>
 								<th>#</th>
 								<th>Name</th>
-								<th>Description</th>
 								<th>Permissions</th>
 								<th>Action</th>
 							</tr>
@@ -89,14 +88,13 @@ const index = (props) => {
 								<tr key={key}>
 									<td>{key + 1}</td>
 									<td>{role.name}</td>
-									<td>{role.description}</td>
 									<td>
 										<div className="d-flex flex-wrap">
 											{role.permissions.map((permission, key) => (
 												<div
 													key={key}
 													className="text-secondary p-1">
-													| {permission}
+													| {permission.name}
 												</div>
 											))}
 										</div>

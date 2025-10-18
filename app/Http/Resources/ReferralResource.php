@@ -14,7 +14,7 @@ class ReferralResource extends JsonResource
      */
     public function toArray($request)
     {
-		$totalIncome = $this->referee->userSubscriptionPlans()->sum('amount_paid');
+		$totalIncome = $this->referee->userSubscriptionPlans()->sum('amount_paid') * $this->commission / 100;
 		$totalPayouts = $this->referee->referralPayouts()->sum('amount');
 		$balance = $totalIncome - $totalPayouts;
 

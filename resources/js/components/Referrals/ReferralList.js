@@ -21,10 +21,6 @@ const ReferralList = (props) => {
 
 	const onReferralLinkClick = () => {
 		setClicked(true)
-		navigator.clipboard.writeText(referralLink)
-
-		// Clear Clicked State After 5 Seconds
-		setTimeout(() => setClicked(false), 5000)
 
 		// Trigger Share Api
 		if (navigator.share) {
@@ -34,8 +30,8 @@ const ReferralList = (props) => {
 					text: "Join Black Property, a Manage your Properties efficiently with our modern Property Management Software that leaves nothing out of the picture, from tenant onboarding, billing to exit.",
 					url: referralLink,
 				})
-				.then(() => console.log("Successful share"))
-				.catch((error) => console.log("Error sharing", error))
+				.then(() => setClicked(false))
+				.catch((error) => setClicked(false))
 		} else {
 			props.setErrors(["Your browser does not support the share api. Please copy the link manually."])
 		}
@@ -77,6 +73,7 @@ const ReferralList = (props) => {
 						text={clicked ? "Copied" : "Copy Referral Link"}
 						icon={clicked ? <CheckSVG /> : <ClipboardSVG />}
 						onClick={onReferralLinkClick}
+						loading={clicked}
 					/>
 				</div>
 				{/* Copy to Clipboard End */}

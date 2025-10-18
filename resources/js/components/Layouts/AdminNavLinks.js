@@ -130,11 +130,6 @@ const AdminNavLinks = (props) => {
 					name: "Billing",
 				},
 				{
-					link: "/admin/referrals",
-					icon: <ReferralSVG />,
-					name: "Referrals",
-				},
-				{
 					link: "/admin/support",
 					icon: <SupportSVG />,
 					name: "Support",
