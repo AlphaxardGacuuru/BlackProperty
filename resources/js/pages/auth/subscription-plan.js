@@ -121,6 +121,7 @@ const SubscriptionPlan = (props) => {
 			userId: props.auth.id,
 			subscriptionPlanId: subscriptionPlanItem.id,
 			duration: 1,
+			type: "paid",
 			save: save,
 		})
 			.then((res) => {

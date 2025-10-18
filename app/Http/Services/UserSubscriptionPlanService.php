@@ -33,7 +33,7 @@ class UserSubscriptionPlanService extends Service
 	public function store($request)
 	{
 		// Check if the user is already subscribed to a plan
-		$existingPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
+		$existingPlan = UserSubscriptionPlan::where("user_id", $request->userId)
 			->where("status", "active")
 			->first();
 
@@ -44,7 +44,7 @@ class UserSubscriptionPlanService extends Service
 			]);
 		}
 
-		$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", auth("sanctum")->id())
+		$userSubscriptionPlan = UserSubscriptionPlan::where("user_id", $request->userId)
 			->where("status", "pending")
 			->delete();
 
