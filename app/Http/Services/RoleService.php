@@ -18,9 +18,7 @@ class RoleService extends Service
 				->orderBy("id", "DESC")
 				->get();
 
-			return response([
-				"data" => $roles,
-			], 200);
+			return $roles;
 		}
 
 		$query = new Role;
@@ -51,6 +49,7 @@ class RoleService extends Service
 	{
 		$role = new Role;
 		$role->name = $request->input("name");
+		$role->guard_name = "web"; // Use 'web' guard to match auth configuration
 		$saved = $role->save();
 
 		$role->syncPermissions($request->input("permissionIds"));
@@ -65,12 +64,14 @@ class RoleService extends Service
      */
 	public function update($request, $id)
 	{
-
 		$role = Role::find($id);
 
 		if ($request->filled("name")) {
 			$role->name = $request->input("name");
 		}
+
+		// Ensure guard_name is set to 'web' to match auth configuration
+		$role->guard_name = "web";
 
 		$role->syncPermissions($request->input("permissionIds"));
 

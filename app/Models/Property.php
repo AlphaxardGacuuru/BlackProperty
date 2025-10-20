@@ -49,4 +49,9 @@ class Property extends Model
 	{
 		return $this->hasMany(Unit::class);
 	}
+
+	public function userProperties()
+	{
+		return $this->hasMany(UserProperty::class);
+	}
 }

@@ -28,6 +28,19 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Guard Configuration
+    |--------------------------------------------------------------------------
+    |
+    | When using this package with Sanctum or multiple guards, you need to
+    | specify which guard should be used for permissions. This setting helps
+    | ensure that roles and permissions are checked against the correct guard.
+    |
+    */
+
+    'default_guard_name' => 'web',
+
     'table_names' => [
 
         /*

@@ -102,7 +102,9 @@ const index = (props) => {
 		// Fetch Dashboard Properties
 		Axios.get(
 			`api/dashboard/properties/${
-				props.auth.propertyIds?.length ? props.auth.propertyIds : [0]
+				[...props.auth.propertyIds, ...props.auth.assignedPropertyIds].length
+					? [...props.auth.propertyIds, ...props.auth.assignedPropertyIds]
+					: [0]
 			}`
 		)
 			.then((res) => {

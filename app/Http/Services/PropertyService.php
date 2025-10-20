@@ -143,11 +143,14 @@ class PropertyService extends Service
 	{
 		if ($request->filled("propertyId")) {
 			$propertyId = explode(",", $request->propertyId);
+
 			$query = $query->whereIn("id", $propertyId);
 		}
 
 		if ($request->filled("userId")) {
-			$query = $query->where("user_id", $request->userId);
+			$query = $query
+				->where("user_id", $request->userId)
+				->orWhereIn("id", explode(",", $request->assignedPropertyIds));
 		}
 
 		if ($request->filled("name")) {

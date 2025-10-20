@@ -52,6 +52,18 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		'created_at' => 'datetime:d M Y',
 	];
 
+	protected string $guard_name = 'web';
+
+	/**
+	 * Get the name of the guard associated with the user model.
+	 *
+	 * @return string
+	 */
+	public function getDefaultGuardName(): string
+	{
+		return 'web';
+	}
+
 	/**
 	 * Accesors.
 	 *
@@ -119,6 +131,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		return $this->hasMany(UserUnit::class);
 	}
 
+	public function referralPayouts()
+	{
+		return $this->hasMany(ReferralPayout::class);
+	}
+
 	/*
      * Custom functions
      */
@@ -140,19 +157,17 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		return $userSubscriptionPlan;
 	}
 
-	public function associatedSubscriptions()
+	public function subscriptionByPropertyIds()
 	{
-		$activeSubscriptions = $this->userProperties
-			->flatMap(function ($userProperty) {
-				$hasActiveSubscriptions = $userProperty
+		return $this->userProperties
+			->map(function ($userProperty) {
+				$activeSubscription = $userProperty
 					->property
 					->user
 					->activeSubscription();
 
-				return $hasActiveSubscriptions ? $userProperty->property_id : null;
+				return $activeSubscription ? $userProperty->property_id : null;
 			});
-
-		return $activeSubscriptions;
 	}
 
 	public function currentUnit()
@@ -162,27 +177,5 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 			->orderBy("id", "DESC")
 			->first()
 			?->unit;
-	}
-
-	// Returns an array of permissions
-	public function permissions()
-	{
-		$permissions = [];
-
-		foreach ($this->userRoles as $userRole) {
-			$roleEntities = $userRole->role->permissions;
-
-			array_push($permissions, $roleEntities);
-		}
-
-		// Combine array and get unique
-		return collect($permissions)
-			->collapse()
-			->unique();
-	}
-
-	public function referralPayouts()
-	{
-		return $this->hasMany(ReferralPayout::class);
 	}
 }

@@ -5,6 +5,7 @@ import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
 
 import BackSVG from "@/svgs/BackSVG"
+import PlusSVG from "@/svgs/PlusSVG"
 
 const create = (props) => {
 	const router = useHistory()
@@ -117,7 +118,7 @@ const create = (props) => {
 				setLoading(false)
 				props.setMessages([res.data.message])
 				// Redirect
-				setTimeout(() => router.push("/admin/roles"), 500)
+				setTimeout(() => router.push("/super/roles"), 500)
 			})
 			.catch((err) => {
 				// Remove loader for button
@@ -236,6 +237,7 @@ const create = (props) => {
 
 					<div className="d-flex justify-content-end">
 						<Btn
+							icon={<PlusSVG />}
 							text="add role"
 							loading={loading}
 						/>

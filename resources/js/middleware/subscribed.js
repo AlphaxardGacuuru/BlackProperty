@@ -10,7 +10,11 @@ function subscribed(props) {
 			const clickedRoute = newLocation.pathname
 
 			// PREVENT redirect if the clicked route is a /super/ or /tenant/ route
-			if (clickedRoute.match(/super/) || clickedRoute.match(/tenant/)) {
+			if (
+				clickedRoute.match(/super/) ||
+				clickedRoute.match(/tenant/) ||
+				props.auth.subscriptionByPropertyIds.length > 0
+			) {
 				return
 			}
 

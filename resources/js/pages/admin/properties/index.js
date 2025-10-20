@@ -26,7 +26,10 @@ const index = (props) => {
 
 	useEffect(() => {
 		props.getPaginated(
-			`properties?userId=${props.auth.id}&name=${nameQuery}`,
+			`properties?
+			userId=${props.auth.id}&
+			assignedPropertyIds=${props.auth.assignedPropertyIds.join(",")}&
+			name=${nameQuery}`,
 			setProperties,
 			"propertyList"
 		)
@@ -132,7 +135,10 @@ const index = (props) => {
 											<td>{property.name}</td>
 											<td>{property.location}</td>
 											<td className="text-success">
-												<small>KES</small> {Number(property.serviceCharge?.service)?.toLocaleString()}
+												<small>KES</small>{" "}
+												{Number(
+													property.serviceCharge?.service
+												)?.toLocaleString()}
 											</td>
 											<td>{property.depositFormula}</td>
 											{/* <td>{property.waterBillRateCouncil}</td> */}

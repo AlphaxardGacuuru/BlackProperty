@@ -76,7 +76,7 @@ function App() {
 	const [selectedPropertyId, setSelectedPropertyId] = useState(
 		getNormalLocalStorage("selectedPropertyId")
 			? getNormalLocalStorage("selectedPropertyId")
-			: auth.propertyIds
+			: [...auth.propertyIds, ...auth.subscriptionByPropertyIds]
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
 	const [loadingItems, setLoadingItems] = useState(0)
@@ -209,7 +209,10 @@ function App() {
 			.then((res) => {
 				setAuth(res.data.data)
 				setLocalStorage("auth", res.data.data)
-				setSelectedPropertyId(res.data.data.propertyIds)
+				setSelectedPropertyId([
+					...res.data.data.propertyIds,
+					...res.data.data.assignedPropertyIds,
+				])
 			})
 			.catch((err) => {
 				// setErrors(["Failed to fetch auth"])
@@ -218,7 +221,13 @@ function App() {
 
 	useEffect(() => {
 		if (auth.id) {
-			get(`properties?userId=${auth.id}`, setProperties, "properties")
+			get(
+				`properties?
+				userId=${auth.id}&
+				assignedPropertyIds=${auth.assignedPropertyIds.join(",")}`,
+				setProperties,
+				"properties"
+			)
 		}
 	}, [auth])
 

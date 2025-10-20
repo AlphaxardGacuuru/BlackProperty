@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import Btn from "@/components/Core/Btn"
 import MyLink from "@/components/Core/MyLink"
+import BackSVG from "@/svgs/BackSVG"
 
 const edit = (props) => {
 	var { id } = useParams()
@@ -155,8 +156,12 @@ const edit = (props) => {
 					{/* Property End */}
 
 					{/* Roles */}
-					<div className="form-group">
-						<label htmlFor="">Roles</label>
+					<div className="form-group mt-4">
+						<label
+							htmlFor=""
+							className="float-start fw-bold ms-1">
+							Roles
+						</label>
 						<div className="d-flex justify-content-center flex-wrap">
 							{roles.map((role, key) => (
 								<div
@@ -188,6 +193,7 @@ const edit = (props) => {
 					<center className="mb-5">
 						<MyLink
 							linkTo={`/staff`}
+							icon={<BackSVG />}
 							text="back to staff"
 						/>
 					</center>

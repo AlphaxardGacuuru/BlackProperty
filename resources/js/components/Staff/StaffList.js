@@ -19,8 +19,8 @@ const StaffList = (props) => {
 	/*
 	 * Delete Staff
 	 */
-	const onDeleteStaff = (staff) => {
-		Axios.delete(`/api/staff/${staff.id}?propertyId=${props.propertyId}`)
+	const onDeleteStaff = (id) => {
+		Axios.delete(`/api/staff/${id}`)
 			.then((res) => {
 				props.setMessages([res.data.message])
 				// Remove row
@@ -156,61 +156,12 @@ const StaffList = (props) => {
 												/>
 
 												<div className="mx-1">
-													{/* Confirm Delete Modal End */}
-													<div
-														className="modal fade"
-														id={`deleteModalStaff${staff.id}`}
-														tabIndex="-1"
-														aria-labelledby="deleteModalLabel"
-														aria-hidden="true">
-														<div className="modal-dialog">
-															<div className="modal-content rounded-0">
-																<div className="modal-header">
-																	<h1
-																		id="deleteModalLabel"
-																		className="modal-title fs-5">
-																		Delete {staff.name}
-																	</h1>
-																	<button
-																		type="button"
-																		className="btn-close"
-																		data-bs-dismiss="modal"
-																		aria-label="Close"></button>
-																</div>
-																<div className="modal-body text-start text-wrap">
-																	Are you sure you want to delete {staff.name}.
-																</div>
-																<div className="modal-footer justify-content-between">
-																	<button
-																		type="button"
-																		className="mysonar-btn btn-2"
-																		data-bs-dismiss="modal">
-																		Close
-																	</button>
-																	<button
-																		type="button"
-																		className="btn btn-danger rounded-0"
-																		data-bs-dismiss="modal"
-																		onClick={() => onDeleteStaff(staff)}>
-																		<span className="me-1">
-																			{<DeleteSVG />}
-																		</span>
-																		Delete
-																	</button>
-																</div>
-															</div>
-														</div>
-													</div>
-													{/* Confirm Delete Modal End */}
-
-													{/* Button trigger modal */}
-													<button
-														type="button"
-														className="mysonar-btn btn-2"
-														data-bs-toggle="modal"
-														data-bs-target={`#deleteModalStaff${staff.id}`}>
-														<DeleteSVG />
-													</button>
+													<DeleteModal
+														index={`staff${key}`}
+														model={staff}
+														modelName="Staff"
+														onDelete={onDeleteStaff}
+													/>
 												</div>
 											</React.Fragment>
 										</div>

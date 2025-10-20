@@ -33,7 +33,7 @@ class StaffController extends Controller
         $this->validate($request, [
             "name" => "required|string",
             "email" => "required|email",
-            "phone" => "string",
+			"phone" => "required|digits:10|unique:users,phone",
             "gender" => "required|string",
             "propertyId" => "required|string",
         ]);
@@ -73,7 +73,7 @@ class StaffController extends Controller
         $this->validate($request, [
             "name" => "nullable|string",
             "email" => "nullable|email|unique:users",
-            "phone" => "string|unique:users",
+			"phone" => "nullable|digits:10|unique:users,phone," . $id,
             "gender" => "nullable|string",
             "propertyId" => "nullable|string",
         ]);

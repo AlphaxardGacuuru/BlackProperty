@@ -180,7 +180,15 @@ const AdminMenu = (props) => {
 													)
 													props.setSelectedPropertyId(e.target.value)
 												}}>
-												{[{ id: props.auth.propertyIds, name: "All" }]
+												{[
+													{
+														id: [
+															...props.auth.propertyIds,
+															...props.auth.assignedPropertyIds,
+														],
+														name: "All",
+													},
+												]
 													.concat(props.properties)
 													.map((property, key) => (
 														<option

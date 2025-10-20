@@ -9,6 +9,7 @@ use App\Models\UserProperty;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class StaffService extends Service
 {
@@ -17,11 +18,11 @@ class StaffService extends Service
      */
 	public function index($request)
 	{
-		$staffQuery = new UserProperty;
+		$query = new UserProperty;
 
-		$staffQuery = $this->search($staffQuery, $request);
+		$query = $this->search($query, $request);
 
-		$staff = $staffQuery
+		$staff = $query
 			->orderBy("id", "DESC")
 			->paginate(20)
 			->appends([
@@ -36,8 +37,7 @@ class StaffService extends Service
      */
 	public function show($id)
 	{
-		$staff = UserProperty::where("user_id", $id)
-			->firstOrFail();
+		$staff = UserProperty::findOrFail($id);
 
 		return new StaffResource($staff);
 	}
@@ -80,17 +80,12 @@ class StaffService extends Service
 			$userProperty->property_id = $request->propertyId;
 			$userProperty->save();
 
-			foreach ($request->userRoles as $roleId) {
-				$userRole = new UserRole();
-				$userRole->user_id = $staff->id;
-				$userRole->role_id = $roleId;
-				$userRole->save();
-			}
+			$userProperty->syncRoles($request->userRoles);
 
 			return $saved;
 		});
 
-		$message = $staff->name . " added successfully";
+		$message = $staff->name . " Added Successfully";
 
 		return [$saved, $message, $staff, 200];
 	}
@@ -100,71 +95,49 @@ class StaffService extends Service
      */
 	public function update($request, $id)
 	{
-		$staff = User::findOrFail($id);
+		$staff = UserProperty::findOrFail($id);
 
 		if ($request->filled("name")) {
-			$staff->name = $request->input("name");
+			$staff->user->name = $request->input("name");
 		}
 
 		if ($request->filled("email")) {
-			$staff->email = $request->input("email");
+			$staff->user->email = $request->input("email");
 		}
 
 		if ($request->filled("phone")) {
-			$staff->phone = $request->input("phone");
+			$staff->user->phone = $request->input("phone");
 		}
 
 		if ($request->filled("gender")) {
-			$staff->gender = $request->input("gender");
+			$staff->user->gender = $request->input("gender");
 		}
 
 		if ($request->filled("password")) {
-			$staff->password = Hash::make($request->input("email"));
+			$staff->user->password = Hash::make($request->input("email"));
 		}
 
 		if ($request->filled("propertyId")) {
 			DB::transaction(function () use ($staff, $request) {
 				// Remove propertys not included
-				UserProperty::where("user_id", $staff->id)
+				UserProperty::where("user_id", $staff->user->id)
 					->delete();
 
-				$userRole = new UserProperty;
-				$userRole->user_id = $staff->id;
-				$userRole->property_id = $request->propertyId;
-				$userRole->save();
+				$userProperty = new UserProperty;
+				$userProperty->user_id = $staff->user->id;
+				$userProperty->property_id = $request->propertyId;
+				$userProperty->save();
 			});
 		}
 
 		if ($request->filled("userRoles")) {
-			if (count($request->input("userRoles")) > 0) {
-				foreach ($request->input("userRoles") as $roleId) {
-					// Check if role Already Exists
-					$userRoleDoesntExist = UserRole::where("user_id", $staff->id)
-						->where("role_id", $roleId)
-						->doesntExist();
-
-					if ($userRoleDoesntExist) {
-						$userRole = new UserRole();
-						$userRole->user_id = $staff->id;
-						$userRole->role_id = $roleId;
-						$userRole->save();
-					} else {
-						// Remove roles not included
-						UserRole::where("user_id", $staff->id)
-							->whereNotIn("role_id", $request->userRoles)
-							->delete();
-					}
-				}
-			} else {
-				// Remove roles not included
-				UserRole::where("user_id", $staff->id)
-					->delete();
-			}
+			$staff->syncRoles($request->userRoles);
 		}
 
+		$saved = $staff->user->save();
 		$saved = $staff->save();
 
-		$message = $staff->name . " Updated Successfully";
+		$message = $staff->user->name . " Updated Successfully";
 
 		return [$saved, $message, $staff];
 	}
@@ -174,9 +147,7 @@ class StaffService extends Service
      */
 	public function destroy($request, $id)
 	{
-		$staff = UserProperty::where("user_id", $id)
-			->where("property_id", $request->input("propertyId"))
-			->firstOrFail();
+		$staff = UserProperty::findOrFail($id);
 
 		$deleted = $staff->delete();
 
@@ -195,9 +166,9 @@ class StaffService extends Service
 		$roleId = $request->roleId;
 
 		if ($request->filled("roleId")) {
-			$query = $query->whereHas("user.userRoles", function ($query) use ($roleId) {
-				$query->where("role_id", $roleId);
-			});
+			$roleName = Role::find($roleId)->name;
+
+			$query = $query->role($roleName);
 		}
 
 		if ($request->filled("userId")) {

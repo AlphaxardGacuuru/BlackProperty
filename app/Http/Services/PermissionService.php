@@ -99,7 +99,7 @@ class PermissionService extends Service
 				$permission = Permission::updateOrCreate(
 					['name' => $permissionName],
 					[
-						'guard_name' => 'sanctum'
+						'guard_name' => 'web'
 					]
 				);
 
