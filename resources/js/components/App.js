@@ -48,9 +48,10 @@ function App() {
 				username: "@guest",
 				avatar: "/storage/avatars/male-avatar.png",
 				accountType: "normal",
-				decos: 0,
-				posts: 0,
-				fans: 0,
+				propertyIds: [],
+				assignedPropertyIds: [],
+				subscriptionByPropertyIds: [],
+				permissions: []
 			}
 		}
 	}

@@ -129,8 +129,8 @@ const create = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
 					<input
 						type="text"
@@ -169,7 +169,11 @@ const create = (props) => {
 											</label>
 										</th>
 										<th>Entity</th>
-										<th className="text-center">Actions</th>
+										<th
+											colspan="4"
+											className="text-center">
+											Actions
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -199,33 +203,27 @@ const create = (props) => {
 													</div>
 												</td>
 												{/* Entity Title End */}
-												<td>
-													<div className="d-flex flex-wrap gap-2">
-														{entityPermissions.map((permission) => (
-															<label
-																key={permission.id}
-																className="form-check form-check-inline">
-																<input
-																	type="checkbox"
-																	name="permissions"
-																	value={permission.id}
-																	checked={permissionIds.includes(
-																		permission.id
-																	)}
-																	onChange={(e) =>
-																		handleSetPermissions(
-																			parseInt(e.target.value)
-																		)
-																	}
-																	className="form-check-input me-1"
-																/>
-																<span className="form-check-label text-capitalize">
-																	{permission.action}
-																</span>
-															</label>
-														))}
-													</div>
-												</td>
+												{entityPermissions.map((permission) => (
+													<td>
+														<label
+															key={permission.id}
+															className="form-check form-check-inline">
+															<input
+																type="checkbox"
+																name="permissions"
+																value={permission.id}
+																checked={permissionIds.includes(permission.id)}
+																onChange={(e) =>
+																	handleSetPermissions(parseInt(e.target.value))
+																}
+																className="form-check-input me-1"
+															/>
+															<span className="form-check-label text-capitalize">
+																{permission.action}
+															</span>
+														</label>
+													</td>
+												))}
 											</tr>
 										)
 									)}
@@ -253,6 +251,7 @@ const create = (props) => {
 					<div className="col-sm-4"></div>
 				</form>
 			</div>
+			<div className="col-sm-2"></div>
 		</div>
 	)
 }

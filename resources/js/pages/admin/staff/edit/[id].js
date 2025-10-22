@@ -84,27 +84,33 @@ const edit = (props) => {
 
 	return (
 		<div className="row">
-			<div className="col-sm-4"></div>
-			<div className="col-sm-4">
+			<div className="col-sm-2"></div>
+			<div className="col-sm-8">
 				<form onSubmit={onSubmit}>
-					<label htmlFor="">Name</label>
-					<input
-						type="text"
-						name="name"
-						placeholder="John Doe"
-						defaultValue={staff.name}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setName(e.target.value)}
-					/>
+					<div className="row">
+						<div className="col-sm-6">
+							<label htmlFor="">Name</label>
+							<input
+								type="text"
+								name="name"
+								placeholder="John Doe"
+								defaultValue={staff.name}
+								className="form-control mb-2 me-2"
+								onChange={(e) => setName(e.target.value)}
+							/>
+							</div>
+						<div className="col-sm-6">
 
-					<label htmlFor="">Email</label>
-					<input
-						type="text"
-						placeholder="johndoe@gmail.com"
-						defaultValue={staff.email}
-						className="form-control mb-2 me-2"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
+							<label htmlFor="">Email</label>
+							<input
+								type="text"
+								placeholder="johndoe@gmail.com"
+								defaultValue={staff.email}
+								className="form-control mb-2 me-2"
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
+					</div>
 
 					<label htmlFor="">Phone</label>
 					<input
@@ -159,20 +165,20 @@ const edit = (props) => {
 					<div className="form-group mt-4">
 						<label
 							htmlFor=""
-							className="float-start fw-bold ms-1">
+							className="fw-bold ms-1">
 							Roles
 						</label>
-						<div className="d-flex justify-content-center flex-wrap">
+						<div className="d-flex justify-content-start align-items-end flex-wrap">
 							{roles.map((role, key) => (
 								<div
 									key={key}
-									className="border-bottom m-1 p-2">
+									className="m-1 px-2">
 									<label key={key}>
 										<input
 											type="checkbox"
 											id=""
 											name="entities"
-											defaultChecked={staff.roleNames.includes(role.name)}
+											defaultChecked={staff.roleNames?.includes(role.name)}
 											onClick={(e) => handleUserRoles(role.id)}
 										/>
 										<span className="text-capitalize me-2"> {role.name}</span>
@@ -201,6 +207,7 @@ const edit = (props) => {
 					<div className="col-sm-4"></div>
 				</form>
 			</div>
+			<div className="col-sm-2"></div>
 		</div>
 	)
 }

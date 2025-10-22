@@ -111,11 +111,6 @@ const AdminNavLinks = (props) => {
 			name: "Staff",
 		},
 		{
-			link: "/admin/roles",
-			icon: <PersonGearSVG />,
-			name: "Roles",
-		},
-		{
 			link: "/admin/visitor-admissions",
 			icon: <VisitorAdmissionSVG />,
 			name: "Visitor Admissions",
@@ -138,6 +133,40 @@ const AdminNavLinks = (props) => {
 		},
 	]
 
+	// Check if user has properties so as to show staff or roles
+	const canStaffOrRole = (entity) => {
+		if (["Staff", "Roles"].includes(entity)) {
+			return props.auth.propertyIds.length > 0 ? "" : "d-none"
+		}
+	}
+
+	/*
+	 * Handle Permissions
+	 */
+	const can = (entity) => {
+
+		if (props.auth.propertyIds.length > 0 || ["staff", "roles"].includes(entity)) {
+			return
+		}
+
+		if (Array.isArray(entity)) {
+			var hasAtleastOnePersmission = entity.some((entityName) => {
+
+				if (["billing", "support"].includes(entityName)) {
+					return true
+				} else {
+					return props.auth.permissions.includes(entityName)
+				}
+			})
+
+			return hasAtleastOnePersmission ? "" : "d-none"
+		} else {
+			return props.auth.permissions.some((permission) => permission.match(entity))
+				? ""
+				: "d-none"
+		}
+	}
+
 	return (
 		<React.Fragment>
 			{navLinks.map((navLink, key) => (
@@ -145,7 +174,9 @@ const AdminNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className="nav-item hidden">
+							className={`nav-item hidden ${canStaffOrRole(navLink.name)} ${can(
+								navLink.name.toLowerCase()
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}>
@@ -154,7 +185,10 @@ const AdminNavLinks = (props) => {
 							</Link>
 						</li>
 					) : (
-						<li className="nav-item hidden">
+						<li
+							className={`nav-item hidden ${canStaffOrRole(navLink.name)} ${can(
+								navLink.links.map((link) => link.name.toLowerCase())
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links

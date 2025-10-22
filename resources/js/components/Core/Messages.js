@@ -62,7 +62,7 @@ const Messages = ({
 			theme="colored"
 			transition={Bounce}
 			style={{
-				// zIndex: 1000002,
+				zIndex: 1000002,
 				fontSize: isSmallMobile ? "14px" : "16px",
 				width: isSmallMobile ? "55%" : isMobile ? "50%" : "",
 				left: isMobile ? "70%" : "",

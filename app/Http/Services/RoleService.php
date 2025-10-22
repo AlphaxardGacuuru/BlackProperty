@@ -25,7 +25,8 @@ class RoleService extends Service
 
 		$query = $this->search($query, $request);
 
-		$roles = $query->orderBy("id", "DESC")
+		$roles = $query
+			->orderBy("id", "ASC")
 			->paginate(20)
 			->appends($request->all());
 

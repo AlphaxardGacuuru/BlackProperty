@@ -14,9 +14,25 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::firstOrCreate(
-			['name' => 'Super Admin'],
-			['guard_name' => 'web']
-		);
+		$roles = collect([
+			"Super Admin", 
+			"Admin", 
+			"Property Manager", 
+			"Unit Manager",
+			"Tenant Manager",
+			"Invoice Manager",
+			"Payments Manager",
+			"Credit Notes Manager",
+			"Deductions Manager",
+			"Emails Manager",
+			"SMSs Manager",
+		]);
+
+		$roles->each(function ($role) {
+			Role::firstOrCreate(
+				["name" => $role],
+				["guard_name" => "web"]
+			);
+		});
     }
 }

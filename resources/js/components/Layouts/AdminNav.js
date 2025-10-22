@@ -83,12 +83,15 @@ const AdminMenu = (props) => {
 				localStorage.clear()
 				// Set Auth to Guest
 				props.setAuth({
+					id: 0,
 					name: "Guest",
+					username: "@guest",
 					avatar: "/storage/avatars/male-avatar.png",
 					accountType: "normal",
-					decos: 0,
-					posts: 0,
-					fans: 0,
+					propertyIds: [],
+					assignedPropertyIds: [],
+					subscriptionByPropertyIds: [],
+					permissions: [],
 				})
 				// Redirect to Dashboard
 				location.pathname.match("/admin")
