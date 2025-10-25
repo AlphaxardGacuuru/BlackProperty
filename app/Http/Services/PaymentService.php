@@ -152,11 +152,15 @@ class PaymentService extends Service
 	public function search($query, $request)
 	{
 		if ($request->propertyId != "undefined") {
-			$propertyId = explode(",", $request->propertyId);
+			$propertyIds = explode(",", $request->propertyId);
 
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-				$query->whereIn("id", $propertyId);
-			});
+			$isSuper = in_array("All", $propertyIds);
+
+			if (!$isSuper) {
+				$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+					$query->whereIn("id", $propertyIds);
+				});
+			}
 		}
 
 		if ($request->filled("unitId") && $request->unitId != "undefined") {

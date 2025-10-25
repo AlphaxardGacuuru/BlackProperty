@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import DeductionList from "@/components/Deductions/DeductionList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [deductions, setDeductions] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -21,7 +26,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Deduction
 		props.getPaginated(
-			`deductions?propertyId=${props.selectedPropertyId}&
+			`deductions?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&

@@ -142,15 +142,21 @@ class PropertyService extends Service
 	public function search($query, $request)
 	{
 		if ($request->filled("propertyId")) {
-			$propertyId = explode(",", $request->propertyId);
+			$propertyIds = explode(",", $request->propertyId);
 
-			$query = $query->whereIn("id", $propertyId);
+			$query = $query->whereIn("id", $propertyIds);
 		}
 
 		if ($request->filled("userId")) {
-			$query = $query
-				->where("user_id", $request->userId)
-				->orWhereIn("id", explode(",", $request->assignedPropertyIds));
+			$assignedPropertyIds = explode(",", $request->assignedPropertyIds);
+
+			$isSuper = in_array("All", $assignedPropertyIds);
+
+			if (!$isSuper) {
+				$query = $query
+					->where("user_id", $request->userId)
+					->orWhereIn("id", $assignedPropertyIds);
+			}
 		}
 
 		if ($request->filled("name")) {

@@ -167,9 +167,13 @@ class UnitService extends Service
      */
 	public function search($query, $request)
 	{
-		$propertyId = explode(",", $request->propertyId);
+		$propertyIds = explode(",", $request->propertyId);
 
-		$query = $query->whereIn("property_id", $propertyId);
+		$isSuper = in_array("All", $propertyIds);
+
+		if (!$isSuper) {
+			$query = $query->whereIn("property_id", $propertyIds);
+		}
 
 		if ($request->filled("name")) {
 			$query = $query->where("name", "LIKE", "%" . $request->input("name") . "%");

@@ -24,6 +24,10 @@ import DashCircleSVG from "@/svgs/DashCircleSVG"
 import CheckCircleSVG from "@/svgs/CheckCircleSVG"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [emails, setEmails] = useState([])
 
 	const [emailToView, setEmailToView] = useState({})
@@ -44,7 +48,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch SMS Messages
 		props.getPaginated(
-			`emails?propertyId=${props.selectedPropertyId}&
+			`emails?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			phone=${phone}&

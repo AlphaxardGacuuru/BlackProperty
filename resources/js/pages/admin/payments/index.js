@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import PaymentList from "@/components/Payments/PaymentList"
 
 const index = (props) => {
+	const location = useLocation()
+	
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [payments, setPayments] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -20,7 +25,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Payments
 		props.getPaginated(
-			`payments?propertyId=${props.selectedPropertyId}&
+			`payments?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			startMonth=${startMonth}&

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import UnitList from "@/components/Units/UnitList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	// Get Units
 	const [units, setUnits] = useState(props.getLocalStorage("units"))
 
@@ -15,7 +20,7 @@ const index = (props) => {
 		props.setPage({ name: "Units", path: ["units"] })
 		props.getPaginated(
 			`units?
-			propertyId=${props.selectedPropertyId}&
+			propertyId=${props.selectedPropertyId},${superPropertyId}&
 			name=${nameQuery}&
 			type=${typeQuery}& 
 			status=${statusQuery}`,

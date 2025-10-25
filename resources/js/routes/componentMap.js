@@ -11,6 +11,10 @@ import ForgotPassword from "@/pages/auth/forgot-password"
 import ResetPassword from "@/pages/auth/reset-password"
 import AdminSubscriptionPlan from "@/pages/auth/subscription-plan"
 
+import SuperStaff from "@/pages/super/staff/index"
+import SuperStaffCreate from "@/pages/super/staff/create"
+import SuperStaffEdit from "@/pages/super/staff/edit/[id]"
+
 import SuperReferral from "@/pages/super/referrals/index"
 
 import SuperSubscriptionPlans from "@/pages/super/subscription-plans/index"
@@ -104,6 +108,10 @@ const componentMap = {
 	VerifyEmail,
 	ForgotPassword,
 	ResetPassword,
+
+	SuperStaff,
+	SuperStaffCreate,
+	SuperStaffEdit,
 
 	SuperReferral,
 

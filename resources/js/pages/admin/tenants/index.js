@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import TenantList from "@/components/Tenants/TenantList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	// Get Tenants
 	const [tenants, setTenants] = useState([])
 
@@ -11,7 +16,7 @@ const index = (props) => {
 
 	const dataToFetch = () => {
 		props.getPaginated(
-			`tenants?propertyId=${props.selectedPropertyId}&
+			`tenants?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			occupied=true&
 			name=${nameQuery}&
 			phone=${phoneQuery}`,

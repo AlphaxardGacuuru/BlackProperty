@@ -8,6 +8,7 @@ use App\Models\MPESATransaction;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserService extends Service
 {
@@ -28,9 +29,15 @@ class UserService extends Service
 			], 200);
 		}
 
-		$users = User::orderby("id", "DESC")->paginate();
+		$query = new User;
 
-		return UserResource::collection($users);
+		$query = $this->search($query, $request);
+
+		$users = $query
+			->orderby("id", "DESC")
+			->paginate();
+
+		return $users;
 	}
 
 	/**
@@ -39,9 +46,7 @@ class UserService extends Service
 	 */
 	public function show($id)
 	{
-		$user = User::findOrFail($id);
-
-		return new UserResource($user);
+		return User::findOrFail($id);
 	}
 
 	/**
@@ -55,12 +60,16 @@ class UserService extends Service
 
 		$user->name = $request->input('name', $user->name);
 		$user->phone = $request->input('phone', $user->phone);
-		
+
 		if ($request->filled('password')) {
 			$user->password = Hash::make($request->input('password'));
 		}
 
 		$user->settings = $request->input('settings', $user->settings);
+
+		if ($request->filled("userRoles")) {
+			$user->syncRoles($request->userRoles);
+		}
 
 		$saved = $user->save();
 
@@ -110,5 +119,27 @@ class UserService extends Service
 		} else {
 			return response(["message" => "Not Authenticated"], 401);
 		}
+	}
+
+	/*
+     * Search
+     */
+	public function search($query, $request)
+	{
+		$roleId = $request->roleId;
+
+		if ($request->filled("roleId")) {
+			$roleName = Role::find($roleId)->name;
+
+			$query = $query->role($roleName);
+		}
+
+		$name = $request->input("name");
+
+		if ($request->filled("name")) {
+			$query = $query->where("name", "LIKE", "%" . $name . "%");
+		}
+
+		return $query;
 	}
 }

@@ -8,10 +8,10 @@ const HeroIcon = ({ children }) => {
 		<div
 			className={`${
 				location.pathname.match("/admin/")
-					? "bg-secondary-subtle text-secondary"
+					? "bg-primary-subtle text-primary"
 					: location.pathname.match("/tenant/")
 					? " bg-success-subtle text-success"
-					: " bg-danger-subtle text-danger"
+					: " bg-secondary-subtle text-secondary"
 			} fs-1 py-3 px-4 rounded-circle shadow`}>
 			{children}
 		</div>

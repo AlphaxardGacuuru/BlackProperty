@@ -38,10 +38,7 @@ class InvoiceService extends Service
 			->orderBy("year", "DESC")
 			->orderBy("id", "DESC")
 			->paginate(20)
-			->appends([
-				"propertyId" => $request->propertyId,
-				"unitId" => $request->unitId,
-			]);
+			->appends($request->all());
 
 		$sum = $invoiceQuery->sum("amount");
 		$balance = $invoiceQuery->sum("balance");
@@ -138,11 +135,15 @@ class InvoiceService extends Service
 	public function search($query, $request)
 	{
 		if ($request->propertyId != "undefined") {
-			$propertyId = explode(",", $request->propertyId);
+			$propertyIds = explode(",", $request->propertyId);
 
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyId) {
-				$query->whereIn("id", $propertyId);
-			});
+			$isSuper = in_array("All", $propertyIds);
+
+			if (!$isSuper) {
+				$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+					$query->whereIn("id", $propertyIds);
+				});
+			}
 		}
 
 		$number = $request->input("number");

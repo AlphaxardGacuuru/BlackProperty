@@ -1,7 +1,13 @@
-import CreditNoteList from "@/components/CreditNotes/CreditNoteList"
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
+
+import CreditNoteList from "@/components/CreditNotes/CreditNoteList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [creditNotes, setCreditNotes] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -20,7 +26,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Credit Note
 		props.getPaginated(
-			`credit-notes?propertyId=${props.selectedPropertyId}&
+			`credit-notes?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			invoiceCode=${invoiceCode}&

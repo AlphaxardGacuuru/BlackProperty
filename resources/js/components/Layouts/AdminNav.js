@@ -104,12 +104,15 @@ const AdminMenu = (props) => {
 				localStorage.clear()
 				// Set Auth to Guest
 				props.setAuth({
+					id: 0,
 					name: "Guest",
+					username: "@guest",
 					avatar: "/storage/avatars/male-avatar.png",
 					accountType: "normal",
-					decos: 0,
-					posts: 0,
-					fans: 0,
+					propertyIds: [],
+					assignedPropertyIds: [],
+					subscriptionByPropertyIds: [],
+					permissions: [],
 				})
 				// Redirect to Dashboard
 				setTimeout(() => history.push("/admin/dashboard"), 500)
@@ -392,10 +395,7 @@ const AdminMenu = (props) => {
 														{/* Tenant Login End */}
 														{/* Super Login Start */}
 														{location.pathname.match("/admin/") &&
-														[
-															"al@black.co.ke",
-															"alphaxardgacuuru47@gmail.com",
-														].includes(props.auth.email) ? (
+														props.auth.roleNames.includes("Super Admin") ? (
 															<Link
 																to="/super/dashboard"
 																className="p-2 px-3 dropdown-item">
@@ -596,9 +596,7 @@ const AdminMenu = (props) => {
 						{/* Tenant Login End */}
 						{/* Super Login Start */}
 						{location.pathname.match("/admin/") &&
-						["al@black.co.ke", "alphaxardgacuuru47@gmail.com"].includes(
-							props.auth.email
-						) ? (
+						props.auth.roleNames.includes("Super Admin") ? (
 							<Link
 								to="/super/dashboard"
 								className="p-2 text-start text-white"

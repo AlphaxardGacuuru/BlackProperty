@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import DeleteModal from "@/components/Core/DeleteModal"
@@ -13,6 +14,10 @@ import EditSVG from "@/svgs/EditSVG"
 import NoData from "@/components/Core/NoData"
 
 const index = (props) => {
+	const location = useLocation()
+	
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [properties, setProperties] = useState(
 		props.getLocalStorage("propertyList")
 	)
@@ -28,7 +33,7 @@ const index = (props) => {
 		props.getPaginated(
 			`properties?
 			userId=${props.auth.id}&
-			assignedPropertyIds=${props.auth.assignedPropertyIds.join(",")}&
+			assignedPropertyIds=${props.auth.assignedPropertyIds.join(",")},${superPropertyId}&
 			name=${nameQuery}`,
 			setProperties,
 			"propertyList"

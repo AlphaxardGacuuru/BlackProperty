@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import MyLink from "@/components/Core/MyLink"
 import Img from "@/components/Core/Img"
@@ -17,6 +18,10 @@ import TenancyBar from "@/components/Dashboard/TenancyBar"
 import IncomeBar from "@/components/Dashboard/IncomeBar"
 
 const index = (props) => {
+	const location = useLocation()
+	
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const months = props.months.filter((month) => month != "Select Month")
 	const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -103,7 +108,7 @@ const index = (props) => {
 		Axios.get(
 			`api/dashboard/properties/${
 				[...props.auth.propertyIds, ...props.auth.assignedPropertyIds].length
-					? [...props.auth.propertyIds, ...props.auth.assignedPropertyIds]
+					? [...props.auth.propertyIds, ...props.auth.assignedPropertyIds, superPropertyId]
 					: [0]
 			}`
 		)
@@ -118,7 +123,7 @@ const index = (props) => {
 
 		// Fetch Dashboard
 		if (props.selectedPropertyId?.length > 0) {
-			Axios.get(`api/dashboard/${props.selectedPropertyId}`)
+			Axios.get(`api/dashboard/${props.selectedPropertyId},${superPropertyId}`)
 				.then((res) => {
 					// Reset Data
 					setDashboard([])
@@ -130,13 +135,13 @@ const index = (props) => {
 
 			// Fetch Payments
 			props.getPaginated(
-				`payments?propertyId=${props.selectedPropertyId}`,
+				`payments?propertyId=${props.selectedPropertyId},${superPropertyId}`,
 				setPayments
 			)
 
 			// Fetch Staff
 			props.getPaginated(
-				`staff?propertyId=${props.selectedPropertyId}`,
+				`staff?propertyId=${props.selectedPropertyId},${superPropertyId}`,
 				setStaff
 			)
 		}

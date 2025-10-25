@@ -45,7 +45,13 @@ class DashboardService extends Service
 
 	public function properties($propertyIds)
 	{
-		$propertyQuery = Property::whereIn("id", $propertyIds);
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$propertyQuery = new Property;
+		} else {
+			$propertyQuery = Property::whereIn("id", $propertyIds);
+		}
 
 		$total = $propertyQuery->count();
 
@@ -77,7 +83,13 @@ class DashboardService extends Service
 
 	public function units($propertyIds)
 	{
-		$unitsQuery = Unit::whereIn("property_id", $propertyIds);
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$unitsQuery = new Unit;
+		} else {
+			$unitsQuery = Unit::whereIn("property_id", $propertyIds);
+		}
 
 		$total = $unitsQuery->count();
 
@@ -122,10 +134,18 @@ class DashboardService extends Service
 			$startOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->startOfDay();
 			$endOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->endOfMonth()->endOfDay();
 
+			$isSuper = in_array("All", $propertyIds);
+
+			if ($isSuper) {
+				$userUnitQuery = new UserUnit;
+			} else {
+				$userUnitQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+					$query->whereIn("id", $propertyIds);
+				});
+			}
+
 			// Count tenants who were occupied during this month
-			$count = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
-				$query->whereIn("id", $propertyIds);
-			})
+			$count = $userUnitQuery
 				// ->whereNotNull("occupied_at")
 				->where("occupied_at", "<=", $endOfMonth)
 				->where(function ($query) use ($startOfMonth) {
@@ -159,10 +179,18 @@ class DashboardService extends Service
 			$startOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->startOfDay();
 			$endOfMonth = Carbon::create(Carbon::now()->year, $monthNumber, 1)->endOfMonth()->endOfDay();
 
+			$isSuper = in_array("All", $propertyIds);
+
+			if ($isSuper) {
+				$userUnitQuery = new UserUnit;
+			} else {
+				$userUnitQuery = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
+					$query->whereIn("id", $propertyIds);
+				});
+			}
+
 			// Count tenants who were occupied during this month
-			$occupiedCount = UserUnit::whereHas("unit.property", function ($query) use ($propertyIds) {
-				$query->whereIn("id", $propertyIds);
-			})
+			$occupiedCount = $userUnitQuery
 				// ->whereNotNull("occupied_at")
 				->where("occupied_at", "<=", $endOfMonth)
 				->where(function ($query) use ($startOfMonth) {
@@ -194,9 +222,15 @@ class DashboardService extends Service
 
 	public function rent($propertyIds)
 	{
-		$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "rent");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$rentQuery = Invoice::where("type", "rent");
+		} else {
+			$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "rent");
+		}
 
 		$paid = $rentQuery
 			->sum("paid");
@@ -216,9 +250,15 @@ class DashboardService extends Service
 
 	public function rentPaidThisYear($propertyIds)
 	{
-		$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "rent");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$rentQuery = Invoice::where("type", "rent");
+		} else {
+			$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "rent");
+		}
 
 		$getRentThisYear = $rentQuery
 			->select("invoices.month", DB::raw("sum(paid) as count"))
@@ -240,9 +280,15 @@ class DashboardService extends Service
 
 	public function rentDueThisYear($propertyIds)
 	{
-		$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "rent");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$rentQuery = Invoice::where("type", "rent");
+		} else {
+			$rentQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "rent");
+		}
 
 		$getRentThisYear = $rentQuery
 			->select("invoices.month", DB::raw("sum(balance) as count"))
@@ -268,9 +314,21 @@ class DashboardService extends Service
 
 	public function water($propertyIds)
 	{
-		$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "water");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$waterQuery = Invoice::where("type", "water");
+
+			$waterReadingQuery = new WaterReading;
+		} else {
+			$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "water");
+
+			$waterReadingQuery = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			});
+		}
 
 		$paid = $waterQuery
 			->sum("paid");
@@ -278,15 +336,13 @@ class DashboardService extends Service
 		$due = $waterQuery
 			->sum("balance");
 
-		$usageTwoMonthsAgo = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("month", Carbon::now()->subMonths(2)->month)
+		$usageTwoMonthsAgo = $waterReadingQuery
+			->where("month", Carbon::now()->subMonths(2)->month)
 			->where("year", Carbon::now()->year)
 			->sum("usage");
 
-		$usageLastMonth = WaterReading::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("month", Carbon::now()->subMonth()->month)
+		$usageLastMonth = $waterReadingQuery
+			->where("month", Carbon::now()->subMonth()->month)
 			->where("year", Carbon::now()->year)
 			->sum("usage");
 
@@ -304,9 +360,15 @@ class DashboardService extends Service
 
 	public function waterPaidThisYear($propertyIds)
 	{
-		$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "water");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$waterQuery = Invoice::where("type", "water");
+		} else {
+			$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "water");
+		}
 
 		$getRentThisYear = $waterQuery
 			->select("invoices.month", DB::raw("sum(paid) as count"))
@@ -328,9 +390,15 @@ class DashboardService extends Service
 
 	public function waterDueThisYear($propertyIds)
 	{
-		$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "water");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$waterQuery = Invoice::where("type", "water");
+		} else {
+			$waterQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "water");
+		}
 
 		$getRentThisYear = $waterQuery
 			->select("invoices.month", DB::raw("sum(balance) as count"))
@@ -356,9 +424,15 @@ class DashboardService extends Service
 
 	public function serviceCharge($propertyIds)
 	{
-		$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "service_charge");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$serviceChargeQuery = Invoice::where("type", "service_charge");
+		} else {
+			$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "service_charge");
+		}
 
 		$paid = $serviceChargeQuery
 			->sum("paid");
@@ -378,9 +452,15 @@ class DashboardService extends Service
 
 	public function serviceChargePaidThisYear($propertyIds)
 	{
-		$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "service_charge");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$serviceChargeQuery = Invoice::where("type", "service_charge");
+		} else {
+			$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "service_charge");
+		}
 
 		$getRentThisYear = $serviceChargeQuery
 			->select("invoices.month", DB::raw("sum(paid) as count"))
@@ -402,9 +482,15 @@ class DashboardService extends Service
 
 	public function serviceChargeDueThisYear($propertyIds)
 	{
-		$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
-			$query->whereIn("id", $propertyIds);
-		})->where("type", "service_charge");
+		$isSuper = in_array("All", $propertyIds);
+
+		if ($isSuper) {
+			$serviceChargeQuery = Invoice::where("type", "service_charge");
+		} else {
+			$serviceChargeQuery = Invoice::whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+				$query->whereIn("id", $propertyIds);
+			})->where("type", "service_charge");
+		}
 
 		$getRentThisYear = $serviceChargeQuery
 			->select("invoices.month", DB::raw("sum(balance) as count"))

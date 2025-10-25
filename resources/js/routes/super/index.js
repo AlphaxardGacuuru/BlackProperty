@@ -44,15 +44,15 @@ const adminRoutes = [
 	// Staff and roles
 	{
 		path: "/super/staff",
-		component: "AdminStaff",
+		component: "SuperStaff",
 	},
 	{
 		path: "/super/staff/create",
-		component: "AdminStaffCreate",
+		component: "SuperStaffCreate",
 	},
 	{
 		path: "/super/staff/:id/edit",
-		component: "AdminStaffEdit",
+		component: "SuperStaffEdit",
 	},
 	{
 		path: "/super/roles",

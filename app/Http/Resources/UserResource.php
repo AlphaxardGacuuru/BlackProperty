@@ -28,6 +28,8 @@ class UserResource extends JsonResource
 			"assignedPropertyIds" => $this->userProperties->map(fn($userProperty) => $userProperty->property_id),
 			"activeSubscription" => $this->activeSubscription(),
 			"subscriptionByPropertyIds" => $this->subscriptionByPropertyIds(),
+			"roles" => $this->roles,
+			"roleNames" => $this->getRoleNames(),
 			"permissions" => $this->userProperties
 				->flatMap(function ($userProperty) {
 					return $userProperty

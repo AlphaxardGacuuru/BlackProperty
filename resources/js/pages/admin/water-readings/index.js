@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import WaterReadingList from "@/components/Water/WaterReadingList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [waterReadings, setWaterReadings] = useState([])
 
 	const [tenant, setTenant] = useState("")
@@ -20,7 +25,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Water Readings
 		props.getPaginated(
-			`water-readings?propertyId=${props.selectedPropertyId}&
+			`water-readings?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			tenant=${tenant}&
 			unit=${unit}&
 			startMonth=${startMonth}&

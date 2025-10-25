@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,9 @@ class UserController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		return $this->service->index($request);
+		$users = $this->service->index($request);
+
+		return UserResource::collection($users);
 	}
 
 	/**
@@ -41,7 +44,9 @@ class UserController extends Controller
 	 */
 	public function show($id)
 	{
-		return $this->service->show($id);
+		$user = $this->service->show($id);
+
+		return new UserResource($user);
 	}
 
 	/**

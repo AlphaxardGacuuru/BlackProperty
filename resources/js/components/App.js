@@ -51,7 +51,7 @@ function App() {
 				propertyIds: [],
 				assignedPropertyIds: [],
 				subscriptionByPropertyIds: [],
-				permissions: []
+				permissions: [],
 			}
 		}
 	}
@@ -77,7 +77,10 @@ function App() {
 	const [selectedPropertyId, setSelectedPropertyId] = useState(
 		getNormalLocalStorage("selectedPropertyId")
 			? getNormalLocalStorage("selectedPropertyId")
-			: [...auth.propertyIds, ...auth.subscriptionByPropertyIds]
+			: [
+					...auth.propertyIds,
+					...auth.subscriptionByPropertyIds
+			  ]
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
 	const [loadingItems, setLoadingItems] = useState(0)
@@ -225,7 +228,7 @@ function App() {
 			get(
 				`properties?
 				userId=${auth.id}&
-				assignedPropertyIds=${auth.assignedPropertyIds.join(",")}`,
+				assignedPropertyIds=${(auth.assignedPropertyIds.join(","))}`,
 				setProperties,
 				"properties"
 			)

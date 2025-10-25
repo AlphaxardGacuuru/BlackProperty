@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
 
 import InvoiceList from "@/components/Invoices/InvoiceList"
 
 const index = (props) => {
+	const location = useLocation()
+
+	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+
 	const [invoices, setInvoices] = useState([])
 
 	const [number, setNumber] = useState("")
@@ -24,7 +29,7 @@ const index = (props) => {
 	useEffect(() => {
 		// Fetch Invoices
 		props.getPaginated(
-			`invoices?propertyId=${props.selectedPropertyId}&
+			`invoices?propertyId=${props.selectedPropertyId},${superPropertyId}&
 			number=${number}&
 			invoice=${invoice}&
 			unit=${unit}&
