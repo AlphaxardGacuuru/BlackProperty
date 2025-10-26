@@ -14,12 +14,22 @@ class UserResource extends JsonResource
 	 */
 	public function toArray($request)
 	{
+		$userRoles = [
+			"userId" => $this->id,
+			"roles" => $this->roles
+		];
+
 		$userPropertyRoles = $this
 			->userProperties
 			->flatMap(fn($userProperty) => [
 				"propertyId" => $userProperty->property_id,
 				"roles" => $userProperty->roles
 			]);
+
+		$userRoleNames = [
+			"userId" => $this->id,
+			"roleNames" => $this->getRoleNames()
+		];
 
 		$userPropertyRoleNames = $this
 			->userProperties
@@ -42,8 +52,8 @@ class UserResource extends JsonResource
 			"assignedPropertyIds" => $this->userProperties->map(fn($userProperty) => $userProperty->property_id),
 			"activeSubscription" => $this->activeSubscription(),
 			"subscriptionByPropertyIds" => $this->subscriptionByPropertyIds(),
-			"roles" => [...$this->roles, $userPropertyRoles],
-			"roleNames" => [...$this->getRoleNames(), $userPropertyRoleNames],
+			"roles" => [$userRoles, $userPropertyRoles],
+			"roleNames" => [$userRoleNames, $userPropertyRoleNames],
 			"permissions" => $this->userProperties
 				->flatMap(function ($userProperty) {
 					return $userProperty
