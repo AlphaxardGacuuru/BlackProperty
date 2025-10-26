@@ -31,13 +31,17 @@ const AdminMenu = (props) => {
 	const [bottomMenu, setBottomMenu] = useState()
 	const [avatarVisibility, setAvatarVisibility] = useState("")
 
+	const isSuperAdmin = props.auth.roleNames?.some((role, key) =>
+		role.roleNames?.includes("Super Admin")
+	)
+
 	useEffect(() => {
 		var isInSuperPage = location.pathname.match("/super/")
 
 		// Handle Redirects for Super
 		if (isInSuperPage) {
 			// Redirect back if not super user
-			if (!props.auth.roleNames?.includes("Super Admin")) {
+			if (!isSuperAdmin) {
 				setTimeout(() => {
 					props.setErrors(["Restricted Access"])
 					history.goBack()
@@ -352,7 +356,9 @@ const AdminMenu = (props) => {
 																					<h6
 																						key={index}
 																						className="fs-6 d-inline text-wrap me-1">
-																						{roleName}{index < role.roleNames.length - 1 && ","}
+																						{roleName}
+																						{index <
+																							role.roleNames.length - 1 && ","}
 																					</h6>
 																				)
 																			)}
@@ -407,7 +413,7 @@ const AdminMenu = (props) => {
 														{/* Tenant Login End */}
 														{/* Super Login Start */}
 														{location.pathname.match("/admin/") &&
-														props.auth.roleNames?.includes("Super Admin") ? (
+														isSuperAdmin ? (
 															<Link
 																to="/super/dashboard"
 																className="p-2 px-3 dropdown-item">
@@ -607,8 +613,7 @@ const AdminMenu = (props) => {
 						) : null}
 						{/* Tenant Login End */}
 						{/* Super Login Start */}
-						{location.pathname.match("/admin/") &&
-						props.auth.roleNames?.includes("Super Admin") ? (
+						{location.pathname.match("/admin/") && isSuperAdmin ? (
 							<Link
 								to="/super/dashboard"
 								className="p-2 text-start text-white"
