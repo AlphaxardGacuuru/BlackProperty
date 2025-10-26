@@ -13,7 +13,7 @@ function subscribed(props) {
 			if (
 				clickedRoute.match(/super/) ||
 				clickedRoute.match(/tenant/) ||
-				props.auth.subscriptionByPropertyIds.length > 0
+				props.auth.subscriptionByPropertyIds?.length > 0
 			) {
 				return
 			}

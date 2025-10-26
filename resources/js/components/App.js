@@ -78,8 +78,8 @@ function App() {
 		getNormalLocalStorage("selectedPropertyId")
 			? getNormalLocalStorage("selectedPropertyId")
 			: [
-					...auth.propertyIds,
-					...auth.subscriptionByPropertyIds
+					...auth.propertyIds ?? [],
+					...auth.subscriptionByPropertyIds ?? []
 			  ]
 	)
 	const [page, setPage] = useState({ name: "/", path: [] })
