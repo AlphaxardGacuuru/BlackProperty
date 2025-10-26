@@ -16,6 +16,8 @@ import EditSVG from "@/svgs/EditSVG"
 import PlusSVG from "@/svgs/PlusSVG"
 
 const UnitList = (props) => {
+	const location = useLocation()
+
 	return (
 		<div className={props.activeTab}>
 			{/* Data */}
@@ -75,26 +77,28 @@ const UnitList = (props) => {
 					</div>
 					{/* Type End */}
 					{/* Status */}
-					<div className="flex-grow-1 me-2 mb-2">
-						<label htmlFor="name">Status</label>
-						<select
-							type="text"
-							placeholder="Search by Type"
-							className="form-control"
-							onChange={(e) => props.setStatusQuery(e.target.value)}>
-							{[
-								{ id: "", name: "All" },
-								{ id: "vacant", name: "Vacant" },
-								{ id: "occupied", name: "Occupied" },
-							].map((status, key) => (
-								<option
-									key={key}
-									value={status.id}>
-									{status.name}
-								</option>
-							))}
-						</select>
-					</div>
+					{!location.pathname.match("/tenant/") && (
+						<div className="flex-grow-1 me-2 mb-2">
+							<label htmlFor="name">Status</label>
+							<select
+								type="text"
+								placeholder="Search by Type"
+								className="form-control"
+								onChange={(e) => props.setStatusQuery(e.target.value)}>
+								{[
+									{ id: "", name: "All" },
+									{ id: "vacant", name: "Vacant" },
+									{ id: "occupied", name: "Occupied" },
+								].map((status, key) => (
+									<option
+										key={key}
+										value={status.id}>
+										{status.name}
+									</option>
+								))}
+							</select>
+						</div>
+					)}
 					{/* Status End */}
 				</div>
 			</div>
@@ -106,16 +110,18 @@ const UnitList = (props) => {
 			<div className="table-responsive mb-5">
 				<table className="table table-hover">
 					<thead>
-						<tr>
-							<th colSpan="10"></th>
-							<th className="text-end">
-								<MyLink
-									linkTo={`/units/create`}
-									icon={<PlusSVG />}
-									text="add unit"
-								/>
-							</th>
-						</tr>
+						{!location.pathname.match("/tenant/") && (
+							<tr>
+								<th colSpan="10"></th>
+								<th className="text-end">
+									<MyLink
+										linkTo={`/units/create`}
+										icon={<PlusSVG />}
+										text="add unit"
+									/>
+								</th>
+							</tr>
+						)}
 						<tr>
 							<th>#</th>
 							<th>Name</th>
@@ -147,7 +153,9 @@ const UnitList = (props) => {
 									<td className="text-capitalize">
 										{unit.size?.unit
 											? `${unit.size?.value} ${unit.size?.unit}`
-											: unit.bedrooms == 0 ? `Studio` : `${unit.bedrooms} Bed`}
+											: unit.bedrooms == 0
+											? `Studio`
+											: `${unit.bedrooms} Bed`}
 									</td>
 									<td>{unit.ensuite}</td>
 									<td>{unit.dsq ? "Yes" : "No"}</td>
@@ -163,29 +171,31 @@ const UnitList = (props) => {
 										)}
 									</td>
 									<td>
-										<div className="d-flex justify-content-center">
-											<MyLink
-												linkTo={`/units/${unit.id}/show`}
-												icon={<ViewSVG />}
-												// text="view"
-												className="me-1"
-											/>
-
-											<MyLink
-												linkTo={`/units/${unit.id}/edit`}
-												icon={<EditSVG />}
-												// text="edit"
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`unit${key}`}
-													model={unit}
-													modelName="Unit"
-													onDelete={props.onDeleteUnit}
+										{!location.pathname.match("/tenant/") && (
+											<div className="d-flex justify-content-center">
+												<MyLink
+													linkTo={`/units/${unit.id}/show`}
+													icon={<ViewSVG />}
+													// text="view"
+													className="me-1"
 												/>
+
+												<MyLink
+													linkTo={`/units/${unit.id}/edit`}
+													icon={<EditSVG />}
+													// text="edit"
+												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`unit${key}`}
+														model={unit}
+														modelName="Unit"
+														onDelete={props.onDeleteUnit}
+													/>
+												</div>
 											</div>
-										</div>
+										)}
 									</td>
 								</tr>
 							))}

@@ -382,7 +382,7 @@ const AdminMenu = (props) => {
 														{location.pathname.match("/admin/") ||
 														location.pathname.match("/super/") ? (
 															<Link
-																to="/tenant/dashboard"
+																to={`/tenant/tenants/${props.auth.id}/show`}
 																className="p-2 px-3 dropdown-item">
 																<h6 className="fs-6">
 																	<span className="me-2">
@@ -582,7 +582,7 @@ const AdminMenu = (props) => {
 						{location.pathname.match("/admin/") ||
 						location.pathname.match("/super/") ? (
 							<Link
-								to="/tenant/dashboard"
+								to={`/tenant/tenants/${props.auth.id}/show`}
 								className="p-2 text-start text-white"
 								onClick={() => setBottomMenu("")}>
 								<h6>

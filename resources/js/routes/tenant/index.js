@@ -7,10 +7,9 @@ const index = [
 		component: "AdminUserEdit",
 	},
 	{
-		path: "/tenant/dashboard",
-		component: "TenantDashboard",
+		path: "/tenant/vacant-units",
+		component: "TenantVacantUnits",
 	},
-	// Support
 	{
 		path: "/tenant/support",
 		component: "AdminSupport",

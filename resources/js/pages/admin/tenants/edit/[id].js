@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import {
 	useHistory,
+	useLocation,
 	useParams,
 } from "react-router-dom/cjs/react-router-dom.min"
 
@@ -14,6 +15,9 @@ import LogoutSVG from "@/svgs/LogoutSVG"
 const edit = (props) => {
 	var { id } = useParams()
 	var history = useHistory()
+	const location = useLocation()
+
+	const isInTenant = location.pathname.match("/tenant/")
 
 	const [tenant, setTenant] = useState({})
 	const [name, setName] = useState()
@@ -124,23 +128,35 @@ const edit = (props) => {
 					</div>
 				</form>
 
-				<div className="d-flex justify-content-center mb-1">
-					<MyLink
-						linkTo={`/units/${tenant.unitId}/show`}
-						icon={<BackSVG />}
-						text="back to unit"
-						className="mb-2"
-					/>
-				</div>
-
-				<div className="d-flex justify-content-center mb-2">
-					<MyLink
-						linkTo={`/tenants`}
-						icon={<BackSVG />}
-						text="back to tenants"
-						className="mb-2"
-					/>
-				</div>
+				{isInTenant ? (
+					<div className="d-flex justify-content-center mb-1">
+						<MyLink
+							linkTo={`/tenants/${props.auth.id}/show`}
+							icon={<BackSVG />}
+							text="back to dashboard"
+							className="mb-2"
+						/>
+					</div>
+				) : (
+					<React.Fragment>
+						<div className="d-flex justify-content-center mb-1">
+							<MyLink
+								linkTo={`/units/${tenant.unitId}/show`}
+								icon={<BackSVG />}
+								text="back to unit"
+								className="mb-2"
+							/>
+						</div>
+						<div className="d-flex justify-content-center mb-2">
+							<MyLink
+								linkTo={`/tenants`}
+								icon={<BackSVG />}
+								text="back to tenants"
+								className="mb-2"
+							/>
+						</div>
+					</React.Fragment>
+				)}
 			</div>
 		</div>
 	)

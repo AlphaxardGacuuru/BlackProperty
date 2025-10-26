@@ -25,6 +25,7 @@ import BillableSVG from "@/svgs/BillableSVG"
 import SupportSVG from "@/svgs/SupportSVG"
 import BillingSVG from "@/svgs/BillingSVG"
 import SettingsSVG from "@/svgs/SettingsSVG"
+import VacantUnitSVG from "@/svgs/VacantUnitSVG"
 
 const TenantNavLinks = (props) => {
 	const location = useLocation()
@@ -44,14 +45,14 @@ const TenantNavLinks = (props) => {
 
 	const navLinks = [
 		{
-			link: "/tenant/dashboard",
+			link: `/tenant/tenants/${props.auth.id}/show`,
 			icon: <HomeSVG />,
 			name: "Dashboard",
 		},
 		{
-			link: `/tenant/tenants/${props.auth.id}/show`,
-			icon: <TenantSVG />,
-			name: "Tenant",
+			link: "/tenant/vacant-units",
+			icon: <VacantUnitSVG />,
+			name: "Vacant Units",
 		},
 		{
 			collapse: "Settings",

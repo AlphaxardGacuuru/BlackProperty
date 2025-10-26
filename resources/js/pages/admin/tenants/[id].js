@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min"
 
 import UnitStatementList from "@/components/Units/UnitStatementList"
 import UnitWaterReadingList from "@/components/Units/UnitWaterReadingList"
@@ -22,6 +22,9 @@ import CloseSVG from "@/svgs/CloseSVG"
 
 const show = (props) => {
 	var { id } = useParams()
+	const location = useLocation()
+
+	const isInTenant = location.pathname.match("/tenant/")
 
 	const [tenant, setTenant] = useState({})
 	const [unit, setUnit] = useState({})
@@ -30,18 +33,25 @@ const show = (props) => {
 
 	useEffect(() => {
 		// Set page
-		props.setPage({ name: "View Tenant", path: ["units", "view"] })
+		props.setPage({ name: "View Tenant", path: [isInTenant ? `tenants/${props.auth.id}/show` : "units", "view"] })
+
 		// Fetch Tenant
-		Axios.get(`api/tenants/${id}`).then((res) => {
-			setTenant(res.data.data)
-			// Set page
-			props.setPage({
-				name: "View Tenant",
-				path: ["units", `units/${res.data.data.unitId}/show`, "view"],
+		Axios.get(`api/tenants/${id}`)
+			.then((res) => {
+				setTenant(res.data.data)
+
+				if (!isInTenant) {
+					// Set page
+					props.setPage({
+						name: "View Tenant",
+						path: ["units", `units/${res.data.data.unitId}/show`, "view"],
+					})
+				}
+
+				// Fetch Unit
+				props.get(`units/${res.data.data[0].unitId}`, setUnit)
 			})
-			// Fetch Unit
-			props.get(`units/${res.data.data[0].unitId}`, setUnit)
-		}).catch((err) => props.setErrors["Failed to fetch Tenant."])
+			.catch((err) => props.setErrors["Failed to fetch Tenant."])
 	}, [])
 
 	const active = (activeTab) => {

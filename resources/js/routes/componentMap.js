@@ -27,7 +27,6 @@ import SuperUserSubscriptionPlanEdit from "@/pages/super/user-subscription-plans
 
 import AdminUserEdit from "@/pages/admin/users/edit/[id]"
 import AdminDashboard from "@/pages/admin/index"
-import TenantDashboard from "@/pages/tenant/index"
 
 import AdminProperties from "@/pages/admin/properties/index"
 import AdminPropertyCreate from "@/pages/admin/properties/create"
@@ -93,6 +92,8 @@ import AdminVisitorAdmissionEdit from "@/pages/admin/visitor-admissions/edit/[id
 
 import AdminSupport from "@/pages/admin/support"
 
+import TenantVacantUnits from "@/pages/tenant/vacant-units/index"
+
 // Component mapping object
 const componentMap = {
 	// Layout components
@@ -151,7 +152,6 @@ const componentMap = {
 	AdminTenantCreate,
 	AdminTenantShow,
 	AdminTenantEdit,
-	TenantDashboard,
 
 	// Financial components
 	AdminInvoices,
@@ -193,6 +193,8 @@ const componentMap = {
 	AdminVisitorAdmissionEdit,
 
 	AdminSupport,
+
+	TenantVacantUnits
 }
 
 export default componentMap
