@@ -37,11 +37,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Super
 		if (isInSuperPage) {
 			// Redirect back if not super user
-			if (
-				!["al@black.co.ke", "alphaxardgacuuru47@gmail.com"].includes(
-					props.auth.email
-				)
-			) {
+			if (!props.auth.roleNames?.includes("Super Admin")) {
 				setTimeout(() => {
 					props.setErrors(["Restricted Access"])
 					history.goBack()
@@ -302,7 +298,7 @@ const AdminMenu = (props) => {
 															alt="Avatar"
 														/>
 													</a>
-													{/* For small screens */}
+													{/* For small screens start */}
 													<span
 														className="anti-hidden me-2"
 														onClick={() => {
@@ -317,6 +313,7 @@ const AdminMenu = (props) => {
 															alt="Avatar"
 														/>
 													</span>
+													{/* For small screens end */}
 													{/* Avatar End */}
 													{/* Name Start */}
 													<div className="dropdown-menu rounded-0 m-0 p-0 bg-white">
@@ -347,6 +344,21 @@ const AdminMenu = (props) => {
 																	<small className="text-nowrap">
 																		{props.auth?.email}
 																	</small>
+																	{/* Role Names Start */}
+																	{props.auth.roleNames?.map((role, key) => (
+																		<div key={key}>
+																			{role.roleNames?.map(
+																				(roleName, index) => (
+																					<h6
+																						key={index}
+																						className="fs-6 d-inline text-wrap me-1">
+																						{roleName}{index < role.roleNames.length - 1 && ","}
+																					</h6>
+																				)
+																			)}
+																		</div>
+																	))}
+																	{/* Role Names End */}
 																</Link>
 															</div>
 														</div>
@@ -395,7 +407,7 @@ const AdminMenu = (props) => {
 														{/* Tenant Login End */}
 														{/* Super Login Start */}
 														{location.pathname.match("/admin/") &&
-														props.auth.roleNames.includes("Super Admin") ? (
+														props.auth.roleNames?.includes("Super Admin") ? (
 															<Link
 																to="/super/dashboard"
 																className="p-2 px-3 dropdown-item">
@@ -596,7 +608,7 @@ const AdminMenu = (props) => {
 						{/* Tenant Login End */}
 						{/* Super Login Start */}
 						{location.pathname.match("/admin/") &&
-						props.auth.roleNames.includes("Super Admin") ? (
+						props.auth.roleNames?.includes("Super Admin") ? (
 							<Link
 								to="/super/dashboard"
 								className="p-2 text-start text-white"

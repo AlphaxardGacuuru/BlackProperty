@@ -144,24 +144,31 @@ const AdminNavLinks = (props) => {
 	 * Handle Permissions
 	 */
 	const can = (entity) => {
-
-		if (props.auth.propertyIds.length > 0 || ["staff", "roles"].includes(entity)) {
+		if (
+			props.auth.propertyIds.length > 0 ||
+			["staff", "roles"].includes(entity)
+		) {
 			return
 		}
 
 		if (Array.isArray(entity)) {
 			var hasAtleastOnePersmission = entity.some((entityName) => {
-
 				if (["billing", "support"].includes(entityName)) {
 					return true
 				} else {
-					return props.auth.permissions.includes(entityName)
+					return props.auth.permissions.some((permission) =>
+						permission.match(entity)
+					)
+						? ""
+						: "d-none"
 				}
 			})
 
 			return hasAtleastOnePersmission ? "" : "d-none"
 		} else {
-			return props.auth.permissions.some((permission) => permission.match(entity))
+			return props.auth.permissions.some((permission) =>
+				permission.match(entity)
+			)
 				? ""
 				: "d-none"
 		}
@@ -210,7 +217,7 @@ const AdminNavLinks = (props) => {
 									{/* Link Start */}
 									{navLink.links.map((link, index) => (
 										<li
-											className="nav-item"
+											className={`nav-item ${can(link.name.toLowerCase())}`}
 											key={index}>
 											<Link
 												to={link.link}
@@ -235,7 +242,9 @@ const AdminNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className="nav-item anti-hidden">
+							className={`nav-item anti-hidden ${canStaffOrRole(
+								navLink.name
+							)} ${can(navLink.name.toLowerCase())}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}
@@ -245,7 +254,10 @@ const AdminNavLinks = (props) => {
 							</Link>
 						</li>
 					) : (
-						<li className="nav-item anti-hidden">
+						<li
+							className={`nav-item anti-hidden ${canStaffOrRole(
+								navLink.name
+							)} ${can(navLink.links.map((link) => link.name.toLowerCase()))}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links
@@ -267,7 +279,7 @@ const AdminNavLinks = (props) => {
 									{/* Link Start */}
 									{navLink.links.map((link, index) => (
 										<li
-											className="nav-item"
+											className={`nav-item ${can(link.name.toLowerCase())}`}
 											key={index}>
 											<Link
 												to={link.link}

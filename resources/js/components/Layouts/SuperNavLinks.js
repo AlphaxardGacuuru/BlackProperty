@@ -144,10 +144,44 @@ const SuperNavLinks = (props) => {
 					link: "/super/support",
 					icon: <SupportSVG />,
 					name: "Support",
-				}
+				},
 			],
 		},
 	]
+
+	/*
+	 * Handle Permissions
+	 */
+	const can = (entity) => {
+		if (
+			props.auth.propertyIds.length > 0 ||
+			["staff", "roles"].includes(entity)
+		) {
+			return
+		}
+
+		if (Array.isArray(entity)) {
+			var hasAtleastOnePersmission = entity.some((entityName) => {
+				if (["billing", "support"].includes(entityName)) {
+					return true
+				} else {
+					return props.auth.permissions.some((permission) =>
+						permission.match(entity)
+					)
+						? ""
+						: "d-none"
+				}
+			})
+
+			return hasAtleastOnePersmission ? "" : "d-none"
+		} else {
+			return props.auth.permissions.some((permission) =>
+				permission.match(entity)
+			)
+				? ""
+				: "d-none"
+		}
+	}
 
 	return (
 		<React.Fragment>
@@ -156,7 +190,7 @@ const SuperNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className="nav-item hidden">
+							className={`nav-item hidden ${can(navLink.name.toLowerCase())}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}>
@@ -165,7 +199,10 @@ const SuperNavLinks = (props) => {
 							</Link>
 						</li>
 					) : (
-						<li className="nav-item hidden">
+						<li
+							className={`nav-item hidden ${can(
+								navLink.links.map((link) => link.name.toLowerCase())
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links
@@ -187,7 +224,7 @@ const SuperNavLinks = (props) => {
 									{/* Link Start */}
 									{navLink.links.map((link, index) => (
 										<li
-											className="nav-item"
+											className={`nav-item ${can(link.name.toLowerCase())}`}
 											key={index}>
 											<Link
 												to={link.link}
@@ -212,7 +249,7 @@ const SuperNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className="nav-item anti-hidden">
+							className={`nav-item anti-hidden ${can(navLink.name.toLowerCase())}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}
@@ -222,7 +259,8 @@ const SuperNavLinks = (props) => {
 							</Link>
 						</li>
 					) : (
-						<li className="nav-item anti-hidden">
+						<li
+							className={`nav-item anti-hidden ${can(navLink.links.map((link) => link.name.toLowerCase()))}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links
@@ -244,7 +282,7 @@ const SuperNavLinks = (props) => {
 									{/* Link Start */}
 									{navLink.links.map((link, index) => (
 										<li
-											className="nav-item"
+											className={`nav-item ${can(link.name.toLowerCase())}`}
 											key={index}>
 											<Link
 												to={link.link}

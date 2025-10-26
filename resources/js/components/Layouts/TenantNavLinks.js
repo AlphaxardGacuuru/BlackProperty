@@ -38,9 +38,7 @@ const TenantNavLinks = (props) => {
 
 	// Function for showing active color
 	const activeStrict = (check) => {
-		return (
-			location.pathname == check && "text-success"
-		)
+		return location.pathname == check && "text-success"
 	}
 
 	const navLinks = [
