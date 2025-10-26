@@ -41,7 +41,7 @@ const AdminMenu = (props) => {
 		// Handle Redirects for Super
 		if (isInSuperPage) {
 			// Redirect back if not super user
-			if (!isSuperAdmin) {
+			if (!isSuperAdmin && props.auth.name != "Guest") {
 				setTimeout(() => {
 					props.setErrors(["Restricted Access"])
 					history.goBack()
