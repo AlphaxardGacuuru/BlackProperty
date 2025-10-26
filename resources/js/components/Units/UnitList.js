@@ -159,7 +159,7 @@ const UnitList = (props) => {
 									</td>
 									<td>{unit.ensuite}</td>
 									<td>{unit.dsq ? "Yes" : "No"}</td>
-									<td>
+									<td className="text-nowrap">
 										{unit.status == "vacant" ? (
 											<span className="bg-warning-subtle p-1 px-4 text-capitalize">
 												{unit.status}

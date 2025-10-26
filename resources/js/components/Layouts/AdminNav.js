@@ -93,10 +93,16 @@ const AdminMenu = (props) => {
 					subscriptionByPropertyIds: [],
 					permissions: [],
 				})
-				// Redirect to Dashboard
-				location.pathname.match("/admin")
-					? setTimeout(() => history.push("/admin/dashboard"), 500)
-					: setTimeout(() => history.push("/tenant/dashboard"), 500)
+				// Redirect to Dashboard to prevent breakage of that page
+				setTimeout(() => {
+					if (location.pathname.match("/super/")) {
+						history.push("/super/dashboard")
+					} else if (location.pathname.match("/admin/")) {
+						history.push("/admin/dashboard")
+					} else {
+						history.push("/tenant/dashboard")
+					}
+				}, 500)
 			})
 			.catch((err) => {
 				props.getErrors(err)
@@ -564,6 +570,20 @@ const AdminMenu = (props) => {
 									<small className="text-white text-nowrap">
 										{props.auth?.email}
 									</small>
+									{/* Role Names Start */}
+									{props.auth.roleNames?.map((role, key) => (
+										<div key={key}>
+											{role.roleNames?.map((roleName, index) => (
+												<h6
+													key={index}
+													className="fs-6 d-inline text-wrap me-1">
+													{roleName}
+													{index < role.roleNames.length - 1 && ","}
+												</h6>
+											))}
+										</div>
+									))}
+									{/* Role Names End */}
 								</div>
 							</div>
 						</Link>
