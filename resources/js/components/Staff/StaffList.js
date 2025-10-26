@@ -138,12 +138,20 @@ const StaffList = (props) => {
 									<td>{staff.name}</td>
 									<td>{staff.phone}</td>
 									<td>
+										{/* Role Names Start */}
 										{staff.roleNames?.map((role, key) => (
-											<span key={key}>
-												{key != 0 && <span className="mx-1">|</span>}
-												{role}
-											</span>
+											<div key={key}>
+												{role.roleNames?.map((roleName, index) => (
+													<h6
+														key={index}
+														className="fs-6 d-inline text-wrap me-1">
+														{roleName}
+														{index < role.roleNames.length - 1 && ","}
+													</h6>
+												))}
+											</div>
 										))}
+										{/* Role Names End */}
 									</td>
 									<td>{staff.createdAt}</td>
 									<td>
