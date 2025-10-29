@@ -6,6 +6,8 @@ import Btn from "@/components/Core/Btn"
 import Doughnut from "@/components/Charts/Doughnut"
 import MyLink from "@/components/Core/MyLink"
 
+import PropertyDoughnut from "@/components/Dashboard/PropertyDoughnut"
+
 import PropertyTabChart from "@/components/LandingPage/PropertyTabChart"
 import OccupancyTabChart from "@/components/LandingPage/OccupancyTabChart"
 import WaterTabChart from "@/components/LandingPage/WaterTabChart"
@@ -36,12 +38,18 @@ const index = (props) => {
 	 * Graph Data
 	 */
 
-	var doughnutProperties = [
-		{
-			label: " Units",
-			data: [5, 10, 15, 20, 10],
-		},
-	]
+	var dashboardProperties = {
+		total: 5,
+		ids: [1, 2, 3, 4, 5],
+		names: [
+			"Kulas Alley",
+			"Nathanial Trail",
+			"Bechtelar Forge",
+			"Kozey Oval",
+			"Pouros Center",
+		],
+		units: [12, 11, 11, 12, 11],
+	}
 
 	const subscriptionPlans = [
 		{
@@ -138,34 +146,6 @@ const index = (props) => {
 		<div>
 			{/* <!-- ***** Hero Area Start ***** --> */}
 			<div className="row">
-				<div className="col-sm-6 mt-5 p-5">
-					<div className="card border-0 shadow mt-5 p-4">
-						<div className="card border-0 shadow">
-							<center>
-								<div className="middle2">
-									<h1
-										className="hidden"
-										style={{ fontSize: "10em" }}>
-										4
-									</h1>
-								</div>
-								<Doughnut
-									labels={[
-										"Tevody Apartments",
-										"Rezona Heights",
-										"Western Heights",
-										"Alima Apartments",
-										"Joska Apartments",
-									]}
-									datasets={doughnutProperties}
-									cutout="50%"
-									size="25em"
-								/>
-								<h6 className="mb-3">Total Units: 60</h6>
-							</center>
-						</div>
-					</div>
-				</div>
 				<div
 					className="col-sm-6"
 					style={{ backgroundColor: "#232323" }}>
@@ -194,6 +174,13 @@ const index = (props) => {
 						</div>
 					</center>
 				</div>
+				<div className="col-sm-6 p-5">
+					<div className="card border-0 shadow-sm mt-5 p-4">
+						{/* Property Doughnut */}
+						<PropertyDoughnut dashboardProperties={dashboardProperties} />
+						{/* Property Doughnut End */}
+					</div>
+				</div>
 			</div>
 			{/* <!-- ***** Hero Area End ***** --> */}
 
@@ -208,9 +195,7 @@ const index = (props) => {
 					<h5 className="mb-4">Built for the Modern Property Manager</h5>
 					<div className="d-flex justify-content-center flex-wrap">
 						{/* Property Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("property")} px-4 m-2`}
-							onClick={() => setTab("property")}>
+						<button className={`btn sonar-btn white-btn px-4 m-2`}>
 							<PropertySVG />
 							<span
 								className="ms-1"
@@ -220,9 +205,7 @@ const index = (props) => {
 						</button>
 						{/* Property Tab Button End */}
 						{/* Occupancy Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("occupancy")} px-4 m-2`}
-							onClick={() => setTab("occupancy")}>
+						<button className={`btn sonar-btn white-btn px-4 m-2`}>
 							<UnitSVG />
 							<span
 								className="ms-1"
@@ -232,9 +215,7 @@ const index = (props) => {
 						</button>
 						{/* Occupancy Tab Button End */}
 						{/* Billing Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("billing")} px-4 m-2`}
-							onClick={() => setTab("billing")}>
+						<button className={`btn sonar-btn white-btn px-4 m-2`}>
 							<MoneySVG />
 							<span
 								className="ms-1"
@@ -244,9 +225,7 @@ const index = (props) => {
 						</button>
 						{/* Billing Tab Button End */}
 						{/* Water Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("water")} px-4 m-2`}
-							onClick={() => setTab("water")}>
+						<button className={`btn sonar-btn white-btn px-4 m-2`}>
 							<WaterReadingSVG />
 							<span
 								className="ms-1"
@@ -256,9 +235,7 @@ const index = (props) => {
 						</button>
 						{/* Water Tab Button End */}
 						{/* Tenant Tab Button */}
-						<button
-							className={`btn sonar-btn ${activeTab("tenant")} px-4 m-2`}
-							onClick={() => setTab("tenant")}>
+						<button className={`btn sonar-btn white-btn px-4 m-2`}>
 							<TenantSVG />
 							<span
 								className="ms-1"
@@ -274,22 +251,55 @@ const index = (props) => {
 
 			{/* <!-- ***** Hero Area Start ***** --> */}
 			<div className="row">
+				<div className="col-sm-6 p-5">
+					<PropertyTabChart />
+				</div>
+				<div
+					className="col-sm-6 p-5"
+					style={{ backgroundColor: "#232323" }}>
+					<PropertyTabInfo />
+				</div>
+			</div>
+			<div className="row">
 				<div
 					className="col-sm-6"
 					style={{ backgroundColor: "#232323" }}>
 					<div className="mt-5 mb-5 hidden"></div>
-					{tab == "property" && <PropertyTabInfo />}
-					{tab == "occupancy" && <OccupancyTabInfo />}
-					{tab == "billing" && <BillingTabInfo />}
-					{tab == "water" && <WaterTabInfo />}
-					{tab == "tenant" && <TenantTabInfo />}
+					<OccupancyTabInfo />
 				</div>
 				<div className="col-sm-6 p-5">
-					{tab == "property" && <PropertyTabChart />}
-					{tab == "occupancy" && <OccupancyTabChart />}
-					{tab == "billing" && <BillingTabChart />}
-					{tab == "water" && <WaterTabChart />}
-					{tab == "tenant" && <TenantTabChart />}
+					<OccupancyTabChart />
+				</div>
+			</div>
+			<div className="row">
+				<div className="col-sm-6 p-5">
+					<BillingTabChart />
+				</div>
+				<div
+					className="col-sm-6 p-5"
+					style={{ backgroundColor: "#232323" }}>
+					<BillingTabInfo />
+				</div>
+			</div>
+			<div className="row">
+				<div
+					className="col-sm-6"
+					style={{ backgroundColor: "#232323" }}>
+					<div className="mt-5 mb-5 hidden"></div>
+					<WaterTabInfo />
+				</div>
+				<div className="col-sm-6 p-5">
+					<WaterTabChart />
+				</div>
+			</div>
+			<div className="row">
+				<div className="col-sm-6 p-5">
+					<TenantTabChart />
+				</div>
+				<div
+					className="col-sm-6"
+					style={{ backgroundColor: "#232323" }}>
+					<TenantTabInfo />
 				</div>
 			</div>
 			{/* <!-- ***** Hero Area End ***** --> */}

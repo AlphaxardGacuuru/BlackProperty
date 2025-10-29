@@ -59,13 +59,15 @@ const Header = (props) => {
 					<div className="row">
 						<div className="col-12">
 							<div className="menu-area d-flex justify-content-between alignt-items-center my-1">
-								{/* <!-- Logo Area  --> */}
-								<div className="logo-area">
-									<Link
-										to="/"
-										className="text-white">
-										<LogoSVG />
-									</Link>
+								<div className="d-flex align-items-center">
+									{/* <!-- Logo Area  --> */}
+									<div className="logo-area mb-2">
+										<Link
+											to="/"
+											className="text-white">
+											<LogoSVG />
+										</Link>
+									</div>
 								</div>
 
 								<div className="menu-content-area d-flex align-items-center">
@@ -126,18 +128,6 @@ const Header = (props) => {
 												aria-hidden="true"></i>
 										</a>
 									</div>
-									{/* <!-- Left Menu Icon --> */}
-									<a
-										href="#"
-										id="menuIcon"
-										className="text-white me-3"
-										onClick={(e) => {
-											e.preventDefault()
-											// Open Admin Menu
-											props.setHeaderMenu(props.headerMenu ? "" : "menu-open")
-										}}>
-										<MenuSVG />
-									</a>
 								</div>
 							</div>
 						</div>
@@ -167,94 +157,6 @@ const Header = (props) => {
 						}}>
 						<CloseSVG />
 					</div>
-				</div>
-
-				<div
-					className="sonarNav wow fadeInUp"
-					data-wow-delay="1s">
-					<nav>
-						<ul>
-							<li className="nav-item active">
-								<Link
-									className="nav-link"
-									to="/"
-									style={{ opacity: location.pathname == "/" ? 1 : 0.4 }}
-									onClick={close}>
-									Home
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/about"
-									style={{ opacity: location.pathname == "/about" ? 1 : 0.4 }}
-									onClick={close}>
-									About Me
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/services"
-									style={{
-										opacity: location.pathname == "/services" ? 1 : 0.4,
-									}}
-									onClick={close}>
-									Services
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/portfolio"
-									style={{
-										opacity: location.pathname == "/portfolio" ? 1 : 0.4,
-									}}
-									onClick={close}>
-									Portfolio
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/contact"
-									style={{ opacity: location.pathname == "/contact" ? 1 : 0.4 }}
-									onClick={close}>
-									Contact
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link
-									className="nav-link"
-									to="/contract"
-									style={{
-										opacity: location.pathname == "/contract" ? 1 : 0.4,
-									}}
-									onClick={close}>
-									Contract
-								</Link>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				{/* <!-- Copwrite Text --> */}
-				<div className="copywrite-text">
-					<p>
-						{/* <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> */}
-						Copyright &copy;
-						<script>document.write(new Date().getFullYear());</script> All
-						rights reserved | This template is made with{" "}
-						<i
-							className="fa fa-heart-o"
-							aria-hidden="true"></i>{" "}
-						by{" "}
-						<a
-							href="https://colorlib.com"
-							target="_blank">
-							Colorlib
-						</a>
-						{/* <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --> */}
-					</p>
 				</div>
 			</div>
 			{/* <!-- ***** Main Menu Area End ***** --> */}

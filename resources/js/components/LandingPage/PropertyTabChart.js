@@ -1,43 +1,31 @@
 import React from "react"
 
-import Doughnut from "@/components/Charts/Doughnut"
+import PropertyDoughnut from "@/components/Dashboard/PropertyDoughnut"
 
 const PropertyTabChart = () => {
 	/*
 	 * Graph Data
 	 */
 
-	var doughnutProperties = [
-		{
-			label: " Units",
-			data: [5, 10, 15, 20, 10],
-		},
-	]
+	var dashboardProperties = {
+		total: 5,
+		ids: [1, 2, 3, 4, 5],
+		names: [
+			"Kulas Alley",
+			"Nathanial Trail",
+			"Bechtelar Forge",
+			"Kozey Oval",
+			"Pouros Center",
+		],
+		units: [12, 11, 11, 12, 11],
+	}
+
 	return (
-		<div className="card border-0 shadow p-4">
-			<div className="card border-0 shadow">
-				<center>
-					<div className="middle2">
-						<h1
-							className="hidden"
-							style={{ fontSize: "10em" }}>
-							4
-						</h1>
-					</div>
-					<Doughnut
-						labels={[
-							"Tevody Apartments",
-							"Rezona Heights",
-							"Western Heights",
-							"Alima Apartments",
-							"Joska Apartments",
-						]}
-						datasets={doughnutProperties}
-						cutout="50%"
-						size="25em"
-					/>
-					<h6 className="mb-3">Total Units: 60</h6>
-				</center>
+		<div className="card border-0 shadow-sm p-4">
+			<div className="card border shadow-sm p-4">
+				{/* Property Doughnut */}
+				<PropertyDoughnut dashboardProperties={dashboardProperties} />
+				{/* Property Doughnut End */}
 			</div>
 		</div>
 	)

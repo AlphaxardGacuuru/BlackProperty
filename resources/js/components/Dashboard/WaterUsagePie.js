@@ -14,6 +14,16 @@ const WaterUsagePie = (props) => {
 			backgroundColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
 		},
 	]
+
+	const waterOptions = {
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: { display: true },
+			tooltip: { enabled: true },
+		},
+	}
+
   return (
 		<div
 			className="card shadow-sm text-center me-2 mb-4"
@@ -23,6 +33,8 @@ const WaterUsagePie = (props) => {
 					labels={["Previous Water Usage", "Current Water Usage"]}
 					datasets={pieWaterUsage}
 					className="doughnutSize3"
+					options={waterOptions}
+					style={{ height: "100%", width: "100%" }}
 				/>
 			)}
 			<div className="d-flex justify-content-center pb-3">

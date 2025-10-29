@@ -3,7 +3,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 import ForwardSVG from "@/svgs/ForwardSVG"
 
-const PropertyTabInfo = () => {
+const BillingTabInfo = () => {
 	return (
 		<center>
 			<div className="d-flex justify-content-center flex-column m-5 p-5">
@@ -24,4 +24,4 @@ const PropertyTabInfo = () => {
 	)
 }
 
-export default PropertyTabInfo
+export default BillingTabInfo
