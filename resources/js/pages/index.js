@@ -1,11 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom/cjs/react-router-dom"
 
-import Img from "@/components/Core/Img"
-import Btn from "@/components/Core/Btn"
-import Doughnut from "@/components/Charts/Doughnut"
-import MyLink from "@/components/Core/MyLink"
-
 import PropertyDoughnut from "@/components/Dashboard/PropertyDoughnut"
 
 import PropertyTabChart from "@/components/LandingPage/PropertyTabChart"

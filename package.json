@@ -41,7 +41,6 @@
         "filepond-plugin-image-exif-orientation": "^1.0.11",
         "filepond-plugin-image-preview": "^4.6.8",
         "filepond-plugin-image-transform": "^3.8.7",
-        "framer-motion": "^12.23.24",
         "laravel-echo": "^1.15.2",
         "pusher-js": "^8.2.0",
         "react-filepond": "^7.1.1",
