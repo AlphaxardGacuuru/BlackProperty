@@ -94,11 +94,11 @@ const WaterTabChart = () => {
 			},
 		},
 		water: {
-			paid: 69682.02000000012,
-			due: 7044.730000000002,
-			total: "76,727",
-			usageTwoMonthsAgo: "5014",
-			usageLastMonth: 0,
+			paid: 69682,
+			due: 7044,
+			total: "76000",
+			usageTwoMonthsAgo: "60000",
+			usageLastMonth: 50000,
 			percentage: "90.8",
 			paidThisYear: {
 				labels: [

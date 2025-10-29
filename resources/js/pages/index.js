@@ -61,7 +61,7 @@ const index = (props) => {
 			price: {
 				yearly: 20000,
 				monthly: 2000,
-				onboarding_fee: 5000,
+				onboarding_fee: 2000,
 			},
 			features: [
 				"Property Management",
@@ -82,7 +82,7 @@ const index = (props) => {
 			price: {
 				yearly: 50000,
 				monthly: 5000,
-				onboarding_fee: 10000,
+				onboarding_fee: 5000,
 			},
 			features: [
 				"Property Management",
@@ -103,7 +103,7 @@ const index = (props) => {
 			price: {
 				yearly: 100000,
 				monthly: 10000,
-				onboarding_fee: 20000,
+				onboarding_fee: 10000,
 			},
 			features: [
 				"Property Management",
@@ -124,7 +124,7 @@ const index = (props) => {
 			price: {
 				yearly: 200000,
 				monthly: 20000,
-				onboarding_fee: 30000,
+				onboarding_fee: 20000,
 			},
 			features: [
 				"Property Management",
