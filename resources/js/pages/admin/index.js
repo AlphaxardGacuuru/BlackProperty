@@ -237,7 +237,7 @@ const index = (props) => {
 									<td colSpan="5"></td>
 									<td className="text-end">
 										<MyLink
-											linkTo="/properties"
+											linkTo="/units"
 											text="view more"
 										/>
 									</td>

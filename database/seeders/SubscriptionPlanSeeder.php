@@ -21,7 +21,7 @@ class SubscriptionPlanSeeder extends Seeder
 				'name' => 'BP 20',
 				'description' => '20 units or Less',
 				'price' => [
-					"onboarding_fee" => 5000,
+					"onboarding_fee" => 2000,
 					"monthly" => 2000,
 					"yearly" => 20000,
 				],
@@ -45,7 +45,7 @@ class SubscriptionPlanSeeder extends Seeder
 				'name' => 'BP 50',
 				'description' => 'Between 21 - 50 units',
 				'price' => [
-					"onboarding_fee" => 10000,
+					"onboarding_fee" => 5000,
 					"monthly" => 5000,
 					"yearly" => 50000,
 				],
@@ -67,9 +67,9 @@ class SubscriptionPlanSeeder extends Seeder
 			['name' => 'BP 100'],
 			[
 				'name' => 'BP 100',
-				'description' => 'Betwee 51 - 100 units',
+				'description' => 'Between 51 - 100 units',
 				'price' => [
-					"onboarding_fee" => 20000,
+					"onboarding_fee" => 10000,
 					"monthly" => 10000,
 					"yearly" => 100000,
 				],

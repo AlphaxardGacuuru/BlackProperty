@@ -55,10 +55,12 @@ class WaterReadingService extends Service
 	{
 		$saved = 0;
 
+		$type = $request->type;
+
 		foreach ($request->waterReadings as $reading) {
 			// Check if water reading exists for UserUnit, Month and Year
 			$readingQuery = WaterReading::where("user_unit_id", $reading["userUnitId"])
-				->where("type", $request->type)
+				->where("type", $type)
 				->where("month", $request->month)
 				->where("year", $request->year);
 
@@ -79,12 +81,12 @@ class WaterReadingService extends Service
 				->property
 				->water_bill_rate;
 
-			$bill = $usage * $waterBillRate[$request->type];
+			$bill = $usage * $waterBillRate->$type;
 
 			if ($readingQuery->doesntExist()) {
 				$waterReading = new WaterReading;
 				$waterReading->user_unit_id = $reading["userUnitId"];
-				$waterReading->type = $request->type;
+				$waterReading->type = $type;
 				$waterReading->reading = $reading["reading"];
 				$waterReading->month = $request->month;
 				$waterReading->year = $request->year;

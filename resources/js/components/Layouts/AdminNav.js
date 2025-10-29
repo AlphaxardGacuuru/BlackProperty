@@ -576,7 +576,7 @@ const AdminMenu = (props) => {
 											{role.roleNames?.map((roleName, index) => (
 												<h6
 													key={index}
-													className="fs-6 d-inline text-wrap me-1">
+													className="text-white fs-6 d-inline text-wrap me-1">
 													{roleName}
 													{index < role.roleNames.length - 1 && ","}
 												</h6>

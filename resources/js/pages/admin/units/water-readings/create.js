@@ -99,7 +99,7 @@ const create = (props) => {
 					<input
 						type="number"
 						placeholder="8"
-						className="form-control mb-1"
+						className="form-control mb-2"
 						onChange={(e) => setReading(e.target.value)}
 					/>
 					{/* Water Reading End */}

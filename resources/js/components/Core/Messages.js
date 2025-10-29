@@ -73,7 +73,7 @@ const Messages = ({
 				minHeight: isSmallMobile ? "50px" : "68px",
 				fontSize: isSmallMobile ? "14px" : "16px",
 				margin: isSmallMobile ? "4px 0" : "",
-				borderRadius: isSmallMobile ? "6px" : "",
+				// borderRadius: isSmallMobile ? "6px" : "",
 				padding: isSmallMobile ? "8px 12px" : "",
 			}}
 		/>

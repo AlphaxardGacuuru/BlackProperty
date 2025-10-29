@@ -69,8 +69,6 @@ class GenerateInvoicesJob implements ShouldQueue
 			})
 			->get();
 
-		// $result->properties->push($properties);
-
 		$properties->each(function ($property) use (&$result) {
 			$units = $property
 				->units()
