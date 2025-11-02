@@ -148,7 +148,7 @@ class PropertyService extends Service
 		}
 
 		if ($request->filled("userId")) {
-			$assignedPropertyIds = explode(",", $request->assignedPropertyIds);
+			$assignedPropertyIds = $request->assignedPropertyIds ? explode(",", $request->assignedPropertyIds) : [];
 
 			$isSuper = in_array("All", $assignedPropertyIds);
 

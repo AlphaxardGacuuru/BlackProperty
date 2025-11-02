@@ -63,6 +63,8 @@ class SMSSendService extends Service
             // Save SMS
             $saved = $this->saveSMS($data);
 
+			Log::info('SMS Sent: ' . json_encode($data));
+
         } catch (\Throwable $exception) {
             Log::error('Sending SMS Failed: ' . $exception);
 

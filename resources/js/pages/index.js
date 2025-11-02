@@ -20,10 +20,6 @@ import UnitSVG from "@/svgs/UnitSVG"
 import MoneySVG from "@/svgs/MoneySVG"
 import WaterReadingSVG from "@/svgs/WaterReadingSVG"
 import TenantSVG from "@/svgs/TenantSVG"
-import PhoneSVG from "@/svgs/PhoneSVG"
-import EmailSVG from "@/svgs/EmailSVG"
-import SMSSVG from "@/svgs/SMSSVG"
-import WhatsAppSVG from "@/svgs/WhatsAppSVG"
 import SubscriptionPlan from "@/components/SubscriptionPlan/SubscriptionPlan"
 
 const index = (props) => {
@@ -153,12 +149,18 @@ const index = (props) => {
 								className="m-3"
 								style={{ backgroundColor: "white", height: "1px" }}></div>
 							<h2 className="text-white mb-4">
-								Kenya's Leading Property Management Software
+								Property management. Beautifully reimagined.
 							</h2>
-							<p className="text-white">
-								Manage your Properties efficiently with our modern Property
-								Management Software that leaves nothing out of the picture, from
-								tenant onboarding, billing to exit.
+							<p
+								className="text-white"
+								style={{ fontSize: "1.1em", lineHeight: "1.6" }}>
+								From tenant onboarding to final billing, experience property
+								management that just works.
+							</p>
+							<p
+								className="text-white"
+								style={{ fontSize: "0.95em", opacity: 0.9, marginTop: "1rem" }}>
+								Every detail, every interaction, designed to feel effortless.
 							</p>
 							<Link
 								to="/admin/dashboard"
@@ -169,7 +171,7 @@ const index = (props) => {
 						</div>
 					</center>
 				</div>
-				<div className="col-sm-6 p-5">
+				<div className="col-sm-6 p-4">
 					<div className="card border-0 shadow-sm mt-5 p-4">
 						{/* Property Doughnut */}
 						<PropertyDoughnut dashboardProperties={dashboardProperties} />
@@ -244,69 +246,71 @@ const index = (props) => {
 			</div>
 			{/* Product Area End */}
 
-			{/* <!-- ***** Hero Area Start ***** --> */}
-			<div className="row">
-				<div className="col-sm-6 p-5">
-					<PropertyTabChart />
-				</div>
-				<div
-					className="col-sm-6 p-5"
-					style={{ backgroundColor: "#232323" }}>
+			{/* <!-- ***** Features Area Start ***** --> */}
+			<div
+				className="row"
+				style={{ backgroundColor: "#232323" }}>
+				<div className="col-sm-6">
 					<PropertyTabInfo />
 				</div>
+				<div className="col-sm-6 p-4">
+					<PropertyTabChart />
+				</div>
 			</div>
-			<div className="row">
-				<div
-					className="col-sm-6"
-					style={{ backgroundColor: "#232323" }}>
+			<div
+				className="row"
+				style={{ backgroundColor: "#232323" }}>
+				<div className="col-sm-6">
 					<div className="mt-5 mb-5 hidden"></div>
 					<OccupancyTabInfo />
 				</div>
-				<div className="col-sm-6 p-5">
+				<div className="col-sm-6 p-4">
 					<OccupancyTabChart />
 				</div>
 			</div>
-			<div className="row">
-				<div className="col-sm-6 p-5">
-					<BillingTabChart />
-				</div>
-				<div
-					className="col-sm-6 p-5"
-					style={{ backgroundColor: "#232323" }}>
+			<div
+				className="row"
+				style={{ backgroundColor: "#232323" }}>
+				<div className="col-sm-6">
 					<BillingTabInfo />
 				</div>
+				<div className="col-sm-6 p-4">
+					<BillingTabChart />
+				</div>
 			</div>
-			<div className="row">
-				<div
-					className="col-sm-6"
-					style={{ backgroundColor: "#232323" }}>
+			<div
+				className="row"
+				style={{ backgroundColor: "#232323" }}>
+				<div className="col-sm-6">
 					<div className="mt-5 mb-5 hidden"></div>
 					<WaterTabInfo />
 				</div>
-				<div className="col-sm-6 p-5">
+				<div className="col-sm-6 p-4">
 					<WaterTabChart />
 				</div>
 			</div>
-			<div className="row">
-				<div className="col-sm-6 p-5">
-					<TenantTabChart />
-				</div>
-				<div
-					className="col-sm-6"
-					style={{ backgroundColor: "#232323" }}>
+			<div
+				className="row"
+				style={{ backgroundColor: "#232323" }}>
+				<div className="col-sm-6">
 					<TenantTabInfo />
 				</div>
+				<div className="col-sm-6 p-4">
+					<TenantTabChart />
+				</div>
 			</div>
-			{/* <!-- ***** Hero Area End ***** --> */}
+			{/* <!-- ***** Features Area End ***** --> */}
 
 			{/* <!-- ***** Pricing Area Start ***** --> */}
 			<div className="sonar-services-area">
-				<div className="row">
+				<div
+					className="row"
+					style={{ backgroundColor: "#232323" }}>
 					<div className="col-sm-12 text-center my-5">
-						<h2>Pricing</h2>
+						<h2 className="text-white">Pricing</h2>
 					</div>
 				</div>
-				<div className="d-flex justify-content-center flex-wrap mb-5">
+				<div className="d-flex justify-content-center flex-wrap my-5">
 					{subscriptionPlans.map((subscriptionPlan, key) => (
 						<SubscriptionPlan
 							{...props}
@@ -317,100 +321,6 @@ const index = (props) => {
 				</div>
 			</div>
 			{/* <!-- ***** Pricing Area End ***** --> */}
-
-			{/* Contact Start */}
-			<section
-				className="sonar-contact-area section-padding-100 py-5"
-				style={{ backgroundColor: "#232323" }}>
-				{/* <!-- back end content --> */}
-				<div className="backEnd-content">
-					<img
-						className="dots"
-						src="img/core-img/dots.png"
-						alt=""
-					/>
-				</div>
-
-				<div className="container mb-5">
-					<div className="row">
-						{/* <!-- Contact Form Area --> */}
-						<div className="col-12">
-							<div className="text-center">
-								<h2 className="mb-2 text-white">Contact Us</h2>
-								<h4 className="text-white">Let’s talk</h4>
-								<div className="d-flex justify-content-center flex-column">
-									{/* Phone Start */}
-									<div className="d-flex justify-content-center align-items-center">
-										<a
-											href="tel:0700364446"
-											className="d-flex align-items-center text-white fs-1"
-											data-toggle="tooltip"
-											data-placement="bottom"
-											title="Phone">
-											<div
-												className="border border-light rounded-circle p-2 m-4"
-												style={{ width: "80px", height: "80px" }}>
-												<PhoneSVG />
-											</div>
-											<h6>0700364446</h6>
-										</a>
-									</div>
-									{/* Phone End */}
-									{/* SMS Start */}
-									<div className="d-flex justify-content-center align-items-center">
-										<a
-											href="sms:0700364446"
-											className="d-flex align-items-center text-white fs-1">
-											<div
-												className="border border-light rounded-circle p-2 m-4"
-												style={{ width: "80px", height: "80px" }}>
-												<SMSSVG />
-											</div>
-											<h6>0700364446</h6>
-										</a>
-									</div>
-									{/* SMS End */}
-									{/* WhatsApp Start */}
-									<div className="d-flex justify-content-center align-items-center">
-										<a
-											href="https://wa.me/+2540700364446"
-											className="d-flex align-items-center text-white fs-1"
-											data-toggle="tooltip"
-											data-placement="bottom"
-											title="WhatsApp">
-											<div
-												className="border border-light rounded-circle p-2 m-4"
-												style={{ width: "80px", height: "80px" }}>
-												<WhatsAppSVG />
-											</div>
-											<h6>0700364446</h6>
-										</a>
-									</div>
-									{/* WhatsApp End */}
-									{/* Email Start */}
-									<div className="d-flex justify-content-center align-items-center">
-										<a
-											href="mailto:al@black.co.ke?subject=Property Management System&body=Enquiry"
-											data-toggle="tooltip"
-											className="d-flex align-items-center text-white fs-1"
-											data-placement="bottom"
-											title="Email">
-											<div
-												className="border border-light rounded-circle p-2 m-4"
-												style={{ width: "80px", height: "80px" }}>
-												<EmailSVG />
-											</div>
-											<h6>al@black.co.ke</h6>
-										</a>
-									</div>
-									{/* Email End */}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			{/* Contact End */}
 		</div>
 	)
 }

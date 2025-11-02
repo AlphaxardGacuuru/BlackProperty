@@ -25,6 +25,7 @@ const Pie = (props) => {
 					return delay
 				},
 			},
+			...props.options,
 		},
 		data: {
 			labels: props.labels,

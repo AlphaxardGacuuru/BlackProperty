@@ -9,8 +9,10 @@ const OccupancyTabInfo = () => {
 			<div className="d-flex justify-content-center flex-column m-5 p-5">
 				<h3 className="text-white mb-4">Occupancy Management</h3>
 				<p className="text-white">
-					Quickly glance at your occupancy for your various properties. Check
-					which units are vacant and act on them.
+					See everything. Miss nothing.
+				</p>
+				<p className="text-white" style={{ fontSize: '0.95em', opacity: 0.9 }}>
+					Instantly understand your property occupancy at a glance. Vacant units become opportunities, not problems.
 				</p>
 				<Link
 					to="/admin/dashboard"

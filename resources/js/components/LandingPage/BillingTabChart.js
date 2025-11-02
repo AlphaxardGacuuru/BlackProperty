@@ -195,18 +195,16 @@ const BillingTabChart = () => {
 
 	return (
 		<div className="card border-0 shadow-sm text-center p-4">
-			<div className="card border shadow-sm text-center p-4">
-				<div className="d-flex justify-content-between flex-wrap">
-					{/* Rent Doughnut */}
-					<RentDoughnut dashboard={dashboard} />
-					{/* Rent Doughnut End */}
-					{/* Water Doughnut */}
-					<WaterDoughnut dashboard={dashboard} />
-					{/* Water Doughnut End */}
-					{/* Service Charge Doughnut */}
-					<ServiceChargeDoughnut dashboard={dashboard} />
-					{/* Service Charge Doughnut End */}
-				</div>
+			<div className="d-flex justify-content-between flex-wrap">
+				{/* Rent Doughnut */}
+				<RentDoughnut dashboard={dashboard} />
+				{/* Rent Doughnut End */}
+				{/* Water Doughnut */}
+				<WaterDoughnut dashboard={dashboard} />
+				{/* Water Doughnut End */}
+				{/* Service Charge Doughnut */}
+				<ServiceChargeDoughnut dashboard={dashboard} />
+				{/* Service Charge Doughnut End */}
 			</div>
 		</div>
 	)

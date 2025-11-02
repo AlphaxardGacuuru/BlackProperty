@@ -9,9 +9,14 @@ const PropertyTabInfo = () => {
 			<div className="d-flex justify-content-center flex-column m-5 p-5">
 				<h3 className="text-white mb-4">Property Management</h3>
 				<p className="text-white">
-					Your one stop solution for managing multiple properties all from one
-					platform. Get information of your various properties from one
-					dashboard.
+					Effortlessly manage every property. From anywhere.
+				</p>
+				<p
+					className="text-white"
+					style={{ fontSize: "0.95em", opacity: 0.9 }}>
+					One beautifully simple platform that gives you complete visibility
+					into all your properties. Because managing multiple properties should
+					feel as intuitive as it is powerful.
 				</p>
 				<Link
 					to="/admin/dashboard"

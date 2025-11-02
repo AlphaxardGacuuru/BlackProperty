@@ -9,9 +9,10 @@ const TenantTabInfo = () => {
 			<div className="d-flex justify-content-center flex-column m-5 p-5">
 				<h3 className="text-white mb-4">Tenant Acquisition</h3>
 				<p className="text-white">
-					Alert users when you have a vacancy and they can book a viewing right
-					from the app. No more waiting to get your next tenant. Tenants come to
-					you.
+					Vacancy meets opportunity. Instantly.
+				</p>
+				<p className="text-white" style={{ fontSize: '0.95em', opacity: 0.9 }}>
+					The moment a space opens, the right tenant finds it. Viewings happen seamlessly. Your properties never stay empty long.
 				</p>
 				<Link
 					to="/admin/dashboard"
