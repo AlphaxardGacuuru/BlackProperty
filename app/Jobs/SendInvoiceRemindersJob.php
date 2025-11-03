@@ -67,11 +67,27 @@ class SendInvoiceRemindersJob implements ShouldQueue
 				$invoiceDay = $invoice->userUnit->unit->property->invoice_date;
 				$invoiceReminderDuration = $invoice->userUnit->unit->property->invoice_reminder_duration;
 
-				// Construct a new Carbon instance for the current month, setting the day to the invoice day
-				$dateToCheck = now()->day($invoiceDay);
+				// Construct the invoice date for the current month
+				$invoiceDate = now()->day($invoiceDay)->startOfDay();
 
-				// Check that the property's invoice date has passed by the reminder duration
-				if ($dateToCheck->addDays($invoiceReminderDuration)->isFuture() || $invoice->status === "paid") {
+				// Calculate the reminder date (invoice date + reminder duration)
+				$reminderDate = $invoiceDate->copy()->addDays($invoiceReminderDuration);
+
+				// Current date
+				$today = now()->startOfDay();
+
+				// Skip if invoice is already paid
+				if ($invoice->status === "paid") {
+					return;
+				}
+
+				// Skip if reminder date hasn't arrived yet (too early)
+				if ($today->lt($reminderDate)) {
+					return;
+				}
+
+				// Skip if it's been more than a day since reminder date (too late)
+				if ($today->gt($reminderDate->copy()->addDay())) {
 					return;
 				}
 

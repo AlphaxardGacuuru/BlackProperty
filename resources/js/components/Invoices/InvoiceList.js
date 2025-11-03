@@ -223,7 +223,7 @@ const InvoiceList = (props) => {
 														: ""
 											  }`
 									}
-									className={`me-1 ${
+									className={`me-1 d-none ${
 										invoiceToSend.smsesSent ? `btn-green` : `btn-2`
 									} ${!canSendSms ? "disabled" : ""}`}
 									onClick={() => onSendSMS(invoiceToSend.id)}
