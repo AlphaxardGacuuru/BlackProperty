@@ -199,9 +199,6 @@ function App() {
 		formErrors && setFormErrors(arraysWithFieldNames)
 	}
 
-	
-				localStorage.clear()
-
 	const formatToCommas = (e) => {
 		let value = e.target.value.toString().replace(/[^0-9.]/g, "")
 		value = Number(value)

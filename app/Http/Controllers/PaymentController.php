@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PaymentCreatedEvent;
 use App\Http\Services\PaymentService;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -41,6 +42,8 @@ class PaymentController extends Controller
         ]);
 
         [$saved, $message, $payment] = $this->service->store($request);
+
+		PaymentCreatedEvent::dispatchIf($saved, $payment);
 
         return response([
             "status" => $saved,

@@ -32,7 +32,7 @@ class MpesaTransactionCreatedNotification extends Notification implements Should
 	 */
 	public function via($notifiable)
 	{
-		return ['mail', 'database', 'broadcast'];
+		return ['mail', 'database'];
 	}
 
 	/**

@@ -122,6 +122,30 @@ class WaterReadingService extends Service
 		}
 
 		if ($request->filled("reading")) {
+
+			$lastMonth = $waterReading->month - 1;
+
+			// Get Last Water Reading
+			$previousReadingQuery = WaterReading::where("user_unit_id", $waterReading->user_unit_id)
+				->where("month", $lastMonth)
+				->where("year", $waterReading->year)
+				->first();
+
+			$previouReading = $previousReadingQuery ? $previousReadingQuery->reading : 0;
+
+			$usage = $waterReading->reading - $previouReading;
+
+			$waterBillRate = UserUnit::find($waterReading->user_unit_id)
+				->unit
+				->property
+				->water_bill_rate;
+
+			$type = $waterReading->type;
+
+			$bill = $usage * $waterBillRate->$type;
+
+			$waterReading->bill = $bill;
+			$waterReading->usage = $usage;
 			$waterReading->reading = $request->reading;
 		}
 

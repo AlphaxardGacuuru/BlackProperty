@@ -320,20 +320,24 @@ const PaymentList = (props) => {
 												icon={<ViewSVG />}
 												className="me-1"
 											/>
+											{location.pathname.match("/super/") ||
+											location.pathname.match("/admin/") ? (
+												<React.Fragment>
+													<MyLink
+														linkTo={`/payments/${payment.id}/edit`}
+														icon={<EditSVG />}
+													/>
 
-											<MyLink
-												linkTo={`/payments/${payment.id}/edit`}
-												icon={<EditSVG />}
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`payment${key}`}
-													model={payment}
-													modelName="Payment"
-													onDelete={onDeletePayment}
-												/>
-											</div>
+													<div className="mx-1">
+														<DeleteModal
+															index={`payment${key}`}
+															model={payment}
+															modelName="Payment"
+															onDelete={onDeletePayment}
+														/>
+													</div>
+												</React.Fragment>
+											) : null}
 										</div>
 									</td>
 								</tr>

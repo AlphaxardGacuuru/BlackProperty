@@ -321,21 +321,24 @@ const WaterReadingList = (props) => {
 									</td>
 									<td>{waterReading.year}</td>
 									<td>
-										<div className="d-flex justify-content-center">
-											<MyLink
-												linkTo={`/water-readings/${waterReading.id}/edit`}
-												icon={<EditSVG />}
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`waterReading${key}`}
-													model={waterReading}
-													modelName="Water Reading"
-													onDelete={onDeleteWaterReading}
+										{location.pathname.match("/super/") ||
+										location.pathname.match("/admin/") ? (
+											<div className="d-flex justify-content-center">
+												<MyLink
+													linkTo={`/water-readings/${waterReading.id}/edit`}
+													icon={<EditSVG />}
 												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`waterReading${key}`}
+														model={waterReading}
+														modelName="Water Reading"
+														onDelete={onDeleteWaterReading}
+													/>
+												</div>
 											</div>
-										</div>
+										) : null}
 									</td>
 								</tr>
 							))}

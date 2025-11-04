@@ -215,21 +215,24 @@ const DeductionList = (props) => {
 									<td>{props.months[deduction.month]}</td>
 									<td>{deduction.year}</td>
 									<td>
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/deductions/${deduction.id}/edit`}
-												icon={<EditSVG />}
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`deduction${key}`}
-													model={deduction}
-													modelName="Deduction"
-													onDelete={onDeleteDeduction}
+										{location.pathname.match("/super/") ||
+										location.pathname.match("/admin/") ? (
+											<div className="d-flex justify-content-end">
+												<MyLink
+													linkTo={`/deductions/${deduction.id}/edit`}
+													icon={<EditSVG />}
 												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`deduction${key}`}
+														model={deduction}
+														modelName="Deduction"
+														onDelete={onDeleteDeduction}
+													/>
+												</div>
 											</div>
-										</div>
+										) : null}
 									</td>
 								</tr>
 							))}

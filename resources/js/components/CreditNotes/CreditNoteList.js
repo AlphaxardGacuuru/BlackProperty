@@ -316,21 +316,24 @@ const CreditNoteList = (props) => {
 									<td>{props.months[creditNote.month]}</td>
 									<td>{creditNote.year}</td>
 									<td>
-										<div className="d-flex justify-content-end">
-											<MyLink
-												linkTo={`/credit-notes/${creditNote.id}/edit`}
-												icon={<EditSVG />}
-											/>
-
-											<div className="mx-1">
-												<DeleteModal
-													index={`creditNote${key}`}
-													model={creditNote}
-													modelName="Credit Note"
-													onDelete={onDeleteCreditNote}
+										{location.pathname.match("/super/") ||
+										location.pathname.match("/admin/") ? (
+											<div className="d-flex justify-content-end">
+												<MyLink
+													linkTo={`/credit-notes/${creditNote.id}/edit`}
+													icon={<EditSVG />}
 												/>
+
+												<div className="mx-1">
+													<DeleteModal
+														index={`creditNote${key}`}
+														model={creditNote}
+														modelName="Credit Note"
+														onDelete={onDeleteCreditNote}
+													/>
+												</div>
 											</div>
-										</div>
+										) : null}
 									</td>
 								</tr>
 							))}

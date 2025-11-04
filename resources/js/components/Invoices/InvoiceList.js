@@ -623,24 +623,32 @@ const InvoiceList = (props) => {
 									<td>
 										<div className="d-flex justify-content-center">
 											{/* Button trigger modal */}
-											{parseFloat(invoice.balance?.replace(/,/g, "")) > 0 && (
-												<Btn
-													icon={<ChatSendSVG />}
-													text={`send invoice ${
-														invoice.smsesSent || invoice.emailsSent
-															? `(${invoice.smsesSent + invoice.emailsSent})`
-															: ""
-													}`}
-													className={`mx-1 ${
-														invoice.smsesSent || invoice.emailsSent
-															? "btn-green"
-															: ""
-													}`}
-													dataBsToggle="modal"
-													dataBsTarget={`#invoiceModal`}
-													onClick={() => setInvoiceToSend(invoice)}
-												/>
-											)}
+											{location.pathname.match("/super/") ||
+											location.pathname.match("/admin/") ? (
+												<React.Fragment>
+													{parseFloat(invoice.balance?.replace(/,/g, "")) >
+														0 && (
+														<Btn
+															icon={<ChatSendSVG />}
+															text={`send invoice ${
+																invoice.smsesSent || invoice.emailsSent
+																	? `(${
+																			invoice.smsesSent + invoice.emailsSent
+																	  })`
+																	: ""
+															}`}
+															className={`mx-1 ${
+																invoice.smsesSent || invoice.emailsSent
+																	? "btn-green"
+																	: ""
+															}`}
+															dataBsToggle="modal"
+															dataBsTarget={`#invoiceModal`}
+															onClick={() => setInvoiceToSend(invoice)}
+														/>
+													)}
+												</React.Fragment>
+											) : null}
 											{/* Button trigger modal End */}
 
 											<MyLink
@@ -649,14 +657,17 @@ const InvoiceList = (props) => {
 												className="mx-1"
 											/>
 
-											<div className="mx-1">
-												<DeleteModal
-													index={`invoice${key}`}
-													model={invoice}
-													modelName="Invoice"
-													onDelete={onDeleteInvoice}
-												/>
-											</div>
+											{location.pathname.match("/super/") ||
+											location.pathname.match("/admin/") ? (
+												<div className="mx-1">
+													<DeleteModal
+														index={`invoice${key}`}
+														model={invoice}
+														modelName="Invoice"
+														onDelete={onDeleteInvoice}
+													/>
+												</div>
+											) : null}
 										</div>
 									</td>
 								</tr>

@@ -176,6 +176,7 @@ const LoginPopUp = (props) => {
 		// props.login ||
 		props.auth.name == "Guest" &&
 		!location.pathname.match("/forgot-password") &&
+		// !location.pathname.match("/tenant/vacant-units") &&
 		(location.pathname.match("/admin") ||
 			location.pathname.match("/tenant") ||
 			location.pathname.match("/super"))
