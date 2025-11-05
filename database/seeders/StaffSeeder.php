@@ -9,21 +9,28 @@ use Illuminate\Database\Seeder;
 
 class StaffSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $properties = Property::all();
+	/**
+	 * Run the database seeds.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		$properties = Property::all();
 
-        foreach ($properties as $key => $property) {
-            UserProperty::factory()
-                ->create([
-                    "user_id" => User::all()->random()->id,
-                    "property_id" => $property->id,
-                ]);
-        }
-    }
+		$users = User::whereNotIn("id", [
+			"alphaxardgacuuru47@gmail.com",
+			"al@black.co.ke",
+			"gacuuruwakarenge@gmail.com",
+			"cikumuhandi@gmail.com"
+		])->get();
+
+		foreach ($properties as $key => $property) {
+			UserProperty::factory()
+				->create([
+					"user_id" => $users[$key]->id,
+					"property_id" => $property->id,
+				]);
+		}
+	}
 }

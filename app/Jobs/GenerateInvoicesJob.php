@@ -215,7 +215,7 @@ class GenerateInvoicesJob implements ShouldQueue
 							$result->invoices->push($invoice);
 
 							[$saved, $message, $invoice] = (new InvoiceService)->sendEmail($invoice->id);
-							[$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
+							// [$saved, $message, $invoice] = (new InvoiceService)->sendSMS($invoice->id);
 						} catch (Exception $e) {
 							Log::error("Invoice {$type} Error, Unit {$unit->id}: " . $e->getMessage());
 							$result->message = "Invoice Processing Encountered Errors.";
@@ -285,7 +285,7 @@ class GenerateInvoicesJob implements ShouldQueue
 				})
 				->values();
 
-			if ($user->settings->invoiceReminderNotification) {
+			if ($user->settings?->invoicesGeneratedNotification) {
 				$user->notify(new InvoicesGeneratedNotification($userResult));
 			}
 		}

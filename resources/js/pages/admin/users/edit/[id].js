@@ -38,10 +38,11 @@ const edit = (props) => {
 	const [phone, setPhone] = useState()
 	const [gender, setGender] = useState()
 	const [loading, setLoading] = useState()
+	const [updateLoading, setUpdateLoading] = useState(false)
 
 	const [invoicesGeneratedNotification, setInvoicesGeneratedNotification] =
 		useState()
-	const [invoiceRemindesNotification, setInvoiceRemindesNotification] =
+	const [invoiceReminderNotification, setInvoiceReminderNotification] =
 		useState()
 
 	// Get Faculties and Departments
@@ -53,31 +54,51 @@ const edit = (props) => {
 		})
 
 		// Fetch User
-		props.get(`users/${id}`, setUser)
+		Axios.get(`api/users/${id}`).then((res) => {
+			setUser(res.data.data)
+			setInvoicesGeneratedNotification(
+				res.data.data.settings?.invoicesGeneratedNotification ?? false
+			)
+			setInvoiceReminderNotification(
+				res.data.data.settings?.invoiceReminderNotification ?? false
+			)
+		})
 	}, [])
 
-	// Handle Notifications Update
+	// Handle Notifications Update with debounce
 	useEffect(() => {
 		if (user.id) {
+			setUpdateLoading(true)
+
 			Axios.put(`/api/users/${user.id}`, {
 				settings: {
 					...user.settings,
 					invoicesGeneratedNotification: invoicesGeneratedNotification,
-					invoiceReminderNotification: invoiceRemindesNotification,
+					invoiceReminderNotification: invoiceReminderNotification,
 				},
 			})
 				.then((res) => {
+					setUpdateLoading(false)
 					// Show messages
 					props.setMessages([res.data.message])
 					// Update Auth
 					props.get("auth", props.setAuth, "auth")
 				})
 				.catch((err) => {
+					setUpdateLoading(false)
 					// Get Errors
 					props.getErrors(err)
+
+					// Revert states on error
+					setInvoicesGeneratedNotification(
+						user.settings?.invoicesGeneratedNotification ?? false
+					)
+					setInvoiceReminderNotification(
+						user.settings?.invoiceReminderNotification ?? false
+					)
 				})
 		}
-	}, [invoicesGeneratedNotification, invoiceRemindesNotification])
+	}, [invoicesGeneratedNotification, invoiceReminderNotification])
 
 	/*
 	 * Submit Form
@@ -103,6 +124,7 @@ const edit = (props) => {
 				props.getErrors(err)
 			})
 	}
+	console.info(user.settings)
 
 	return (
 		<div className="row">
@@ -198,24 +220,27 @@ const edit = (props) => {
 							Invoices Generated Notification
 						</div>
 						<div className="form-check form-switch">
-							<input
-								id="invoices-generated"
-								className="form-check-input"
-								type="checkbox"
-								role="switch"
-								onChange={(e) =>
-									setInvoicesGeneratedNotification(e.target.checked)
-								}
-								style={{
-									width: "3rem",
-									height: "1.5rem",
-									transform: "scale(1.2)",
-									cursor: "pointer",
-								}}
-								defaultChecked={
-									user.settings?.invoicesGeneratedNotification ?? false
-								}
-							/>
+							{user.id && (
+								<input
+									id="invoices-generated"
+									className="form-check-input"
+									type="checkbox"
+									role="switch"
+									onChange={(e) => {
+										setInvoicesGeneratedNotification(e.target.checked)
+									}}
+									disabled={updateLoading}
+									style={{
+										width: "3rem",
+										height: "1.5rem",
+										transform: "scale(1.2)",
+										cursor: "pointer",
+									}}
+									defaultChecked={
+										user.settings?.invoicesGeneratedNotification ?? false
+									}
+								/>
+							)}
 						</div>
 					</div>
 					{/* Invoices Generated Notification Switch End */}
@@ -226,24 +251,27 @@ const edit = (props) => {
 							Invoice Reminder Notification
 						</div>
 						<div className="form-check form-switch">
-							<input
-								id="invoice-reminder"
-								className="form-check-input"
-								type="checkbox"
-								role="switch"
-								onChange={(e) =>
-									setInvoiceRemindesNotification(e.target.checked)
-								}
-								style={{
-									width: "3rem",
-									height: "1.5rem",
-									transform: "scale(1.2)",
-									cursor: "pointer",
-								}}
-								defaultChecked={
-									user.settings?.invoiceReminderNotification ?? false
-								}
-							/>
+							{user.id && (
+								<input
+									id="invoice-reminder"
+									className="form-check-input"
+									type="checkbox"
+									role="switch"
+									onChange={(e) => {
+										setInvoiceReminderNotification(e.target.checked)
+									}}
+									disabled={updateLoading}
+									style={{
+										width: "3rem",
+										height: "1.5rem",
+										transform: "scale(1.2)",
+										cursor: "pointer",
+									}}
+									defaultChecked={
+										user.settings?.invoiceReminderNotification ?? false
+									}
+								/>
+							)}
 						</div>
 					</div>
 					{/* Invoice Reminder Notification Switch End */}

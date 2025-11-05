@@ -34,8 +34,8 @@ class TenantSeeder extends Seeder
                     UserUnit::factory()
                         ->create([
                             "unit_id" => $unit->id,
-                            "occupied_at" => Carbon::now()->subMonth($i + 2)->startOfMonth(),
-                            "vacated_at" => Carbon::now()->subMonth($i + 1)->endOfMonth(),
+                            "occupied_at" => Carbon::now()->subMonth(10 - $i)->startOfMonth(),
+                            "vacated_at" => Carbon::now()->subMonth(5 - $i)->endOfMonth(),
                         ]);
                 }
             }

@@ -20,13 +20,13 @@ class PropertySeeder extends Seeder
         foreach ($users as $user) {
             Property::factory()
                 ->count(5)
-                ->hasUnits(rand(5, 20))
+                ->hasUnits(rand(5, 10))
                 ->create(["user_id" => $user->id]);
         }
 		
             Property::factory()
                 ->count(5)
-                ->hasUnits(rand(5, 20))
+                ->hasUnits(rand(5, 10))
                 ->create();
     }
 }

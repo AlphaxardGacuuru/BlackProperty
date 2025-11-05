@@ -160,7 +160,7 @@ class SendInvoiceRemindersJob implements ShouldQueue
 				})
 				->values();
 
-			if ($user->settings->invoiceReminderNotification) {
+			if ($user->settings?->invoiceReminderNotification) {
 				$user->notify(new InvoiceRemindersSentNotifications($userResult));
 			}
 		}

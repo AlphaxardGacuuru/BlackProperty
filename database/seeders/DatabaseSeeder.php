@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 		if (config("app.env") == "production") {
 			$this->call([
 				SubscriptionPlanSeeder::class,
+				RoleSeeder::class,
 			]);
 		} else {
 			$this->call([
