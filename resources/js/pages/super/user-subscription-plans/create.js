@@ -105,7 +105,7 @@ const create = (props) => {
 
 					{/* Duration Start */}
 					<div className="flex-grow-1 me-2 mb-2">
-						<label htmlFor="">Duration</label>
+						<label htmlFor="">Duration in Months</label>
 						<input
 							type="number"
 							placeholder="0"

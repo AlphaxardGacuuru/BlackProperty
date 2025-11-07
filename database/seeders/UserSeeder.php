@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -26,12 +27,17 @@ class UserSeeder extends Seeder
 		$cikuDoesntExist = User::where('email', 'cikumuhandi@gmail.com')
 			->doesntExist();
 
-		if ($alDoesntExist) {
-			User::factory()->al()->create();
-		}
-
 		if ($superDoesntExist) {
 			User::factory()->super()->create();
+		}
+
+		if ($alDoesntExist) {
+			$user = User::factory()->al()->create();
+
+			// Get Super Role
+			$superRole = Role::where('name', 'Super Admin')->first();
+
+			$user->syncRoles($superRole);
 		}
 
 		if ($gacuuruDoesntExist) {

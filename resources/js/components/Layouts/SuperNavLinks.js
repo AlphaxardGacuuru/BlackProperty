@@ -153,33 +153,38 @@ const SuperNavLinks = (props) => {
 	 * Handle Permissions
 	 */
 	const can = (entity) => {
-		if (
-			props.auth.propertyIds.length > 0 ||
-			["staff", "roles"].includes(entity)
-		) {
+		const isSuper = props.auth.roleNames?.some((item) => {
+			return item.roleNames.includes("Super Admin")
+		})
+
+		if (isSuper) {
 			return
 		}
 
 		if (Array.isArray(entity)) {
 			var hasAtleastOnePersmission = entity.some((entityName) => {
-				if (["billing", "support"].includes(entityName)) {
+				if (["referrals", "support"].includes(entityName)) {
 					return true
 				} else {
-					return props.auth.permissions.some((permission) =>
-						permission.match(entity)
-					)
-						? ""
-						: "d-none"
+					const permissions = props.auth.permissions
+
+					const hasPermission = permissions?.some((perm) => perm.match(entity))
+
+					return hasPermission
 				}
 			})
 
 			return hasAtleastOnePersmission ? "" : "d-none"
 		} else {
-			return props.auth.permissions.some((permission) =>
-				permission.match(entity)
-			)
-				? ""
-				: "d-none"
+			if (["dashboard", "referrals", "support"].includes(entity)) {
+				return true
+			}
+
+			const permissions = props.auth.permissions
+
+			const hasPermission = permissions?.some((perm) => perm.match(entity))
+
+			return hasPermission ? "" : "d-none"
 		}
 	}
 
@@ -249,7 +254,9 @@ const SuperNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className={`nav-item anti-hidden ${can(navLink.name.toLowerCase())}`}>
+							className={`nav-item anti-hidden ${can(
+								navLink.name.toLowerCase()
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}
@@ -260,7 +267,9 @@ const SuperNavLinks = (props) => {
 						</li>
 					) : (
 						<li
-							className={`nav-item anti-hidden ${can(navLink.links.map((link) => link.name.toLowerCase()))}`}>
+							className={`nav-item anti-hidden ${can(
+								navLink.links.map((link) => link.name.toLowerCase())
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links

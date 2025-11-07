@@ -24,9 +24,7 @@ class UserService extends Service
 				->orderBy("id", "DESC")
 				->get();
 
-			return response([
-				"data" => $users,
-			], 200);
+			return $users;
 		}
 
 		$query = new User;

@@ -18,10 +18,12 @@ class UnitFactory extends Factory
     {
         $block = ["A", "B", "C", "D", "E", "F", "G"];
 
+		$rent = rand(8, 100) * 1000;
+
         return [
             "name" => $block[rand(0, 6)] . rand(0, 20),
-            "rent" => rand(8, 100) * 1000,
-            "deposit" => ((rand(8, 100) * 1000) * 2) + 2000,
+            "rent" => $rent,
+            "deposit" => (($rent * rand(2, 3))),
             "type" => "apartment",
 			"bedrooms" => rand(1, 5),
 			"ensuite" => rand(0, 3),

@@ -167,7 +167,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 					->activeSubscription();
 
 				return $activeSubscription ? $userProperty->property_id : null;
-			});
+			})->filter();
 	}
 
 	public function currentUnit()

@@ -28,6 +28,7 @@ import VisitorAdmissionSVG from "@/svgs/VisitorAdmissionSVG"
 import SettingsSVG from "@/svgs/SettingsSVG"
 import ReferralSVG from "@/svgs/ReferralSVG"
 import BellSVG from "@/svgs/BellSVG"
+import AnnouncementSVG from "@/svgs/AnnouncementSVG"
 
 const AdminNavLinks = (props) => {
 	const location = useLocation()
@@ -103,6 +104,11 @@ const AdminNavLinks = (props) => {
 					icon: <ChatSVG />,
 					name: "SMSes",
 				},
+				{
+					link: "/admin/announcements",
+					icon: <AnnouncementSVG />,
+					name: "Announcements",
+				},
 			],
 		},
 		{
@@ -133,44 +139,38 @@ const AdminNavLinks = (props) => {
 		},
 	]
 
-	// Check if user has properties so as to show staff or roles
-	const canStaffOrRole = (entity) => {
-		if (["Staff", "Roles"].includes(entity)) {
-			return props.auth.propertyIds.length > 0 ? "" : "d-none"
-		}
-	}
-
 	/*
 	 * Handle Permissions
 	 */
 	const can = (entity) => {
-		if (
-			props.auth.propertyIds.length > 0 ||
-			["staff", "roles"].includes(entity)
-		) {
+		if (props.auth.activeSubscription) {
 			return
 		}
 
 		if (Array.isArray(entity)) {
 			var hasAtleastOnePersmission = entity.some((entityName) => {
-				if (["billing", "support"].includes(entityName)) {
+				if (["support"].includes(entityName)) {
 					return true
 				} else {
-					return props.auth.permissions.some((permission) =>
-						permission.match(entity)
-					)
-						? ""
-						: "d-none"
+					const permissions = props.auth.permissions
+
+					const hasPermission = permissions?.some((perm) => perm.match(entity))
+
+					return hasPermission
 				}
 			})
 
 			return hasAtleastOnePersmission ? "" : "d-none"
 		} else {
-			return props.auth.permissions.some((permission) =>
-				permission.match(entity)
-			)
-				? ""
-				: "d-none"
+			if (["dashboard", "support"].includes(entity)) {
+				return true
+			}
+
+			const permissions = props.auth.permissions
+
+			const hasPermission = permissions?.some((perm) => perm.match(entity))
+
+			return hasPermission ? "" : "d-none"
 		}
 	}
 
@@ -181,9 +181,7 @@ const AdminNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className={`nav-item hidden ${canStaffOrRole(navLink.name)} ${can(
-								navLink.name.toLowerCase()
-							)}`}>
+							className={`nav-item hidden ${can(navLink.name.toLowerCase())}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}>
@@ -193,7 +191,7 @@ const AdminNavLinks = (props) => {
 						</li>
 					) : (
 						<li
-							className={`nav-item hidden ${canStaffOrRole(navLink.name)} ${can(
+							className={`nav-item hidden ${can(
 								navLink.links.map((link) => link.name.toLowerCase())
 							)}`}>
 							<Link
@@ -242,9 +240,9 @@ const AdminNavLinks = (props) => {
 					{!navLink.collapse ? (
 						<li
 							key={key}
-							className={`nav-item anti-hidden ${canStaffOrRole(
-								navLink.name
-							)} ${can(navLink.name.toLowerCase())}`}>
+							className={`nav-item anti-hidden ${can(
+								navLink.name.toLowerCase()
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link ${active(navLink.link)}`}
@@ -255,9 +253,9 @@ const AdminNavLinks = (props) => {
 						</li>
 					) : (
 						<li
-							className={`nav-item anti-hidden ${canStaffOrRole(
-								navLink.name
-							)} ${can(navLink.links.map((link) => link.name.toLowerCase()))}`}>
+							className={`nav-item anti-hidden ${can(
+								navLink.links.map((link) => link.name.toLowerCase())
+							)}`}>
 							<Link
 								to={navLink.link}
 								className={`nav-link accordion-button my-1 ${navLink.links

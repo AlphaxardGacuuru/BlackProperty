@@ -22,14 +22,14 @@ class DatabaseSeeder extends Seeder
 		} else {
 			$this->call([
 				SubscriptionPlanSeeder::class,
+				RoleSeeder::class,
 				UserSeeder::class,
 				PropertySeeder::class,
 				// UnitSeeder::class,
 				StaffSeeder::class,
 				TenantSeeder::class,
-				RoleSeeder::class,
 				WaterReadingSeeder::class,
-				InvoiceSeeder::class
+				// InvoiceSeeder::class
 			]);
 		}
 	}

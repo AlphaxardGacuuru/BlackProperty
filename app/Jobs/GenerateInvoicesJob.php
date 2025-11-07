@@ -84,7 +84,7 @@ class GenerateInvoicesJob implements ShouldQueue
 				// Loop through each invoice type
 				collect([
 					"rent",
-					"service_charge",
+					"service",
 					"water",
 					"electricity",
 					"garbage",
@@ -109,7 +109,7 @@ class GenerateInvoicesJob implements ShouldQueue
 						}
 
 						switch ($type) {
-							case "service_charge":
+							case "service":
 								if ($unit->service_charge?->service < 1) {
 									return;
 								}

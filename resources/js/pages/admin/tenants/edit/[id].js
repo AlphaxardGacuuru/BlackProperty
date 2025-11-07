@@ -85,6 +85,7 @@ const edit = (props) => {
 						defaultValue={tenant.email}
 						className="form-control mb-2"
 						onChange={(e) => setEmail(e.target.value)}
+						disabled={true}
 					/>
 					{/* Name End */}
 

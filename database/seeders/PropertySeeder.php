@@ -8,25 +8,25 @@ use Illuminate\Database\Seeder;
 
 class PropertySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $users = User::limit(1)->get();
+	/**
+	 * Run the database seeds.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		$users = User::whereNotIn("email", [
+			"al@black.co.ke",
+			// "alphaxardgacuuru47@gmail.com",
+			// "gacuuruwakarenge@gmail.com",
+			// "cikumuhandi@gmail.com"
+		])->get();
 
-        foreach ($users as $user) {
-            Property::factory()
-                ->count(5)
-                ->hasUnits(rand(5, 10))
-                ->create(["user_id" => $user->id]);
-        }
-		
-            Property::factory()
-                ->count(5)
-                ->hasUnits(rand(5, 10))
-                ->create();
-    }
+		foreach ($users as $user) {
+			Property::factory()
+				->count(rand(1, 3))
+				->hasUnits(rand(5, 10))
+				->create(["user_id" => $user->id]);
+		}
+	}
 }

@@ -18,7 +18,7 @@ class StaffSeeder extends Seeder
 	{
 		$properties = Property::all();
 
-		$users = User::whereNotIn("id", [
+		$users = User::whereNotIn("email", [
 			"alphaxardgacuuru47@gmail.com",
 			"al@black.co.ke",
 			"gacuuruwakarenge@gmail.com",
@@ -28,7 +28,7 @@ class StaffSeeder extends Seeder
 		foreach ($properties as $key => $property) {
 			UserProperty::factory()
 				->create([
-					"user_id" => $users[$key]->id,
+					"user_id" => $users->random()->id,
 					"property_id" => $property->id,
 				]);
 		}

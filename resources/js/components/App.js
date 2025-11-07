@@ -63,6 +63,7 @@ function App() {
 
 	const url = process.env.MIX_FRONTEND_URL
 
+	localStorage.clear()
 	// Declare states
 	const [messages, setMessages] = useState([])
 	const [errors, setErrors] = useState([])
@@ -230,7 +231,8 @@ function App() {
 				userId=${auth.id}&
 				assignedPropertyIds=${(auth.assignedPropertyIds.join(","))}`,
 				setProperties,
-				"properties"
+				"properties",
+				false
 			)
 		}
 	}, [auth])

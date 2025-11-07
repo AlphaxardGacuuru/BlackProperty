@@ -66,7 +66,7 @@ const StaffList = (props) => {
 							type="text"
 							name="name"
 							placeholder="Search by Name"
-							className="form-control"
+							className="form-control me-2"
 							onChange={(e) => props.setNameQuery(e.target.value)}
 						/>
 					</div>

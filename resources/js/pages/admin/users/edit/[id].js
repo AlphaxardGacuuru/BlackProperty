@@ -231,8 +231,8 @@ const edit = (props) => {
 									}}
 									disabled={updateLoading}
 									style={{
-										width: "3rem",
-										height: "1.5rem",
+										width: "2rem",
+										height: "1rem",
 										transform: "scale(1.2)",
 										cursor: "pointer",
 									}}
@@ -262,8 +262,8 @@ const edit = (props) => {
 									}}
 									disabled={updateLoading}
 									style={{
-										width: "3rem",
-										height: "1.5rem",
+										width: "2rem",
+										height: "1rem",
 										transform: "scale(1.2)",
 										cursor: "pointer",
 									}}
