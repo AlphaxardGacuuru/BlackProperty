@@ -63,7 +63,6 @@ function App() {
 
 	const url = process.env.MIX_FRONTEND_URL
 
-	localStorage.clear()
 	// Declare states
 	const [messages, setMessages] = useState([])
 	const [errors, setErrors] = useState([])
