@@ -20,7 +20,10 @@ class DeductionResource extends JsonResource
 		return [
             "id" => $this->id,
             "number" => $number,
+			"tenantId" => $this->userUnit->user_id,
 			"tenantName" => $this->userUnit->user->name,
+			"tenantPhone" => $this->userUnit->user->phone,
+			"tenantEmail" => $this->userUnit->user->email,
             "unitId" => $this->userUnit->unit->id,
             "unitName" => $this->userUnit->unit->name,
 			"userUnitId" => $this->user_unit_id,

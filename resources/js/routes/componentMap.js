@@ -29,13 +29,13 @@ import AdminUserEdit from "@/pages/admin/users/edit/[id]"
 import AdminDashboard from "@/pages/admin/index"
 
 import AdminProperties from "@/pages/admin/properties/index"
-import AdminPropertyCreate from "@/pages/admin/properties/create"
 import AdminPropertyShow from "@/pages/admin/properties/[id]"
+import AdminPropertyCreate from "@/pages/admin/properties/create"
 import AdminPropertyEdit from "@/pages/admin/properties/edit/[id]"
 
 import AdminUnits from "@/pages/admin/units/index"
-import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitShow from "@/pages/admin/units/[id]"
+import AdminUnitCreate from "@/pages/admin/units/create"
 import AdminUnitEdit from "@/pages/admin/units/edit/[id]"
 
 import AdminUnitTenantCreate from "@/pages/admin/units/tenants/create"
@@ -46,13 +46,13 @@ import AdminUnitCreditNoteCreate from "@/pages/admin/units/credit-notes/create"
 import AdminUnitDeductionCreate from "@/pages/admin/units/deductions/create"
 
 import AdminTenants from "@/pages/admin/tenants/index"
-import AdminTenantCreate from "@/pages/admin/tenants/create"
 import AdminTenantShow from "@/pages/admin/tenants/[id]"
+import AdminTenantCreate from "@/pages/admin/tenants/create"
 import AdminTenantEdit from "@/pages/admin/tenants/edit/[id]"
 
 import AdminInvoices from "@/pages/admin/invoices/index"
-import AdminInvoiceCreate from "@/pages/admin/invoices/create"
 import AdminInvoiceShow from "@/pages/admin/invoices/[id]"
+import AdminInvoiceCreate from "@/pages/admin/invoices/create"
 import AdminInvoiceEdit from "@/pages/admin/invoices/edit/[id]"
 
 import AdminWaterReadings from "@/pages/admin/water-readings/index"
@@ -60,15 +60,17 @@ import AdminWaterReadingCreate from "@/pages/admin/water-readings/create"
 import AdminWaterReadingEdit from "@/pages/admin/water-readings/edit/[id]"
 
 import AdminPayments from "@/pages/admin/payments/index"
-import AdminPaymentCreate from "@/pages/admin/payments/create"
 import AdminPaymentShow from "@/pages/admin/payments/[id]"
+import AdminPaymentCreate from "@/pages/admin/payments/create"
 import AdminPaymentEdit from "@/pages/admin/payments/edit/[id]"
 
 import AdminCreditNotes from "@/pages/admin/credit-notes/index"
+import AdminCreditNoteShow from "@/pages/admin/credit-notes/[id]"
 import AdminCreditNoteCreate from "@/pages/admin/credit-notes/create"
 import AdminCreditNoteEdit from "@/pages/admin/credit-notes/edit/[id]"
 
 import AdminDeductions from "@/pages/admin/deductions/index"
+import AdminDeductionShow from "@/pages/admin/deductions/[id]"
 import AdminDeductionCreate from "@/pages/admin/deductions/create"
 import AdminDeductionEdit from "@/pages/admin/deductions/edit/[id]"
 
@@ -86,8 +88,8 @@ import AdminRoleCreate from "@/pages/admin/role/create"
 import AdminRoleEdit from "@/pages/admin/role/edit/[id]"
 
 import AdminVisitorAdmissions from "@/pages/admin/visitor-admissions"
-import AdminVisitorAdmissionCreate from "@/pages/admin/visitor-admissions/create"
 import AdminVisitorAdmissionShow from "@/pages/admin/visitor-admissions/[id]"
+import AdminVisitorAdmissionCreate from "@/pages/admin/visitor-admissions/create"
 import AdminVisitorAdmissionEdit from "@/pages/admin/visitor-admissions/edit/[id]"
 
 import AdminSupport from "@/pages/admin/support"
@@ -131,14 +133,14 @@ const componentMap = {
 
 	// Property components
 	AdminProperties,
-	AdminPropertyCreate,
 	AdminPropertyShow,
+	AdminPropertyCreate,
 	AdminPropertyEdit,
 
 	// Unit components
 	AdminUnits,
-	AdminUnitCreate,
 	AdminUnitShow,
+	AdminUnitCreate,
 	AdminUnitEdit,
 	AdminUnitTenantCreate,
 	AdminUnitWaterReadingCreate,
@@ -149,23 +151,25 @@ const componentMap = {
 
 	// Tenant components
 	AdminTenants,
-	AdminTenantCreate,
 	AdminTenantShow,
+	AdminTenantCreate,
 	AdminTenantEdit,
 
 	// Financial components
 	AdminInvoices,
-	AdminInvoiceCreate,
 	AdminInvoiceShow,
+	AdminInvoiceCreate,
 	AdminInvoiceEdit,
 	AdminPayments,
-	AdminPaymentCreate,
 	AdminPaymentShow,
+	AdminPaymentCreate,
 	AdminPaymentEdit,
 	AdminCreditNotes,
+	AdminCreditNoteShow,
 	AdminCreditNoteCreate,
 	AdminCreditNoteEdit,
 	AdminDeductions,
+	AdminDeductionShow,
 	AdminDeductionCreate,
 	AdminDeductionEdit,
 	AdminBilling,
@@ -188,8 +192,8 @@ const componentMap = {
 	AdminRoleEdit,
 
 	AdminVisitorAdmissions,
-	AdminVisitorAdmissionCreate,
 	AdminVisitorAdmissionShow,
+	AdminVisitorAdmissionCreate,
 	AdminVisitorAdmissionEdit,
 
 	AdminSupport,

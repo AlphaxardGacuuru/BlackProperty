@@ -314,7 +314,7 @@ const PaymentList = (props) => {
 									<td>{props.months[payment.month]}</td>
 									<td>{payment.year}</td>
 									<td>
-										<div className="d-flex justify-content-end">
+										<div className="d-flex justify-content-center">
 											<MyLink
 												linkTo={`/payments/${payment.id}/show`}
 												icon={<ViewSVG />}

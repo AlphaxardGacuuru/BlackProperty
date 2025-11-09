@@ -318,7 +318,13 @@ const CreditNoteList = (props) => {
 									<td>
 										{location.pathname.match("/super/") ||
 										location.pathname.match("/admin/") ? (
-											<div className="d-flex justify-content-end">
+											<div className="d-flex justify-content-center">
+												<MyLink
+													linkTo={`/credit-notes/${creditNote.id}/show`}
+													icon={<ViewSVG />}
+													className="mx-1"
+												/>
+
 												<MyLink
 													linkTo={`/credit-notes/${creditNote.id}/edit`}
 													icon={<EditSVG />}

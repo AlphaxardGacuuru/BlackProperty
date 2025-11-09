@@ -19,12 +19,14 @@ class ReferralController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		$referrals = $this->service->index($request);
+		[$referrals, $payouts, $paid, $balance] = $this->service->index($request);
 
 		return ReferralResource::collection($referrals)
 			->additional([
 				"status" => true,
 				"message" => "Referrals fetched successfully",
+				"balance" => number_format($balance),
+				"paid" => number_format($paid),
 			]);
 	}
 

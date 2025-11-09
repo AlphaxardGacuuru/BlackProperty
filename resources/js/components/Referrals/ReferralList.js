@@ -14,6 +14,8 @@ import HeroIcon from "@/components/Core/HeroIcon"
 import ReferralSVG from "@/svgs/ReferralSVG"
 import CheckSVG from "@/svgs/CheckSVG"
 import ClipboardSVG from "@/svgs/ClipboardSVG"
+import MoneySVG from "@/svgs/MoneySVG"
+import BalanceSVG from "@/svgs/BalanceSVG"
 
 const ReferralList = (props) => {
 	const [clicked, setClicked] = useState()
@@ -33,7 +35,9 @@ const ReferralList = (props) => {
 				.then(() => setClicked(false))
 				.catch((error) => setClicked(false))
 		} else {
-			props.setErrors(["Your browser does not support the share api. Please copy the link manually."])
+			props.setErrors([
+				"Your browser does not support the share api. Please copy the link manually.",
+			])
 		}
 	}
 
@@ -43,16 +47,44 @@ const ReferralList = (props) => {
 			<div className="card shadow-sm p-2">
 				<div className="d-flex justify-content-between">
 					{/* Total */}
-					<div className="d-flex justify-content-between w-100 align-items-center mx-2">
-						<HeroHeading
-							heading="Total Referrals"
-							data={props.referrals.meta?.total}
-						/>
-						<HeroIcon>
-							<ReferralSVG />
-						</HeroIcon>
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between w-100 align-items-center mx-2">
+							<HeroHeading
+								heading="Total Referrals"
+								data={props.referrals.meta?.total}
+							/>
+							<HeroIcon>
+								<ReferralSVG />
+							</HeroIcon>
+						</div>
 					</div>
 					{/* Total End */}
+					{/* Total Income */}
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between w-100 align-items-center mx-2">
+							<HeroHeading
+								heading="Total Income"
+								data={props.referrals.paid}
+							/>
+							<HeroIcon>
+								<MoneySVG />
+							</HeroIcon>
+						</div>
+					</div>
+					{/* Total Income End */}
+					{/* Total Balance */}
+					<div className="col-sm-4">
+						<div className="d-flex justify-content-between w-100 align-items-center mx-2">
+							<HeroHeading
+								heading="Total Balance"
+								data={props.referrals.balance}
+							/>
+							<HeroIcon>
+								<BalanceSVG />
+							</HeroIcon>
+						</div>
+					</div>
+					{/* Total Balance End */}
 				</div>
 			</div>
 			{/* Data End */}
