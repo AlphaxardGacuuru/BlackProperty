@@ -178,4 +178,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 			->first()
 			?->unit;
 	}
+
+	/**
+	 * Route notifications for the Vonage channel.
+	 *
+	 * @return string
+	 */
+	public function routeNotificationForVonage()
+	{
+		return $this->phone;
+	}
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DashboardController;
@@ -70,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		"subscription-plans" => SubscriptionPlanController::class,
 		"user-subscription-plans" => UserSubscriptionPlanController::class,
 		"referrals" => ReferralController::class,
+		"announcements" => AnnouncementController::class,
 	]);
 
 	/*

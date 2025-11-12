@@ -40,7 +40,14 @@ const adminRoutes = [
 		path: "/admin/smses",
 		component: "AdminSMSMessages",
 	},
-	// Staff and roles
+	{
+		path: "/admin/announcements",
+		component: "AdminAnnouncements",
+	},
+	{
+		path: "/admin/announcements/create",
+		component: "AdminAnnouncementCreate",
+	},
 	{
 		path: "/admin/staff",
 		component: "AdminStaff",

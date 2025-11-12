@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Events\MpesaTransactionCreatedEvent;
 use App\Events\ReferralCreatedEvent;
 use App\Events\PaymentCreatedEvent;
+use App\Events\AnnouncementCreatedEvent;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\MpesaTransactionCreatedListener;
 use App\Listeners\ReferralCreatedListener;
 use App\Listeners\PaymentCreatedListener;
+use App\Listeners\AnnouncementCreatedListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -25,6 +27,7 @@ class EventServiceProvider extends ServiceProvider
 		MpesaTransactionCreatedEvent::class => [MpesaTransactionCreatedListener::class],
 		ReferralCreatedEvent::class => [ReferralCreatedListener::class],
 		PaymentCreatedEvent::class => [PaymentCreatedListener::class],
+		AnnouncementCreatedEvent::class => [AnnouncementCreatedListener::class],
     ];
 
     /**

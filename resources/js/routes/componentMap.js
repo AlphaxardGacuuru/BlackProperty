@@ -76,6 +76,8 @@ import AdminDeductionEdit from "@/pages/admin/deductions/edit/[id]"
 
 import AdminEmails from "@/pages/admin/emails/index"
 import AdminSMSMessages from "@/pages/admin/smses/index"
+import AdminAnnouncements from "@/pages/admin/announcements/index"
+import AdminAnnouncementCreate from "@/pages/admin/announcements/create"
 
 import AdminBilling from "@/pages/admin/billing/index"
 
@@ -182,6 +184,8 @@ const componentMap = {
 	// Communication
 	AdminEmails,
 	AdminSMSMessages,
+	AdminAnnouncements,
+	AdminAnnouncementCreate,
 
 	// Staff and roles
 	AdminStaff,
@@ -198,7 +202,7 @@ const componentMap = {
 
 	AdminSupport,
 
-	TenantVacantUnits
+	TenantVacantUnits,
 }
 
 export default componentMap
