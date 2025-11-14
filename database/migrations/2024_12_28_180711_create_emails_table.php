@@ -16,10 +16,12 @@ return new class extends Migration
 		Schema::create('emails', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('user_unit_id')
+				->nullable()
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			$table->foreignId('invoice_id')
+				->nullable()
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');

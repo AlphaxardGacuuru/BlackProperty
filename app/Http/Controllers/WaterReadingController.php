@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WaterReadingResource;
 use App\Http\Services\WaterReadingService;
 use App\Models\WaterReading;
 use Illuminate\Http\Request;
@@ -20,7 +21,14 @@ class WaterReadingController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->service->index($request);
+        [$waterReadings, $totalUsage, $totalBill] = $this->service->index($request);
+
+		return WaterReadingResource::collection($waterReadings)
+			->additional([
+				"totalUsage" => number_format($totalUsage),
+				"totalBill" => number_format($totalBill),
+				"unitId" => $request->unitId,
+			]);
     }
 
     /**

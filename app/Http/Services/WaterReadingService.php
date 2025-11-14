@@ -14,13 +14,13 @@ class WaterReadingService extends Service
      */
 	public function index($request)
 	{
-		$waterReadingsQuery = new WaterReading;
+		$waterReadingsQuery = WaterReading::query();
 
 		$waterReadingsQuery = $this->search($waterReadingsQuery, $request);
 
 		$waterReadings = $waterReadingsQuery
-			->orderBy("month", "DESC")
 			->orderBy("year", "DESC")
+			->orderBy("month", "DESC")
 			->paginate(20)
 			->appends([
 				"propertyId" => $request->propertyId,
@@ -30,12 +30,7 @@ class WaterReadingService extends Service
 		$totalUsage = $waterReadingsQuery->sum("usage") * 1000;
 		$totalBill = $waterReadingsQuery->sum("bill");
 
-		return WaterReadingResource::collection($waterReadings)
-			->additional([
-				"totalUsage" => number_format($totalUsage),
-				"totalBill" => number_format($totalBill),
-				"unitId" => $request->unitId,
-			]);
+		return [$waterReadings, $totalUsage, $totalBill];
 	}
 
 	/*
@@ -188,7 +183,7 @@ class WaterReadingService extends Service
 		$isSuper = in_array("All", $propertyIds);
 
 		if (!$isSuper) {
-			$query = $query->whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
+			$query->whereHas("userUnit.unit.property", function ($query) use ($propertyIds) {
 				$query->whereIn("id", $propertyIds);
 			});
 		}
@@ -196,7 +191,7 @@ class WaterReadingService extends Service
 		$tenant = $request->input("tenant");
 
 		if ($request->filled("tenant")) {
-			$query = $query
+			$query
 				->whereHas("userUnit.user", function ($query) use ($tenant) {
 					$query->where("name", "LIKE", "%" . $tenant . "%");
 				});
@@ -205,7 +200,7 @@ class WaterReadingService extends Service
 		$unitId = $request->input("unitId");
 
 		if ($request->filled("unitId")) {
-			$query = $query
+			$query
 				->whereHas("userUnit.unit", function ($query) use ($unitId) {
 					$query->where("id", $unitId);
 				});
@@ -214,7 +209,7 @@ class WaterReadingService extends Service
 		$unit = $request->input("unit");
 
 		if ($request->filled("unit")) {
-			$query = $query
+			$query
 				->whereHas("userUnit.unit", function ($query) use ($unit) {
 					$query->where("name", "LIKE", "%" . $unit . "%");
 				});
@@ -223,7 +218,7 @@ class WaterReadingService extends Service
 		$type = $request->input("type");
 
 		if ($request->filled("type")) {
-			$query = $query->where("name", $type);
+			$query->where("type", $type);
 		}
 
 		$startMonth = $request->input("startMonth");
@@ -232,19 +227,19 @@ class WaterReadingService extends Service
 		$endYear = $request->input("endYear");
 
 		if ($request->filled("startMonth")) {
-			$query = $query->where("month", ">=", $startMonth);
+			$query->where("month", ">=", $startMonth);
 		}
 
 		if ($request->filled("endMonth")) {
-			$query = $query->where("month", "<=", $endMonth);
+			$query->where("month", "<=", $endMonth);
 		}
 
 		if ($request->filled("startYear")) {
-			$query = $query->where("year", ">=", $startYear);
+			$query->where("year", ">=", $startYear);
 		}
 
 		if ($request->filled("endYear")) {
-			$query = $query->where("year", "<=", $endYear);
+			$query->where("year", "<=", $endYear);
 		}
 
 		return $query;

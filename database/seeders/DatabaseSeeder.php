@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 				StaffSeeder::class,
 				TenantSeeder::class,
 				WaterReadingSeeder::class,
-				// InvoiceSeeder::class
+				InvoiceSeeder::class
 			]);
 		}
 	}

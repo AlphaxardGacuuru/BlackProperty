@@ -20,7 +20,7 @@ import IncomeBar from "@/components/Dashboard/IncomeBar"
 const index = (props) => {
 	const location = useLocation()
 	
-	let superPropertyId = location.pathname.match("/super/") ? "All" : null
+	let superPropertyId = location.pathname.match("/super/") ? "All" : ""
 
 	const months = props.months.filter((month) => month != "Select Month")
 	const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

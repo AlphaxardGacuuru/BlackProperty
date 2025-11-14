@@ -16,36 +16,37 @@ class WaterReadingSeeder extends Seeder
 	 */
 	public function run()
 	{
-		// Get the current month
-		$currentMonth = Carbon::now()->month;
-		$currentYear = Carbon::now()->year;
-
+		WaterReading::truncate();
+		
 		$reading = rand(5, 10);
 
-		// Loop from the current month back to January
-		for ($month = $currentMonth; $month >= 1; $month--) {
-			// Set the current date to the first day of the month
-			$date = Carbon::create(null, $month, 1);
+		$userUnits = UserUnit::get();
 
-			// Get the start and end of the month
-			$endOfMonth = $date->endOfMonth();
+		foreach ($userUnits as $key => $userUnit) {
 
-			// Fetch the user units for the current month
-			$userUnits = UserUnit::where("vacated_at", "<=", $endOfMonth)
-				->orWhereNull("vacated_at")
-				->get();
+			$startMonth = Carbon::createFromFormat("d M Y", $userUnit->occupied_at)->format("m");
 
-			foreach ($userUnits as $key => $userUnit) {
+			if ($userUnit->vacated_at) {
+				$endMonth = Carbon::createFromFormat("d M Y", $userUnit->vacated_at)->month;
+			} else {
+				$endMonth = Carbon::now()->month;
+			}
+
+			for ($month = $startMonth; $month <= $endMonth; $month++) {
+
+				$year = Carbon::createFromFormat("d M Y", $userUnit->occupied_at)
+					->addMonths($month - $startMonth)
+					->year;
 
 				$lastMonth = $month - 1;
 
 				// Get Last Water Reading
 				$previousReadingQuery = WaterReading::where("user_unit_id", $userUnit->id)
 					->where("month", $lastMonth)
-					->where("year", $currentYear)
+					->where("year", $year)
 					->first();
 
-				$previouReading = $previousReadingQuery ? $previousReadingQuery->reading : 0;
+				$previouReading = $previousReadingQuery ? $previousReadingQuery->reading : $reading;
 
 				$usage = $reading - $previouReading;
 
@@ -66,14 +67,14 @@ class WaterReadingSeeder extends Seeder
 						"type" => $type,
 						"reading" => $reading,
 						"month" => $month,
-						"year" => $currentYear,
+						"year" => $year,
 						"usage" => $usage,
 						"bill" => $bill,
 					]);
-			}
 
-			// Increment Reading
-			$reading += rand(5, 10);
+				// Increment Reading
+				$reading += rand(5, 10);
+			}
 		}
 	}
 }

@@ -20,7 +20,9 @@ class PropertySeeder extends Seeder
 			// "alphaxardgacuuru47@gmail.com",
 			// "gacuuruwakarenge@gmail.com",
 			// "cikumuhandi@gmail.com"
-		])->get();
+		])
+			->limit(5)
+			->get();
 
 		foreach ($users as $user) {
 			Property::factory()

@@ -159,7 +159,6 @@ class DashboardService extends Service
 				"count" => $count,
 			];
 		});
-		// dd($getTenantsThisYear);
 
 		[$labels, $data] = $this->getLabelsAndData($getTenantsThisYear);
 
@@ -330,18 +329,18 @@ class DashboardService extends Service
 			});
 		}
 
-		$paid = $waterQuery
-			->sum("paid");
+		$paid = $waterQuery->sum("paid");
 
-		$due = $waterQuery
-			->sum("balance");
+		$due = $waterQuery->sum("balance");
 
-		$usageTwoMonthsAgo = $waterReadingQuery
+		$usageTwoMonthsAgoQuery = clone $waterReadingQuery;
+		$usageTwoMonthsAgo = $usageTwoMonthsAgoQuery
 			->where("month", Carbon::now()->subMonths(2)->month)
 			->where("year", Carbon::now()->year)
 			->sum("usage");
 
-		$usageLastMonth = $waterReadingQuery
+		$usageLastMonthQuery = clone $waterReadingQuery;
+		$usageLastMonth = $usageLastMonthQuery
 			->where("month", Carbon::now()->subMonth()->month)
 			->where("year", Carbon::now()->year)
 			->sum("usage");

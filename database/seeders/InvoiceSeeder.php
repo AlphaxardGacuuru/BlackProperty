@@ -19,37 +19,41 @@ class InvoiceSeeder extends Seeder
 	 */
 	public function run()
 	{
-		// Get the current month
-		$currentMonth = Carbon::now()->month;
-		$currentYear = Carbon::now()->year;
+		Invoice::all()->each(fn($invoice) => $invoice->delete());
+		Payment::all()->each(fn($payment) => $payment->delete());
 
-		// Loop from the current month back to January
-		for ($month = $currentMonth; $month >= 1; $month--) {
-			// Set the current date to the first day of the month
-			$date = Carbon::create(null, $month, 1);
+		// Fetch the user units for the current month
+		$userUnits = UserUnit::limit(1)->get();
 
-			// Get the start and end of the month
-			$endOfMonth = $date->endOfMonth();
+		foreach ($userUnits as $key => $userUnit) {
 
-			// Fetch the user units for the current month
-			$userUnits = UserUnit::where("vacated_at", "<=", $endOfMonth)
-				->orWhereNull("vacated_at")
-				->get();
+			$startMonth = Carbon::createFromFormat("d M Y", $userUnit->occupied_at)->format("m");
 
-			foreach ($userUnits as $key => $userUnit) {
+			if ($userUnit->vacated_at) {
+				$endMonth = Carbon::createFromFormat("d M Y", $userUnit->vacated_at)->month;
+			} else {
+				$endMonth = Carbon::now()->month;
+			}
+
+			for ($month = $startMonth; $month <= $endMonth; $month++) {
+
+				$year = Carbon::createFromFormat("d M Y", $userUnit->occupied_at)
+					->addMonths($month - $startMonth)
+					->year;
+
 				$staffId = UserProperty::where("property_id", $userUnit->unit->property_id)
 					->get()
 					->random()
 					->user_id;
 
-				$this->createRentInvoices($userUnit, $date, $staffId, $key, $month, $currentYear);
-				$this->createWaterInvoices($userUnit, $date, $staffId, $key, $month, $currentYear);
-				$this->createServiceChargeInvoices($userUnit, $date, $staffId, $key, $month, $currentYear);
+				$this->createRentInvoices($userUnit, $staffId, $key, $month, $year);
+				$this->createWaterInvoices($userUnit, $staffId, $key, $month, $year);
+				$this->createServiceChargeInvoices($userUnit, $staffId, $key, $month, $year);
 			}
 		}
 	}
 
-	public function createRentInvoices($userUnit, $date, $staffId, $key, $month, $currentYear)
+	public function createRentInvoices($userUnit, $staffId, $key, $month, $year)
 	{
 		$amount = $userUnit->unit->rent;
 
@@ -62,7 +66,7 @@ class InvoiceSeeder extends Seeder
 				"paid" => $key < 10 ? 0 : $amount,
 				"status" => $key < 10 ? "not_paid" : "paid",
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 
@@ -71,19 +75,19 @@ class InvoiceSeeder extends Seeder
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 	}
 
-	public function createWaterInvoices($userUnit, $date, $staffId, $key, $month, $currentYear)
+	public function createWaterInvoices($userUnit, $staffId, $key, $month, $year)
 	{
 		// Get Water Bill
 		$amount = WaterReading::where("user_unit_id", $userUnit->id)
 			->where("month", $month)
-			->where("year", $currentYear)
+			->where("year", $year)
 			->first()
-			->bill;
+			?->bill;
 
 		Invoice::factory()
 			->create([
@@ -94,7 +98,7 @@ class InvoiceSeeder extends Seeder
 				"paid" => $key < 10 ? 0 : $amount,
 				"status" => $key < 10 ? "not_paid" : "paid",
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 
@@ -103,12 +107,12 @@ class InvoiceSeeder extends Seeder
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 	}
 
-	public function createServiceChargeInvoices($userUnit, $date, $staffId, $key, $month, $currentYear)
+	public function createServiceChargeInvoices($userUnit, $staffId, $key, $month, $year)
 	{
 		$amount = $userUnit
 			->unit
@@ -125,7 +129,7 @@ class InvoiceSeeder extends Seeder
 				"paid" => $key < 10 ? 0 : $amount,
 				"status" => $key < 10 ? "not_paid" : "paid",
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 
@@ -134,7 +138,7 @@ class InvoiceSeeder extends Seeder
 				"user_unit_id" => $userUnit->id,
 				"amount" => $amount,
 				"month" => $month,
-				"year" => $currentYear,
+				"year" => $year,
 				"created_by" => $staffId,
 			]);
 	}
