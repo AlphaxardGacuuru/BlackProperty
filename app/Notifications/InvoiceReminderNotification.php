@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
-class InvoiceReminderNotification extends Notification implements ShouldQueue
+class InvoiceReminderNotification extends Notification
 {
 	use Queueable;
 
